@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { RenderFeed } from '@/components/Feed/RenderFeed'
+import  RenderFeed  from '@/components/Feed/RenderFeed'
 
 const ChannelPage = ({ params }) => {
   return <RenderFeed channelName={params?.slug} />

@@ -1,9 +1,12 @@
 // import { ContentCard } from '@/components/Feed'
-import Post from '@/components/shared/post'
+import Post from '@/components/shared/post/PostSkelton'
 
-const SingleFeed = ({ postId }: any) => {
-  // return <ContentCard postId={postId} />
-  return  <Post />
+const SingleFeed = ({params}) => {
+
+  const id = params.id
+  console.log("I am on line 7",id)
+
+  return  <Post postId={id} />
 
 }
 

@@ -26,8 +26,8 @@ function Reply() {
                         <div className='text-gray-500 italic pr-5'>12hr ago</div>
                     </div>
 
-                    <div className='w-full p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full'>
-                        adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue mauris rhoncus aenean vel elit scelerisque mauris pellentesque pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas maecenas pharetra convallis posuere morbi leo urna molestie at elementum eu facilisis sed odio morbi quis commodo odio aenea
+                    <div className='w-full text-left p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full'>
+                        This is comment reply!
                     </div>
                     <div className="flex  pr-5 pb-5 justify-between">
                         <div className='flex space-x-5 '>

@@ -6,11 +6,10 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/Dialog/interceptDialog"
+//   import Post from "@/components/shared/post"
 
-  import Post from "@/components/shared/post/PostSkelton"
-
-  async function SingleFeed({ params }: any) {
-    const { id } = params
+  async function SingleFeed({}: any) {
+    // const { id } = params
 
 return (
     
@@ -22,7 +21,7 @@ return (
          </DialogHeader>
       
       <DialogDescription>
-      <Post isDialogPost={true} postId={id} />
+      <div className='animate-pulse bg-sky-200 w-10 h-10'>Loading...</div>
       </DialogDescription>
     </DialogContent>
   </Dialog>

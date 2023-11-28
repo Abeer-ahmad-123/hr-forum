@@ -7,7 +7,7 @@ import {
     DialogTrigger,
   } from "@/components/ui/Dialog/interceptDialog"
 
-  import Post from "@/components/shared/post/PostSkelton"
+  import Post from "@/components/shared/post"
 
   async function SingleFeed({ params }: any) {
     const { id } = params
@@ -22,7 +22,7 @@ return (
          </DialogHeader>
       
       <DialogDescription>
-      <Post isDialogPost={true} postId={id} />
+      <div>Loading...</div>
       </DialogDescription>
     </DialogContent>
   </Dialog>

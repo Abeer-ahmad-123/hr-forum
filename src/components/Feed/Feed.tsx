@@ -3,7 +3,7 @@ import { getAllPosts } from '@/services/posts'
 
 // Feed is a functional component that takes data and displays it as cards
 const Feed = async ({ channelName }: any) => {
-  
+
   const { posts } = await getAllPosts({ loadReactions: true, loadUser: true })
 console.log("posts",posts)
   return (
