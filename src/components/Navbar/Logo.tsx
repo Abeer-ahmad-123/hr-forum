@@ -7,7 +7,7 @@ const Logo = () => {
 
   return (
     <div className="w-20 flex-shrink-0 cursor-pointer text-center max-sm:w-10 md:w-40">
-      <Link href="/feed">
+      <Link href="/feeds">
         <GiCheckedShield
           data-testid="logo-icon"
           className="inline-block h-7 w-8 align-middle"

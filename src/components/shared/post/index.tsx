@@ -1,19 +1,24 @@
 
 
 import React from 'react'
-import UpdownButton from '../../../components/ui/updownButton';
+import UpdownButton from '../../ui/updownButton';
 import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import picture2 from '@/assets/avatars/img2.jpeg'
-import CommentSection from '../../../components/shared/CommentSection'
+import CommentSection from '../CommentSection'
 
 
-function page() {
+function Post
+({isDialogPost=false}) {
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
-      <div className="mx-auto flex mb-5 max-w-screen-lg cursor-pointer rounded-xl bg-white shadow-lg dark:bg-dark-primary dark:text-gray-300" >
+      <div className={`mx-auto flex mb-5 max-w-screen-lg cursor-pointer rounded-xl bg-white
+      ${!isDialogPost && 'shadow-lg'} 
+      dark:bg-dark-primary dark:text-gray-300` }>
+        
+<div className='mt-6'>
         <UpdownButton />
-
+        </div>
         <div className='flex flex-col items-center w-full p-10 pt-0'>
           <div className='flex w-full mt-6'>
             <div className="text-4xl font-bold w-full  dark:text-white">
@@ -60,4 +65,4 @@ function page() {
   )
 }
 
-export default page
+export default Post

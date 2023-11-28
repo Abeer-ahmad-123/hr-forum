@@ -14,9 +14,11 @@ const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const color = useSelector((state: any) => state.colorMode.color)
   const dispatch = useDispatch()
+
   const handleSetColor = useCallback(() => {
     dispatch(setColor(colors[1]))
   }, [dispatch])
+  const styles = darkMode ? 'dark' : ''
   const getChannelsLocal = useCallback(async () => {
     try {
       let res: any = await getChannels()
@@ -26,18 +28,15 @@ const LayoutWrapper = ({ children }: any) => {
       console.log('err', err)
     }
   }, [])
+
   useEffect(() => {
     handleSetColor()
     getChannelsLocal()
   }, [handleSetColor])
-  useEffect(() => {
-    const styles = darkMode ? 'dark' : ''
-    document.body.classList.add(styles)
-    document.body.classList.add(`theme-${color}`)
-  }, [])
 
   return (
-    <>
+    <body
+      className={` ${styles} font-primary dark:bg-slate-700 theme-${color}`}>
       <Navbar />
       <ToastContainer />
       <main
@@ -52,7 +51,7 @@ const LayoutWrapper = ({ children }: any) => {
           </div>
         </div>
       </main>
-    </>
+    </body>
   )
 }
 

@@ -7,21 +7,23 @@ import {
     DialogTrigger,
   } from "@/components/ui/Dialog/interceptDialog"
 
-  
+  import Post from "@/components/shared/post"
+
   async function SingleFeed({ params }: any) {
     const { id } = params
-    
+
 return (
     
   <Dialog open={true}>
-    <DialogContent>
+    <DialogContent
+     className="bg-white max-h-[90vh] max-w-5xl h-full overflow-scroll"
+    >
       <DialogHeader>
-        <DialogTitle>Welcome to HR-General: </DialogTitle>
-        <DialogDescription>
-          This action cannot be undone. This will permanently delete your account
-          and remove your data from our servers.
-        </DialogDescription>
-      </DialogHeader>
+         </DialogHeader>
+      
+      <DialogDescription>
+      <Post isDialogPost={true} />
+      </DialogDescription>
     </DialogContent>
   </Dialog>
     )

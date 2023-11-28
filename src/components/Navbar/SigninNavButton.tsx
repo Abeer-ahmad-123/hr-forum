@@ -25,7 +25,7 @@ export default function SigninNavButton() {
             <span className="hidden sm:inline-block">Login</span>
           </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] bg-white">
           {showSignUpForm ?
             <Signup toggleForm={toggleForm} /> :
             <Signin toggleForm={toggleForm} />
