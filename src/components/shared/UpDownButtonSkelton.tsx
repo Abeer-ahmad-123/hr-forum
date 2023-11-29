@@ -1,14 +1,16 @@
 import React from 'react'
 import { ArrowDown, ArrowUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Button } from './button'
 
-const UpdownButton = () => {
+
+import { Button } from '@/components/ui/button'
+import Skelton from '@/components/ui/skelton';
+
+const UpdownButtonSkelton = () => {
     return (
-        <div className='flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0'>
+<div className='flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0'>
             {/* upvote */}
             <Button
-
                 size='sm'
                 variant='ghost'
                 aria-label='upvote'>
@@ -18,12 +20,8 @@ const UpdownButton = () => {
                     })}
                 />
             </Button>
-
             {/* score */}
-            <p className='text-center py-2 font-medium text-sm text-red-700'>
-                10
-            </p>
-
+            <Skelton className='text-center py-2 h-8 w-16 bg-skelton font-medium text-sm text-red-700' />
             {/* downvote */}
             <Button
 
@@ -37,8 +35,7 @@ const UpdownButton = () => {
                 />
             </Button>
         </div>
-
     )
 }
 
-export default UpdownButton
+export default UpdownButtonSkelton

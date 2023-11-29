@@ -1,31 +1,10 @@
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/Dialog/interceptDialog"
+  // import Post from "@/components/shared/post"
+  import PostSkelton from "@/components/shared/post/PostSkelton"
 
-  import Post from "@/components/shared/post"
-
-  async function SingleFeed({ params }: any) {
-    const { id } = params
-
+  async function SingleFeed() {    
 return (
-    
-  <Dialog open={true}>
-    <DialogContent
-     className="bg-white max-h-[90vh] max-w-5xl h-full overflow-scroll"
-    >
-      <DialogHeader>
-         </DialogHeader>
-      
-      <DialogDescription>
-      <div>Loading...</div>
-      </DialogDescription>
-    </DialogContent>
-  </Dialog>
+      <PostSkelton />
+
     )
   }              
 export default SingleFeed

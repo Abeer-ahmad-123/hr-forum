@@ -1,5 +1,5 @@
 // import { ContentCard } from '@/components/Feed'
-import Post from '@/components/shared/post/PostSkelton'
+import Post from '@/components/shared/post'
 
 const SingleFeed = ({params}) => {
 

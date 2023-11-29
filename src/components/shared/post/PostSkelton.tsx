@@ -5,21 +5,16 @@ import UpdownButton from '../../ui/updownButton';
 import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import picture2 from '@/assets/avatars/img2.jpeg'
-import CommentSection from '../CommentSection'
+import CommentSkelton from '../CommentSkelton'
 import { getPostsByPostId } from '@/services/posts'
 import { getPostsComments } from '@/services/posts'
 import { comment } from 'postcss';
 import Skelton from '../../ui/skelton';
+import UpdownButtonSkelton from '../UpDownButtonSkelton';
+
 
 async function Post
-  ({ isDialogPost = false, postId }: any) {
-
-
-  console.log("Here is out postId" + postId)
-
-  const { post } = await getPostsByPostId(postId)
-  const  {comments}  = await getPostsComments(postId)
-  console.log( "Comments array ",comments)
+  ({ isDialogPost = false }) {
 
   return (
     <div className="mx-auto my-5 max-w-5xl h-screen rounded-full ">
@@ -28,11 +23,11 @@ async function Post
       dark:bg-dark-primary dark:text-gray-300` }>
 
         <div className='mt-6'>
-          <UpdownButton />
+          <UpdownButtonSkelton />
         </div>
         <div className='flex flex-col items-center w-full p-10 pt-0'>
           <div className='flex w-full mt-6'>
-            <Skelton className="text-4xl font-bold bg-skelton h-9 w-[200px] text-left shrink-0 dark:text-white" />
+            <Skelton className="bg-skelton h-9 w-96 text-left shrink-0 dark:text-white" />
             <div className='flex place-content-around items-center w-full'>
             
             
@@ -44,24 +39,15 @@ async function Post
 
             </div>
           </div>
-          <Skelton className='w-full p-7 pl-0 pt-10 mt-0 text-gray-600 bg-skelton dark:text-white leading-loose h-20 text-left'
+          <Skelton className='w-full p-7 pl-0 h-80 mt-10 text-gray-600 bg-skelton dark:text-white leading-loose text-left'
           />
-          <div>
-            {!!post.image ? <Image
-              src={picture}
-              style={{ objectFit: 'fill' }
-              }
-              alt="Picture of the author"
-              className='mb-7'
-            /> : null}
-          </div>
+
           <div className="w-full border-b mt-5 mb-9 border-gray-500 pr-5"></div>
 
           <div className='w-full'>
 
-          {comments.length !== 0 && <CommentSection comment={comments[0].content} />}
-          {comments.length !== 0 && <CommentSection comment={comments[0].content} />}
-          {comments.length !== 0 && <CommentSection comment={comments[0].content} />}
+          {<CommentSkelton />}
+
           </div>
         </div>
       </div>
