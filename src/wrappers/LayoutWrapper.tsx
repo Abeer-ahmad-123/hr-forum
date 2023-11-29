@@ -22,7 +22,7 @@ const LayoutWrapper = ({ children }: any) => {
   const getChannelsLocal = useCallback(async () => {
     try {
       let res: any = await getChannels()
-      console.log('res', res)
+      
       dispatch(setChannels(res.data.data.channels))
     } catch (err) {
       console.log('err', err)

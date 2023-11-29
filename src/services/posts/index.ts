@@ -46,9 +46,14 @@ export async function getPostsByChannelId(id: string) {
 }
 
 
-export async function getPostsByPostId(id: string) {
+export async function getPostByPostId(id: string,{
+  loadUser = true,
+  loadReactions = true,
+
+})  {
   try {
-    let res = await fetch(GET_POST_BY_ID.replace('postId', id))
+    const postId = GET_POST_BY_ID.replace('postId', id)
+    let res = await fetch(`${postId}?loadReactions=${loadReactions}`)
     const response = await res.json()
     const { data } = response
     return data

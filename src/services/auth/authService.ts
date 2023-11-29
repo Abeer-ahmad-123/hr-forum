@@ -26,7 +26,7 @@ export async function signIn(body: any) {
 
 export async function signUp(body: any) {
   try {
-    console.log(body)
+    
     let responseFromSignup = await fetch(AUTH_WITH_EMAIL, {
       body,
       method: 'POST',

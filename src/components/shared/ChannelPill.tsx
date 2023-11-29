@@ -1,8 +1,8 @@
 import { useSelector } from 'react-redux'
 
-const ChannelPill = ({ name }) => {
+const ChannelPill = ({ name }:any) => {
   const color = useSelector((state: any) => state.colorMode.color)
-  console.log('color', color)
+
   return (
     <span
       aria-label="channel-name"

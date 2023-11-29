@@ -6,7 +6,7 @@ import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import picture2 from '@/assets/avatars/img2.jpeg'
 import CommentSection from '../CommentSection'
-import { getPostsByPostId } from '@/services/posts'
+import { getPostByPostId } from '@/services/posts'
 import { getPostsComments } from '@/services/posts'
 import { json } from 'node:stream/consumers';
 // import { comment } from 'postcss';
@@ -14,19 +14,17 @@ import { json } from 'node:stream/consumers';
 async function Post
   ({ isDialogPost = false, postId }: any) {
 
-  console.log("Here is our postId" + postId)
-  const { post } = await getPostsByPostId(postId)
-  const { comments } = await getPostsComments(postId,{})
-  console.log("Comments array ", comments)
   
+  const { post } = await getPostByPostId(postId, {})
+  const { comments } = await getPostsComments(postId, {})
+
   return (
     <div className="mx-auto my-5 max-w-5xl h-screen rounded-full ">
       <div className={`mx-auto flex mb-5 max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
       dark:bg-dark-primary dark:text-gray-300` }>
-
         <div className='mt-6'>
-          <UpdownButton  count={0}/>
+          <UpdownButton count={post['reaction_summary']['like_count']} />
         </div>
         <div className='flex flex-col items-center w-full p-10 pt-0'>
           <div className='flex w-full mt-6'>
@@ -59,9 +57,9 @@ async function Post
           <div className='w-full'>
 
 
-            {comments.length !== 0 && comments.map((comment)=>{
-             return <CommentSection comment={comment} />
-              })}
+            {comments.length !== 0 && comments.map((comment) => {
+              return <CommentSection key={comment.id} comment={comment} />
+            })}
           </div>
         </div>
       </div>
