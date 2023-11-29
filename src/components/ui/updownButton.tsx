@@ -3,7 +3,7 @@ import { ArrowDown, ArrowUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from './button'
 
-const UpdownButton = () => {
+const UpdownButton = ({count}) => {
     return (
         <div className='flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0'>
             {/* upvote */}
@@ -21,7 +21,7 @@ const UpdownButton = () => {
 
             {/* score */}
             <p className='text-center py-2 font-medium text-sm text-red-700'>
-                10
+                {count}
             </p>
 
             {/* downvote */}

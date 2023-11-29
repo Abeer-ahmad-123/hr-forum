@@ -58,9 +58,24 @@ export async function getPostsByPostId(id: string) {
 }
 
 
-export async function getPostsComments(id: string) {
+export async function getPostsComments(id: string,
+  {
+  loadUser = true,
+  loadReactions = true,
+  loadNestedComments= true,
+  loadNestedUser= true,
+  loadNestedReactions= true,
+  nestedLimit = 2,
+  }
+) {
   try {
-    let res = await fetch(GET_POST_COMMENT.replace('postId', id))
+
+    const postId = GET_POST_COMMENT.replace('postId', id)
+
+    let res = await fetch(`
+    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}
+    `)
+
     const response = await res.json()
     const { data } = response
     return data
