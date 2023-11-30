@@ -1,8 +1,5 @@
-
 import UpdownButton from '../ui/updownButton';
-import Image from 'next/image'
-import picture from '@/assets/avatars/img.jpeg'
-import { MoreHorizontal } from 'lucide-react'
+import ReplyTextArea from './ReplyTextArea';
 function Reply({ reply }) {
 
     const convertDate = (date) => {
@@ -28,6 +25,7 @@ function Reply({ reply }) {
     };
 
 
+
     return (
         <div className='rounded-lg mt-4 ml-16'>
             <div className="flex pt-5">
@@ -51,23 +49,13 @@ function Reply({ reply }) {
                     <div className='w-full text-left p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full'>
                         {reply.content}
                     </div>
-                    <div className="flex  pr-5 pb-5 justify-between">
-                        <div className='flex space-x-5 '>
-                            <button className="text-gray-400 text-sm ">Reply</button>
-                            <button className="text-gray-400  text-sm">Share</button>
-                            <button className="text-gray-400 text-sm">Report</button>
-                        </div>
-                        <MoreHorizontal
-                            className='text-gray-400' />
-                    </div>
+
+                    <ReplyTextArea />
+
                 </div>
             </div>
         </div>
-
-
     )
-
-
 }
 
 export default Reply

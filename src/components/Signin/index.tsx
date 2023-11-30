@@ -35,21 +35,26 @@ export default function Signin({ toggleForm }: any) {
     let errors = {}
     Object.keys(formValues).map((key, index) => {
       let error = handleAuthError(key, formValues[key])
-      if (error) errors = { ...errors, [error.name]: error.message }
+      if (error){ errors = { ...errors, [error.name]: error.message }}
     })
+    
     setErrors(errors)
-    return !Object.keys(errors).length
+    return !Object?.keys(errors)?.length
   }
   async function handleLoginSubmit(e) {
     e.preventDefault()
+    console.log('formValues', formValues)
     try {
       const { email, password } = formValues
       let isFieldsValid = handleValidations()
-      if (!isFieldsValid) return
-      const result = await signIn({
+      if (!isFieldsValid) {
+        console.log("I am invalid...")
+        return
+      }
+      const result = await signIn(JSON.stringify({
         email,
         password,
-      })
+      }))
 
       
       dispatch(setUser(result))

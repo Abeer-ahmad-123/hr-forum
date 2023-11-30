@@ -10,9 +10,12 @@ import {
 
 export async function signIn(body: any) {
   try {
-    let responseFromAuth = await fetch(AUTH_WITH_EMAIL, {
+    let responseFromAuth = await fetch(`https://api.enxsis.com${AUTH_WITH_EMAIL}`, {
       body,
       method: 'POST',
+      headers:{
+        "content-type":"application/json"
+      }
     })
     const responseJson = await responseFromAuth.json()
     if (responseJson?.success) {

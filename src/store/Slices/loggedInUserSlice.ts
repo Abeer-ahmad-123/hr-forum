@@ -26,8 +26,8 @@ export const { setUser, clearUser } = loggedInUserSlice.actions
 export default loggedInUserSlice.reducer
 
 function setUserandTokenLocalStorage(token: any, userData: any) {
-  localStorage.setItem('userData', JSON.stringify(userData))
-  localStorage.setItem('token', token)
+  // localStorage.setItem('userData', JSON.stringify(userData))
+  // localStorage.setItem('token', token)
 }
 
 function getInitialStateFromLocalStorage() {
@@ -37,7 +37,7 @@ function getInitialStateFromLocalStorage() {
   if(typeof localStorage !== 'undefined') {
     const tokenFromStorage = localStorage.getItem('token');
     const userDataString = localStorage.getItem('userData');
-    const userDataFromStorage = userDataString ? JSON.parse(userDataString) : null;
+    const userDataFromStorage = !userDataString ? JSON.parse(userDataString) : null;
 
     token = tokenFromStorage || token;
     userData = userDataFromStorage || userData;

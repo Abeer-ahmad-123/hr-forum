@@ -1,44 +1,72 @@
-import React from 'react'
+'use client'
+import React, { useState, useEffect } from 'react'
 import { ArrowDown, ArrowUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from './button'
 
-const UpdownButton = ({count}) => {
+const UpdownButton = ({ count }) => {
+    const [currentVote, setCurrentVote] = useState(0);
+    const [color, setColor] = useState('')
+    const preVote = 0;
+
+    const handleUp = (current, previous) => {
+        if (current > previous) {
+            setColor('')
+            setCurrentVote(previous)
+        }
+        else {
+            previous = previous + 1
+            setColor('text-primary fill-primary')
+            setCurrentVote(previous)
+            console.log(currentVote)
+                }
+    };
+
+    const handleDown = (current, previous) => {
+        if (current < previous) {
+            setColor('')
+            setCurrentVote(previous)
+            console.log(currentVote)
+        }
+        else {
+            current = previous - 1
+            setColor('text-rose-500 fill-rose-500')
+            setCurrentVote(current)
+            console.log(currentVote)
+        }
+    };
     return (
         <div className='flex flex-col gap-4 sm:gap-0 pr-6 sm:w-20 pb-4 sm:pb-0'>
             {/* upvote */}
             <Button
-
+                onClick={() => { handleUp(currentVote, preVote) }}
                 size='sm'
                 variant='ghost'
                 aria-label='upvote'>
                 <ArrowUp
-                    className={cn('h-5 w-5 text-zinc-700', {
-                        'text-emerald-500 fill-emerald-500': false,
-                    })}
+                    className={`h-5 w-5 ${color === 'text-primary fill-primary' ? color: ''}`}
                 />
             </Button>
-
             {/* score */}
             <p className='text-center py-2 font-medium text-sm text-red-700'>
-                {count}
+                {/* {count} */}
+                {currentVote}
             </p>
 
             {/* downvote */}
             <Button
-
+                onClick={() => { handleDown(currentVote, preVote) }}
                 size='sm'
                 variant='ghost'
                 aria-label='downvote'>
                 <ArrowDown
-                    className={cn('h-5 w-5 text-red-700', {
-                        'text-red-500 fill-red-500': true,
-                    })}
+                    className={`h-5 w-5 ${color === 'text-rose-500 fill-rose-500'? color: '' }`}
                 />
             </Button>
         </div>
 
     )
 }
+
 
 export default UpdownButton
