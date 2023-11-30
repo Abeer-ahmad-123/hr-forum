@@ -8,7 +8,7 @@ const UpdownButton = ({ count }) => {
     const [currentVote, setCurrentVote] = useState(0);
     const [color, setColor] = useState('')
     const preVote = 0;
-
+    
     const handleUp = (current, previous) => {
         if (current > previous) {
             setColor('')
@@ -19,7 +19,7 @@ const UpdownButton = ({ count }) => {
             setColor('text-primary fill-primary')
             setCurrentVote(previous)
             console.log(currentVote)
-                }
+        }
     };
 
     const handleDown = (current, previous) => {
@@ -41,26 +41,28 @@ const UpdownButton = ({ count }) => {
             <Button
                 onClick={() => { handleUp(currentVote, preVote) }}
                 size='sm'
+                className={`${color === 'text-primary fill-primary' ? color : ''} hover:text-white`}
                 variant='ghost'
                 aria-label='upvote'>
                 <ArrowUp
-                    className={`h-5 w-5 ${color === 'text-primary fill-primary' ? color: ''}`}
+                    className={`h-5 w-5 `}
                 />
             </Button>
-            {/* score */}
+
             <p className='text-center py-2 font-medium text-sm text-red-700'>
-                {/* {count} */}
+
                 {currentVote}
             </p>
 
             {/* downvote */}
             <Button
                 onClick={() => { handleDown(currentVote, preVote) }}
-                size='sm'
+                size='sm' 
+                className={`${color === 'text-rose-500 fill-rose-500' ? color : ''} hover:text-white`}
                 variant='ghost'
                 aria-label='downvote'>
                 <ArrowDown
-                    className={`h-5 w-5 ${color === 'text-rose-500 fill-rose-500'? color: '' }`}
+                    className={`h-5 w-5`}
                 />
             </Button>
         </div>

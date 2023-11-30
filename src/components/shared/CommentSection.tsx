@@ -1,7 +1,9 @@
 import UpdownButton from '../ui/updownButton';
 import ReplyTextArea from './ReplyTextArea';
+
 import { Send } from 'lucide-react'
 import Reply from './Reply'
+import TextArea from '../ui/TextArea';
 function CommentSection({ comment }: any) {
 
 
@@ -31,20 +33,7 @@ function CommentSection({ comment }: any) {
     return (
 
         <div>
-
-            <div className={`flex mb-2 items-center`}>
-
-                <textarea
-                    rows={1} style={{
-                        caretColor: 'gray',
-                    }}
-                    className={`w-full h-24  pl-1 mr-4 border border-gray-300 rounded-lg`} />
-                <button className='bg-primary text-white px-2 h-8 rounded-lg'>
-                    <Send
-                        size={20} /> </button>
-            </div>
-
-
+         <TextArea />
             <div className='bg-slate-100 w-full rounded-lg mt-4'>
                 <div className="flex pt-5">
                     <div className='flex  flex-col items-center'>
