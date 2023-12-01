@@ -1,32 +1,29 @@
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/Dialog/interceptDialog"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+} from '@/components/ui/Dialog/interceptDialog'
 
-  import Post from "@/components/shared/post"
+import Post from '@/components/shared/post'
+import { Suspense } from 'react'
+import Loading from './Loading'
 
-  async function SingleFeed({ params }: any) {
-    const { id } = params
+async function SingleFeed({ params }: any) {
+  const { id } = params
 
-return (
-    
-  <Dialog open={true}>
-    <DialogContent
-     className="bg-white max-h-[90vh] max-w-5xl h-full overflow-scroll"
-    >
-      <DialogHeader>
-         </DialogHeader>
-      
-      <DialogDescription>
-      <Post isDialogPost={true} postId={id} />
-      </DialogDescription>
-    </DialogContent>
-  </Dialog>
-    )
-  }              
+  return (
+    <Dialog open={true}>
+      <DialogContent className="h-full max-h-[90vh] max-w-5xl overflow-scroll bg-white">
+        <DialogHeader></DialogHeader>
+
+        <DialogDescription>
+          <Suspense fallback={<Loading />}>
+            <Post isDialogPost={true} postId={id} />
+          </Suspense>
+        </DialogDescription>
+      </DialogContent>
+    </Dialog>
+  )
+}
 export default SingleFeed
-  

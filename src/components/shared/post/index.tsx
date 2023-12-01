@@ -1,65 +1,69 @@
-
-
 import React from 'react'
-import UpdownButton from '../../ui/updownButton';
+import UpdownButton from '../../ui/updownButton'
 import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import picture2 from '@/assets/avatars/img2.jpeg'
 import CommentSection from '../CommentSection'
 import { getPostByPostId } from '@/services/posts'
 import { getPostsComments } from '@/services/posts'
-import { json } from 'node:stream/consumers';
+import { json } from 'node:stream/consumers'
 // import { comment } from 'postcss';
 
-async function Post
-  ({ isDialogPost = false, postId }: any) {
-
-  
+async function Post({ isDialogPost = false, postId }: any) {
   const { post } = await getPostByPostId(postId, {})
   const { comments } = await getPostsComments(postId, {})
 
   return (
-    <div className="mx-auto my-5 max-w-5xl h-screen rounded-full ">
-      <div className={`mx-auto flex mb-5 max-w-screen-lg cursor-pointer rounded-xl bg-white
+    <div className="mx-auto my-5 h-screen max-w-5xl rounded-full ">
+      <div
+        className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
-      dark:bg-dark-primary dark:text-gray-300` }>
-        <div className='mt-6'>
+      dark:bg-dark-primary dark:text-gray-300`}>
+        <div className="mt-6">
           <UpdownButton count={post['reaction_summary']['like_count']} />
         </div>
-        <div className='flex flex-col items-center w-full p-10 pt-0'>
-          <div className='flex w-full mt-6'>
-            <div className="text-4xl font-bold   text-left shrink-0 dark:text-white">
-              {post.title!}            </div >
-            <div className='flex place-content-around	 items-center w-full'>
+        <div className="flex w-full flex-col items-center p-10 pt-0">
+          <div className="mt-6 flex w-full">
+            <div className="shrink-0 text-left   text-4xl font-bold dark:text-white">
+              {post.title!}{' '}
+            </div>
+            <div className="flex w-full	 place-content-around items-center">
               <div
                 aria-label="channel-name"
-                className={`rounded-lg bg-accent w-max text-white whitespace-nowrap px-6 py-1 h-fit text-sm font-semibold dark:bg-dark-background-secondary dark:text-white`}>
+                className={`h-fit w-max whitespace-nowrap rounded-lg bg-accent px-6 py-1 text-sm font-semibold text-white dark:bg-dark-background-secondary dark:text-white`}>
                 QUESTION
               </div>
               <div className="flex h-10 items-center p-1.5">
-                <img src='https://avatar.iran.liara.run/public/boy' className='h-8 w-8' />
+                <Image
+                  src="https://avatar.iran.liara.run/public/boy"
+                  className="h-8 w-8"
+                  alt="avatar"
+                  width={32}
+                  height={32}
+                />
               </div>
-
             </div>
           </div>
-          <div className='w-full p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full text-left' dangerouslySetInnerHTML={{ __html: post.content }}
+          <div
+            className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
+            dangerouslySetInnerHTML={{ __html: post.content }}
           />
           <div>
-            {!!post.image ? <Image
-              src={picture}
-              style={{ objectFit: 'fill' }
-              }
-              alt="Picture of the author"
-              className='mb-7'
-            /> : null}
+            {!!post.image ? (
+              <Image
+                src={picture}
+                style={{ objectFit: 'fill' }}
+                alt="Picture of the author"
+                className="mb-7"
+              />
+            ) : null}
           </div>
-          <div className="w-full border-b mb-9 border-gray-500 pr-5"></div>
-          <div className='w-full'>
-
-
-            {comments.length !== 0 && comments.map((comment) => {
-              return <CommentSection key={comment.id} comment={comment} />
-            })}
+          <div className="mb-9 w-full border-b border-gray-500 pr-5"></div>
+          <div className="w-full">
+            {comments.length !== 0 &&
+              comments.map((comment) => {
+                return <CommentSection key={comment.id} comment={comment} />
+              })}
           </div>
         </div>
       </div>

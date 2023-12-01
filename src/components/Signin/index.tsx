@@ -11,7 +11,7 @@ import { AppDispatch } from '@/store'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
 // import Google from '@/assets/icons/google'
-import GoogleButton from '../shared/GoogleButton/';
+import GoogleButton from '../shared/GoogleButton/'
 
 export default function Signin({ toggleForm }: any) {
   const dispatch = useDispatch<AppDispatch>()
@@ -35,9 +35,11 @@ export default function Signin({ toggleForm }: any) {
     let errors = {}
     Object.keys(formValues).map((key, index) => {
       let error = handleAuthError(key, formValues[key])
-      if (error){ errors = { ...errors, [error.name]: error.message }}
+      if (error) {
+        errors = { ...errors, [error.name]: error.message }
+      }
     })
-    
+
     setErrors(errors)
     return !Object?.keys(errors)?.length
   }
@@ -48,16 +50,20 @@ export default function Signin({ toggleForm }: any) {
       const { email, password } = formValues
       let isFieldsValid = handleValidations()
       if (!isFieldsValid) {
-        console.log("I am invalid...")
+        console.log('I am invalid...')
         return
       }
-      const result = await signIn(JSON.stringify({
-        email,
-        password,
-      }))
-
-      
-      dispatch(setUser(result))
+      const result = await signIn(
+        JSON.stringify({
+          email,
+          password,
+        }),
+      )
+      if (result?.token) {
+        localStorage.setItem('token', result?.token)
+        localStorage.setItem('userData', JSON.stringify(result?.userData))
+        dispatch(setUser(result))
+      }
       if (result.error) {
         showErrorAlert('Sign-in failed. Please check your credentials.')
       } else {
@@ -65,20 +71,19 @@ export default function Signin({ toggleForm }: any) {
       }
     } catch (err) {
       console.log('err', err)
+      showErrorAlert('unauthenticated email or password not matched.')
     }
   }
 
   return (
     <div className="container mx-auto flex h-[550px] w-[440px] flex-col justify-center space-y-6">
       <div className="relative flex flex-col justify-center overflow-hidden">
-        <div className="m-auto w-full rounded-md bg-white shadow-md p-4  dark:bg-dark-primary lg:max-w-xl ">
+        <div className="m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-dark-primary lg:max-w-xl ">
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Sign in
           </h1>
           <div>
-          <GoogleButton
-          title='Sign In'
-          />
+            <GoogleButton title="Sign In" />
           </div>
           <p className=" my-3 text-center dark:text-white">OR</p>
           <SigninForm

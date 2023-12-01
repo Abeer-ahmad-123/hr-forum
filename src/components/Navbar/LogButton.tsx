@@ -1,5 +1,5 @@
 'use client'
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import LoggedIn from './LoggedIn'
 import SigninNavButton from './SigninNavButton'
 import { useSelector } from 'react-redux'
@@ -12,18 +12,13 @@ const LogButton = () => {
   const reduxToken = useSelector((state: any) => state.loggedInUser.token)
   // store data in redux
 
-  
-  useEffect(()=>{
-  const userData = localStorage.getItem('userData') || null;
-  const token = localStorage.getItem('token') || null;
-   console.log("Here is user data" ,userData) 
-   console.log("Here is parsed user data" ,userData) 
-  dispatch(setUser({token,userData}))
-  
-  },[])
-
-
-
+  useEffect(() => {
+    const userData = localStorage.getItem('userData') || null
+    const token = localStorage.getItem('token') || null
+    if (token) {
+      dispatch(setUser({ token, userData: JSON.parse(userData) }))
+    }
+  }, [])
 
   return <>{!!reduxToken ? <LoggedIn /> : <SigninNavButton />}</>
 }

@@ -1,7 +1,7 @@
-interface SkeltonProps{
-    className?: string
+interface SkeltonProps {
+  className?: string
 }
 
-export default function skelton({className}:SkeltonProps){
-    return <div className={`bg-skelton animate-pulse ${className}`}/>
+export default function Skelton({ className }: SkeltonProps) {
+  return <div className={`animate-pulse bg-skelton ${className}`} />
 }

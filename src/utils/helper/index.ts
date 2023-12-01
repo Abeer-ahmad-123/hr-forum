@@ -45,12 +45,12 @@ const timeFormatInHours = (timestamp) => {
 
   if (hoursAgo < 1) {
     const minutesAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60))
-    return `${minutesAgo} minute${minutesAgo === 1 ? '' : 's'} ago`
+    return `${minutesAgo} m ago`
   } else if (hoursAgo < 24) {
-    return `${hoursAgo} hour${hoursAgo === 1 ? '' : 's'} ago`
+    return `${hoursAgo} h ago`
   } else {
     const daysAgo = Math.floor(hoursAgo / 24)
-    return `${daysAgo} day${daysAgo === 1 ? '' : 's'} ago`
+    return `${daysAgo} d ago`
   }
 }
 

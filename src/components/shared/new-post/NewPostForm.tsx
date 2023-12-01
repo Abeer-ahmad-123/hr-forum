@@ -42,7 +42,7 @@ export default function NewPostForm() {
   return (
     <div className="flex flex-col space-y-6 rounded-xl bg-white p-2 dark:bg-dark-background">
       <div className="flex w-full justify-between">
-        <h3 className="w-content mb-4 text-xl flex-shrink-0 font-medium text-gray-700 dark:text-white">
+        <h3 className="w-content mb-4 flex-shrink-0 text-xl font-medium text-gray-700 dark:text-white">
           Ask for help from the community...
         </h3>
 
@@ -54,7 +54,7 @@ export default function NewPostForm() {
       </div>
 
       <input
-        className="mb-3 w-full text-xl placeholder-gray-500 transition duration-200 ease-in-out  focus:outline-none  focus:ring-blue-300 dark:bg-dark-primary dark:text-white dark:placeholder-white"
+        className="mb-3 w-full rounded-lg p-2 text-xl placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out  focus:outline-none  focus:ring-blue-300 dark:bg-dark-primary dark:text-white dark:placeholder-white"
         type="text"
         placeholder="Add a title"
         name="title"

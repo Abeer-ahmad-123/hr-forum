@@ -1,11 +1,12 @@
 'use client'
 import { useState } from 'react'
 import SignupForm from '@/components/Signup/SignupForm'
-import GoogleButton from '../shared/GoogleButton/';
+import GoogleButton from '../shared/GoogleButton/'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { signUp, signIn } from '@/services/auth/authService'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert } from '@/utils/helper'
 
 export default function Signup({ toggleForm }: any) {
   const dispatch = useDispatch()
@@ -48,20 +49,28 @@ export default function Signup({ toggleForm }: any) {
         email: formValues.email,
         password: formValues.password,
       })
-      dispatch(setUser(result))
-    } catch (err) {
+      debugger
+      if (result?.data?.token) {
+        localStorage.setItem('token', result?.data?.token)
+        localStorage.setItem('userData', result?.data?.userData)
+        dispatch(setUser(result))
+      } else {
+        showErrorAlert('unauthenticated email or password not matched.')
+      }
+    } catch (err: any) {
       console.log('err', err)
+      showErrorAlert(err?.message)
     }
   }
 
   return (
     <div className="container mx-auto flex h-[550px] w-[400px] flex-col justify-center space-y-6">
       <div className="relative flex flex-col justify-center overflow-hidden">
-        <div className="m-auto w-full rounded-md bg-white shadow-md p-4 dark:bg-dark-primary lg:max-w-xl">
+        <div className="m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-primary lg:max-w-xl">
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Sign Up
           </h1>
-          <GoogleButton title={'Sign Up'}/>
+          <GoogleButton title={'Sign Up'} />
           <p className="mt-4 text-center dark:text-white">OR</p>
 
           <SignupForm
@@ -73,7 +82,7 @@ export default function Signup({ toggleForm }: any) {
           {/* Login Link */}
           <>
             <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
-              Already have an account? {' '}
+              Already have an account?{' '}
               <button
                 className="text-primary-purple cursor-pointer font-medium hover:underline"
                 onClick={() => {

@@ -1,11 +1,7 @@
-  // import Post from "@/components/shared/post"
-  import PostSkelton from "@/components/shared/post/PostSkelton"
+// import Post from "@/components/shared/post"
+import PostSkelton from '@/components/shared/post/PostSkelton'
 
-  async function SingleFeed() {    
-return (
-      <PostSkelton />
-
-    )
-  }              
-export default SingleFeed
-  
+async function Loading() {
+  return <PostSkelton />
+}
+export default Loading
