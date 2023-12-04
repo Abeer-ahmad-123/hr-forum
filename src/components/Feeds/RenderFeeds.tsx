@@ -1,21 +1,22 @@
 import PostBar from '@/components/shared/new-post/NewPostModal'
-import Feed from '@/components/Feed/Feed'
+import Feeds from '@/components/Feeds/Feeds'
+import { toPascalCase } from '@/utils/common'
 
-function RenderFeed() {
-  const channelName = ''
+function RenderFeeds({ channelSlug = null }) {
   return (
-    <>
+    <div>
       <div className="mx-auto my-5 max-w-5xl rounded-full ">
         <PostBar />
       </div>
 
       <div className="mx-auto mt-10 max-w-screen-lg dark:text-white">
         <p className="mb-4 text-3xl text-black dark:text-white">
-          {channelName}
+          {!!channelSlug &&
+            toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
         </p>
-        <Feed channelName={channelName} />
+        <Feeds channelSlug={channelSlug} />
       </div>
-    </>
+    </div>
   )
 }
-export default RenderFeed
+export default RenderFeeds

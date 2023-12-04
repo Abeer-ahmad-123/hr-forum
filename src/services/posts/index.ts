@@ -8,7 +8,6 @@ const GET_POST_BY_ID = API_BASE_URL + 'posts/postId'
 const GET_POST_COMMENT = API_BASE_URL + 'posts/postId/comments'
 const CREATE_POST_IN_CHANNEL = API_BASE_URL + 'channels/postId/posts'
 
-
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
   loadReactions?: boolean
@@ -34,23 +33,36 @@ export async function getAllPosts({
   }
 }
 
-export async function getPostsByChannelId(id: string) {
-  try {
-    let res = await fetch(GET_POSTS_BY_CHANNELID.replace('channelId', id))
-    const response = await res.json()
-    const { data } = response
-    return data
-  } catch (err) {
-    throw err
+export async function getPostsByChannelId({
+  id,
+  loadReactions = true,
+  loadUser = true,
+  pageNumber = 1,
+  pageSize = 10,
+}: any) {
+  if (id) {
+    try {
+      let res = await fetch(
+        `${GET_POSTS_BY_CHANNELID.replace(
+          'channelId',
+          id?.toString(),
+        )}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
+      )
+      const response = await res.json()
+      const { data } = response
+      return data
+    } catch (err) {
+      throw err
+    }
+  } else {
+    return { posts: null }
   }
 }
 
-
-export async function getPostByPostId(id: string,{
-  loadUser = true,
-  loadReactions = true,
-
-})  {
+export async function getPostByPostId(
+  id: string,
+  { loadUser = true, loadReactions = true },
+) {
   try {
     const postId = GET_POST_BY_ID.replace('postId', id)
     let res = await fetch(`${postId}?loadReactions=${loadReactions}`)
@@ -62,19 +74,18 @@ export async function getPostByPostId(id: string,{
   }
 }
 
-
-export async function getPostsComments(id: string,
+export async function getPostsComments(
+  id: string,
   {
-  loadUser = true,
-  loadReactions = true,
-  loadNestedComments= true,
-  loadNestedUser= true,
-  loadNestedReactions= true,
-  nestedLimit = 2,
-  }
+    loadUser = true,
+    loadReactions = true,
+    loadNestedComments = true,
+    loadNestedUser = true,
+    loadNestedReactions = true,
+    nestedLimit = 2,
+  },
 ) {
   try {
-
     const postId = GET_POST_COMMENT.replace('postId', id)
 
     let res = await fetch(`
@@ -89,14 +100,16 @@ export async function getPostsComments(id: string,
   }
 }
 
-export async function postCreatePostInChannel({ id , body }: any){
+export async function postCreatePostInChannel({ id, body }: any) {
   try {
-    let res = await fetch(CREATE_POST_IN_CHANNEL.replace('postId', id),
-    
-    {
-      body,
-      method: 'POST'
-    })
+    let res = await fetch(
+      CREATE_POST_IN_CHANNEL.replace('postId', id),
+
+      {
+        body,
+        method: 'POST',
+      },
+    )
     const response = await res.json()
     const { data } = response
     return data
@@ -105,14 +118,16 @@ export async function postCreatePostInChannel({ id , body }: any){
   }
 }
 
-export async function postComment({ postId , body }: any){
+export async function postComment({ postId, body }: any) {
   try {
-    let res = await fetch(GET_POST_COMMENT.replace('postId', postId),
-    
-    {
-      body,
-      method: 'POST'
-    })
+    let res = await fetch(
+      GET_POST_COMMENT.replace('postId', postId),
+
+      {
+        body,
+        method: 'POST',
+      },
+    )
     const response = await res.json()
     const { data } = response
     return data

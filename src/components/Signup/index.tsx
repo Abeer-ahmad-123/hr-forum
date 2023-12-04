@@ -45,21 +45,21 @@ export default function Signup({ toggleForm }: any) {
 
       if (!isFieldsValid) return
       await signUp(formValues)
-      const result = await signIn({
-        email: formValues.email,
-        password: formValues.password,
-      })
-      debugger
-      if (result?.data?.token) {
-        localStorage.setItem('token', result?.data?.token)
-        localStorage.setItem('userData', result?.data?.userData)
+      const result = await signIn(
+        JSON.stringify({
+          email: formValues.email,
+          password: formValues.password,
+        }),
+      )
+      if (result?.token) {
+        localStorage.setItem('token', result?.token)
+        localStorage.setItem('userData', JSON.stringify(result?.userData))
         dispatch(setUser(result))
       } else {
         showErrorAlert('unauthenticated email or password not matched.')
       }
     } catch (err: any) {
       console.log('err', err)
-      showErrorAlert(err?.message)
     }
   }
 

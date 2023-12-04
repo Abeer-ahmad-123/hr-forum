@@ -53,6 +53,11 @@ const timeFormatInHours = (timestamp) => {
     return `${daysAgo} d ago`
   }
 }
+const isValidUserName = (userName) => {
+  const userNameRegex = /^[a-zA-Z0-9]{1,}$/
+  const isValidUserName = userNameRegex.test(userName)
+  return isValidUserName
+}
 
 export {
   isEmpty,
@@ -60,4 +65,5 @@ export {
   showErrorAlert,
   showSuccessAlert,
   timeFormatInHours,
+  isValidUserName,
 }

@@ -1,7 +1,7 @@
-import { RenderFeed } from '@/components/Feed'
+import { RenderFeeds } from '@/components/Feeds'
 
 const FeedPage = () => {
-  return <RenderFeed />
+  return <RenderFeeds />
 }
 
 export default FeedPage

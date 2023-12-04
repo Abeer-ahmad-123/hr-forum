@@ -58,10 +58,7 @@ const Card = ({ post }: any) => {
 
                 <div className="flex items-end pb-2 pt-4">
                   <div className="flex flex-col sm:flex-row">
-                    <ChannelPill
-                      name={channels[channel_id]?.name}
-                      bgColor={'bg-accent'}
-                    />
+                    <ChannelPill channel_id={channel_id} />
                   </div>
                 </div>
               </div>

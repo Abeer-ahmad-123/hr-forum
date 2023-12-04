@@ -10,13 +10,16 @@ import {
 
 export async function signIn(body: any) {
   try {
-    let responseFromAuth = await fetch(`https://api.enxsis.com${AUTH_WITH_EMAIL}`, {
-      body,
-      method: 'POST',
-      headers:{
-        "content-type":"application/json"
-      }
-    })
+    let responseFromAuth = await fetch(
+      `https://api.enxsis.com${AUTH_WITH_EMAIL}`,
+      {
+        body,
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+        },
+      },
+    )
     const responseJson = await responseFromAuth.json()
     if (responseJson?.success) {
       return responseJson.data
@@ -29,11 +32,16 @@ export async function signIn(body: any) {
 
 export async function signUp(body: any) {
   try {
-    
-    let responseFromSignup = await fetch(AUTH_WITH_EMAIL, {
-      body,
-      method: 'POST',
-    })
+    let responseFromSignup = await fetch(
+      `https://api.enxsis.com${AUTH_REGISTER}`,
+      {
+        body: JSON.stringify(body),
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
     const responseJson = await responseFromSignup.json()
     return responseJson
   } catch (err) {

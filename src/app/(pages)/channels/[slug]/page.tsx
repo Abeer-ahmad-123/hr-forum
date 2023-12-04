@@ -1,8 +1,7 @@
-// @ts-nocheck
-import  RenderFeed  from '@/components/Feed/RenderFeed'
+import RenderFeed from '@/components/Feeds/RenderFeeds'
 
-const ChannelPage = ({ params }) => {
-  return <RenderFeed channelName={params?.slug} />
+const ChannelPage = ({ params }: any) => {
+  return <RenderFeed channelSlug={params?.slug} />
 }
 
 export default ChannelPage

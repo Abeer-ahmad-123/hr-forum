@@ -14,7 +14,7 @@ async function SingleFeed({ params }: any) {
 
   return (
     <Dialog open={true}>
-      <DialogContent className="h-full max-h-[90vh] max-w-5xl overflow-scroll bg-white">
+      <DialogContent className=" max-w-5xl overflow-scroll bg-white">
         <DialogHeader></DialogHeader>
 
         <DialogDescription>

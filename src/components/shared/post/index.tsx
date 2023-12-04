@@ -14,7 +14,7 @@ async function Post({ isDialogPost = false, postId }: any) {
   const { comments } = await getPostsComments(postId, {})
 
   return (
-    <div className="mx-auto my-5 h-screen max-w-5xl rounded-full ">
+    <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
