@@ -11,6 +11,7 @@ const nextConfig = {
         hostname: 'avatar.iran.liara.run',
       },
     ],
+    domains: ['demos.creative-tim.com']
   },
 }
 
