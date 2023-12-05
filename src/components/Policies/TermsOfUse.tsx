@@ -1,8 +1,11 @@
+import { Montserrat } from 'next/font/google'
+const montserrat = Montserrat({ subsets: ['latin'] })
+
 const TermsOfUse = () => {
   return (
-    <div className="terms-container rounded-lg bg-white p-8 shadow-md  dark:bg-dark-background-secondary">
-      <h2 className="mb-4 text-2xl font-semibold">Terms of Use</h2>
-      <p className="mb-6 text-gray-600">
+    <div className={`${montserrat.className} mx-auto text-left mt-10 max-w-5xl rounded-lg bg-white p-16 shadow-md dark:bg-dark-background-secondary`}>
+      <h2 className="mb-4 text-4xl font-medium">Terms of Use</h2>
+      <p className="mb-6 text-gray-600 font-light dark:text-white">
         Welcome to our website. If you continue to browse and use this website,
         you are agreeing to comply with and be bound by the following terms and
         conditions of use, which together with our privacy policy govern our
@@ -10,9 +13,9 @@ const TermsOfUse = () => {
       </p>
 
       <h3 className="mb-4 text-xl font-medium">
-        The use of this website is subject to the following terms:
+        1. The use of this website is subject to the following terms:
       </h3>
-      <ul className="list-disc pl-5 text-gray-600">
+      <ul className="list-disc pl-5 text-gray-600 font-light dark:text-white">
         <li className="mb-2">
           The content of the pages of this website is for your general
           information and use only. It is subject to change without notice.
