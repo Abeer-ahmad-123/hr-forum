@@ -21,6 +21,7 @@ export function SigninForm({
         error={errors['password']}
         name="password"
         value={password}
+        type="password"
         placeholder="password"
         onChange={handleInputChange}
       />

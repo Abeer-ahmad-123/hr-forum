@@ -73,8 +73,8 @@ function CommentSection({ comment }: any) {
                     </div>
                 </div>
 
-                {comment.replies.length !== 0 &&
-                    comment.replies.map((reply: any) => {
+                {comment?.replies?.length !== 0 &&
+                    comment?.replies?.map((reply: any) => {
                         return <Reply key={reply.id} reply={reply} />
                     })}
             </div>
