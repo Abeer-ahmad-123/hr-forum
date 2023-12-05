@@ -1,6 +1,6 @@
 'use client'
 import { PlusButton } from '@/components/shared'
-import React from 'react'
+import React, {useState} from 'react'
 import {
   Dialog,
   DialogContent,
@@ -9,16 +9,20 @@ import {
 import NewPostForm from './NewPostForm'
 
 export default function NewPost() {
+
+
+  const handleOpenDialog = ()=>{
+    setOpenDilog(true)
+  }
+  const [openDilog, setOpenDilog] = useState(false)
   return (
     <>
-      <Dialog>
-        <DialogTrigger asChild>
-          <button className="w-full">
+      <Dialog open={openDilog}>
+          <button className="w-full" onClick={ handleOpenDialog} >
             <PostBar />
           </button>
-        </DialogTrigger>
         <DialogContent className="border bg-white sm:max-w-screen-md">
-          <NewPostForm />
+          <NewPostForm open={setOpenDilog} />
         </DialogContent>
       </Dialog>
     </>

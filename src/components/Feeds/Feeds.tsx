@@ -11,16 +11,16 @@ const Feeds = async ({ channelSlug }: FeedProps) => {
   const { channels } = await getChannels()
   let posts = []
   if (channelSlug) {
-    console.log('first 14', channelSlug)
+
     const getChannelId = getChannelIdByChannelName(channelSlug, channels)
-    console.log(getChannelId)
+
     posts = await getPostsByChannelId({
       id: getChannelId,
       loadReactions: true,
       loadUser: true,
     })
   } else {
-    console.log('first 21')
+
     posts = await getAllPosts({ loadReactions: true, loadUser: true })
   }
   posts = posts?.posts

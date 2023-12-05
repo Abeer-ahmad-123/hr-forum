@@ -13,6 +13,8 @@ async function Post({ isDialogPost = false, postId }: any) {
   const { post } = await getPostByPostId(postId, {})
   const { comments } = await getPostsComments(postId, {})
 
+  
+
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div

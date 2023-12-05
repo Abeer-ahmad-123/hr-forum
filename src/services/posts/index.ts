@@ -6,7 +6,7 @@ const ADD_POST = API_BASE_URL + 'channels/channelId/posts'
 const EDIT_POST = API_BASE_URL + 'posts/postId'
 const GET_POST_BY_ID = API_BASE_URL + 'posts/postId'
 const GET_POST_COMMENT = API_BASE_URL + 'posts/postId/comments'
-const CREATE_POST_IN_CHANNEL = API_BASE_URL + 'channels/postId/posts'
+const CREATE_POST_IN_CHANNEL = API_BASE_URL + 'channels/channelId/posts'
 
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
@@ -100,17 +100,29 @@ export async function getPostsComments(
   }
 }
 
-export async function postCreatePostInChannel({ id, body }: any) {
+export async function postCreatePostInChannel({ channelID, body }: any) {
   try {
-    let res = await fetch(
-      CREATE_POST_IN_CHANNEL.replace('postId', id),
+    const token =  localStorage?.getItem('token')
+    console.log("Token ",token)
+    
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+    
+    const requestBody = JSON.stringify(body);
+    console.log("Here is request body" ,requestBody)
 
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/channels/${channelID}/posts`,
       {
-        body,
         method: 'POST',
+        headers,
+        body: requestBody,
       },
     )
     const response = await res.json()
+    console.log(response)
     const { data } = response
     return data
   } catch (err) {
@@ -129,6 +141,7 @@ export async function postComment({ postId, body }: any) {
       },
     )
     const response = await res.json()
+    console.log(response)
     const { data } = response
     return data
   } catch (err) {
