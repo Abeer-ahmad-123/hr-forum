@@ -1,5 +1,5 @@
-const API_BASE_URL = process.env.API_BASE_URL
 
+const API_BASE_URL = process.env.API_BASE_URL
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + 'channels/channelId/posts'
 const GET_All_POSTS = API_BASE_URL + 'posts'
 const ADD_POST = API_BASE_URL + 'channels/channelId/posts'
@@ -7,6 +7,8 @@ const EDIT_POST = API_BASE_URL + 'posts/postId'
 const GET_POST_BY_ID = API_BASE_URL + 'posts/postId'
 const GET_POST_COMMENT = API_BASE_URL + 'posts/postId/comments'
 const CREATE_POST_IN_CHANNEL = API_BASE_URL + 'channels/channelId/posts'
+
+// import { useSelector } from 'react-redux'
 
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
@@ -128,20 +130,67 @@ export async function postCreatePostInChannel({ channelID, body }: any) {
   }
 }
 
-export async function postComment({ postId, body }: any) {
+export async function postComment( {postId, content}: any ) {
   try {
-    let res = await fetch(
-      GET_POST_COMMENT.replace('postId', postId),
+    
+    const requestBody = JSON.stringify(content);
+    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
+    const token =  localStorage?.getItem('token')
+    console.log("Token ",token)
 
+    console.log("TOKEN", typeof token)
+    console.log("POST ID ", postId)
+    console.log("BODY",content)
+
+      const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/posts/${postId}/comments`,
       {
-        body,
         method: 'POST',
+        headers,
+        body: requestBody,
       },
     )
     const response = await res.json()
-    console.log(response)
-    const { data } = response
-    return data
+        return response
+  } catch (err) {
+    throw err
+  }
+}
+
+
+
+export async function postCommentReply( {commentId, content}: any ) {
+  try {
+    
+    const requestBody = JSON.stringify(content);
+    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
+    const token =  localStorage?.getItem('token')
+    console.log("Token ",token)
+
+    console.log("TOKEN", typeof token)
+    console.log("POST ID ", commentId)
+    console.log("BODY",content)
+
+      const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/comments/${commentId}/replies`,
+      {
+        method: 'POST',
+        headers,
+        body: requestBody,
+      },
+    )
+    const response = await res.json()
+        return response
   } catch (err) {
     throw err
   }

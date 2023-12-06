@@ -3,13 +3,17 @@ import { useState } from 'react'
 import { MoreHorizontal } from 'lucide-react'
 import TextArea from '../ui/TextArea'
 
-function ReplyTextArea() {
+function ReplyTextArea({handleTextArea}:any) {
     const [showTextArea, setShowTextArea] = useState(false)
-
+    
     const toggleTextArea = () => {
         setShowTextArea((pre) => !pre)
     }
 
+    const handleText =(value:any)=>{
+        handleTextArea(value)
+    }
+    
     return (
         <div className='flex flex-col'>
             <div className="flex pr-5 pb-5 justify-between">
@@ -24,7 +28,7 @@ function ReplyTextArea() {
             </div>
 
             <div className={`${!showTextArea && 'hidden'} `}>
-                <TextArea />
+                <TextArea  handleTextArea={handleText}/>
             </div>
         </div>
     )
