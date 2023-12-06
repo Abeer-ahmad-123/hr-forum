@@ -24,7 +24,7 @@ const DropDownContent = ({
     router.push('/channels')
   }
 
-  const commonPrimaryText: string = 'text-primary'
+  const commonPrimaryText: string = 'text-accent'
   const commonDarkModeText: string = 'dark:text-gray-200'
   const commonDullPrimaryText: string = 'text-[#6395f0]'
 
@@ -135,7 +135,7 @@ const DropDownContent = ({
       <Link href="/channels" data-testid="join-new-channel">
         <li onClick={handleLi} className="max-md:w-[200px] lg:w-[258px]">
           <div
-            className="flex h-12 items-center rounded-lg bg-primary text-white"
+            className="flex h-12 items-center rounded-lg bg-accent text-white"
             onClick={handleChannelClick}>
             <div className=" m-[0px_0px_0px_0.35em] h-8 w-8 rounded-lg bg-accent ">
               <AiOutlineUserAdd
@@ -143,7 +143,7 @@ const DropDownContent = ({
                 data-testid="join-new-channel-icon"
               />
             </div>
-            <div className="w-7.5 h-7.5 m-1.5 rounded-lg bg-primary pr-8 pt-1 font-light text-white max-lg:p-0 max-lg:text-[15px]">
+            <div className="w-7.5 h-7.5 m-1.5 rounded-lg bg-accent pr-8 pt-1 font-light text-white max-lg:p-0 max-lg:text-[15px]">
               Join a new channel
             </div>
           </div>

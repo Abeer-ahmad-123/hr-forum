@@ -1,8 +1,5 @@
 import { BsPersonFill } from 'react-icons/bs'
-
-import { colors, menuItems, themeColors } from '@/utils/data'
-import { useDispatch, useSelector } from 'react-redux'
-import { setColor } from '@/store/Slices/colorModeSlice'
+import { menuItems } from '@/utils/data'
 import Link from 'next/link'
 import { DownIcon } from '@/assets/icons'
 import {
@@ -12,45 +9,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-
-const NestedDropdown = () => {
-  const selectedColor = useSelector((state: any) => state.colorMode.color)
-
-  const dispatch = useDispatch()
-
-  const styles = (key: any) => {
-    return key ? 'bg-gray-100 dark:bg-dark-background-hover' : ''
-  }
-  const handleColorOption = (e: any) => {
-    dispatch(setColor(e.target.textContent.trim()))
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="ring-gray rounded-md px-2 py-1 ring-1 ring-gray-300">
-        <span className="inline-block h-4 w-4 rounded-full bg-primary"></span>{' '}
-        <span className="mr-2">{selectedColor}</span>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="left-8 bg-white dark:bg-dark-primary">
-        <DropdownMenuSeparator />
-        {colors.map((color: any, id) => (
-          <DropdownMenuItem key={color}>
-            <div
-              onClick={handleColorOption}
-              className={`group flex w-full cursor-pointer items-center justify-start px-3 py-2 text-sm font-light transition duration-300 hover:bg-gray-200  color-${color}`}>
-              <span
-                className={`mr-2 inline-block h-4 w-4 rounded-full`}
-                style={{
-                  backgroundColor: themeColors[color],
-                }}></span>{' '}
-              {color}
-            </div>
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 const LoggedOut = ({ handleLoginModalOpen }: any) => {
   return (
@@ -78,9 +36,6 @@ const LoggedOut = ({ handleLoginModalOpen }: any) => {
               </Link>
             </DropdownMenuItem>
           ))}
-          <div className="px-2 py-2">
-            <NestedDropdown />
-          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </>

@@ -22,7 +22,7 @@ const Card = ({ post }: any) => {
 
   return (
     <>
-      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-dark-primary dark:text-gray-300">
+      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <Link href={`/feeds/feed/${id}`}>
           <div className="px-10 py-4">
             <div className="mb-8 mt-3 text-left text-4xl font-semibold dark:text-white">

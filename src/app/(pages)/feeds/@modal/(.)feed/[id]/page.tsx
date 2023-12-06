@@ -7,7 +7,7 @@ import {
 
 import Post from '@/components/shared/post'
 import { Suspense } from 'react'
-import Loading from './Loading'
+import Loading from './loading'
 
 async function SingleFeed({ params }: any) {
   const { id } = params

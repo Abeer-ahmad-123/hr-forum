@@ -31,7 +31,7 @@ function LoggedIn() {
         <span className="block text-sm font-medium text-black dark:text-white">
           {name}
         </span>
-        <span className="block text-xs">{username}</span>
+        <span className="block text-xs dark:text-white">{username}</span>
       </span>
       <div className="relative">
         <div className="relative h-8 w-8 overflow-hidden rounded-full">
@@ -53,21 +53,27 @@ function LoggedIn() {
           <DropdownMenuTrigger>
             <UserDropdown />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="left-8 bg-white dark:bg-dark-primary">
+          <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Link href="/profile">
-                <div className={`block px-4 py-2 text-sm`}>Profile</div>
+                <div className={`block px-4 py-2 text-sm dark:text-white`}>
+                  Profile
+                </div>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Link href="/settings">
-                <div className={`block px-4 py-2 text-sm`}>Settings</div>
+                <div className={`block px-4 py-2 text-sm  dark:text-white`}>
+                  Settings
+                </div>
               </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <button onClick={handleLogout}>
-                <div className={`block px-4 py-2 text-sm`}>Logout</div>
+                <div className={`block px-4 py-2 text-sm  dark:text-white`}>
+                  Logout
+                </div>
               </button>
             </DropdownMenuItem>
           </DropdownMenuContent>
