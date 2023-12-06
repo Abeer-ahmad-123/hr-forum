@@ -32,7 +32,10 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
             <DropdownMenuSeparator />
             {channels.map((item) => (
               <DropdownMenuItem
-                onClick={() => setButtonValue(item.name)}
+                onClick={() => {
+                  setButtonValue(item.name),
+                  handleDropDownValue(item.id)
+                }}
                 key={item.name}>
                 <div className="ml-2 flex-shrink-0">{item.name}</div>
               </DropdownMenuItem>

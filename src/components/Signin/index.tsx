@@ -45,7 +45,7 @@ export default function Signin({ toggleForm }: any) {
   }
   async function handleLoginSubmit(e) {
     e.preventDefault()
-    console.log('formValues', formValues)
+    
     try {
       const { email, password } = formValues
       let isFieldsValid = handleValidations()

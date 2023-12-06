@@ -3,9 +3,9 @@ import { arrayToKeyIdNValueData } from '@/utils/channels'
 
 const ChannelPill = async ({ channel_id }: any) => {
   const { channels }: any = await getChannels()
-  console.log('channels', channels)
+ 
   const channelObj = arrayToKeyIdNValueData(channels)
-  console.log('channelObj', channelObj)
+ 
   return (
     <span
       aria-label="channel-name"
