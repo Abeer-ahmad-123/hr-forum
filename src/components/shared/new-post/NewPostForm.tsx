@@ -6,7 +6,7 @@ import { IoDocumentAttachOutline as AttachmentIcon } from 'react-icons/io5'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 import { postCreatePostInChannel } from '@/services/posts'
-import { useRouter } from 'next/navigation'
+// import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 
 export default function NewPostForm({ open }) {
@@ -36,7 +36,6 @@ export default function NewPostForm({ open }) {
   const createPost = async () => {
     try {
       setLoading(true)
-
       const { channelId, ...body } = formValues
       console.log('Data that we are passing...', channelId, body)
       const result = await postCreatePostInChannel({
@@ -47,16 +46,24 @@ export default function NewPostForm({ open }) {
 
       if (result?.success) {
         showSuccessAlert('Post created successfully')
+        setLoading(false)
+        open(false);
       } else {
         showErrorAlert(result.errors[0])
+        setLoading(false)
+
       }
     } catch (err) {
+
       console.log('err', err)
-      showErrorAlert('Something went wrong while creating post')
-    } finally {
+      showErrorAlert('Something went wrong while creating post.')
       setLoading(false)
-      // open(false);
+      open(false);
+
     }
+    //  finally {
+
+    // }
   }
 
   return (

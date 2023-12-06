@@ -36,7 +36,9 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
                   setButtonValue(item.name),
                   handleDropDownValue(item.id)
                 }}
-                key={item.name}>
+                key={item.name} 
+                className='hover:text-white'
+                >
                 <div className="ml-2 flex-shrink-0">{item.name}</div>
               </DropdownMenuItem>
             ))}

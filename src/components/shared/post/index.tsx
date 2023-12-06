@@ -7,6 +7,7 @@ import CommentSection from '../CommentSection'
 import { getPostByPostId } from '@/services/posts'
 import { getPostsComments } from '@/services/posts'
 import { json } from 'node:stream/consumers'
+import TextArea from '@/components/ui/TextArea'
 // import { comment } from 'postcss';
 
 async function Post({ isDialogPost = false, postId }: any) {
@@ -26,7 +27,7 @@ async function Post({ isDialogPost = false, postId }: any) {
         </div>
         <div className="flex w-full flex-col items-center p-10 pt-0">
           <div className="mt-6 flex w-full">
-            <div className="shrink-0 text-left   text-4xl font-bold dark:text-white">
+            <div className="text-left   text-4xl font-bold dark:text-white">
               {post.title!}{' '}
             </div>
             <div className="flex w-full	 place-content-around items-center">
@@ -62,6 +63,8 @@ async function Post({ isDialogPost = false, postId }: any) {
           </div>
           <div className="mb-9 w-full border-b border-gray-500 pr-5"></div>
           <div className="w-full">
+
+            <TextArea />
             {comments.length !== 0 &&
               comments.map((comment) => {
                 return <CommentSection key={comment.id} comment={comment} />

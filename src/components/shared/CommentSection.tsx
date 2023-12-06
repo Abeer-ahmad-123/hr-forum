@@ -34,7 +34,7 @@ function CommentSection({ comment }: any) {
 
   return (
     <div>
-      <TextArea />
+      {/* <TextArea /> */}
       <div className="mt-4 w-full rounded-lg bg-slate-100 dark:bg-slate-800">
         <div className="flex pt-5">
           <div className="flex  flex-col items-center">

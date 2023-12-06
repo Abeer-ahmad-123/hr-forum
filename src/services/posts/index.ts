@@ -122,9 +122,7 @@ export async function postCreatePostInChannel({ channelID, body }: any) {
       },
     )
     const response = await res.json()
-    console.log(response)
-    const { data } = response
-    return data
+        return response
   } catch (err) {
     throw err
   }
