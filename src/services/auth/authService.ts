@@ -6,20 +6,18 @@ import {
   AUTH_REFRESH_TOKEN,
   AUTH_GET_USER_DETAILS,
   AUTH_UPDATE_USER_DETAILS,
+  GOOGLE_AUTH_START,
 } from './routes'
 
 export async function signIn(body: any) {
   try {
-    let responseFromAuth = await fetch(
-      `https://api.enxsis.com${AUTH_WITH_EMAIL}`,
-      {
-        body,
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-        },
+    let responseFromAuth = await fetch(AUTH_WITH_EMAIL, {
+      body,
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
       },
-    )
+    })
     const responseJson = await responseFromAuth.json()
     if (responseJson?.success) {
       return responseJson.data
@@ -32,16 +30,13 @@ export async function signIn(body: any) {
 
 export async function signUp(body: any) {
   try {
-    let responseFromSignup = await fetch(
-      `https://api.enxsis.com${AUTH_REGISTER}`,
-      {
-        body: JSON.stringify(body),
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    let responseFromSignup = await fetch(AUTH_REGISTER, {
+      body: JSON.stringify(body),
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    )
+    })
     const responseJson = await responseFromSignup.json()
     return responseJson
   } catch (err) {
@@ -102,6 +97,42 @@ export async function updateUserDetail(body: any) {
       body,
       method: 'PUT',
     })
+    const responseJson = await responseFromRefresh.json()
+    return responseJson
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function googleAuthStart() {
+  try {
+    const responseFromRefresh = await fetch(GOOGLE_AUTH_START)
+    const responseJson = await responseFromRefresh.json()
+    return responseJson
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function googleRegister(body: any) {
+  try {
+    const responseFromRefresh = await fetch(GOOGLE_AUTH_START, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body,
+    })
+    const responseJson = await responseFromRefresh.json()
+    return responseJson
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function googleCallback(body: any) {
+  try {
+    const responseFromRefresh = await fetch(GOOGLE_AUTH_START)
     const responseJson = await responseFromRefresh.json()
     return responseJson
   } catch (err) {

@@ -5,7 +5,7 @@ import { SigninForm } from './SigninForm'
 // import { GoogleButton } from '../shared'
 import React, { useState } from 'react'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { signIn } from '@/services/auth/authService'
+import { googleAuthStart, signIn } from '@/services/auth/authService'
 import { showErrorAlert } from '@/utils/helper'
 import { AppDispatch } from '@/store'
 import { useDispatch } from 'react-redux'
@@ -43,6 +43,7 @@ export default function Signin({ toggleForm }: any) {
     setErrors(errors)
     return !Object?.keys(errors)?.length
   }
+
   async function handleLoginSubmit(e) {
     e.preventDefault()
     
@@ -75,6 +76,17 @@ export default function Signin({ toggleForm }: any) {
     }
   }
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const response = await googleAuthStart()
+      if (response?.success) {
+        window.open(response?.data, '_blank')
+      }
+    } catch (err) {
+      console.log('err', err)
+    }
+  }
+
   return (
     <div className="container mx-auto flex h-[550px] w-[440px] flex-col justify-center space-y-6">
       <div className="relative flex flex-col justify-center overflow-hidden">
@@ -83,7 +95,10 @@ export default function Signin({ toggleForm }: any) {
             Sign in
           </h1>
           <div>
-            <GoogleButton title="Sign In" />
+            <GoogleButton
+              title="Sign In"
+              callbackFunction={handleGoogleSignIn}
+            />
           </div>
           <p className=" my-3 text-center dark:text-white">OR</p>
           <SigninForm
