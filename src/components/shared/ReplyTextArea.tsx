@@ -1,19 +1,19 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MoreHorizontal } from 'lucide-react'
 import TextArea from '../ui/TextArea'
 
-function ReplyTextArea({handleTextArea}:any) {
+function ReplyTextArea({ handleTextArea, isLoading }: any) {
     const [showTextArea, setShowTextArea] = useState(false)
-    
+
     const toggleTextArea = () => {
         setShowTextArea((pre) => !pre)
     }
 
-    const handleText =(value:any)=>{
+    const handleText = (value: any) => {
         handleTextArea(value)
     }
-    
+
     return (
         <div className='flex flex-col'>
             <div className="flex pr-5 pb-5 justify-between">
@@ -28,7 +28,7 @@ function ReplyTextArea({handleTextArea}:any) {
             </div>
 
             <div className={`${!showTextArea && 'hidden'} `}>
-                <TextArea  handleTextArea={handleText}/>
+                <TextArea handleTextArea={handleText} isLoading={isLoading} />
             </div>
         </div>
     )
