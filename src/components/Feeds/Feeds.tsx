@@ -13,20 +13,18 @@ const Feeds = async ({ channelSlug }: FeedProps) => {
   if (channelSlug) {
     console.log('first 14', channelSlug)
     const getChannelId = getChannelIdByChannelName(channelSlug, channels)
-    console.log(getChannelId)
     posts = await getPostsByChannelId({
       id: getChannelId,
       loadReactions: true,
       loadUser: true,
     })
   } else {
-    console.log('first 21')
     posts = await getAllPosts({ loadReactions: true, loadUser: true })
   }
   posts = posts?.posts
   return (
     <div className="min-h-[70vh]">
-      {!!posts.length &&
+      {!!posts?.length &&
         posts?.map((post: any) => {
           return <Card key={post.title} post={post} />
         })}

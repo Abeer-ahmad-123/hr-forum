@@ -10,8 +10,19 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'avatar.iran.liara.run',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'demos.creative-tim.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.freepik.com',
+      },
     ],
-    domains: ['demos.creative-tim.com']
   },
 }
 

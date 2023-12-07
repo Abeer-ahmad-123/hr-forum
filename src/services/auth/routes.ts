@@ -1,10 +1,15 @@
-const AUTH_WITH_EMAIL = '/api/v1/auth/login'
-const AUTH_REGISTER = '/api/v1/auth/register'
-const AUTH_LOGOUT = '/api/v1/auth/logout'
-const AUTH_UPDATE_PASSWORD = '/api/v1/auth/updatePassword'
-const AUTH_REFRESH_TOKEN = '/api/v1/auth/refreshToken'
-const AUTH_GET_USER_DETAILS = '/api/v1/auth/getUserDetails'
-const AUTH_UPDATE_USER_DETAILS = '/api/v1/auth/updateUserDetails'
+import { API_BASE_URL } from '..'
+
+const AUTH_WITH_EMAIL = API_BASE_URL + '/auth/login'
+const AUTH_REGISTER = API_BASE_URL + '/auth/register'
+const AUTH_LOGOUT = API_BASE_URL + '/auth/logout'
+const AUTH_UPDATE_PASSWORD = API_BASE_URL + '/auth/updatePassword'
+const AUTH_REFRESH_TOKEN = API_BASE_URL + '/auth/refreshToken'
+const AUTH_GET_USER_DETAILS = API_BASE_URL + '/auth/getUserDetails'
+const AUTH_UPDATE_USER_DETAILS = API_BASE_URL + '/auth/updateUserDetails'
+const GOOGLE_AUTH_START = API_BASE_URL + '/auth/google/start-auth'
+const GOOGLE_REGISTER = API_BASE_URL + '/auth/google/register'
+const GOOGLE_CALLBACK = API_BASE_URL + '/auth/google/callback'
 export {
   AUTH_WITH_EMAIL,
   AUTH_REGISTER,
@@ -13,4 +18,7 @@ export {
   AUTH_REFRESH_TOKEN,
   AUTH_GET_USER_DETAILS,
   AUTH_UPDATE_USER_DETAILS,
+  GOOGLE_AUTH_START,
+  GOOGLE_REGISTER,
+  GOOGLE_CALLBACK,
 }

@@ -1,12 +1,12 @@
-const API_BASE_URL = process.env.API_BASE_URL
+import { API_BASE_URL } from '..'
 
-const GET_POSTS_BY_CHANNELID = API_BASE_URL + 'channels/channelId/posts'
-const GET_All_POSTS = API_BASE_URL + 'posts'
-const ADD_POST = API_BASE_URL + 'channels/channelId/posts'
-const EDIT_POST = API_BASE_URL + 'posts/postId'
-const GET_POST_BY_ID = API_BASE_URL + 'posts/postId'
-const GET_POST_COMMENT = API_BASE_URL + 'posts/postId/comments'
-const CREATE_POST_IN_CHANNEL = API_BASE_URL + 'channels/postId/posts'
+const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
+const GET_All_POSTS = API_BASE_URL + '/posts'
+const ADD_POST = API_BASE_URL + '/channels/channelId/posts'
+const EDIT_POST = API_BASE_URL + '/posts/postId'
+const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
+const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
+const CREATE_POST_IN_CHANNEL = API_BASE_URL + '/channels/postId/posts'
 
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
@@ -22,6 +22,7 @@ export async function getAllPosts({
   pageSize = 10,
 }: GET_ALL_POSTS_PROPS = {}) {
   try {
+    console.log('GET_All_POSTS 24', GET_All_POSTS)
     let res: any = await fetch(
       `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
     )
