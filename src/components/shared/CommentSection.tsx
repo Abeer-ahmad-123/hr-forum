@@ -1,15 +1,16 @@
 import UpdownButton from '../ui/updownButton'
-import ReplyTextArea from './ReplyTextArea'
-
-import { Send } from 'lucide-react'
+// import ReplyTextArea from './ReplyTextArea'
+import CommentOrReply from '@/components/CommentOrReply'
+// import { Send } from 'lucide-react'
 import Reply from './Reply'
-import TextArea from '../ui/TextArea'
+// import TextArea from '../ui/TextArea'
 function CommentSection({ comment }: any) {
   const convertDate = (date: string) => {
     const providedDateTime = new Date(date)
     const currentDateTime = new Date()
     const timeDifference =
       currentDateTime.getTime() - providedDateTime.getTime()
+    
 
     // Convert the time difference to days, hours, and minutes
     const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
@@ -34,7 +35,6 @@ function CommentSection({ comment }: any) {
 
   return (
     <div>
-      {/* <TextArea /> */}
       <div className="mt-4 w-full rounded-lg bg-slate-100 dark:bg-slate-800">
         <div className="flex pt-5">
           <div className="flex  flex-col items-center">
@@ -62,20 +62,8 @@ function CommentSection({ comment }: any) {
             <div className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white">
               {comment.content}
             </div>
-
-            {/* <div className="flex  pr-5 justify-between">
-                    <div className='flex space-x-5 '>
-                        <button className="text-gray-400 text-sm ">Reply</button>
-                        <button className="text-gray-400  text-sm">Share</button>
-                        <button className="text-gray-400 text-sm">Report</button>
-                    </div>
-
-                    <MoreHorizontal
-                        className='text-gray-400'
-                    />
-                </div> */}
-
-            <ReplyTextArea />
+            
+            <CommentOrReply reply={true} commentId={comment.id}  />
           </div>
         </div>
 

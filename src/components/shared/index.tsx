@@ -1,4 +1,4 @@
-// import ToggleButton from './ToggleButton'
+import ToggleButton from './ToggleButton'
 import PlusButton from './PlusButton'
 // import Modal from './Modal'
 import ChannelPill from './ChannelPill'
@@ -6,7 +6,7 @@ import ChannelPill from './ChannelPill'
 // import LoadingIndicator from './LoadingIndicator'
 import ErrorText from './ErrorText'
 import InputField from './InputField'
-// import Notification from './Notification'
+import Notification from './Notification'
 import ReturnIconButton from './ReturnIconButton'
 // import RingImg from './RingImg'
 import Card from './Card'
@@ -16,7 +16,7 @@ import Chip from './Chip'
 // import Bookmark from './Bookmark'
 
 export {
-  // ToggleButton,
+  ToggleButton,
   PlusButton,
   // Modal,
   ChannelPill,
@@ -24,7 +24,7 @@ export {
   // LoadingIndicator,
   ErrorText,
   InputField,
-  // Notification,
+  Notification,
   ReturnIconButton,
   // RingImg,
   Card,

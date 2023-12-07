@@ -24,8 +24,6 @@ function Reply({ reply }) {
         }
     };
 
-
-
     return (
         <div className='rounded-lg mt-4 ml-16'>
             <div className="flex pt-5">
@@ -50,7 +48,7 @@ function Reply({ reply }) {
                         {reply.content}
                     </div>
 
-                    <ReplyTextArea />
+
 
                 </div>
             </div>

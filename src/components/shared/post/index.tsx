@@ -1,20 +1,19 @@
-import React from 'react'
 import UpdownButton from '../../ui/updownButton'
 import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import picture2 from '@/assets/avatars/img2.jpeg'
 import CommentSection from '../CommentSection'
-import { getPostByPostId } from '@/services/posts'
-import { getPostsComments } from '@/services/posts'
-import { json } from 'node:stream/consumers'
-import TextArea from '@/components/ui/TextArea'
-// import { comment } from 'postcss';
+import { getPostByPostId, postComment, getPostsComments } from '@/services/posts'
+// import TextArea from '@/components/ui/TextArea'
+import CommentOrReply from '@/components/CommentOrReply'
 
 async function Post({ isDialogPost = false, postId }: any) {
   const { post } = await getPostByPostId(postId, {})
   const { comments } = await getPostsComments(postId, {})
 
-  
+  const handleTextArea = (value:any) => {
+    console.log(value)
+  }
 
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
@@ -64,7 +63,8 @@ async function Post({ isDialogPost = false, postId }: any) {
           <div className="mb-9 w-full border-b border-gray-500 pr-5"></div>
           <div className="w-full">
 
-            <TextArea />
+          <CommentOrReply />
+
             {comments.length !== 0 &&
               comments.map((comment) => {
                 return <CommentSection key={comment.id} comment={comment} />

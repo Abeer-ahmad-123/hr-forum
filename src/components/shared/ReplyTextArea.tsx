@@ -1,13 +1,17 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { MoreHorizontal } from 'lucide-react'
 import TextArea from '../ui/TextArea'
 
-function ReplyTextArea() {
+function ReplyTextArea({ handleTextArea, isLoading }: any) {
     const [showTextArea, setShowTextArea] = useState(false)
 
     const toggleTextArea = () => {
         setShowTextArea((pre) => !pre)
+    }
+
+    const handleText = (value: any) => {
+        handleTextArea(value)
     }
 
     return (
@@ -24,7 +28,7 @@ function ReplyTextArea() {
             </div>
 
             <div className={`${!showTextArea && 'hidden'} `}>
-                <TextArea />
+                <TextArea handleTextArea={handleText} isLoading={isLoading} />
             </div>
         </div>
     )

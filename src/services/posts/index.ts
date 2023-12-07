@@ -129,20 +129,67 @@ export async function postCreatePostInChannel({ channelID, body }: any) {
   }
 }
 
-export async function postComment({ postId, body }: any) {
+export async function postComment( {postId, content}: any ) {
   try {
-    let res = await fetch(
-      GET_POST_COMMENT.replace('postId', postId),
+    
+    const requestBody = JSON.stringify(content);
+    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
+    const token =  localStorage?.getItem('token')
+    console.log("Token ",token)
 
+    console.log("TOKEN", typeof token)
+    console.log("POST ID ", postId)
+    console.log("BODY",content)
+
+      const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/posts/${postId}/comments`,
       {
-        body,
         method: 'POST',
+        headers,
+        body: requestBody,
       },
     )
     const response = await res.json()
-    console.log(response)
-    const { data } = response
-    return data
+        return response
+  } catch (err) {
+    throw err
+  }
+}
+
+
+
+export async function postCommentReply( {commentId, content}: any ) {
+  try {
+    
+    const requestBody = JSON.stringify(content);
+    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
+    const token =  localStorage?.getItem('token')
+    console.log("Token ",token)
+
+    console.log("TOKEN", typeof token)
+    console.log("POST ID ", commentId)
+    console.log("BODY",content)
+
+      const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    };
+
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/comments/${commentId}/replies`,
+      {
+        method: 'POST',
+        headers,
+        body: requestBody,
+      },
+    )
+    const response = await res.json()
+        return response
   } catch (err) {
     throw err
   }
