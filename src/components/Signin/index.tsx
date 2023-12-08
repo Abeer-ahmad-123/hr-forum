@@ -1,27 +1,27 @@
-// @ts-nocheck
 'use client'
 
 import { SigninForm } from './SigninForm'
-// import { GoogleButton } from '../shared'
 import React, { useState } from 'react'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { googleAuthStart, signIn } from '@/services/auth/authService'
-import { showErrorAlert } from '@/utils/helper'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { AppDispatch } from '@/store'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
-// import Google from '@/assets/icons/google'
 import GoogleButton from '../shared/GoogleButton/'
 
-export default function Signin({ toggleForm }: any) {
+export default function Signin({
+  toggleForm,
+  handleDialogClose = () => {},
+}: any) {
   const dispatch = useDispatch<AppDispatch>()
 
   const initialValues = {
     email: '',
     password: '',
   }
-  const [formValues, setFormValues] = useState(initialValues)
-  const [errors, setErrors] = useState(initialValues)
+  const [formValues, setFormValues] = useState<any>(initialValues)
+  const [errors, setErrors] = useState<any>(initialValues)
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
@@ -46,7 +46,7 @@ export default function Signin({ toggleForm }: any) {
 
   async function handleLoginSubmit(e) {
     e.preventDefault()
-    
+
     try {
       const { email, password } = formValues
       let isFieldsValid = handleValidations()
@@ -60,19 +60,29 @@ export default function Signin({ toggleForm }: any) {
           password,
         }),
       )
-      if (result?.token) {
-        localStorage.setItem('token', result?.token)
-        localStorage.setItem('userData', JSON.stringify(result?.userData))
-        dispatch(setUser(result))
-      }
-      if (result.error) {
+      console.log('result', result)
+      if (
+        !result?.success &&
+        result?.status === 401 &&
+        result?.status === 404
+      ) {
         showErrorAlert('Sign-in failed. Please check your credentials.')
-      } else {
-        // onClose()
+        setErrors({
+          ...errors,
+          password: 'Unauthenticated! email or password not matched.',
+        })
+        return
+      }
+      if (result?.data?.token) {
+        localStorage.setItem('token', result?.data?.token)
+        localStorage.setItem('userData', JSON.stringify(result?.data?.userData))
+        dispatch(setUser(result?.data))
+        showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
+        handleDialogClose()
       }
     } catch (err) {
       console.log('err', err)
-      showErrorAlert('unauthenticated email or password not matched.')
+      showErrorAlert('Something went wrong while signing in.')
     }
   }
 

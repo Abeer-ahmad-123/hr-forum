@@ -19,10 +19,8 @@ export async function signIn(body: any) {
       },
     })
     const responseJson = await responseFromAuth.json()
-    if (responseJson?.success) {
-      return responseJson.data
-    }
-    return 'Got nothing'
+
+    return { ...responseJson, status: responseFromAuth?.status }
   } catch (err) {
     throw err
   }

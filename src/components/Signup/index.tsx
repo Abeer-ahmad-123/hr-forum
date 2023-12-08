@@ -8,7 +8,10 @@ import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert } from '@/utils/helper'
 
-export default function Signup({ toggleForm }: any) {
+export default function Signup({
+  toggleForm,
+  handleDialogClose = () => {},
+}: any) {
   const dispatch = useDispatch()
   const initialValues: any = {
     name: '',
@@ -55,6 +58,7 @@ export default function Signup({ toggleForm }: any) {
         localStorage.setItem('token', result?.token)
         localStorage.setItem('userData', JSON.stringify(result?.userData))
         dispatch(setUser(result))
+        handleDialogClose()
       } else {
         showErrorAlert('unauthenticated email or password not matched.')
       }

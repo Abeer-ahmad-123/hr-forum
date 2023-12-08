@@ -8,15 +8,26 @@ import {
 } from '@/components/ui/Dialog/simpleDialog'
 import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
+import { DialogClose } from '../ui/Dialog/interceptDialog'
 
 export default function SigninNavButton() {
   const [showSignUpForm, setShowSignUpForm] = React.useState(false)
+  const [openDialog, setOpenDialog] = React.useState(false)
   const toggleForm = () => {
     setShowSignUpForm((current) => !current)
   }
+
+  const handleOpenDialog = () => {
+    console.log('openDialog', openDialog)
+    setOpenDialog(true)
+  }
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
+  console.log('openDialog', openDialog)
   return (
     <>
-      <Dialog>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogTrigger asChild>
           <button
             className={`flex w-[50px] cursor-pointer items-center gap-2 rounded-full bg-accent px-3 py-2 text-white  hover:bg-accent sm:w-[120px]`}>
@@ -26,9 +37,15 @@ export default function SigninNavButton() {
         </DialogTrigger>
         <DialogContent className="bg-white sm:max-w-[500px]">
           {showSignUpForm ? (
-            <Signup toggleForm={toggleForm} />
+            <Signup
+              toggleForm={toggleForm}
+              handleDialogClose={handleCloseDialog}
+            />
           ) : (
-            <Signin toggleForm={toggleForm} />
+            <Signin
+              toggleForm={toggleForm}
+              handleDialogClose={handleCloseDialog}
+            />
           )}
         </DialogContent>
       </Dialog>
