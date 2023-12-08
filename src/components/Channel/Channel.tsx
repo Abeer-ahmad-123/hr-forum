@@ -1,5 +1,5 @@
 import { channels } from '@/utils/data'
-import { Notification, ToggleButton } from '../shared'
+// import { Notification, ToggleButton } from '../shared'
 
 const Channel = () => {
   const styles = (key: any) => {
@@ -12,7 +12,7 @@ const Channel = () => {
     <div className="mx-auto w-full max-w-5xl bg-white dark:bg-dark-primary">
       <h1>Your Channels</h1>
       <div className="absolute right-4 top-4 z-50">
-        <Notification />
+        {/* <Notification /> */}
       </div>
       <ul className="flex flex-col">
         {channels.map((channel: any) => (
@@ -45,7 +45,7 @@ const Channel = () => {
               {/* :channel STATUS & BUTTON */}
               <div className="flex flex-col items-end justify-between pr-4">
                 {/* ::channel Online Status */}
-                <ToggleButton />
+                {/* <ToggleButton /> */}
               </div>
             </div>
           </li>
