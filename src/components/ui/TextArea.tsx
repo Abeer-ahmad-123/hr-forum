@@ -52,7 +52,7 @@ function TextArea({ handleTextArea, isLoading }: any) {
   console.log(isLoading)
   useEffect(() => {
     setStatus()
-    
+
   }, [isLoading])
 
   return (
@@ -83,7 +83,6 @@ function TextArea({ handleTextArea, isLoading }: any) {
         <SignInDialog />
       </Dialog>
       }
-
     </>
   )
 }
