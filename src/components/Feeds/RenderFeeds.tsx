@@ -1,6 +1,8 @@
 import PostBar from '@/components/shared/new-post/NewPostModal'
 import Feeds from '@/components/Feeds/Feeds'
 import { toPascalCase } from '@/utils/common'
+import { Suspense } from 'react'
+import RenderFeedLoading from '../Loading/renderFeedLoading'
 
 function RenderFeeds({ channelSlug = null }) {
   return (
@@ -14,7 +16,9 @@ function RenderFeeds({ channelSlug = null }) {
           {!!channelSlug &&
             toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
         </p>
-        <Feeds channelSlug={channelSlug} />
+        <Suspense fallback={<RenderFeedLoading />}>
+          <Feeds channelSlug={channelSlug} />
+        </Suspense>
       </div>
     </div>
   )
