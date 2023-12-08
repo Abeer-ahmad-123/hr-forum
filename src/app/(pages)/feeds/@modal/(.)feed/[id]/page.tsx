@@ -4,10 +4,9 @@ import {
   DialogDescription,
   DialogHeader,
 } from '@/components/ui/Dialog/interceptDialog'
-
+import PostSkelton from '@/components/shared/post/PostSkelton'
 import Post from '@/components/shared/post'
 import { Suspense } from 'react'
-import Loading from './loading'
 
 async function SingleFeed({ params }: any) {
   const { id } = params
@@ -18,7 +17,7 @@ async function SingleFeed({ params }: any) {
         <DialogHeader></DialogHeader>
 
         <DialogDescription>
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<PostSkelton />}>
             <Post isDialogPost={true} postId={id} />
           </Suspense>
         </DialogDescription>

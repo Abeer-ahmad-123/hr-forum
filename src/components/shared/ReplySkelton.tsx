@@ -1,9 +1,6 @@
-import UpdownButton from '../ui/updownButton'
-import Image from 'next/image'
-import picture from '@/assets/avatars/img.jpeg'
-import { MoreHorizontal } from 'lucide-react'
 import Skelton from '@/components/ui/skelton'
 import UpdownButtonSkelton from './UpDownButtonSkelton'
+
 function ReplySkelton() {
   return (
     <div className="ml-16 mt-4 rounded-lg">

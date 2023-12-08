@@ -1,7 +1,6 @@
 import Skelton from '@/components/ui/skelton'
-import React from 'react'
 
-const Loading = () => {
+const RenderFeedLoading = () => {
   return (
     <div className="">
       <div className="mx-auto max-w-screen-md">
@@ -19,4 +18,4 @@ const Loading = () => {
   )
 }
 
-export default Loading
+export default RenderFeedLoading
