@@ -7,7 +7,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import { getChannels } from '@/services/channel/channel'
 import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
+import { setToken } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
+import { getRefreshToken } from '@/services/auth/authService'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
@@ -24,8 +26,14 @@ const LayoutWrapper = ({ children }: any) => {
     }
   }, [])
 
+  const refreshInterval = setInterval(async () => {
+    const refreshToken = await getRefreshToken()
+    dispatch(setToken({ token: refreshToken }))
+  }, 300000)
+
   useEffect(() => {
     getChannelsLocal()
+    return () => clearInterval(refreshInterval)
   }, [])
 
   return (

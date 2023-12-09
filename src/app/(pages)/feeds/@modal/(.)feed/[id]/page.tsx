@@ -17,7 +17,7 @@ async function SingleFeed({ params }: any) {
         <DialogHeader></DialogHeader>
 
         <DialogDescription>
-          <Suspense fallback={<PostSkelton />}>
+          <Suspense fallback={<PostSkelton isDialogPost={true} />}>
             <Post isDialogPost={true} postId={id} />
           </Suspense>
         </DialogDescription>

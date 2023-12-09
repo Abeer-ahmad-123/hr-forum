@@ -18,10 +18,14 @@ export const loggedInUserSlice = createSlice({
       localStorage.removeItem('token')
       localStorage.removeItem('userData')
     },
+    setToken: (state, action) => {
+      const { token } = action.payload
+      state.token = token
+    },
   },
 })
 
-export const { setUser, clearUser } = loggedInUserSlice.actions
+export const { setUser, clearUser, setToken } = loggedInUserSlice.actions
 
 export default loggedInUserSlice.reducer
 
@@ -31,24 +35,25 @@ function setUserandTokenLocalStorage(token: any, userData: any) {
 }
 
 function getInitialStateFromLocalStorage() {
-  let token = null;
-  let userData = EmptyInitialState();
+  let token = null
+  let userData = EmptyInitialState()
 
-  if(typeof localStorage !== 'undefined') {
-    const tokenFromStorage = localStorage.getItem('token');
-    const userDataString = localStorage.getItem('userData');
-    const userDataFromStorage = !userDataString ? JSON.parse(userDataString) : null;
+  if (typeof localStorage !== 'undefined') {
+    const tokenFromStorage = localStorage.getItem('token')
+    const userDataString = localStorage.getItem('userData')
+    const userDataFromStorage = !userDataString
+      ? JSON.parse(userDataString)
+      : null
 
-    token = tokenFromStorage || token;
-    userData = userDataFromStorage || userData;
+    token = tokenFromStorage || token
+    userData = userDataFromStorage || userData
   }
 
   return {
     token: token,
     userData: userData,
-  };
+  }
 }
-
 
 function EmptyInitialState() {
   return {

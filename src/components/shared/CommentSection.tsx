@@ -5,14 +5,12 @@ import UpdownButton from '../ui/updownButton'
 import CommentOrReply from '@/components/CommentOrReply'
 import Reply from './Reply'
 import Image from 'next/image'
-function CommentSection({ comment, updateComments }: any) {
-  console.log("In commentsection", typeof updateComments)
+function CommentSection({ comment, refetchComments }: any) {
   const convertDate = (date: string) => {
     const providedDateTime = new Date(date)
     const currentDateTime = new Date()
     const timeDifference =
       currentDateTime.getTime() - providedDateTime.getTime()
-
 
     // Convert the time difference to days, hours, and minutes
     const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
@@ -35,7 +33,6 @@ function CommentSection({ comment, updateComments }: any) {
     }
   }
 
-
   return (
     <div>
       <div className="mt-4 w-full rounded-lg bg-slate-100 dark:bg-slate-800">
@@ -43,7 +40,7 @@ function CommentSection({ comment, updateComments }: any) {
           <div className="flex  flex-col items-center">
             <div className="">
               <img
-                alt='avatar'
+                alt="avatar"
                 src={comment['author_details'].profile_picture_url}
                 className="h-8 w-8 rounded-full"
               />
@@ -51,7 +48,6 @@ function CommentSection({ comment, updateComments }: any) {
             <div className="pl-5">
               {/* To be implemented */}
               <UpdownButton count={comment['reaction_summary']['like_count']} />
-
             </div>
           </div>
           <div className="flex w-full flex-col">
@@ -68,7 +64,11 @@ function CommentSection({ comment, updateComments }: any) {
               {comment.content}
             </div>
 
-            <CommentOrReply reply={true} commentId={comment.id} updateComments={updateComments} />
+            <CommentOrReply
+              reply={true}
+              commentId={comment.id}
+              refetchComments={refetchComments}
+            />
           </div>
         </div>
 

@@ -4,7 +4,6 @@ const RenderFeedLoading = () => {
   return (
     <div className="">
       <div className="mx-auto max-w-screen-md">
-        <Skelton className="my-6 h-[48px] w-full rounded-lg" />
         {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
           return (
             <Skelton

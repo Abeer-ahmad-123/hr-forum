@@ -72,8 +72,7 @@ export async function getRefreshToken() {
     })
     const responseJson = await responseFromRefresh.json()
     localStorage.setItem('token', responseJson?.data?.token)
-
-    return responseJson
+    return responseJson?.data?.token
   } catch (err) {
     throw err
   }

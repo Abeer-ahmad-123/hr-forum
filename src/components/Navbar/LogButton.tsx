@@ -20,7 +20,9 @@ const LogButton = () => {
     }
   }, [])
 
-  return <>{!!reduxToken ? <LoggedIn /> : <SigninNavButton />}</>
+  return (
+    <>{window ? !!reduxToken ? <LoggedIn /> : <SigninNavButton /> : <></>}</>
+  )
 }
 
 export default LogButton

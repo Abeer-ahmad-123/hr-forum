@@ -18,13 +18,11 @@ export default function SigninNavButton() {
   }
 
   const handleOpenDialog = () => {
-    console.log('openDialog', openDialog)
     setOpenDialog(true)
   }
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
-  console.log('openDialog', openDialog)
   return (
     <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>

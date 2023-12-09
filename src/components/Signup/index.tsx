@@ -6,7 +6,7 @@ import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { signUp, signIn } from '@/services/auth/authService'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
-import { showErrorAlert } from '@/utils/helper'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 
 export default function Signup({
   toggleForm,
@@ -54,11 +54,12 @@ export default function Signup({
           password: formValues.password,
         }),
       )
-      if (result?.token) {
-        localStorage.setItem('token', result?.token)
-        localStorage.setItem('userData', JSON.stringify(result?.userData))
-        dispatch(setUser(result))
-        handleDialogClose()
+      if (result?.success) {
+        // localStorage.setItem('token', result?.token)
+        // localStorage.setItem('userData', JSON.stringify(result?.userData))
+        // dispatch(setUser(result))
+        // handleDialogClose()
+        showSuccessAlert('Successfully Signup. Please login...')
       } else {
         showErrorAlert('unauthenticated email or password not matched.')
       }
