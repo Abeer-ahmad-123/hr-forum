@@ -25,7 +25,7 @@ describe("DropDownContent component", () => {
     );
   });
   // Test that the Logo component renders without crashing
-  it("renders without crashing", () => {});
+  it("renders without crashing", () => { });
 
   it("should not have duplicate same in sidebar channels", () => {
     const codes = sidebarChannels.map((channel) => channel?.name);

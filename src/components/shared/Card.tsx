@@ -4,7 +4,8 @@ import ChannelPill from '@/components/shared/ChannelPill'
 import Image from 'next/image'
 import Link from 'next/link'
 import PostActionBar from './PostActionBar'
-// import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+
 
 const Card = ({ post, channels }: any) => {
   const {
@@ -17,20 +18,25 @@ const Card = ({ post, channels }: any) => {
     reaction_summary,
   } = post
 
-  // const router = useRouter()
+
+  const pathName = usePathname()
+  const router = useRouter()
+
   const totalCount = Object.values(reaction_summary).reduce(
     (acc: any, count: any) => acc + count,
     0,
   )
-  // const handleCLick = () => {
-  //   router.push(`/feeds/feed/${id}`)
-  // }
+
   return (
     <>
       <div
-        // onClick={handleCLick}
+        // onClick={handleClick}
         className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
-        <Link href={`/feeds/feed/${id}`}>
+        <Link
+          // href={href}
+          href={pathName.includes('/channels/') ? `feeds/feed/${id}` : ` /feeds/feed/${id}`}
+        >
+
           <div className="px-10 py-4">
             <div className="mb-8 mt-3 text-left text-4xl font-semibold dark:text-white">
               {title}
@@ -80,7 +86,7 @@ const Card = ({ post, channels }: any) => {
         <div className="py-2">
           <PostActionBar linkToFeed={`/feeds/feed/${id}`} />
         </div>
-      </div>
+      </div >
     </>
   )
 }

@@ -106,7 +106,7 @@ const DropDownContent = ({
           onClick={handleLi}
           data-testid="side-channels">
           <Link
-            href={`/channels/${item?.slug}`}
+            href={`${'/channels/' + item?.slug}`}
             className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ${sidebarLinkStyle(
               `/channels/${item?.name}`,
             )}`}>
@@ -132,7 +132,7 @@ const DropDownContent = ({
           </Link>
         </li>
       ))}
-      <Link href="/channels" data-testid="join-new-channel">
+      <Link href="" data-testid="join-new-channel">
         <li onClick={handleLi} className="max-md:w-[200px] lg:w-[258px]">
           <div
             className="flex h-12 items-center rounded-lg bg-accent text-white"

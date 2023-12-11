@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import CircularProgress from '../ui/circularProgress'
 
+
 // Feed is a functional component that takes data and displays it as cards
 interface FeedProps {
   channelSlug?: string
@@ -52,6 +53,8 @@ const Feeds = ({
       getPosts()
     }
   }, [inView])
+
+
 
   return (
     <div className="min-h-[70vh]">
