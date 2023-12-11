@@ -12,7 +12,7 @@ import {
   DialogHeader,
 } from '@/components/ui/Dialog/interceptDialog'
 
-function TextArea({ submitCallback, isLoading, setIsLoading }: any) {
+function TextArea({ submitCallback, isLoading, setIsLoading, className, btnClass }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
   const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
@@ -48,7 +48,7 @@ function TextArea({ submitCallback, isLoading, setIsLoading }: any) {
 
   return (
     <>
-      <div className="mb-2 flex">
+      <div className={`mb-2 flex ${className}`}>
         <textarea
           rows={1}
           style={{
@@ -63,21 +63,21 @@ function TextArea({ submitCallback, isLoading, setIsLoading }: any) {
 
         <button
           onClick={handleClick}
-          className={`mr-[20px] rounded-lg ${
-            isLoading['loading'] || textAreaValue === ''
-              ? 'border border-gray-400 bg-[#CCCCCC]'
-              : 'bg-accent'
-          }  px-3 text-white`}
+          className={`mr-[20px] ${btnClass} rounded-lg ${isLoading['loading'] || textAreaValue === ''
+            ? 'border border-gray-400 bg-[#CCCCCC]'
+            : 'bg-accent'
+            }  px-3 text-white`}
           disabled={isLoading['loading'] || textAreaValue === ''}>
           <Send size={20} />{' '}
         </button>
-      </div>
+      </div >
 
       {!reduxToken && (
         <Dialog open={open} onOpenChange={handleClosedialog}>
           <SignInDialog />
         </Dialog>
-      )}
+      )
+      }
     </>
   )
 }
