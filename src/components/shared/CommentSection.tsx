@@ -41,19 +41,19 @@ function CommentSection({ comment, refetchComments }: any) {
             <div className="">
               <img
                 alt="avatar"
-                src={comment['author_details'].profile_picture_url}
+                src={comment['author_details']?.profile_picture_url}
                 className="h-8 w-8 rounded-full"
               />
             </div>
             <div className="pl-5">
               {/* To be implemented */}
-              <UpdownButton count={comment['reaction_summary']['like_count']} />
+              <UpdownButton count={comment?.reaction_summary?.like_count} />
             </div>
           </div>
           <div className="flex w-full flex-col">
             <div className="flex w-full justify-between">
               <div className="text-accent">
-                {comment['author_details'].name}
+                {comment['author_details']?.name}
               </div>
               <div className="pr-5 italic text-gray-500">
                 {convertDate(comment.created_at)}
@@ -71,6 +71,7 @@ function CommentSection({ comment, refetchComments }: any) {
             />
           </div>
         </div>
+
 
         {comment?.replies?.length !== 0 &&
           comment?.replies?.map((reply: any) => {

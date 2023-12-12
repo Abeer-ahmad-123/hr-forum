@@ -41,6 +41,8 @@ const Feeds = ({
       })
       _data = data
     }
+    
+    console.log(posts)
 
     setPage(page + 1)
     noMorePosts.current =

@@ -3,12 +3,15 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { getPostsComments } from '@/services/comments'
 import CommentSection from '../CommentSection'
 import CommentOrReply from '@/components/CommentOrReply'
+
 function Comments({ postId, initialComments, pagination }: any) {
   const [comments, setComments] = useState([...initialComments])
   const [commentPage, setCommentPage] = useState(2)
   const nothingToLoadMore = useRef(
-    pagination?.CurrentPage !== pagination?.TotalPages,
+    (pagination?.TotalPages !== 0) && (pagination?.CurrentPage !== pagination?.TotalPages)
   )
+  console.log(nothingToLoadMore.current)
+  console.log(pagination)
   const refetchComments = async () => {
     // Re-fetch comments
     const commentsResponse = await getPostsComments(postId, {
@@ -31,6 +34,7 @@ function Comments({ postId, initialComments, pagination }: any) {
         <div key={Math.random()}>
           {comments?.length !== 0 &&
             comments?.map((comment: any) => {
+
               return (
                 <CommentSection
                   key={comment.id}
@@ -40,12 +44,14 @@ function Comments({ postId, initialComments, pagination }: any) {
               )
             })}
         </div>
+
         {nothingToLoadMore?.current && (
           <button
             className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
             onClick={refetchComments}>
             Load More
           </button>
+
         )}
       </Suspense>
     </>

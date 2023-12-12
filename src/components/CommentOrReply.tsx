@@ -10,42 +10,50 @@ import { useSelector } from 'react-redux'
 function CommentOrReply({
   reply = false,
   commentId = null,
-  refetchComments,
-  setComments = () => {},
+  refetchComments = () => { },
+  setComments = () => { },
+  className = '',
+  btnClass = '',
+  Id = '',
 }: any) {
   const params = useParams()
-  const postId = params['id']
+  const postId = params['id'] || Id
   const token = useSelector((state) => state?.loggedInUser?.token)
   const [isLoading, setIsLoading] = useState({
     loading: false,
     status: 'null',
   })
 
+
+
   const handleSubmit = async (value: any) => {
     try {
       setIsLoading({ ...isLoading, loading: true })
       const result = reply
         ? await postCommentReply({
-            commentId,
-            content: { content: value },
-            token,
-          })
+          commentId,
+          content: { content: value },
+          token,
+        })
         : await postComment({ postId, content: { content: value }, token })
 
       if (result?.success) {
-        refetchComments()
+        // refetchComments()
         //  **** uncomment the after update from Behzad ****
-        // if (!commentId) {
-        //   setComments((prevComments) => [result?.data, ...prevComments])
-        // } else {
-        //   refetchComments()
-        // }
+
+        console.log(result)
+        if (!commentId) {
+          setComments((prevComments) => [result?.data, ...prevComments])
+        } else {
+          refetchComments()
+        }
       }
 
       const status = result?.success ? 'success' : 'error'
       setIsLoading({ ...isLoading, loading: false, status: status })
     } catch (err) {
-      console.log(err)
+      console.log("HERE IS ERROR", err)
+      showErrorAlert(err)
       setIsLoading({ ...isLoading, loading: false, status: 'error' })
     }
   }
@@ -63,6 +71,8 @@ function CommentOrReply({
           submitCallback={handleSubmit}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
+          className={className}
+          btnClass={btnClass}
         />
       )}
     </div>

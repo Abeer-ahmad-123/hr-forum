@@ -7,6 +7,7 @@ import { getPostsComments } from '@/services/comments'
 
 async function Post({ isDialogPost = false, postId }: any) {
   const { post } = await getPostByPostId(postId, {})
+  console.log(post)
   const { comments, pagination } = await getPostsComments(postId, {})
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
