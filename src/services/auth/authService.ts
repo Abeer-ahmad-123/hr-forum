@@ -69,6 +69,7 @@ export async function getRefreshToken() {
   try {
     const responseFromRefresh = await fetch(AUTH_REFRESH_TOKEN, {
       method: 'POST',
+      credentials: 'include',
     })
     const responseJson = await responseFromRefresh.json()
     localStorage.setItem('token', responseJson?.data?.token)

@@ -6,16 +6,22 @@ import { IoShareSocial } from 'react-icons/io5'
 import Link from 'next/link'
 import { useState } from 'react'
 import TextArea from '../ui/TextArea'
+import CommentOrReply from '../CommentOrReply'
+import CommentSection from './CommentSection'
 
 interface PostActionBarProps {
-  linkToFeed: string
+  linkToFeed: string,
+  postId: string
 }
-const PostActionBar = ({ linkToFeed }: PostActionBarProps) => {
+const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
 
   const [showCommentArea, setShowCommentArea] = useState(false)
+  const [comment, setComment] = useState([])
   const toggleCommentArea = () => {
     setShowCommentArea((pre) => !pre)
   }
+
+  console.log(comment)
 
 
   return (
@@ -59,13 +65,25 @@ const PostActionBar = ({ linkToFeed }: PostActionBarProps) => {
       </div>
 
       <div className={`${!showCommentArea && 'hidden'} `}>
-        <TextArea
+        {/* <TextArea
           submitCallback={() => { }}
           setIsLoading={() => { }}
           isLoading={() => { }}
           className="px-8 m-2"
           btnClass='mr-[0px]'
+        /> */}
+
+
+        <CommentOrReply
+          className="px-8 m-2"
+          btnClass='mr-[0px]'
+          Id={postId}
+          setComments={setComment}
         />
+        <div className='mx-10'>
+          {(comment.length != 0) && <CommentSection comment={comment[0]} />}
+        </div>
+
       </div>
     </>
   )

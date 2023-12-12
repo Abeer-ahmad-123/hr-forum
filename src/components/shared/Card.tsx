@@ -84,7 +84,7 @@ const Card = ({ post, channels }: any) => {
         </Link>
         <hr />
         <div className="py-2">
-          <PostActionBar linkToFeed={`/feeds/feed/${id}`} />
+          <PostActionBar linkToFeed={`/feeds/feed/${id}`} postId={id} />
         </div>
       </div >
     </>
