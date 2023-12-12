@@ -132,7 +132,7 @@ const DropDownContent = ({
           </Link>
         </li>
       ))}
-      <Link href="" data-testid="join-new-channel">
+      <Link href="/channels" data-testid="join-new-channel">
         <li onClick={handleLi} className="max-md:w-[200px] lg:w-[258px]">
           <div
             className="flex h-12 items-center rounded-lg bg-accent text-white"
