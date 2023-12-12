@@ -53,9 +53,7 @@ const Feeds = ({
       getPosts()
     }
   }, [inView])
-
-
-
+  
   return (
     <div className="min-h-[70vh]">
       {!!posts?.length &&
