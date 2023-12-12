@@ -30,10 +30,8 @@ const Card = ({ post, channels }: any) => {
   return (
     <>
       <div
-        // onClick={handleClick}
         className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <Link
-          // href={href}
           href={pathName.includes('/channels/') ? `feeds/feed/${id}` : ` /feeds/feed/${id}`}
         >
 
