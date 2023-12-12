@@ -14,22 +14,15 @@ interface PostActionBarProps {
   postId: string
 }
 const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
-
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
   const toggleCommentArea = () => {
     setShowCommentArea((pre) => !pre)
   }
 
-  console.log(comment)
-
-
   return (
-
     <>
       <div className="flex items-center justify-between px-10 max-md:flex-col max-md:gap-[20px]">
-
-
         <div className="flex items-center justify-center gap-3">
           {/* bg-[#F9F9F9] bg on the message button before */}
           <div className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
@@ -43,8 +36,6 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
           </div>
           <div
             className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
-
-
             <button
               onClick={toggleCommentArea}
               className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300"
@@ -65,15 +56,6 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
       </div>
 
       <div className={`${!showCommentArea && 'hidden'} `}>
-        {/* <TextArea
-          submitCallback={() => { }}
-          setIsLoading={() => { }}
-          isLoading={() => { }}
-          className="px-8 m-2"
-          btnClass='mr-[0px]'
-        /> */}
-
-
         <CommentOrReply
           className="px-8 m-2"
           btnClass='mr-[0px]'
