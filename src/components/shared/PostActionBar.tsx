@@ -9,6 +9,14 @@ import TextArea from '../ui/TextArea'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import SocialButtons from './SocialButtons'
+
+
 interface PostActionBarProps {
   linkToFeed: string,
   postId: string
@@ -36,6 +44,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
           </div>
           <div
             className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
+
             <button
               onClick={toggleCommentArea}
               className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300"
@@ -43,17 +52,23 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
               <MessageIcon size={'24px'} color="#D2D3D5" />
               <span className="font-light dark:text-gray-300">Comment</span>
             </button>
-
-
           </div>
           <div className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
-            <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
-              <IoShareSocial size={'24px'} color="#D2D3D5" />
-              <span className="font-light dark:text-gray-300">Share</span>
-            </button>
+            <Popover >
+              <PopoverTrigger>
+                <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
+                  <IoShareSocial size={'24px'} color="#D2D3D5" />
+                  <span className="font-light dark:text-gray-300">Share</span>
+                </button>
+              </PopoverTrigger>
+
+              <PopoverContent className='bg-white'>
+                <SocialButtons className='flex gap-3' />
+              </PopoverContent>
+            </Popover>
           </div>
         </div>
-      </div>
+      </div >
 
       <div className={`${!showCommentArea && 'hidden'} `}>
         <CommentOrReply
