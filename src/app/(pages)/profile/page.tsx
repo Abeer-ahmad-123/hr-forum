@@ -1,7 +1,30 @@
-import React from 'react'
+'use client'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { getUserDetails } from '@/services/user'
+import { useSelector } from 'react-redux'
 
-const Profile = () => {
+const Profile = async () => {
+  const [userData, setUserData] = useState({})
+
+  const usertoken = useSelector((state) => state?.loggedInUser?.token)
+  console.log(usertoken)
+
+  const getUserData = async () => {
+    const response = await getUserDetails(usertoken)
+    setUserData(response.data)
+
+    console.log("User Profile Data: ", userData)
+
+  }
+
+
+  useEffect(() => {
+    getUserData()
+  }, [])
+
+
+
   return (
     <div className="profile-page">
       <section className="relative block h-[500px]">
@@ -33,7 +56,7 @@ const Profile = () => {
         </div>
       </section>
       <section className="bg-blueGray-200 relative py-16">
-        <div className="container mx-auto px-4">
+        <div className="mx-auto w-[80vw] px-4">
           <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
             <div className=" px-6">
               <div className="flex flex-wrap justify-center">
@@ -83,14 +106,14 @@ const Profile = () => {
                 </div>
               </div>
               <div className="mt-12 text-center">
-                <h3 className="text-blueGray-700 mb-2 mb-2 text-4xl font-semibold leading-normal">
-                  Jenna Stones
+                <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold leading-normal">
+                  {userData?.name}
                 </h3>
-                <div className="text-blueGray-400 mb-2 mt-0 text-sm font-bold uppercase leading-normal">
+                <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium uppercase leading-normal">
                   <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
                   Los Angeles, California
                 </div>
-                <div className="text-blueGray-600 mb-2 mt-10">
+                <div className="text-blueGray-600 mb-2 mt-1">
                   <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
                   Solution Manager - Creative Tim Officer
                 </div>
@@ -99,7 +122,8 @@ const Profile = () => {
                   University of Computer Science
                 </div>
               </div>
-              <div className="border-blueGray-200 mt-10 border-t py-10 text-center">
+
+              {/* <div className="border-blueGray-200 mt-10 border-t py-10 text-center">
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full px-4 lg:w-9/12">
                     <p className="text-blueGray-700 mb-4 text-lg leading-relaxed">
@@ -114,7 +138,7 @@ const Profile = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
