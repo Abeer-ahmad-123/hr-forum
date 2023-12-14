@@ -72,7 +72,6 @@ export async function getPostsComments(
         cache: 'no-cache',
       },
     )
-
     const response = await res.json()
     const { data } = response
     return data
@@ -80,8 +79,6 @@ export async function getPostsComments(
     throw err
   }
 }
-
-
 
 export async function getComment(
   commentId: string,
@@ -91,23 +88,21 @@ export async function getComment(
     loadNestedComments = true,
     loadNestedUser = true,
     loadNestedReactions = true,
-    // loadAllReplies = false,
+    allReplies = false,
     nestedLimit = 2,
     page = 1,
   },
 ) {
   try {
     const postId = GET_COMMENT.replace('commentId', commentId)
-
     let res = await fetch(
       `
-    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&page=${page}
+    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&allReplies=${allReplies}&page=${page}
     `,
       {
         cache: 'no-cache',
       },
     )
-
     const response = await res.json()
     const { data } = response
     return data

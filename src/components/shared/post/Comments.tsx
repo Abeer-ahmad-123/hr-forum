@@ -3,10 +3,16 @@ import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { getPostsComments } from '@/services/comments'
 import CommentSection from '../CommentSection'
 import CommentOrReply from '@/components/CommentOrReply'
+import { useSearchParams } from 'next/navigation'
 
 function Comments({ postId, initialComments, pagination }: any) {
+  const searchParams = useSearchParams()
+
+  const commentId = searchParams.get('commentId')
+
   const [comments, setComments] = useState([...initialComments])
-  const [commentPage, setCommentPage] = useState(2)
+  const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
+
   const nothingToLoadMore = useRef(
     (pagination?.TotalPages !== 0) && (pagination?.CurrentPage !== pagination?.TotalPages)
   )
@@ -14,14 +20,21 @@ function Comments({ postId, initialComments, pagination }: any) {
   console.log(pagination)
   const refetchComments = async () => {
     // Re-fetch comments
+
     const commentsResponse = await getPostsComments(postId, {
       page: commentPage,
     })
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
       commentsResponse?.pagination?.TotalPages
+    console.log("Length if initial comments lets check it out!", initialComments.length)
     setCommentPage(commentPage + 1)
-    setComments([...comments, ...commentsResponse.comments])
+
+    const filteredComments = commentsResponse.comments.filter((comment: any) => {
+      return comment.id !== initialComments[0].id
+    })
+
+    setComments([...comments, ...filteredComments])
   }
 
   return (
@@ -45,7 +58,7 @@ function Comments({ postId, initialComments, pagination }: any) {
             })}
         </div>
 
-        {nothingToLoadMore?.current && (
+        {(!!commentId || nothingToLoadMore?.current) && (
           <button
             className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
             onClick={refetchComments}>

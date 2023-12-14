@@ -12,16 +12,25 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
   console.log(post)
   const commentId = searchParams.commentId
   const replyId = searchParams.replyId
+  console.log("commentId ", commentId)
+  console.log("replyId ", replyId)
 
-  const { comment: singleComment } = commentId && await getComment(commentId, {})
-  const { comments, pagination } = await getPostsComments(postId, {})
+  let commentResult;
+  let paginationResult;
 
-  console.log("Here is single comment", singleComment)
+  if (commentId) {
+    const { comment } = await getComment(commentId, {
+      allReplies: replyId ? true : false,
+    })
+    commentResult = [comment]
 
-  const commentResult = singleComment ? [singleComment] : comments
-  console.log("commentResult ", commentResult)
-  console.log("Comments", comments)
+  } else {
+    let { comments, pagination } = await getPostsComments(postId, {})
+    commentResult = comments
+    paginationResult = pagination
+  }
 
+  console.log("commentResult ", JSON.stringify(commentResult))
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div
@@ -72,7 +81,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
             <Comments
               postId={postId}
               initialComments={commentResult}
-              pagination={pagination}
+              pagination={paginationResult}
             />
           </div>
         </div>

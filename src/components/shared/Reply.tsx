@@ -1,6 +1,27 @@
+'use client'
+import { useState, useRef, useEffect } from 'react';
 import UpdownButton from '../ui/updownButton';
 import ReplyTextArea from './ReplyTextArea';
+import { useSearchParams } from 'next/navigation';
 function Reply({ reply }) {
+
+    const replyRef = useRef(null);
+    const searchParams = useSearchParams();
+    console.log(searchParams?.get('replyId'))
+    const replyIdFromUrl = searchParams?.get('replyId')
+    const [highlighted, setHighlighted] = useState(false);
+
+    useEffect(() => {
+        console.log("Id from url", typeof replyIdFromUrl)
+        console.log("Id from reply", typeof reply.id)
+
+        if (replyIdFromUrl && replyIdFromUrl === reply.id.toString()) {
+            replyRef.current.scrollIntoView({ behavior: 'smooth' });
+            setHighlighted(true);
+            setTimeout(() => setHighlighted(false), 700);
+        }
+    }, [replyIdFromUrl, reply.id]);
+
 
     const convertDate = (date) => {
         const providedDateTime = new Date(date);
@@ -25,7 +46,10 @@ function Reply({ reply }) {
     };
 
     return (
-        <div className='rounded-lg mt-4 ml-16'>
+        <div
+            ref={replyRef}
+            id={`reply-${reply.id}`}
+            className={`rounded-lg mt-4 ml-16 ${highlighted ? 'animate-pulse border-2 border-primary' : ''}`}>
             <div className="flex pt-5">
 
                 <div className='flex  flex-col items-center'>
@@ -47,9 +71,6 @@ function Reply({ reply }) {
                     <div className='w-full text-left p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full'>
                         {reply.content}
                     </div>
-
-
-
                 </div>
             </div>
         </div>
