@@ -3,12 +3,25 @@ import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import { getPostByPostId } from '@/services/posts'
 import Comments from './Comments'
-import { getPostsComments } from '@/services/comments'
+import { getComment, getPostsComments } from '@/services/comments'
 
-async function Post({ isDialogPost = false, postId }: any) {
+
+async function Post({ isDialogPost = false, postId, searchParams }: any) {
+
   const { post } = await getPostByPostId(postId, {})
   console.log(post)
+  const commentId = searchParams.commentId
+  const replyId = searchParams.replyId
+
+  const { comment: singleComment } = commentId && await getComment(commentId, {})
   const { comments, pagination } = await getPostsComments(postId, {})
+
+  console.log("Here is single comment", singleComment)
+
+  const commentResult = singleComment ? [singleComment] : comments
+  console.log("commentResult ", commentResult)
+  console.log("Comments", comments)
+
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div
@@ -58,7 +71,7 @@ async function Post({ isDialogPost = false, postId }: any) {
           <div className="w-full">
             <Comments
               postId={postId}
-              initialComments={comments}
+              initialComments={commentResult}
               pagination={pagination}
             />
           </div>
