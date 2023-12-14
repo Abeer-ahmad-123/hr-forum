@@ -8,6 +8,10 @@ import { useState } from 'react'
 import TextArea from '../ui/TextArea'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
+import { ReactionButton } from './reaction'
+import { postReactions } from '@/services/reactions/reactions'
+import { showErrorAlert } from '@/utils/helper'
+import { useSelector } from 'react-redux'
 
 import {
   Popover,
@@ -17,11 +21,34 @@ import {
 import SocialButtons from './SocialButtons'
 
 
+
 interface PostActionBarProps {
-  linkToFeed: string,
+  linkToFeed: string
   postId: string
 }
+
+
 const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
+
+
+  const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
+  const submitReaction = async (value: string) => {
+    console.log(value)
+
+    const response = await postReactions(
+      {
+        reactionType: value,
+      },
+      postId,
+      tokenInRedux,
+    )
+    if (!response?.success) {
+      showErrorAlert('Something went wrong while posting reaction')
+    }
+  }
+
+
+
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
   const toggleCommentArea = () => {
@@ -33,6 +60,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
       <div className="flex items-center justify-between px-10 max-md:flex-col max-md:gap-[20px]">
         <div className="flex items-center justify-center gap-3">
           {/* bg-[#F9F9F9] bg on the message button before */}
+          <ReactionButton onReact={submitReaction} />
           <div className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
             <Link
               href={linkToFeed}

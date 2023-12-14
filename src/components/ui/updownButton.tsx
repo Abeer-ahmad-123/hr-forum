@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import { ArrowDown, ArrowUp } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { Button } from './button'
 
 const UpdownButton = ({ count }) => {
