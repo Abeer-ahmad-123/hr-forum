@@ -13,6 +13,7 @@ async function Comments({ postId, initialComments, pagination }: any) {
 
   const stateArray = (commentId === null) ? [...initialComments] : []
 
+
   const [comments, setComments] = useState(stateArray)
   const [commentPage, setCommentPage] = useState(2)
   const [loadMore, setLoadMore] = useState(false)
@@ -20,8 +21,12 @@ async function Comments({ postId, initialComments, pagination }: any) {
   const nothingToLoadMore = useRef(
     (pagination?.TotalPages !== 0) && (pagination?.CurrentPage !== pagination?.TotalPages)
   )
+  console.log(nothingToLoadMore.current)
+  console.log(pagination)
+
 
   const refetchComments = async () => {
+    // Re-fetch comments
     const commentsResponse = await getPostsComments(postId, {
       page: commentPage,
     })
@@ -37,33 +42,25 @@ async function Comments({ postId, initialComments, pagination }: any) {
     setComments(updatedComments)
     setLoadMore(false)
   }
-
   async function getSingleComment() {
     console.log("here is comment id", commentId)
 
     if (commentId) {
       const { comment: sigleComment } = await getComment(commentId, {})
       const updatedComments = sigleComment ? [sigleComment,
-
         // ...comments.filter((comment) => comment.id !== commentId)
-
       ] : comments
       setComments([...updatedComments, ...comments])
     }
-
-
   }
 
-  useEffect(() => {
 
+
+  useEffect(() => {
     if (commentId && (initialComments.length)) {
       setLoadMore(true)
     }
-
-
-
     getSingleComment()
-
   }, [initialComments])
 
   return (
@@ -86,7 +83,6 @@ async function Comments({ postId, initialComments, pagination }: any) {
               )
             })}
         </div>
-
         {
           loadMore && (
             <button
@@ -97,6 +93,8 @@ async function Comments({ postId, initialComments, pagination }: any) {
               Load More button
             </button>
           )}
+
+
 
         {!loadMore && nothingToLoadMore?.current && (
           <button

@@ -63,7 +63,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
               </PopoverTrigger>
 
               <PopoverContent className='bg-white'>
-                <SocialButtons className='flex gap-3' />
+                <SocialButtons className='flex gap-3' postId={postId} />
               </PopoverContent>
             </Popover>
           </div>

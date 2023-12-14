@@ -2,6 +2,7 @@ import { showErrorAlert } from '@/utils/helper'
 import { API_BASE_URL } from '..'
 
 const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
+const GET_COMMENT = API_BASE_URL + '/comments/commentId'
 
 export async function postComment({ postId, content, token }: any) {
   try {
@@ -62,6 +63,41 @@ export async function getPostsComments(
 ) {
   try {
     const postId = GET_POST_COMMENT.replace('postId', id)
+
+    let res = await fetch(
+      `
+    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&page=${page}
+    `,
+      {
+        cache: 'no-cache',
+      },
+    )
+
+    const response = await res.json()
+    const { data } = response
+    return data
+  } catch (err) {
+    throw err
+  }
+}
+
+
+
+export async function getComment(
+  commentId: string,
+  {
+    loadUser = true,
+    loadReactions = true,
+    loadNestedComments = true,
+    loadNestedUser = true,
+    loadNestedReactions = true,
+    // loadAllReplies = false,
+    nestedLimit = 2,
+    page = 1,
+  },
+) {
+  try {
+    const postId = GET_COMMENT.replace('commentId', commentId)
 
     let res = await fetch(
       `
