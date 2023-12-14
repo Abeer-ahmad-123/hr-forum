@@ -22,6 +22,15 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'img.freepik.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.pinimg.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'image.winudf.com',
+
+      }
     ],
   },
 }

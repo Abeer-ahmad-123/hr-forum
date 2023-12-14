@@ -1,0 +1,56 @@
+import {
+
+    FacebookIcon,
+    FacebookShareButton,
+    LinkedinIcon,
+    LinkedinShareButton,
+    PinterestIcon,
+    PinterestShareButton,
+    RedditIcon,
+    RedditShareButton,
+    TelegramIcon,
+    TelegramShareButton,
+    WhatsappIcon,
+    WhatsappShareButton,
+
+
+} from "react-share";
+import { DOMAIN_URL } from "@/services";
+
+interface SocialButtonsProps {
+    className: string,
+    postId: string,
+    commentId?: string | null,
+    replyId?: string | null,
+}
+
+function SocialButtons({ className, postId, commentId = null, replyId = '15' }: SocialButtonsProps) {
+    console.log(commentId)
+    const url = `${DOMAIN_URL}/feeds/feed/${postId}?${commentId === null ? '' : `commentId=${commentId}`}${replyId === null ? '' : `&${replyId}`}`
+
+    return (
+        <div className={`${className}`}>
+            <FacebookShareButton url={url}>
+                <FacebookIcon size={30} round />
+            </FacebookShareButton>
+            <RedditShareButton
+                url={url}>
+                <RedditIcon size={30} round />
+            </RedditShareButton>
+            <LinkedinShareButton url={url}>
+                <LinkedinIcon size={30} round />
+            </LinkedinShareButton>
+            <WhatsappShareButton url={url}>
+                <WhatsappIcon size={30} round />
+            </WhatsappShareButton>
+            <TelegramShareButton url={url}>
+                <TelegramIcon size={30} round />
+            </TelegramShareButton>
+            <PinterestShareButton media="" url={url}>
+                <PinterestIcon size={30} round />
+            </PinterestShareButton>
+        </div>
+    )
+}
+
+export default SocialButtons

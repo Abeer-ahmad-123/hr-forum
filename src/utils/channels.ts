@@ -4,8 +4,6 @@ export const getChannelIdByChannelName = (
   channelName = '',
   allChannelsList = sidebarChannels,
 ) => {
-  console.log('allChannelsList', allChannelsList)
-  console.log('allChannelsList', channelName)
   const channelDataWithRespectiveChannelName = allChannelsList.filter(
     (channelData) => {
       return channelName === channelData?.slug

@@ -1,8 +1,32 @@
+'use client'
+import { useState, useRef, useEffect } from 'react';
 import UpdownButton from '../ui/updownButton';
 import ReplyTextArea from './ReplyTextArea';
-function Reply({ reply }) {
+import { useSearchParams } from 'next/navigation';
+function Reply({ reply, commentLength }) {
 
-    const convertDate = (date) => {
+    const replyRef = useRef(null);
+    const searchParams = useSearchParams();
+    console.log(searchParams?.get('replyId'))
+    const replyIdFromUrl = searchParams?.get('replyId')
+    const [highlighted, setHighlighted] = useState(false);
+
+    useEffect(() => {
+        console.log("Id from url", typeof replyIdFromUrl)
+        console.log("Id from reply", typeof reply.id)
+
+        if ((commentLength === 1) && replyIdFromUrl && replyIdFromUrl === reply.id.toString()) {
+
+            replyRef.current.scrollIntoView({ behavior: 'smooth' })
+
+
+            setHighlighted(true);
+            setTimeout(() => setHighlighted(false), 1000);
+        }
+    }, [replyIdFromUrl, reply.id]);
+
+
+    const convertDate = (date: Date) => {
         const providedDateTime = new Date(date);
         const currentDateTime = new Date();
         const timeDifference = currentDateTime.getTime() - providedDateTime.getTime();
@@ -25,7 +49,10 @@ function Reply({ reply }) {
     };
 
     return (
-        <div className='rounded-lg mt-4 ml-16'>
+        <div
+            ref={replyRef}
+            id={`reply-${reply.id}`}
+            className={`rounded-lg mt-4 ml-16 ${highlighted ? 'animate-pulse border-2 border-primary' : ''}`}>
             <div className="flex pt-5">
 
                 <div className='flex  flex-col items-center'>
@@ -47,9 +74,6 @@ function Reply({ reply }) {
                     <div className='w-full text-left p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full'>
                         {reply.content}
                     </div>
-
-
-
                 </div>
             </div>
         </div>

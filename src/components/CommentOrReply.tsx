@@ -1,56 +1,82 @@
 'use client'
 import { useState } from 'react'
-import TextArea from './ui/TextArea';
-import { useParams } from 'next/navigation';
-import ReplyTextArea from './shared/ReplyTextArea';
-import { postComment, postCommentReply } from '@/services/posts'
+import TextArea from './ui/TextArea'
+import { useParams } from 'next/navigation'
+import ReplyTextArea from './shared/ReplyTextArea'
+import { postComment, postCommentReply } from '@/services/comments'
+import { showErrorAlert } from '@/utils/helper'
+import { useSelector } from 'react-redux'
+
+function CommentOrReply({
+  reply = false,
+  commentId = null,
+  refetchComments = () => { },
+  setComments = () => { },
+  className = '',
+  btnClass = '',
+  Id = '',
+}: any) {
+  const params = useParams()
+  const postId = params['id'] || Id
+  const token = useSelector((state) => state?.loggedInUser?.token)
+  const [isLoading, setIsLoading] = useState({
+    loading: false,
+    status: 'null',
+  })
 
 
-function CommentOrReply({ reply = false, commentId = null, updateComments }: any) {
-    const params = useParams()
-    const postId = params['id']
 
+  const handleSubmit = async (value: any) => {
+    try {
+      setIsLoading({ ...isLoading, loading: true })
+      const result = reply
+        ? await postCommentReply({
+          commentId,
+          content: { content: value },
+          token,
+        })
+        : await postComment({ postId, content: { content: value }, token })
 
-    const [isLoading, setIsLoading] = useState({
-        loading: false,
-        status: 'null'
-    })
+      if (result?.success) {
+        // refetchComments()
+        //  **** uncomment the after update from Behzad ****
 
-    const handleTextArea = async (value: any) => {
-        console.log("In handletextare file start", typeof updateComments)
-        try {
-
-
-            setIsLoading({ ...isLoading, loading: true })
-            const result = reply ? await postCommentReply({ commentId, content: { 'content': value } }) : await postComment({ postId, content: { 'content': value } })
-            // setIsLoading(false)
-
-            console.log("Success on line 27")
-
-            if (result.success) {
-
-                console.log("In comments    orreply file", typeof updateComments)
-                // Here its saying that updateComments is undefined
-                // Here its saying that updateComments is undefined 
-                updateComments()
-            }
-
-            console.log("Here is result 28", result)
-            const status = result.success ? 'success' : 'error'
-
-            setIsLoading({ ...isLoading, loading: false, status: status })
-            console.log("Result 21", result)
-
-        } catch (err) {
-            console.log(err)
+        console.log(result)
+        if (!commentId) {
+          setComments((prevComments) => [result?.data, ...prevComments])
+        } else {
+          refetchComments()
         }
+      }
 
+      const status = result?.success ? 'success' : 'error'
+      setIsLoading({ ...isLoading, loading: false, status: status })
+    } catch (err) {
+      console.log("HERE IS ERROR", err)
+      showErrorAlert(err)
+      setIsLoading({ ...isLoading, loading: false, status: 'error' })
     }
-    return (
-        <div>
-            {reply ? <ReplyTextArea handleTextArea={handleTextArea} isLoading={isLoading} /> : <TextArea handleTextArea={handleTextArea} isLoading={isLoading} />}
-        </div>
-    );
+  }
+
+  return (
+    <div>
+      {reply ? (
+        <ReplyTextArea
+          submitCallback={handleSubmit}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
+        />
+      ) : (
+        <TextArea
+          submitCallback={handleSubmit}
+          setIsLoading={setIsLoading}
+          isLoading={isLoading}
+          className={className}
+          btnClass={btnClass}
+        />
+      )}
+    </div>
+  )
 }
 
 export default CommentOrReply

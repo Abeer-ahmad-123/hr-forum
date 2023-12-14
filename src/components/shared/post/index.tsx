@@ -1,14 +1,36 @@
 import UpdownButton from '../../ui/updownButton'
 import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
-import { getPostByPostId, postComment, getPostsComments } from '@/services/posts'
-// import TextArea from '@/components/ui/TextArea'
-import CommentOrReply from '@/components/CommentOrReply'
+import { getPostByPostId } from '@/services/posts'
 import Comments from './Comments'
+import { getComment, getPostsComments } from '@/services/comments'
 
-async function Post({ isDialogPost = false, postId }: any) {
+
+async function Post({ isDialogPost = false, postId, searchParams }: any) {
+
   const { post } = await getPostByPostId(postId, {})
+  console.log(post)
+  const commentId = searchParams?.commentId
+  const replyId = searchParams?.replyId
+  console.log("commentId ", commentId)
+  console.log("replyId ", replyId)
 
+  let commentResult;
+  let paginationResult;
+
+  if (commentId) {
+    const { comment } = await getComment(commentId, {
+      allReplies: replyId ? true : false,
+    })
+    commentResult = [comment]
+
+  } else {
+    let { comments, pagination } = await getPostsComments(postId, {})
+    commentResult = comments
+    paginationResult = pagination
+  }
+
+  console.log("commentResult ", JSON.stringify(commentResult))
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div
@@ -56,9 +78,11 @@ async function Post({ isDialogPost = false, postId }: any) {
           </div>
           <div className="mb-9 w-full border-b border-gray-500 pr-5"></div>
           <div className="w-full">
-
-            <CommentOrReply />
-            <Comments postId={postId} />
+            <Comments
+              postId={postId}
+              initialComments={commentResult}
+              pagination={paginationResult}
+            />
           </div>
         </div>
       </div>

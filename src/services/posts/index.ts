@@ -1,3 +1,4 @@
+'use server'
 import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
@@ -5,7 +6,6 @@ const GET_All_POSTS = API_BASE_URL + '/posts'
 const ADD_POST = API_BASE_URL + '/channels/channelId/posts'
 const EDIT_POST = API_BASE_URL + '/posts/postId'
 const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
-const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
 const CREATE_POST_IN_CHANNEL = API_BASE_URL + '/channels/postId/posts'
 
 type GET_ALL_POSTS_PROPS = {
@@ -22,13 +22,14 @@ export async function getAllPosts({
   pageSize = 10,
 }: GET_ALL_POSTS_PROPS = {}) {
   try {
-    console.log('GET_All_POSTS 24', GET_All_POSTS)
     let res: any = await fetch(
       `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
+      {
+        cache: 'no-cache',
+      },
     )
     const response = await res.json()
-    const { data } = response
-    return data
+    return response
   } catch (err) {
     throw err
   }
@@ -50,8 +51,8 @@ export async function getPostsByChannelId({
         )}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
       )
       const response = await res.json()
-      const { data } = response
-      return data
+
+      return response
     } catch (err) {
       throw err
     }
@@ -75,44 +76,14 @@ export async function getPostByPostId(
   }
 }
 
-export async function getPostsComments(
-  id: string,
-  {
-    loadUser = true,
-    loadReactions = true,
-    loadNestedComments = true,
-    loadNestedUser = true,
-    loadNestedReactions = true,
-    nestedLimit = 2,
-  },
-) {
+export async function postCreatePostInChannel({ channelID, body, token }: any) {
   try {
-    const postId = GET_POST_COMMENT.replace('postId', id)
-
-    let res = await fetch(`
-    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}
-    `)
-
-    const response = await res.json()
-    const { data } = response
-    return data
-  } catch (err) {
-    throw err
-  }
-}
-
-export async function postCreatePostInChannel({ channelID, body }: any) {
-  try {
-    const token = localStorage?.getItem('token')
-    console.log('Token ', token)
-
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     }
 
     const requestBody = JSON.stringify(body)
-    console.log('Here is request body', requestBody)
 
     let res = await fetch(
       `https://api.enxsis.com/api/v1/channels/${channelID}/posts`,
@@ -124,72 +95,6 @@ export async function postCreatePostInChannel({ channelID, body }: any) {
     )
     const response = await res.json()
     return response
-  } catch (err) {
-    throw err
-  }
-}
-
-export async function postComment( {postId, content}: any ) {
-  try {
-    
-    const requestBody = JSON.stringify(content);
-    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
-    const token =  localStorage?.getItem('token')
-    console.log("Token ",token)
-
-    console.log("TOKEN", typeof token)
-    console.log("POST ID ", postId)
-    console.log("BODY",content)
-
-      const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    };
-
-    let res = await fetch(
-      `https://api.enxsis.com/api/v1/posts/${postId}/comments`,
-      {
-        method: 'POST',
-        headers,
-        body: requestBody,
-      },
-    )
-    const response = await res.json()
-        return response
-  } catch (err) {
-    throw err
-  }
-}
-
-
-
-export async function postCommentReply( {commentId, content}: any ) {
-  try {
-    
-    const requestBody = JSON.stringify(content);
-    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
-    const token =  localStorage?.getItem('token')
-    console.log("Token ",token)
-
-    console.log("TOKEN", typeof token)
-    console.log("POST ID ", commentId)
-    console.log("BODY",content)
-
-      const headers = {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    };
-
-    let res = await fetch(
-      `https://api.enxsis.com/api/v1/comments/${commentId}/replies`,
-      {
-        method: 'POST',
-        headers,
-        body: requestBody,
-      },
-    )
-    const response = await res.json()
-        return response
   } catch (err) {
     throw err
   }

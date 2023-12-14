@@ -51,7 +51,6 @@ export default function Signin({
       const { email, password } = formValues
       let isFieldsValid = handleValidations()
       if (!isFieldsValid) {
-        console.log('I am invalid...')
         return
       }
       const result = await signIn(
@@ -60,7 +59,6 @@ export default function Signin({
           password,
         }),
       )
-      console.log('result', result)
       if (
         !result?.success &&
         result?.status === 401 &&

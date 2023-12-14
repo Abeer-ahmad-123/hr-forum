@@ -1,11 +1,13 @@
+'use client'
 import { timeFormatInHours } from '@/utils/helper'
-import { channels } from '@/utils/data'
-import { ChannelPill, Chip } from '.'
+import ChannelPill from '@/components/shared/ChannelPill'
 import Image from 'next/image'
 import Link from 'next/link'
 import PostActionBar from './PostActionBar'
+import { useRouter, usePathname } from 'next/navigation'
 
-const Card = ({ post }: any) => {
+
+const Card = ({ post, channels }: any) => {
   const {
     id,
     created_at,
@@ -15,6 +17,11 @@ const Card = ({ post }: any) => {
     author_details: user,
     reaction_summary,
   } = post
+
+
+  const pathName = usePathname()
+  const router = useRouter()
+
   const totalCount = Object.values(reaction_summary).reduce(
     (acc: any, count: any) => acc + count,
     0,
@@ -22,8 +29,12 @@ const Card = ({ post }: any) => {
 
   return (
     <>
-      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
-        <Link href={`/feeds/feed/${id}`}>
+      <div
+        className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+        <Link
+          href={pathName.includes('/channels/') ? `feeds/feed/${id}` : ` /feeds/feed/${id}`}
+        >
+
           <div className="px-10 py-4">
             <div className="mb-8 mt-3 text-left text-4xl font-semibold dark:text-white">
               {title}
@@ -58,7 +69,7 @@ const Card = ({ post }: any) => {
 
                 <div className="flex items-end pb-2 pt-4">
                   <div className="flex flex-col sm:flex-row">
-                    <ChannelPill channel_id={channel_id} />
+                    <ChannelPill channel_id={channel_id} channels={channels} />
                   </div>
                 </div>
               </div>
@@ -71,9 +82,9 @@ const Card = ({ post }: any) => {
         </Link>
         <hr />
         <div className="py-2">
-          <PostActionBar linkToFeed={`/feeds/feed/${id}`} />
+          <PostActionBar linkToFeed={`/feeds/feed/${id}`} postId={id} />
         </div>
-      </div>
+      </div >
     </>
   )
 }

@@ -8,6 +8,7 @@ import Dropdown from './Dropdown'
 import { postCreatePostInChannel } from '@/services/posts'
 // import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { useSelector } from 'react-redux'
 
 export default function NewPostForm({ open }) {
   const [formValues, setFormValues] = useState({
@@ -15,6 +16,8 @@ export default function NewPostForm({ open }) {
     content: '',
     channelId: '',
   })
+
+  const token = useSelector((state) => state?.loggedInUser?.token)
 
   const [loading, setLoading] = useState(false)
 
@@ -37,29 +40,25 @@ export default function NewPostForm({ open }) {
     try {
       setLoading(true)
       const { channelId, ...body } = formValues
-      console.log('Data that we are passing...', channelId, body)
       const result = await postCreatePostInChannel({
         channelID: channelId,
         body,
+        token,
       })
-      console.log('result 46', result)
 
       if (result?.success) {
         showSuccessAlert('Post created successfully')
         setLoading(false)
-        open(false);
+        open(false)
       } else {
         showErrorAlert(result.errors[0])
         setLoading(false)
-
       }
     } catch (err) {
-
       console.log('err', err)
       showErrorAlert('Something went wrong while creating post.')
       setLoading(false)
-      open(false);
-
+      open(false)
     }
     //  finally {
 

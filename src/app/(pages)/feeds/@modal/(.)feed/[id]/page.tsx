@@ -8,8 +8,9 @@ import PostSkelton from '@/components/shared/post/PostSkelton'
 import Post from '@/components/shared/post'
 import { Suspense } from 'react'
 
-async function SingleFeed({ params }: any) {
+async function SingleFeed({ params, searchParams }: any) {
   const { id } = params
+  console.log("Search params", searchParams)
 
   return (
     <Dialog open={true}>
@@ -17,7 +18,7 @@ async function SingleFeed({ params }: any) {
         <DialogHeader></DialogHeader>
 
         <DialogDescription>
-          <Suspense fallback={<PostSkelton />}>
+          <Suspense fallback={<PostSkelton isDialogPost={true} />}>
             <Post isDialogPost={true} postId={id} />
           </Suspense>
         </DialogDescription>

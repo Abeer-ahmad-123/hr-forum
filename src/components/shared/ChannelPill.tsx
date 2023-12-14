@@ -1,11 +1,8 @@
-import { getChannels } from '@/services/channel/channel'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 
-const ChannelPill = async ({ channel_id }: any) => {
-  const { channels }: any = await getChannels()
- 
+const ChannelPill = ({ channel_id, channels }: any) => {
   const channelObj = arrayToKeyIdNValueData(channels)
- 
+
   return (
     <span
       aria-label="channel-name"
