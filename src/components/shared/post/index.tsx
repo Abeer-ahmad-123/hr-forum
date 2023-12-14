@@ -10,8 +10,8 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
 
   const { post } = await getPostByPostId(postId, {})
   console.log(post)
-  const commentId = searchParams.commentId
-  const replyId = searchParams.replyId
+  const commentId = searchParams?.commentId
+  const replyId = searchParams?.replyId
   console.log("commentId ", commentId)
   console.log("replyId ", replyId)
 

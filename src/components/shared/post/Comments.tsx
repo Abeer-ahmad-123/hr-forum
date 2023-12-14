@@ -27,7 +27,6 @@ function Comments({ postId, initialComments, pagination }: any) {
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
       commentsResponse?.pagination?.TotalPages
-    console.log("Length if initial comments lets check it out!", initialComments.length)
     setCommentPage(commentPage + 1)
 
     const filteredComments = commentsResponse.comments.filter((comment: any) => {
@@ -53,6 +52,7 @@ function Comments({ postId, initialComments, pagination }: any) {
                   key={comment.id}
                   comment={comment}
                   refetchComments={refetchComments}
+                  commentLength={comments.length}
                 />
               )
             })}

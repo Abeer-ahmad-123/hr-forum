@@ -5,7 +5,8 @@ import UpdownButton from '../ui/updownButton'
 import CommentOrReply from '@/components/CommentOrReply'
 import Reply from './Reply'
 import Image from 'next/image'
-function CommentSection({ comment, refetchComments }: any) {
+function CommentSection({ comment, refetchComments, commentLength }: any) {
+  console.log(commentLength)
   const convertDate = (date: string) => {
     const providedDateTime = new Date(date)
     const currentDateTime = new Date()
@@ -75,7 +76,7 @@ function CommentSection({ comment, refetchComments }: any) {
 
         {comment?.replies?.length !== 0 &&
           comment?.replies?.map((reply: any) => {
-            return <Reply key={reply.id} reply={reply} />
+            return <Reply key={reply.id} reply={reply} commentLength={commentLength} />
           })}
       </div>
     </div>

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import UpdownButton from '../ui/updownButton';
 import ReplyTextArea from './ReplyTextArea';
 import { useSearchParams } from 'next/navigation';
-function Reply({ reply }) {
+function Reply({ reply, commentLength }) {
 
     const replyRef = useRef(null);
     const searchParams = useSearchParams();
@@ -15,15 +15,18 @@ function Reply({ reply }) {
         console.log("Id from url", typeof replyIdFromUrl)
         console.log("Id from reply", typeof reply.id)
 
-        if (replyIdFromUrl && replyIdFromUrl === reply.id.toString()) {
-            replyRef.current.scrollIntoView({ behavior: 'smooth' });
+        if ((commentLength === 1) && replyIdFromUrl && replyIdFromUrl === reply.id.toString()) {
+
+            replyRef.current.scrollIntoView({ behavior: 'smooth' })
+
+
             setHighlighted(true);
-            setTimeout(() => setHighlighted(false), 700);
+            setTimeout(() => setHighlighted(false), 1000);
         }
     }, [replyIdFromUrl, reply.id]);
 
 
-    const convertDate = (date) => {
+    const convertDate = (date: Date) => {
         const providedDateTime = new Date(date);
         const currentDateTime = new Date();
         const timeDifference = currentDateTime.getTime() - providedDateTime.getTime();
