@@ -13,11 +13,18 @@ const LogButton = () => {
   // store data in redux
 
   useEffect(() => {
-    const userData = localStorage.getItem('userData') || null
-    const token = localStorage.getItem('token') || null
-    if (token) {
-      dispatch(setUser({ token, userData: JSON.parse(userData) }))
-    }
+    // const userData = localStorage.getItem('userData') || null
+    // const token = localStorage.getItem('token') || null
+    // const refreshToken = localStorage.getItem('refreshToken') || null
+    // if (token && token !== 'undefined') {
+    // dispatch(
+    //   setUser({
+    //     token,
+    //     userData: JSON.parse(userData),
+    //     refreshToken: refreshToken,
+    //   }),
+    // )
+    // }
   }, [])
 
   return (

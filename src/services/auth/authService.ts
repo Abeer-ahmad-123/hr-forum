@@ -7,6 +7,7 @@ import {
   AUTH_GET_USER_DETAILS,
   AUTH_UPDATE_USER_DETAILS,
   GOOGLE_AUTH_START,
+  GOOGLE_EXCHANGE_TOKEN,
 } from './routes'
 
 export async function signIn(body: any) {
@@ -71,9 +72,9 @@ export async function getRefreshToken() {
       method: 'POST',
       credentials: 'include',
     })
+
     const responseJson = await responseFromRefresh.json()
-    localStorage.setItem('token', responseJson?.data?.token)
-    return responseJson?.data?.token
+    return responseJson?.data
   } catch (err) {
     throw err
   }
@@ -102,9 +103,17 @@ export async function updateUserDetail(body: any) {
   }
 }
 
-export async function googleAuthStart() {
+export async function googleAuthStart(url) {
   try {
-    const responseFromRefresh = await fetch(GOOGLE_AUTH_START)
+    const responseFromRefresh = await fetch(GOOGLE_AUTH_START, {
+      method: 'POST',
+      body: JSON.stringify({
+        frontendRedirectUrl: process.env.NEXT_PUBLIC_SITE_URL + '/feeds',
+      }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
     const responseJson = await responseFromRefresh.json()
     return responseJson
   } catch (err) {
@@ -128,11 +137,19 @@ export async function googleRegister(body: any) {
   }
 }
 
-export async function googleCallback(body: any) {
+export async function googleTokenExchange(token: string) {
   try {
-    const responseFromRefresh = await fetch(GOOGLE_AUTH_START)
+    const responseFromRefresh = await fetch(GOOGLE_EXCHANGE_TOKEN, {
+      method: 'POST',
+      body: JSON.stringify({
+        code: token,
+      }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
     const responseJson = await responseFromRefresh.json()
-    return responseJson
+    return responseJson?.data
   } catch (err) {
     throw err
   }

@@ -7,7 +7,7 @@ import { googleAuthStart, signIn } from '@/services/auth/authService'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { AppDispatch } from '@/store'
 import { useDispatch } from 'react-redux'
-import { setUser } from '@/store/Slices/loggedInUserSlice'
+import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import GoogleButton from '../shared/GoogleButton/'
 
 export default function Signin({
@@ -72,9 +72,12 @@ export default function Signin({
         return
       }
       if (result?.data?.token) {
-        localStorage.setItem('token', result?.data?.token)
-        localStorage.setItem('userData', JSON.stringify(result?.data?.userData))
-        dispatch(setUser(result?.data))
+        dispatch(
+          setUser({
+            ...result?.data,
+            refreshToken: result?.data['refresh-token'],
+          }),
+        )
         showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
         handleDialogClose()
       }
