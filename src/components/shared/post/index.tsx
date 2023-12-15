@@ -6,6 +6,7 @@ import Comments from './Comments'
 import { getComment, getPostsComments } from '@/services/comments'
 import PostReactionBar from '../PostReactionBar'
 import PostActionBar from '../PostActionBar'
+import ReactionDetails from '@/components/ReactionDetails'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const { post } = await getPostByPostId(postId, {})
@@ -38,7 +39,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
         </div> */}
         <div className="flex w-full flex-col items-center p-10 pt-0">
           <div className="mt-6 flex w-full">
-            <div className="text-left   text-4xl font-bold dark:text-white">
+            <div className="w-[inherit] text-left text-4xl font-bold dark:text-white">
               {post.title!}{' '}
             </div>
             <div className="flex w-full	 place-content-around items-center">
@@ -58,6 +59,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
               </div>
             </div>
           </div>
+          <ReactionDetails reactionSummary={post.reaction_summary} />
           <div
             className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
             dangerouslySetInnerHTML={{ __html: post.content }}
@@ -74,7 +76,6 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
           </div>
           {/* <div className="mb-9 w-full border-b border-gray-500 pr-5"></div> */}
           <div className="w-full">
-            <PostReactionBar postId={postId} />
             <Comments
               postId={postId}
               initialComments={commentResult}
