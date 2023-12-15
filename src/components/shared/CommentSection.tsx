@@ -76,7 +76,7 @@ function CommentSection({ comment, refetchComments, commentLength }: any) {
 
         {comment?.replies?.length !== 0 &&
           comment?.replies?.map((reply: any) => {
-            return <Reply key={reply.id} reply={reply} commentLength={commentLength} />
+            return <Reply key={reply.id} reply={reply} commentLength={commentLength} commentId={comment.id} />
           })}
       </div>
     </div>

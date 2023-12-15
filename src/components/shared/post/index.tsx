@@ -30,7 +30,6 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
     paginationResult = pagination
   }
 
-  console.log("commentResult ", JSON.stringify(commentResult))
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div

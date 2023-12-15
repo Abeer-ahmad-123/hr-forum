@@ -8,15 +8,24 @@ import ProfileCard from '../feeds/Cards/ProfileCard'
 import SideCardBadge from './SideCardBadge'
 import SideCardSkill from './SideCardSkill'
 
+interface userData {
+    id: number,
+    bio: string,
+    email: string,
+    name: string,
+    profilePictureURL: string
+    username: string
+}
+
 function UserProfile() {
 
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState<userData | null>(null)
     const usertoken = useSelector((state) => state?.loggedInUser?.token)
 
     const getUserData = async () => {
         const response = await getUserDetails(usertoken)
         setUserData(response)
-        console.log("User Profile Data: ", response)
+        console.log(response)
     }
 
     useEffect(() => {
@@ -31,7 +40,7 @@ function UserProfile() {
                     className="absolute top-0 h-full w-full bg-cover bg-center"
                     style={{
                         backgroundImage:
-                            'url(https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80)',
+                            'url(https://source.unsplash.com/random)',
                     }}>
                     <span
                         id="blackOverlay"
@@ -65,7 +74,7 @@ function UserProfile() {
                                             alt="..."
                                             width={150}
                                             height={150}
-                                            src={userData?.profilePictureURL}
+                                            src={userData?.profilePictureURL || 'https://source.unsplash.com/random/300×300'}
                                             className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
                                         />
                                     </div>
@@ -116,14 +125,13 @@ function UserProfile() {
                                     <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
                                     {userData?.email}
                                 </div>
-                                <div className="text-blueGray-600 mb-2">
-                                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg"></i>
-                                    {userData?.bio}
+                                <div className="text-left text-blueGray-600 mb-2 pb-2">
+                                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
+                                    {userData?.bio || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem."}
 
                                 </div>
                             </div>
 
-                            
                         </div>
                     </div>
                 </div>

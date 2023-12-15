@@ -3,13 +3,24 @@ import { useState, useRef, useEffect } from 'react';
 import UpdownButton from '../ui/updownButton';
 import ReplyTextArea from './ReplyTextArea';
 import { useSearchParams } from 'next/navigation';
-function Reply({ reply, commentLength }) {
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import SocialButtons from './SocialButtons';
+import { MoreHorizontal } from 'lucide-react';
+import { useParams } from 'next/navigation';
+
+
+
+
+function Reply({ reply, commentLength, commentId = null }) {
 
     const replyRef = useRef(null);
     const searchParams = useSearchParams();
+    const params = useParams();
     console.log(searchParams?.get('replyId'))
     const replyIdFromUrl = searchParams?.get('replyId')
     const [highlighted, setHighlighted] = useState(false);
+    const postId = params.id as string;
+
 
     useEffect(() => {
         console.log("Id from url", typeof replyIdFromUrl)
@@ -53,6 +64,8 @@ function Reply({ reply, commentLength }) {
             ref={replyRef}
             id={`reply-${reply.id}`}
             className={`rounded-lg mt-4 ml-16 ${highlighted ? 'animate-pulse border-2 border-primary' : ''}`}>
+
+
             <div className="flex pt-5">
 
                 <div className='flex  flex-col items-center'>
@@ -74,6 +87,31 @@ function Reply({ reply, commentLength }) {
                     <div className='w-full text-left p-7 pl-0 pt-3 mt-0 text-gray-600 dark:text-white leading-loose h-full'>
                         {reply.content}
                     </div>
+
+                    {/* ÷  */}
+
+                    <div className="flex justify-between pb-5 pr-5">
+                        <div className="flex space-x-3">
+
+                            <Popover
+                            >
+                                <PopoverTrigger>
+                                    <button className="flex items-center space-x-2 p-2 pl-0  active:text-gray-700 visited:text-indigo-500">
+                                        <span className="text-sm text-gray-400 hover:text-blue-500">Share</span>
+                                    </button>
+
+
+                                </PopoverTrigger>
+                                <PopoverContent className='bg-white'>
+                                    <SocialButtons className='flex gap-3' postId={postId} commentId={commentId} replyId={reply.id} />
+                                </PopoverContent>
+                            </Popover>
+
+                            <button className="text-sm text-gray-400">Report</button>
+                        </div>
+                        <MoreHorizontal className="text-gray-400" />
+                    </div>
+                    {/*  ÷  */}
                 </div>
             </div>
         </div>

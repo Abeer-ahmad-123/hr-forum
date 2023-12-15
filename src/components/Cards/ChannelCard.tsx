@@ -26,7 +26,7 @@ const ChannelCard = () => {
                                 <span>{channel}</span>
                             </li>
                             {index < channels.length - 1 && (
-                                <hr className="my-1 border-t border-gray-400 ml-3 mr-3" />
+                                <hr className="my-1 border-t border-gray-400 mx-3" />
                             )}
                         </React.Fragment>
                     ))}
