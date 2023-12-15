@@ -66,15 +66,15 @@ function Reply({ reply, commentLength, commentId = null }) {
             className={`rounded-lg mt-4 ml-16 ${highlighted ? 'animate-pulse border-2 border-primary' : ''}`}>
 
 
-            <div className="flex pt-5">
+            <div className="flex gap-[2%] pt-5">
 
                 <div className='flex  flex-col items-center'>
                     <div className=''>
                         <img src={reply['author_details'].profile_picture_url} className='h-8 w-8 rounded-full' />
                     </div>
-                    <div className='pl-5'>
+                    {/* <div className='pl-5'>
                         <UpdownButton count={reply['reaction_summary']['like_count']} />
-                    </div>
+                    </div> */}
                 </div>
                 <div className='flex flex-col w-full'>
 

@@ -105,6 +105,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { SlLike } from "react-icons/sl";
 
 const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
@@ -154,6 +155,8 @@ const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
           className="flex flex-col items-center">
           {' '}
           {/* Align the children in the center */}
+
+
           <ReactionEmoji
             reactionName={currentReactionEmoji?.name || 'none'}
             emojiCharacter={currentReactionEmoji?.emoji || '♡'}

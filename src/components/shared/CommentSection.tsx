@@ -37,8 +37,8 @@ function CommentSection({ comment, refetchComments, commentLength }: any) {
   return (
     <div>
       <div className="mt-4 w-full rounded-lg bg-slate-100 dark:bg-slate-800">
-        <div className="flex pt-5">
-          <div className="flex  flex-col items-center">
+        <div className="flex gap-[2%]  pt-5">
+          <div className="flex ml-2 flex-col items-center">
             <div className="">
               <img
                 alt="avatar"
@@ -46,10 +46,12 @@ function CommentSection({ comment, refetchComments, commentLength }: any) {
                 className="h-8 w-8 rounded-full"
               />
             </div>
-            <div className="pl-5">
-              {/* To be implemented */}
+
+
+            {/* <div className="pl-5">
               <UpdownButton count={comment?.reaction_summary?.like_count} />
-            </div>
+            </div> */}
+
           </div>
           <div className="flex w-full flex-col">
             <div className="flex w-full justify-between">

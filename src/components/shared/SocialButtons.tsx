@@ -29,7 +29,7 @@ interface SocialButtonsProps {
 
 function SocialButtons({ className, postId, commentId = null, replyId = null }: SocialButtonsProps) {
     console.log(commentId)
-    const url = `${DOMAIN_URL}/feeds/feed/${postId}?${commentId === null ? '' : `commentId=${commentId}`}${replyId === null ? '' : `&replyId=${replyId}`}`
+    const url = `${DOMAIN_URL}/feeds/feed/${postId}${commentId === null ? '' : `?commentId=${commentId}`}${replyId === null ? '' : `&replyId=${replyId}`}`
 
     return (
         <div className={`${className}`}>
@@ -49,7 +49,7 @@ function SocialButtons({ className, postId, commentId = null, replyId = null }: 
             <TelegramShareButton url={url}>
                 <TelegramIcon size={30} round />
             </TelegramShareButton>
-            
+
             <TwitterShareButton url={url}>
                 <TwitterIcon size={30} round />
             </TwitterShareButton>

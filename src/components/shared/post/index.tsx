@@ -36,9 +36,9 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
       dark:bg-dark-background dark:text-gray-300`}>
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <UpdownButton count={post['reaction_summary']['like_count']} />
-        </div>
+        </div> */}
         <div className="flex w-full flex-col items-center p-10 pt-0">
           <div className="mt-6 flex w-full">
             <div className="text-left   text-4xl font-bold dark:text-white">
