@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import PostActionBar from './PostActionBar'
 import { useRouter, usePathname } from 'next/navigation'
-
+import PostReactionBar from './PostReactionBar'
 
 const Card = ({ post, channels }: any) => {
   const {
@@ -18,7 +18,6 @@ const Card = ({ post, channels }: any) => {
     reaction_summary,
   } = post
 
-
   const pathName = usePathname()
   const router = useRouter()
 
@@ -29,12 +28,13 @@ const Card = ({ post, channels }: any) => {
 
   return (
     <>
-      <div
-        className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <Link
-          href={pathName.includes('/channels/') ? `feeds/feed/${id}` : ` /feeds/feed/${id}`}
-        >
-
+          href={
+            pathName.includes('/channels/')
+              ? `feeds/feed/${id}`
+              : ` /feeds/feed/${id}`
+          }>
           <div className="px-10 py-4">
             <div className="mb-8 mt-3 text-left text-4xl font-semibold dark:text-white">
               {title}
@@ -80,11 +80,13 @@ const Card = ({ post, channels }: any) => {
             </div>
           </div>
         </Link>
+
+        <PostReactionBar postId={id} />
         <hr />
         <div className="py-2">
           <PostActionBar linkToFeed={`/feeds/feed/${id}`} postId={id} />
         </div>
-      </div >
+      </div>
     </>
   )
 }

@@ -4,42 +4,38 @@ import picture from '@/assets/avatars/img.jpeg'
 import { getPostByPostId } from '@/services/posts'
 import Comments from './Comments'
 import { getComment, getPostsComments } from '@/services/comments'
-
+import PostReactionBar from '../PostReactionBar'
+import PostActionBar from '../PostActionBar'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
-
   const { post } = await getPostByPostId(postId, {})
   console.log(post)
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
-  console.log("commentId ", commentId)
-  console.log("replyId ", replyId)
 
-  let commentResult;
-  let paginationResult;
+  let commentResult
+  let paginationResult
 
   if (commentId) {
     const { comment } = await getComment(commentId, {
       allReplies: replyId ? true : false,
     })
     commentResult = [comment]
-
   } else {
     let { comments, pagination } = await getPostsComments(postId, {})
     commentResult = comments
     paginationResult = pagination
   }
 
-  console.log("commentResult ", JSON.stringify(commentResult))
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
       dark:bg-dark-background dark:text-gray-300`}>
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <UpdownButton count={post['reaction_summary']['like_count']} />
-        </div>
+        </div> */}
         <div className="flex w-full flex-col items-center p-10 pt-0">
           <div className="mt-6 flex w-full">
             <div className="text-left   text-4xl font-bold dark:text-white">
@@ -76,8 +72,9 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
               />
             ) : null}
           </div>
-          <div className="mb-9 w-full border-b border-gray-500 pr-5"></div>
+          {/* <div className="mb-9 w-full border-b border-gray-500 pr-5"></div> */}
           <div className="w-full">
+            <PostReactionBar postId={postId} />
             <Comments
               postId={postId}
               initialComments={commentResult}
