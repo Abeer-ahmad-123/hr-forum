@@ -12,9 +12,12 @@ import {
     TelegramShareButton,
     WhatsappIcon,
     WhatsappShareButton,
-
-
+    TwitterIcon,
+    TwitterShareButton,
 } from "react-share";
+
+
+
 import { DOMAIN_URL } from "@/services";
 
 interface SocialButtonsProps {
@@ -46,9 +49,10 @@ function SocialButtons({ className, postId, commentId = null, replyId = '15' }: 
             <TelegramShareButton url={url}>
                 <TelegramIcon size={30} round />
             </TelegramShareButton>
-            <PinterestShareButton media="" url={url}>
-                <PinterestIcon size={30} round />
-            </PinterestShareButton>
+            
+            <TwitterShareButton url={url}>
+                <TwitterIcon size={30} round />
+            </TwitterShareButton>
         </div>
     )
 }
