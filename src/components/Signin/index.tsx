@@ -7,7 +7,8 @@ import { googleAuthStart, signIn } from '@/services/auth/authService'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { AppDispatch } from '@/store'
 import { useDispatch } from 'react-redux'
-import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
+import { setUser } from '@/store/Slices/loggedInUserSlice'
+import { usePathname, useRouter } from 'next/navigation'
 import GoogleButton from '../shared/GoogleButton/'
 
 export default function Signin({
@@ -15,7 +16,8 @@ export default function Signin({
   handleDialogClose = () => {},
 }: any) {
   const dispatch = useDispatch<AppDispatch>()
-
+  const pathname = usePathname()
+  const router = useRouter()
   const initialValues = {
     email: '',
     password: '',
@@ -89,9 +91,9 @@ export default function Signin({
 
   const handleGoogleSignIn = async () => {
     try {
-      const response = await googleAuthStart()
+      const response = await googleAuthStart(pathname)
       if (response?.success) {
-        window.open(response?.data, '_blank')
+        router.push(response?.data)
       }
     } catch (err) {
       console.log('err', err)

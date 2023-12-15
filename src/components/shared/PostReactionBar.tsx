@@ -7,21 +7,21 @@ import { usePathname } from 'next/navigation'
 
 interface PostReactionBarProps {
   postId: string
+  reaction_summary: any
 }
 type ReactionCounts = {
   [key: string]: number
 }
-const PostReactionBar = ({ postId }: PostReactionBarProps) => {
+const PostReactionBar = ({
+  postId,
+  reaction_summary,
+}: PostReactionBarProps) => {
   const pathName = usePathname()
   const [reactionArray, setReactionArray] = useState<[string, number][]>([])
 
-  const getAllPostData = async () => {
-    const { post } = await getPostByPostId(postId, {})
-    const reactionEntries = Object.entries(
-      post.reaction_summary as ReactionCounts,
-    )
+  const getAllPostData = () => {
+    const reactionEntries = Object?.entries(reaction_summary as ReactionCounts)
     const sortedReactions = reactionEntries.sort((a, b) => b[1] - a[1])
-
     setReactionArray(sortedReactions)
   }
 

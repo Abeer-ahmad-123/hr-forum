@@ -10,7 +10,6 @@ import { Suspense } from 'react'
 
 async function SingleFeed({ params, searchParams }: any) {
   const { id } = params
-  console.log("Search params", searchParams)
 
   return (
     <Dialog open={true}>

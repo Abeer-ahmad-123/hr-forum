@@ -39,7 +39,6 @@ const LayoutWrapper = ({ children }: any) => {
     if (token) {
       try {
         const response = await googleTokenExchange(token)
-        console.log('pathname', pathname)
         dispatch(
           setUser({
             ...response,
@@ -47,7 +46,13 @@ const LayoutWrapper = ({ children }: any) => {
           }),
         )
 
-        router.push(pathname)
+        const currentUrl = window.location.href
+        const url = new URL(currentUrl)
+
+        // Remove the "example" query parameter
+        url.searchParams.delete('code')
+
+        window.history.replaceState({}, document.title, url.href)
       } catch (err) {
         showErrorAlert('Issue in google authentication')
       }
@@ -67,11 +72,8 @@ const LayoutWrapper = ({ children }: any) => {
       clearInterval(refreshInterval)
     }
     refreshInterval = setInterval(async () => {
-      console.log('DONE interval')
       const localStorageToken = localStorage.getItem('token') || null
       if (localStorageToken && localStorageToken !== 'undefined') {
-        console.log('DONE')
-
         const tokenResponse = await getRefreshToken()
         dispatch(
           setToken({
