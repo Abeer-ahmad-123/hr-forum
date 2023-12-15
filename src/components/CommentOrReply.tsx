@@ -65,6 +65,7 @@ function CommentOrReply({
           submitCallback={handleSubmit}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
+          commentId={commentId}
         />
       ) : (
         <TextArea

@@ -12,21 +12,24 @@ import {
     TelegramShareButton,
     WhatsappIcon,
     WhatsappShareButton,
-
-
+    TwitterIcon,
+    TwitterShareButton,
 } from "react-share";
+
+
+
 import { DOMAIN_URL } from "@/services";
 
 interface SocialButtonsProps {
     className: string,
-    postId: string,
+    postId: string | null,
     commentId?: string | null,
     replyId?: string | null,
 }
 
-function SocialButtons({ className, postId, commentId = null, replyId = '15' }: SocialButtonsProps) {
+function SocialButtons({ className, postId, commentId = null, replyId = null }: SocialButtonsProps) {
     console.log(commentId)
-    const url = `${DOMAIN_URL}/feeds/feed/${postId}?${commentId === null ? '' : `commentId=${commentId}`}${replyId === null ? '' : `&${replyId}`}`
+    const url = `${DOMAIN_URL}/feeds/feed/${postId}${commentId === null ? '' : `?commentId=${commentId}`}${replyId === null ? '' : `&replyId=${replyId}`}`
 
     return (
         <div className={`${className}`}>
@@ -46,9 +49,10 @@ function SocialButtons({ className, postId, commentId = null, replyId = '15' }: 
             <TelegramShareButton url={url}>
                 <TelegramIcon size={30} round />
             </TelegramShareButton>
-            <PinterestShareButton media="" url={url}>
-                <PinterestIcon size={30} round />
-            </PinterestShareButton>
+
+            <TwitterShareButton url={url}>
+                <TwitterIcon size={30} round />
+            </TwitterShareButton>
         </div>
     )
 }

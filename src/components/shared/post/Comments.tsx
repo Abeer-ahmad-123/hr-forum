@@ -1,6 +1,6 @@
 'use client'
 import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { getComment, getPostsComments } from '@/services/comments'
+import { getPostsComments } from '@/services/comments'
 import CommentSection from '../CommentSection'
 import CommentOrReply from '@/components/CommentOrReply'
 import { useSearchParams } from 'next/navigation'
@@ -9,12 +9,12 @@ function Comments({ postId, initialComments, pagination }: any) {
   const searchParams = useSearchParams()
 
   const commentId = searchParams.get('commentId')
+
   const [comments, setComments] = useState([...initialComments])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
 
   const nothingToLoadMore = useRef(
-    pagination?.TotalPages !== 0 &&
-      pagination?.CurrentPage !== pagination?.TotalPages,
+    (pagination?.TotalPages !== 0) && (pagination?.CurrentPage !== pagination?.TotalPages)
   )
   console.log(nothingToLoadMore.current)
   console.log(pagination)
@@ -29,14 +29,13 @@ function Comments({ postId, initialComments, pagination }: any) {
       commentsResponse?.pagination?.TotalPages
     setCommentPage(commentPage + 1)
 
-    const filteredComments = commentsResponse.comments.filter(
-      (comment: any) => {
-        return comment.id !== initialComments[0].id
-      },
-    )
+    const filteredComments = commentsResponse.comments.filter((comment: any) => {
+      return comment.id !== initialComments[0].id
+    })
 
     setComments([...comments, ...filteredComments])
   }
+
   return (
     <>
       <CommentOrReply
@@ -53,7 +52,6 @@ function Comments({ postId, initialComments, pagination }: any) {
                   comment={comment}
                   refetchComments={refetchComments}
                   commentLength={comments.length}
-                  // pagination={pagination}
                 />
               )
             })}

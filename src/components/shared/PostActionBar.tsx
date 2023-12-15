@@ -1,6 +1,11 @@
 'use client'
 import React from 'react'
 import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
+////
+
+import { PiShareFatThin } from "react-icons/pi";
+import { FaRegBookmark, FaRegComment } from "react-icons/fa";
+
 import { TbMessageCircle2Filled as MessageIcon } from 'react-icons/tb'
 import { IoShareSocial } from 'react-icons/io5'
 import Link from 'next/link'
@@ -30,7 +35,6 @@ interface PostActionBarProps {
 
 const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
 
-
   const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
   const submitReaction = async (value: string) => {
     console.log(value)
@@ -56,46 +60,63 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
   }
 
   return (
-    <>
-      <div className="flex items-center justify-between px-10 max-md:flex-col max-md:gap-[20px]">
-        <div className="flex items-center justify-center gap-3">
-          {/* bg-[#F9F9F9] bg on the message button before */}
+    <div className='flex flex-col'>
+      <div className="flex w-full justify-between items-stretch px-[2%] max-md:flex-col max-md:gap-[20px]">
+
+
+        {/* bg-[#F9F9F9] bg on the message button before */}
+
+        <div className='flex items-center justify-center dark:text-icon-dark hover:bg-gray-200 rounded-sm basis-1/4 '>
           <ReactionButton onReact={submitReaction} />
-          <div className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
-            <Link
-              href={linkToFeed}
-              className="text-icon-light dark:text-icon-dark flex items-center space-x-2 p-[9px] font-black">
-              <BookmarkIcon size={'20px'} color="#D2D3D5" />
-              <span className="font-light dark:text-gray-300">Bookmark</span>
-            </Link>
-
-          </div>
-          <div
-            className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
-
-            <button
-              onClick={toggleCommentArea}
-              className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300"
-            >
-              <MessageIcon size={'24px'} color="#D2D3D5" />
-              <span className="font-light dark:text-gray-300">Comment</span>
-            </button>
-          </div>
-          <div className="flex rounded-xl bg-background hover:bg-[#afbaf7] dark:bg-gray-700 dark:text-gray-300">
-            <Popover >
-              <PopoverTrigger>
-                <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
-                  <IoShareSocial size={'24px'} color="#D2D3D5" />
-                  <span className="font-light dark:text-gray-300">Share</span>
-                </button>
-              </PopoverTrigger>
-
-              <PopoverContent className='bg-white'>
-                <SocialButtons className='flex gap-3' postId={postId} />
-              </PopoverContent>
-            </Popover>
-          </div>
+          <div className='font-light dark:text-gray-300'>Like</div>
         </div>
+        <div className="flex hover:bg-gray-200 justify-center items-center dark:bg-gray-700 dark:text-gray-300 basis-1/4">
+          <Link
+            href={linkToFeed}
+            className="text-icon-light dark:text-icon-dark flex items-center  space-x-2 p-[9px] font-black">
+            <FaRegBookmark />
+            <span className="font-light dark:text-gray-300">Bookmark</span>
+          </Link>
+        </div>
+
+
+        <div
+          className="flex hover:bg-gray-200 dark:bg-gray-700 justify-center items-center dark:text-gray-300 basis-1/4">
+
+          <button
+            onClick={toggleCommentArea}
+            className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300"
+          >
+            {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
+            <FaRegComment />
+            <span className="font-light dark:text-gray-300">Comment</span>
+          </button>
+        </div>
+
+
+
+        <div className="flex hover:bg-gray-200 dark:bg-gray-700 justify-center items-center dark:text-gray-300 basis-1/4">
+
+          <Popover >
+            <PopoverTrigger>
+              <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
+                {/* <IoShareSocial size={'24px'} color="#D2D3D5" /> */}
+                <PiShareFatThin />
+                <span className="font-light dark:text-gray-300">Share</span>
+              </button>
+
+            </PopoverTrigger>
+
+            <PopoverContent className='bg-white'>
+              <SocialButtons className='flex gap-3' postId={postId} />
+            </PopoverContent>
+          </Popover>
+        </div>
+
+
+
+
+
       </div >
 
       <div className={`${!showCommentArea && 'hidden'} `}>
@@ -109,8 +130,8 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
           {(comment.length != 0) && <CommentSection comment={comment[0]} />}
         </div>
 
-      </div>
-    </>
+      </div >
+    </div>
   )
 }
 

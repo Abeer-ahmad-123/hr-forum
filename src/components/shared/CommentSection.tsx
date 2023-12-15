@@ -63,13 +63,13 @@ const CommentSection = ({
       pagination: data.pagination
         ? data.pagination
         : {
-            CurrentPage: 0,
-            FirstRecord: 0,
-            LastRecord: 0,
-            RecordsPerPage: 0,
-            TotalPages: 0,
-            TotalRecords: 0,
-          },
+          CurrentPage: 0,
+          FirstRecord: 0,
+          LastRecord: 0,
+          RecordsPerPage: 0,
+          TotalPages: 0,
+          TotalRecords: 0,
+        },
     })
     index++
   }
@@ -83,16 +83,16 @@ const CommentSection = ({
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 alt="avatar"
-                src={comments.comment['author_details']?.profile_picture_url}
+                src={comment['author_details']?.profile_picture_url}
                 className="h-8 w-8 rounded-full"
               />
             </div>
-            <div className="pl-5">
-              {/* To be implemented */}
-              <UpdownButton
-                count={comments.comment?.reaction_summary?.like_count}
-              />
-            </div>
+
+
+            {/* <div className="pl-5">
+              <UpdownButton count={comment?.reaction_summary?.like_count} />
+            </div> */}
+
           </div>
           <div className="flex w-full flex-col">
             <div className="flex w-full justify-between">
@@ -123,6 +123,7 @@ const CommentSection = ({
                 key={reply.id}
                 reply={reply}
                 commentLength={commentLength}
+                commentId={comment.id}
               />
             )
           })}
