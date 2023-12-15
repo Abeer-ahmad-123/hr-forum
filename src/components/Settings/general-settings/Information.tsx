@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const Information = () => {  
+const Information = () => {
   const [userInfo, setUserInfo] = useState({
     name: '',
     email: '',
@@ -13,7 +13,7 @@ const Information = () => {
     bio: '',
   })
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setUserInfo({ ...userInfo, [e.target.name]: e.target.value })
   }
 

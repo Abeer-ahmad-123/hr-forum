@@ -9,7 +9,7 @@ const AUTH_GET_USER_DETAILS = API_BASE_URL + '/auth/getUserDetails'
 const AUTH_UPDATE_USER_DETAILS = API_BASE_URL + '/auth/updateUserDetails'
 const GOOGLE_AUTH_START = API_BASE_URL + '/auth/google/start-auth'
 const GOOGLE_REGISTER = API_BASE_URL + '/auth/google/register'
-const GOOGLE_CALLBACK = API_BASE_URL + '/auth/google/callback'
+const GOOGLE_EXCHANGE_TOKEN = API_BASE_URL + '/auth/google/exchange-code'
 export {
   AUTH_WITH_EMAIL,
   AUTH_REGISTER,
@@ -20,5 +20,5 @@ export {
   AUTH_UPDATE_USER_DETAILS,
   GOOGLE_AUTH_START,
   GOOGLE_REGISTER,
-  GOOGLE_CALLBACK,
+  GOOGLE_EXCHANGE_TOKEN,
 }

@@ -6,21 +6,24 @@ export const loggedInUserSlice = createSlice({
   initialState: getInitialStateFromLocalStorage(),
   reducers: {
     setUser: (state, action) => {
-      const { token, userData } = action.payload
+      const { token, userData, refreshToken } = action.payload
       state.token = token
       state.userData = userData
-      setUserandTokenLocalStorage(token, userData)
+      state.refreshToken = refreshToken
+      setUserandTokenLocalStorage(token, refreshToken, userData)
     },
 
     clearUser: (state) => {
       state.token = null
-      state.userData = EmptyInitialState()
-      localStorage.removeItem('token')
-      localStorage.removeItem('userData')
+      state.refreshToken = null
+      state.userData = userInitialState()
+      clearLocalStorage()
     },
     setToken: (state, action) => {
-      const { token } = action.payload
+      const { token, refreshToken } = action.payload
       state.token = token
+      state.refreshToken = refreshToken
+      setTokens(token, refreshToken)
     },
   },
 })
@@ -29,22 +32,41 @@ export const { setUser, clearUser, setToken } = loggedInUserSlice.actions
 
 export default loggedInUserSlice.reducer
 
-function setUserandTokenLocalStorage(token: any, userData: any) {
-  // localStorage.setItem('userData', JSON.stringify(userData))
-  // localStorage.setItem('token', token)
+const setTokens = (token: any, refreshToken: string) => {
+  localStorage.setItem('token', token)
+  localStorage.setItem('refreshToken', refreshToken)
+}
+
+function setUserandTokenLocalStorage(
+  token: any,
+  refreshToken: string,
+  userData: any,
+) {
+  localStorage.setItem('userData', JSON.stringify(userData))
+  localStorage.setItem('token', token)
+  localStorage.setItem('refreshToken', refreshToken)
+}
+
+const clearLocalStorage = () => {
+  localStorage.removeItem('token')
+  localStorage.removeItem('refreshToken')
+  localStorage.removeItem('userData')
 }
 
 function getInitialStateFromLocalStorage() {
   let token = null
-  let userData = EmptyInitialState()
+  let refreshToken = null
+  let userData = userInitialState()
 
   if (typeof localStorage !== 'undefined') {
     const tokenFromStorage = localStorage.getItem('token')
+    const refreshTokenFromStorage = localStorage.getItem('refreshToken')
     const userDataString = localStorage.getItem('userData')
-    const userDataFromStorage = !userDataString
-      ? JSON.parse(userDataString)
+    const userDataFromStorage = !!userDataString
+      ? JSON?.parse(userDataString)
       : null
 
+    refreshToken = refreshTokenFromStorage || refreshToken
     token = tokenFromStorage || token
     userData = userDataFromStorage || userData
   }
@@ -52,10 +74,11 @@ function getInitialStateFromLocalStorage() {
   return {
     token: token,
     userData: userData,
+    refreshToken: refreshToken,
   }
 }
 
-function EmptyInitialState() {
+function userInitialState() {
   return {
     id: null,
     email: '',

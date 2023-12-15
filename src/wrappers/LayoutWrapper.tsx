@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Navbar from '@/components/Navbar/Navbar'
 import '@/assets/styles/globals.css'
@@ -7,13 +7,22 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import { getChannels } from '@/services/channel/channel'
 import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
-import { setToken } from '@/store/Slices/loggedInUserSlice'
+import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
-import { getRefreshToken } from '@/services/auth/authService'
-
+import {
+  getRefreshToken,
+  googleTokenExchange,
+} from '@/services/auth/authService'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { showErrorAlert } from '@/utils/helper'
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const dispatch = useDispatch()
+  const isFirstRun = useRef(true)
+  const isFirstOnce = useRef(false)
 
   const styles = darkMode ? 'dark' : ''
   const getChannelsLocal = useCallback(async () => {
@@ -26,13 +35,58 @@ const LayoutWrapper = ({ children }: any) => {
     }
   }, [])
 
-  const refreshInterval = setInterval(async () => {
-    const refreshToken = await getRefreshToken()
-    dispatch(setToken({ token: refreshToken }))
-  }, 300000)
+  const exchangeCode = async (token: string) => {
+    if (token) {
+      try {
+        const response = await googleTokenExchange(token)
+        console.log('pathname', pathname)
+        dispatch(
+          setUser({
+            ...response,
+            refreshToken: response['refresh-token'],
+          }),
+        )
+
+        router.push(pathname)
+      } catch (err) {
+        showErrorAlert('Issue in google authentication')
+      }
+    }
+  }
+  useEffect(() => {
+    const token = searchParams.get('code')
+    if (!isFirstOnce.current && token) {
+      isFirstOnce.current = true
+      exchangeCode(token!)
+    }
+  }, [searchParams])
 
   useEffect(() => {
-    getChannelsLocal()
+    let refreshInterval: any
+    if (!localStorage.getItem('token')) {
+      clearInterval(refreshInterval)
+    }
+    refreshInterval = setInterval(async () => {
+      console.log('DONE interval')
+      const localStorageToken = localStorage.getItem('token') || null
+      if (localStorageToken && localStorageToken !== 'undefined') {
+        console.log('DONE')
+
+        const tokenResponse = await getRefreshToken()
+        dispatch(
+          setToken({
+            token: tokenResponse?.token,
+            refreshToken: tokenResponse['refresh-token'],
+          }),
+        )
+      }
+    }, 300000)
+
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+
+      getChannelsLocal()
+    }
     return () => clearInterval(refreshInterval)
   }, [])
 
