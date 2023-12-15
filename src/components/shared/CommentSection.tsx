@@ -49,6 +49,7 @@ const CommentSection = ({
     }
   }
   const getAllReplies = async () => {
+    // There may be an issue when getting replying a comment after 10th Reply.
     let index = replies?.pagination?.CurrentPage + 1
     const data = await getComment(comment.id, { page: index })
 
@@ -59,7 +60,10 @@ const CommentSection = ({
           ? data.comment
           : {
               ...replies.comment,
-              replies: [...replies.comment.replies, ...data.comment.replies],
+              replies:
+                replies?.pagination?.CurrentPage > 1
+                  ? [...replies.comment.replies, ...data.comment.replies]
+                  : [...data.comment.replies],
             },
       pagination: data.pagination
         ? data.pagination
@@ -109,7 +113,7 @@ const CommentSection = ({
             <CommentOrReply
               reply={true}
               commentId={replies.comment.id}
-              refetchComments={refetchComments}
+              refetchComments={getAllReplies}
             />
           </div>
         </div>

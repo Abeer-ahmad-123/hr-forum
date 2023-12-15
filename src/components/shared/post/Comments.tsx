@@ -17,11 +17,11 @@ function Comments({ postId, initialComments, pagination }: any) {
     pagination?.TotalPages !== 0 &&
       pagination?.CurrentPage !== pagination?.TotalPages,
   )
-  const refetchComments = async () => {
+  const refetchComments = async (pageNumber = undefined) => {
     // Re-fetch comments
 
     const commentsResponse = await getPostsComments(postId, {
-      page: commentPage,
+      page: pageNumber || commentPage,
     })
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
@@ -33,8 +33,11 @@ function Comments({ postId, initialComments, pagination }: any) {
         return comment.id !== initialComments[0].id
       },
     )
-
-    setComments([...comments, ...filteredComments])
+    if (pageNumber === 1 || commentPage === 1) {
+      setComments([...filteredComments])
+    } else {
+      setComments([...comments, ...filteredComments])
+    }
   }
 
   return (
