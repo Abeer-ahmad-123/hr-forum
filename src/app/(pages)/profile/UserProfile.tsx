@@ -4,15 +4,24 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
+interface userData {
+    id: number,
+    bio: string,
+    email: string,
+    name: string,
+    profilePictureURL: string
+    username: string
+}
+
 function UserProfile() {
 
-    const [userData, setUserData] = useState({})
+    const [userData, setUserData] = useState<userData | null>(null)
     const usertoken = useSelector((state) => state?.loggedInUser?.token)
 
     const getUserData = async () => {
         const response = await getUserDetails(usertoken)
         setUserData(response)
-        console.log("User Profile Data: ", response)
+        console.log(response)
     }
 
     useEffect(() => {
@@ -27,7 +36,7 @@ function UserProfile() {
                     className="absolute top-0 h-full w-full bg-cover bg-center"
                     style={{
                         backgroundImage:
-                            'url(https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80)',
+                            'url(https://source.unsplash.com/random)',
                     }}>
                     <span
                         id="blackOverlay"
@@ -61,7 +70,7 @@ function UserProfile() {
                                             alt="..."
                                             width={150}
                                             height={150}
-                                            src={'/baby.jpeg'}
+                                            src={userData?.profilePictureURL || 'https://source.unsplash.com/random/300×300'}
                                             className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
                                         />
                                     </div>
@@ -102,39 +111,23 @@ function UserProfile() {
                             </div>
                             <div className="mt-12 text-center">
                                 <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold leading-normal">
-                                    {userData?.username || "John_Doe"}
+                                    {userData?.username}
                                 </h3>
                                 <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium uppercase leading-normal">
                                     <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
-                                    {userData?.name || "John Doe"}
+                                    {userData?.name}
                                 </div>
                                 <div className="text-blueGray-600 mb-2 mt-1">
                                     <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                                    {userData?.email || "john@example.com"}
+                                    {userData?.email}
                                 </div>
-                                <div className="text-blueGray-600 mb-2">
-                                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg"></i>
-                                    {userData?.bio || "No Bio"}
+                                <div className="text-left text-blueGray-600 mb-2 pb-2">
+                                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
+                                    {userData?.bio || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem."}
 
                                 </div>
                             </div>
 
-                            {/* <div className="border-blueGray-200 mt-10 border-t py-10 text-center">
-                <div className="flex flex-wrap justify-center">
-                  <div className="w-full px-4 lg:w-9/12">
-                    <p className="text-blueGray-700 mb-4 text-lg leading-relaxed">
-                      An artist of considerable range, Jenna the name taken by
-                      Melbourne-raised, Brooklyn-based Nick Murphy writes,
-                      performs and records all of his own music, giving it a
-                      warm, intimate feel with a solid groove structure. An
-                      artist of considerable range.
-                    </p>
-                    <a href="#pablo" className="font-normal text-accent">
-                      Show more
-                    </a>
-                  </div>
-                </div>
-              </div> */}
                         </div>
                     </div>
                 </div>

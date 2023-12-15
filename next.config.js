@@ -29,7 +29,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'image.winudf.com',
-
+      },
+      {
+        protocol: 'https',
+        hostname: 'source.unsplash.com',
       }
     ],
   },
