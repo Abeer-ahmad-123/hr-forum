@@ -10,7 +10,6 @@ import ReactionDetails from '@/components/ReactionDetails'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const { post } = await getPostByPostId(postId, {})
-  console.log(post)
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
 
@@ -76,6 +75,10 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
           </div>
           {/* <div className="mb-9 w-full border-b border-gray-500 pr-5"></div> */}
           <div className="w-full">
+            <PostReactionBar
+              reaction_summary={post?.reaction_summary}
+              postId={postId}
+            />
             <Comments
               postId={postId}
               initialComments={commentResult}

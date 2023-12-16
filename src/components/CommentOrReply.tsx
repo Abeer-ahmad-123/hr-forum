@@ -10,8 +10,8 @@ import { useSelector } from 'react-redux'
 function CommentOrReply({
   reply = false,
   commentId = null,
-  refetchComments = () => { },
-  setComments = () => { },
+  refetchComments = () => {},
+  setComments = () => {},
   className = '',
   btnClass = '',
   Id = '',
@@ -24,24 +24,21 @@ function CommentOrReply({
     status: 'null',
   })
 
-
-
   const handleSubmit = async (value: any) => {
     try {
       setIsLoading({ ...isLoading, loading: true })
       const result = reply
         ? await postCommentReply({
-          commentId,
-          content: { content: value },
-          token,
-        })
+            commentId,
+            content: { content: value },
+            token,
+          })
         : await postComment({ postId, content: { content: value }, token })
 
       if (result?.success) {
         // refetchComments()
         //  **** uncomment the after update from Behzad ****
 
-        console.log(result)
         if (!commentId) {
           setComments((prevComments) => [result?.data, ...prevComments])
         } else {
@@ -52,7 +49,6 @@ function CommentOrReply({
       const status = result?.success ? 'success' : 'error'
       setIsLoading({ ...isLoading, loading: false, status: status })
     } catch (err) {
-      console.log("HERE IS ERROR", err)
       showErrorAlert(err)
       setIsLoading({ ...isLoading, loading: false, status: 'error' })
     }

@@ -14,26 +14,30 @@ function Comments({ postId, initialComments, pagination }: any) {
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
 
   const nothingToLoadMore = useRef(
-    (pagination?.TotalPages !== 0) && (pagination?.CurrentPage !== pagination?.TotalPages)
+    pagination?.TotalPages !== 0 &&
+      pagination?.CurrentPage !== pagination?.TotalPages,
   )
-  console.log(nothingToLoadMore.current)
-  console.log(pagination)
-  const refetchComments = async () => {
+  const refetchComments = async (pageNumber = undefined) => {
     // Re-fetch comments
 
     const commentsResponse = await getPostsComments(postId, {
-      page: commentPage,
+      page: pageNumber || commentPage,
     })
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
       commentsResponse?.pagination?.TotalPages
     setCommentPage(commentPage + 1)
 
-    const filteredComments = commentsResponse.comments.filter((comment: any) => {
-      return comment.id !== initialComments[0].id
-    })
-
-    setComments([...comments, ...filteredComments])
+    const filteredComments = commentsResponse.comments.filter(
+      (comment: any) => {
+        return comment.id !== initialComments[0].id
+      },
+    )
+    if (pageNumber === 1 || commentPage === 1) {
+      setComments([...filteredComments])
+    } else {
+      setComments([...comments, ...filteredComments])
+    }
   }
 
   return (

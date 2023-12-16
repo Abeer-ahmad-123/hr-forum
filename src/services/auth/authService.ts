@@ -103,12 +103,12 @@ export async function updateUserDetail(body: any) {
   }
 }
 
-export async function googleAuthStart(url) {
+export async function googleAuthStart(url: string) {
   try {
     const responseFromRefresh = await fetch(GOOGLE_AUTH_START, {
       method: 'POST',
       body: JSON.stringify({
-        frontendRedirectUrl: process.env.NEXT_PUBLIC_SITE_URL + '/feeds',
+        frontendRedirectUrl: process.env.NEXT_PUBLIC_SITE_URL + url,
       }),
       headers: {
         'content-type': 'application/json',

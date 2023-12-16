@@ -3,6 +3,7 @@ import CommentOrReply from '@/components/CommentOrReply'
 import Reply from './Reply'
 import { getComment } from '@/services/comments'
 import { useState } from 'react'
+import LoadMoreReplyButton from './LoadMoreReplyButton'
 
 const CommentSection = ({
   key,
@@ -10,7 +11,7 @@ const CommentSection = ({
   refetchComments,
   commentLength,
 }: any) => {
-  const [comments, setComments] = useState({
+  const [replies, setReplies] = useState({
     comment: comment,
     pagination: {
       CurrentPage: 0,
@@ -47,31 +48,34 @@ const CommentSection = ({
       return 'just now'
     }
   }
-  const getAllComments = async () => {
-    let index = 1
+  const getAllReplies = async () => {
+    // There may be an issue when getting replying a comment after 10th Reply.
+    let index = replies?.pagination?.CurrentPage + 1
     const data = await getComment(comment.id, { page: index })
-    {
-      /*condition is not tested when total record is greater 10 it may vary*/
-    }
 
-    setComments({
-      ...comments,
+    setReplies({
+      ...replies,
       comment:
         index === 1
           ? data.comment
-          : comments.comment.replies.concat(data.comment.replies),
+          : {
+              ...replies.comment,
+              replies:
+                replies?.pagination?.CurrentPage > 1
+                  ? [...replies.comment.replies, ...data.comment.replies]
+                  : [...data.comment.replies],
+            },
       pagination: data.pagination
         ? data.pagination
         : {
-          CurrentPage: 0,
-          FirstRecord: 0,
-          LastRecord: 0,
-          RecordsPerPage: 0,
-          TotalPages: 0,
-          TotalRecords: 0,
-        },
+            CurrentPage: 0,
+            FirstRecord: 0,
+            LastRecord: 0,
+            RecordsPerPage: 0,
+            TotalPages: 0,
+            TotalRecords: 0,
+          },
     })
-    index++
   }
 
   return (
@@ -88,36 +92,34 @@ const CommentSection = ({
               />
             </div>
 
-
             {/* <div className="pl-5">
               <UpdownButton count={comment?.reaction_summary?.like_count} />
             </div> */}
-
           </div>
           <div className="flex w-full flex-col">
             <div className="flex w-full justify-between">
               <div className="text-accent">
-                {comments.comment['author_details']?.name}
+                {replies.comment['author_details']?.name}
               </div>
               <div className="pr-5 italic text-gray-500">
-                {convertDate(comments.comment.created_at)}
+                {convertDate(replies.comment.created_at)}
               </div>
             </div>
 
             <div className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white">
-              {comments.comment.content}
+              {replies.comment.content}
             </div>
 
             <CommentOrReply
               reply={true}
-              commentId={comments.comment.id}
-              refetchComments={refetchComments}
+              commentId={replies.comment.id}
+              refetchComments={getAllReplies}
             />
           </div>
         </div>
 
-        {comments.comment?.replies?.length !== 0 &&
-          comments.comment?.replies?.map((reply: any) => {
+        {replies.comment?.replies?.length !== 0 &&
+          replies.comment?.replies?.map((reply: any) => {
             return (
               <Reply
                 key={reply.id}
@@ -127,16 +129,13 @@ const CommentSection = ({
               />
             )
           })}
-        {/*condition is not tested when total record is greater 10 it may vary*/}
-        {(comments.comment.total_replies > 2 &&
-          (comments.comment?.replies?.length < comments.comment.total_replies)) && (
-            <button
-              className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
-              id={comment.id}
-              onClick={getAllComments}>
-              Load More
-            </button>
-          )}
+
+        <LoadMoreReplyButton
+          getAllReplies={getAllReplies}
+          commentId={comment.id}
+          total_replies={replies.comment.total_replies}
+          repliesLength={replies.comment?.replies?.length}
+        />
       </div>
     </div>
   )
