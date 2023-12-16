@@ -12,12 +12,18 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
+import { useState } from 'react'
 
 function LoggedIn() {
   const router = useRouter()
   const dispatch = useDispatch()
+  const [openPopover, setOpenPopover] = useState(false)
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { name, username, profilePictureURL } = user
+
+  const handleClosePopover = () => {
+    setOpenPopover(false)
+  }
 
   function handleLogout() {
     dispatch(clearUser())
@@ -49,27 +55,27 @@ function LoggedIn() {
   return (
     <>
       <div className="max-lg:hidden">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
+        <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
+          <DropdownMenuTrigger
+            onChange={() => {
+              setOpenPopover(!openPopover)
+            }}>
             <UserDropdown />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
             <DropdownMenuSeparator />
-            <DropdownMenuItem className='hover:text-white'>
+            <DropdownMenuItem
+              onClick={handleClosePopover}
+              className="hover:text-white">
               <Link href="/profile">
                 <div className={`block px-4 py-2 text-sm dark:text-white`}>
                   Profile
                 </div>
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className='hover:text-white'>
-              <Link href="/settings">
-                <div className={`block px-4 py-2 text-sm  dark:text-white`}>
-                  Settings
-                </div>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem className='hover:text-white'>
+            <DropdownMenuItem
+              onClick={handleClosePopover}
+              className="hover:text-white">
               <button onClick={handleLogout}>
                 <div className={`block px-4 py-2 text-sm  dark:text-white`}>
                   Logout

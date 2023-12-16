@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useCallback, useRef } from 'react'
+import React, { useEffect, useCallback, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Navbar from '@/components/Navbar/Navbar'
 import '@/assets/styles/globals.css'
@@ -11,12 +11,16 @@ import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import {
   getRefreshToken,
+  googleCodeExchange,
   googleTokenExchange,
 } from '@/services/auth/authService'
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { showErrorAlert } from '@/utils/helper'
+import UserNameDialog from './UserNameDialog'
+
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
+  const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
@@ -35,10 +39,10 @@ const LayoutWrapper = ({ children }: any) => {
     }
   }, [])
 
-  const exchangeCode = async (token: string) => {
-    if (token) {
+  const exchangeCode = async (code: string) => {
+    if (code) {
       try {
-        const response = await googleTokenExchange(token)
+        const response = await googleCodeExchange(code)
         dispatch(
           setUser({
             ...response,
@@ -58,11 +62,49 @@ const LayoutWrapper = ({ children }: any) => {
       }
     }
   }
+
+  const exchangeGoogleToken = async (token: string, username: string) => {
+    if (token) {
+      try {
+        const response = await googleTokenExchange(token, username)
+        console.log('response', response)
+        dispatch(
+          setUser({
+            ...response,
+            refreshToken: response['refresh-token'],
+          }),
+        )
+
+        const currentUrl = window.location.href
+        const url = new URL(currentUrl)
+
+        // Remove the "example" query parameter
+        url.searchParams.delete('googleAccessToken')
+
+        window.history.replaceState({}, document.title, url.href)
+      } catch (err) {
+        console.log('err', err)
+        showErrorAlert('Issue in google authentication')
+      }
+    }
+  }
+
+  const handleSubmitUserName = (userName: string) => {
+    const googleToken = searchParams.get('googleAccessToken')
+    exchangeGoogleToken(googleToken!, userName)
+    setOpenUserNameDialog(false)
+  }
+
   useEffect(() => {
-    const token = searchParams.get('code')
-    if (!isFirstOnce.current && token) {
+    const code = searchParams.get('code')
+    const googleToken = searchParams.get('googleAccessToken')
+    if (!isFirstOnce.current && (code || googleToken)) {
       isFirstOnce.current = true
-      exchangeCode(token!)
+      if (code) {
+        exchangeCode(code!)
+      } else {
+        setOpenUserNameDialog(true)
+      }
     }
   }, [searchParams])
 
@@ -82,7 +124,7 @@ const LayoutWrapper = ({ children }: any) => {
           }),
         )
       }
-    }, 300000)
+    }, 900000)
 
     if (isFirstRun.current) {
       isFirstRun.current = false
@@ -106,6 +148,11 @@ const LayoutWrapper = ({ children }: any) => {
             </div>
           </div>
         </div>
+        {openUserNameDialog && (
+          <div>
+            <UserNameDialog handleSubmit={handleSubmitUserName} />
+          </div>
+        )}
       </main>
     </body>
   )

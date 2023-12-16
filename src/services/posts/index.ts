@@ -6,7 +6,8 @@ const GET_All_POSTS = API_BASE_URL + '/posts'
 const ADD_POST = API_BASE_URL + '/channels/channelId/posts'
 const EDIT_POST = API_BASE_URL + '/posts/postId'
 const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
-const CREATE_POST_IN_CHANNEL = API_BASE_URL + '/channels/postId/posts'
+const SEARCH_POSTS = API_BASE_URL + '/posts/search'
+const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
 
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
@@ -93,6 +94,18 @@ export async function postCreatePostInChannel({ channelID, body, token }: any) {
         body: requestBody,
       },
     )
+    const response = await res.json()
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function getUserSpecificPosts(userId: string) {
+  try {
+    const formatedRequestUrl = USER_SPECIFIC_POSTS.replace('userId', userId)
+
+    let res = await fetch(formatedRequestUrl)
     const response = await res.json()
     return response
   } catch (err) {

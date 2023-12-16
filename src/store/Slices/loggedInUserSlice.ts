@@ -10,7 +10,7 @@ export const loggedInUserSlice = createSlice({
       state.token = token
       state.userData = userData
       state.refreshToken = refreshToken
-      setUserandTokenLocalStorage(token, refreshToken, userData)
+      setUserAndTokenLocalStorage(token, refreshToken, userData)
     },
 
     clearUser: (state) => {
@@ -25,10 +25,16 @@ export const loggedInUserSlice = createSlice({
       state.refreshToken = refreshToken
       setTokens(token, refreshToken)
     },
+    setUserData: (state, action) => {
+      const { userData } = action.payload
+      state.userData = userData
+      setUserDataToLocalStorage(userData)
+    },
   },
 })
 
-export const { setUser, clearUser, setToken } = loggedInUserSlice.actions
+export const { setUser, clearUser, setToken, setUserData } =
+  loggedInUserSlice.actions
 
 export default loggedInUserSlice.reducer
 
@@ -37,7 +43,7 @@ const setTokens = (token: any, refreshToken: string) => {
   localStorage.setItem('refreshToken', refreshToken)
 }
 
-function setUserandTokenLocalStorage(
+function setUserAndTokenLocalStorage(
   token: any,
   refreshToken: string,
   userData: any,
@@ -45,6 +51,10 @@ function setUserandTokenLocalStorage(
   localStorage.setItem('userData', JSON.stringify(userData))
   localStorage.setItem('token', token)
   localStorage.setItem('refreshToken', refreshToken)
+}
+
+function setUserDataToLocalStorage(userData: any) {
+  localStorage.setItem('userData', JSON.stringify(userData))
 }
 
 const clearLocalStorage = () => {
