@@ -3,23 +3,24 @@ import { useState } from 'react'
 import SignupForm from '@/components/Signup/SignupForm'
 import GoogleButton from '../shared/GoogleButton/'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { signUp, signIn } from '@/services/auth/authService'
+import { signUp, signIn, googleAuthStart } from '@/services/auth/authService'
 import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function Signup({
   toggleForm,
   handleDialogClose = () => {},
 }: any) {
-  const dispatch = useDispatch()
   const initialValues: any = {
     name: '',
     username: '',
     email: '',
     password: '',
   }
-
+  const router = useRouter()
+  const pathname = usePathname()
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState(initialValues)
 
@@ -68,6 +69,16 @@ export default function Signup({
     }
   }
 
+  const handleGoogleSignUp = async () => {
+    try {
+      const response = await googleAuthStart(pathname)
+      if (response?.success) {
+        router.push(response?.data)
+      }
+    } catch (err) {
+      console.log('err', err)
+    }
+  }
   return (
     <div className="container mx-auto flex h-[550px] w-[400px] flex-col justify-center space-y-6">
       <div className="relative flex flex-col justify-center overflow-hidden">
@@ -75,7 +86,10 @@ export default function Signup({
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Sign Up
           </h1>
-          <GoogleButton title={'Sign Up'} />
+          <GoogleButton
+            title={'Sign Up'}
+            callbackFunction={handleGoogleSignUp}
+          />
           <p className="mt-4 text-center dark:text-white">OR</p>
 
           <SignupForm

@@ -7,7 +7,8 @@ import {
   AUTH_GET_USER_DETAILS,
   AUTH_UPDATE_USER_DETAILS,
   GOOGLE_AUTH_START,
-  GOOGLE_EXCHANGE_TOKEN,
+  GOOGLE_EXCHANGE_CODE,
+  GOOGLE_REGISTER,
 } from './routes'
 
 export async function signIn(body: any) {
@@ -137,12 +138,31 @@ export async function googleRegister(body: any) {
   }
 }
 
-export async function googleTokenExchange(token: string) {
+export async function googleCodeExchange(token: string) {
   try {
-    const responseFromRefresh = await fetch(GOOGLE_EXCHANGE_TOKEN, {
+    const responseFromRefresh = await fetch(GOOGLE_EXCHANGE_CODE, {
       method: 'POST',
       body: JSON.stringify({
         code: token,
+      }),
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+    const responseJson = await responseFromRefresh.json()
+    return responseJson?.data
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function googleTokenExchange(token: string, username: string) {
+  try {
+    const responseFromRefresh = await fetch(GOOGLE_REGISTER, {
+      method: 'POST',
+      body: JSON.stringify({
+        googleAccessToken: token,
+        username: username,
       }),
       headers: {
         'content-type': 'application/json',

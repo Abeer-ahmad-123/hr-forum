@@ -33,7 +33,8 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'source.unsplash.com',
-      }
+      },
+      { protocol: 'https', hostname: 'h-forum.s3.us-east-2.amazonaws.com' },
     ],
   },
 }

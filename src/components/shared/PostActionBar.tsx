@@ -63,7 +63,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
         <div className="flex basis-1/4 items-center justify-center hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300">
           <Link
             href={linkToFeed}
-            className="text-icon-light dark:text-icon-dark flex items-center  space-x-2 p-[9px] font-black">
+            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
             <FaRegBookmark />
             <span className="font-light dark:text-gray-300">Bookmark</span>
           </Link>
