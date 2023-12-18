@@ -19,7 +19,7 @@ const rulesArr = [
 const RulesCard = () => {
     return (
         <>
-            <div className="w-[200px] ml-6  mr-[50px] pb-[10px] bg-white dark:bg-slate-800 dark:text-white shadow-lg h-auto rounded-[10px] cursor-cursor ">
+            <div className="w-[200px] ml-5 pb-[10px] bg-white dark:bg-slate-800 dark:text-white shadow-lg h-auto rounded-[10px] cursor-cursor ">
                 <h1 className="text-[15px] pt-5 mb-[20px] font-medium justify-center text-center ">
                     CHANNELS RULES
                 </h1>

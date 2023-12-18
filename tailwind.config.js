@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        'custom-sm': '500px', // Adjust the value as needed
+      },
       fontFamily: {
         primary: ['Poppins'],
       },

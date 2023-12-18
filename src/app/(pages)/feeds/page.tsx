@@ -42,9 +42,7 @@ const FeedPage = () => {
       <div>
 
 
-        <div className=" mx-auto my-5 max-w-9xl rounded-full ">
-          <PostBar />
-        </div>
+       
 
         <Suspense fallback={<RenderFeedLoading />}>
           <RenderFeeds />
