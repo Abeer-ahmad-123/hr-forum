@@ -21,7 +21,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
         className=''
         href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
-        <span className='hover:text-primary' >
+        <span className='hover:text-primary underline' >
           {channelObj[channel_id]?.name}</span>
       </Link >
     </span >

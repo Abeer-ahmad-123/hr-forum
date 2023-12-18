@@ -2,7 +2,7 @@
 import { Card } from '../shared'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getChannelIdByChannelName } from '@/utils/channels'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import CircularProgress from '../ui/circularProgress'
 

@@ -82,13 +82,11 @@ const Card = ({ post, channels }: any) => {
 
 
             <div className="flex flex-col">
-              <div className="my-3 text-left text-3xl font-semibold dark:text-white">
+              <div className="my-3 text-justify text-[28px] font-semibold dark:text-white">
                 {title}
               </div>
-
-
               <div
-                className="text-left text-gray-700 dark:text-gray-300"
+                className="text-justify text-gray-700 text-[15px] dark:text-gray-300"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
