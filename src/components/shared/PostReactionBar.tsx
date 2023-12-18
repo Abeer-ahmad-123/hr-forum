@@ -4,12 +4,17 @@ import { getPostByPostId } from '@/services/posts'
 import { reactionOptions } from '@/utils/data'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { getEmojisAsArray } from '@/utils/reactionDetails'
 interface PostReactionBarProps {
   postId: string
   reaction_summary: any
 }
-type ReactionCounts = {
+export type ReactionCounts = {
   [key: string]: number
 }
 const PostReactionBar = ({
@@ -18,9 +23,11 @@ const PostReactionBar = ({
 }: PostReactionBarProps) => {
   const pathName = usePathname()
   const [reactionArray, setReactionArray] = useState<[string, number][]>([])
+  const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
 
   const getAllPostData = () => {
     const reactionEntries = Object?.entries(reaction_summary as ReactionCounts)
+
     const sortedReactions = reactionEntries.sort((a, b) => b[1] - a[1])
     setReactionArray(sortedReactions)
   }
@@ -39,7 +46,12 @@ const PostReactionBar = ({
   const addCountOfAll = (arr: [string, number][]): number => {
     return arr.reduce((acc, [, count]) => acc + count, 0)
   }
-
+  const mouseEnter = () => {
+    setEmojiPopoverVisible(true)
+  }
+  const mouseLeave = () => {
+    setEmojiPopoverVisible(false)
+  }
   useEffect(() => {
     getAllPostData()
   }, [])
@@ -60,11 +72,34 @@ const PostReactionBar = ({
                 {react}
               </span>
             ))}
-          <span className="text-xs text-slate-400">
-            {addCountOfAll(reactionArray) > 1
-              ? `name and ${addCountOfAll(reactionArray) - 1} others`
-              : 'name here'}
-          </span>
+          <Popover
+            open={emojiPopoverVisible}
+            onOpenChange={setEmojiPopoverVisible}>
+            <PopoverTrigger asChild>
+              <span
+                className="text-xs text-slate-400"
+                onMouseEnter={mouseEnter}
+                onMouseLeave={mouseLeave}>
+                {addCountOfAll(reactionArray) > 1
+                  ? `name and ${addCountOfAll(reactionArray) - 1} others`
+                  : 'name here'}
+              </span>
+            </PopoverTrigger>
+            <PopoverContent className="bg-white">
+              <div className="flex w-fit flex-row gap-4 rounded-xl shadow-2xl shadow-black">
+                {getEmojisAsArray(reaction_summary).map(
+                  ({ emoji, count }, key) => {
+                    return (
+                      <div key={key} className="flex gap-1.5">
+                        <p>{emoji}</p>
+                        <p>{count}</p>
+                      </div>
+                    )
+                  },
+                )}
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
         <Link
           href={
