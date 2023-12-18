@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 const rulesArr = [
     "Rule 1: Vel elit, ut ut.",
@@ -13,10 +13,11 @@ const rulesArr = [
     "Rule 10: Sed euismod"
 ]
 
-const RulesCard = () => {
+
+function RulesCardSkelton() {
     return (
         <>
-            <div className="w-[200px] ml-6  mr-[50px] pb-[10px] bg-white dark:bg-slate-800 dark:text-white shadow-lg h-auto rounded-[10px] cursor-cursor ">
+            <div className="bg-skelton animate-pulse w-[200px] ml-6  mr-[50px] pb-[10px] dark:bg-slate-800 dark:text-white shadow-lg h-auto rounded-[10px] cursor-cursor ">
                 <h1 className="text-[15px] pt-5 mb-[20px] font-medium justify-center text-center ">
                     CHANNELS RULES
                 </h1>
@@ -43,5 +44,6 @@ const RulesCard = () => {
             </div>
         </>
     );
-};
-export default RulesCard;
+}
+
+export default RulesCardSkelton

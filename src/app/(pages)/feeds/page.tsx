@@ -5,6 +5,7 @@ import PostBar from '@/components/shared/new-post/NewPostModal'
 import ProfileCard from './Cards/ProfileCard'
 import RulesCard from './Cards/RuleCard'
 import ChannelCard from './Cards/ChannelCard'
+import CardLoading from '@/components/Loading/cardLoading'
 
 
 // const FeedPage = () => {
@@ -46,7 +47,7 @@ const FeedPage = () => {
           <PostBar />
         </div>
 
-        <Suspense fallback={<RenderFeedLoading />}>
+        <Suspense fallback={<CardLoading />}>
           <RenderFeeds />
         </Suspense>
 

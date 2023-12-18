@@ -8,6 +8,9 @@ import { getChannelIdByChannelName } from '@/utils/channels'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import ChannelCard from '@/components/SideCards/ChannelCard'
+import ProfileCardSkelton from '../ProfileCardSkelton'
+import ChannelCardSkelton from '../ChannelCardSkelton'
+import RulesCardSkelton from '../RuleCardSkelton'
 
 async function RenderFeeds({ channelSlug = null }) {
   const { channels } = await getChannels()
@@ -38,11 +41,15 @@ async function RenderFeeds({ channelSlug = null }) {
           toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
       </p>
       <div className='flex justify-center'>
+
         <div className='flex flex-col'>
+          {/* <ProfileCard /> */}
           <ProfileCard />
           <div className='sticky max-h-screen top-0' style={{ top: '35px' }}>
-            <ChannelCard /></div>
+            <ChannelCard />
+          </div>
         </div>
+
         <div>
 
           <div className="mx-auto max-w-screen-lg dark:text-white">
@@ -54,9 +61,12 @@ async function RenderFeeds({ channelSlug = null }) {
               morePosts={morePosts}
             />
           </div>
+
+
         </div>
 
-        <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCard />
+
+        <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCardSkelton />
         </div>
       </div>
 
