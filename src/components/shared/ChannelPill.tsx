@@ -1,7 +1,9 @@
 import { arrayToKeyIdNValueData } from '@/utils/channels'
+import Link from 'next/link'
 
 const ChannelPill = ({ channel_id, channels }: any) => {
   const channelObj = arrayToKeyIdNValueData(channels)
+  const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
 
   return (
     // <span
@@ -10,7 +12,20 @@ const ChannelPill = ({ channel_id, channels }: any) => {
     //   {channelObj[channel_id]?.name}
     // </span>
 
-    <span className='text-slate-500 font-light text-xs dark:text-gray-400 px-1'>Posted in {channelObj[channel_id]?.name}</span>
+
+
+
+
+    <span className='text-slate-500 font-light text-xs dark:text-gray-400 px-1 '>Posted in
+      <Link
+        className=''
+        href={`/channels/${lowerCaseChannelName}/`}>
+        {` `}
+        <span className='hover:text-primary' >
+          {channelObj[channel_id]?.name}</span>
+      </Link >
+    </span >
+
   )
 }
 

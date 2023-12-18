@@ -64,7 +64,6 @@ const Card = ({ post, channels }: any) => {
                         {/* Yogesh Choudhary Paliyal */}
                       </p>
                     </Link>
-
                     <ChannelPill channel_id={channel_id} channels={channels} />
 
                   </div>
