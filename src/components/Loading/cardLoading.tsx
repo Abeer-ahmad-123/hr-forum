@@ -5,6 +5,7 @@ import ProfileCard from '../Cards/ProfileCard'
 import RulesCard from '../Cards/RuleCard'
 import ProfileCardSkelton from '../ProfileCardSkelton'
 import ChannelCardSkelton from '../ChannelCardSkelton'
+import RulesCardSkelton from '../RuleCardSkelton'
 
 function CardLoading() {
     return (
@@ -31,7 +32,7 @@ function CardLoading() {
                 </div>
 
 
-                <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCard />
+                <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCardSkelton />
                 </div>
             </div>
 

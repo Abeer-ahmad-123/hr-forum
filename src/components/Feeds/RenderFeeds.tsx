@@ -58,11 +58,9 @@ async function RenderFeeds({ channelSlug = null }) {
             />
           </div>
 
-
         </div>
-
-
-        <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCardSkelton />
+        <div className='sticky max-h-screen ' style={{ top: '60px' }}>
+          <RulesCard />
         </div>
       </div>
 

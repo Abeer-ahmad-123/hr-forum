@@ -1,49 +1,32 @@
-import React from 'react'
+import React from "react";
+import Skelton from "./ui/skelton";
 
-const rulesArr = [
-    "Rule 1: Vel elit, ut ut.",
-    "Rule 2: Cras nec purus et.",
-    "Rule 3: Fusce auctor odio.",
-    " Rule 4: Suspendisse non",
-    " Rule 5: Sed euismod",
-    "Rule 6: Vel elit, ut ut.",
-    "Rule 7: Cras nec purus.",
-    "Rule 8: Fusce auctor.",
-    "Rule 9: Suspendisse.",
-    "Rule 10: Sed euismod"
-]
-
-
-function RulesCardSkelton() {
+const RulesCardSkelton = () => {
     return (
         <>
-            <div className="bg-skelton animate-pulse w-[200px] ml-6  mr-[50px] pb-[10px] dark:bg-slate-800 dark:text-white shadow-lg h-auto rounded-[10px] cursor-cursor ">
-                <h1 className="text-[15px] pt-5 mb-[20px] font-medium justify-center text-center ">
-                    CHANNELS RULES
-                </h1>
+            <div className="w-[200px] ml-6 h-[460px] mr-[50px] pb-[10px] bg-white shadow-lg rounded-[10px] cursor-cursor ">
 
+                {/* <Skelton className="pl-[7px] pr-[10px] my-[10px] py-4 h-8 px-3 text-skelton-text w-full hover:text-black hover:bg-gray-200 " /> */}
+                <div className="pt-4">
+                    <Skelton className="flex justify-center text-center font-bold mx-[15px] mb-[20px] mt-[10px] h-5" />
+                </div>
 
                 <ul className="text-left pl-[7px] pr-[10px] cursor-pointer">
-
                     <li>
-                        {rulesArr.map((item, index) => (
-                            <li key={index} >
 
-                                <div className="mt-[10px]  pl-[10px] mb-[10px] text-[12px] text-gray-500 font-medium display-inline w-full hover:text-black hover:bg-gray-200 ">
-                                    <span
-
-                                    >
-                                        {item}
-                                    </span>
-                                </div>
-                                <hr className="my-1 mt-1 border-t border-gray-400" />
-                            </li>
+                        {Array.from({ length: 10 }).map((_, index) => (
+                            <React.Fragment key={index}>
+                                <Skelton className="mt-[10px]  pl-[10px] mb-[10px] h-5 px-3 text-skelton-text w-full hover:text-black hover:bg-gray-200 " />
+                                {index < 9 && (
+                                    <hr className="my-1 mt-1 border-t border-gray-400" />
+                                )}
+                            </React.Fragment>
                         ))}
                     </li>
                 </ul>
             </div>
         </>
     );
-}
+};
 
-export default RulesCardSkelton
+export default RulesCardSkelton;
