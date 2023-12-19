@@ -37,7 +37,7 @@ async function RenderFeeds({ channelSlug = null }) {
   }
  
   return (
-    <div className='flex'> 
+    <div className='flex justify-center'> 
       <div className='flex ml-20 mt-5 flex-col lg:block max-sm:hidden max-md:hidden'>
           <ProfileCard />
           <div className='sticky max-h-screen top-0' style={{ top: '60px' }}>
@@ -68,7 +68,7 @@ async function RenderFeeds({ channelSlug = null }) {
           <div className='mb-5 max-sm:hidden max-md:hidden' >
           <PostBar />
         </div>
-            <Feeds
+            <RenderFeedLoading
               channelSlug={channelSlug}
               initialPosts={initialPosts}
               channels={channels}
