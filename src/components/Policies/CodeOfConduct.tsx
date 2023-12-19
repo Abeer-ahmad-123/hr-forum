@@ -1,10 +1,11 @@
 import { Montserrat } from 'next/font/google'
 const montserrat = Montserrat({ subsets: ['latin'] })
 
-
 const CodeOfConduct = () => {
   return (
-    <div className={`${montserrat.className} mx-auto text-left mt-10 max-w-5xl rounded-lg bg-white p-16 shadow-md  dark:bg-dark-background-secondary`}>
+    <div
+      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md  dark:bg-dark-background-secondary`}
+    >
       <h1 className="mb-4 text-4xl font-medium">Code of Conduct </h1>
       <p className="mb-4 text-sm">Last updated Aug 8, 2023</p>
 
@@ -25,7 +26,9 @@ const CodeOfConduct = () => {
       </p>
 
       <h2 className="mb-3 text-xl font-medium">4. Enforcement Details</h2>
-      <p className="mb-4 font-light">While you mention that violations can result...</p>
+      <p className="mb-4 font-light">
+        While you mention that violations can result...
+      </p>
 
       <h2 className="mb-3 text-xl font-medium">5. Training</h2>
       <p className="mb-4 font-light">
@@ -33,7 +36,7 @@ const CodeOfConduct = () => {
       </p>
 
       <h2 className="mb-3 text-xl font-medium">
-       6. Transparency in Enforcement
+        6. Transparency in Enforcement
       </h2>
       <p className="mb-4 font-light">
         To build trust with the community, consider publishing anonymized
@@ -47,7 +50,9 @@ const CodeOfConduct = () => {
       </p>
 
       <h2 className="mb-3 text-xl font-medium">8. Anonymous Reporting</h2>
-      <p className="mb-4 font-light">Consider offering an anonymous reporting option...</p>
+      <p className="mb-4 font-light">
+        Consider offering an anonymous reporting option...
+      </p>
 
       <h2 className="mb-3 text-xl font-medium">9. Resource Section</h2>
       <p className="mb-4 font-light">

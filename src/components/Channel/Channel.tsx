@@ -20,7 +20,8 @@ const Channel = () => {
             <div
               className={`flex justify-between border-l-4 border-transparent bg-transparent px-4 py-5 ${styles(
                 channel.online,
-              )}`}>
+              )}`}
+            >
               {/* :channel DETAILS */}
               <div className="flex pr-8 sm:items-center sm:pl-4">
                 {/* ::channel Picture */}

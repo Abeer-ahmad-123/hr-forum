@@ -26,7 +26,8 @@ const UserNameDialog = ({ handleSubmit }: any) => {
         />
         <button
           onClick={handleSubmitUserName}
-          className="mb-1 rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600  sm:mr-2">
+          className="mb-1 rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600  sm:mr-2"
+        >
           Submit
         </button>
       </DialogContent>

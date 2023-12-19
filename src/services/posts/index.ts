@@ -64,11 +64,13 @@ export async function getPostsByChannelId({
 
 export async function getPostByPostId(
   id: string,
-  { loadUser = true, loadReactions = true },
+  { loadUser = false, loadReactions = true },
 ) {
   try {
     const postId = GET_POST_BY_ID.replace('postId', id)
-    let res = await fetch(`${postId}?loadReactions=${loadReactions}`)
+    let res = await fetch(
+      `${postId}?loadReactions=${loadReactions}&loadUser=${loadUser}`,
+    )
     const response = await res.json()
     const { data } = response
     return data

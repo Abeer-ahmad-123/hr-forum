@@ -5,7 +5,7 @@ import PostBar from '@/components/shared/new-post/NewPostModal'
 import ProfileCard from './Cards/ProfileCard'
 import RulesCard from './Cards/RuleCard'
 import ChannelCard from './Cards/ChannelCard'
-
+import CardLoading from '@/components/Loading/cardLoading'
 
 // const FeedPage = () => {
 //   return (
@@ -32,23 +32,13 @@ import ChannelCard from './Cards/ChannelCard'
 
 // export default FeedPage
 
-
-
-
 const FeedPage = () => {
   return (
     <>
-
       <div>
-
-
-       
-
-        <Suspense fallback={<RenderFeedLoading />}>
+        <Suspense fallback={<CardLoading />}>
           <RenderFeeds />
         </Suspense>
-
-
       </div>
       {/* <div className='flex justify-center '>
 
@@ -66,7 +56,6 @@ const FeedPage = () => {
 
 
       </div> */}
-
     </>
   )
 }

@@ -32,7 +32,8 @@ const NotificationSettings = () => {
           {notificationSettings.activity.map((activity) => (
             <div
               className="flex items-center justify-between px-[9px] py-[12px]"
-              key={activity}>
+              key={activity}
+            >
               <p className="text-sm max-sm:w-[82%]">{activity}</p>
               <Switch
                 name={activity}
@@ -54,7 +55,8 @@ const NotificationSettings = () => {
           {notificationSettings.application.map((app) => (
             <div
               className="flex items-center justify-between px-[9px] py-[12px]"
-              key={app}>
+              key={app}
+            >
               <p className="text-sm max-sm:w-[82%]">{app}</p>
               <Switch
                 name={app}

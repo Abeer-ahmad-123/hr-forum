@@ -12,8 +12,13 @@ import {
   DialogHeader,
 } from '@/components/ui/Dialog/interceptDialog'
 
-function TextArea({ submitCallback, isLoading, setIsLoading,
-  className, btnClass }: any) {
+function TextArea({
+  submitCallback,
+  isLoading,
+  setIsLoading,
+  className,
+  btnClass,
+}: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
   const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
@@ -65,21 +70,22 @@ function TextArea({ submitCallback, isLoading, setIsLoading,
 
         <button
           onClick={handleClick}
-          className={`${btnClass} mr-5 rounded-lg ${isLoading['loading'] || textAreaValue === ''
-            ? 'border border-gray-400 bg-[#CCCCCC]'
-            : 'bg-accent'
-            }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}>
+          className={`${btnClass} mr-5 rounded-lg ${
+            isLoading['loading'] || textAreaValue === ''
+              ? 'border border-gray-400 bg-[#CCCCCC]'
+              : 'bg-accent'
+          }  px-3 text-white`}
+          disabled={isLoading['loading'] || textAreaValue === ''}
+        >
           <Send size={20} />{' '}
         </button>
-      </div >
+      </div>
 
       {!reduxToken && (
         <Dialog open={open} onOpenChange={handleClosedialog}>
           <SignInDialog />
         </Dialog>
-      )
-      }
+      )}
     </>
   )
 }

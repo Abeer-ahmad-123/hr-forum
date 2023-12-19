@@ -7,7 +7,6 @@ import {
 
 async function postReactions(body: any, postId: string, token?: string) {
   try {
-
     const postRequestUrl = POST_REACTIONS.replace('postId', postId)
     const response = await fetch(postRequestUrl, {
       method: 'POST',

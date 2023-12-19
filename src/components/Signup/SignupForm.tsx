@@ -48,8 +48,6 @@ export default function SignupForm({
   )
 }
 
-
-
 export function LoginLink({ onClick }: any) {
   return (
     <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
@@ -64,5 +62,3 @@ export function LoginLink({ onClick }: any) {
     </p>
   )
 }
-
-

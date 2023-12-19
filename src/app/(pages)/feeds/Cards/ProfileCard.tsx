@@ -1,2 +1,2 @@
-import ProfileCard from "@/components/Cards/ProfileCard";
-export default ProfileCard;
+import ProfileCard from '@/components/Cards/ProfileCard'
+export default ProfileCard

@@ -139,7 +139,8 @@ const LayoutWrapper = ({ children }: any) => {
       <Navbar />
       <ToastContainer />
       <main
-        className={`bg-primary-light  min-h-screen pt-14 font-primary dark:bg-dark-background`}>
+        className={`bg-primary-light  min-h-screen pt-14 font-primary dark:bg-dark-background`}
+      >
         <div className="bg-primary-light grid">
           <div className="fixed left-0 top-0 z-10 w-full"></div>
           <div className="flex dark:bg-slate-700 dark:text-white">

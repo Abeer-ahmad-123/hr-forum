@@ -38,7 +38,8 @@ const NewCommentCard = ({ onAdd }: any) => {
           <button
             autoFocus={false}
             className="h-12 w-36 rounded-lg bg-primary text-white hover:opacity-50"
-            onClick={handleText}>
+            onClick={handleText}
+          >
             SEND
           </button>
         </div>
@@ -65,7 +66,8 @@ const NewCommentCard = ({ onAdd }: any) => {
             <button
               autoFocus={false}
               className="h-12 w-28 rounded-lg fill-[#5357B6] text-white"
-              onClick={handleText}>
+              onClick={handleText}
+            >
               SEND
             </button>
           </div>

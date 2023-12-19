@@ -127,7 +127,8 @@ export default function Signin({
               className="text-primary-purple cursor-pointer font-medium hover:underline"
               onClick={() => {
                 toggleForm()
-              }}>
+              }}
+            >
               Sign up
             </button>
           </p>

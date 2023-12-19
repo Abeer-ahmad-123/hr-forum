@@ -68,7 +68,8 @@ const PostReactionBar = ({
                 className={`${
                   index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
                 } rounded-full bg-white p-1 text-xs`}
-                key={index}>
+                key={index}
+              >
                 {react}
               </span>
             ))}
@@ -106,7 +107,8 @@ const PostReactionBar = ({
             pathName.includes('/channels/')
               ? `feeds/feed/${postId}`
               : ` /feeds/feed/${postId}`
-          }>
+          }
+        >
           <span className="text-xs text-slate-400">2 comments</span>
         </Link>
       </div>

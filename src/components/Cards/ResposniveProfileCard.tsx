@@ -40,13 +40,15 @@ const ResProfileCard = () => {
           <hr className="my-1 ml-3 mr-3 border-t border-gray-400" />
           <p
             className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-light"
-            style={{ wordWrap: 'break-word' }}>
+            style={{ wordWrap: 'break-word' }}
+          >
             {email.length > 20 ? email.slice(0, 20).concat('...') : email}
           </p>
           <hr className="my-1 ml-3 mr-3 border-t border-gray-400" />
           <Link
             href={'/profile'}
-            className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold">
+            className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold"
+          >
             {' '}
             profile view jdhsfkjadhf jsdfhadkjfh hjfhkajd
           </Link>

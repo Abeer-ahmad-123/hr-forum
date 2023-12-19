@@ -3,9 +3,11 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 
 const TermsOfUse = () => {
   return (
-    <div className={`${montserrat.className} mx-auto text-left mt-10 max-w-5xl rounded-lg bg-white p-16 shadow-md dark:bg-dark-background-secondary`}>
+    <div
+      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md dark:bg-dark-background-secondary`}
+    >
       <h2 className="mb-4 text-4xl font-medium">Terms of Use</h2>
-      <p className="mb-6 text-gray-600 font-light dark:text-white">
+      <p className="mb-6 font-light text-gray-600 dark:text-white">
         Welcome to our website. If you continue to browse and use this website,
         you are agreeing to comply with and be bound by the following terms and
         conditions of use, which together with our privacy policy govern our
@@ -15,7 +17,7 @@ const TermsOfUse = () => {
       <h3 className="mb-4 text-xl font-medium">
         1. The use of this website is subject to the following terms:
       </h3>
-      <ul className="list-disc pl-5 text-gray-600 font-light dark:text-white">
+      <ul className="list-disc pl-5 font-light text-gray-600 dark:text-white">
         <li className="mb-2">
           The content of the pages of this website is for your general
           information and use only. It is subject to change without notice.

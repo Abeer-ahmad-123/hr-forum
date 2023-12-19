@@ -39,7 +39,7 @@ const CommentSection = ({
 
     // Return the result
     if (daysAgo > 0) {
-      return daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`
+      return daysAgo === 1 ? '1 day ago' : `${daysAgo} d`
     } else if (hoursAgo > 0) {
       return hoursAgo === 1 ? '1 hour ago' : `${hoursAgo} hours ago`
     } else if (minutesAgo > 0) {
@@ -80,7 +80,7 @@ const CommentSection = ({
 
   return (
     <div>
-      <div className="mt-4 w-full rounded-lg bg-slate-100 pb-2.5 dark:bg-slate-800">
+      <div className="mt-4 w-full rounded-lg pb-2.5 dark:bg-slate-800">
         <div className="flex pt-5">
           <div className="flex  flex-col items-center">
             <div className="">
@@ -88,33 +88,33 @@ const CommentSection = ({
               <img
                 alt="avatar"
                 src={comment['author_details']?.profile_picture_url}
-                className="h-8 w-8 rounded-full"
+                className="h-8 w-8 rounded-full border border-black"
               />
             </div>
-
-            {/* <div className="pl-5">
-              <UpdownButton count={comment?.reaction_summary?.like_count} />
-            </div> */}
           </div>
-          <div className="flex w-full flex-col">
-            <div className="flex w-full justify-between">
-              <div className="text-accent">
+          <div className=" min-w-sm ml-3">
+            <div className=" rounded-2xl bg-slate-100">
+              <div className="ml-6 pt-3 text-left text-accent ">
                 {replies.comment['author_details']?.name}
               </div>
-              <div className="pr-5 italic text-gray-500">
-                {convertDate(replies.comment.created_at)}
+
+              <div className=" ml-6 h-full w-full  pb-1 text-left leading-loose text-gray-600 dark:text-white">
+                {replies.comment.content}
               </div>
             </div>
 
-            <div className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white">
-              {replies.comment.content}
+            <div className="flex items-center">
+              <div className=" ml-2 text-left italic text-gray-400">
+                {convertDate(replies.comment.created_at)}
+              </div>
+              <div className=" ml-3 text-gray-500">
+                <CommentOrReply
+                  reply={true}
+                  commentId={replies.comment.id}
+                  refetchComments={getAllReplies}
+                />
+              </div>
             </div>
-
-            <CommentOrReply
-              reply={true}
-              commentId={replies.comment.id}
-              refetchComments={getAllReplies}
-            />
           </div>
         </div>
 

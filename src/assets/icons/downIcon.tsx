@@ -9,7 +9,8 @@ const DownIcon = ({ className = '', props }: any) => {
       viewBox="0 0 24 24"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={`h-6 w-6 ${className} dark:text-white`}>
+      className={`h-6 w-6 ${className} dark:text-white`}
+    >
       <path
         strokeLinecap="round"
         strokeLinejoin="round"

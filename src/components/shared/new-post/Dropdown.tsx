@@ -23,7 +23,8 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
           <DropdownMenuTrigger>
             <button
               type="button"
-              className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white">
+              className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white"
+            >
               {value?.name || buttonValue}
               <DownIcon className="ml-2 h-5 w-5 cursor-pointer" />
             </button>
@@ -33,12 +34,11 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
             {channels.map((item) => (
               <DropdownMenuItem
                 onClick={() => {
-                  setButtonValue(item.name),
-                  handleDropDownValue(item.id)
+                  setButtonValue(item.name), handleDropDownValue(item.id)
                 }}
-                key={item.name} 
-                className='hover:text-white'
-                >
+                key={item.name}
+                className="hover:text-white"
+              >
                 <div className="ml-2 flex-shrink-0">{item.name}</div>
               </DropdownMenuItem>
             ))}

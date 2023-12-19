@@ -1,15 +1,16 @@
 import { Montserrat } from 'next/font/google'
 const montserrat = Montserrat({ subsets: ['latin'] })
 
-
 const PrivacyPolicy = () => {
   return (
-    <div className={`${montserrat.className} mx-auto text-left mt-10 max-w-5xl rounded-lg bg-white p-16 shadow-md dark:bg-dark-background-secondary`}>
+    <div
+      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md dark:bg-dark-background-secondary`}
+    >
       <h1 className="mb-4 text-4xl font-medium"> Privacy Policy</h1>
       <p className="mb-4 text-sm">Effective Aug 8, 2023</p>
 
       <h2 className="mb-3 text-xl font-medium">
-      1. What Information HRC Collects and Why
+        1. What Information HRC Collects and Why
       </h2>
       <p className="mb-4 font-light">
         In order to offer you a comprehensive experience on HRC, we gather
@@ -84,7 +85,7 @@ const PrivacyPolicy = () => {
       </p>
 
       <h2 className="mb-3 text-xl font-medium">
-      12. Non-administrative Emails from HRC
+        12. Non-administrative Emails from HRC
       </h2>
       <p className="mb-4 font-light">
         New members receive the HRC Newsletter and other non-administrative
@@ -92,7 +93,7 @@ const PrivacyPolicy = () => {
       </p>
 
       <h2 className="mb-3 text-xl font-medium">
-      13. Deleting Your Personal Information
+        13. Deleting Your Personal Information
       </h2>
       <p className="mb-4 font-light">
         Email us at [provide email] to delete your data and account.
