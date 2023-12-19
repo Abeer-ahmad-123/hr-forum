@@ -43,17 +43,13 @@ async function RenderFeeds({ channelSlug = null }) {
       <div className='flex justify-center'>
 
         <div className='flex flex-col'>
-          {/* <ProfileCard /> */}
           <ProfileCard />
           <div className='sticky max-h-screen top-0' style={{ top: '35px' }}>
             <ChannelCard />
           </div>
         </div>
-
         <div>
-
           <div className="mx-auto max-w-screen-lg dark:text-white">
-
             <Feeds
               channelSlug={channelSlug}
               initialPosts={initialPosts}
