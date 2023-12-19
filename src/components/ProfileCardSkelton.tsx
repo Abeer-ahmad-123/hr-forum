@@ -11,15 +11,15 @@ function ProfileCardSkelton() {
                     <Skelton className="h-14 w-14 rounded-full bg-skelton" />
                 </div>
 
-                <Skelton className="flex justify-center text-center font-bold mx-[15px] mt-2 h-5" />
+                <Skelton className="flex justify-center text-center font-bold mx-[15px] mt-2 h-4 rounded-sm" />
 
-                <Skelton className="ml-[15px] mr-[15px] flex text-justify text-[12px] font-light mt-3 h-24" />
+                <Skelton className="ml-[15px] mr-[15px] flex text-justify text-[12px] font-light mt-3 h-24 rounded-md" />
 
                 <hr className="my-1 ml-3 mr-3 border-t border-gray-200 dark:border-gray-800" />
 
-                <Skelton className="flex justify-center text-center font-bold mx-[15px] mt-2 h-5" />
+                <Skelton className="flex justify-center text-center font-bold mx-[15px] mt-2 h-4 rounded-sm" />
 
-                <Skelton className="flex justify-center text-center font-bold mx-[15px] mt-2 h-5" />
+                <Skelton className="flex justify-center text-center font-bold mx-[15px] mt-2 h-4 rounded-sm" />
             </div>
 
         </>
