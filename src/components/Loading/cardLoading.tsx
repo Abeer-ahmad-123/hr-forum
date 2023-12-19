@@ -20,16 +20,10 @@ function CardLoading() {
                     </div>
                 </div>
 
-                <div>
-
-                    <div className="mx-auto max-w-screen-lg dark:text-white">
-                        {/*  */}
-                        <RenderFeedLoading />
-                        {/*  */}
-                    </div>
 
 
-                </div>
+                <RenderFeedLoading />
+
 
 
                 <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCardSkelton />

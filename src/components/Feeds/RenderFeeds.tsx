@@ -64,7 +64,7 @@ async function RenderFeeds({ channelSlug = null }) {
             <div className="lg:hidden max-sm:block md:hidden mb-5"> <PostBar /></div>
 
 
-            <div className="mx-auto max-w-screen-lg dark:text-white">
+            <div className="mx-auto max-w-screen-md dark:text-white">
               <div className='mb-5 max-sm:hidden max-md:hidden' >
                 <PostBar />
               </div>
