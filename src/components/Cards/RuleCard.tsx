@@ -11,9 +11,6 @@ const rulesArr = [
     "Rule 8: Fusce auctor.",
     "Rule 9: Suspendisse.",
     "Rule 10: Sed euismod"
-
-
-
 ]
 
 const RulesCard = () => {
