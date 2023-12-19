@@ -36,21 +36,34 @@ const showSuccessAlert = (title) => {
   })
 }
 
+const timeFormatInDateMonth = (d) => {
+  const date = new Date(d);
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const monthIndex = date.getMonth();
+  const monthName = monthNames[monthIndex];
+  const day = date.getDate();
+  return `${monthName} ${day}`;
+};
+
+
 const timeFormatInHours = (timestamp) => {
   const currentDate = new Date()
   const date = new Date(timestamp)
+  const dateMonth = timeFormatInDateMonth(timestamp)
 
   const timeDifferenceInMilliseconds = currentDate - date
+
   const hoursAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60))
 
   if (hoursAgo < 1) {
     const minutesAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60))
-    return `${minutesAgo} m ago`
+    return minutesAgo > 1 ? `${dateMonth} (${minutesAgo} mints ago)` : ` ${dateMonth} (1 mint ago)`;
   } else if (hoursAgo < 24) {
-    return `${hoursAgo} h ago`
+    return `${hoursAgo} hours ago`
   } else {
     const daysAgo = Math.floor(hoursAgo / 24)
-    return `${daysAgo} d ago`
+    return daysAgo > 1 ? `${dateMonth} (${daysAgo} days ago)` : `${dateMonth} (1 day ago)`;
+
   }
 }
 const isValidUserName = (userName) => {

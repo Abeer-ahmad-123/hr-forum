@@ -3,13 +3,13 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
-const ProfileCard = () => {
+const ResProfileCard = () => {
   const userDetails = useSelector((state) => state?.loggedInUser?.userData)
   const email = userDetails?.email || 'webeloper@gmail.com'
   return (
     <>
       <div>
-        <div className="relative  h-auto w-[200px]  cursor-pointer overflow-hidden  rounded-[10px] bg-white shadow-lg dark:bg-slate-800 dark:text-white">
+        <div className="relative  mb-5  h-auto w-auto  cursor-pointer overflow-hidden  rounded-[10px] bg-white shadow-lg dark:bg-slate-800 dark:text-white">
           <Image
             className="h-[70px] w-full"
             src="https://i.pinimg.com/originals/71/dc/d9/71dcd9ddf43b7ca29f7199305af68f08.png"
@@ -33,7 +33,7 @@ const ProfileCard = () => {
             {' '}
             {userDetails?.name || 'yong Jennifer'}
           </p>
-          <p className="ml-[15px] mr-[15px] flex text-justify text-[12px] font-light">
+          <p className="ml-[15px] mr-[15px] flex text-justify text-[10px] font-light">
             {userDetails?.bio ||
               'yong Jennifer is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the standard dummy text ever since the 1500s,'}
           </p>
@@ -48,11 +48,11 @@ const ProfileCard = () => {
             href={'/profile'}
             className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold">
             {' '}
-            profile view
+            profile view jdhsfkjadhf jsdfhadkjfh hjfhkajd
           </Link>
         </div>
       </div>
     </>
   )
 }
-export default ProfileCard
+export default ResProfileCard
