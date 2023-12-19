@@ -7,11 +7,18 @@ import { getComment, getPostsComments } from '@/services/comments'
 import PostReactionBar from '../PostReactionBar'
 import PostActionBar from '../PostActionBar'
 import ReactionDetails from '@/components/ReactionDetails'
+import { timeFormatInHours } from '@/utils/helper'
+import Link from 'next/link'
+import ChannelPill from '../ChannelPill'
+import { getChannels } from '@/services/channel/channel'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
-  const { post } = await getPostByPostId(postId, {})
+  const { post } = await getPostByPostId(postId, {
+    loadUser: true,
+  })
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
+  const { channels } = await getChannels()
 
   let commentResult
   let paginationResult
@@ -32,33 +39,61 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
-      dark:bg-dark-background dark:text-gray-300`}>
-        {/* <div className="mt-6">
-          <UpdownButton count={post['reaction_summary']['like_count']} />
-        </div> */}
-        <div className="flex w-full flex-col items-center p-10 pt-0">
-          <div className="mt-6 flex w-full">
-            <div className="w-[inherit] text-left text-4xl font-bold dark:text-white">
-              {post.title!}{' '}
-            </div>
-            <div className="flex w-full	 place-content-around items-center">
-              <div
-                aria-label="channel-name"
-                className={`h-fit w-max whitespace-nowrap rounded-lg bg-accent px-6 py-1 text-sm font-semibold text-white dark:bg-dark-background-secondary dark:text-white`}>
-                QUESTION
+      dark:bg-dark-background dark:text-gray-300`}
+      >
+        <div className="flex w-full flex-col p-10 pt-0">
+          {/* TODO */}
+
+          <div
+            className={`${
+              !isDialogPost ? 'mt-6' : ''
+            } items-left flex justify-between max-md:block`}
+          >
+            <div className="flex">
+              <div className="-z-2">
+                <div className="static rounded-full">
+                  <Image
+                    src={`${post?.author_details?.profile_picture_url}`}
+                    className="h-8 w-8 rounded-full"
+                    alt="avatar"
+                    width={32}
+                    height={32}
+                  />
+                </div>
               </div>
-              <div className="flex h-10 items-center p-1.5">
-                <Image
-                  src="https://avatar.iran.liara.run/public/boy"
-                  className="h-8 w-8"
-                  alt="avatar"
-                  width={32}
-                  height={32}
-                />
+
+              <div className="ml-2 flex flex-col items-start align-baseline">
+                <div className="flex flex-row">
+                  <Link href={`/profile/`}>
+                    <p
+                      className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                      aria-label="user-name"
+                    >
+                      {post.author_details.name}
+
+                      {/* Yogesh Choudhary Paliyal */}
+                    </p>
+                  </Link>
+                  <ChannelPill
+                    channel_id={post.channel_id}
+                    channels={channels}
+                  />
+                </div>
+
+                <p className="text-xs font-light text-slate-500 dark:text-gray-400">
+                  {timeFormatInHours(post.created_at)}
+                </p>
               </div>
             </div>
           </div>
+
           <ReactionDetails reactionSummary={post.reaction_summary} />
+
+          <div className="mt-2 text-left text-4xl">{post.title}</div>
+
+          {/* //////// */}
+
+          {/*  */}
           <div
             className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
             dangerouslySetInnerHTML={{ __html: post.content }}

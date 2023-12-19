@@ -71,8 +71,6 @@ const Card = ({ post, channels }: any) => {
                   </p>
                 </div>
               </div>
-
-              <div className="flex items-end pb-2 pt-4"></div>
             </div>
 
             <div className="flex flex-col">

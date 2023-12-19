@@ -28,7 +28,7 @@ function ReplyTextArea({
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between pb-5 pr-5">
+      <div className="flex items-center  justify-between  pr-5">
         <div className="flex space-x-5 ">
           <button
             onClick={toggleTextArea}
@@ -54,7 +54,9 @@ function ReplyTextArea({
 
           <button className="text-sm text-gray-400">Report</button>
         </div>
-        <MoreHorizontal className="text-gray-400" />
+        <div>
+          <MoreHorizontal className="ml-5 text-gray-400" />
+        </div>
       </div>
 
       <div className={`${!showTextArea && 'hidden'} `}>
