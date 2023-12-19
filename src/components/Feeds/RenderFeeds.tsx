@@ -12,9 +12,7 @@ import ChannelCard from '@/components/SideCards/ChannelCard'
 
 import RespScreen from '../Cards/ResponsiveScreen'
 
-
 async function RenderFeeds({ channelSlug = null }) {
-
   const { channels } = await getChannels()
   let initialPosts = []
   let morePosts = true
@@ -37,20 +35,20 @@ async function RenderFeeds({ channelSlug = null }) {
   }
 
   return (
-    <div className='flex justify-center'>
-      <div className='flex ml-20 mt-5 flex-col lg:block max-sm:hidden max-md:hidden'>
+    <div className="flex justify-center">
+      <div className="ml-20 mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
         <ProfileCard />
-        <div className='sticky max-h-screen top-0' style={{ top: '60px' }}>
-          <ChannelCard /></div>
+        <div className="sticky top-0 max-h-screen" style={{ top: '60px' }}>
+          <ChannelCard />
+        </div>
       </div>
 
-      <div className=''>
-
-        <p className="mb-4 text-3xl my-5 text-black dark:text-white">
+      <div className="">
+        <p className="my-5 mb-4 text-3xl text-black dark:text-white">
           {!!channelSlug &&
             toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
         </p>
-        <div className='flex justify-center'>
+        <div className="flex justify-center">
           {/* <div className='flex flex-col lg:block max-sm:hidden max-md:hidden'>
           <ProfileCard />
           <div className='sticky max-h-screen top-0' style={{ top: '35px' }}>
@@ -58,14 +56,17 @@ async function RenderFeeds({ channelSlug = null }) {
         </div> */}
           {/*  put the responsive profile compoennt here */}
           <div>
-
-            <div className='lg:hidden max-sm:block md:hidden'> <RespScreen />
+            <div className="max-sm:block md:hidden lg:hidden">
+              {' '}
+              <RespScreen />
             </div>
-            <div className="lg:hidden max-sm:block md:hidden mb-5"> <PostBar /></div>
-
+            <div className="mb-5 max-sm:block md:hidden lg:hidden">
+              {' '}
+              <PostBar />
+            </div>
 
             <div className="mx-auto max-w-screen-md dark:text-white">
-              <div className='mb-5 max-sm:hidden max-md:hidden' >
+              <div className="mb-5 max-md:hidden max-sm:hidden">
                 <PostBar />
               </div>
               <Feeds
@@ -80,12 +81,14 @@ async function RenderFeeds({ channelSlug = null }) {
           {/* <div className='sticky max-h-screen lg:block max-sm:hidden sm:hidden ' style={{ top: '60px' }}> <RulesCard />
         </div> */}
         </div>
-
-
-
       </div>
 
-      <div className='sticky mt-5 max-h-screen lg:block max-sm:hidden sm:hidden ' style={{ top: '60px' }}> <RulesCard />
+      <div
+        className="sticky mt-5 max-h-screen max-sm:hidden sm:hidden lg:block "
+        style={{ top: '60px' }}
+      >
+        {' '}
+        <RulesCard />
       </div>
     </div>
   )

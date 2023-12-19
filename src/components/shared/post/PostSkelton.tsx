@@ -9,7 +9,8 @@ async function Post({ isDialogPost = false }) {
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
-      dark:bg-dark-primary dark:text-gray-300`}>
+      dark:bg-dark-primary dark:text-gray-300`}
+      >
         <div className="ml-[22px] mt-6">
           <UpdownButtonSkelton />
         </div>

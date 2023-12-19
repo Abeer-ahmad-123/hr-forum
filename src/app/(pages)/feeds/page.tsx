@@ -7,7 +7,6 @@ import RulesCard from './Cards/RuleCard'
 import ChannelCard from './Cards/ChannelCard'
 import CardLoading from '@/components/Loading/cardLoading'
 
-
 // const FeedPage = () => {
 //   return (
 //     <>
@@ -33,23 +32,13 @@ import CardLoading from '@/components/Loading/cardLoading'
 
 // export default FeedPage
 
-
-
-
 const FeedPage = () => {
   return (
     <>
-
       <div>
-
-
-       
-
         <Suspense fallback={<CardLoading />}>
           <RenderFeeds />
         </Suspense>
-
-
       </div>
       {/* <div className='flex justify-center '>
 
@@ -67,7 +56,6 @@ const FeedPage = () => {
 
 
       </div> */}
-
     </>
   )
 }

@@ -93,8 +93,6 @@
 
 // export default ReactionButton
 
-
-
 'use client'
 import React, { useState, useCallback, useEffect } from 'react'
 import { reactionOptions } from '@/utils/data'
@@ -105,7 +103,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { SlLike } from "react-icons/sl";
+import { SlLike } from 'react-icons/sl'
 
 const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
@@ -152,11 +150,10 @@ const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
         <div
           onMouseEnter={mouseEnter}
           onMouseLeave={mouseLeave}
-          className="flex flex-col items-center">
+          className="flex flex-col items-center"
+        >
           {' '}
           {/* Align the children in the center */}
-
-
           <ReactionEmoji
             reactionName={currentReactionEmoji?.name || 'none'}
             emojiCharacter={currentReactionEmoji?.emoji || '♡'}

@@ -8,11 +8,15 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
+} from '@/components/ui/popover'
 import SocialButtons from './SocialButtons'
 
-
-function ReplyTextArea({ submitCallback, setIsLoading, isLoading, commentId }: any) {
+function ReplyTextArea({
+  submitCallback,
+  setIsLoading,
+  isLoading,
+  commentId,
+}: any) {
   const [showTextArea, setShowTextArea] = useState(false)
 
   const params = useParams()
@@ -28,19 +32,23 @@ function ReplyTextArea({ submitCallback, setIsLoading, isLoading, commentId }: a
         <div className="flex space-x-5 ">
           <button
             onClick={toggleTextArea}
-            className="cursor-pointer text-sm text-gray-400">
+            className="cursor-pointer text-sm text-gray-400"
+          >
             Reply
           </button>
-          <Popover
-          >
+          <Popover>
             <PopoverTrigger>
               <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
                 <span className="text-sm text-gray-400">Share</span>
               </button>
             </PopoverTrigger>
 
-            <PopoverContent className='bg-white'>
-              <SocialButtons className='flex gap-3' postId={postId} commentId={commentId} />
+            <PopoverContent className="bg-white">
+              <SocialButtons
+                className="flex gap-3"
+                postId={postId}
+                commentId={commentId}
+              />
             </PopoverContent>
           </Popover>
 

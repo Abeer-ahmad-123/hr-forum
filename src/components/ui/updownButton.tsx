@@ -41,7 +41,8 @@ const UpdownButton = ({ count }) => {
           color === 'fill-primary text-primary' ? color : ''
         } hover:text-white`}
         variant="ghost"
-        aria-label="upvote">
+        aria-label="upvote"
+      >
         <ArrowUp className={`h-5 w-5 `} />
       </Button>
 
@@ -59,7 +60,8 @@ const UpdownButton = ({ count }) => {
           color === 'fill-rose-500 text-rose-500' ? color : ''
         } hover:text-white`}
         variant="ghost"
-        aria-label="downvote">
+        aria-label="downvote"
+      >
         <ArrowDown className={`h-5 w-5`} />
       </Button>
     </div>

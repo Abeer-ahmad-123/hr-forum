@@ -37,14 +37,26 @@ const showSuccessAlert = (title) => {
 }
 
 const timeFormatInDateMonth = (d) => {
-  const date = new Date(d);
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-  const monthIndex = date.getMonth();
-  const monthName = monthNames[monthIndex];
-  const day = date.getDate();
-  return `${monthName} ${day}`;
-};
-
+  const date = new Date(d)
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ]
+  const monthIndex = date.getMonth()
+  const monthName = monthNames[monthIndex]
+  const day = date.getDate()
+  return `${monthName} ${day}`
+}
 
 const timeFormatInHours = (timestamp) => {
   const currentDate = new Date()
@@ -57,13 +69,16 @@ const timeFormatInHours = (timestamp) => {
 
   if (hoursAgo < 1) {
     const minutesAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60))
-    return minutesAgo > 1 ? `${dateMonth} (${minutesAgo} mints ago)` : ` ${dateMonth} (1 mint ago)`;
+    return minutesAgo > 1
+      ? `${dateMonth} (${minutesAgo} mints ago)`
+      : ` ${dateMonth} (1 mint ago)`
   } else if (hoursAgo < 24) {
     return `${hoursAgo} hours ago`
   } else {
     const daysAgo = Math.floor(hoursAgo / 24)
-    return daysAgo > 1 ? `${dateMonth} (${daysAgo} days ago)` : `${dateMonth} (1 day ago)`;
-
+    return daysAgo > 1
+      ? `${dateMonth} (${daysAgo} days ago)`
+      : `${dateMonth} (1 day ago)`
   }
 }
 const isValidUserName = (userName) => {

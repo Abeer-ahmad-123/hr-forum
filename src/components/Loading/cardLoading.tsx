@@ -8,36 +8,25 @@ import ChannelCardSkelton from '../ChannelCardSkelton'
 import RulesCardSkelton from '../RuleCardSkelton'
 
 function CardLoading() {
-    return (
-        <div>
-
-            <div className='flex justify-center'>
-
-                <div className='flex flex-col'>
-                    <ProfileCardSkelton />
-                    <div className='sticky max-h-screen top-0' style={{ top: '35px' }}>
-                        <ChannelCardSkelton />
-                    </div>
-                </div>
-
-
-
-                <RenderFeedLoading />
-
-
-
-                <div className='sticky max-h-screen ' style={{ top: '60px' }}> <RulesCardSkelton />
-                </div>
-            </div>
-
-
-
-
-
-
-
+  return (
+    <div>
+      <div className="flex justify-center">
+        <div className="flex flex-col">
+          <ProfileCardSkelton />
+          <div className="sticky top-0 max-h-screen" style={{ top: '35px' }}>
+            <ChannelCardSkelton />
+          </div>
         </div>
-    )
+
+        <RenderFeedLoading />
+
+        <div className="sticky max-h-screen " style={{ top: '60px' }}>
+          {' '}
+          <RulesCardSkelton />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default CardLoading

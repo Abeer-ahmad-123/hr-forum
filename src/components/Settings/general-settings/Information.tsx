@@ -168,7 +168,8 @@ const Information = () => {
 
       <button
         onClick={updateUserDetail}
-        className="flex w-fit justify-center rounded-[12px] bg-primary px-6 py-2 font-medium text-white hover:bg-opacity-90">
+        className="flex w-fit justify-center rounded-[12px] bg-primary px-6 py-2 font-medium text-white hover:bg-opacity-90"
+      >
         Save Changes
       </button>
     </div>

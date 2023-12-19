@@ -53,7 +53,8 @@ const SecuritySettings = () => {
 
         <div
           className="absolute right-[20px] top-[9px] w-[23px] cursor-pointer rounded-full p-[4px] hover:bg-gray-100 "
-          onClick={handleShowPassword}>
+          onClick={handleShowPassword}
+        >
           {returnEye()}
         </div>
       </div>
@@ -67,7 +68,8 @@ const SecuritySettings = () => {
         />
         <div
           className="absolute right-[20px] top-[9px] w-[23px] cursor-pointer rounded-full p-[4px] hover:bg-gray-100 "
-          onClick={handleShowPassword}>
+          onClick={handleShowPassword}
+        >
           {returnEye()}
         </div>
       </div>
@@ -89,7 +91,8 @@ const SecuritySettings = () => {
         />
         <div
           className="absolute right-[20px] top-[9px] w-[23px] cursor-pointer rounded-full p-[4px] hover:bg-gray-100 "
-          onClick={handleShowPassword}>
+          onClick={handleShowPassword}
+        >
           {returnEye()}
         </div>
       </div>
@@ -97,7 +100,8 @@ const SecuritySettings = () => {
       <div className="flex justify-end">
         <button
           onClick={onSubmit}
-          className="flex w-fit justify-center rounded-[12px] bg-primary  px-6 py-2 font-medium text-white  hover:bg-opacity-90">
+          className="flex w-fit justify-center rounded-[12px] bg-primary  px-6 py-2 font-medium text-white  hover:bg-opacity-90"
+        >
           {loading ? <LoadingIndicator /> : 'Save Changes'}
         </button>
       </div>

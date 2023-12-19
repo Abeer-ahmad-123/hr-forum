@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 const ProfilePicture = ({ uploadImage }: any) => {
   const [enabled, setEnabled] = useState(false)
   const profilePictureRef: any = useRef()
-  
+
   const handleActiveFileInput = () => {
     profilePictureRef.current.click()
   }
@@ -21,7 +21,8 @@ const ProfilePicture = ({ uploadImage }: any) => {
     <div className="flex flex-col items-center justify-center rounded-[16px] bg-white py-[24px] pb-[40px] pt-[80px] shadow-cmd dark:bg-dark-primary">
       <div
         onClick={handleActiveFileInput}
-        className="border-primary-lightgrey relative flex  h-[150px] w-[150px] items-center justify-center rounded-full border-2 border-dotted ">
+        className="border-primary-lightgrey relative flex  h-[150px] w-[150px] items-center justify-center rounded-full border-2 border-dotted "
+      >
         <div className="absolute flex h-[128px] w-[128px] cursor-pointer flex-col items-center justify-center rounded-full bg-black bg-opacity-50  opacity-0 transition-opacity duration-200 ease-in-out hover:bg-opacity-50 hover:opacity-100">
           <CameraIcon className="w-[30px]" />
 

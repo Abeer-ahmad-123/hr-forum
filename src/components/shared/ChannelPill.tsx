@@ -12,20 +12,15 @@ const ChannelPill = ({ channel_id, channels }: any) => {
     //   {channelObj[channel_id]?.name}
     // </span>
 
-
-
-
-
-    <span className='text-slate-500 font-light text-xs dark:text-gray-400 px-1 '>Posted in
-      <Link
-        className=''
-        href={`/channels/${lowerCaseChannelName}/`}>
+    <span className="px-1 text-xs font-light text-slate-500 dark:text-gray-400 ">
+      Posted in
+      <Link className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
-        <span className='hover:text-primary underline' >
-          {channelObj[channel_id]?.name}</span>
-      </Link >
-    </span >
-
+        <span className="underline hover:text-primary">
+          {channelObj[channel_id]?.name}
+        </span>
+      </Link>
+    </span>
   )
 }
 

@@ -59,14 +59,16 @@ function LoggedIn() {
           <DropdownMenuTrigger
             onChange={() => {
               setOpenPopover(!openPopover)
-            }}>
+            }}
+          >
             <UserDropdown />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleClosePopover}
-              className="hover:text-white">
+              className="hover:text-white"
+            >
               <Link href="/profile">
                 <div className={`block px-4 py-2 text-sm dark:text-white`}>
                   Profile
@@ -75,7 +77,8 @@ function LoggedIn() {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleClosePopover}
-              className="hover:text-white">
+              className="hover:text-white"
+            >
               <button onClick={handleLogout}>
                 <div className={`block px-4 py-2 text-sm  dark:text-white`}>
                   Logout
