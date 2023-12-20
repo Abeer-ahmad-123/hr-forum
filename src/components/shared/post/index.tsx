@@ -4,15 +4,12 @@ import picture from '@/assets/avatars/img.jpeg'
 import { getPostByPostId } from '@/services/posts'
 import Comments from './Comments'
 import { getComment, getPostsComments } from '@/services/comments'
-import PostReactionBar from '../PostReactionBar'
-import PostActionBar from '../PostActionBar'
 import ReactionDetails from '@/components/ReactionDetails'
 import { timeFormatInHours } from '@/utils/helper'
 import Link from 'next/link'
 import ChannelPill from '../ChannelPill'
 import { getChannels } from '@/services/channel/channel'
 import CommentsLogic from '@/components/CommentsLogic'
-import PostSkelton from './PostSkelton'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const { post } = await getPostByPostId(postId, {
