@@ -29,13 +29,13 @@ import SocialButtons from './SocialButtons'
 interface PostActionBarProps {
   linkToFeed: string
   postId: string
-  handleFocus: () => void
+  inputRef?: any
 }
 
 const PostActionBar = ({
   linkToFeed,
   postId,
-  handleFocus,
+  inputRef,
 }: PostActionBarProps) => {
   const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
   const { id } = useParams()
@@ -57,7 +57,7 @@ const PostActionBar = ({
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
   const toggleCommentArea = () => {
-    id ? handleFocus() : setShowCommentArea((pre) => !pre)
+    id ? inputRef.current?.focus() : setShowCommentArea((pre) => !pre)
   }
 
   useEffect(() => {}, [])

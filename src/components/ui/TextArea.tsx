@@ -18,7 +18,7 @@ function TextArea({
   setIsLoading,
   className,
   btnClass,
-  shouldFocus = false,
+  inputRef = null,
 }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
@@ -29,8 +29,6 @@ function TextArea({
   const handleTextAreaChange = (e: any) => {
     setTextAreaValue(e.target.value)
   }
-  const focusRef = useRef(null)
-  console.log('In TextArea file', shouldFocus)
 
   const handleClick = () => {
     if (reduxToken) {
@@ -52,17 +50,14 @@ function TextArea({
   }
 
   useEffect(() => {
-    if (shouldFocus) {
-      focusRef.current?.focus()
-    }
     resetStatus()
-  }, [isLoading, shouldFocus])
+  }, [isLoading])
 
   return (
     <>
       <div className={`mb-2 flex ${className}`}>
         <textarea
-          ref={focusRef}
+          ref={inputRef}
           rows={1}
           style={{
             caretColor: 'gray',

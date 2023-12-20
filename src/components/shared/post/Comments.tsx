@@ -9,12 +9,11 @@ function Comments({
   postId,
   initialComments,
   pagination,
-  shouldFocus = false,
+  inputRef = null,
 }: any) {
   const searchParams = useSearchParams()
 
   const commentId = searchParams.get('commentId')
-  console.log('Comments file', shouldFocus)
 
   const [comments, setComments] = useState([...initialComments])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
@@ -51,7 +50,7 @@ function Comments({
       <CommentOrReply
         refetchComments={refetchComments}
         setComments={setComments}
-        shouldFocus={shouldFocus}
+        inputRef={inputRef}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div key={Math.random()}>
