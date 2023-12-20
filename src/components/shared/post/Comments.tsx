@@ -5,10 +5,16 @@ import CommentSection from '../CommentSection'
 import CommentOrReply from '@/components/CommentOrReply'
 import { useSearchParams } from 'next/navigation'
 
-function Comments({ postId, initialComments, pagination }: any) {
+function Comments({
+  postId,
+  initialComments,
+  pagination,
+  shouldFocus = false,
+}: any) {
   const searchParams = useSearchParams()
 
   const commentId = searchParams.get('commentId')
+  console.log('Comments file', shouldFocus)
 
   const [comments, setComments] = useState([...initialComments])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
@@ -45,6 +51,7 @@ function Comments({ postId, initialComments, pagination }: any) {
       <CommentOrReply
         refetchComments={refetchComments}
         setComments={setComments}
+        shouldFocus={shouldFocus}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div key={Math.random()}>
@@ -64,8 +71,7 @@ function Comments({ postId, initialComments, pagination }: any) {
         {(!!commentId || nothingToLoadMore?.current) && (
           <button
             className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
-            onClick={refetchComments}
-          >
+            onClick={refetchComments}>
             Load More
           </button>
         )}

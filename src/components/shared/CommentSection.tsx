@@ -7,12 +7,7 @@ import LoadMoreReplyButton from './LoadMoreReplyButton'
 import { ConvertDate } from '@/utils/helper'
 import { FormatCreatedAt } from '@/utils/helper'
 
-const CommentSection = ({
-  key,
-  comment,
-  refetchComments,
-  commentLength,
-}: any) => {
+const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
   const [replies, setReplies] = useState({
     comment: comment,
     pagination: {

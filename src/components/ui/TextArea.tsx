@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Send } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
@@ -18,6 +18,7 @@ function TextArea({
   setIsLoading,
   className,
   btnClass,
+  shouldFocus = false,
 }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
@@ -27,8 +28,9 @@ function TextArea({
 
   const handleTextAreaChange = (e: any) => {
     setTextAreaValue(e.target.value)
-    console.log(className, btnClass)
   }
+  const focusRef = useRef(null)
+  console.log('In TextArea file', shouldFocus)
 
   const handleClick = () => {
     if (reduxToken) {
@@ -50,13 +52,17 @@ function TextArea({
   }
 
   useEffect(() => {
+    if (shouldFocus) {
+      focusRef.current?.focus()
+    }
     resetStatus()
-  }, [isLoading])
+  }, [isLoading, shouldFocus])
 
   return (
     <>
       <div className={`mb-2 flex ${className}`}>
         <textarea
+          ref={focusRef}
           rows={1}
           style={{
             caretColor: 'gray',
@@ -75,8 +81,7 @@ function TextArea({
               ? 'border border-gray-400 bg-[#CCCCCC]'
               : 'bg-accent'
           }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}
-        >
+          disabled={isLoading['loading'] || textAreaValue === ''}>
           <Send size={20} />{' '}
         </button>
       </div>

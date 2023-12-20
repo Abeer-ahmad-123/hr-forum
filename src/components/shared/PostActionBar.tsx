@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
 ////
 
@@ -17,6 +17,7 @@ import { ReactionButton } from './reaction'
 import { postReactions } from '@/services/reactions/reactions'
 import { showErrorAlert } from '@/utils/helper'
 import { useSelector } from 'react-redux'
+import { useParams } from 'next/navigation'
 
 import {
   Popover,
@@ -28,10 +29,18 @@ import SocialButtons from './SocialButtons'
 interface PostActionBarProps {
   linkToFeed: string
   postId: string
+  handleFocus: () => void
 }
 
-const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
+const PostActionBar = ({
+  linkToFeed,
+  postId,
+  handleFocus,
+}: PostActionBarProps) => {
   const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
+  const { id } = useParams()
+
+  console.log(id)
   const submitReaction = async (value: string) => {
     const response = await postReactions(
       {
@@ -48,8 +57,10 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
   const toggleCommentArea = () => {
-    setShowCommentArea((pre) => !pre)
+    id ? handleFocus() : setShowCommentArea((pre) => !pre)
   }
+
+  useEffect(() => {}, [])
 
   return (
     <div className="flex flex-col">
@@ -65,8 +76,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
         <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200 ">
           <Link
             href={linkToFeed}
-            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2"
-          >
+            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
             <FaRegBookmark />
             <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
               Bookmark
@@ -77,8 +87,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
         <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200">
           <button
             onClick={toggleCommentArea}
-            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2"
-          >
+            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
             {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
             <FaRegComment />
             <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
@@ -106,17 +115,19 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
         </div>
       </div>
 
-      <div className={`${!showCommentArea && 'hidden'} `}>
-        <CommentOrReply
-          className="m-2 px-8"
-          btnClass="mr-[0px]"
-          Id={postId}
-          setComments={setComment}
-        />
-        <div className="mx-10">
-          {comment.length != 0 && <CommentSection comment={comment[0]} />}
+      {!id && (
+        <div className={`${!showCommentArea && 'hidden'} `}>
+          <CommentOrReply
+            className="m-2 px-8"
+            btnClass="mr-[0px]"
+            Id={postId}
+            setComments={setComment}
+          />
+          <div className="mx-10">
+            {comment.length != 0 && <CommentSection comment={comment[0]} />}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
