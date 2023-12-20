@@ -24,6 +24,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import SocialButtons from './SocialButtons'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 interface PostActionBarProps {
   linkToFeed: string
@@ -31,7 +32,8 @@ interface PostActionBarProps {
 }
 
 const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
-  const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
+  const tokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const submitReaction = async (value: string) => {
     const response = await postReactions(
       {
@@ -65,8 +67,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
         <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200 ">
           <Link
             href={linkToFeed}
-            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2"
-          >
+            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
             <FaRegBookmark />
             <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
               Bookmark
@@ -77,8 +78,7 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
         <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200">
           <button
             onClick={toggleCommentArea}
-            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2"
-          >
+            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
             {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
             <FaRegComment />
             <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">

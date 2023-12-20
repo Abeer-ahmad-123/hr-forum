@@ -13,6 +13,7 @@ import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { getUserSpecificPosts } from '@/services/posts'
 import UserSpecificPosts from './UserSpecificPosts'
 import Skelton from '@/components/ui/skelton'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 interface userData {
   id: number
@@ -26,8 +27,12 @@ interface userData {
 function UserProfile() {
   const [userData, setUserData] = useState<userData | null>(null)
   const [userSpecificPosts, setUserSpecificPosts] = useState<any>([])
-  const userToken = useSelector((state) => state?.loggedInUser?.token)
-  const userDataInStore = useSelector((state) => state?.loggedInUser?.userData)
+  const userToken = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.token,
+  )
+  const userDataInStore = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
   const isFirstUser = useRef(true)
   const imageInputRef = useRef(null)
   const getUserData = async () => {
@@ -36,7 +41,7 @@ function UserProfile() {
   }
 
   const getAllUserSpecificPosts = async () => {
-    const response = await getUserSpecificPosts(userDataInStore?.id)
+    const response = await getUserSpecificPosts(userDataInStore?.id ?? '')
     console.log('response', response)
     if (response.success) {
       setUserSpecificPosts(response?.data)
@@ -68,17 +73,14 @@ function UserProfile() {
           className="absolute top-0 h-full w-full bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://source.unsplash.com/random)',
-          }}
-        >
+          }}>
           <span
             id="blackOverlay"
-            className="absolute left-0 h-full w-full bg-black opacity-50"
-          ></span>
+            className="absolute left-0 h-full w-full bg-black opacity-50"></span>
         </div>
         <div
           className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
-          style={{ transform: 'translateZ(0px)' }}
-        >
+          style={{ transform: 'translateZ(0px)' }}>
           <svg
             className="absolute bottom-0 overflow-hidden"
             xmlns="http://www.w3.org/2000/svg"
@@ -86,12 +88,10 @@ function UserProfile() {
             version="1.1"
             viewBox="0 0 2560 100"
             x="0"
-            y="0"
-          >
+            y="0">
             <polygon
               className="text-blueGray-200 fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
+              points="2560 0 2560 100 0 100"></polygon>
           </svg>
         </div>
       </section>
@@ -114,8 +114,7 @@ function UserProfile() {
                     />
                     <label
                       htmlFor="changeImage"
-                      className="absolute top-10 w-fit rounded-full bg-gray-600 p-2"
-                    >
+                      className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
                       <LiaUserEditSolid className="cursor-pointer text-white" />
                     </label>
                     <input
@@ -201,16 +200,14 @@ function UserProfile() {
                   <a
                     href="https://www.creative-tim.com/product/notus-js"
                     className="text-blueGray-500 hover:text-gray-800"
-                    target="_blank"
-                  >
+                    target="_blank">
                     Notus JS
                   </a>{' '}
                   by{' '}
                   <a
                     href="https://www.creative-tim.com"
                     className="text-blueGray-500 hover:text-blueGray-800"
-                    target="_blank"
-                  >
+                    target="_blank">
                     {' '}
                     Creative Tim
                   </a>
