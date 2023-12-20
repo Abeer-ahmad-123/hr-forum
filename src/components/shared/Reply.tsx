@@ -51,7 +51,8 @@ function Reply({ reply, commentLength, commentId = null }) {
       id={`reply-${reply.id}`}
       className={`ml-16 mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
-      }`}>
+      }`}
+    >
       <div className="flex gap-[2%] pt-5">
         <div className="flex  flex-col items-center">
           <div className="rounded-full border border-black">

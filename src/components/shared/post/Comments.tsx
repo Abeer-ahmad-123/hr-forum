@@ -71,7 +71,8 @@ function Comments({
         {(!!commentId || nothingToLoadMore?.current) && (
           <button
             className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
-            onClick={refetchComments}>
+            onClick={refetchComments}
+          >
             Load More
           </button>
         )}

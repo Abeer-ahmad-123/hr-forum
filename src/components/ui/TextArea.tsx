@@ -81,7 +81,8 @@ function TextArea({
               ? 'border border-gray-400 bg-[#CCCCCC]'
               : 'bg-accent'
           }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}>
+          disabled={isLoading['loading'] || textAreaValue === ''}
+        >
           <Send size={20} />{' '}
         </button>
       </div>

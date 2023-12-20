@@ -32,7 +32,8 @@ function ReplyTextArea({
         <div className="flex space-x-5 ">
           <button
             onClick={toggleTextArea}
-            className="cursor-pointer text-sm text-gray-400">
+            className="cursor-pointer text-sm text-gray-400"
+          >
             Reply
           </button>
           <Popover>
