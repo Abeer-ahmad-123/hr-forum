@@ -20,10 +20,11 @@ export default function NavMenuDropdown() {
       <DropdownMenuContent className="dark:hover:bg-primary-accent bg-white dark:bg-dark-primary">
         <DropdownMenuSeparator />
         {menuItems.map((item) => (
-          <DropdownMenuItem key={item.label} className='hover:text-white'>
+          <DropdownMenuItem key={item.label} className="hover:text-white">
             <Link
               href={item.href}
-              className={`group flex w-full items-center justify-start py-2 text-sm font-light`}>
+              className={`group flex w-full items-center justify-start py-2 text-sm font-light`}
+            >
               <div className="ml-2 w-6 flex-shrink-0 dark:text-white">
                 {item.icon}
               </div>

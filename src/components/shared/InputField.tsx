@@ -12,7 +12,9 @@ const InputField = ({ label, type, error, ...otherProps }: any) => (
       type={type}
       id={label}
       {...otherProps}
-      className={`focus:border-primary-purple mx-0 focus:ring-primary-purple ${!error && 'mb-6'} block w-full rounded-xl border font-[200] bg-white px-4 py-2 focus:outline-none focus:ring focus:ring-opacity-40`}
+      className={`focus:border-primary-purple focus:ring-primary-purple mx-0 ${
+        !error && 'mb-6'
+      } block w-full rounded-xl border bg-white px-4 py-2 font-[200] focus:outline-none focus:ring focus:ring-opacity-40`}
     />
     {error && <ErrorText text={error} />}
   </div>

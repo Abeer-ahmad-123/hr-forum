@@ -4,9 +4,9 @@ import StoreProvider from '@/Providers/StoreProvider'
 export default function RootLayout({ children }: any) {
   return (
     <html lang="en">
-        <StoreProvider>
-          <LayoutWrapper>{children}</LayoutWrapper>
-        </StoreProvider>
+      <StoreProvider>
+        <LayoutWrapper>{children}</LayoutWrapper>
+      </StoreProvider>
     </html>
   )
 }

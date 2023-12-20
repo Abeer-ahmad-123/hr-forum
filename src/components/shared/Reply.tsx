@@ -11,6 +11,8 @@ import {
 import SocialButtons from './SocialButtons'
 import { MoreHorizontal } from 'lucide-react'
 import { useParams } from 'next/navigation'
+import { ConvertDate } from '@/utils/helper'
+import { FormatCreatedAt } from '@/utils/helper'
 
 function Reply({ reply, commentLength, commentId = null }) {
   const replyRef = useRef(null)
@@ -19,6 +21,8 @@ function Reply({ reply, commentLength, commentId = null }) {
   const replyIdFromUrl = searchParams?.get('replyId')
   const [highlighted, setHighlighted] = useState(false)
   const postId = params.id as string
+
+  console.log('the date is ', reply)
 
   useEffect(() => {
     if (
@@ -33,32 +37,13 @@ function Reply({ reply, commentLength, commentId = null }) {
     }
   }, [replyIdFromUrl, reply.id])
 
-  const convertDate = (date: Date) => {
-    const providedDateTime = new Date(date)
-    const currentDateTime = new Date()
-    const timeDifference =
-      currentDateTime.getTime() - providedDateTime.getTime()
+  /////// convertDate
 
-    // Convert the time difference to days, hours, and minutes
-    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-    const hoursAgo = Math.floor(
-      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-    )
-    const minutesAgo = Math.floor(
-      (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
-    )
+  const convertDate = ConvertDate
 
-    // Return the result
-    if (daysAgo > 0) {
-      return daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`
-    } else if (hoursAgo > 0) {
-      return hoursAgo === 1 ? '1 hour ago' : `${hoursAgo} hours ago`
-    } else if (minutesAgo > 0) {
-      return minutesAgo === 1 ? '1 minute ago' : `${minutesAgo} minutes ago`
-    } else {
-      return 'just now'
-    }
-  }
+  /////// date formate change on hover
+  const formattedDate = FormatCreatedAt(reply.created_at)
+  console.log('the actual date is', formattedDate)
 
   return (
     <div
@@ -69,32 +54,36 @@ function Reply({ reply, commentLength, commentId = null }) {
       }`}>
       <div className="flex gap-[2%] pt-5">
         <div className="flex  flex-col items-center">
-          <div className="">
+          <div className="rounded-full border border-black">
             <img
               src={reply['author_details'].profile_picture_url}
               className="h-8 w-8 rounded-full"
             />
           </div>
-          {/* <div className='pl-5'>
-                        <UpdownButton count={reply['reaction_summary']['like_count']} />
-                    </div> */}
         </div>
-        <div className="flex w-full flex-col">
-          <div className="flex w-full justify-between">
-            <div className="text-accent">{reply['author_details'].name}</div>
-            <div className="pr-5 italic text-gray-500">
-              {convertDate(reply.created_at)}
+        <div className="min-w-sm flex flex-col">
+          <div className=" min-w-sml rounded-2xl  bg-slate-100 dark:bg-slate-800 ">
+            <div className="pl-2 text-left text-accent">
+              {reply['author_details'].name}
             </div>
-          </div>
 
-          <div className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white">
-            {reply.content}
+            <div className="mt-0 h-full w-full pl-2   text-left leading-loose text-gray-600 dark:text-white">
+              {reply.content}
+            </div>
           </div>
 
           {/* ÷  */}
 
-          <div className="flex justify-between pb-5 pr-5">
-            <div className="flex space-x-3">
+          <div className="flex items-center justify-between pr-5">
+            <div className="flex items-center space-x-3">
+              <div className="group relative inline-block">
+                <span className=" ml-2 text-left italic text-gray-400">
+                  {convertDate(reply.created_at)}
+                </span>
+                <div className="absolute bottom-full hidden -translate-x-1/2  transform whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block">
+                  {formattedDate}
+                </div>
+              </div>
               <Popover>
                 <PopoverTrigger>
                   <button className="visited:text-indigo-500 flex items-center space-x-2 p-2  pl-0 active:text-gray-700">
@@ -115,7 +104,7 @@ function Reply({ reply, commentLength, commentId = null }) {
 
               <button className="text-sm text-gray-400">Report</button>
             </div>
-            <MoreHorizontal className="text-gray-400" />
+            <MoreHorizontal className="ml-2 text-gray-400" />
           </div>
           {/*  ÷  */}
         </div>

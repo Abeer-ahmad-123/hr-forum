@@ -1,34 +1,31 @@
 'use client'
-import React from "react";
+import React from 'react'
 import { useSelector } from 'react-redux'
 
-
 const ChannelCard = () => {
-    const channels = useSelector((state) => state?.channels?.channels);
-    return (
-        <>
-            <div className="w-[200px] mt-[25px] pt-3 pb-2 mr-4 bg-white dark:bg-slate-800 dark:text-white shadow-lg  h-auto rounded-[10px] cursor-cursor sticky max-h-screen top-0  ">
-                <h1 className="text-[17px] font-medium justify-center text-center mt-[10px] mb-[20px]">
-                    THE CHANNELS
-                </h1>
-                <ul className="ml-[2px] list-none text-left cursor-pointer">
-                    {channels.map((channel, index) => (
-                        <React.Fragment key={index}>
-                            <li className="mt-[10px] pl-[10px] mb-[10px] text-[14px] text-gray-500 font-medium hover:text-black hover:bg-gray-200">
-                                <span className="pr-[10px]">#</span>
-                                <span>{channel.name}</span>
-                            </li>
-                            {index < channels.length - 1 && (
-                                <hr className="my-1 border-t border-gray-400 mx-3" />
-                            )}
-                        </React.Fragment>
-                    ))}
-                </ul>
-            </div>
-            <div>
-
-            </div>
-        </>
-    );
-};
-export default ChannelCard;
+  const channels = useSelector((state) => state?.channels?.channels)
+  return (
+    <>
+      <div className="cursor-cursor sticky top-0 mr-4 mt-[25px] h-auto max-h-screen w-[200px] rounded-[10px]  bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
+        <h1 className="mb-[20px] mt-[10px] justify-center text-center text-[17px] font-medium">
+          THE CHANNELS
+        </h1>
+        <ul className="ml-[2px] cursor-pointer list-none text-left">
+          {channels.map((channel, index) => (
+            <React.Fragment key={index}>
+              <li className="mb-[10px] mt-[10px] pl-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-200 hover:text-black">
+                <span className="pr-[10px]">#</span>
+                <span>{channel.name}</span>
+              </li>
+              {index < channels.length - 1 && (
+                <hr className="mx-3 my-1 border-t border-gray-400" />
+              )}
+            </React.Fragment>
+          ))}
+        </ul>
+      </div>
+      <div></div>
+    </>
+  )
+}
+export default ChannelCard

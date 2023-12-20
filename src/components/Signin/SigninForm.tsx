@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import InputField  from '../shared/InputField'
+import InputField from '../shared/InputField'
 
 export function SigninForm({
   formValues,
@@ -42,6 +42,3 @@ export function SigninForm({
     </form>
   )
 }
-
-
-

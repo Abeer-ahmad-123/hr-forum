@@ -45,12 +45,14 @@ export default function EditPost({ close, title, content, data }: any) {
       <div className="mt-6 flex justify-evenly">
         <button
           onClick={handleEditPost}
-          className="w-2/5 transform rounded-md bg-primary px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ">
+          className="w-2/5 transform rounded-md bg-primary px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none "
+        >
           save
         </button>
         <button
           onClick={close}
-          className="w-2/5 transform rounded-md bg-primary px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ">
+          className="w-2/5 transform rounded-md bg-primary px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none "
+        >
           cancel
         </button>
       </div>

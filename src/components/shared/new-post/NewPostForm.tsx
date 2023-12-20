@@ -107,7 +107,8 @@ export default function NewPostForm({ open }) {
             isDisabled ? 'bg-stone-200' : 'bg-blue-500'
           } p-2 text-white transition duration-200 hover:${
             isDisabled ? 'bg-stone-200' : 'bg-blue-600'
-          }`}>
+          }`}
+        >
           {loading ? 'Loading...' : 'Next'}
         </button>
       </div>
