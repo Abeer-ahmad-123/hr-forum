@@ -1,10 +1,8 @@
-// import { ContentCard } from '@/components/Feed'
+import Post from '@/components/shared/post'
 
-const SingleFeed = ({ postId }: any) => {
-  // return <ContentCard postId={postId} />
-  return <h1>Hello</h1>
-
+const SingleFeed = ({ params, searchParams }: any) => {
+  const id = params.id
+  return <Post postId={id} searchParams={searchParams} />
 }
 
 export default SingleFeed
-    

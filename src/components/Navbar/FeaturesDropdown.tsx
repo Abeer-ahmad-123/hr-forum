@@ -88,8 +88,8 @@ const OldFeaturesDropDown = () => {
   }, [setCheckFalse])
 
   const getSelectedIcon = () => {
-    const styles = 'mr-2 h-5 w-5 text-primary'
-    if (selected === 'Home') {
+    const styles = 'mr-2 h-5 w-5 text-accent'
+    if (selected === 'Home' || 'Feeds') {
       return <AiFillHome className={styles} />
     } else if (selected === 'Settings') {
       return <RiSettings4Fill className={styles} />
@@ -109,13 +109,16 @@ const OldFeaturesDropDown = () => {
 
   return (
     <div
-      className="relative flex w-[270px] cursor-pointer justify-center max-lg:hidden"
-      ref={divRef}>
+      className="relative flex w-[270px] cursor-pointer justify-center  max-lg:hidden"
+      ref={divRef}
+    >
       <div
-        className={`fixed top-[14px] ml-[-26px] h-8 w-[270px] rounded border border-[#e6e6e6]`}>
+        className={`fixed top-[14px] ml-[-26px] h-8 w-[270px] rounded border border-[#e6e6e6] dark:bg-dark-background`}
+      >
         <div
           className="mt-[3px] flex justify-between px-[0.75rem] py-0"
-          onClick={handleChecked}>
+          onClick={handleChecked}
+        >
           <div className="flex items-center normal-case text-black dark:text-white">
             {getSelectedIcon()}
             <p>{selected}</p>

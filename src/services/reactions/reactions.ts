@@ -1,13 +1,20 @@
-const baseUrl = '/api/v1/posts/'
+import {
+  DELETE_REACTIONS,
+  GET_USER_POST_REACTION,
+  POST_REACTIONS,
+  UPDATE_REACTION,
+} from './routes'
 
-async function postReactions(body: any, postId: string): Promise<any> {
+async function postReactions(body: any, postId: string, token?: string) {
   try {
-    const response = await fetch(`${baseUrl}${postId}/reactions`, {
+    const postRequestUrl = POST_REACTIONS.replace('postId', postId)
+    const response = await fetch(postRequestUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        authorization: 'Bearer ' + token,
       },
-      body: JSON.stringify(body),
+      body: await JSON.stringify(body),
     })
     const data = await response.json()
     return data
@@ -16,9 +23,10 @@ async function postReactions(body: any, postId: string): Promise<any> {
   }
 }
 
-async function deleteReactions(postId: string): Promise<any> {
+async function deleteReactions(postId: string) {
   try {
-    const response = await fetch(`${baseUrl}${postId}/reactions`, {
+    const deleteRequestUrl = DELETE_REACTIONS.replace('postId', postId)
+    const response = await fetch(deleteRequestUrl, {
       method: 'DELETE',
     })
     const data = await response.json()
@@ -28,9 +36,13 @@ async function deleteReactions(postId: string): Promise<any> {
   }
 }
 
-async function getUserPostReaction(postId: string): Promise<any> {
+async function getUserPostReaction(postId: string) {
   try {
-    const response = await fetch(`${baseUrl}${postId}/reactions`)
+    const UserPostReactionRequestUrl = GET_USER_POST_REACTION.replace(
+      'postId',
+      postId,
+    )
+    const response = await fetch(UserPostReactionRequestUrl)
     const data = await response.json()
     return data
   } catch (error) {
@@ -38,9 +50,10 @@ async function getUserPostReaction(postId: string): Promise<any> {
   }
 }
 
-async function updatePostReaction(body: any, postId: string): Promise<any> {
+async function updatePostReaction(body: any, postId: string) {
   try {
-    const response = await fetch(`${baseUrl}${postId}/reactions`, {
+    const updatePostReactionUrl = UPDATE_REACTION.replace('postId', postId)
+    const response = await fetch(updatePostReactionUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

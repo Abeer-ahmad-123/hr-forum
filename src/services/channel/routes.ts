@@ -1,3 +1,5 @@
-const GET_CHANNELS = '/api/v1/channels'
+import { API_BASE_URL } from '..'
+
+const GET_CHANNELS = API_BASE_URL + '/channels'
 
 export { GET_CHANNELS }

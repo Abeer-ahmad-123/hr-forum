@@ -1,30 +1,28 @@
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-  } from "@/components/ui/Dialog/interceptDialog"
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+} from '@/components/ui/Dialog/interceptDialog'
+import PostSkelton from '@/components/shared/post/PostSkelton'
+import Post from '@/components/shared/post'
+import { Suspense } from 'react'
 
-  
-  async function SingleFeed({ params }: any) {
-    const { id } = params
-    
-return (
-    
-  <Dialog open={true}>
-    <DialogContent>
-      <DialogHeader>
-        <DialogTitle>Welcome to HR-General: </DialogTitle>
+async function SingleFeed({ params, searchParams }: any) {
+  const { id } = params
+
+  return (
+    <Dialog open={true}>
+      <DialogContent className=" max-w-5xl overflow-scroll bg-white">
+        <DialogHeader></DialogHeader>
+
         <DialogDescription>
-          This action cannot be undone. This will permanently delete your account
-          and remove your data from our servers.
+          <Suspense fallback={<PostSkelton isDialogPost={true} />}>
+            <Post isDialogPost={true} postId={id} />
+          </Suspense>
         </DialogDescription>
-      </DialogHeader>
-    </DialogContent>
-  </Dialog>
-    )
-  }              
+      </DialogContent>
+    </Dialog>
+  )
+}
 export default SingleFeed
-  

@@ -227,7 +227,7 @@ export const reactionOptions = [
   { name: 'celebrate', emoji: '🎉' },
 ]
 export const navigation = [
-  { name: 'Home', href: '/feed', icon: AiFillHome },
+  { name: 'Home', href: '/feeds', icon: AiFillHome },
 
   { name: 'Saved', href: '/saved', icon: BsFillBookmarksFill },
 ]

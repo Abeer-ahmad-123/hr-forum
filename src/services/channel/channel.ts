@@ -2,9 +2,9 @@ import { GET_CHANNELS } from './routes'
 
 export async function getChannels() {
   try {
-    const responseFromRefresh = await fetch(GET_CHANNELS)
-    const responseJson = await responseFromRefresh.json()
-    return responseJson
+    const response = await fetch(GET_CHANNELS)
+    const responseJson = await response.json()
+    return responseJson?.data
   } catch (err) {
     throw err
   }
