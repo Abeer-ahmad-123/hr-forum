@@ -71,7 +71,7 @@ function TextArea({
           placeholder={'Write your comment...'}
           value={textAreaValue}
           onChange={handleTextAreaChange}
-          className={`mr-4 w-full rounded-lg border border-gray-300 p-2 pl-2 text-left dark:bg-dark-background`}
+          className={`mr-4 w-80 rounded-lg border border-gray-300 p-2 pl-2 text-left dark:bg-dark-background`}
         />
 
         <button
@@ -81,7 +81,8 @@ function TextArea({
               ? 'border border-gray-400 bg-[#CCCCCC]'
               : 'bg-accent'
           }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}>
+          disabled={isLoading['loading'] || textAreaValue === ''}
+        >
           <Send size={20} />{' '}
         </button>
       </div>
