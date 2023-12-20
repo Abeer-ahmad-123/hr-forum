@@ -4,6 +4,8 @@ import Reply from './Reply'
 import { getComment } from '@/services/comments'
 import { useState } from 'react'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
+import { ConvertDate } from '@/utils/helper'
+import { FormatCreatedAt } from '@/utils/helper'
 
 const CommentSection = ({
   key,
@@ -22,32 +24,15 @@ const CommentSection = ({
       TotalRecords: 0,
     },
   })
-  const convertDate = (date: string) => {
-    const providedDateTime = new Date(date)
-    const currentDateTime = new Date()
-    const timeDifference =
-      currentDateTime.getTime() - providedDateTime.getTime()
 
-    // Convert the time difference to days, hours, and minutes
-    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24))
-    const hoursAgo = Math.floor(
-      (timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
-    )
-    const minutesAgo = Math.floor(
-      (timeDifference % (1000 * 60 * 60)) / (1000 * 60),
-    )
+  const convertDate = ConvertDate
 
-    // Return the result
-    if (daysAgo > 0) {
-      return daysAgo === 1 ? '1 day ago' : `${daysAgo} d`
-    } else if (hoursAgo > 0) {
-      return hoursAgo === 1 ? '1 hour ago' : `${hoursAgo} hours ago`
-    } else if (minutesAgo > 0) {
-      return minutesAgo === 1 ? '1 minute ago' : `${minutesAgo} minutes ago`
-    } else {
-      return 'just now'
-    }
-  }
+  /////
+
+  const formattedDate = FormatCreatedAt(replies.comment.created_at)
+
+  /////
+
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = replies?.pagination?.CurrentPage + 1
@@ -80,7 +65,7 @@ const CommentSection = ({
 
   return (
     <div>
-      <div className="mt-4 w-full rounded-lg pb-2.5 dark:bg-slate-800">
+      <div className="mt-4 w-full rounded-lg pb-2.5">
         <div className="flex pt-5">
           <div className="flex  flex-col items-center">
             <div className="">
@@ -92,8 +77,8 @@ const CommentSection = ({
               />
             </div>
           </div>
-          <div className=" min-w-sm ml-3">
-            <div className=" rounded-2xl bg-slate-100">
+          <div className=" min-w-sm ml-3  ">
+            <div className=" rounded-2xl  bg-slate-100 dark:bg-slate-800">
               <div className="ml-6 pt-3 text-left text-accent ">
                 {replies.comment['author_details']?.name}
               </div>
@@ -103,9 +88,15 @@ const CommentSection = ({
               </div>
             </div>
 
-            <div className="flex items-center">
-              <div className=" ml-2 text-left italic text-gray-400">
-                {convertDate(replies.comment.created_at)}
+            <div className="flex ">
+              <div className="group relative inline-block">
+                <span className=" ml-2 text-left italic text-gray-400">
+                  {convertDate(replies.comment.created_at)}
+                </span>
+                <div className="absolute bottom-full ml-5 hidden -translate-x-1/2 transform whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block">
+                  {/* {convertDate(replies.comment.created_at)} */}
+                  {formattedDate}
+                </div>
               </div>
               <div className=" ml-3 text-gray-500">
                 <CommentOrReply
