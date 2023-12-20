@@ -12,7 +12,7 @@ import ChannelCard from '@/components/SideCards/ChannelCard'
 
 import RespScreen from '../Cards/ResponsiveScreen'
 
-async function RenderFeeds({ channelSlug = null }) {
+async function RenderFeeds({ channelSlug = null, searchParams = null }) {
   const { channels } = await getChannels()
   let initialPosts = []
   let morePosts = true
@@ -85,8 +85,7 @@ async function RenderFeeds({ channelSlug = null }) {
 
       <div
         className="sticky mt-5 max-h-screen max-sm:hidden sm:hidden lg:block "
-        style={{ top: '60px' }}
-      >
+        style={{ top: '60px' }}>
         {' '}
         <RulesCard />
       </div>

@@ -1,16 +1,8 @@
 'use client'
 import React from 'react'
-import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
-////
-
 import { PiShareFat } from 'react-icons/pi'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
-
-import { TbMessageCircle2Filled as MessageIcon } from 'react-icons/tb'
-import { IoShareSocial } from 'react-icons/io5'
-import Link from 'next/link'
 import { useState } from 'react'
-import TextArea from '../ui/TextArea'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
@@ -24,13 +16,22 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import SocialButtons from './SocialButtons'
+import {
+  bookmarkPost,
+  deleteBookmarkPost,
+} from '@/services/bookmark/bookmarkService'
 
 interface PostActionBarProps {
   linkToFeed: string
   postId: string
+  bookmark: boolean
 }
 
-const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
+const PostActionBar = ({
+  linkToFeed,
+  postId,
+  bookmark,
+}: PostActionBarProps) => {
   const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
   const submitReaction = async (value: string) => {
     const response = await postReactions(
@@ -47,8 +48,24 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
 
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
+  const [bookmarkSuccess, setBookmarkSuccess] = useState(
+    bookmark ? bookmark : false,
+  )
   const toggleCommentArea = () => {
     setShowCommentArea((pre) => !pre)
+  }
+  const handleBookmark = async () => {
+    const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
+    try {
+      const res = await getApi(postId, tokenInRedux)
+      if (res.data) {
+        setBookmarkSuccess(true)
+      } else if (res.status === 200) {
+        setBookmarkSuccess(false)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -62,23 +79,19 @@ const PostActionBar = ({ linkToFeed, postId }: PostActionBarProps) => {
             Like
           </div>
         </div>
-        <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200 ">
-          <Link
-            href={linkToFeed}
-            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2"
-          >
-            <FaRegBookmark />
-            <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
-              Bookmark
-            </span>
-          </Link>
+        <div
+          onClick={handleBookmark}
+          className="dark:text-icon-dark text-icon-light flex basis-1/4 items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-200 ">
+          <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
+          <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
+            Bookmark
+          </span>
         </div>
 
         <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200">
           <button
             onClick={toggleCommentArea}
-            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2"
-          >
+            className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
             {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
             <FaRegComment />
             <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">

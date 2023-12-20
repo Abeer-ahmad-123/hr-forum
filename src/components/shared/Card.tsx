@@ -16,8 +16,9 @@ const Card = ({ post, channels }: any) => {
     channel_id,
     author_details: user,
     reaction_summary,
+    user_has_bookmarked,
   } = post
-
+  console.log('Card post', post)
   const pathName = usePathname()
   const router = useRouter()
 
@@ -34,8 +35,7 @@ const Card = ({ post, channels }: any) => {
             pathName.includes('/channels/')
               ? `feeds/feed/${id}`
               : ` /feeds/feed/${id}`
-          }
-        >
+          }>
           <div className="px-10 py-4">
             <div className="flex items-center justify-between max-md:block">
               <div className="flex items-center">
@@ -56,8 +56,7 @@ const Card = ({ post, channels }: any) => {
                     <Link href={`/profile/${user?.id}`}>
                       <p
                         className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
-                        aria-label="user-name"
-                      >
+                        aria-label="user-name">
                         {user?.name}
 
                         {/* Yogesh Choudhary Paliyal */}
@@ -89,7 +88,11 @@ const Card = ({ post, channels }: any) => {
         <hr />
 
         <div className="py-1">
-          <PostActionBar linkToFeed={`/feeds/feed/${id}`} postId={id} />
+          <PostActionBar
+            linkToFeed={`/feeds/feed/${id}`}
+            postId={id}
+            bookmark={user_has_bookmarked}
+          />
         </div>
       </div>
     </>

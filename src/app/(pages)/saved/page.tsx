@@ -1,7 +1,8 @@
+import SavedPost from '@/components/SavedPost'
 import React from 'react'
 
-const page = () => {
-  return <div>Save Page</div>
+const SavedPostPage = () => {
+  return <SavedPost />
 }
 
-export default page
+export default SavedPostPage

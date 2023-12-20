@@ -20,7 +20,6 @@ const Feeds = ({
   const [page, setPage] = useState(2)
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
-
   const getPosts = async () => {
     let _data: any = {}
     if (channelSlug) {
