@@ -1,8 +1,8 @@
 export interface LoggedInUser {
   loggedInUser: {
-    token: string | null
+    token: string
     userData: {
-      id: string | null
+      id: string
       email: string
       username: string
       name: string

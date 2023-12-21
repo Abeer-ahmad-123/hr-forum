@@ -4,11 +4,19 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Card } from './shared'
 import { showErrorAlert } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { StoreChannels } from '@/utils/interfaces/channels'
 
 const SavedPost = () => {
-  const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
-  const { id } = useSelector((state) => state?.loggedInUser?.userData)
-  const channels = useSelector((state) => state?.channels.channels)
+  const tokenInRedux = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.token,
+  )
+  const { id } = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
+  const channels = useSelector(
+    (state: StoreChannels) => state?.channels.channels,
+  )
 
   const [posts, setPosts] = useState<Array<Object>>([{}])
 
@@ -18,7 +26,7 @@ const SavedPost = () => {
       console.log(res.data)
       setPosts(res.data)
     } catch (error) {
-      showErrorAlert(error)
+      showErrorAlert(`${error}`)
     }
   }
   useEffect(() => {
