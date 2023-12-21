@@ -53,7 +53,7 @@ function CommentOrReply({
       const status = result?.success ? 'success' : 'error'
       setIsLoading({ ...isLoading, loading: false, status: status })
     } catch (err) {
-      showErrorAlert(err)
+      showErrorAlert(`${err}`)
       setIsLoading({ ...isLoading, loading: false, status: 'error' })
     }
   }

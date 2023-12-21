@@ -39,16 +39,14 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
-      dark:bg-dark-background dark:text-gray-300`}
-      >
+      dark:bg-dark-background dark:text-gray-300`}>
         <div className="flex w-full flex-col p-10 pt-0">
           {/* TODO */}
 
           <div
             className={`${
               !isDialogPost ? 'mt-6' : ''
-            } items-left flex justify-between max-md:block`}
-          >
+            } items-left flex justify-between max-md:block`}>
             <div className="flex">
               <div className="-z-2">
                 <div className="static rounded-full">
@@ -67,8 +65,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
                   <Link href={`/profile/`}>
                     <p
                       className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
-                      aria-label="user-name"
-                    >
+                      aria-label="user-name">
                       {post.author_details.name}
 
                       {/* Yogesh Choudhary Paliyal */}

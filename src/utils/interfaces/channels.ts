@@ -18,4 +18,5 @@ export interface ChannelByIdInterface {
   color: string
   code: string
   href: string
+  slug: string
 }
