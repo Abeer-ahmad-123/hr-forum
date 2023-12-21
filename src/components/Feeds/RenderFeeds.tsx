@@ -1,7 +1,6 @@
 import Feeds from '@/components/Feeds/Feeds'
 import PostBar from '@/components/shared/new-post/NewPostModal'
 import { toPascalCase } from '@/utils/common'
-import RenderFeedLoading from '../Loading/renderFeedLoading'
 
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getChannels } from '@/services/channel/channel'
@@ -33,7 +32,9 @@ async function RenderFeeds({ channelSlug = null, searchParams = null }) {
     initialPosts = data?.posts
     morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
   }
-
+  console.log('initialPosts', initialPosts)
+  console.log('channels', channels)
+  console.log('morePosts', morePosts)
   return (
     <div className="flex justify-center">
       <div className="ml-20 mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">

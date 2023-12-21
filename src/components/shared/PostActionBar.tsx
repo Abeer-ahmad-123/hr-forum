@@ -20,6 +20,7 @@ import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 interface PostActionBarProps {
   linkToFeed: string
@@ -32,7 +33,8 @@ const PostActionBar = ({
   postId,
   bookmark,
 }: PostActionBarProps) => {
-  const tokenInRedux = useSelector((state) => state?.loggedInUser?.token)
+  const tokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const submitReaction = async (value: string) => {
     const response = await postReactions(
       {
