@@ -1,14 +1,15 @@
 'use client'
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { ArrowDown, ArrowUp } from 'lucide-react'
 import { Button } from './button'
 
-const UpdownButton = ({ count }) => {
+//@ts-ignore
+const UpdownButton = ({ count }: number) => {
   const [currentVote, setCurrentVote] = useState(0)
   const [color, setColor] = useState('')
   const preVote = 0
 
-  const handleUp = (current, previous) => {
+  const handleUp = (current: number, previous: number) => {
     if (current > previous) {
       setColor('')
       setCurrentVote(previous)
@@ -19,7 +20,7 @@ const UpdownButton = ({ count }) => {
     }
   }
 
-  const handleDown = (current, previous) => {
+  const handleDown = (current: number, previous: number) => {
     if (current < previous) {
       setColor('')
       setCurrentVote(previous)
@@ -41,8 +42,7 @@ const UpdownButton = ({ count }) => {
           color === 'fill-primary text-primary' ? color : ''
         } hover:text-white`}
         variant="ghost"
-        aria-label="upvote"
-      >
+        aria-label="upvote">
         <ArrowUp className={`h-5 w-5 `} />
       </Button>
 
@@ -60,8 +60,7 @@ const UpdownButton = ({ count }) => {
           color === 'fill-rose-500 text-rose-500' ? color : ''
         } hover:text-white`}
         variant="ghost"
-        aria-label="downvote"
-      >
+        aria-label="downvote">
         <ArrowDown className={`h-5 w-5`} />
       </Button>
     </div>

@@ -6,7 +6,7 @@ const UserSpecificPosts = ({ posts }: any) => {
   return (
     <Suspense fallback={<Skelton className="h-[300px] w-[400px]" />}>
       <div className="flex flex-col">
-        {posts?.map((_, i) => (
+        {posts?.map((_: any, i: number) => (
           <ProfilePosts key={i} />
         ))}
       </div>

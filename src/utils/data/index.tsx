@@ -238,6 +238,7 @@ export const sidebarChannels = [
     code: 'Rz160015',
     href: '/channels/HR-Best-Practices',
     color: 'purple',
+    slug: '',
   },
   {
     id: 2,
@@ -245,6 +246,7 @@ export const sidebarChannels = [
     code: 'Rz160015',
     href: '/channels/Diversity-and-Inclusion',
     color: 'indigo',
+    slug: '',
   },
   {
     id: 3,
@@ -252,6 +254,7 @@ export const sidebarChannels = [
     code: 'Rz160015',
     href: '/channels/Employee-Benefits',
     color: 'skyblue',
+    slug: '',
   },
   {
     id: 4,
@@ -259,6 +262,7 @@ export const sidebarChannels = [
     code: 'Rz160015',
     href: '/channels/Remote-Work-Strategies',
     color: 'pink',
+    slug: '',
   },
   {
     id: 5,
@@ -266,6 +270,7 @@ export const sidebarChannels = [
     code: 'Rz160015',
     href: '/channels/Talent-Acquisition',
     color: 'orange',
+    slug: '',
   },
 ]
 export const userNavigation = [
