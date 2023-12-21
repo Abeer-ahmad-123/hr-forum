@@ -1,7 +1,7 @@
 'use client'
 
 import { SigninForm } from './SigninForm'
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { googleAuthStart, signIn } from '@/services/auth/authService'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
@@ -46,7 +46,7 @@ export default function Signin({
     return !Object?.keys(errors)?.length
   }
 
-  async function handleLoginSubmit(e) {
+  async function handleLoginSubmit(e: ChangeEvent) {
     e.preventDefault()
 
     try {
@@ -127,8 +127,7 @@ export default function Signin({
               className="text-primary-purple cursor-pointer font-medium hover:underline"
               onClick={() => {
                 toggleForm()
-              }}
-            >
+              }}>
               Sign up
             </button>
           </p>

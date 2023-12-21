@@ -9,6 +9,7 @@ import { postCreatePostInChannel } from '@/services/posts'
 // import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { useSelector } from 'react-redux'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 export default function NewPostForm({ open }) {
   const [formValues, setFormValues] = useState({
@@ -17,7 +18,7 @@ export default function NewPostForm({ open }) {
     channelId: '',
   })
 
-  const token = useSelector((state) => state?.loggedInUser?.token)
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [loading, setLoading] = useState(false)
 
@@ -107,8 +108,7 @@ export default function NewPostForm({ open }) {
             isDisabled ? 'bg-stone-200' : 'bg-blue-500'
           } p-2 text-white transition duration-200 hover:${
             isDisabled ? 'bg-stone-200' : 'bg-blue-600'
-          }`}
-        >
+          }`}>
           {loading ? 'Loading...' : 'Next'}
         </button>
       </div>

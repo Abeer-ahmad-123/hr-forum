@@ -10,9 +10,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { StoreChannels } from '@/utils/interfaces/channels'
 
 const Dropdown = ({ handleDropDownValue, value }: any) => {
-  const channels = useSelector((state: any) => state.channels.channels)
+  const channels = useSelector(
+    (state: StoreChannels) => state.channels.channels,
+  )
 
   const [buttonValue, setButtonValue] = useState('Select a Channel')
 
@@ -23,8 +26,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
           <DropdownMenuTrigger>
             <button
               type="button"
-              className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white"
-            >
+              className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white">
               {value?.name || buttonValue}
               <DownIcon className="ml-2 h-5 w-5 cursor-pointer" />
             </button>
@@ -37,8 +39,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
                   setButtonValue(item.name), handleDropDownValue(item.id)
                 }}
                 key={item.name}
-                className="hover:text-white"
-              >
+                className="hover:text-white">
                 <div className="ml-2 flex-shrink-0">{item.name}</div>
               </DropdownMenuItem>
             ))}
