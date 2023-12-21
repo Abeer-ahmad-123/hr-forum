@@ -22,3 +22,20 @@ interface PostsInterface {
   user_reaction: string
   user_has_bookmarked: boolean
 }
+export interface UserSpecificationPostInterface {
+  id: number
+  created_at: string
+  updated_at: string
+  title: string
+  content: string
+  slug: string
+  user_id: number
+  channel_id: number
+  total_comments: number
+  user_reaction: Object
+  user_has_bookmarked: boolean
+}
+export interface UserSpecificPostsInterface {
+  posts: UserSpecificationPostInterface[]
+  pagination: Object
+}
