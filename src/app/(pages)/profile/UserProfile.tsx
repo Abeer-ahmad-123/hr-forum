@@ -3,30 +3,22 @@ import { getUserDetails, updateUserImage } from '@/services/user'
 import Image from 'next/image'
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import ProfilePosts from './Posts'
-import ProfileCard from '../feeds/Cards/ProfileCard'
+
 import SideCardBadge from './SideCardBadge'
 import SideCardSkill from './SideCardSkill'
 import EditProfileButton from './EditProfileButton'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { getUserSpecificPosts } from '@/services/posts'
-import UserSpecificPosts from './UserSpecificPosts'
-import Skelton from '@/components/ui/skelton'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-
-interface userData {
-  id: number
-  bio: string
-  email: string
-  name: string
-  profilePictureURL: string
-  username: string
-}
+import { userData } from '@/utils/interfaces/userData'
+import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
+import UserSpecificPosts from './UserSpecificPosts'
 
 function UserProfile() {
   const [userData, setUserData] = useState<userData | null>(null)
-  const [userSpecificPosts, setUserSpecificPosts] = useState<any>([])
+  const [userSpecificPosts, setUserSpecificPosts] =
+    useState<UserSpecificPostsInterface>({ posts: [], pagination: {} })
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
@@ -44,6 +36,7 @@ function UserProfile() {
     const response = await getUserSpecificPosts(userDataInStore?.id ?? '')
     console.log('response', response)
     if (response.success) {
+      console.log('response?.data', response?.data)
       setUserSpecificPosts(response?.data)
     }
   }
