@@ -22,7 +22,7 @@ function Comments({
     pagination?.TotalPages !== 0 &&
       pagination?.CurrentPage !== pagination?.TotalPages,
   )
-  const refetchComments = async (pageNumber = undefined) => {
+  const refetchComments = async (pageNumber: number = 0) => {
     // Re-fetch comments
 
     const commentsResponse = await getPostsComments(postId, {
@@ -43,6 +43,9 @@ function Comments({
     } else {
       setComments([...comments, ...filteredComments])
     }
+  }
+  const handleLoadMore = () => {
+    refetchComments()
   }
 
   return (
@@ -70,8 +73,7 @@ function Comments({
         {(!!commentId || nothingToLoadMore?.current) && (
           <button
             className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
-            onClick={refetchComments}
-          >
+            onClick={handleLoadMore}>
             Load More
           </button>
         )}

@@ -2,6 +2,7 @@
 import { InputField } from '@/components/shared'
 import { updateUserDetails } from '@/services/user'
 import { setUser, setUserData } from '@/store/Slices/loggedInUserSlice'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -14,11 +15,12 @@ interface EditPageProps {
   userData: userDataProps
   handleCloseDialog: () => void
 }
+
 const EditPage = ({ userData, handleCloseDialog }: EditPageProps) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [userDetails, setUserDetails] = useState(userData)
-  const token = useSelector((state) => state?.loggedInUser?.token)
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const handleChange = (e: any) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
   }
@@ -68,8 +70,7 @@ const EditPage = ({ userData, handleCloseDialog }: EditPageProps) => {
       </div>
       <button
         onClick={handleSubmit}
-        className="mb-1 mt-2 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600 sm:mr-2"
-      >
+        className="mb-1 mt-2 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600 sm:mr-2">
         Update
       </button>
     </div>

@@ -1,16 +1,16 @@
 import { toast } from 'react-toastify'
-const isEmpty = (value, name) => {
+const isEmpty = (value: string, name: string) => {
   if (value) return false
   else return `${name} is required*.`
 }
 
-const isValidEmail = (email) => {
+const isValidEmail = (email: string) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
   const isValidEmail = emailRegex.test(email)
   return isValidEmail
 }
 
-const showErrorAlert = (title) => {
+const showErrorAlert = (title: string) => {
   toast.error(title, {
     position: 'top-right',
     autoClose: 5000,
@@ -23,7 +23,7 @@ const showErrorAlert = (title) => {
   })
 }
 
-const showSuccessAlert = (title) => {
+const showSuccessAlert = (title: string) => {
   toast.success(title, {
     position: 'top-right',
     autoClose: 5000,
@@ -36,7 +36,7 @@ const showSuccessAlert = (title) => {
   })
 }
 
-const timeFormatInDateMonth = (d) => {
+const timeFormatInDateMonth = (d: Date) => {
   const date = new Date(d)
   const monthNames = [
     'Jan',
@@ -58,12 +58,12 @@ const timeFormatInDateMonth = (d) => {
   return `${monthName} ${day}`
 }
 
-const timeFormatInHours = (timestamp) => {
+const timeFormatInHours = (timestamp: Date) => {
   const currentDate = new Date()
   const date = new Date(timestamp)
   const dateMonth = timeFormatInDateMonth(timestamp)
 
-  const timeDifferenceInMilliseconds = currentDate - date
+  const timeDifferenceInMilliseconds = currentDate.getTime() - date.getTime()
 
   const hoursAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60))
 
@@ -81,7 +81,7 @@ const timeFormatInHours = (timestamp) => {
       : `${dateMonth} (1 day ago)`
   }
 }
-const isValidUserName = (userName) => {
+const isValidUserName = (userName: string) => {
   const userNameRegex = /^[a-zA-Z0-9]{1,}$/
   const isValidUserName = userNameRegex.test(userName)
   return isValidUserName

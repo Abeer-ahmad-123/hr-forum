@@ -1,8 +1,12 @@
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import Link from 'next/link'
-
+interface ChannelObject {
+  [key: string]: {
+    name?: string
+  }
+}
 const ChannelPill = ({ channel_id, channels }: any) => {
-  const channelObj = arrayToKeyIdNValueData(channels)
+  const channelObj: ChannelObject = arrayToKeyIdNValueData(channels)
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
 
   return (

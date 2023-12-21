@@ -1,5 +1,5 @@
 'use client'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, MutableRefObject } from 'react'
 import UpdownButton from '../ui/updownButton'
 import ReplyTextArea from './ReplyTextArea'
 import { useSearchParams } from 'next/navigation'
@@ -13,16 +13,15 @@ import { MoreHorizontal } from 'lucide-react'
 import { useParams } from 'next/navigation'
 import { ConvertDate } from '@/utils/helper'
 import { FormatCreatedAt } from '@/utils/helper'
+import { ReplyInterface } from '@/utils/interfaces/reply'
 
-function Reply({ reply, commentLength, commentId = null }) {
-  const replyRef = useRef(null)
+function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
+  const replyRef = useRef<HTMLDivElement>(null)
   const searchParams = useSearchParams()
   const params = useParams()
   const replyIdFromUrl = searchParams?.get('replyId')
   const [highlighted, setHighlighted] = useState(false)
   const postId = params.id as string
-
-  console.log('the date is ', reply)
 
   useEffect(() => {
     if (
@@ -30,7 +29,7 @@ function Reply({ reply, commentLength, commentId = null }) {
       replyIdFromUrl &&
       replyIdFromUrl === reply.id.toString()
     ) {
-      replyRef.current.scrollIntoView({ behavior: 'smooth' })
+      replyRef?.current?.scrollIntoView({ behavior: 'smooth' })
 
       setHighlighted(true)
       setTimeout(() => setHighlighted(false), 1000)
@@ -43,7 +42,6 @@ function Reply({ reply, commentLength, commentId = null }) {
 
   /////// date formate change on hover
   const formattedDate = FormatCreatedAt(reply.created_at)
-  console.log('the actual date is', formattedDate)
 
   return (
     <div
