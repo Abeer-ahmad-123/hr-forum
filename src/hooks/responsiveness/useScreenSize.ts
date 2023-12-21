@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export function useScreenSize(size) {
-  const [isLargeScreen, setIsLargeScreen] = useState(false)
+export function useScreenSize(size: number) {
+  const [isLargeScreen, setIsLargeScreen] = useState<boolean | number>(false)
 
   useEffect(() => {
     const checkScreenSize = () => {

@@ -3,8 +3,11 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 const ProfileCard = () => {
-  const userDetails = useSelector((state) => state?.loggedInUser?.userData)
+  const userDetails = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
   const email = userDetails?.email || 'webeloper@gmail.com'
   return (
     <>
@@ -40,15 +43,13 @@ const ProfileCard = () => {
           <hr className="my-1 ml-3 mr-3 border-t border-gray-400" />
           <p
             className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-light"
-            style={{ wordWrap: 'break-word' }}
-          >
+            style={{ wordWrap: 'break-word' }}>
             {email.length > 20 ? email.slice(0, 20).concat('...') : email}
           </p>
           <hr className="my-1 ml-3 mr-3 border-t border-gray-400" />
           <Link
             href={'/profile'}
-            className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold"
-          >
+            className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold">
             {' '}
             profile view
           </Link>
