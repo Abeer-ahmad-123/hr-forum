@@ -34,8 +34,7 @@ const Card = ({ post, channels }: any) => {
             pathName.includes('/channels/')
               ? `feeds/feed/${id}`
               : ` /feeds/feed/${id}`
-          }
-        >
+          }>
           <div className="px-10 py-4">
             <div className="flex items-center justify-between max-md:block">
               <div className="flex items-center">
@@ -56,8 +55,7 @@ const Card = ({ post, channels }: any) => {
                     <Link href={`/profile/${user?.id}`}>
                       <p
                         className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
-                        aria-label="user-name"
-                      >
+                        aria-label="user-name">
                         {user?.name}
 
                         {/* Yogesh Choudhary Paliyal */}

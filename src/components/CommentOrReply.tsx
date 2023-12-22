@@ -6,6 +6,7 @@ import ReplyTextArea from './shared/ReplyTextArea'
 import { postComment, postCommentReply } from '@/services/comments'
 import { showErrorAlert } from '@/utils/helper'
 import { useSelector } from 'react-redux'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 function CommentOrReply({
   reply = false,
@@ -19,7 +20,7 @@ function CommentOrReply({
 }: any) {
   const params = useParams()
   const postId = params['id'] || Id
-  const token = useSelector((state) => state?.loggedInUser?.token)
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const [isLoading, setIsLoading] = useState({
     loading: false,
     status: 'null',
@@ -42,7 +43,10 @@ function CommentOrReply({
         //  **** uncomment the after update from Behzad ****
 
         if (!commentId) {
-          setComments((prevComments) => [result?.data, ...prevComments])
+          setComments((prevComments: Array<Object>) => [
+            result?.data,
+            ...prevComments,
+          ])
         } else {
           refetchComments()
         }
@@ -51,7 +55,7 @@ function CommentOrReply({
       const status = result?.success ? 'success' : 'error'
       setIsLoading({ ...isLoading, loading: false, status: status })
     } catch (err) {
-      showErrorAlert(err)
+      showErrorAlert(`${err}`)
       setIsLoading({ ...isLoading, loading: false, status: 'error' })
     }
   }
