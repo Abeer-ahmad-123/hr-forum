@@ -2,27 +2,29 @@
 
 import PostActionBar from '@/components/shared/PostActionBar'
 import Comments from './shared/post/Comments'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
-function CommentsLogic({ postId, commentResult, paginationResult }) {
-  const [shouldFocusInput, setShouldFocusInput] = useState(false)
+function CommentsLogic({
+  postId,
+  commentResult,
+  paginationResult,
+  bookmark,
+}: any) {
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
-  const handleShouldFocusInput = () => {
-    console.log('about to focus input')
-    setShouldFocusInput((pre) => !pre)
-  }
   return (
     <div>
       <PostActionBar
+        bookmark={bookmark}
         linkToFeed={`/feeds/feed/${postId}`}
         postId={postId}
-        handleFocus={handleShouldFocusInput}
+        inputRef={inputRef}
       />
       <Comments
         postId={postId}
         initialComments={commentResult}
         pagination={paginationResult}
-        shouldFocus={shouldFocusInput}
+        inputRef={inputRef}
       />
     </div>
   )

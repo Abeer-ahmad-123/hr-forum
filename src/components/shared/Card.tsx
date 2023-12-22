@@ -16,16 +16,9 @@ const Card = ({ post, channels }: any) => {
     channel_id,
     author_details: user,
     reaction_summary,
+    user_has_bookmarked,
   } = post
-
   const pathName = usePathname()
-  const router = useRouter()
-
-  const totalCount = Object.values(reaction_summary).reduce(
-    (acc: any, count: any) => acc + count,
-    0,
-  )
-
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
@@ -76,7 +69,7 @@ const Card = ({ post, channels }: any) => {
                 {title}
               </div>
               <div
-                className="text-justify text-[15px] text-gray-700 dark:text-gray-300"
+                className="text-justify  text-[15px] text-gray-700 dark:text-gray-300"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
@@ -87,7 +80,11 @@ const Card = ({ post, channels }: any) => {
         <hr />
 
         <div className="py-1">
-          <PostActionBar linkToFeed={`/feeds/feed/${id}`} postId={id} />
+          <PostActionBar
+            linkToFeed={`/feeds/feed/${id}`}
+            postId={id}
+            bookmark={user_has_bookmarked}
+          />
         </div>
       </div>
     </>

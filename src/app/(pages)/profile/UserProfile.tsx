@@ -1,30 +1,21 @@
 'use client'
 import { getUserDetails, updateUserImage } from '@/services/user'
 import Image from 'next/image'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
+import { getUserSpecificPosts } from '@/services/posts'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
+import { userData } from '@/utils/interfaces/userData'
+import { LiaUserEditSolid } from 'react-icons/lia'
+import EditProfileButton from './EditProfileButton'
 import SideCardBadge from './SideCardBadge'
 import SideCardSkill from './SideCardSkill'
-import EditProfileButton from './EditProfileButton'
-import { LiaUserEditSolid } from 'react-icons/lia'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { getUserSpecificPosts } from '@/services/posts'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { userData } from '@/utils/interfaces/userData'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
 import UserSpecificPosts from './UserSpecificPosts'
 import Skelton from '@/components/ui/skelton'
 import UserDataBadge from './UserDataBadge'
-
-interface userData {
-  id: number
-  bio: string
-  email: string
-  name: string
-  profilePictureURL: string
-  username: string
-}
 
 function UserProfile() {
   const [userData, setUserData] = useState<userData | null>(null)
@@ -100,7 +91,6 @@ function UserProfile() {
         </div>
       </section>
       <section className="bg-blueGray-200 relative ">
-      
         <div className="mx-auto w-[80%]">
           <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
             <div className=" px-6">
@@ -188,15 +178,14 @@ function UserProfile() {
             </div>
           </div>
         </div>
-      
-        <div className=" w-[80%] flex mx-auto  gap-[4rem] ">
-          <div >
-           
-            <UserDataBadge/>
+
+        <div className=" mx-auto flex w-[80%]  gap-[4rem] ">
+          <div>
+            <UserDataBadge />
           </div>
-<div className='w-full'> 
-          <UserSpecificPosts posts={userSpecificPosts?.posts} />
-          </div> 
+          <div className="w-full">
+            <UserSpecificPosts posts={userSpecificPosts?.posts} />
+          </div>
         </div>
         <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
           <div className="container mx-auto px-4">

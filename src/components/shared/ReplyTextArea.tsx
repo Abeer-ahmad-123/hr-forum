@@ -16,6 +16,7 @@ function ReplyTextArea({
   setIsLoading,
   isLoading,
   commentId,
+  inputRef = null,
 }: any) {
   const [showTextArea, setShowTextArea] = useState(false)
 
@@ -32,8 +33,7 @@ function ReplyTextArea({
         <div className="flex space-x-5 ">
           <button
             onClick={toggleTextArea}
-            className="cursor-pointer text-sm text-gray-400"
-          >
+            className="cursor-pointer text-sm text-gray-400">
             Reply
           </button>
           <Popover>
@@ -62,7 +62,8 @@ function ReplyTextArea({
           submitCallback={submitCallback}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
-          isCommentPage = {true}
+          isCommentPage={true}
+          inputRef={inputRef}
         />
       </div>
     </div>

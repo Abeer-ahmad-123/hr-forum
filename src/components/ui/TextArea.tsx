@@ -18,8 +18,9 @@ function TextArea({
   setIsLoading,
   className,
   btnClass,
-  isCommentPage= false,
+  isCommentPage = false,
   shouldFocus = false,
+  inputRef = null,
 }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
@@ -27,15 +28,13 @@ function TextArea({
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
     // add other styles as needed
-  };
+  }
 
   // const router = useRouter()
 
   const handleTextAreaChange = (e: any) => {
     setTextAreaValue(e.target.value)
   }
-  const focusRef = useRef(null)
-  console.log('In TextArea file', shouldFocus)
 
   const handleClick = () => {
     if (reduxToken) {
@@ -57,17 +56,14 @@ function TextArea({
   }
 
   useEffect(() => {
-    if (shouldFocus) {
-      focusRef.current?.focus()
-    }
     resetStatus()
-  }, [isLoading, shouldFocus])
+  }, [isLoading])
 
   return (
     <>
-      <div className={`mb-2 flex ${className}`}  style={textareaStyle} >
+      <div className={`mb-2 flex ${className}`} style={textareaStyle}>
         <textarea
-          ref={focusRef}
+          ref={inputRef}
           rows={1}
           style={{
             caretColor: 'gray',
@@ -86,8 +82,7 @@ function TextArea({
               ? 'border border-gray-400 bg-[#CCCCCC]'
               : 'bg-accent'
           }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}
-        >
+          disabled={isLoading['loading'] || textAreaValue === ''}>
           <Send size={20} />{' '}
         </button>
       </div>

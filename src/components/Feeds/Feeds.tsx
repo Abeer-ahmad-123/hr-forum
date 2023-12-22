@@ -6,11 +6,12 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import CircularProgress from '../ui/circularProgress'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
+import { PostsInterface } from '@/utils/interfaces/posts'
 
 
 // Feed is a functional component that takes data and displays it as cards
 interface FeedProps {
-  channelSlug?: string
+  channelSlug?: string | null
   initialPosts: PostsInterface[]
   channels: ChannelByIdInterface[]
   morePosts?: boolean
@@ -25,7 +26,6 @@ const Feeds = ({
   const [page, setPage] = useState(2)
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
-
   const getPosts = async () => {
     let _data: any = {}
     if (channelSlug) {

@@ -16,7 +16,7 @@ function CommentOrReply({
   className = '',
   btnClass = '',
   Id = '',
-  shouldFocus = false,
+  inputRef = null,
 }: any) {
   const params = useParams()
   const postId = params['id'] || Id
@@ -25,7 +25,6 @@ function CommentOrReply({
     loading: false,
     status: 'null',
   })
-  console.log('IN Commentor reply file', shouldFocus)
 
   const handleSubmit = async (value: any) => {
     try {
@@ -68,6 +67,7 @@ function CommentOrReply({
           setIsLoading={setIsLoading}
           isLoading={isLoading}
           commentId={commentId}
+          inputRef={inputRef}
         />
       ) : (
         <TextArea
@@ -76,7 +76,7 @@ function CommentOrReply({
           isLoading={isLoading}
           className={className}
           btnClass={btnClass}
-          shouldFocus={shouldFocus}
+          inputRef={inputRef}
         />
       )}
     </div>

@@ -1,12 +1,14 @@
+'use server'
 import {
   BOOKMARK_POST,
   DELETE_BOOKMARK_POST,
-  GET_BOOKMARK_POST,
+  GET_BOOKMARK_POSTS,
 } from './routes'
 
-export async function bookmarkPost(token: string) {
+export async function bookmarkPost(postId: string, token: string) {
   try {
-    let responseFromAuth = await fetch(BOOKMARK_POST, {
+    let bookmarkPostUrl = BOOKMARK_POST.replace('postId', postId)
+    let responseFromAuth = await fetch(bookmarkPostUrl, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
@@ -20,10 +22,9 @@ export async function bookmarkPost(token: string) {
     throw err
   }
 }
-export async function deleteBookmarkPost({ token, postId, userId }: any) {
+export async function deleteBookmarkPost(postId: string, token: string) {
   try {
     let deleteBookmarkPostUrl = DELETE_BOOKMARK_POST.replace('postId', postId)
-    deleteBookmarkPostUrl = deleteBookmarkPostUrl.replace('userId', userId)
     let responseFromAuth = await fetch(deleteBookmarkPostUrl, {
       method: 'DELETE',
       headers: {
@@ -31,17 +32,17 @@ export async function deleteBookmarkPost({ token, postId, userId }: any) {
         authorization: 'Bearer ' + token,
       },
     })
-    const responseJson = await responseFromAuth.json()
-
-    return { ...responseJson, status: responseFromAuth?.status }
+    return { status: responseFromAuth?.status }
   } catch (err) {
     throw err
   }
 }
 
-export async function getBookmarkPost(token: string) {
+export async function getBookmarkPosts(userId: string, token: string) {
   try {
-    let responseFromAuth = await fetch(GET_BOOKMARK_POST, {
+    let getBookmarkPostUrl = GET_BOOKMARK_POSTS.replace('userId', userId)
+
+    let responseFromAuth = await fetch(getBookmarkPostUrl, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
