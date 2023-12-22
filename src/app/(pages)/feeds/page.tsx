@@ -6,6 +6,7 @@ import ProfileCard from './Cards/ProfileCard'
 import RulesCard from './Cards/RuleCard'
 import ChannelCard from './Cards/ChannelCard'
 import CardLoading from '@/components/Loading/cardLoading'
+import { SearchParams } from '@/utils/interfaces/renderFeeds'
 
 // const FeedPage = () => {
 //   return (
@@ -32,31 +33,15 @@ import CardLoading from '@/components/Loading/cardLoading'
 
 // export default FeedPage
 
-const FeedPage = () => {
+const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
+  searchParams,
+}) => {
   return (
-    <>
-      <div>
-        <Suspense fallback={<CardLoading />}>
-          <RenderFeeds />
-        </Suspense>
-      </div>
-      {/* <div className='flex justify-center '>
-
-
-        <div className='flex flex-col'>
-          <ProfileCard />
-          <div className='sticky max-h-screen top-0' style={{ top: '35px' }}> <ChannelCard /></div>
-        </div>
-
-
-
-        
-
-        <div className='sticky max-h-screen top-0' style={{ top: '-50px' }}> <RulesCard /></div>
-
-
-      </div> */}
-    </>
+    <div>
+      <Suspense fallback={<CardLoading />}>
+        <RenderFeeds searchParams={searchParams} path="/feed" />
+      </Suspense>
+    </div>
   )
 }
 

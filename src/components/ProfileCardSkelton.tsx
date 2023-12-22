@@ -8,7 +8,7 @@ function ProfileCardSkelton() {
         <Skelton className="h-[70px] w-full" />
 
         <div className="mt-[-20px] flex items-center justify-center">
-          <Skelton className="h-14 w-14 rounded-full bg-skelton" />
+          <Skelton className="mt-[20px] h-[30px] w-[60px] rounded-bl-[150px] rounded-br-[150px] bg-skelton" />
         </div>
 
         <Skelton className="mx-[15px] mt-2 flex h-5 justify-center text-center font-bold" />

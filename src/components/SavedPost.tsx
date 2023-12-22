@@ -3,9 +3,10 @@ import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Card } from './shared'
-import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { StoreChannels } from '@/utils/interfaces/channels'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { BookmarkedPostInterface } from '@/utils/interfaces/savedPost'
 
 const SavedPost = () => {
   const tokenInRedux = useSelector(
@@ -18,29 +19,38 @@ const SavedPost = () => {
     (state: StoreChannels) => state?.channels.channels,
   )
 
-  const [posts, setPosts] = useState<Array<Object>>([{}])
+  const [posts, setPosts] = useState<BookmarkedPostInterface>()
 
   const getSavePost = async () => {
     try {
       const res = await getBookmarkPosts(id, tokenInRedux)
-      console.log(res.data)
-      setPosts(res.data)
+      const updatedBookmarks = res.data.Bookmarks.map(
+        (bookmark: { post: PostsInterface }) => ({
+          ...bookmark,
+          post: {
+            ...bookmark.post,
+            user_has_bookmarked: true,
+          },
+        }),
+      )
+      setPosts({ Bookmarks: updatedBookmarks })
     } catch (error) {
-      showErrorAlert(`${error}`)
+      console.error(`${error}`)
     }
   }
   useEffect(() => {
     getSavePost()
   }, [])
+
   return (
     <div className="min-h-[70vh]">
-      {/* {!!posts?.length ? (
-        posts?.map((post: any) => {
-          return <Card key={post?.title} post={post} channels={channels} />
+      {!!posts?.Bookmarks?.length ? (
+        posts?.Bookmarks?.map((post: any) => {
+          return <Card key={post?.title} post={post.post} channels={channels} />
         })
       ) : (
         <p>No saved posts</p>
-      )} */}
+      )}
     </div>
   )
 }

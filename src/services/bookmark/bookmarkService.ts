@@ -1,5 +1,4 @@
 'use server'
-import { error } from 'console'
 import {
   BOOKMARK_POST,
   DELETE_BOOKMARK_POST,
@@ -41,7 +40,6 @@ export async function deleteBookmarkPost(postId: string, token: string) {
 
 export async function getBookmarkPosts(userId: string, token: string) {
   try {
-    console.log('userId', userId)
     let getBookmarkPostUrl = GET_BOOKMARK_POSTS.replace('userId', userId)
 
     let responseFromAuth = await fetch(getBookmarkPostUrl, {

@@ -18,15 +18,7 @@ const Card = ({ post, channels }: any) => {
     reaction_summary,
     user_has_bookmarked,
   } = post
-  console.log('Card post', post)
   const pathName = usePathname()
-  const router = useRouter()
-
-  const totalCount = Object.values(reaction_summary).reduce(
-    (acc: any, count: any) => acc + count,
-    0,
-  )
-
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">

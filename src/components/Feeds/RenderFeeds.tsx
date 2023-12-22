@@ -1,21 +1,26 @@
 import Feeds from '@/components/Feeds/Feeds'
 import PostBar from '@/components/shared/new-post/NewPostModal'
 import { toPascalCase } from '@/utils/common'
-
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getChannels } from '@/services/channel/channel'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import ChannelCard from '@/components/SideCards/ChannelCard'
-
 import RespScreen from '../Cards/ResponsiveScreen'
+import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
+import { getSearchPosts } from '@/services/search'
 
-async function RenderFeeds({ channelSlug = '', searchParams = null }) {
+async function RenderFeeds({
+  channelSlug = '',
+  searchParams,
+  path,
+}: RenderFeedsInterface) {
   const { channels } = await getChannels()
   let initialPosts = []
   let morePosts = true
-  if (channelSlug) {
+
+  if (channelSlug && !searchParams.search) {
     const getChannelId = getChannelIdByChannelName(channelSlug, channels)
     const { data } = await getPostsByChannelId({
       id: getChannelId,
@@ -25,12 +30,28 @@ async function RenderFeeds({ channelSlug = '', searchParams = null }) {
     initialPosts = data?.posts
     morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
   } else {
-    const { data } = await getAllPosts({
-      loadReactions: true,
-      loadUser: true,
-    })
-    initialPosts = data?.posts
-    morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+    if (searchParams.search) {
+      const getChannelId =
+        path === '/channels' && channelSlug
+          ? getChannelIdByChannelName(channelSlug, channels) ?? undefined
+          : undefined
+
+      const { data } = await getSearchPosts({
+        search: searchParams.search,
+        userID: searchParams.user,
+        channelID: getChannelId,
+      })
+
+      initialPosts = data?.posts
+      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+    } else {
+      const { data } = await getAllPosts({
+        loadReactions: true,
+        loadUser: true,
+      })
+      initialPosts = data?.posts
+      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+    }
   }
 
   return (

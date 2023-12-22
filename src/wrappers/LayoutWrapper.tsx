@@ -17,13 +17,18 @@ import {
 import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { showErrorAlert } from '@/utils/helper'
 import UserNameDialog from './UserNameDialog'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
+  const userDataInStore = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
+
   const dispatch = useDispatch()
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
@@ -35,7 +40,7 @@ const LayoutWrapper = ({ children }: any) => {
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err) {
-      console.log('err', err)
+      console.error('err', err)
     }
   }, [])
 
@@ -67,7 +72,6 @@ const LayoutWrapper = ({ children }: any) => {
     if (token) {
       try {
         const response = await googleTokenExchange(token, username)
-        console.log('response', response)
         dispatch(
           setUser({
             ...response,
@@ -83,7 +87,7 @@ const LayoutWrapper = ({ children }: any) => {
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {
-        console.log('err', err)
+        console.error('err', err)
         showErrorAlert('Issue in google authentication')
       }
     }
@@ -93,6 +97,26 @@ const LayoutWrapper = ({ children }: any) => {
     const googleToken = searchParams.get('googleAccessToken')
     exchangeGoogleToken(googleToken!, userName)
     setOpenUserNameDialog(false)
+  }
+  const addQueryParams = () => {
+    const search = searchParams.get('search')
+    const user = userDataInStore.id
+
+    const queryParams = {
+      shallow: true,
+    }
+
+    let url = pathname
+
+    if (search) {
+      url += `?search=${search}`
+
+      if (user) {
+        url += `&user=${user}`
+      }
+    }
+
+    router.push(url, queryParams)
   }
 
   useEffect(() => {
@@ -134,13 +158,17 @@ const LayoutWrapper = ({ children }: any) => {
     return () => clearInterval(refreshInterval)
   }, [])
 
+  useEffect(() => {
+    addQueryParams()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, searchParams, userDataInStore])
+
   return (
     <body className={` ${styles} theme-default font-primary dark:bg-slate-700`}>
       <Navbar />
       <ToastContainer />
       <main
-        className={`bg-primary-light  min-h-screen pt-14 font-primary dark:bg-dark-background`}
-      >
+        className={`bg-primary-light  min-h-screen pt-14 font-primary dark:bg-dark-background`}>
         <div className="bg-primary-light grid">
           <div className="fixed left-0 top-0 z-10 w-full"></div>
           <div className="flex dark:bg-slate-700 dark:text-white">
