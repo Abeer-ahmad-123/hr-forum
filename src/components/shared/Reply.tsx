@@ -47,7 +47,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
     <div
       ref={replyRef}
       id={`reply-${reply.id}`}
-      className={`ml-16 mt-4 rounded-lg ${
+      className={`ml-12 mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
       }`}
     >
@@ -76,7 +76,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
           <div className="flex items-center justify-between pr-5">
             <div className="flex items-center space-x-3">
               <div className="group relative inline-block">
-                <span className=" ml-2 text-left italic text-gray-400">
+                <span className=" ml-2 pt-4 text-left italic text-gray-400">
                   {convertDate(reply.created_at)}
                 </span>
                 <div className="absolute bottom-full hidden -translate-x-1/2  transform whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block">

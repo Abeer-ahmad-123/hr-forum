@@ -1,4 +1,3 @@
-import UpdownButton from '../../ui/updownButton'
 import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import { getPostByPostId } from '@/services/posts'

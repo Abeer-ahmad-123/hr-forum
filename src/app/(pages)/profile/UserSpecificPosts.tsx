@@ -9,7 +9,7 @@ const UserSpecificPosts = ({
   posts: UserSpecificationPostInterface[]
 }) => {
   return (
-    <Suspense fallback={<Skelton className="h-[300px] w-[400px]" />}>
+    <Suspense fallback={<Skelton className="h-[300px] w-full" />}>
       <div className="flex flex-col">
         {posts?.map((_: UserSpecificationPostInterface, i: number) => (
           <ProfilePosts key={i} />

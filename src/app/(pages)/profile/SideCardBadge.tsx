@@ -5,8 +5,8 @@ import SideCardSkill from './SideCardSkill'
 const SideCardBadge = () => {
   return (
     <>
-      <div className="cursor-cursor sticky top-0 ml-[8%] h-auto max-h-screen w-[25vw] rounded-[10px]  bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
-        <h2 className="py-2 pl-4 text-left text-base font-medium"> Badges </h2>
+      <div className="cursor-cursor sticky top-0 ml-[8%]  h-auto max-h-screen w-full max-md:-ml-[1%] rounded-[10px]  bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
+        <h2 className="py-2 pl-4  text-left text-base font-medium"> Badges </h2>
         <hr className="my-1 border-t border-gray-200" />
         <div className="mb-4 flex gap-[10%] ">
           <Image
