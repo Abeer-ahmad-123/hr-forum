@@ -37,7 +37,6 @@ async function RenderFeeds({
         path === '/channels' && channelSlug
           ? getChannelIdByChannelName(channelSlug, channels) ?? undefined
           : undefined
-
       const { data } = await getSearchPosts({
         search: searchParams.search,
         userID: JSON.parse(userDetailsCookies?.value!).id,
@@ -47,9 +46,16 @@ async function RenderFeeds({
       initialPosts = data?.posts
       morePosts = false
     } else {
+      const getChannelId =
+        path === '/channels' && channelSlug
+          ? getChannelIdByChannelName(channelSlug, channels) ?? undefined
+          : undefined
+
       const { data } = await getAllPosts({
         loadReactions: true,
         loadUser: true,
+        channelID: getChannelId,
+        userID: JSON.parse(userDetailsCookies?.value!).id,
       })
       initialPosts = data?.posts
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
