@@ -13,6 +13,8 @@ const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
   loadReactions?: boolean
+  channelID?: number
+  userID?: number
   pageNumber?: number
   pageSize?: number
 }
@@ -20,19 +22,25 @@ type GET_ALL_POSTS_PROPS = {
 export async function getAllPosts({
   loadUser = false,
   loadReactions = false,
+  channelID,
+  userID,
   pageNumber = 1,
   pageSize = 10,
 }: GET_ALL_POSTS_PROPS = {}) {
   try {
-    const cookie_s = cookies().getAll()
-    console.log('cookie_s', cookie_s)
-    let res: any = await fetch(
-      `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
-      {
-        cache: 'no-cache',
-        credentials: 'include',
-      },
-    )
+    let url = `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}`
+    if (channelID) {
+      url += `&channelID=${channelID}`
+    }
+    if (userID) {
+      url += `&userID=${userID}`
+    }
+
+    url += `&page=${pageNumber}&pageSize=${pageSize}`
+
+    let res: any = await fetch(url, {
+      cache: 'no-cache',
+    })
     const response = await res.json()
     return response
   } catch (err) {
@@ -42,6 +50,7 @@ export async function getAllPosts({
 
 export async function getPostsByChannelId({
   id,
+  userID,
   loadReactions = true,
   loadUser = true,
   pageNumber = 1,
@@ -53,7 +62,9 @@ export async function getPostsByChannelId({
         `${GET_POSTS_BY_CHANNELID.replace(
           'channelId',
           id?.toString(),
-        )}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
+        )}?loadUser=${loadUser}${
+          userID ? `&userID=${userID}` : ''
+        }&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
       )
       const response = await res.json()
 

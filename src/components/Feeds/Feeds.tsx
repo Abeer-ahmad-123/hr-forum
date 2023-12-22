@@ -7,6 +7,11 @@ import { useInView } from 'react-intersection-observer'
 import CircularProgress from '../ui/circularProgress'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 import { PostsInterface } from '@/utils/interfaces/posts'
+import NoPosts from '../Cards/NoMore'
+import { SearchParams } from '@/utils/interfaces/renderFeeds'
+import { getSearchPosts } from '@/services/search'
+import { useSelector } from 'react-redux'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 // Feed is a functional component that takes data and displays it as cards
 interface FeedProps {
@@ -14,15 +19,23 @@ interface FeedProps {
   initialPosts: PostsInterface[]
   channels: ChannelByIdInterface[]
   morePosts?: boolean
+  searchParams: SearchParams
+  path: string
 }
 const Feeds = ({
   channelSlug,
   initialPosts,
   channels,
   morePosts,
+  searchParams,
+  path,
 }: FeedProps) => {
   const [posts, setPosts] = useState([...initialPosts])
   const [page, setPage] = useState(2)
+  const userData = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.userData,
+  )
+
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
   const getPosts = async () => {
@@ -50,6 +63,35 @@ const Feeds = ({
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     setPosts([...posts, ..._data?.posts])
   }
+  const sendSearchPostRequest = async () => {
+    if (searchParams.search) {
+      const getChannelId =
+        path === '/channels' && channelSlug
+          ? getChannelIdByChannelName(channelSlug, channels) ?? undefined
+          : undefined
+
+      const { data } = await getSearchPosts({
+        search: searchParams.search,
+        userID: userData.id,
+        channelID: getChannelId,
+      })
+
+      setPosts(data?.posts)
+      morePosts = false
+    } else {
+      const { data } = await getAllPosts({
+        loadReactions: true,
+        loadUser: true,
+      })
+      setPosts(data?.posts)
+      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+    }
+  }
+
+  useEffect(() => {
+    sendSearchPostRequest()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, userData, channelSlug])
 
   useEffect(() => {
     if (inView) {
@@ -58,11 +100,14 @@ const Feeds = ({
   }, [inView])
 
   return (
-    <div className="min-h-[70vh]">
-      {!!posts?.length &&
+    <div className=" min-h-[70vh]  w-full">
+      {!!posts?.length ? (
         posts?.map((post: any) => {
           return <Card key={post?.title} post={post} channels={channels} />
-        })}
+        })
+      ) : (
+        <NoPosts />
+      )}
       {noMorePosts?.current && <CircularProgress incommingRef={ref} />}
     </div>
   )
