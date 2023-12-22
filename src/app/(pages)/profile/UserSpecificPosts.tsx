@@ -4,7 +4,7 @@ import Skelton from '@/components/ui/skelton'
 
 const UserSpecificPosts = ({ posts }: any) => {
   return (
-    <Suspense fallback={<Skelton className="h-[300px] w-[400px]" />}>
+    <Suspense fallback={<Skelton className="h-[300px] w-full" />}>
       <div className="flex flex-col">
         {posts?.map((_, i) => (
           <ProfilePosts key={i} />

@@ -18,11 +18,16 @@ function TextArea({
   setIsLoading,
   className,
   btnClass,
+  isCommentPage= false,
   shouldFocus = false,
 }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
   const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
+  const textareaStyle = {
+    width: isCommentPage ? '30rem' : '100%',
+    // add other styles as needed
+  };
 
   // const router = useRouter()
 
@@ -60,7 +65,7 @@ function TextArea({
 
   return (
     <>
-      <div className={`mb-2 flex ${className}`}>
+      <div className={`mb-2 flex ${className}`}  style={textareaStyle} >
         <textarea
           ref={focusRef}
           rows={1}
@@ -71,7 +76,7 @@ function TextArea({
           placeholder={'Write your comment...'}
           value={textAreaValue}
           onChange={handleTextAreaChange}
-          className={`mr-4 w-80 rounded-lg border border-gray-300 p-2 pl-2 text-left dark:bg-dark-background`}
+          className={`mr-4 w-full rounded-lg border border-gray-300 p-2 pl-2 text-left dark:bg-dark-background`}
         />
 
         <button

@@ -13,6 +13,7 @@ import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { getUserSpecificPosts } from '@/services/posts'
 import UserSpecificPosts from './UserSpecificPosts'
 import Skelton from '@/components/ui/skelton'
+import UserDataBadge from './UserDataBadge'
 
 interface userData {
   id: number
@@ -95,8 +96,9 @@ function UserProfile() {
           </svg>
         </div>
       </section>
-      <section className="bg-blueGray-200 relative py-16">
-        <div className="mx-auto w-[80vw] px-4">
+      <section className="bg-blueGray-200 relative ">
+      
+        <div className="mx-auto w-[80%]">
           <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
             <div className=" px-6">
               <div className="flex flex-wrap justify-center">
@@ -138,7 +140,7 @@ function UserProfile() {
                   />
                 </div>
                 <div className="w-full px-4 lg:order-1 lg:w-4/12">
-                  <div className="flex justify-center py-4 pt-8 lg:pt-4">
+                  {/* <div className="flex justify-center py-4 pt-8 lg:pt-4">
                     <div className="mr-4 p-3 text-center">
                       <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
                         22
@@ -159,7 +161,7 @@ function UserProfile() {
                         Comments
                       </span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="mt-12 text-center">
@@ -184,13 +186,15 @@ function UserProfile() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-[4rem] md:flex-row">
-          <div className="ml-[6%] flex flex-col gap-[1.5rem]">
-            <SideCardBadge />
-            <SideCardSkill />
+      
+        <div className=" w-[80%] flex mx-auto  gap-[4rem] ">
+          <div >
+           
+            <UserDataBadge/>
           </div>
-
+<div className='w-full'> 
           <UserSpecificPosts posts={userSpecificPosts?.posts} />
+          </div> 
         </div>
         <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
           <div className="container mx-auto px-4">

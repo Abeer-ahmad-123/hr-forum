@@ -62,6 +62,7 @@ function ReplyTextArea({
           submitCallback={submitCallback}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
+          isCommentPage = {true}
         />
       </div>
     </div>

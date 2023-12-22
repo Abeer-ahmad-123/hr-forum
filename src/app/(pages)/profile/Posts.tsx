@@ -4,8 +4,10 @@ import Image from 'next/image'
 
 const ProfilePosts = () => {
   return (
-    <div>
-      <div className="mx-auto w-[50vw] cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+    <div className='w-full' >
+    
+      <div className=" w-full cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+     
         <div className="px-5 py-4">
           <div className=" flex   text-left  font-semibold dark:text-white">
             <div>

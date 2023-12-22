@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 const SideCardSkill = () => {
   return (
-    <div className="cursor-cursor sticky top-0 ml-[8%] h-auto max-h-screen w-[25vw] rounded-[10px]  bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
+    <div className=" max-md:hidden cursor-cursor sticky top-0 ml-[8%] h-auto max-h-screen w-[25vw] rounded-[10px]  bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
       <h2 className=" py-2 pl-4 text-left text-base font-medium">
         {' '}
         Skills/Languages{' '}
