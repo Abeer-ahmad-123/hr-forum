@@ -36,7 +36,7 @@ const FeedPage = () => {
       <div>
         <Suspense fallback={<CardLoading />}>
             
-          <CardLoading />
+          <RenderFeeds />
         </Suspense>
       </div>
       {/* <div className='flex justify-center '>
