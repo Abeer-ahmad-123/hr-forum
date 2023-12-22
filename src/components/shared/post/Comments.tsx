@@ -1,9 +1,9 @@
 'use client'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { getPostsComments } from '@/services/comments'
-import CommentSection from '../CommentSection'
 import CommentOrReply from '@/components/CommentOrReply'
+import { getPostsComments } from '@/services/comments'
 import { useSearchParams } from 'next/navigation'
+import { Suspense, useRef, useState } from 'react'
+import CommentSection from '../CommentSection'
 
 function Comments({
   postId,
@@ -61,7 +61,7 @@ function Comments({
             comments?.map((comment: any) => {
               return (
                 <CommentSection
-                  key={comment.id}
+                  key={comment?.id}
                   comment={comment}
                   refetchComments={refetchComments}
                   commentLength={comments.length}

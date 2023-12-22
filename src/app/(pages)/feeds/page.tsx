@@ -1,11 +1,6 @@
 import { RenderFeeds } from '@/components/Feeds'
-import RenderFeedLoading from '@/components/Loading/renderFeedLoading'
-import { Suspense } from 'react'
-import PostBar from '@/components/shared/new-post/NewPostModal'
-import ProfileCard from './Cards/ProfileCard'
-import RulesCard from './Cards/RuleCard'
-import ChannelCard from './Cards/ChannelCard'
 import CardLoading from '@/components/Loading/cardLoading'
+import { Suspense } from 'react'
 
 // const FeedPage = () => {
 //   return (
