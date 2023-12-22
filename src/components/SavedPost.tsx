@@ -1,4 +1,5 @@
 'use client'
+import nookies from 'nookies'
 import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -18,7 +19,6 @@ const SavedPost = () => {
   const channels = useSelector(
     (state: StoreChannels) => state?.channels.channels,
   )
-
   const [posts, setPosts] = useState<BookmarkedPostInterface>()
 
   const getSavePost = async () => {

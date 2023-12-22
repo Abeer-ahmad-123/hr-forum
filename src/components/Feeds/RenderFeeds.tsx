@@ -1,4 +1,5 @@
 import Feeds from '@/components/Feeds/Feeds'
+
 import PostBar from '@/components/shared/new-post/NewPostModal'
 import { toPascalCase } from '@/utils/common'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
@@ -10,6 +11,7 @@ import ChannelCard from '@/components/SideCards/ChannelCard'
 import RespScreen from '../Cards/ResponsiveScreen'
 import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { getSearchPosts } from '@/services/search'
+import { cookies } from 'next/headers'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -19,7 +21,7 @@ async function RenderFeeds({
   const { channels } = await getChannels()
   let initialPosts = []
   let morePosts = true
-
+  const userDetailsCookies = cookies().get('user-details')
   if (channelSlug && !searchParams.search) {
     const getChannelId = getChannelIdByChannelName(channelSlug, channels)
     const { data } = await getPostsByChannelId({
@@ -30,7 +32,7 @@ async function RenderFeeds({
     initialPosts = data?.posts
     morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
   } else {
-    if (searchParams.search) {
+    if (Object.keys(searchParams).length && searchParams.search) {
       const getChannelId =
         path === '/channels' && channelSlug
           ? getChannelIdByChannelName(channelSlug, channels) ?? undefined
@@ -38,12 +40,12 @@ async function RenderFeeds({
 
       const { data } = await getSearchPosts({
         search: searchParams.search,
-        userID: searchParams.user,
+        userID: JSON.parse(userDetailsCookies?.value!).id,
         channelID: getChannelId,
       })
 
       initialPosts = data?.posts
-      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      morePosts = false
     } else {
       const { data } = await getAllPosts({
         loadReactions: true,
@@ -63,19 +65,19 @@ async function RenderFeeds({
         </div>
       </div>
 
-      <div className="">
+      <div className="w-full">
         <p className="my-5 mb-4 text-3xl text-black dark:text-white">
           {!!channelSlug &&
             toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
         </p>
-        <div className="flex justify-center">
+        <div className="flex w-full justify-center">
           {/* <div className='flex flex-col lg:block max-sm:hidden max-md:hidden'>
           <ProfileCard />
           <div className='sticky max-h-screen top-0' style={{ top: '35px' }}>
             <ChannelCard /></div>
         </div> */}
           {/*  put the responsive profile compoennt here */}
-          <div>
+          <div className=" w-full ">
             <div className="max-sm:block md:hidden lg:hidden">
               {' '}
               <RespScreen />
@@ -85,7 +87,7 @@ async function RenderFeeds({
               <PostBar />
             </div>
 
-            <div className="mx-auto max-w-screen-md dark:text-white">
+            <div className="mx-auto  w-full  max-w-screen-md dark:text-white">
               <div className="mb-5 max-md:hidden max-sm:hidden">
                 <PostBar />
               </div>
@@ -94,6 +96,8 @@ async function RenderFeeds({
                 initialPosts={initialPosts}
                 channels={channels}
                 morePosts={morePosts}
+                searchParams={searchParams}
+                path={path}
               />
             </div>
           </div>
