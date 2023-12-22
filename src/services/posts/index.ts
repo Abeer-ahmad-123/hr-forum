@@ -49,6 +49,7 @@ export async function getAllPosts({
 
 export async function getPostsByChannelId({
   id,
+  userID,
   loadReactions = true,
   loadUser = true,
   pageNumber = 1,
@@ -60,7 +61,9 @@ export async function getPostsByChannelId({
         `${GET_POSTS_BY_CHANNELID.replace(
           'channelId',
           id?.toString(),
-        )}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
+        )}?loadUser=${loadUser}${
+          userID ? `&userID=${userID}` : ''
+        }&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
       )
       const response = await res.json()
 

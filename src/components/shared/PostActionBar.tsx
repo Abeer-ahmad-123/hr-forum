@@ -32,6 +32,7 @@ interface PostActionBarProps {
   linkToFeed: string
   postId: string
   bookmark: boolean
+  user_reaction: string
   inputRef?: any
 }
 
@@ -40,6 +41,7 @@ const PostActionBar = ({
   postId,
   inputRef,
   bookmark,
+  user_reaction,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -108,7 +110,10 @@ const PostActionBar = ({
           <div
             className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200 "
             onClick={handleLikeWrapper}>
-            <ReactionButton onReact={submitReaction} />
+            <ReactionButton
+              userReaction={user_reaction}
+              onReact={submitReaction}
+            />
             <div className="font-light dark:text-gray-300 max-custom-sm:hidden">
               Like
             </div>

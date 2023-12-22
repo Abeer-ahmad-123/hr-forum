@@ -26,6 +26,9 @@ async function RenderFeeds({
     const getChannelId = getChannelIdByChannelName(channelSlug, channels)
     const { data } = await getPostsByChannelId({
       id: getChannelId,
+      userID:
+        (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
+        undefined,
       loadReactions: true,
       loadUser: true,
     })
@@ -39,7 +42,9 @@ async function RenderFeeds({
           : undefined
       const { data } = await getSearchPosts({
         search: searchParams.search,
-        userID: JSON.parse(userDetailsCookies?.value!).id,
+        userID:
+          (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
+          undefined,
         channelID: getChannelId,
       })
 
@@ -55,7 +60,9 @@ async function RenderFeeds({
         loadReactions: true,
         loadUser: true,
         channelID: getChannelId,
-        userID: JSON.parse(userDetailsCookies?.value!).id,
+        userID:
+          (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
+          undefined,
       })
       initialPosts = data?.posts
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages

@@ -13,13 +13,13 @@ import { useSelector } from 'react-redux'
 
 const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
-  const [currentReaction, updateCurrentReaction] = useState('none')
+  const [currentReaction, updateCurrentReaction] = useState(userReaction)
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const selectReaction = useCallback(
     (reactionName: any) => {
-      updateCurrentReaction((prevReaction) =>
+      updateCurrentReaction((prevReaction: string) =>
         prevReaction === reactionName ? 'none' : reactionName,
       )
       onReact(reactionName)
@@ -42,7 +42,7 @@ const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
   )
 
   const mouseEnter = () => {
-    !loading && setEmojiPopoverVisible(true)
+    if (tokenInRedux) !loading && setEmojiPopoverVisible(true)
   }
   const mouseLeave = () => {
     const delayForMouseToReach = setTimeout(() => {
