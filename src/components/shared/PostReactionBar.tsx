@@ -75,12 +75,14 @@ const PostReactionBar = ({
             ))}
           <Popover
             open={emojiPopoverVisible}
-            onOpenChange={setEmojiPopoverVisible}>
+            onOpenChange={setEmojiPopoverVisible}
+          >
             <PopoverTrigger asChild>
               <span
                 className="text-xs text-slate-400"
                 onMouseEnter={mouseEnter}
-                onMouseLeave={mouseLeave}>
+                onMouseLeave={mouseLeave}
+              >
                 {addCountOfAll(reactionArray) > 1
                   ? `name and ${addCountOfAll(reactionArray) - 1} others`
                   : 'name here'}

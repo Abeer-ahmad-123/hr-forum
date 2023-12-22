@@ -26,7 +26,7 @@ export default function NewPost() {
   return (
     <>
       <Dialog open={openDilog} onOpenChange={handleClosedialog}>
-        <button className="w-full" onClick={handleOpenDialog}>
+        <button className="w-full max-w-screen-md" onClick={handleOpenDialog}>
           <PostBar />
         </button>
         {data ? (
@@ -43,7 +43,7 @@ export default function NewPost() {
 
 const PostBar = () => {
   return (
-    <div className="m-auto flex max-w-screen-md items-center rounded-xl bg-white dark:bg-slate-800 dark:text-white">
+    <div className=" justify-center flex w-full items-center rounded-xl bg-white dark:bg-slate-800 dark:text-white">
       {/* <div className="flex h-10 items-center p-1.5">
         <img
           src="https://avatar.iran.liara.run/public/boy"

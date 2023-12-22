@@ -1,26 +1,30 @@
 'use client'
 import { getUserDetails, updateUserImage } from '@/services/user'
 import Image from 'next/image'
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
-import { getUserSpecificPosts } from '@/services/posts'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
-import { userData } from '@/utils/interfaces/userData'
-import { LiaUserEditSolid } from 'react-icons/lia'
-import EditProfileButton from './EditProfileButton'
 import SideCardBadge from './SideCardBadge'
 import SideCardSkill from './SideCardSkill'
+import EditProfileButton from './EditProfileButton'
+import { LiaUserEditSolid } from 'react-icons/lia'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { getUserSpecificPosts } from '@/services/posts'
 import UserSpecificPosts from './UserSpecificPosts'
-import Skelton from '@/components/ui/skelton'
 import UserDataBadge from './UserDataBadge'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
-function UserProfile() {
+interface userData {
+  id: number
+  bio: string
+  email: string
+  name: string
+  profilePictureURL: string
+  username: string
+}
+const RespProfile = () => {
   const [userData, setUserData] = useState<userData | null>(null)
-  const [userSpecificPosts, setUserSpecificPosts] =
-    useState<UserSpecificPostsInterface>({ posts: [], pagination: {} })
+  const [userSpecificPosts, setUserSpecificPosts] = useState<any>([])
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
@@ -35,10 +39,9 @@ function UserProfile() {
   }
 
   const getAllUserSpecificPosts = async () => {
-    const response = await getUserSpecificPosts(userDataInStore?.id ?? '')
+    const response = await getUserSpecificPosts(userDataInStore?.id)
     console.log('response', response)
     if (response.success) {
-      console.log('response?.data', response?.data)
       setUserSpecificPosts(response?.data)
     }
   }
@@ -65,7 +68,7 @@ function UserProfile() {
     <div className="profile-page">
       <section className="relative block h-[500px]">
         <div
-          className="absolute top-0 h-full w-full bg-cover bg-center"
+          className="absolute top-0 h-[50%] w-full bg-cover bg-center"
           style={{
             backgroundImage: 'url(https://source.unsplash.com/random)',
           }}>
@@ -90,13 +93,13 @@ function UserProfile() {
           </svg>
         </div>
       </section>
-      <section className="bg-blueGray-200 relative ">
-        <div className="mx-auto w-[80%]">
-          <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
+      <section className="bg-blueGray-200 relative mt-[-25%] pb-2">
+        <div className=" w-full">
+          <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
             <div className=" px-6">
-              <div className="flex flex-wrap justify-center">
-                <div className="flex w-full justify-center px-4 lg:order-2 lg:w-3/12">
-                  <div className="relative">
+              <div className=" flex-wrap ">
+                <div className="flex w-full justify-between  pr-4">
+                  <div className="relative ">
                     <Image
                       alt="..."
                       width={150}
@@ -105,11 +108,11 @@ function UserProfile() {
                         userData?.profilePictureURL ||
                         'https://source.unsplash.com/random/300×300'
                       }
-                      className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
+                      className="absolute -m-12  h-28 w-28 max-w-[150px] rounded-full border-none align-middle shadow-xl max-md:-ml-4"
                     />
                     <label
                       htmlFor="changeImage"
-                      className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
+                      className="absolute w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
                       <LiaUserEditSolid className="cursor-pointer text-white" />
                     </label>
                     <input
@@ -122,7 +125,7 @@ function UserProfile() {
                     />
                   </div>
                 </div>
-                <div className="w-full px-4 lg:order-3 lg:w-4/12 lg:self-center lg:text-right">
+                <div className="">
                   <EditProfileButton
                     userData={{
                       name: userData?.name || '',
@@ -130,30 +133,7 @@ function UserProfile() {
                       bio: userData?.bio || '',
                     }}
                   />
-                </div>
-                <div className="w-full px-4 lg:order-1 lg:w-4/12">
-                  {/* <div className="flex justify-center py-4 pt-8 lg:pt-4">
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
-                        22
-                      </span>
-                      <span className="text-blueGray-400 text-sm">Friends</span>
-                    </div>
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
-                        10
-                      </span>
-                      <span className="text-blueGray-400 text-sm">Photos</span>
-                    </div>
-                    <div className="p-3 text-center lg:mr-4">
-                      <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
-                        89
-                      </span>
-                      <span className="text-blueGray-400 text-sm">
-                        Comments
-                      </span>
-                    </div>
-                  </div> */}
+                  <div className="w-full px-4"></div>
                 </div>
               </div>
               <div className="mt-12 text-center">
@@ -169,7 +149,7 @@ function UserProfile() {
                   <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
                   {userData?.email}
                 </div>
-                <div className="text-blueGray-600 mb-2 pb-2 text-left">
+                <div className="text-blueGray-600 max-sm:[6px] mb-2 pb-2 text-left max-md:text-[13px]">
                   <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
                   {userData?.bio ||
                     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem.'}
@@ -178,14 +158,14 @@ function UserProfile() {
             </div>
           </div>
         </div>
-
-        <div className=" mx-auto flex w-[80%]  gap-[4rem] ">
-          <div>
+        <div className="flex flex-col gap-[4rem] md:flex-row">
+          <div className=" flex flex-col gap-[1.5rem]">
+            {/* <SideCardBadge />
+              <SideCardSkill /> */}
             <UserDataBadge />
           </div>
-          <div className="w-full">
-            <UserSpecificPosts posts={userSpecificPosts?.posts} />
-          </div>
+
+          <UserSpecificPosts posts={userSpecificPosts?.posts} />
         </div>
         <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
           <div className="container mx-auto px-4">
@@ -218,4 +198,4 @@ function UserProfile() {
   )
 }
 
-export default UserProfile
+export default RespProfile

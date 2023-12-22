@@ -1,5 +1,8 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
+////
+
 import { PiShareFat } from 'react-icons/pi'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
 import { useState } from 'react'
@@ -9,6 +12,7 @@ import { ReactionButton } from './reaction'
 import { postReactions } from '@/services/reactions/reactions'
 import { showErrorAlert } from '@/utils/helper'
 import { useSelector } from 'react-redux'
+import { useParams } from 'next/navigation'
 
 import {
   Popover,
@@ -26,15 +30,20 @@ interface PostActionBarProps {
   linkToFeed: string
   postId: string
   bookmark: boolean
+  inputRef?: any
 }
 
 const PostActionBar = ({
   linkToFeed,
   postId,
+  inputRef,
   bookmark,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  const { id } = useParams()
+
+  console.log(id)
   const submitReaction = async (value: string) => {
     const response = await postReactions(
       {
@@ -54,7 +63,7 @@ const PostActionBar = ({
     bookmark ? bookmark : false,
   )
   const toggleCommentArea = () => {
-    setShowCommentArea((pre) => !pre)
+    id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
   }
   const handleBookmark = async () => {
     const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
@@ -69,6 +78,8 @@ const PostActionBar = ({
       console.error(error)
     }
   }
+
+  useEffect(() => {}, [])
 
   return (
     <div className="flex flex-col">
@@ -121,17 +132,19 @@ const PostActionBar = ({
         </div>
       </div>
 
-      <div className={`${!showCommentArea && 'hidden'} `}>
-        <CommentOrReply
-          className="m-2 px-8"
-          btnClass="mr-[0px]"
-          Id={postId}
-          setComments={setComment}
-        />
-        <div className="mx-10">
-          {comment.length != 0 && <CommentSection comment={comment[0]} />}
+      {!id && (
+        <div className={`${!showCommentArea && 'hidden'} `}>
+          <CommentOrReply
+            className="m-2 px-8"
+            btnClass="mr-[0px]"
+            Id={postId}
+            setComments={setComment}
+          />
+          <div className="mx-10">
+            {comment.length != 0 && <CommentSection comment={comment[0]} />}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

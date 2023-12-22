@@ -13,7 +13,7 @@ function ProfileCardSkelton() {
 
         <Skelton className="mx-[15px] mt-2 flex h-5 justify-center text-center font-bold" />
 
-        <Skelton className="ml-[15px] mr-[15px] mt-3 flex h-24 text-justify text-[12px] font-light" />
+        <Skelton className="ml-[15px] mr-[15px] mt-3 flex h-24 text-[12px] font-light" />
 
         <hr className="my-1 ml-3 mr-3 border-t border-gray-200 dark:border-gray-800" />
 

@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Send } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
@@ -18,16 +18,22 @@ function TextArea({
   setIsLoading,
   className,
   btnClass,
+  isCommentPage = false,
+  shouldFocus = false,
+  inputRef = null,
 }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
   const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
+  const textareaStyle = {
+    width: isCommentPage ? '30rem' : '100%',
+    // add other styles as needed
+  }
 
   // const router = useRouter()
 
   const handleTextAreaChange = (e: any) => {
     setTextAreaValue(e.target.value)
-    console.log(className, btnClass)
   }
 
   const handleClick = () => {
@@ -55,8 +61,9 @@ function TextArea({
 
   return (
     <>
-      <div className={`mb-2 flex ${className}`}>
+      <div className={`mb-2 flex ${className}`} style={textareaStyle}>
         <textarea
+          ref={inputRef}
           rows={1}
           style={{
             caretColor: 'gray',
@@ -75,8 +82,7 @@ function TextArea({
               ? 'border border-gray-400 bg-[#CCCCCC]'
               : 'bg-accent'
           }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}
-        >
+          disabled={isLoading['loading'] || textAreaValue === ''}>
           <Send size={20} />{' '}
         </button>
       </div>

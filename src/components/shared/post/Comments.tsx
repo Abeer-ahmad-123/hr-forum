@@ -1,11 +1,16 @@
 'use client'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
-import { getPostsComments } from '@/services/comments'
-import CommentSection from '../CommentSection'
 import CommentOrReply from '@/components/CommentOrReply'
+import { getPostsComments } from '@/services/comments'
 import { useSearchParams } from 'next/navigation'
+import { Suspense, useRef, useState } from 'react'
+import CommentSection from '../CommentSection'
 
-function Comments({ postId, initialComments, pagination }: any) {
+function Comments({
+  postId,
+  initialComments,
+  pagination,
+  inputRef = null,
+}: any) {
   const searchParams = useSearchParams()
 
   const commentId = searchParams.get('commentId')
@@ -48,6 +53,7 @@ function Comments({ postId, initialComments, pagination }: any) {
       <CommentOrReply
         refetchComments={refetchComments}
         setComments={setComments}
+        inputRef={inputRef}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div key={Math.random()}>
@@ -55,7 +61,7 @@ function Comments({ postId, initialComments, pagination }: any) {
             comments?.map((comment: any) => {
               return (
                 <CommentSection
-                  key={comment.id}
+                  key={comment?.id}
                   comment={comment}
                   refetchComments={refetchComments}
                   commentLength={comments.length}

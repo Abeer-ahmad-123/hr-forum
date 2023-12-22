@@ -16,6 +16,7 @@ function ReplyTextArea({
   setIsLoading,
   isLoading,
   commentId,
+  inputRef = null,
 }: any) {
   const [showTextArea, setShowTextArea] = useState(false)
 
@@ -52,17 +53,17 @@ function ReplyTextArea({
           </Popover>
 
           <button className="text-sm text-gray-400">Report</button>
-        </div>
-        <div>
-          <MoreHorizontal className="ml-5 text-gray-400" />
+          <MoreHorizontal className="pt-2 text-gray-400 " size={30} />
         </div>
       </div>
 
-      <div className={`${!showTextArea && 'hidden'} `}>
+      <div className={` ${!showTextArea && 'hidden'} `}>
         <TextArea
           submitCallback={submitCallback}
           setIsLoading={setIsLoading}
           isLoading={isLoading}
+          isCommentPage={true}
+          inputRef={inputRef}
         />
       </div>
     </div>

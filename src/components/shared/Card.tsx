@@ -69,7 +69,7 @@ const Card = ({ post, channels }: any) => {
                 {title}
               </div>
               <div
-                className="text-justify text-[15px] text-gray-700 dark:text-gray-300"
+                className="text-justify  text-[15px] text-gray-700 dark:text-gray-300"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>

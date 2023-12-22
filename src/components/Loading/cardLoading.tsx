@@ -1,15 +1,14 @@
 import React from 'react'
 import RenderFeedLoading from './renderFeedLoading'
-import ChannelCard from '../Cards/ChannelCard'
-import ProfileCard from '../Cards/ProfileCard'
-import RulesCard from '../Cards/RuleCard'
+import PostBar from '@/components/shared/new-post/NewPostModal'
 import ProfileCardSkelton from '../ProfileCardSkelton'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 import RulesCardSkelton from '../RuleCardSkelton'
 
+
 function CardLoading() {
   return (
-    <div>
+    <div >
       <div className="flex justify-center">
         <div className="flex flex-col">
           <ProfileCardSkelton />
@@ -17,8 +16,16 @@ function CardLoading() {
             <ChannelCardSkelton />
           </div>
         </div>
-
-        <RenderFeedLoading />
+<div className='flex flex-col max-w-screen-md w-full'> 
+<div className='mb-5'>
+  <PostBar/>
+     
+      </div>
+        
+      <div>   <RenderFeedLoading />
+      </div>
+        
+</div>
 
         <div className="sticky max-h-screen " style={{ top: '60px' }}>
           {' '}

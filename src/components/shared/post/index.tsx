@@ -1,16 +1,13 @@
-import UpdownButton from '../../ui/updownButton'
-import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
-import { getPostByPostId } from '@/services/posts'
-import Comments from './Comments'
-import { getComment, getPostsComments } from '@/services/comments'
-import PostReactionBar from '../PostReactionBar'
-import PostActionBar from '../PostActionBar'
+import CommentsLogic from '@/components/CommentsLogic'
 import ReactionDetails from '@/components/ReactionDetails'
+import { getChannels } from '@/services/channel/channel'
+import { getComment, getPostsComments } from '@/services/comments'
+import { getPostByPostId } from '@/services/posts'
 import { timeFormatInHours } from '@/utils/helper'
+import Image from 'next/image'
 import Link from 'next/link'
 import ChannelPill from '../ChannelPill'
-import { getChannels } from '@/services/channel/channel'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const { post } = await getPostByPostId(postId, {
@@ -24,9 +21,13 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
   let paginationResult
 
   if (commentId) {
+    console.log('line 25 commentId', commentId)
+    console.log('ReplyID Line', replyId)
     const { comment } = await getComment(commentId, {
+      loadNestedComments: replyId ? true : false,
       allReplies: replyId ? true : false,
     })
+    console.log('Comment from the api result', comment)
     commentResult = [comment]
   } else {
     let { comments, pagination } = await getPostsComments(postId, {})
@@ -34,6 +35,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
     paginationResult = pagination
   }
 
+  console.log('Result DATA', commentResult)
   return (
     <div className="mx-auto my-5 max-w-5xl rounded-full ">
       <div
@@ -86,13 +88,13 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
 
           <ReactionDetails reactionSummary={post.reaction_summary} />
 
-          <div className="mt-2 text-left text-4xl">{post.title}</div>
+          <div className=" mt-2 text-justify text-4xl">{post.title}</div>
 
           {/* //////// */}
 
           {/*  */}
           <div
-            className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
+            className="mt-0 h-full w-full p-7 pl-0 pt-3 text-justify leading-loose text-gray-600 dark:text-white"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
           <div>
@@ -107,14 +109,13 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
           </div>
           {/* <div className="mb-9 w-full border-b border-gray-500 pr-5"></div> */}
           <div className="w-full">
-            <PostReactionBar
-              reaction_summary={post?.reaction_summary}
+            <hr />
+
+            <CommentsLogic
               postId={postId}
-            />
-            <Comments
-              postId={postId}
-              initialComments={commentResult}
-              pagination={paginationResult}
+              commentResult={commentResult}
+              paginationResult={paginationResult}
+              bookmark={post?.user_has_bookmarked}
             />
           </div>
         </div>
