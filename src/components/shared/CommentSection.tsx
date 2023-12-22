@@ -70,8 +70,8 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
               />
             </div>
           </div>
-          <div className=" min-w-sm ml-3  ">
-            <div className=" rounded-2xl  bg-slate-100 dark:bg-slate-800">
+          <div className="  ml-3  ">
+            <div className="w-fit min-w-[18rem] rounded-2xl  bg-slate-100 dark:bg-slate-800">
               <div className="ml-6 pt-3 text-left text-accent ">
                 {replies.comment?.author_details?.name}
               </div>

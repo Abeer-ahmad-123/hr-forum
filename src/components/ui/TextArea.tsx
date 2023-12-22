@@ -18,11 +18,16 @@ function TextArea({
   setIsLoading,
   className,
   btnClass,
-  inputRef = null,
+  isCommentPage = false,
+  shouldFocus = false,
 }: any) {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
   const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
+  const textareaStyle = {
+    width: isCommentPage ? '30rem' : '100%',
+    // add other styles as needed
+  }
 
   // const router = useRouter()
 
@@ -55,7 +60,7 @@ function TextArea({
 
   return (
     <>
-      <div className={`mb-2 flex ${className}`}>
+      <div className={`mb-2 flex ${className}`} style={textareaStyle}>
         <textarea
           ref={inputRef}
           rows={1}
@@ -76,8 +81,7 @@ function TextArea({
               ? 'border border-gray-400 bg-[#CCCCCC]'
               : 'bg-accent'
           }  px-3 text-white`}
-          disabled={isLoading['loading'] || textAreaValue === ''}
-        >
+          disabled={isLoading['loading'] || textAreaValue === ''}>
           <Send size={20} />{' '}
         </button>
       </div>

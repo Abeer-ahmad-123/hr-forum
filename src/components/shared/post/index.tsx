@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import picture from '@/assets/avatars/img.jpeg'
 import CommentsLogic from '@/components/CommentsLogic'
 import ReactionDetails from '@/components/ReactionDetails'

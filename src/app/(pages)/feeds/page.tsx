@@ -1,4 +1,8 @@
 import { RenderFeeds } from '@/components/Feeds'
+import RenderFeedLoading from '@/components/Loading/renderFeedLoading'
+import { Suspense } from 'react'
+import PostBar from '@/components/shared/new-post/NewPostModal'
+
 import CardLoading from '@/components/Loading/cardLoading'
 import { Suspense } from 'react'
 
@@ -32,7 +36,7 @@ const FeedPage = () => {
     <>
       <div>
         <Suspense fallback={<CardLoading />}>
-          <RenderFeeds />
+          <CardLoading />
         </Suspense>
       </div>
       {/* <div className='flex justify-center '>
