@@ -35,11 +35,37 @@ const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   searchParams,
 }) => {
   return (
+<<<<<<< Updated upstream
     <div>
       <Suspense fallback={<CardLoading />}>
         <RenderFeeds searchParams={searchParams} path="/feed" />
       </Suspense>
     </div>
+=======
+    <>
+      <div>
+        <Suspense fallback={<CardLoading />}>
+          <RenderFeeds />
+        </Suspense>
+      </div>
+      {/* <div className='flex justify-center '>
+
+
+        <div className='flex flex-col'>
+          <ProfileCard />
+          <div className='sticky max-h-screen top-0' style={{ top: '35px' }}> <ChannelCard /></div>
+        </div>
+
+
+
+        
+
+        <div className='sticky max-h-screen top-0' style={{ top: '-50px' }}> <RulesCard /></div>
+
+
+      </div> */}
+    </>
+>>>>>>> Stashed changes
   )
 }
 
