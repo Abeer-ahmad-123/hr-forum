@@ -1,40 +1,38 @@
-// export async function customFetch(url: any, options: any) {
-//   let response
+import { getRefreshToken } from '../auth/authService'
 
-//   try {
-//     response = await fetch(url, options)
-//   } catch (error: any) {
-//     if (error.response && error.response.status === 401) {
-//       // Refresh token logic
-//       const refreshToken = localStorage.getItem('refreshToken') // Assuming token is stored in localStorage
+export async function customFetch(url: any, options: any) {
+  let response: any
 
-//       try {
-//         const refreshResponse = await fetch('/api/refresh-token', {
-//           method: 'POST',
-//           headers: { Authorization: `Bearer ${refreshToken}` },
-//         })
+  try {
+    response = await fetch(url, options)
+  } catch (error: any) {
+    if (error.response && error.response.status === 401) {
+      // Refresh token logic
 
-//         if (refreshResponse.ok) {
-//           const newTokens = await refreshResponse.json()
-//           localStorage.setItem('accessToken', newTokens.accessToken)
-//           options.headers = options.headers || {}
-//           options.headers['Authorization'] = `Bearer ${newTokens.accessToken}`
+      try {
+        const refreshResponse = await getRefreshToken()
 
-//           // Retry the original request with the new access token
-//           response = await customFetch(url, options)
-//         } else {
-//           // Handle refresh token failure
-//           throw new Error('Failed to refresh token')
-//         }
-//       } catch (refreshError) {
-//         // Handle refresh error
-//         throw refreshError
-//       }
-//     } else {
-//       // Handle other errors
-//       throw error
-//     }
-//   }
+        if (refreshResponse.ok) {
+          const newTokens = await refreshResponse.json()
+          localStorage.setItem('accessToken', newTokens.accessToken)
+          options.headers = options.headers || {}
+          options.headers['Authorization'] = `Bearer ${newTokens.accessToken}`
 
-//   return response
-// }
+          // Retry the original request with the new access token
+          response = await customFetch(url, options)
+        } else {
+          // Handle refresh token failure
+          throw new Error('Failed to refresh token')
+        }
+      } catch (refreshError) {
+        // Handle refresh error
+        throw refreshError
+      }
+    } else {
+      // Handle other errors
+      throw error
+    }
+  }
+
+  return response
+}

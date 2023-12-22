@@ -64,7 +64,6 @@ const PostActionBar = ({
   )
   const toggleCommentArea = () => {
     id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
-<<<<<<< Updated upstream
   }
   const handleBookmark = async () => {
     const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
@@ -78,8 +77,6 @@ const PostActionBar = ({
     } catch (error) {
       console.error(error)
     }
-=======
->>>>>>> Stashed changes
   }
 
   useEffect(() => {}, [])

@@ -5,7 +5,7 @@ import PostBar from '@/components/shared/new-post/NewPostModal'
 
 import CardLoading from '@/components/Loading/cardLoading'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
-
+import { cookies } from 'next/headers'
 // const FeedPage = () => {
 //   return (
 //     <>
@@ -34,38 +34,14 @@ import { SearchParams } from '@/utils/interfaces/renderFeeds'
 const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   searchParams,
 }) => {
+  const cookieValue = cookies().getAll()
+  console.log('cookies', cookieValue)
   return (
-<<<<<<< Updated upstream
     <div>
       <Suspense fallback={<CardLoading />}>
         <RenderFeeds searchParams={searchParams} path="/feed" />
       </Suspense>
     </div>
-=======
-    <>
-      <div>
-        <Suspense fallback={<CardLoading />}>
-          <RenderFeeds />
-        </Suspense>
-      </div>
-      {/* <div className='flex justify-center '>
-
-
-        <div className='flex flex-col'>
-          <ProfileCard />
-          <div className='sticky max-h-screen top-0' style={{ top: '35px' }}> <ChannelCard /></div>
-        </div>
-
-
-
-        
-
-        <div className='sticky max-h-screen top-0' style={{ top: '-50px' }}> <RulesCard /></div>
-
-
-      </div> */}
-    </>
->>>>>>> Stashed changes
   )
 }
 

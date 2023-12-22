@@ -71,8 +71,8 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
             </div>
           </div>
           <div className="  ml-3  ">
-            <div className="w-fit min-w-[18rem] rounded-2xl  bg-slate-100 dark:bg-slate-800">
-              <div className="ml-6 pt-3 text-left text-accent ">
+            <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
+              <div className=" text-left text-accent ">
                 {replies.comment?.author_details?.name}
               </div>
 
@@ -82,8 +82,8 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
             </div>
 
             <div className="flex ">
-              <div className="group relative inline-block">
-                <span className=" ml-2 text-left italic text-gray-400">
+              <div className="group relative inline-block pt-2">
+                <span className="ml-2 text-left italic text-gray-400">
                   {convertDate(replies?.comment?.created_at)}
                 </span>
                 <div className="absolute bottom-full ml-5 hidden -translate-x-1/2 transform whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block">

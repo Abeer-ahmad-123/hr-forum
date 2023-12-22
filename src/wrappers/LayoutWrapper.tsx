@@ -140,7 +140,8 @@ const LayoutWrapper = ({ children }: any) => {
     refreshInterval = setInterval(async () => {
       const localStorageToken = localStorage.getItem('token') || null
       if (localStorageToken && localStorageToken !== 'undefined') {
-        const tokenResponse = await getRefreshToken()
+        const tokenResponse = await (await getRefreshToken()).json()
+
         dispatch(
           setToken({
             token: tokenResponse?.token,

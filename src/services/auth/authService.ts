@@ -19,6 +19,7 @@ export async function signIn(body: any) {
       headers: {
         'content-type': 'application/json',
       },
+      credentials: 'include',
     })
     const responseJson = await responseFromAuth.json()
 
@@ -74,8 +75,7 @@ export async function getRefreshToken() {
       credentials: 'include',
     })
 
-    const responseJson = await responseFromRefresh.json()
-    return responseJson?.data
+    return responseFromRefresh
   } catch (err) {
     throw err
   }

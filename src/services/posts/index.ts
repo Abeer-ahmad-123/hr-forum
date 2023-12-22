@@ -1,4 +1,5 @@
 'use server'
+import { cookies } from 'next/headers'
 import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
@@ -23,10 +24,13 @@ export async function getAllPosts({
   pageSize = 10,
 }: GET_ALL_POSTS_PROPS = {}) {
   try {
+    const cookie_s = cookies().getAll()
+    console.log('cookie_s', cookie_s)
     let res: any = await fetch(
       `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
       {
         cache: 'no-cache',
+        credentials: 'include',
       },
     )
     const response = await res.json()

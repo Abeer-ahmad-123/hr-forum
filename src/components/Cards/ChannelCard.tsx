@@ -1,5 +1,6 @@
 'use client'
 import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
+import Link from 'next/link'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
@@ -16,12 +17,14 @@ const ChannelCard = () => {
         <ul className="ml-[2px] cursor-pointer list-none text-left">
           {channels.map((channel: ChannelInterface, index: number) => (
             <React.Fragment key={index}>
-              <li className="mb-[10px] mt-[10px] pl-[10px] text-[14px] font-medium text-gray-500 hover:bg-gray-200 hover:text-black">
-                <span className="pr-[10px]">#</span>
-                <span>{channel.name}</span>
+              <li className=" p-2 text-[14px] font-medium text-gray-500 hover:bg-gray-200 hover:text-black">
+                <Link href={`/channels/${channel.slug}`}>
+                  <span className="pr-[10px]">#</span>
+                  <span>{channel.name}</span>
+                </Link>
               </li>
               {index < channels.length - 1 && (
-                <hr className="mx-3 my-1 border-t border-gray-400" />
+                <hr className="mx-3 border-t border-gray-400" />
               )}
             </React.Fragment>
           ))}
