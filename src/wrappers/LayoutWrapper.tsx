@@ -144,7 +144,7 @@ const LayoutWrapper = ({ children }: any) => {
         <div className="bg-primary-light grid">
           <div className="fixed left-0 top-0 z-10 w-full"></div>
           <div className="flex dark:bg-slate-700 dark:text-white">
-            <div className="max-h-auto mx-auto -mt-5 min-h-[70vh] w-full bg-background px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]">
+            <div className="max-h-auto mx-auto -mt-5 min-h-[100vh] w-full bg-background px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]">
               {children}
             </div>
           </div>

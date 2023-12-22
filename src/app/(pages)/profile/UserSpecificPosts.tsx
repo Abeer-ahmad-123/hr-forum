@@ -8,11 +8,12 @@ const UserSpecificPosts = ({
 }: {
   posts: UserSpecificationPostInterface[]
 }) => {
+  console.log("posts>>>>",posts);
   return (
     <Suspense fallback={<Skelton className="h-[300px] w-full" />}>
       <div className="flex flex-col">
-        {posts?.map((_: UserSpecificationPostInterface, i: number) => (
-          <ProfilePosts key={i} />
+        {posts?.map((post: UserSpecificationPostInterface, i: number) => (
+          <ProfilePosts key={i} post={post}   />
         ))}
       </div>
     </Suspense>

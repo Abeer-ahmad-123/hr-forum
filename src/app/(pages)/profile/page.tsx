@@ -11,14 +11,14 @@ const Profile = () => {
 <Suspense fallback={<ProfilePageLoading />}>
             
          
-<ProfilePageLoading/>          
-  {/* <div className='max-md:hidden'>
+         
+  <div className='max-md:hidden'>
   <UserProfile />
   
   </div>
   <div className='hidden max-md:block'> 
   <RespProfile/>
-   </div> */}
+   </div>
    </Suspense>
     </>
 }

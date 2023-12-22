@@ -7,6 +7,11 @@ import RulesCardSkelton from '../RuleCardSkelton'
 
 
 function CardLoading() {
+  const renderTimes = 5
+  const componentsArray = Array.from({length:renderTimes}, (_, index) => (
+    <RenderFeedLoading key = {index}/>
+  ) )
+  console.log(componentsArray)
   return (
     <div >
       <div className="flex justify-center">
@@ -22,7 +27,7 @@ function CardLoading() {
      
       </div>
         
-      <div>   <RenderFeedLoading />
+      <div>   {componentsArray}
       </div>
         
 </div>

@@ -7,6 +7,7 @@ import { useInView } from 'react-intersection-observer'
 import CircularProgress from '../ui/circularProgress'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 
+
 // Feed is a functional component that takes data and displays it as cards
 interface FeedProps {
   channelSlug?: string
@@ -61,7 +62,14 @@ const Feeds = ({
     <div className="min-h-[70vh]">
       {!!posts?.length &&
         posts?.map((post: any) => {
-          return <Card key={post?.title} post={post} channels={channels} />
+          
+          return (
+          <>  <Card key={post?.title} post={post} channels={channels} />
+        
+          </>
+          )
+         
+         
         })}
       {noMorePosts?.current && <CircularProgress incommingRef={ref} />}
     </div>
