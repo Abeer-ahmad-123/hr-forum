@@ -1,15 +1,15 @@
 'use client'
-import React, { useState, useCallback, useEffect } from 'react'
-import { reactionOptions } from '@/utils/data'
-import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
-import { ReactionEmoji } from '.'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
+import { reactionOptions } from '@/utils/data'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { ReactionEmoji } from '.'
 
 const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
@@ -48,7 +48,7 @@ const ReactionButton = ({ onReact, post, userReaction, loading }: any) => {
     const delayForMouseToReach = setTimeout(() => {
       setEmojiPopoverVisible(false)
       clearTimeout(delayForMouseToReach)
-    }, 2000)
+    }, 200)
   }
 
   useEffect(() => {

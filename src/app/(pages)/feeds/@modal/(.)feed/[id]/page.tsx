@@ -13,9 +13,8 @@ async function SingleFeed({ params, searchParams }: any) {
 
   return (
     <Dialog open={true}>
-      <DialogContent className=" max-w-5xl overflow-scroll bg-white">
+      <DialogContent className=" max-w-5xl bg-white">
         <DialogHeader></DialogHeader>
-
         <DialogDescription>
           <Suspense fallback={<PostSkelton isDialogPost={true} />}>
             <Post isDialogPost={true} postId={id} />
