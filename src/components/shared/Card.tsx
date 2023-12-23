@@ -16,8 +16,10 @@ const Card = ({ post, channels }: any) => {
     channel_id,
     author_details: user,
     reaction_summary,
+    user_reaction,
     user_has_bookmarked,
   } = post
+  console.log(post)
   const pathName = usePathname()
   return (
     <>
@@ -84,6 +86,7 @@ const Card = ({ post, channels }: any) => {
             linkToFeed={`/feeds/feed/${id}`}
             postId={id}
             bookmark={user_has_bookmarked}
+            user_reaction={user_reaction}
           />
         </div>
       </div>

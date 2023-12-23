@@ -116,6 +116,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
               commentResult={commentResult}
               paginationResult={paginationResult}
               bookmark={post?.user_has_bookmarked}
+              user_reaction={post?.user_reaction}
             />
           </div>
         </div>

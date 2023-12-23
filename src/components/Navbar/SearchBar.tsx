@@ -7,9 +7,7 @@ import { useSelector } from 'react-redux'
 
 const SearchBar = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+
   const SearchParams = useSearchParams()
   const [search, setSearch] = useState<string>(SearchParams.get('search') ?? '')
   const router = useRouter()
@@ -24,11 +22,9 @@ const SearchBar = () => {
       e.preventDefault()
       const baseRoute = pathname.includes('channel') ? pathname : '/feeds'
 
-      const queryParams = userDataInStore.id
-        ? `?search=${search}&user=${userDataInStore.id}`
-        : `?search=${search}`
+      const queryParams = search ? `?search=${search}` : ''
 
-      router.push(`${baseRoute}${queryParams}`, { shallow: true })
+      router.push(`${baseRoute}${queryParams}`)
     }
   }
 

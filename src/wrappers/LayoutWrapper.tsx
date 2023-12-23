@@ -98,26 +98,6 @@ const LayoutWrapper = ({ children }: any) => {
     exchangeGoogleToken(googleToken!, userName)
     setOpenUserNameDialog(false)
   }
-  const addQueryParams = () => {
-    const search = searchParams.get('search')
-    const user = userDataInStore.id
-
-    const queryParams = {
-      shallow: true,
-    }
-
-    let url = pathname
-
-    if (search) {
-      url += `?search=${search}`
-
-      if (user) {
-        url += `&user=${user}`
-      }
-    }
-
-    router.push(url, queryParams)
-  }
 
   useEffect(() => {
     const code = searchParams.get('code')
@@ -140,7 +120,8 @@ const LayoutWrapper = ({ children }: any) => {
     refreshInterval = setInterval(async () => {
       const localStorageToken = localStorage.getItem('token') || null
       if (localStorageToken && localStorageToken !== 'undefined') {
-        const tokenResponse = await getRefreshToken()
+        const tokenResponse = await (await getRefreshToken()).json()
+
         dispatch(
           setToken({
             token: tokenResponse?.token,
@@ -157,11 +138,6 @@ const LayoutWrapper = ({ children }: any) => {
     }
     return () => clearInterval(refreshInterval)
   }, [])
-
-  useEffect(() => {
-    addQueryParams()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, searchParams, userDataInStore])
 
   return (
     <body className={` ${styles} theme-default font-primary dark:bg-slate-700`}>

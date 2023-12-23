@@ -1,3 +1,4 @@
+'use server'
 import {
   AUTH_WITH_EMAIL,
   AUTH_REGISTER,
@@ -10,6 +11,7 @@ import {
   GOOGLE_EXCHANGE_CODE,
   GOOGLE_REGISTER,
 } from './routes'
+import { removeUserCookies, setUserCookies } from '@/utils/cookies'
 
 export async function signIn(body: any) {
   try {
@@ -19,9 +21,10 @@ export async function signIn(body: any) {
       headers: {
         'content-type': 'application/json',
       },
+      credentials: 'include',
     })
     const responseJson = await responseFromAuth.json()
-
+    setUserCookies(responseJson)
     return { ...responseJson, status: responseFromAuth?.status }
   } catch (err) {
     throw err
@@ -38,6 +41,8 @@ export async function signUp(body: any) {
       },
     })
     const responseJson = await responseFromSignup.json()
+    setUserCookies(responseJson)
+
     return responseJson
   } catch (err) {
     throw err
@@ -49,6 +54,7 @@ export async function logout() {
     await fetch(AUTH_LOGOUT)
     localStorage.removeItem('token')
     localStorage.removeItem('userData')
+    removeUserCookies()
     return
   } catch (err) {
     console.log('err logout', err)
@@ -74,8 +80,7 @@ export async function getRefreshToken() {
       credentials: 'include',
     })
 
-    const responseJson = await responseFromRefresh.json()
-    return responseJson?.data
+    return responseFromRefresh
   } catch (err) {
     throw err
   }
@@ -86,6 +91,7 @@ export async function getUserDetail() {
     const responseFromRefresh = await fetch(AUTH_GET_USER_DETAILS)
     const responseJson = await responseFromRefresh.json()
     localStorage.setItem('token', responseJson?.data?.token)
+    setUserCookies(responseJson)
     return responseJson
   } catch (err) {
     throw err
@@ -98,6 +104,7 @@ export async function updateUserDetail(body: any) {
       method: 'PUT',
     })
     const responseJson = await responseFromRefresh.json()
+
     return responseJson
   } catch (err) {
     throw err
@@ -115,7 +122,10 @@ export async function googleAuthStart(url: string) {
         'content-type': 'application/json',
       },
     })
+
     const responseJson = await responseFromRefresh.json()
+    setUserCookies(responseJson)
+
     return responseJson
   } catch (err) {
     throw err
@@ -132,6 +142,8 @@ export async function googleRegister(body: any) {
       body,
     })
     const responseJson = await responseFromRefresh.json()
+    setUserCookies(responseJson)
+
     return responseJson
   } catch (err) {
     throw err

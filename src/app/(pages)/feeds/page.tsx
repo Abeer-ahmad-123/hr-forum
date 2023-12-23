@@ -5,7 +5,7 @@ import PostBar from '@/components/shared/new-post/NewPostModal'
 
 import CardLoading from '@/components/Loading/cardLoading'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
-
+import { cookies } from 'next/headers'
 // const FeedPage = () => {
 //   return (
 //     <>
@@ -34,6 +34,8 @@ import { SearchParams } from '@/utils/interfaces/renderFeeds'
 const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   searchParams,
 }) => {
+  const cookieValue = cookies().getAll()
+  console.log('cookies', cookieValue)
   return (
     <div>
       <Suspense fallback={<CardLoading />}>

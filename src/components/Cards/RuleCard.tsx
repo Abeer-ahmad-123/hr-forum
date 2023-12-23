@@ -23,7 +23,8 @@ const RulesCard = () => {
           <li>
             {rulesArr.map((item, index) => (
               <li key={index}>
-                <div className="display-inline  mb-[10px] mt-[10px] w-full pl-[10px] text-[12px] font-medium text-gray-500">
+
+                <div className="display-inline  mb-[10px] mt-[10px] w-full pl-[10px] text-[12px] font-medium text-gray-500 ">
                   <span>{item}</span>
                 </div>
                 <hr className="my-1 mt-1 border-t border-gray-400" />

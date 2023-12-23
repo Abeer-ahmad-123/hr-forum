@@ -49,8 +49,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
       id={`reply-${reply.id}`}
       className={`ml-12 mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
-      }`}
-    >
+      }`}>
       <div className="flex gap-[2%] pt-5">
         <div className="flex  flex-col items-center">
           <div className="rounded-full border border-black">
@@ -61,12 +60,12 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
           </div>
         </div>
         <div className="min-w-sm flex flex-col">
-          <div className=" min-w-sml rounded-2xl  bg-slate-100 dark:bg-slate-800 ">
+          <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
             <div className="pl-2 text-left text-accent">
               {reply['author_details'].name}
             </div>
 
-            <div className="mt-0 h-full w-full pl-2   text-left leading-loose text-gray-600 dark:text-white">
+            <div className="ml-4 mt-0 h-full w-full   text-left leading-loose text-gray-600 dark:text-white">
               {reply.content}
             </div>
           </div>
