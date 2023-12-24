@@ -1,31 +1,29 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
-import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
 ////
 
-import { PiShareFat } from 'react-icons/pi'
-import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
+import { postReactions } from '@/services/reactions/reactions'
+import { showErrorAlert } from '@/utils/helper'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
+import { PiShareFat } from 'react-icons/pi'
+import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
-import { postReactions } from '@/services/reactions/reactions'
-import { showErrorAlert } from '@/utils/helper'
-import { useSelector } from 'react-redux'
-import { useParams } from 'next/navigation'
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import SocialButtons from './SocialButtons'
 import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Dialog } from '../ui/Dialog/simpleDialog'
+import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 
 interface PostActionBarProps {
@@ -127,10 +125,10 @@ const PostActionBar = ({
             </span>
           </div>
 
-          <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200">
-            <button
-              onClick={toggleCommentArea}
-              className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
+          <div
+            className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200"
+            onClick={toggleCommentArea}>
+            <button className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
               {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
               <FaRegComment />
               <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
