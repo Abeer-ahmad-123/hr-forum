@@ -1,4 +1,3 @@
-'use server'
 import {
   BOOKMARK_POST,
   DELETE_BOOKMARK_POST,
@@ -7,6 +6,7 @@ import {
 
 export async function bookmarkPost(postId: string, token: string) {
   try {
+    console.log('postId', postId)
     let bookmarkPostUrl = BOOKMARK_POST.replace('postId', postId)
     let responseFromAuth = await fetch(bookmarkPostUrl, {
       method: 'POST',

@@ -1,5 +1,10 @@
 'use client'
-import React, { useEffect, useRef } from 'react'
+import React, {
+  ButtonHTMLAttributes,
+  MouseEvent,
+  useEffect,
+  useRef,
+} from 'react'
 import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
 ////
 
@@ -9,8 +14,12 @@ import { useState } from 'react'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
-import { postReactions } from '@/services/reactions/reactions'
-import { showErrorAlert } from '@/utils/helper'
+import {
+  deleteReactions,
+  postReactions,
+  updatePostReaction,
+} from '@/services/reactions/reactions'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { useSelector } from 'react-redux'
 import { useParams } from 'next/navigation'
 
@@ -32,6 +41,7 @@ interface PostActionBarProps {
   linkToFeed: string
   postId: string
   bookmark: boolean
+  user_reaction: string
   inputRef?: any
 }
 
@@ -40,23 +50,37 @@ const PostActionBar = ({
   postId,
   inputRef,
   bookmark,
+  user_reaction,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
 
-  const submitReaction = async (value: string) => {
+  const submitReaction = async (value: string, isFirstReaction: boolean) => {
+    console.log('user_reaction', user_reaction)
     if (tokenInRedux) {
-      const response = await postReactions(
-        {
-          reactionType: value,
-        },
-        postId,
-        tokenInRedux,
-      )
+      const response = isFirstReaction
+        ? value !== user_reaction
+          ? await postReactions(
+              {
+                reactionType: value,
+              },
+              postId,
+              tokenInRedux,
+            )
+          : await updatePostReaction(
+              {
+                reactionType: value,
+              },
+              postId,
+              tokenInRedux,
+            )
+        : await deleteReactions(postId, tokenInRedux)
       if (!response?.success) {
         showErrorAlert('Something went wrong while posting reaction')
+      } else {
+        showSuccessAlert('posting reaction posted')
       }
     } else {
       setShowSignModal(true)
@@ -74,8 +98,10 @@ const PostActionBar = ({
   const handleLikeWrapper = () => {
     if (!tokenInRedux) {
       setShowSignModal(true)
+      return true
     } else {
       setShowSignModal(false)
+      return false
     }
   }
   const handleBookmark = async () => {
@@ -105,42 +131,38 @@ const PostActionBar = ({
         <div className="flex w-full justify-between px-[2%] max-md:flex-row max-md:gap-[2%]">
           {/* bg-[#F9F9F9] bg on the message button before */}
 
-          <div
-            className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200 "
-            onClick={handleLikeWrapper}>
-            <ReactionButton onReact={submitReaction} />
-            <div className="font-light dark:text-gray-300 max-custom-sm:hidden">
-              Like
-            </div>
-          </div>
+          <ReactionButton
+            handleLikeWrapper={handleLikeWrapper}
+            userReaction={user_reaction}
+            onReact={submitReaction}
+          />
+
           <div
             onClick={handleBookmark}
-            className="dark:text-icon-dark text-icon-light flex basis-1/4 items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-200 ">
+            className="dark:text-icon-dark  text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
             <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
-            <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
-              Bookmark
-            </span>
+            <span className="font-light   max-custom-sm:hidden ">Bookmark</span>
           </div>
 
-          <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200">
+          <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800">
             <button
               onClick={toggleCommentArea}
-              className="text-icon-light dark:text-icon-dark px-[9px]font-black flex  items-center space-x-2">
+              className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
               {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
               <FaRegComment />
-              <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
+              <span className="font-light   max-custom-sm:hidden ">
                 Comment
               </span>
             </button>
           </div>
 
-          <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-200">
+          <div className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300  dark:hover:text-slate-800">
             <Popover>
               <PopoverTrigger>
-                <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
+                <button className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
                   {/* <IoShareSocial size={'24px'} color="#D2D3D5" /> */}
-                  <PiShareFat />
-                  <span className="font-light dark:text-gray-300 max-custom-sm:hidden ">
+                  <PiShareFat className="h-6 w-6 font-light" />
+                  <span className="font-light  max-custom-sm:hidden ">
                     Share
                   </span>
                 </button>

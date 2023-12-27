@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { CustomLink } from '../shared/customLink/CustomLink'
 const ProfileCard = () => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -12,10 +13,13 @@ const ProfileCard = () => {
   return (
     <>
       <div>
-        <div className="relative  h-auto w-[200px]  cursor-pointer overflow-hidden  rounded-[10px] bg-white shadow-lg dark:bg-slate-800 dark:text-white">
+        <div className="relative h-auto w-[200px] cursor-pointer overflow-hidden rounded-[10px] bg-white shadow-lg dark:bg-slate-800 dark:text-white">
           <Image
             className="h-[70px] w-full"
-            src="https://i.pinimg.com/originals/71/dc/d9/71dcd9ddf43b7ca29f7199305af68f08.png"
+            src={
+              userDetails?.backgroundPictureURL ||
+              'https://i.pinimg.com/originals/71/dc/d9/71dcd9ddf43b7ca29f7199305af68f08.png'
+            }
             alt="background"
             width={200}
             height={70}
@@ -47,12 +51,12 @@ const ProfileCard = () => {
             {email.length > 20 ? email.slice(0, 20).concat('...') : email}
           </p>
           <hr className="my-1 ml-3 mr-3 border-t border-gray-400" />
-          <Link
+          <CustomLink
             href={'/profile'}
             className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold">
             {' '}
-            profile view
-          </Link>
+            Profile View
+          </CustomLink>
         </div>
       </div>
     </>

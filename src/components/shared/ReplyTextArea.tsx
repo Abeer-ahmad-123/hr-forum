@@ -52,8 +52,8 @@ function ReplyTextArea({
             </PopoverContent>
           </Popover>
 
-          <button className="text-sm text-gray-400">Report</button>
-          <MoreHorizontal className="pt-2 text-gray-400 " size={30} />
+          {/* <button className="text-sm text-gray-400">Report</button>
+          <MoreHorizontal className="pt-2 text-gray-400 " size={30} />*/}
         </div>
       </div>
 

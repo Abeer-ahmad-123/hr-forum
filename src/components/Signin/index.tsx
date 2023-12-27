@@ -24,6 +24,7 @@ export default function Signin({
   }
   const [formValues, setFormValues] = useState<any>(initialValues)
   const [errors, setErrors] = useState<any>(initialValues)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
@@ -50,6 +51,7 @@ export default function Signin({
     e.preventDefault()
 
     try {
+      setLoading(true)
       const { email, password } = formValues
       let isFieldsValid = handleValidations()
       if (!isFieldsValid) {
@@ -82,10 +84,13 @@ export default function Signin({
         )
         showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
         handleDialogClose()
+        router.refresh()
       }
     } catch (err) {
       console.log('err', err)
       showErrorAlert('Something went wrong while signing in.')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -116,6 +121,7 @@ export default function Signin({
           <p className=" my-3 text-center dark:text-white">OR</p>
           <SigninForm
             errors={errors}
+            loading={loading}
             formValues={formValues}
             handleInputChange={handleInputChange}
             handleLoginSubmit={handleLoginSubmit}

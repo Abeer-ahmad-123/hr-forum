@@ -1,4 +1,5 @@
 'use server'
+import { cookies } from 'next/headers'
 import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
@@ -12,6 +13,8 @@ const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
   loadReactions?: boolean
+  channelID?: number
+  userID?: number
   pageNumber?: number
   pageSize?: number
 }
@@ -19,16 +22,25 @@ type GET_ALL_POSTS_PROPS = {
 export async function getAllPosts({
   loadUser = false,
   loadReactions = false,
+  channelID,
+  userID,
   pageNumber = 1,
   pageSize = 10,
 }: GET_ALL_POSTS_PROPS = {}) {
   try {
-    let res: any = await fetch(
-      `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
-      {
-        cache: 'no-cache',
-      },
-    )
+    let url = `${GET_All_POSTS}?loadUser=${loadUser}&loadReactions=${loadReactions}`
+    if (channelID) {
+      url += `&channelID=${channelID}`
+    }
+    if (userID) {
+      url += `&userID=${userID}`
+    }
+
+    url += `&page=${pageNumber}&pageSize=${pageSize}`
+
+    let res: any = await fetch(url, {
+      cache: 'no-store',
+    })
     const response = await res.json()
     return response
   } catch (err) {
@@ -38,6 +50,7 @@ export async function getAllPosts({
 
 export async function getPostsByChannelId({
   id,
+  userID,
   loadReactions = true,
   loadUser = true,
   pageNumber = 1,
@@ -45,11 +58,17 @@ export async function getPostsByChannelId({
 }: any) {
   if (id) {
     try {
+      const urlWithId = GET_POSTS_BY_CHANNELID.replace(
+        'channelId',
+        id?.toString(),
+      )
       let res = await fetch(
-        `${GET_POSTS_BY_CHANNELID.replace(
-          'channelId',
-          id?.toString(),
-        )}?loadUser=${loadUser}&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
+        `${urlWithId}?loadUser=${loadUser}${
+          userID ? `&userID=${userID}` : ''
+        }&loadReactions=${loadReactions}&page=${pageNumber}&pageSize=${pageSize}`,
+        {
+          cache: 'no-store',
+        },
       )
       const response = await res.json()
 
@@ -64,12 +83,18 @@ export async function getPostsByChannelId({
 
 export async function getPostByPostId(
   id: string,
-  { loadUser = false, loadReactions = true },
+  { loadUser = true, loadReactions = true, userId = null },
 ) {
   try {
     const postId = GET_POST_BY_ID.replace('postId', id)
+
     let res = await fetch(
-      `${postId}?loadReactions=${loadReactions}&loadUser=${loadUser}`,
+      `${postId}?loadReactions=${loadReactions}&loadUser=${loadUser}${
+        userId ? `&userID=${userId}` : ''
+      }`,
+      {
+        cache: 'no-store',
+      },
     )
     const response = await res.json()
     const { data } = response
@@ -103,11 +128,13 @@ export async function postCreatePostInChannel({ channelID, body, token }: any) {
   }
 }
 
-export async function getUserSpecificPosts(userId: string) {
+export async function getUserSpecificPosts(userId: string, pageNumber = 1) {
   try {
     const formatedRequestUrl = USER_SPECIFIC_POSTS.replace('userId', userId)
 
-    let res = await fetch(formatedRequestUrl)
+    let res = await fetch(formatedRequestUrl + `?page=${pageNumber}`, {
+      cache: 'no-store',
+    })
     const response = await res.json()
     return response
   } catch (err) {

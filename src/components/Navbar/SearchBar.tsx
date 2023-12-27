@@ -2,17 +2,19 @@
 import SearchIcon from '@/assets/icons/SearchIcon'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { ChangeEvent, KeyboardEvent, useState } from 'react'
+import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import CircularProgress from '../ui/circularProgress'
+import NProgress from 'nprogress'
+import '@/components/shared/customLink/style.css'
 
 const SearchBar = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+
   const SearchParams = useSearchParams()
   const [search, setSearch] = useState<string>(SearchParams.get('search') ?? '')
   const router = useRouter()
+  const refForInput: any = useRef()
   const pathname = usePathname()
 
   const styles = darkMode
@@ -21,25 +23,30 @@ const SearchBar = () => {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      NProgress.start()
       e.preventDefault()
-      const baseRoute = pathname.includes('channel') ? pathname : '/feeds'
+      const baseRoute = pathname.includes('channels/') ? pathname : '/feeds'
 
-      const queryParams = userDataInStore.id
-        ? `?search=${search}&user=${userDataInStore.id}`
-        : `?search=${search}`
-
-      router.push(`${baseRoute}${queryParams}`, { shallow: true })
+      const queryParams = search ? `?search=${search}` : ''
+      router.push(`${baseRoute}${queryParams}`)
+      refForInput.current.blur()
     }
   }
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
+  useEffect(() => {
+    return () => {
+      NProgress.done()
+    }
+  }, [])
 
   return (
     <form
       className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out  focus-within:max-w-[690px] hover:bg-white  focus:max-w-[690px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
       <input
+        ref={refForInput}
         onKeyDown={handleKeyDown}
         onChange={handleSearch}
         value={search}

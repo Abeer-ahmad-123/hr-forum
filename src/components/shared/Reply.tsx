@@ -49,8 +49,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
       id={`reply-${reply.id}`}
       className={`ml-12 mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
-      }`}
-    >
+      }`}>
       <div className="flex gap-[2%] pt-5">
         <div className="flex  flex-col items-center">
           <div className="rounded-full border border-black">
@@ -61,12 +60,12 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
           </div>
         </div>
         <div className="min-w-sm flex flex-col">
-          <div className=" min-w-sml rounded-2xl  bg-slate-100 dark:bg-slate-800 ">
+          <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
             <div className="pl-2 text-left text-accent">
               {reply['author_details'].name}
             </div>
 
-            <div className="mt-0 h-full w-full pl-2   text-left leading-loose text-gray-600 dark:text-white">
+            <div className="ml-4 mt-0 h-full w-full   text-left leading-loose text-gray-600 dark:text-white">
               {reply.content}
             </div>
           </div>
@@ -76,7 +75,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
           <div className="flex items-center justify-between pr-5">
             <div className="flex items-center space-x-3">
               <div className="group relative inline-block">
-                <span className=" ml-2 pt-4 text-left italic text-gray-400">
+                <span className="ml-2 pt-4 text-left text-sm italic text-gray-400">
                   {convertDate(reply.created_at)}
                 </span>
                 <div className="absolute bottom-full hidden -translate-x-1/2  transform whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block">
@@ -103,7 +102,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
 
               <button className="text-sm text-gray-400">Report</button>
             </div>
-            <MoreHorizontal className="ml-2 text-gray-400" />
+            {/* <MoreHorizontal className="ml-2 text-gray-400" /> */}
           </div>
           {/*  ÷  */}
         </div>

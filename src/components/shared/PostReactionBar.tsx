@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { getEmojisAsArray } from '@/utils/reactionDetails'
+import { CustomLink } from './customLink/CustomLink'
 interface PostReactionBarProps {
   postId: string
   reaction_summary: any
@@ -67,22 +68,19 @@ const PostReactionBar = ({
               <span
                 className={`${
                   index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
-                } rounded-full bg-white p-1 text-xs`}
-                key={index}
-              >
+                } rounded-full bg-white p-1 text-xs dark:bg-slate-800`}
+                key={index}>
                 {react}
               </span>
             ))}
           <Popover
             open={emojiPopoverVisible}
-            onOpenChange={setEmojiPopoverVisible}
-          >
+            onOpenChange={setEmojiPopoverVisible}>
             <PopoverTrigger asChild>
               <span
                 className="text-xs text-slate-400"
                 onMouseEnter={mouseEnter}
-                onMouseLeave={mouseLeave}
-              >
+                onMouseLeave={mouseLeave}>
                 {addCountOfAll(reactionArray) > 1
                   ? `name and ${addCountOfAll(reactionArray) - 1} others`
                   : 'name here'}
@@ -104,15 +102,14 @@ const PostReactionBar = ({
             </PopoverContent>
           </Popover>
         </div>
-        <Link
+        <CustomLink
           href={
             pathName.includes('/channels/')
               ? `feeds/feed/${postId}`
               : ` /feeds/feed/${postId}`
-          }
-        >
+          }>
           <span className="text-xs text-slate-400">2 comments</span>
-        </Link>
+        </CustomLink>
       </div>
     </>
   ) : (

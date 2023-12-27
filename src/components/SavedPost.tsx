@@ -18,7 +18,6 @@ const SavedPost = () => {
   const channels = useSelector(
     (state: StoreChannels) => state?.channels.channels,
   )
-
   const [posts, setPosts] = useState<BookmarkedPostInterface>()
 
   const getSavePost = async () => {

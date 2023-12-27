@@ -10,11 +10,10 @@ const LoadMoreReplyButton = ({
     <>
       {total_replies > 2 && repliesLength < total_replies && (
         <button
-          className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
+          className="mt-4 rounded-lg px-2 py-1 text-sm uppercase text-accent"
           id={commentId}
-          onClick={getAllReplies}
-        >
-          Load More
+          onClick={getAllReplies}>
+          Load More Replies
         </button>
       )}
     </>

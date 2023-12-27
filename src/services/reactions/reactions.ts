@@ -23,11 +23,15 @@ async function postReactions(body: any, postId: string, token?: string) {
   }
 }
 
-async function deleteReactions(postId: string) {
+async function deleteReactions(postId: string, token: string) {
   try {
     const deleteRequestUrl = DELETE_REACTIONS.replace('postId', postId)
     const response = await fetch(deleteRequestUrl, {
       method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Bearer ' + token,
+      },
     })
     const data = await response.json()
     return data
@@ -50,13 +54,14 @@ async function getUserPostReaction(postId: string) {
   }
 }
 
-async function updatePostReaction(body: any, postId: string) {
+async function updatePostReaction(body: any, postId: string, token: string) {
   try {
     const updatePostReactionUrl = UPDATE_REACTION.replace('postId', postId)
     const response = await fetch(updatePostReactionUrl, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        authorization: 'Bearer ' + token,
       },
       body: JSON.stringify(body),
     })

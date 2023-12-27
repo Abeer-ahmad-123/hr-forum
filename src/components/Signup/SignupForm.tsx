@@ -1,9 +1,11 @@
+import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { InputField } from '../shared'
 
 export default function SignupForm({
   formValues,
   handleInputChange,
   errors,
+  loading,
   handleSignupSubmit,
 }: any) {
   const { name, username, email, password } = formValues
@@ -40,8 +42,18 @@ export default function SignupForm({
         onChange={handleInputChange}
       />
       <div className="">
-        <button className="w-full transform rounded-xl bg-primary px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none">
-          Sign Up
+        <button
+          className={`flex w-full transform justify-center rounded-xl bg-accent px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ${
+            loading && 'bg-gray-400'
+          }`}>
+          <p>Sign in</p>
+          {loading ? (
+            <div className="ml-2">
+              <CircularProgressIcon color="gray" />
+            </div>
+          ) : (
+            <></>
+          )}
         </button>
       </div>
     </form>
@@ -54,8 +66,7 @@ export function LoginLink({ onClick }: any) {
       Already have an account?
       <a
         className="text-primary-purple cursor-pointer font-medium hover:underline"
-        onClick={onClick}
-      >
+        onClick={onClick}>
         {' '}
         Sign in
       </a>

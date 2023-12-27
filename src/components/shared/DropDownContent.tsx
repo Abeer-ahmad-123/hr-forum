@@ -6,6 +6,7 @@ import { AiOutlineUserAdd } from 'react-icons/ai'
 import { BsDot } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import { StoreChannels } from '@/utils/interfaces/channels'
+import { CustomLink } from './customLink/CustomLink'
 
 type NavigationItem = {
   name: string
@@ -81,7 +82,7 @@ const DropDownContent = ({
             className="hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
             key={item?.name}
             onClick={handleLi}>
-            <Link
+            <CustomLink
               href={item?.href}
               className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ${textStyle(
                 item?.href,
@@ -93,7 +94,7 @@ const DropDownContent = ({
                 data-testid="navigation-icon"
               />
               {item.name}
-            </Link>
+            </CustomLink>
           </li>
         )
       })}
@@ -108,7 +109,7 @@ const DropDownContent = ({
           key={item?.name}
           onClick={handleLi}
           data-testid="side-channels">
-          <Link
+          <CustomLink
             href={`${'/channels/' + item?.slug}`}
             className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ${sidebarLinkStyle(
               `/channels/${item?.name}`,
@@ -132,10 +133,10 @@ const DropDownContent = ({
                 {item?.name}
               </span>
             </div>
-          </Link>
+          </CustomLink>
         </li>
       ))}
-      <Link href="/channels" data-testid="join-new-channel">
+      <CustomLink href="/channels" data-testid="join-new-channel">
         <li onClick={handleLi} className="max-md:w-[200px] lg:w-[258px]">
           <div
             className="flex h-12 items-center rounded-lg bg-accent text-white"
@@ -151,9 +152,9 @@ const DropDownContent = ({
             </div>
           </div>
         </li>
-      </Link>
+      </CustomLink>
 
-      <Link
+      {/* <CustomLink
         href="/settings"
         className="mt-auto hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
         onClick={handleLi}
@@ -170,7 +171,7 @@ const DropDownContent = ({
           />
           Settings
         </li>
-      </Link>
+      </CustomLink> */}
     </ul>
   )
 }

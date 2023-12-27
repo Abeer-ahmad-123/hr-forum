@@ -4,6 +4,7 @@ import { API_BASE_URL } from '..'
 const GET_USER_DETAILS = API_BASE_URL + '/auth/getUserDetails'
 const UPDATE_USER_DETAILS = API_BASE_URL + '/auth/updateUserDetails'
 const UPDATE_USER_IMAGE = API_BASE_URL + '/images/uploadUserImage'
+const UPDATE_USER_BG_IMAGE = API_BASE_URL + '/images/uploadUserBackgroundImage'
 
 export async function getUserDetails(token: any) {
   try {
@@ -46,6 +47,26 @@ export async function updateUserImage(token: any, userImage: any) {
   imageFormData.append('file', userImage)
   try {
     let res = await fetch(UPDATE_USER_IMAGE, {
+      method: 'POST',
+      body: imageFormData,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    const response = await res.json()
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function updateUserBgImage(token: any, userImage: any) {
+  const imageFormData = new FormData()
+  imageFormData.append('file', userImage)
+  try {
+    let res = await fetch(UPDATE_USER_BG_IMAGE, {
       method: 'POST',
       body: imageFormData,
       headers: {

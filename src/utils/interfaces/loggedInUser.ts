@@ -8,6 +8,7 @@ export interface LoggedInUser {
       name: string
       bio: string
       profilePictureURL: string
+      backgroundPictureURL: string
     }
     refreshToken: string | null
   }

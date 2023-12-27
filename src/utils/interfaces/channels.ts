@@ -10,8 +10,10 @@ export interface ChannelInterface {
 export interface StoreChannels {
   channels: {
     channels: ChannelInterface[]
+    channelsKeyValuePair: Record<number, ChannelByIdInterface>
   }
 }
+
 export interface ChannelByIdInterface {
   id: number
   name: string

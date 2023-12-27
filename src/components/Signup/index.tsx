@@ -23,6 +23,7 @@ export default function Signup({
   const pathname = usePathname()
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState(initialValues)
+  const [loading, setLoading] = useState<boolean>(false)
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
@@ -44,6 +45,7 @@ export default function Signup({
 
   const handleSignupSubmit = async (e: any) => {
     try {
+      setLoading(true)
       e.preventDefault()
       let isFieldsValid = handleValidations()
 
@@ -66,6 +68,8 @@ export default function Signup({
       }
     } catch (err: any) {
       console.log('err', err)
+    } finally {
+      setLoading(true)
     }
   }
 
@@ -94,6 +98,7 @@ export default function Signup({
 
           <SignupForm
             errors={errors}
+            loading={loading}
             formValues={formValues}
             handleInputChange={handleInputChange}
             handleSignupSubmit={handleSignupSubmit}
@@ -106,8 +111,7 @@ export default function Signup({
                 className="text-primary-purple cursor-pointer font-medium hover:underline"
                 onClick={() => {
                   toggleForm()
-                }}
-              >
+                }}>
                 {' '}
                 Sign in
               </button>

@@ -72,9 +72,9 @@ function Comments({
 
         {(!!commentId || nothingToLoadMore?.current) && (
           <button
-            className="mt-4 rounded-lg bg-accent bg-opacity-50 p-2 text-white hover:bg-opacity-30"
+            className="mt-4 rounded-lg px-2 py-1 text-sm text-accent "
             onClick={handleLoadMore}>
-            Load More
+            Load More Comments
           </button>
         )}
       </Suspense>

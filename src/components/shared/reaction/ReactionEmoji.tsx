@@ -5,6 +5,7 @@ const ReactionEmoji = ({
   reactionName,
   isReactionSelected,
   onEmojiClick,
+  className,
 }: any) => {
   const styles = isReactionSelected ? 'scale-150' : 'transform hover:scale-105'
 
@@ -12,13 +13,12 @@ const ReactionEmoji = ({
     <div
       onClick={onEmojiClick}
       className={clsx(
-        'flex cursor-pointer items-center rounded-lg border-none px-3 py-2',
+        'flex cursor-pointer items-center rounded-lg border-none px-3  dark:hover:text-slate-800',
         styles,
       )}
       role="button"
-      aria-label={`select ${reactionName} emoji`}
-    >
-      <span className="text-xl text-black dark:text-white">
+      aria-label={`select ${reactionName} emoji`}>
+      <span className="text-xl text-black dark:text-gray-300 dark:hover:text-slate-800">
         {emojiCharacter}
       </span>
     </div>

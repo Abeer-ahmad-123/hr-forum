@@ -10,9 +10,10 @@ import {
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { useState } from 'react'
+import { logout } from '@/services/auth/authService'
+import { CustomLink } from '../shared/customLink/CustomLink'
 
 function LoggedIn() {
   const router = useRouter()
@@ -26,15 +27,15 @@ function LoggedIn() {
   }
 
   function handleLogout() {
-    dispatch(clearUser())
     logout()
-    router.refresh()
+    dispatch(clearUser())
+    router.push('/')
   }
 
   const UserDropdown = () => (
     <div className="relative flex cursor-pointer items-center gap-4 ">
-      <span className="hidden text-right lg:block">
-        <span className="block text-sm font-medium text-black dark:text-white">
+      <span className="text-right max-custom-sm:hidden">
+        <span className="block text-sm font-medium text-black dark:text-white ">
           {name}
         </span>
         <span className="block text-xs dark:text-white">{username}</span>
@@ -42,8 +43,10 @@ function LoggedIn() {
       <div className="relative">
         <div className="relative h-8 w-8 overflow-hidden rounded-full">
           <img
-            className="h-full w-full object-cover"
-            src="https://ui-avatars.com/api/?name=John+Doe"
+            className="h-full w-full rounded-full object-cover"
+            src={
+              profilePictureURL || 'https://ui-avatars.com/api/?name=John+Doe'
+            }
             alt="User"
           />
         </div>
@@ -54,31 +57,28 @@ function LoggedIn() {
 
   return (
     <>
-      <div className="max-lg:hidden">
+      <div>
         <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
           <DropdownMenuTrigger
             onChange={() => {
               setOpenPopover(!openPopover)
-            }}
-          >
+            }}>
             <UserDropdown />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={handleClosePopover}
-              className="hover:text-white"
-            >
-              <Link href="/profile">
+              className="hover:text-white">
+              <CustomLink href="/profile">
                 <div className={`block px-4 py-2 text-sm dark:text-white`}>
                   Profile
                 </div>
-              </Link>
+              </CustomLink>
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={handleClosePopover}
-              className="hover:text-white"
-            >
+              className="hover:text-white">
               <button onClick={handleLogout}>
                 <div className={`block px-4 py-2 text-sm  dark:text-white`}>
                   Logout

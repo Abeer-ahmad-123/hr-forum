@@ -43,7 +43,7 @@ function CommentOrReply({
 
         if (!commentId) {
           setComments((prevComments: Array<Object>) => [
-            result?.data,
+            result?.data?.comment,
             ...prevComments,
           ])
         } else {

@@ -9,6 +9,7 @@ function CommentsLogic({
   commentResult,
   paginationResult,
   bookmark,
+  user_reaction,
 }: any) {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -19,6 +20,7 @@ function CommentsLogic({
         linkToFeed={`/feeds/feed/${postId}`}
         postId={postId}
         inputRef={inputRef}
+        user_reaction={user_reaction}
       />
       <Comments
         postId={postId}

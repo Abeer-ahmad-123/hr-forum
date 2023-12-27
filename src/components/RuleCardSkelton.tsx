@@ -4,7 +4,7 @@ import Skelton from './ui/skelton'
 const RulesCardSkelton = () => {
   return (
     <>
-      <div className="cursor-cursor ml-6 mr-[50px] h-[460px] w-[200px] rounded-[10px] bg-white pb-[10px] shadow-lg ">
+      <div className="cursor-cursor ml-6 mr-[50px] h-[460px] w-[200px] rounded-[10px] bg-white pb-[10px] shadow-lg dark:bg-slate-800 ">
         {/* <Skelton className="pl-[7px] pr-[10px] my-[10px] py-4 h-8 px-3 text-skelton-text w-full hover:text-black hover:bg-gray-200 " /> */}
         <div className="pt-4">
           <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-5 justify-center text-center font-bold" />

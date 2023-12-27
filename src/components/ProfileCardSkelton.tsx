@@ -4,7 +4,7 @@ import Skelton from './ui/skelton'
 function ProfileCardSkelton() {
   return (
     <>
-      <div className="dark:bg-skelton-dark relative ml-[50px] mr-[25px] h-80 w-[200px] cursor-pointer overflow-hidden rounded-[10px]  bg-white shadow-lg dark:text-white">
+      <div className="dark:bg-skelton-dark relative ml-[50px] mr-[25px] h-80 w-[200px] cursor-pointer overflow-hidden rounded-[10px]  bg-white shadow-lg dark:bg-slate-800 dark:text-white">
         <Skelton className="h-[70px] w-full" />
 
         <div className="mt-[-20px] flex items-center justify-center">

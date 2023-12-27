@@ -1,11 +1,14 @@
 import Link from 'next/link'
 import InputField from '../shared/InputField'
+import { CustomLink } from '../shared/customLink/CustomLink'
+import CircularProgressIcon from '@/assets/icons/circularProgress'
 
 export function SigninForm({
   formValues,
   errors,
   handleInputChange,
   handleLoginSubmit,
+  loading,
 }: any) {
   const { email, password } = formValues
   return (
@@ -25,18 +28,25 @@ export function SigninForm({
         placeholder="password"
         onChange={handleInputChange}
       />
-      <Link
+      <CustomLink
         className="text-primary-purple text-xs hover:underline dark:text-white"
-        href="#"
-      >
+        href="#">
         Forget Password?
-      </Link>
+      </CustomLink>
       <div className="mt-6">
         <button
           onClick={handleLoginSubmit}
-          className="w-full transform rounded-xl bg-primary px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none "
-        >
-          Sign in
+          className={`flex w-full transform justify-center rounded-xl bg-accent px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ${
+            loading && 'bg-gray-400'
+          }`}>
+          <p>Sign in</p>
+          {loading ? (
+            <div className="ml-2">
+              <CircularProgressIcon color="gray" />
+            </div>
+          ) : (
+            <></>
+          )}
         </button>
       </div>
     </form>

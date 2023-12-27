@@ -19,8 +19,8 @@ const Navbar: React.FC<NavbarProps> = () => {
         <div className="mx-5 flex items-center justify-end space-x-2">
           <NightModeToggle />
 
-          <LogButton />
           <NavMenuDropdown />
+          <LogButton />
         </div>
       </div>
     </>

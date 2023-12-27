@@ -18,7 +18,6 @@ import Skelton from '@/components/ui/skelton'
 import UserDataBadge from './UserDataBadge'
 
 function UserProfile() {
-  const [userData, setUserData] = useState<userData | null>(null)
   const [userSpecificPosts, setUserSpecificPosts] =
     useState<UserSpecificPostsInterface>({ posts: [], pagination: {} })
   const userToken = useSelector(
@@ -29,27 +28,13 @@ function UserProfile() {
   )
   const isFirstUser = useRef(true)
   const imageInputRef = useRef(null)
-  const getUserData = async () => {
-    const response = await getUserDetails(userToken)
-    setUserData(response)
-  }
 
   const getAllUserSpecificPosts = async () => {
     const response = await getUserSpecificPosts(userDataInStore?.id ?? '')
-    console.log('response', response)
     if (response.success) {
-      console.log('response?.data', response?.data)
       setUserSpecificPosts(response?.data)
     }
   }
-
-  useEffect(() => {
-    if (isFirstUser.current) {
-      isFirstUser.current = false
-      getAllUserSpecificPosts()
-      getUserData()
-    }
-  }, [])
 
   const onInputChange = async (e: any) => {
     const file = e.target.files[0]
@@ -60,6 +45,13 @@ function UserProfile() {
       showErrorAlert('Issues in image uploaded')
     }
   }
+
+  useEffect(() => {
+    if (isFirstUser.current) {
+      isFirstUser.current = false
+      getAllUserSpecificPosts()
+    }
+  }, [])
 
   return (
     <div className="profile-page">
@@ -102,7 +94,7 @@ function UserProfile() {
                       width={150}
                       height={150}
                       src={
-                        userData?.profilePictureURL ||
+                        userDataInStore?.profilePictureURL ||
                         'https://source.unsplash.com/random/300×300'
                       }
                       className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
@@ -122,56 +114,33 @@ function UserProfile() {
                     />
                   </div>
                 </div>
+                <div className="w-full px-4 lg:order-1 lg:w-4/12"></div>
                 <div className="w-full px-4 lg:order-3 lg:w-4/12 lg:self-center lg:text-right">
                   <EditProfileButton
                     userData={{
-                      name: userData?.name || '',
-                      email: userData?.email || '',
-                      bio: userData?.bio || '',
+                      name: userDataInStore?.name || '',
+                      email: userDataInStore?.email || '',
+                      bio: userDataInStore?.bio || '',
                     }}
                   />
-                </div>
-                <div className="w-full px-4 lg:order-1 lg:w-4/12">
-                  {/* <div className="flex justify-center py-4 pt-8 lg:pt-4">
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
-                        22
-                      </span>
-                      <span className="text-blueGray-400 text-sm">Friends</span>
-                    </div>
-                    <div className="mr-4 p-3 text-center">
-                      <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
-                        10
-                      </span>
-                      <span className="text-blueGray-400 text-sm">Photos</span>
-                    </div>
-                    <div className="p-3 text-center lg:mr-4">
-                      <span className="text-blueGray-600 block text-xl font-bold uppercase tracking-wide">
-                        89
-                      </span>
-                      <span className="text-blueGray-400 text-sm">
-                        Comments
-                      </span>
-                    </div>
-                  </div> */}
                 </div>
               </div>
               <div className="mt-12 text-center">
                 <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                  {userData?.name}
+                  {userDataInStore?.name}
                 </h3>
                 <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
                   <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
 
-                  {userData?.username}
+                  {userDataInStore?.username}
                 </div>
                 <div className="text-blueGray-600 mb-2 mt-1">
                   <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                  {userData?.email}
+                  {userDataInStore?.email}
                 </div>
                 <div className="text-blueGray-600 mb-2 pb-2 text-left">
                   <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                  {userData?.bio ||
+                  {userDataInStore?.bio ||
                     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem.'}
                 </div>
               </div>
@@ -184,7 +153,7 @@ function UserProfile() {
             <UserDataBadge />
           </div>
           <div className="w-full">
-            <UserSpecificPosts posts={userSpecificPosts?.posts} />
+            <UserSpecificPosts />
           </div>
         </div>
         <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">

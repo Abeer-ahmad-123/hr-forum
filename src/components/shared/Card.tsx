@@ -6,6 +6,7 @@ import Link from 'next/link'
 import PostActionBar from './PostActionBar'
 import { useRouter, usePathname } from 'next/navigation'
 import PostReactionBar from './PostReactionBar'
+import { CustomLink } from './customLink/CustomLink'
 
 const Card = ({ post, channels }: any) => {
   const {
@@ -16,13 +17,14 @@ const Card = ({ post, channels }: any) => {
     channel_id,
     author_details: user,
     reaction_summary,
+    user_reaction,
     user_has_bookmarked,
   } = post
   const pathName = usePathname()
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
-        <Link
+        <CustomLink
           href={
             pathName.includes('/channels/')
               ? `feeds/feed/${id}`
@@ -45,7 +47,7 @@ const Card = ({ post, channels }: any) => {
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row">
-                    <Link href={`/profile/${user?.id}`}>
+                    <CustomLink href={`/profile/${user?.id}`}>
                       <p
                         className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                         aria-label="user-name">
@@ -53,7 +55,7 @@ const Card = ({ post, channels }: any) => {
 
                         {/* Yogesh Choudhary Paliyal */}
                       </p>
-                    </Link>
+                    </CustomLink>
                     <ChannelPill channel_id={channel_id} channels={channels} />
                   </div>
 
@@ -74,7 +76,7 @@ const Card = ({ post, channels }: any) => {
               />
             </div>
           </div>
-        </Link>
+        </CustomLink>
 
         <PostReactionBar reaction_summary={reaction_summary} postId={id} />
         <hr />
@@ -84,6 +86,7 @@ const Card = ({ post, channels }: any) => {
             linkToFeed={`/feeds/feed/${id}`}
             postId={id}
             bookmark={user_has_bookmarked}
+            user_reaction={user_reaction}
           />
         </div>
       </div>

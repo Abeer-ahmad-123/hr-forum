@@ -4,7 +4,6 @@ import ResProfileCard from './ResposniveProfileCard'
 import ResChannelCard from './ResponsiveChannelCard'
 import { FaAngleDown } from 'react-icons/fa6'
 import { FaAngleUp } from 'react-icons/fa6'
-import PostBar from '@/components/shared/new-post/NewPostModal'
 
 const RespScreen = () => {
   const [showComponent, setShowComponent] = useState(false)

@@ -1,5 +1,6 @@
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import Link from 'next/link'
+import { CustomLink } from './customLink/CustomLink'
 interface ChannelObject {
   [key: string]: {
     name?: string
@@ -18,12 +19,12 @@ const ChannelPill = ({ channel_id, channels }: any) => {
 
     <span className="px-1 text-xs font-light text-slate-500 dark:text-gray-400 ">
       Posted in
-      <Link className="" href={`/channels/${lowerCaseChannelName}/`}>
+      <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
         <span className="underline hover:text-primary">
           {channelObj[channel_id]?.name}
         </span>
-      </Link>
+      </CustomLink>
     </span>
   )
 }

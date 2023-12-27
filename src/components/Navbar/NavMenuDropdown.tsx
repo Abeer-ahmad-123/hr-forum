@@ -8,6 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import { CustomLink } from '../shared/customLink/CustomLink'
 
 export default function NavMenuDropdown() {
   return (
@@ -21,17 +22,16 @@ export default function NavMenuDropdown() {
         <DropdownMenuSeparator />
         {menuItems.map((item) => (
           <DropdownMenuItem key={item.label} className="hover:text-white">
-            <Link
+            <CustomLink
               href={item.href}
-              className={`group flex w-full items-center justify-start py-2 text-sm font-light`}
-            >
+              className={`group flex w-full items-center justify-start py-2 text-sm font-light`}>
               <div className="ml-2 w-6 flex-shrink-0 dark:text-white">
                 {item.icon}
               </div>
               <span className="ml-2 flex-grow text-left dark:text-white">
                 {item.label}
               </span>
-            </Link>
+            </CustomLink>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

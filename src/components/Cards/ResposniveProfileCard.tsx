@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { CustomLink } from '../shared/customLink/CustomLink'
 const ResProfileCard = () => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -47,12 +48,12 @@ const ResProfileCard = () => {
             {email.length > 20 ? email.slice(0, 20).concat('...') : email}
           </p>
           <hr className="my-1 ml-3 mr-3 border-t border-gray-400" />
-          <Link
+          <CustomLink
             href={'/profile'}
             className="mx-[15px] mb-[10px] mt-[10px] flex text-xs font-semibold">
             {' '}
-            profile view jdhsfkjadhf jsdfhadkjfh hjfhkajd
-          </Link>
+            Profile View
+          </CustomLink>
         </div>
       </div>
     </>
