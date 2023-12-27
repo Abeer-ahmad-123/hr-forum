@@ -1,23 +1,23 @@
 'use client'
-import React, { useEffect, useCallback, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Navbar from '@/components/Navbar/Navbar'
 import '@/assets/styles/globals.css'
-import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from 'react-toastify'
-import { getChannels } from '@/services/channel/channel'
-import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
-import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
-import { arrayToKeyIdNValueData } from '@/utils/channels'
+import Navbar from '@/components/Navbar/Navbar'
 import {
   getRefreshToken,
   googleCodeExchange,
   googleTokenExchange,
 } from '@/services/auth/authService'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { getChannels } from '@/services/channel/channel'
+import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
+import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
+import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import UserNameDialog from './UserNameDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import UserNameDialog from './UserNameDialog'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
@@ -144,7 +144,7 @@ const LayoutWrapper = ({ children }: any) => {
       <Navbar />
       <ToastContainer />
       <main
-        className={`bg-primary-light  min-h-screen pt-14 font-primary dark:bg-dark-background`}>
+        className={`bg-primary-light  min-h-screen pt-[45px] font-primary dark:bg-dark-background`}>
         <div className="bg-primary-light grid">
           <div className="fixed left-0 top-0 z-10 w-full"></div>
           <div className="flex dark:bg-slate-700 dark:text-white">
