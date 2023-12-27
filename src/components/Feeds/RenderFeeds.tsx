@@ -1,17 +1,17 @@
 import Feeds from '@/components/Feeds/Feeds'
 
-import PostBar from '@/components/shared/new-post/NewPostModal'
-import { toPascalCase } from '@/utils/common'
-import { getAllPosts, getPostsByChannelId } from '@/services/posts'
-import { getChannels } from '@/services/channel/channel'
-import { getChannelIdByChannelName } from '@/utils/channels'
+import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
-import ChannelCard from '@/components/SideCards/ChannelCard'
-import RespScreen from '../Cards/ResponsiveScreen'
-import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
+import PostBar from '@/components/shared/new-post/NewPostModal'
+import { getChannels } from '@/services/channel/channel'
+import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
+import { getChannelIdByChannelName } from '@/utils/channels'
+import { toPascalCase } from '@/utils/common'
+import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
+import RespScreen from '../Cards/ResponsiveScreen'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -81,7 +81,9 @@ async function RenderFeeds({
     }
   }
   return (
-    <div className="mx-auto flex max-w-screen-xl justify-center">
+    <div
+      key={Math.random()}
+      className="mx-auto flex max-w-screen-xl justify-center">
       <div className="ml-20 mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
         <ProfileCard />
         <div className="sticky top-0 max-h-screen" style={{ top: '60px' }}>

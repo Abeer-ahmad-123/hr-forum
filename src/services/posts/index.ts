@@ -1,5 +1,4 @@
 'use server'
-import { cookies } from 'next/headers'
 import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
@@ -38,9 +37,7 @@ export async function getAllPosts({
 
     url += `&page=${pageNumber}&pageSize=${pageSize}`
 
-    let res: any = await fetch(url, {
-      cache: 'no-store',
-    })
+    let res: any = await fetch(url)
     const response = await res.json()
     return response
   } catch (err) {

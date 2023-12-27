@@ -1,40 +1,33 @@
 'use client'
-import React, {
-  ButtonHTMLAttributes,
-  MouseEvent,
-  useEffect,
-  useRef,
-} from 'react'
-import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
 ////
 
-import { PiShareFat } from 'react-icons/pi'
-import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
-import { useState } from 'react'
-import CommentOrReply from '../CommentOrReply'
-import CommentSection from './CommentSection'
-import { ReactionButton } from './reaction'
 import {
   deleteReactions,
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useSelector } from 'react-redux'
 import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
+import { PiShareFat } from 'react-icons/pi'
+import { useSelector } from 'react-redux'
+import CommentOrReply from '../CommentOrReply'
+import CommentSection from './CommentSection'
+import { ReactionButton } from './reaction'
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import SocialButtons from './SocialButtons'
 import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Dialog } from '../ui/Dialog/simpleDialog'
+import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 
 interface PostActionBarProps {

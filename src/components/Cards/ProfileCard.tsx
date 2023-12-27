@@ -1,9 +1,7 @@
 'use client'
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import Image from 'next/image'
+import { useSelector } from 'react-redux'
 import { CustomLink } from '../shared/customLink/CustomLink'
 const ProfileCard = () => {
   const userDetails = useSelector(

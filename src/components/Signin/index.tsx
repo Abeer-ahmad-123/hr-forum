@@ -1,15 +1,14 @@
 'use client'
-
-import { SigninForm } from './SigninForm'
-import React, { ChangeEvent, useState } from 'react'
-import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { googleAuthStart, signIn } from '@/services/auth/authService'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { AppDispatch } from '@/store'
-import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
+import { ChangeEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton/'
+import { SigninForm } from './SigninForm'
 
 export default function Signin({
   toggleForm,
@@ -22,6 +21,7 @@ export default function Signin({
     email: '',
     password: '',
   }
+
   const [formValues, setFormValues] = useState<any>(initialValues)
   const [errors, setErrors] = useState<any>(initialValues)
   const [loading, setLoading] = useState<boolean>(false)

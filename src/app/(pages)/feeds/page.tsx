@@ -1,8 +1,7 @@
 import { RenderFeeds } from '@/components/Feeds'
-import { Suspense } from 'react'
 import CardLoading from '@/components/Loading/cardLoading'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
-import { cookies } from 'next/headers'
+import { Suspense } from 'react'
 
 const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   searchParams,
