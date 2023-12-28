@@ -1,8 +1,8 @@
 import { RenderFeeds } from '@/components/Feeds'
 import CardLoading from '@/components/Loading/cardLoading'
+import RedirectLogic from '@/components/RedirectLogic'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { Suspense } from 'react'
-import RedirectLogic from './feed/RedirectLogic'
 
 const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   searchParams,
