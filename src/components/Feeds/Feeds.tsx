@@ -72,6 +72,7 @@ const Feeds = ({
             loadReactions: true,
             loadUser: true,
             pageNumber: page,
+            userID: userData.id,
           })
           _data = data
         }

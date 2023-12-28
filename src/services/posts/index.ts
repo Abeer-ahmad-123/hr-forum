@@ -13,7 +13,7 @@ type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
   loadReactions?: boolean
   channelID?: number
-  userID?: number
+  userID?: string
   pageNumber?: number
   pageSize?: number
 }

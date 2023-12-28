@@ -54,7 +54,7 @@ const PostActionBar = ({
     console.log('user_reaction', user_reaction)
     if (tokenInRedux) {
       const response = isFirstReaction
-        ? value !== user_reaction
+        ? !user_reaction
           ? await postReactions(
               {
                 reactionType: value,
@@ -70,6 +70,7 @@ const PostActionBar = ({
               tokenInRedux,
             )
         : await deleteReactions(postId, tokenInRedux)
+
       if (!response?.success) {
         showErrorAlert('Something went wrong while posting reaction')
       } else {
