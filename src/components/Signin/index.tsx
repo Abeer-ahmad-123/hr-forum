@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton/'
 import { SigninForm } from './SigninForm'
 
+import { useParams } from 'next/navigation'
 export default function Signin({
   toggleForm,
   handleDialogClose = () => {},
@@ -17,6 +18,8 @@ export default function Signin({
   const dispatch = useDispatch<AppDispatch>()
   const pathname = usePathname()
   const router = useRouter()
+  const params = useParams()
+
   const initialValues = {
     email: '',
     password: '',
@@ -84,7 +87,15 @@ export default function Signin({
         )
         showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
         handleDialogClose()
-        router.refresh()
+
+        if (
+          pathname.includes('/feeds/feed') &&
+          !pathname.includes('/channels/')
+        ) {
+          router.push(`/feeds?redirect=/feed/${params.id}`)
+        }
+        // TODO: Uncomment this in case Reload issues
+        // else router.refresh()
       }
     } catch (err) {
       console.log('err', err)

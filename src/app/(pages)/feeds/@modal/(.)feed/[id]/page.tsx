@@ -1,11 +1,11 @@
+import Post from '@/components/shared/post'
+import PostSkelton from '@/components/shared/post/PostSkelton'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
 } from '@/components/ui/Dialog/interceptDialog'
-import PostSkelton from '@/components/shared/post/PostSkelton'
-import Post from '@/components/shared/post'
 import { Suspense } from 'react'
 
 async function SingleFeed({ params, searchParams }: any) {
