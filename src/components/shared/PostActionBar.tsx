@@ -54,6 +54,7 @@ const PostActionBar = ({
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  console.log('tokenInRedux 57', tokenInRedux)
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
 

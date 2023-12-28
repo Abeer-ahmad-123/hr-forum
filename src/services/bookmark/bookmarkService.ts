@@ -1,3 +1,5 @@
+'use server'
+import { customFetch } from '../interceptor'
 import {
   BOOKMARK_POST,
   DELETE_BOOKMARK_POST,
@@ -8,7 +10,7 @@ export async function bookmarkPost(postId: string, token: string) {
   try {
     console.log('postId', postId)
     let bookmarkPostUrl = BOOKMARK_POST.replace('postId', postId)
-    let responseFromAuth = await fetch(bookmarkPostUrl, {
+    let responseFromAuth = await customFetch(bookmarkPostUrl, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',

@@ -45,11 +45,11 @@ export default function Signup({
 
   const handleSignupSubmit = async (e: any) => {
     try {
-      setLoading(true)
       e.preventDefault()
       let isFieldsValid = handleValidations()
 
       if (!isFieldsValid) return
+      setLoading(true)
       await signUp(formValues)
       const result = await signIn(
         JSON.stringify({
