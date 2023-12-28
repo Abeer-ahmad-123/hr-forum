@@ -76,7 +76,7 @@ const ReactionButton = ({
               reactionName={currentReactionEmoji?.name || 'none'}
               emojiCharacter={currentReactionEmoji?.emoji || '♡'}
               isReactionSelected={false}
-              onEmojiClick={handleReactionEmoji}
+              // onEmojiClick={handleReactionEmoji}
             />
             {/* Add a small number under the heart emoji */}
             <span className=" text-xs text-gray-600 dark:text-white">

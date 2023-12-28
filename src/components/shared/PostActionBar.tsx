@@ -122,7 +122,7 @@ const PostActionBar = ({
         <SignInDialog />
       </Dialog>
       <div className="flex flex-col">
-        <div className="flex w-full justify-between px-[2%] max-md:flex-row max-md:gap-[2%]">
+        <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
           {/* bg-[#F9F9F9] bg on the message button before */}
 
           <ReactionButton
