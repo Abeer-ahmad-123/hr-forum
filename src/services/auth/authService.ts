@@ -1,8 +1,8 @@
 'use server'
+import { cookies } from 'next/headers'
 import {
   AUTH_WITH_EMAIL,
   AUTH_REGISTER,
-  AUTH_LOGOUT,
   AUTH_UPDATE_PASSWORD,
   AUTH_REFRESH_TOKEN,
   AUTH_GET_USER_DETAILS,
@@ -73,11 +73,16 @@ export async function logout() {
 }
 
 export async function getRefreshToken() {
+  const accessToken = cookies().get('access-token')
+  const refreshToken = cookies().get('refresh-token')
   try {
     const responseFromRefresh = await fetch(AUTH_REFRESH_TOKEN, {
       method: 'POST',
-      credentials: 'include',
       cache: 'no-cache',
+      headers: {
+        accessToken: accessToken?.value?.toString()!,
+        refreshToken: refreshToken?.value?.toString()!,
+      },
     })
     return responseFromRefresh
   } catch (err) {

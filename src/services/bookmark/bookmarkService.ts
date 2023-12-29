@@ -1,3 +1,5 @@
+'use server'
+// import { customFetch } from '../interceptor'
 import {
   BOOKMARK_POST,
   DELETE_BOOKMARK_POST,
