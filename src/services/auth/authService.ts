@@ -1,17 +1,17 @@
 'use server'
+import { removeUserCookies, setUserCookies } from '@/utils/cookies'
 import { cookies } from 'next/headers'
 import {
-  AUTH_WITH_EMAIL,
+  AUTH_GET_USER_DETAILS,
+  AUTH_REFRESH_TOKEN,
   AUTH_REGISTER,
   AUTH_UPDATE_PASSWORD,
-  AUTH_REFRESH_TOKEN,
-  AUTH_GET_USER_DETAILS,
   AUTH_UPDATE_USER_DETAILS,
+  AUTH_WITH_EMAIL,
   GOOGLE_AUTH_START,
   GOOGLE_EXCHANGE_CODE,
   GOOGLE_REGISTER,
 } from './routes'
-import { removeUserCookies, setUserCookies } from '@/utils/cookies'
 
 export async function signIn(body: any) {
   try {
@@ -25,7 +25,6 @@ export async function signIn(body: any) {
       credentials: 'include',
     })
     const responseJson = await responseFromAuth.json()
-    console.log('responseJson', responseJson)
     setUserCookies(responseJson)
     return { ...responseJson, status: responseFromAuth?.status }
   } catch (err) {
@@ -192,7 +191,6 @@ export async function googleTokenExchange(token: string, username: string) {
       },
     })
     const responseJson = await responseFromRefresh.json()
-    console.log('responseJson', responseJson)
     setUserCookies(responseJson)
     return responseJson?.data
   } catch (err) {

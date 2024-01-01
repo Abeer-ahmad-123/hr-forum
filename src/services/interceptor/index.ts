@@ -11,28 +11,23 @@ export async function customFetch(
   let response: any
   try {
     response = await fetch(url, options)
-    console.log('url 12', url)
-
     if (response?.status === 401) {
       try {
         // const refreshResponse = await getRefreshToken()
         ////
-        console.log('AUTH_REFRESH_TOKEN', AUTH_REFRESH_TOKEN)
         const refreshToken = cookies().get('refresh-token')
         const headersForRefresh = {
           RefreshToken: refreshToken?.value?.toString()!,
         }
-        console.log('headersForRefresh', headersForRefresh)
         const refreshResponse = await fetch(AUTH_REFRESH_TOKEN, {
           method: 'POST',
           headers: headersForRefresh,
         })
-        console.log('refreshResponse ===', refreshResponse.status)
 
         ////
         if (refreshResponse.status === 200) {
           const newTokens = await refreshResponse.json()
-          console.log('newTokens', newTokens)
+
           setUserInLSandReduxCallBack(newTokens)
           setUserCookies(newTokens)
           options.headers = options.headers || {}
@@ -45,7 +40,7 @@ export async function customFetch(
         }
       } catch (refreshError) {
         // Handle refresh error
-        console.log('refreshError', refreshError)
+
         throw refreshError
       }
     }

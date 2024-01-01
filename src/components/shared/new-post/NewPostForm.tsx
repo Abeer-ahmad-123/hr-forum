@@ -1,15 +1,15 @@
 //@ts-nocheck
+import { postCreatePostInChannel } from '@/services/posts'
 import { useState } from 'react'
-import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { AiOutlineLink as LinkIcon } from 'react-icons/ai'
+import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { IoDocumentAttachOutline as AttachmentIcon } from 'react-icons/io5'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
-import { postCreatePostInChannel } from '@/services/posts'
 // import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useSelector } from 'react-redux'
 
 export default function NewPostForm({ open }) {
   const [formValues, setFormValues] = useState({
@@ -56,7 +56,6 @@ export default function NewPostForm({ open }) {
         setLoading(false)
       }
     } catch (err) {
-      console.log('err', err)
       showErrorAlert('Something went wrong while creating post.')
       setLoading(false)
       open(false)

@@ -96,7 +96,6 @@ export default function Signin({
         } else router.refresh()
       }
     } catch (err) {
-      console.log('err', err)
       showErrorAlert('Something went wrong while signing in.')
     } finally {
       setLoading(false)

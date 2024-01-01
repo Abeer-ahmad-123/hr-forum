@@ -66,8 +66,6 @@ async function RenderFeeds({
 
       initialPosts = data?.posts
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-
-      console.log('Here are my initial posts', initialPosts)
     } else {
       const { data } = await getAllPosts({
         loadReactions: true,

@@ -51,7 +51,6 @@ const PostActionBar = ({
   const { id } = useParams()
 
   const submitReaction = async (value: string, isFirstReaction: boolean) => {
-    console.log('user_reaction', user_reaction)
     if (tokenInRedux) {
       const response = isFirstReaction
         ? !user_reaction
