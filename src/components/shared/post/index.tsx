@@ -38,7 +38,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
     paginationResult = pagination
   }
   return (
-    <div key={Math.random()} className="mx-auto my-5 max-w-5xl rounded-full  ">
+    <div className="mx-auto my-5 max-w-5xl rounded-full">
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
@@ -118,7 +118,6 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
               paginationResult={paginationResult}
               bookmark={post?.user_has_bookmarked}
               user_reaction={post?.user_reaction}
-              key={Math.random()}
             />
           </div>
         </div>

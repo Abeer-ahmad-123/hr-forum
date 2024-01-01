@@ -3,6 +3,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
 import { CustomLink } from '../shared/customLink/CustomLink'
+
 const ProfileCard = () => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,

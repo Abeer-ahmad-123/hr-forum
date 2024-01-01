@@ -76,8 +76,7 @@ export default function Signup({
           )
           if (
             !result?.success &&
-            result?.status === 401 &&
-            result?.status === 404
+            (result?.status === 401 || result?.status === 404)
           ) {
             showErrorAlert('Sign-in failed. Please check your credentials.')
             setErrors({
@@ -103,13 +102,12 @@ export default function Signup({
       } else {
         showErrorAlert('Please fill all the fields.')
         let isFieldsValid = handleValidations()
-
         if (!isFieldsValid) return
       }
     } catch (err: any) {
       console.log('err', err)
     } finally {
-      // setLoading(true)
+      setLoading(false)
     }
   }
 

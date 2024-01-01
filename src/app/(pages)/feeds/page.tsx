@@ -9,14 +9,12 @@ const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
 }) => {
   const redirect = searchParams?.redirect
 
-  return !!redirect ? (
+  return redirect ? (
     <RedirectLogic redirect={redirect} />
   ) : (
-    <div>
-      <Suspense fallback={<CardLoading />}>
-        <RenderFeeds searchParams={searchParams} path="/feed" />
-      </Suspense>
-    </div>
+    <Suspense fallback={<CardLoading />}>
+      <RenderFeeds searchParams={searchParams} path="/feed" />
+    </Suspense>
   )
 }
 

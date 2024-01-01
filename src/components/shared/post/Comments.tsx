@@ -56,7 +56,7 @@ function Comments({
         inputRef={inputRef}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
-        <div key={Math.random()}>
+        <div>
           {comments?.length !== 0 &&
             comments?.map((comment: any) => {
               return (
