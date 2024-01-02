@@ -12,7 +12,7 @@ import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
@@ -26,8 +26,6 @@ const LayoutWrapper = ({ children }: any) => {
   )
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
   const searchParams = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
 
   const dispatch = useDispatch()
   const isFirstRun = useRef(true)
@@ -40,7 +38,7 @@ const LayoutWrapper = ({ children }: any) => {
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err) {
-      console.error('err', err)
+      throw err
     }
   }, [])
 
@@ -87,7 +85,6 @@ const LayoutWrapper = ({ children }: any) => {
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {
-        console.error('err', err)
         showErrorAlert('Issue in google authentication')
       }
     }

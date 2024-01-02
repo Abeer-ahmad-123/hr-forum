@@ -1,12 +1,10 @@
 'use client'
 import SearchIcon from '@/assets/icons/SearchIcon'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import '@/components/shared/customLink/style.css'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import NProgress from 'nprogress'
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import CircularProgress from '../ui/circularProgress'
-import NProgress from 'nprogress'
-import '@/components/shared/customLink/style.css'
 
 const SearchBar = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)

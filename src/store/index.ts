@@ -1,11 +1,11 @@
-import { configureStore } from '@reduxjs/toolkit'
+import channelsReducer from '@/store/Slices/channelsSlice'
 import darkModeReducer from '@/store/Slices/colorModeSlice'
+import DropDownReducer from '@/store/Slices/dropDownSlice'
+import loadingIndicatorReducer from '@/store/Slices/loadingIndicator'
+import loggedInUserReducer from '@/store/Slices/loggedInUserSlice'
 import modalSliceReducer from '@/store/Slices/modal'
-import DropDownReducer from './Slices/dropDownSlice'
-import loggedInUserReducer from './Slices/loggedInUserSlice'
-import loadingIndicatorReducer from './Slices/loadingIndicator'
-import channelsReducer from './Slices/channelsSlice'
-import postReducer from './Slices/postSlice'
+import postReducer from '@/store/Slices/postSlice'
+import { configureStore } from '@reduxjs/toolkit'
 
 const store = configureStore({
   reducer: {

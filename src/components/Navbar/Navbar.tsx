@@ -1,10 +1,10 @@
 'use client'
-import NightModeToggle from './NightModeToggle'
-import Logo from './Logo'
-import SearchBar from './SearchBar'
-import NavMenuDropdown from '@/components/Navbar/NavMenuDropdown'
 import FeaturesDropDown from '@/components/Navbar/FeaturesDropdown'
+import NavMenuDropdown from '@/components/Navbar/NavMenuDropdown'
 import LogButton from './LogButton'
+import Logo from './Logo'
+import NightModeToggle from './NightModeToggle'
+import SearchBar from './SearchBar'
 type NavbarProps = {}
 
 const Navbar: React.FC<NavbarProps> = () => {
@@ -14,7 +14,7 @@ const Navbar: React.FC<NavbarProps> = () => {
         <Logo />
 
         <FeaturesDropDown />
-
+        {/* code reading Done uptill here!!!  */}
         <SearchBar />
         <div className="mx-5 flex items-center justify-end space-x-2">
           <NightModeToggle />
