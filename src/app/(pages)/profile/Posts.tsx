@@ -1,27 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
-import ProfileBadges from './SideCardBadge'
-import Image from 'next/image'
-import {
-  getAllPosts,
-  getPostsByChannelId,
-  getUserSpecificPosts,
-} from '@/services/posts'
-import { getUserDetails, updateUserImage } from '@/services/user'
-import { showSuccessAlert, showErrorAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import {
-  UserSpecificPostsInterface,
-  UserSpecificationPostInterface,
-} from '@/utils/interfaces/posts'
-import { useSelector } from 'react-redux'
-import { getChannelIdByChannelName } from '@/utils/channels'
-import { getChannels } from '@/services/channel/channel'
-import Link from 'next/link'
-import {
-  ChannelByIdInterface,
-  StoreChannels,
-} from '@/utils/interfaces/channels'
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
+import { getAllPosts } from '@/services/posts'
+import { StoreChannels } from '@/utils/interfaces/channels'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
+import Image from 'next/image'
+import { useSelector } from 'react-redux'
 
 interface userData {
   id: number
@@ -33,6 +16,7 @@ interface userData {
 }
 interface ProfilePostsProps {
   post: UserSpecificationPostInterface
+  data: userData
 }
 
 export const renderCardTitle = async () => {
@@ -45,13 +29,14 @@ export const renderCardTitle = async () => {
   initialPosts = data?.posts
 }
 
-const ProfilePosts = ({ post }: ProfilePostsProps) => {
+const ProfilePosts = ({ post, data }: ProfilePostsProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
   const channelsKeyValuePair = useSelector(
     (state: StoreChannels) => state?.channels?.channelsKeyValuePair,
   )
+
   return (
     <CustomLink
       href={`/channels/${post?.slug}/feed/${post?.id}`}
@@ -61,7 +46,7 @@ const ProfilePosts = ({ post }: ProfilePostsProps) => {
           <div className=" flex   text-left  font-semibold dark:text-white">
             <Image
               src={
-                userData?.profilePictureURL ||
+                (data ? data.profilePictureURL : userData?.profilePictureURL) ||
                 'https://source.unsplash.com/random/300×300'
               }
               alt="profile"
@@ -71,7 +56,7 @@ const ProfilePosts = ({ post }: ProfilePostsProps) => {
             />
 
             <div className="ml-5 flex flex-col">
-              <div className="font-light "> {userData?.name}</div>
+              <div className="font-light "> {data.name}</div>
               <div className="pr-2 text-[80%] font-normal text-gray-400">
                 {userData?.email}
               </div>

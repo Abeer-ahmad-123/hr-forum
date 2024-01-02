@@ -1,10 +1,9 @@
 'use client'
-import { timeFormatInHours } from '@/utils/helper'
 import ChannelPill from '@/components/shared/ChannelPill'
+import { timeFormatInHours } from '@/utils/helper'
 import Image from 'next/image'
-import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import PostActionBar from './PostActionBar'
-import { useRouter, usePathname } from 'next/navigation'
 import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 
@@ -19,8 +18,11 @@ const Card = ({ post, channels }: any) => {
     reaction_summary,
     user_reaction,
     user_has_bookmarked,
+    user_id,
   } = post
   const pathName = usePathname()
+  console.log(user)
+
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
@@ -47,7 +49,7 @@ const Card = ({ post, channels }: any) => {
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row">
-                    <CustomLink href={`/profile/${user?.id}`}>
+                    <CustomLink href={`/profile?userId=${user_id}`}>
                       <p
                         className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                         aria-label="user-name">

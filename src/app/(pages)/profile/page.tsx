@@ -1,11 +1,18 @@
+import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
 import { Suspense } from 'react'
 import RespProfile from './RespProfile'
-import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
 
-const Profile = () => {
+interface profileProps {
+  searchParams: {
+    userId?: string
+  }
+}
+
+const Profile = ({ searchParams }: profileProps) => {
+  const userId = searchParams?.userId
   return (
     <Suspense fallback={<ProfilePageLoading />}>
-      <RespProfile />
+      <RespProfile userId={userId} />
     </Suspense>
   )
 }

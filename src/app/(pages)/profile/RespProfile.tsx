@@ -1,20 +1,27 @@
 'use client'
-import { updateUserBgImage, updateUserImage } from '@/services/user'
+import { getUserSpecificPosts } from '@/services/posts'
+import {
+  getSpecificUserDetails,
+  updateUserBgImage,
+  updateUserImage,
+} from '@/services/user'
+import { setUserData } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import Image from 'next/image'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
-import { LiaUserEditSolid } from 'react-icons/lia'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import UserSpecificPosts from './UserSpecificPosts'
-import UserDataBadge from './UserDataBadge'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import Skelton from '@/components/ui/skelton'
-import { setUser, setUserData } from '@/store/Slices/loggedInUserSlice'
-import { getUserSpecificPosts } from '@/services/posts'
 import PostLoadingSkelton from './PostLoadingSkelton'
+import UserDataBadge from './UserDataBadge'
+import UserSpecificPosts from './UserSpecificPosts'
 
-const RespProfile = () => {
+interface profileProps {
+  userId?: string
+}
+
+const RespProfile = ({ userId }: profileProps) => {
   const dispatch = useDispatch()
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
@@ -22,14 +29,28 @@ const RespProfile = () => {
   const imageInputRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [posts, setUserSpecificPosts] = useState<any>([])
+  const [user, setUser] = useState<any>([])
   const morePosts = useRef(false)
   const isFirstUser = useRef(true)
+
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
+
+  const getUserSpecificDetail = async () => {
+    setLoading(true)
+    const response = await getSpecificUserDetails(userId!)
+    setUser(response?.user)
+    setLoading(false)
+  }
+
   const getAllUserSpecificPosts = async () => {
     setLoading(true)
-    const response = await getUserSpecificPosts(userDataInStore?.id)
+    const response = await getUserSpecificPosts(
+      userId ? userId : userDataInStore?.id,
+    )
+
+    console.log(response)
     if (response.success) {
       setUserSpecificPosts(response?.data?.posts)
       morePosts.current =
@@ -39,11 +60,14 @@ const RespProfile = () => {
     }
     setLoading(false)
   }
+
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
       getAllUserSpecificPosts()
     }
+
+    userId ? getUserSpecificDetail() : setUser(userDataInStore)
   }, [])
 
   const onInputChange = async (e: any) => {
@@ -81,6 +105,7 @@ const RespProfile = () => {
       showErrorAlert('Issues in image uploaded')
     }
   }
+  console.log(user)
 
   return (
     <>
@@ -90,15 +115,17 @@ const RespProfile = () => {
             className="absolute top-0 h-[50%] w-full bg-cover bg-center"
             style={{
               backgroundImage: `url(${
-                userDataInStore?.backgroundPictureURL ||
+                user?.backgroundPictureURL ||
                 'https://source.unsplash.com/random'
               })`,
             }}>
-            <label
-              htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-              <LiaUserEditSolid className="cursor-pointer text-white" />
-            </label>
+            {!userId && (
+              <label
+                htmlFor="changeBackgroundImage"
+                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                <LiaUserEditSolid className="cursor-pointer text-white" />
+              </label>
+            )}
             <span
               id="blackOverlay"
               className="absolute left-0 h-full w-full bg-black opacity-50"></span>
@@ -120,6 +147,7 @@ const RespProfile = () => {
             </svg>
           </div>
         </section>
+
         <section className="bg-blueGray-200 relative mt-[-25%] pb-2">
           <div className=" w-full">
             <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
@@ -132,16 +160,18 @@ const RespProfile = () => {
                         width={150}
                         height={150}
                         src={
-                          userDataInStore?.profilePictureURL ||
+                          user?.profilePictureURL ||
                           'https://source.unsplash.com/random/300×300'
                         }
                         className="absolute -m-12  h-28 w-28 max-w-[150px] rounded-full border-none align-middle shadow-xl max-md:-ml-4"
                       />
-                      <label
-                        htmlFor="changeImage"
-                        className="absolute w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                        <LiaUserEditSolid className="cursor-pointer text-white" />
-                      </label>
+                      {!userId && (
+                        <label
+                          htmlFor="changeImage"
+                          className="absolute w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                          <LiaUserEditSolid className="cursor-pointer text-white" />
+                        </label>
+                      )}
                       <input
                         className="hidden"
                         id="changeImage"
@@ -153,33 +183,34 @@ const RespProfile = () => {
                     </div>
                   </div>
                   <div className="">
-                    <EditProfileButton
-                      userData={{
-                        name: userDataInStore?.name || '',
-                        email: userDataInStore?.email || '',
-                        bio: userDataInStore?.bio || '',
-                      }}
-                    />
+                    {!userId && (
+                      <EditProfileButton
+                        userData={{
+                          name: userDataInStore?.name || '',
+                          email: userDataInStore?.email || '',
+                          bio: userDataInStore?.bio || '',
+                        }}
+                      />
+                    )}
                     <div className="w-full px-4"></div>
                   </div>
                 </div>
                 <div className="mt-12 text-center">
                   <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                    {userDataInStore?.name}
+                    {user.name}
                   </h3>
                   <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
                     <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
 
-                    {userDataInStore?.username}
+                    {user.username}
                   </div>
                   <div className="text-blueGray-600 mb-2 mt-1">
                     <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                    {userDataInStore?.email}
+                    {user?.email}
                   </div>
                   <div className="text-blueGray-600 max-sm:[6px] mb-2 pb-2 text-left max-md:text-[13px]">
                     <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                    {userDataInStore?.bio ||
-                      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem.'}
+                    {user?.bio}
                   </div>
                 </div>
               </div>
@@ -191,8 +222,14 @@ const RespProfile = () => {
               <SideCardSkill /> */}
               <UserDataBadge />
             </div>
+
+            {/* ///////// */}
             {!loading ? (
-              <UserSpecificPosts posts={posts} morePosts={morePosts.current} />
+              <UserSpecificPosts
+                posts={posts}
+                user={user}
+                morePosts={morePosts.current}
+              />
             ) : (
               [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
             )}
@@ -200,46 +237,30 @@ const RespProfile = () => {
           <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
             <div className="container mx-auto px-4">
               <div className="flex flex-wrap items-center justify-center md:justify-between">
-                <div className="mx-auto w-full px-4 text-center md:w-6/12">
-                  <div className="text-blueGray-500 py-1 text-sm font-semibold">
-                    Made with{' '}
-                    <a
-                      href="https://www.creative-tim.com/product/notus-js"
-                      className="text-blueGray-500 hover:text-gray-800"
-                      target="_blank">
-                      Notus JS
-                    </a>{' '}
-                    by{' '}
-                    <a
-                      href="https://www.creative-tim.com"
-                      className="text-blueGray-500 hover:text-blueGray-800"
-                      target="_blank">
-                      {' '}
-                      Creative Tim
-                    </a>
-                    .
-                  </div>
-                </div>
+                <div className="mx-auto w-full px-4 text-center md:w-6/12"></div>
               </div>
             </div>
           </footer>
         </section>
       </div>
+
       <div className="profile-page max-md:hidden">
         <section className="relative block h-[500px]">
           <div
             className="absolute top-0 h-full w-full bg-cover bg-center"
             style={{
               backgroundImage: `url(${
-                userDataInStore?.backgroundPictureURL ||
+                user?.backgroundPictureURL ||
                 'https://source.unsplash.com/random'
               })`,
             }}>
-            <label
-              htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-4 z-40 w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-              <LiaUserEditSolid className="cursor-pointer text-white" />
-            </label>
+            {!userId && (
+              <label
+                htmlFor="changeBackgroundImage"
+                className="absolute right-4 top-4 z-40 w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                <LiaUserEditSolid className="cursor-pointer text-white" />
+              </label>
+            )}
             <input
               className="hidden"
               id="changeBackgroundImage"
@@ -281,16 +302,18 @@ const RespProfile = () => {
                         width={150}
                         height={150}
                         src={
-                          userDataInStore?.profilePictureURL ||
+                          user?.profilePictureURL ||
                           'https://source.unsplash.com/random/300×300'
                         }
                         className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
                       />
-                      <label
-                        htmlFor="changeImage"
-                        className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
-                        <LiaUserEditSolid className="cursor-pointer text-white" />
-                      </label>
+                      {!userId && (
+                        <label
+                          htmlFor="changeImage"
+                          className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
+                          <LiaUserEditSolid className="cursor-pointer text-white" />
+                        </label>
+                      )}
                       <input
                         className="hidden"
                         id="changeImage"
@@ -303,32 +326,33 @@ const RespProfile = () => {
                   </div>
                   <div className="w-full px-4 lg:order-1 lg:w-4/12"></div>
                   <div className="w-full px-4 lg:order-3 lg:w-4/12 lg:self-center lg:text-right">
-                    <EditProfileButton
-                      userData={{
-                        name: userDataInStore?.name || '',
-                        email: userDataInStore?.email || '',
-                        bio: userDataInStore?.bio || '',
-                      }}
-                    />
+                    {!userId && (
+                      <EditProfileButton
+                        userData={{
+                          name: user?.name || '',
+                          email: user?.email || '',
+                          bio: user?.bio || '',
+                        }}
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="mt-12 text-center">
                   <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                    {userDataInStore?.name}
+                    {user?.name}
                   </h3>
                   <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
                     <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
 
-                    {userDataInStore?.username}
+                    {user?.username}
                   </div>
                   <div className="text-blueGray-600 mb-2 mt-1">
                     <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                    {userDataInStore?.email}
+                    {user?.email}
                   </div>
                   <div className="text-blueGray-600 mb-2 pb-2 text-left">
                     <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                    {userDataInStore?.bio ||
-                      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem.'}
+                    {user?.bio}
                   </div>
                 </div>
               </div>
@@ -342,6 +366,7 @@ const RespProfile = () => {
             <div className="w-full">
               {!loading ? (
                 <UserSpecificPosts
+                  user={user}
                   posts={posts}
                   morePosts={morePosts.current}
                 />
