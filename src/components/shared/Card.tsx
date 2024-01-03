@@ -21,7 +21,6 @@ const Card = ({ post, channels }: any) => {
     user_id,
   } = post
   const pathName = usePathname()
-  console.log(user)
 
   return (
     <>
@@ -49,7 +48,7 @@ const Card = ({ post, channels }: any) => {
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row">
-                    <CustomLink href={`/profile?userId=${user_id}`}>
+                    <CustomLink href={`/profile/${user_id}`}>
                       <p
                         className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                         aria-label="user-name">

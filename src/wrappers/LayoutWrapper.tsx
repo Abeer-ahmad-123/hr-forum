@@ -137,7 +137,8 @@ const LayoutWrapper = ({ children }: any) => {
   }, [])
 
   return (
-    <body className={` ${styles} theme-default font-primary dark:bg-slate-700`}>
+    <body
+      className={` ${styles} theme-default pt-4 font-primary dark:bg-slate-700`}>
       {/* ADD bg-background in body */}
       <Navbar />
       <ToastContainer />

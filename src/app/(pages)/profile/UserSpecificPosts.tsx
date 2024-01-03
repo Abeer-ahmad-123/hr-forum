@@ -11,22 +11,23 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   const [posts, setPosts] = useState([...initialPosts])
   const [page, setPage] = useState(2)
   const [ref, inView] = useInView()
-  const [data, setData] = useState<any>([])
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
   let morePostsExist = useRef(morePosts)
+
   const getPosts = async () => {
     const { data } = await getUserSpecificPosts(
       user ? user.id : userData?.id,
       page,
     )
-    setData(data)
+
     setPage(page + 1)
     morePostsExist.current =
       data?.pagination?.CurrentPage &&
       data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+
     setPosts([...posts, ...data?.posts])
   }
 
@@ -35,11 +36,11 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
       getPosts()
     }
   }, [inView])
-  console.log('DATA', data)
+
   return (
     <div className="flex flex-col">
       {posts?.map((post: UserSpecificationPostInterface, i: number) => (
-        <ProfilePosts data={user} key={i} post={post} />
+        <ProfilePosts key={i} user={user} post={post} />
       ))}
       {morePostsExist?.current && <CircularProgress incommingRef={ref} />}
     </div>

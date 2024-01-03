@@ -38,7 +38,6 @@ export async function getSpecificUserDetails(userId: string) {
     })
 
     const response = await res.json()
-    console.log(response)
     const { data } = response
     return data
   } catch (err) {

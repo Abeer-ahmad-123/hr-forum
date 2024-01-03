@@ -46,11 +46,10 @@ const RespProfile = ({ userId }: profileProps) => {
 
   const getAllUserSpecificPosts = async () => {
     setLoading(true)
+
     const response = await getUserSpecificPosts(
       userId ? userId : userDataInStore?.id,
     )
-
-    console.log(response)
     if (response.success) {
       setUserSpecificPosts(response?.data?.posts)
       morePosts.current =
@@ -60,15 +59,6 @@ const RespProfile = ({ userId }: profileProps) => {
     }
     setLoading(false)
   }
-
-  useEffect(() => {
-    if (isFirstUser.current) {
-      isFirstUser.current = false
-      getAllUserSpecificPosts()
-    }
-
-    userId ? getUserSpecificDetail() : setUser(userDataInStore)
-  }, [])
 
   const onInputChange = async (e: any) => {
     const file = e.target.files[0]
@@ -105,10 +95,26 @@ const RespProfile = ({ userId }: profileProps) => {
       showErrorAlert('Issues in image uploaded')
     }
   }
-  console.log(user)
+
+  const UserSpecificationPosts = async () => {
+    if (userId) {
+      await getUserSpecificDetail()
+    } else {
+      setUser(userDataInStore)
+    }
+    getAllUserSpecificPosts()
+  }
+
+  useEffect(() => {
+    if (isFirstUser.current) {
+      isFirstUser.current = false
+      UserSpecificationPosts()
+    }
+  }, [])
 
   return (
     <>
+      {/* DIV 1 */}
       <div className="profile-page hidden max-md:block">
         <section className="relative block h-[500px]">
           <div
@@ -243,6 +249,8 @@ const RespProfile = ({ userId }: profileProps) => {
           </footer>
         </section>
       </div>
+
+      {/* DIV 2 desktop view*/}
 
       <div className="profile-page max-md:hidden">
         <section className="relative block h-[500px]">

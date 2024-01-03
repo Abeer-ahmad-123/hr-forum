@@ -16,7 +16,7 @@ interface userData {
 }
 interface ProfilePostsProps {
   post: UserSpecificationPostInterface
-  data: userData
+  user: userData
 }
 
 export const renderCardTitle = async () => {
@@ -29,7 +29,7 @@ export const renderCardTitle = async () => {
   initialPosts = data?.posts
 }
 
-const ProfilePosts = ({ post, data }: ProfilePostsProps) => {
+const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
@@ -46,7 +46,7 @@ const ProfilePosts = ({ post, data }: ProfilePostsProps) => {
           <div className=" flex   text-left  font-semibold dark:text-white">
             <Image
               src={
-                (data ? data.profilePictureURL : userData?.profilePictureURL) ||
+                user?.profilePictureURL ||
                 'https://source.unsplash.com/random/300×300'
               }
               alt="profile"
@@ -56,9 +56,9 @@ const ProfilePosts = ({ post, data }: ProfilePostsProps) => {
             />
 
             <div className="ml-5 flex flex-col">
-              <div className="font-light "> {data.name}</div>
+              <div className="font-light "> {user?.name}</div>
               <div className="pr-2 text-[80%] font-normal text-gray-400">
-                {userData?.email}
+                {user?.email}
               </div>
             </div>
           </div>
