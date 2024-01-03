@@ -1,4 +1,5 @@
 'use client'
+import ImageUpload from '@/components/ImageUpload/ImageUpload'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
@@ -23,6 +24,7 @@ interface profileProps {
 
 const RespProfile = ({ userId }: profileProps) => {
   const dispatch = useDispatch()
+  const [image, setImage] = useState<any>(null)
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
@@ -32,6 +34,7 @@ const RespProfile = ({ userId }: profileProps) => {
   const [user, setUser] = useState<any>([])
   const morePosts = useRef(false)
   const isFirstUser = useRef(true)
+  const [imageUplaod, setImageUpload] = useState(false)
 
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -60,8 +63,18 @@ const RespProfile = ({ userId }: profileProps) => {
     setLoading(false)
   }
 
-  const onInputChange = async (e: any) => {
+  const handleInputChange = (e: any) => {
     const file = e.target.files[0]
+    console.log(file)
+    setImage(file)
+    setImageUpload(true)
+  }
+
+  const onInputChange = async (e: any) => {
+    console.log(e)
+    const file = e
+    setImage(file)
+
     const response = await updateUserImage(userToken, file)
     if (response?.success) {
       showSuccessAlert('Image Uploaded')
@@ -184,7 +197,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         ref={imageInputRef}
                         type="file"
                         accept="image/*"
-                        onChange={onInputChange}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>
@@ -315,6 +328,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         }
                         className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
                       />
+
                       {!userId && (
                         <label
                           htmlFor="changeImage"
@@ -328,8 +342,17 @@ const RespProfile = ({ userId }: profileProps) => {
                         ref={imageInputRef}
                         type="file"
                         accept="image/*"
-                        onChange={onInputChange}
+                        onChange={handleInputChange}
                       />
+
+                      {image && (
+                        <ImageUpload
+                          upload={imageUplaod}
+                          image={image}
+                          saveCroppedImage={onInputChange}
+                          disableButton={loading}
+                        />
+                      )}
                     </div>
                   </div>
                   <div className="w-full px-4 lg:order-1 lg:w-4/12"></div>

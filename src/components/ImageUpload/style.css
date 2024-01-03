@@ -1,0 +1,29 @@
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    input[type='range']::-webkit-slider-runnable-track {
+        color: red;
+        /* Change track color to red */
+    }
+
+    input[type='range']::-webkit-slider-thumb {
+        background: red;
+        /* Change thumb color to red */
+        box-shadow: none;
+        /* Remove unnecessary box shadow */
+    }
+}
+
+/** FF*/
+input[type="range"]::-moz-range-progress {
+    background-color: red;
+}
+
+input[type="range"] {
+    scrollbar-color: red transparent;
+    /* Red thumb, transparent track */
+}
+
+
+/* IE*/
+input[type="range"]::-ms-fill-lower {
+    background-color: red;
+}
