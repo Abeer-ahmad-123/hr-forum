@@ -9,6 +9,7 @@ import {
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { Mail, User } from 'lucide-react'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
@@ -212,35 +213,37 @@ const RespProfile = ({ userId }: profileProps) => {
                       />
                     </div>
                   </div>
-                  <div className="">
-                    {!userId && (
-                      <EditProfileButton
-                        userData={{
-                          name: userDataInStore?.name || '',
-                          email: userDataInStore?.email || '',
-                          bio: userDataInStore?.bio || '',
-                        }}
-                      />
-                    )}
-                    <div className="w-full px-4"></div>
-                  </div>
-                </div>
-                <div className="mt-12 text-center">
-                  <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                    {user.name}
-                  </h3>
-                  <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
-                    <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
 
-                    {user.username}
-                  </div>
-                  <div className="text-blueGray-600 mb-2 mt-1">
-                    <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                    {user?.email}
-                  </div>
-                  <div className="text-blueGray-600 max-sm:[6px] mb-2 pb-2 text-left max-md:text-[13px]">
-                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                    {user?.bio}
+                  {!userId && (
+                    <EditProfileButton
+                      userData={{
+                        name: userDataInStore?.name || '',
+                        email: userDataInStore?.email || '',
+                        bio: userDataInStore?.bio || '',
+                      }}
+                    />
+                  )}
+                </div>
+
+                <div className="flex gap-[20px] pb-6">
+                  <div className="mt-12 text-center max-md:text-left">
+                    <h3 className="text-blueGray-700 text-4xl font-semibold uppercase leading-normal">
+                      {user.name}
+                    </h3>
+
+                    <div className="flex gap-4 text-sm font-light text-gray-600">
+                      <div className="flex items-center">
+                        <User className="mr-1 text-gray-600" size={17} />
+                        <div>{user?.username}</div>
+                      </div>
+                      <div className="flex items-center">
+                        <Mail className="mr-1 text-gray-600" size={17} />
+                        <div>{user?.email}</div>
+                      </div>
+                    </div>
+                    <div className="mt-2 flex gap-3 text-lg  font-normal">
+                      {user?.bio}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -327,46 +330,43 @@ const RespProfile = ({ userId }: profileProps) => {
             <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
               <div className=" px-6">
                 <div className="flex flex-wrap justify-center">
-                  <div className="flex w-full justify-center px-4 lg:order-2 lg:w-3/12">
-                    <div className="relative">
-                      <Image
-                        alt="..."
-                        width={150}
-                        height={150}
-                        src={
-                          user?.profilePictureURL ||
-                          'https://source.unsplash.com/random/300×300'
-                        }
-                        className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
-                      />
-                      {!userId && (
-                        <label
-                          htmlFor="changeImage"
-                          className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
-                          <LiaUserEditSolid className="cursor-pointer text-white" />
-                        </label>
-                      )}
-
-                      <input
-                        key={`${dialogOpen}`}
-                        className="hidden"
-                        id="changeImage"
-                        ref={imageInputRef}
-                        type="file"
-                        accept="image/*"
-                        onChange={handleInputChange}
-                      />
-                      {/* TODO: Uploading an image two times not working!!! */}
-                      <ImageUpload
-                        image={image}
-                        dialogOpen={dialogOpen}
-                        setOpenDialog={setOpenDialog}
-                        saveCroppedImage={saveImage}
-                        disableButton={loading}
-                      />
-                    </div>
+                  <div className="relative">
+                    <Image
+                      alt="..."
+                      width={150}
+                      height={150}
+                      src={
+                        user?.profilePictureURL ||
+                        'https://source.unsplash.com/random/300×300'
+                      }
+                      className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
+                    />
+                    {!userId && (
+                      <label
+                        htmlFor="changeImage"
+                        className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
+                        <LiaUserEditSolid className="cursor-pointer text-white" />
+                      </label>
+                    )}
+                    <input
+                      key={`${dialogOpen}`}
+                      className="hidden"
+                      id="changeImage"
+                      ref={imageInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleInputChange}
+                    />
+                    {/* TODO: Uploading an image two times not working!!! */}
+                    <ImageUpload
+                      image={image}
+                      dialogOpen={dialogOpen}
+                      setOpenDialog={setOpenDialog}
+                      saveCroppedImage={saveImage}
+                      disableButton={loading}
+                    />
                   </div>
-                  <div className="w-full px-4 lg:order-1 lg:w-4/12"></div>
+
                   <div className="w-full px-4 lg:order-3 lg:w-4/12 lg:self-center lg:text-right">
                     {!userId && (
                       <EditProfileButton
