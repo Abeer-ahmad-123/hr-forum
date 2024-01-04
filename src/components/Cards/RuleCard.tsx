@@ -14,8 +14,8 @@ const rulesArr = [
 const RulesCard = () => {
   return (
     <>
-      <div className="ml-5 h-auto w-[200px] rounded-[10px] bg-white pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white ">
-        <h1 className="mb-[20px] justify-center pt-5 text-center text-[15px] font-medium">
+      <div className="ml-5 h-auto w-[200px] cursor-pointer rounded-[10px] bg-white pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white">
+        <h1 className="mb-[10px] justify-center pt-5 text-center text-[15px] font-medium">
           CHANNELS RULES
         </h1>
 
@@ -23,11 +23,10 @@ const RulesCard = () => {
           <li>
             {rulesArr.map((item, index) => (
               <li key={index}>
-
-                <div className="display-inline  mb-[10px] mt-[10px] w-full pl-[10px] text-[12px] font-medium text-gray-500 ">
+                <div className="display-inline mb-[10px] mt-[10px] w-full pl-[10px] text-[12px] font-medium text-gray-500 hover:text-accent">
                   <span>{item}</span>
                 </div>
-                <hr className="my-1 mt-1 border-t border-gray-400" />
+                <hr className="my-1 mt-1 border-t border-gray-200" />
               </li>
             ))}
           </li>
