@@ -22,6 +22,7 @@ async function RenderFeeds({
   let initialPosts = []
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
+
   if (channelSlug) {
     if (!searchParams.search) {
       const getChannelId = getChannelIdByChannelName(channelSlug, channels)
@@ -82,8 +83,8 @@ async function RenderFeeds({
     <div
       key={Math.random()}
       className="mx-auto flex max-w-screen-xl justify-center">
-      <div className="ml-20 mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-        <ProfileCard />
+      <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
+        {userDetailsCookies && <ProfileCard />}
         <div className="sticky top-0 max-h-screen" style={{ top: '60px' }}>
           <ChannelCard />
         </div>
