@@ -59,6 +59,10 @@ const ReactionButton = ({
     if (tokenInRedux) !loading && setEmojiPopoverVisible(true)
   }
 
+  const mouseLeft = () => {
+    if (tokenInRedux) !loading && setEmojiPopoverVisible(false)
+  }
+
   useEffect(() => {
     if (userReaction?.reactionType)
       updateCurrentReaction(userReaction?.reactionType?.toLowerCase())
@@ -68,6 +72,7 @@ const ReactionButton = ({
       <PopoverTrigger asChild>
         <button
           onMouseEnter={mouseEnter}
+          onMouseLeave={mouseLeft}
           className="dark:text-icon-dark flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800"
           onClick={handleLikeWrapperExtended}>
           <div className="flex flex-col items-center">
@@ -90,11 +95,12 @@ const ReactionButton = ({
         {' '}
         <React.Fragment>
           <div className="flex w-fit flex-row gap-4 rounded-xl bg-[#cecece] shadow-2xl shadow-black dark:bg-slate-800">
-            <div onMouseEnter={mouseEnter} className="flex flex-row gap-2 p-1">
+            <div
+              onMouseEnter={mouseEnter}
+              onMouseLeave={mouseLeft}
+              className="flex flex-row gap-2 p-1">
               {reactionOptions.slice(1).map((reaction, i) => (
-                <span
-                  className="rounded-xl hover:bg-[#F5F5F5] dark:bg-slate-800"
-                  key={i}>
+                <span key={i}>
                   <ReactionEmoji
                     key={reaction.name}
                     reactionName={reaction.name}
