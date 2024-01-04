@@ -6,24 +6,33 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
-} from '../ui/Dialog/simpleDialog'
+} from './ui/Dialog/simpleDialog'
 
-import './style.css'
+import { Slider } from './ui/slider'
 
 interface ImageUploadProps {
   image: any
-  saveCroppedImage: (img: any) => void
-  disableButton?: boolean | null
   upload: boolean
+  saveCroppedImage: (img: any) => void
+  // disableButton?: boolean | null
+  imageSetter: (img: any) => void
 }
 
-function ImageUpload({ image, saveCroppedImage, upload }: ImageUploadProps) {
+function ImageUpload({
+  image,
+  upload,
+  saveCroppedImage,
+  imageSetter,
+}: ImageUploadProps) {
   const imgCanvas: any = useRef({})
   const [scale, setScale] = useState<any>(1)
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
 
-  const handleScale = (e: any) => {
-    const scale = parseFloat(e.target.value)
+  const handleScaleChange = (e: any) => {
+    console.log(e)
+    const scale = parseFloat(e)
+    console.log(scale)
+
     setScale(scale)
   }
   const save = () => {
@@ -32,6 +41,7 @@ function ImageUpload({ image, saveCroppedImage, upload }: ImageUploadProps) {
     })
   }
   const setDialog = () => {
+    imageSetter(null)
     setOpenDialog(!upload)
   }
 
@@ -40,6 +50,7 @@ function ImageUpload({ image, saveCroppedImage, upload }: ImageUploadProps) {
       setOpenDialog(true)
     }
   }, [])
+
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialog}>
       <DialogContent className="bg-white">
@@ -56,25 +67,24 @@ function ImageUpload({ image, saveCroppedImage, upload }: ImageUploadProps) {
               height={450}
             />
             <div className="a-c">
-              <div
-              //   sx={classes.zoomScaleContainer}
-              >
+              <div>
                 <div className="my-1 flex justify-center gap-3">
                   <div
                     className="cp"
                     onClick={() => scale > 1 && setScale(scale - 0.1)}>
                     <p>-</p>
                   </div>
-                  <input
-                    name="scale"
-                    type="range"
-                    onChange={handleScale}
+                  <Slider
+                    defaultValue={[1]}
+                    max={2}
                     min={1}
-                    value={scale}
-                    max="2"
-                    step="0.01"
-                    defaultValue="1"
+                    value={[scale]}
+                    onValueChange={handleScaleChange}
+                    name="scale"
+                    step={0.01}
+                    className="w-1/2 cursor-pointer"
                   />
+
                   <div
                     className="cp"
                     onClick={() => scale < 2 && setScale(scale + 0.1)}>

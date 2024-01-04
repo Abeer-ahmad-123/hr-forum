@@ -1,5 +1,5 @@
 'use client'
-import ImageUpload from '@/components/ImageUpload/ImageUpload'
+import ImageUpload from '@/components/ImageUpload'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
@@ -328,7 +328,6 @@ const RespProfile = ({ userId }: profileProps) => {
                         }
                         className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
                       />
-
                       {!userId && (
                         <label
                           htmlFor="changeImage"
@@ -350,7 +349,8 @@ const RespProfile = ({ userId }: profileProps) => {
                           upload={imageUplaod}
                           image={image}
                           saveCroppedImage={onInputChange}
-                          disableButton={loading}
+                          // disableButton={loading}
+                          imageSetter={setImage}
                         />
                       )}
                     </div>
