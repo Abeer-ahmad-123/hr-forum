@@ -56,12 +56,12 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
             className={`${
               !isDialogPost ? 'mt-6' : ''
             } items-left flex justify-between max-md:block`}>
-            <div className="flex">
+            <div className="flex items-center">
               <div className="-z-2">
                 <div className="static rounded-full">
                   <Image
                     src={`${post?.author_details?.profile_picture_url}`}
-                    className="h-8 w-8 rounded-full"
+                    className="h-16 w-16 rounded-full"
                     alt="avatar"
                     width={32}
                     height={32}
@@ -95,7 +95,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
 
           <ReactionDetails reactionSummary={post.reaction_summary} />
 
-          <div className=" mt-2 text-justify text-4xl">{post.title}</div>
+          <div className="mt-2 text-justify text-4xl">{post.title}</div>
 
           {/* //////// */}
 

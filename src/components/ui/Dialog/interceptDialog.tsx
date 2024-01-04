@@ -57,7 +57,7 @@ const DialogContent = React.forwardRef<
             <span className="sr-only">Close</span>
           </button>
         </div>
-        <div className="hide-scrollbar max-h-[calc(80vh-3rem)] overflow-auto">
+        <div className="hide-scrollbar max-h-[calc(90vh-3rem)] overflow-auto">
           {children}
         </div>
       </DialogPrimitive.Content>
