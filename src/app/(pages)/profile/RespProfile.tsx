@@ -24,17 +24,18 @@ interface profileProps {
 
 const RespProfile = ({ userId }: profileProps) => {
   const dispatch = useDispatch()
-  const [image, setImage] = useState<any>(null)
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
   const imageInputRef = useRef(null)
-  const [loading, setLoading] = useState(false)
   const [posts, setUserSpecificPosts] = useState<any>([])
   const [user, setUser] = useState<any>([])
   const morePosts = useRef(false)
   const isFirstUser = useRef(true)
-  const [imageUplaod, setImageUpload] = useState(false)
+
+  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
+  const [loading, setLoading] = useState(false)
+  const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -65,30 +66,40 @@ const RespProfile = ({ userId }: profileProps) => {
 
   const handleInputChange = (e: any) => {
     const file = e.target.files[0]
-    console.log(file)
+
     setImage(file)
-    setImageUpload(true)
+    setOpenDialog(true)
   }
 
-  const onInputChange = async (e: any) => {
-    console.log(e)
-    const file = e
-    setImage(file)
-
-    const response = await updateUserImage(userToken, file)
-    if (response?.success) {
-      showSuccessAlert('Image Uploaded')
-      dispatch(
-        setUserData({
-          userData: {
-            ...userDataInStore,
-            profilePictureURL: response?.data?.url,
-          },
-        }),
-      )
+  const saveImage = async (e: any) => {
+    if (e === null) {
+      setImage(null)
     } else {
-      showErrorAlert('Issues in image uploaded')
+      try {
+        const file = e
+        setImage(file)
+        setLoading(true)
+        const response = await updateUserImage(userToken, file)
+        if (response?.success) {
+          showSuccessAlert('Image Uploaded')
+          setLoading(false)
+
+          dispatch(
+            setUserData({
+              userData: {
+                ...userDataInStore,
+                profilePictureURL: response?.data?.url,
+              },
+            }),
+          )
+        } else {
+          showErrorAlert('Issues in image uploaded')
+        }
+      } catch (e: any) {
+        throw new Error(e)
+      }
     }
+    setOpenDialog(false)
   }
 
   const onBgImageInputChange = async (e: any) => {
@@ -335,7 +346,9 @@ const RespProfile = ({ userId }: profileProps) => {
                           <LiaUserEditSolid className="cursor-pointer text-white" />
                         </label>
                       )}
+
                       <input
+                        key={`${dialogOpen}`}
                         className="hidden"
                         id="changeImage"
                         ref={imageInputRef}
@@ -343,16 +356,14 @@ const RespProfile = ({ userId }: profileProps) => {
                         accept="image/*"
                         onChange={handleInputChange}
                       />
-
-                      {image && (
-                        <ImageUpload
-                          upload={imageUplaod}
-                          image={image}
-                          saveCroppedImage={onInputChange}
-                          // disableButton={loading}
-                          imageSetter={setImage}
-                        />
-                      )}
+                      {/* TODO: Uploading an image two times not working!!! */}
+                      <ImageUpload
+                        image={image}
+                        dialogOpen={dialogOpen}
+                        setOpenDialog={setOpenDialog}
+                        saveCroppedImage={saveImage}
+                        disableButton={loading}
+                      />
                     </div>
                   </div>
                   <div className="w-full px-4 lg:order-1 lg:w-4/12"></div>

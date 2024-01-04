@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import {
   Dialog,
@@ -12,26 +12,24 @@ import { Slider } from './ui/slider'
 
 interface ImageUploadProps {
   image: any
-  upload: boolean
+  dialogOpen: boolean
   saveCroppedImage: (img: any) => void
-  // disableButton?: boolean | null
-  imageSetter: (img: any) => void
+  setOpenDialog: (dialogOpen: any) => void
+  disableButton: boolean
 }
 
 function ImageUpload({
   image,
-  upload,
+  dialogOpen,
+  disableButton,
+  setOpenDialog,
   saveCroppedImage,
-  imageSetter,
 }: ImageUploadProps) {
   const imgCanvas: any = useRef({})
   const [scale, setScale] = useState<any>(1)
-  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
 
   const handleScaleChange = (e: any) => {
-    console.log(e)
     const scale = parseFloat(e)
-    console.log(scale)
 
     setScale(scale)
   }
@@ -40,19 +38,13 @@ function ImageUpload({
       saveCroppedImage(blob)
     })
   }
-  const setDialog = () => {
-    imageSetter(null)
-    setOpenDialog(!upload)
+  const closeDialog = () => {
+    saveCroppedImage(null)
+    setOpenDialog(false)
   }
 
-  useEffect(() => {
-    if (upload) {
-      setOpenDialog(true)
-    }
-  }, [])
-
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialog}>
+    <Dialog open={dialogOpen} onOpenChange={closeDialog}>
       <DialogContent className="bg-white">
         <DialogDescription>
           <div>
@@ -98,7 +90,7 @@ function ImageUpload({
         <div className="flex justify-end">
           <button
             type="button"
-            onClick={setDialog}
+            onClick={closeDialog}
             className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-accent focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
             Cancel
           </button>
@@ -106,7 +98,9 @@ function ImageUpload({
           <button
             onClick={save}
             type="button"
-            className="dark:bg-accent-600 hover:bg-accent-800 mb-2 me-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white focus:outline-none">
+            className={`dark:bg-accent-600 hover:bg-accent-800 mb-2 me-2 rounded-lg   ${
+              disableButton ? 'bg-gray-400' : 'bg-accent'
+            }  px-5 py-2.5 text-sm font-medium text-white focus:outline-none`}>
             Save
           </button>
         </div>
