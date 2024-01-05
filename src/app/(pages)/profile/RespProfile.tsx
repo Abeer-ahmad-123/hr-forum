@@ -276,7 +276,7 @@ const RespProfile = ({ userId }: profileProps) => {
               {!loading ? (
                 <UserSpecificPosts
                   posts={posts}
-                  user={user}
+                  user={userId ? user : userDataInStore}
                   morePosts={morePosts.current}
                 />
               ) : (
