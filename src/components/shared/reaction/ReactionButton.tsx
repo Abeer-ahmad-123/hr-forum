@@ -67,6 +67,7 @@ const ReactionButton = ({
     if (userReaction?.reactionType)
       updateCurrentReaction(userReaction?.reactionType?.toLowerCase())
   }, [userReaction?.reactionType])
+
   return (
     <div onMouseEnter={mouseEnter} onMouseLeave={mouseLeft}>
       <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>

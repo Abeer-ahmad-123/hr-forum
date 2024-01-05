@@ -85,8 +85,12 @@ async function RenderFeeds({
       className="mx-auto flex max-w-screen-xl justify-center">
       <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
         {userDetailsCookies && <ProfileCard />}
-        <div className="sticky top-0 max-h-screen" style={{ top: '60px' }}>
+        <div className="sticky top-[60px] max-h-screen">
           <ChannelCard />
+        </div>
+        <div className="sticky top-[318px] mt-5 max-h-screen max-lg:top-[335px]">
+          {' '}
+          <RulesCard />
         </div>
       </div>
 
@@ -96,12 +100,6 @@ async function RenderFeeds({
             toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
         </p>
         <div className="flex w-full justify-center">
-          {/* <div className='flex flex-col lg:block max-sm:hidden max-md:hidden'>
-          <ProfileCard />
-          <div className='sticky max-h-screen top-0' style={{ top: '35px' }}>
-            <ChannelCard /></div>
-        </div> */}
-          {/*  put the responsive profile compoennt here */}
           <div className="w-full">
             <div className="max-sm:block md:hidden lg:hidden">
               {' '}
@@ -130,13 +128,6 @@ async function RenderFeeds({
           {/* <div className='sticky max-h-screen lg:block max-sm:hidden sm:hidden ' style={{ top: '60px' }}> <RulesCard />
         </div> */}
         </div>
-      </div>
-
-      <div
-        className="sticky mt-5 max-h-screen max-sm:hidden sm:hidden lg:block "
-        style={{ top: '60px' }}>
-        {' '}
-        <RulesCard />
       </div>
     </div>
   )
