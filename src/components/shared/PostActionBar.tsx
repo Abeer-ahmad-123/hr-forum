@@ -171,7 +171,7 @@ const PostActionBar = ({
         {!id && (
           <div className={`${!showCommentArea && 'hidden'} `}>
             <CommentOrReply
-              className="m-2 px-8"
+              className="m-2"
               btnClass="mr-[0px]"
               Id={postId}
               setComments={setComment}

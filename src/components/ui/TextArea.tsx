@@ -67,7 +67,7 @@ function TextArea({
   }, [isLoading])
 
   return (
-    <div className="flex items-center gap-2.5">
+    <div className="flex items-center gap-2.5 px-[20px]">
       <Image
         src={userData.profilePictureURL || noProfilePicture}
         className="w-18 h-8 rounded-full border border-solid border-black"
