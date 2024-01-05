@@ -71,7 +71,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
 
               <div className="ml-2 flex flex-col items-start align-baseline">
                 <div className="flex flex-row">
-                  <CustomLink href={`/profile/`}>
+                  <CustomLink href={`/profile/${post?.user_id}`}>
                     <p
                       className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                       aria-label="user-name">

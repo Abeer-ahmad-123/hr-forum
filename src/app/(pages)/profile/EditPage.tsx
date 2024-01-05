@@ -1,11 +1,11 @@
 'use client'
 import { InputField } from '@/components/shared'
 import { updateUserDetails } from '@/services/user'
-import { setUser, setUserData } from '@/store/Slices/loggedInUserSlice'
+import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 interface userDataProps {
   name: string
   email: string
@@ -14,9 +14,14 @@ interface userDataProps {
 interface EditPageProps {
   userData: userDataProps
   handleCloseDialog: () => void
+  setUpdatedUserData: (userData: userDataProps) => void
 }
 
-const EditPage = ({ userData, handleCloseDialog }: EditPageProps) => {
+const EditPage = ({
+  userData,
+  handleCloseDialog,
+  setUpdatedUserData,
+}: EditPageProps) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const [userDetails, setUserDetails] = useState(userData)
@@ -28,9 +33,11 @@ const EditPage = ({ userData, handleCloseDialog }: EditPageProps) => {
   const handleSubmit = async () => {
     try {
       const response = await updateUserDetails(token, userDetails)
+      console.log(response)
       if (response?.success) {
         dispatch(setUserData({ userData: response?.data }))
-        router.push('/profile')
+
+        setUpdatedUserData(response?.data)
       }
     } catch (err) {
       throw err

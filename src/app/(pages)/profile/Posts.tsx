@@ -45,6 +45,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       <div className=" w-full rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <div className="px-5 py-4">
           <div className="flex text-left font-semibold dark:text-white">
+            {/* Default image ushowing need to be updated. We can show the image from server */}
             <Image
               src={user?.profilePictureURL || userImage}
               alt="profile"

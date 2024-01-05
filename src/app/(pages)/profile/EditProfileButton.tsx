@@ -10,8 +10,12 @@ interface userDataProps {
 }
 interface EditProfileButtonProps {
   userData: userDataProps
+  setUserData: (userData: userDataProps) => void
 }
-const EditProfileButton = ({ userData }: EditProfileButtonProps) => {
+const EditProfileButton = ({
+  userData,
+  setUserData,
+}: EditProfileButtonProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const handleOpenDialog = () => {
     setOpenDialog(true)
@@ -29,7 +33,11 @@ const EditProfileButton = ({ userData }: EditProfileButtonProps) => {
       </button>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
-          <EditPage userData={userData} handleCloseDialog={handleCloseDialog} />
+          <EditPage
+            setUpdatedUserData={setUserData}
+            userData={userData}
+            handleCloseDialog={handleCloseDialog}
+          />
         </DialogContent>
       </Dialog>
     </div>

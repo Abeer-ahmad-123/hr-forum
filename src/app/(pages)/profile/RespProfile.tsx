@@ -31,7 +31,7 @@ const RespProfile = ({ userId }: profileProps) => {
   )
   const imageInputRef = useRef(null)
   const [posts, setUserSpecificPosts] = useState<any>([])
-  const [user, setUser] = useState<any>([])
+  const [user, setUser] = useState<any>('')
   const morePosts = useRef(false)
   const isFirstUser = useRef(true)
 
@@ -138,6 +138,8 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }, [])
 
+  console.log('user', user?.profilePictureURL)
+
   return (
     <>
       <div className="profile-page  max-md:block">
@@ -181,7 +183,7 @@ const RespProfile = ({ userId }: profileProps) => {
 
         <section className="bg-blueGray-200 relative mx-auto max-w-screen-xl max-md:w-full">
           <div className=" mx-auto ">
-            <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
+            <div className="relative -mt-80 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
               {/* Profile card start */}
               <div className="px-6">
                 <div className="top-0">
@@ -192,8 +194,12 @@ const RespProfile = ({ userId }: profileProps) => {
                         alt="..."
                         width={96}
                         height={96}
-                        src={user?.profilePictureURL || userImage}
-                        className="-m-12 max-w-[150px] overflow-hidden rounded-full   align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
+                        src={
+                          userId
+                            ? user?.profilePictureURL || userImage
+                            : userDataInStore?.profilePictureURL
+                        }
+                        className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />
                       {!userId && (
                         <label
@@ -230,6 +236,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         email: userDataInStore?.email || '',
                         bio: userDataInStore?.bio || '',
                       }}
+                      setUserData={setUser}
                     />
                   )}
                 </div>
@@ -239,7 +246,7 @@ const RespProfile = ({ userId }: profileProps) => {
                 <div className="flex justify-center gap-[20px] pb-6">
                   <div className="mt-12 p-6 text-center max-md:text-left">
                     <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal">
-                      {user.name}
+                      {user?.name}
                     </h3>
                     <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
                       <div className="flex items-center">
