@@ -139,7 +139,7 @@ const RespProfile = ({ userId }: profileProps) => {
   return (
     <>
       <div className="profile-page  max-md:block">
-        <section className="relative block h-[500px]">
+        <section className="relative block h-[650px]">
           <div
             className="bg-fit absolute top-0 h-[80%] w-full bg-center"
             style={{
@@ -177,23 +177,24 @@ const RespProfile = ({ userId }: profileProps) => {
           </div>
         </section>
 
-        <section className="bg-blueGray-200 relative mx-auto w-[80%] max-w-screen-lg max-md:w-full">
+        <section className="bg-blueGray-200 relative mx-auto max-w-screen-xl max-md:w-full">
           <div className=" mx-auto ">
             <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
               {/* Profile card start */}
               <div className="px-6">
                 <div className="top-0">
-                  <div className="flex w-full ">
+                  <div className="flex w-full">
                     <div className="relative flex justify-center md:w-full">
+                      {/* TO be corrected */}
                       <Image
                         alt="..."
                         width={96}
                         height={96}
                         src={
                           user?.profilePictureURL ||
-                          'https://source.unsplash.com/random/300×300'
+                          'https://source.unsplash.com/random'
                         }
-                        className="-m-12 max-w-[150px] rounded-full border-none align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
+                        className="-m-12 max-w-[150px] overflow-hidden rounded-full   align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />
                       {!userId && (
                         <label
