@@ -69,11 +69,14 @@ const ReactionButton = ({
   }, [userReaction?.reactionType])
 
   return (
-    <div onMouseEnter={mouseEnter} onMouseLeave={mouseLeft}>
-      <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>
+    <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>
+      <div
+        onMouseEnter={mouseEnter}
+        onMouseLeave={mouseLeft}
+        className="flex basis-1/4 items-center justify-center hover:bg-gray-300 dark:hover:text-slate-800">
         <PopoverTrigger asChild>
           <button
-            className="dark:text-icon-dark flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800"
+            className="dark:text-icon-dark pointer flex items-center justify-center rounded-sm dark:text-gray-300 "
             onClick={handleLikeWrapperExtended}>
             <div className="flex flex-col items-center">
               {/* Align the children in the center */}
@@ -81,6 +84,7 @@ const ReactionButton = ({
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={currentReactionEmoji?.emoji || '♡'}
                 isReactionSelected={false}
+                isReactionOnLike={true}
                 // onEmojiClick={handleReactionEmoji}
               />
               {/* Add a small number under the heart emoji */}
@@ -113,8 +117,8 @@ const ReactionButton = ({
             </div>
           </React.Fragment>
         </PopoverContent>
-      </Popover>
-    </div>
+      </div>
+    </Popover>
   )
 }
 
