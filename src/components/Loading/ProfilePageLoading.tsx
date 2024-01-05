@@ -1,60 +1,65 @@
-import React from 'react'
 import Skelton from '../ui/skelton'
 
 const ProfilePageLoading = () => {
+  const rightCardToMap = [1, 2]
   return (
-    <>
-      <div>
-        <div className=" h-[500px] w-full ">
-          <Skelton className="h-[200px] w-full rounded-md " />
-          <section>
-            <div>
-              <div className=" mx-auto flex min-h-[23vh] w-[80%] justify-center  rounded-md bg-white">
-                <div className=" flex flex-col items-center  ">
-                  <Skelton className="mt-0 h-[40px] w-[80px] rounded-bl-[150px] rounded-br-[150px]" />
-                  <div className="flex flex-col items-center pt-5">
-                    <div className=" flex flex-col items-center max-md:flex-row">
-                      <Skelton className=" mt-2 h-8 w-44 rounded-md  max-md:w-24 max-[380px]:w-12" />
-                      <Skelton className=" mt-2 h-6 w-36 rounded-md max-md:ml-2 max-md:w-28 max-[380px]:w-12" />
-                    </div>
-                    <div className="flex gap-x-3 max-[400px]:flex-col">
-                      <Skelton className=" mt-2 h-4 w-44 rounded-sm max-md:w-20 max-[380px]:w-24" />
-                      <Skelton className=" mt-2 h-4 w-44 rounded-sm max-md:w-24 max-[380px]:w-24" />
-                      <Skelton className=" mt-2 h-4 w-44 rounded-sm max-md:w-24 max-[380px]:w-24" />
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div>
+      <div className="relative h-[500px] w-full">
+        <Skelton className=" h-full w-full" />
+        <div className="absolute bottom-0 left-0 right-0 top-[18rem] m-auto h-[60%] w-[80%] rounded-md bg-white shadow-xl dark:bg-slate-800 max-md:w-full">
+          {/* edit button */}
+          <div className="absolute right-[40px] top-0 w-[130px]">
+            <Skelton className="mr-[50px] mt-[10px] h-[32px] w-full max-w-[130px] rounded"></Skelton>
+          </div>
+          <div className="flex flex-col gap-[50px] px-4">
+            {/* profile picture */}
+            <Skelton className="mx-auto h-[75px] w-[150px] rounded-b-full max-md:m-0 max-md:h-[66px] max-md:w-[112px]"></Skelton>
+            <div className="flex flex-col gap-[20px] ">
+              {/*name */}
+              <Skelton className="mx-auto h-[32px] w-full max-w-[315px] rounded max-md:m-0"></Skelton>
+              {/* userman*/}
 
-              <div className=" max-md:-gap-[4rem] mx-auto mt-4 flex  w-[80%] gap-x-[4rem] max-md:flex-col">
-                <div className=" flex min-w-[15rem] flex-row gap-x-2 rounded-md bg-white max-md:w-full max-[350px]:w-[8rem] ">
-                  <div className=" flex flex-col gap-y-2 pl-4 pt-4">
-                    <Skelton className="h-4 w-4 rounded-full" />
-                    <Skelton className="h-4 w-4 rounded-full" />
-                    <Skelton className="mb-4 h-4 w-4 rounded-full" />
-                  </div>
-                  <div className="flex w-full flex-col gap-y-2 pl-4 pt-4">
-                    <Skelton className="h-4 w-[90%] rounded-sm" />
-                    <Skelton className="h-4 w-[90%] rounded-sm" />
-                    <Skelton className="mb-4  h-4 w-[90%] rounded-sm" />
-                  </div>
-                </div>
+              {/* email*/}
 
-                <div className="w-full cursor-pointer rounded-xl bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4">
-                  <div className=" flex">
-                    <Skelton className="h-6 w-6  rounded-full" />
-                    <Skelton className="ml-2 h-6  w-24 rounded-md" />
-                  </div>
-                  <div>
-                    <Skelton className="w-54 ml-7 mt-2 h-10 rounded-md" />
-                  </div>
-                </div>
-              </div>
+              <Skelton className="mx-auto h-[25px] w-full max-w-[200px] rounded max-md:m-0"></Skelton>
+              {/*bio*/}
+              <Skelton className="mx-auto h-[50px] w-full rounded max-md:m-0"></Skelton>
             </div>
-          </section>
+          </div>
         </div>
       </div>
-    </>
+      <div className="flex items-center justify-center">
+        <div className="mt-[80px] flex h-[88%] w-[80%] gap-[65px] rounded-md max-md:w-full max-md:flex-col max-md:gap-[20px]">
+          {/*Left card */}
+
+          <div className="h-[194px] max-h-screen min-w-[15rem] rounded-[10px] bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 ">
+            <div className="flex flex-col gap-[20px] pb-3 pl-5 pt-8">
+              <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" />
+              <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" />
+              <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" />
+            </div>
+          </div>
+
+          {/*right card */}
+          <div className="flex w-full flex-col gap-[5px]">
+            {/**change rightCardToMap array to change map render  */}
+            {rightCardToMap.map(() => (
+              <div
+                key={Math.random()}
+                className="my-2 w-full cursor-pointer rounded-xl bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4">
+                <div className="flex items-center">
+                  <Skelton className="h-8 w-8  rounded-full" />
+                  <Skelton className="ml-2 h-6  w-24 rounded-md" />
+                </div>
+                <div>
+                  <Skelton className="w-54 ml-10 mt-2 h-10 rounded-md" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
