@@ -1,4 +1,6 @@
 'use client'
+import userImage from '@/assets/avatars/image-juliusomo.webp'
+import ImageUpload from '@/components/ImageUpload'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
@@ -190,10 +192,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         alt="..."
                         width={96}
                         height={96}
-                        src={
-                          user?.profilePictureURL ||
-                          'https://source.unsplash.com/random'
-                        }
+                        src={user?.profilePictureURL || userImage}
                         className="-m-12 max-w-[150px] overflow-hidden rounded-full   align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />
                       {!userId && (
@@ -204,6 +203,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         </label>
                       )}
                       <input
+                        key={`${dialogOpen}`}
                         className="hidden"
                         id="changeImage"
                         ref={imageInputRef}
@@ -211,6 +211,15 @@ const RespProfile = ({ userId }: profileProps) => {
                         accept="image/*"
                         onChange={handleInputChange}
                       />
+                      {/* TODO: Uploading an image two times not working!!! */}
+                      <ImageUpload
+                        image={image}
+                        dialogOpen={dialogOpen}
+                        setOpenDialog={setOpenDialog}
+                        saveCroppedImage={saveImage}
+                        disableButton={loading}
+                      />
+                      {/* ///  */}
                     </div>
                   </div>
 

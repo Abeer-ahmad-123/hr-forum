@@ -1,3 +1,4 @@
+import userImage from '@/assets/avatars/image-juliusomo.webp'
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
 import { getAllPosts } from '@/services/posts'
 import { StoreChannels } from '@/utils/interfaces/channels'
@@ -45,10 +46,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
         <div className="px-5 py-4">
           <div className="flex text-left font-semibold dark:text-white">
             <Image
-              src={
-                user?.profilePictureURL ||
-                'https://source.unsplash.com/random/300×300'
-              }
+              src={user?.profilePictureURL || userImage}
               alt="profile"
               className="relative h-12 w-12 transform rounded-full"
               width={80}
