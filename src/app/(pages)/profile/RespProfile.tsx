@@ -117,6 +117,11 @@ const RespProfile = ({ userId }: profileProps) => {
           },
         }),
       )
+
+      setUser({
+        ...user,
+        backgroundPictureURL: response?.data?.url,
+      })
     } else {
       showErrorAlert('Issues in image uploaded')
     }
@@ -145,7 +150,7 @@ const RespProfile = ({ userId }: profileProps) => {
       <div className="profile-page  max-md:block">
         <section className="relative block h-[650px]">
           <div
-            className="bg-fit absolute top-0 h-[80%] w-full bg-center"
+            className="bg-fit absolute top-0 h-[60%] w-full bg-center"
             style={{
               backgroundImage: `url(${
                 user?.backgroundPictureURL ||
@@ -159,6 +164,14 @@ const RespProfile = ({ userId }: profileProps) => {
                 <LiaUserEditSolid className="cursor-pointer text-white" />
               </label>
             )}
+            <input
+              className="hidden"
+              id="changeBackgroundImage"
+              ref={imageInputRef}
+              type="file"
+              accept="image/*"
+              onChange={onBgImageInputChange}
+            />
             <span
               id="blackOverlay"
               className="absolute left-0 h-full w-full bg-black opacity-50"></span>
