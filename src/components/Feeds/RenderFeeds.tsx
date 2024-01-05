@@ -107,9 +107,9 @@ async function RenderFeeds({
         </div>
       </div>
 
-      <div className="w-full">
+      <div className="w-full max-w-screen-md">
         {!!channelSlug && (
-          <div className="mx-auto max-w-[768px]">
+          <div className="mx-auto mt-[20px] max-w-[768px]">
             <div className="mb-[20px] h-[170px] rounded-xl bg-white">
               <Image
                 className=" h-[100px] w-full max-w-[768px] rounded-t-xl"
@@ -119,7 +119,7 @@ async function RenderFeeds({
                 height={100}
               />
               <p className="my-5 mb-4 text-3xl text-black dark:text-white">
-                toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))
+                {toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
               </p>
             </div>
           </div>
@@ -136,7 +136,7 @@ async function RenderFeeds({
               <PostBar />
             </div>
 
-            <div className="mx-auto  w-full  max-w-screen-md dark:text-white">
+            <div className="mt-[20px]  w-full max-w-screen-md dark:text-white">
               <div className="mb-5 max-md:hidden max-sm:hidden">
                 <PostBar />
               </div>

@@ -11,9 +11,9 @@ const ChannelCard = () => {
   )
   return (
     <>
-      <div className="cursor-cursor sticky top-0 mr-4 mt-[25px] h-auto max-h-screen w-[200px] rounded-[10px] bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
-        <h1 className="mb-[0px] mt-[10px] text-start text-[12px] font-medium">
-          THE CHANNELS
+      <div className=" sticky top-0 mr-4 mt-[25px] h-auto max-h-screen w-[200px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white  ">
+        <h1 className="mb-[0px] mt-[10px] text-start text-[11px] font-semibold">
+          Channels
         </h1>
         <ul className="ml-[2px] cursor-pointer list-none text-left">
           {channels.map((channel: ChannelInterface, index: number) => (

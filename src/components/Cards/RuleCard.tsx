@@ -15,9 +15,9 @@ import { ShieldPlus } from 'lucide-react'
 const RulesCard = () => {
   return (
     <>
-      <div className="h-auto w-[200px] cursor-pointer rounded-[10px] bg-white px-[10px] pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white">
-        <p className="mb-[10px] pt-5 text-start text-[12px] font-medium">
-          CHANNELS RULES
+      <div className="h-auto w-[200px] cursor-pointer rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white">
+        <p className="mb-[10px] pt-5 text-start text-[11px] font-semibold">
+          Channel Rules
         </p>
 
         <ul className="text-left">
