@@ -12,7 +12,6 @@ const Navbar: React.FC<NavbarProps> = () => {
     <>
       <div className="fixed top-0 z-50 flex h-14 w-full items-center justify-between bg-white px-4 py-2 shadow-sm dark:bg-black">
         <Logo />
-
         <FeaturesDropDown />
         {/* code reading Done uptill here!!!  */}
         <SearchBar />

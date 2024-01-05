@@ -12,6 +12,8 @@ import { toPascalCase } from '@/utils/common'
 import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import RespScreen from '../Cards/ResponsiveScreen'
+import Image from 'next/image'
+import { noChannelBanner } from '@/utils/ImagesLink'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -37,7 +39,6 @@ async function RenderFeeds({
         loadReactions: true,
         loadUser: true,
       })
-
       initialPosts = data?.posts
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
     } else {
@@ -79,6 +80,18 @@ async function RenderFeeds({
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
     }
   }
+
+  const getImageUrlBySlug = (slug: string) => {
+    console.log(slug)
+    const matchingObject = channels.find(
+      (obj: { slug: string }) => obj.slug === slug,
+    )
+
+    if (matchingObject) {
+      return matchingObject.ImageURL
+    }
+  }
+
   return (
     <div
       key={Math.random()}
@@ -95,10 +108,23 @@ async function RenderFeeds({
       </div>
 
       <div className="w-full">
-        <p className="my-5 mb-4 text-3xl text-black dark:text-white">
-          {!!channelSlug &&
-            toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
-        </p>
+        {!!channelSlug && (
+          <div className="mx-auto max-w-[768px]">
+            <div className="mb-[20px] h-[170px] rounded-xl bg-white">
+              <Image
+                className=" h-[100px] w-full max-w-[768px] rounded-t-xl"
+                src={getImageUrlBySlug(channelSlug) || noChannelBanner}
+                alt="banner"
+                width={200}
+                height={100}
+              />
+              <p className="my-5 mb-4 text-3xl text-black dark:text-white">
+                toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))
+              </p>
+            </div>
+          </div>
+        )}
+
         <div className="flex w-full justify-center">
           <div className="w-full">
             <div className="max-sm:block md:hidden lg:hidden">
