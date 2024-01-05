@@ -55,8 +55,8 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
               height={100}
             />
 
-            <div className="flex flex-col max-md:ml-4">
-              <div className="font-light "> {user?.name}</div>
+            <div className="ml-4 flex flex-col">
+              <div className="font-light"> {user?.name}</div>
               <div className="pr-2 text-[80%] font-normal text-gray-400">
                 {user?.email}
               </div>
@@ -64,12 +64,12 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
           </div>
         </div>
 
-        <div className="text-bold  pr-3 max-md:pl-6 max-md:text-left max-md:text-lg">
+        <div className="text-bold pl-[85px] pr-3 text-left max-md:pl-6 max-md:text-lg">
           {post.title}
         </div>
-        <div className="mb-1 mt-1 pb-4 text-left max-md:pl-6">
+        <div className="mb-1 mt-1 pb-4 text-left">
           <div className="mb-[2%]">
-            <span className="text-gray-400 max-md:text-sm ">
+            <span className="pl-[85px] pr-3 text-gray-400  max-md:pl-6 max-md:text-sm ">
               <span className="text-green-600"> #</span>
               {channelsKeyValuePair[post?.channel_id]?.name}
             </span>

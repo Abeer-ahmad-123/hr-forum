@@ -1,5 +1,4 @@
 'use client'
-import ImageUpload from '@/components/ImageUpload'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
@@ -139,11 +138,10 @@ const RespProfile = ({ userId }: profileProps) => {
 
   return (
     <>
-      {/* DIV 1 */}
-      <div className="profile-page hidden max-md:block">
+      <div className="profile-page  max-md:block">
         <section className="relative block h-[500px]">
           <div
-            className="absolute top-0 h-[50%] w-full bg-cover bg-center"
+            className="bg-fit absolute top-0 h-[80%] w-full bg-center"
             style={{
               backgroundImage: `url(${
                 user?.backgroundPictureURL ||
@@ -179,27 +177,28 @@ const RespProfile = ({ userId }: profileProps) => {
           </div>
         </section>
 
-        <section className="bg-blueGray-200 relative mt-[-25%] pb-2">
-          <div className=" w-full">
+        <section className="bg-blueGray-200 relative mx-auto w-[80%] max-w-screen-lg max-md:w-full">
+          <div className=" mx-auto ">
             <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
-              <div className=" px-6">
-                <div className=" flex-wrap ">
-                  <div className="flex w-full justify-between  pr-4">
-                    <div className="relative ">
+              {/* Profile card start */}
+              <div className="px-6">
+                <div className="top-0">
+                  <div className="flex w-full ">
+                    <div className="relative flex justify-center md:w-full">
                       <Image
                         alt="..."
-                        width={150}
-                        height={150}
+                        width={96}
+                        height={96}
                         src={
                           user?.profilePictureURL ||
                           'https://source.unsplash.com/random/300×300'
                         }
-                        className="absolute -m-12  h-28 w-28 max-w-[150px] rounded-full border-none align-middle shadow-xl max-md:-ml-4"
+                        className="-m-12 max-w-[150px] rounded-full border-none align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />
                       {!userId && (
                         <label
                           htmlFor="changeImage"
-                          className="absolute w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                          className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
                           <LiaUserEditSolid className="cursor-pointer text-white" />
                         </label>
                       )}
@@ -225,13 +224,14 @@ const RespProfile = ({ userId }: profileProps) => {
                   )}
                 </div>
 
-                <div className="flex gap-[20px] pb-6">
-                  <div className="mt-12 text-center max-md:text-left">
-                    <h3 className="text-blueGray-700 text-4xl font-semibold uppercase leading-normal">
+                {/* */}
+
+                <div className="flex justify-center gap-[20px] pb-6">
+                  <div className="mt-12 p-6 text-center max-md:text-left">
+                    <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal">
                       {user.name}
                     </h3>
-
-                    <div className="flex gap-4 text-sm font-light text-gray-600">
+                    <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
                       <div className="flex items-center">
                         <User className="mr-1 text-gray-600" size={17} />
                         <div>{user?.username}</div>
@@ -241,31 +241,31 @@ const RespProfile = ({ userId }: profileProps) => {
                         <div>{user?.email}</div>
                       </div>
                     </div>
-                    <div className="mt-2 flex gap-3 text-lg  font-normal">
+                    <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
                       {user?.bio}
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/*Profile card end!!*/}
             </div>
           </div>
-          <div className="flex flex-col gap-[4rem] md:flex-row">
-            <div className=" flex flex-col gap-[1.5rem]">
-              {/* <SideCardBadge />
-              <SideCardSkill /> */}
+          <div className="flex flex-col gap-[2rem] lg:flex-row">
+            <div className=" w- flex flex-col gap-[1.5rem]">
               <UserDataBadge />
             </div>
-
-            {/* ///////// */}
-            {!loading ? (
-              <UserSpecificPosts
-                posts={posts}
-                user={user}
-                morePosts={morePosts.current}
-              />
-            ) : (
-              [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
-            )}
+            <div className="flex w-full flex-col">
+              {!loading ? (
+                <UserSpecificPosts
+                  posts={posts}
+                  user={user}
+                  morePosts={morePosts.current}
+                />
+              ) : (
+                [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
+              )}
+            </div>
           </div>
           <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
             <div className="container mx-auto px-4">
@@ -274,149 +274,6 @@ const RespProfile = ({ userId }: profileProps) => {
               </div>
             </div>
           </footer>
-        </section>
-      </div>
-
-      {/* DIV 2 desktop view*/}
-
-      <div className="profile-page max-md:hidden">
-        <section className="relative block h-[500px]">
-          <div
-            className="absolute top-0 h-full w-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${
-                user?.backgroundPictureURL ||
-                'https://source.unsplash.com/random'
-              })`,
-            }}>
-            {!userId && (
-              <label
-                htmlFor="changeBackgroundImage"
-                className="absolute right-4 top-4 z-40 w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                <LiaUserEditSolid className="cursor-pointer text-white" />
-              </label>
-            )}
-            <input
-              className="hidden"
-              id="changeBackgroundImage"
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              onChange={onBgImageInputChange}
-            />
-            <span
-              id="blackOverlay"
-              className="absolute left-0 h-full w-full bg-black opacity-50"></span>
-          </div>
-          <div
-            className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
-            style={{ transform: 'translateZ(0px)' }}>
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0">
-              <polygon
-                className="text-blueGray-200 fill-current"
-                points="2560 0 2560 100 0 100"></polygon>
-            </svg>
-          </div>
-        </section>
-        <section className="bg-blueGray-200 relative ">
-          <div className="mx-auto w-[80%]">
-            <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
-              <div className=" px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="relative">
-                    <Image
-                      alt="..."
-                      width={150}
-                      height={150}
-                      src={
-                        user?.profilePictureURL ||
-                        'https://source.unsplash.com/random/300×300'
-                      }
-                      className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
-                    />
-                    {!userId && (
-                      <label
-                        htmlFor="changeImage"
-                        className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
-                        <LiaUserEditSolid className="cursor-pointer text-white" />
-                      </label>
-                    )}
-                    <input
-                      key={`${dialogOpen}`}
-                      className="hidden"
-                      id="changeImage"
-                      ref={imageInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleInputChange}
-                    />
-                    {/* TODO: Uploading an image two times not working!!! */}
-                    <ImageUpload
-                      image={image}
-                      dialogOpen={dialogOpen}
-                      setOpenDialog={setOpenDialog}
-                      saveCroppedImage={saveImage}
-                      disableButton={loading}
-                    />
-                  </div>
-
-                  <div className="w-full px-4 lg:order-3 lg:w-4/12 lg:self-center lg:text-right">
-                    {!userId && (
-                      <EditProfileButton
-                        userData={{
-                          name: user?.name || '',
-                          email: user?.email || '',
-                          bio: user?.bio || '',
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div className="mt-12 text-center">
-                  <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                    {user?.name}
-                  </h3>
-                  <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
-                    <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
-
-                    {user?.username}
-                  </div>
-                  <div className="text-blueGray-600 mb-2 mt-1">
-                    <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                    {user?.email}
-                  </div>
-                  <div className="text-blueGray-600 mb-2 pb-2 text-left">
-                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                    {user?.bio}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className=" mx-auto flex w-[80%]  gap-[4rem] ">
-            <div>
-              <UserDataBadge />
-            </div>
-            <div className="w-full">
-              {!loading ? (
-                <UserSpecificPosts
-                  user={user}
-                  posts={posts}
-                  morePosts={morePosts.current}
-                />
-              ) : (
-                [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
-              )}
-            </div>
-          </div>
         </section>
       </div>
     </>
