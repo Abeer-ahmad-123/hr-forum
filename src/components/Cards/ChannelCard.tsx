@@ -24,7 +24,7 @@ const ChannelCard = () => {
                 </li>
               </CustomLink>
               {index < channels.length - 1 && (
-                <hr className="mx-3 border-t border-gray-200" />
+                <hr className="ml-2 mr-3 border-t border-gray-200" />
               )}
             </React.Fragment>
           ))}

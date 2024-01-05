@@ -95,13 +95,13 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
 
           <ReactionDetails reactionSummary={post.reaction_summary} />
 
-          <div className="mt-2 text-justify text-4xl">{post.title}</div>
+          <div className="mt-2 text-left text-4xl">{post.title}</div>
 
           {/* //////// */}
 
           {/*  */}
           <div
-            className="mt-0 h-full w-full p-7 pl-0 pt-3 text-justify leading-loose text-gray-600 dark:text-white"
+            className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
           <div>

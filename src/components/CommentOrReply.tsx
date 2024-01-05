@@ -17,6 +17,7 @@ function CommentOrReply({
   btnClass = '',
   Id = '',
   inputRef = null,
+  author = '',
 }: any) {
   const params = useParams()
   const postId = params['id'] || Id
@@ -68,6 +69,7 @@ function CommentOrReply({
           isLoading={isLoading}
           commentId={commentId}
           inputRef={inputRef}
+          author={author}
         />
       ) : (
         <TextArea
@@ -77,6 +79,7 @@ function CommentOrReply({
           className={className}
           btnClass={btnClass}
           inputRef={inputRef}
+          placeholder="Write your comment..."
         />
       )}
     </div>
