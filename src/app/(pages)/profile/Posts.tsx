@@ -1,4 +1,4 @@
-import userImage from '@/assets/avatars/image-juliusomo.webp'
+import userImage from '@/assets/avatars/Unknown_person.jpeg'
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
 import { getAllPosts } from '@/services/posts'
 import { StoreChannels } from '@/utils/interfaces/channels'

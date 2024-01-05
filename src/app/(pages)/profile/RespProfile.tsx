@@ -1,5 +1,5 @@
 'use client'
-import userImage from '@/assets/avatars/image-juliusomo.webp'
+import userImage from '@/assets/avatars/Unknown_person.jpeg'
 import ImageUpload from '@/components/ImageUpload'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
