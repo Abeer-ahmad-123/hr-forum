@@ -125,6 +125,30 @@ export async function postCreatePostInChannel({ channelID, body, token }: any) {
   }
 }
 
+export async function feedImageCreateInChannel({ postId, file, token }: any) {
+  try {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    }
+
+    // const requestBody = JSON.stringify(body)
+
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/images/posts/${postId}/upload`,
+      {
+        method: 'POST',
+        headers,
+        body: file,
+      },
+    )
+    const response = await res.json()
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
 export async function getUserSpecificPosts(userId: string, pageNumber = 1) {
   try {
     const formatedRequestUrl = USER_SPECIFIC_POSTS.replace('userId', userId)
