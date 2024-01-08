@@ -7,6 +7,8 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { BookmarkedPostInterface } from '@/utils/interfaces/savedPost'
+import Image from 'next/image'
+import { noChannelBanner } from '@/utils/ImagesLink'
 
 const SavedPost = () => {
   const tokenInRedux = useSelector(
@@ -42,15 +44,33 @@ const SavedPost = () => {
   }, [])
 
   return (
-    <div className="min-h-[70vh]">
-      {!!posts?.Bookmarks?.length ? (
-        posts?.Bookmarks?.map((post: any) => {
-          return <Card key={post?.title} post={post.post} channels={channels} />
-        })
-      ) : (
-        <p>No saved posts</p>
-      )}
-    </div>
+    <>
+      <div className="mx-auto mt-[20px] max-w-[768px]">
+        <div className="mb-[20px] h-[170px] rounded-xl bg-white">
+          <Image
+            className=" h-[100px] w-full max-w-[768px] rounded-t-xl"
+            src={noChannelBanner}
+            alt="banner"
+            width={200}
+            height={100}
+          />
+          <p className="my-5 mb-4 text-3xl text-black dark:text-white">
+            Saved Posts
+          </p>
+        </div>
+      </div>
+      <div className="min-h-[70vh]">
+        {!!posts?.Bookmarks?.length ? (
+          posts?.Bookmarks?.map((post: any) => {
+            return (
+              <Card key={post?.title} post={post.post} channels={channels} />
+            )
+          })
+        ) : (
+          <p>No saved posts</p>
+        )}
+      </div>
+    </>
   )
 }
 
