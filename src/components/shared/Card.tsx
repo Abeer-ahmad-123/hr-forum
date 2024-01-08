@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
+import { useSelector } from 'react-redux'
 
 const Card = ({ post, channels }: any) => {
   const {
@@ -21,7 +22,8 @@ const Card = ({ post, channels }: any) => {
     user_id,
   } = post
   const pathName = usePathname()
-
+  const userDetails = useSelector((state) => state.loggedInUser.userData)
+  console.log('yuserdataa', user)
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
@@ -48,7 +50,12 @@ const Card = ({ post, channels }: any) => {
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row">
-                    <CustomLink href={`/profile/${user_id}`}>
+                    <CustomLink
+                      href={
+                        userDetails?.id === user_id
+                          ? '/profile'
+                          : `/profile/${user_id}`
+                      }>
                       <p
                         className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                         aria-label="user-name">

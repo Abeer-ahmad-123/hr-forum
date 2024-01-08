@@ -46,6 +46,7 @@ const RespProfile = ({ userId }: profileProps) => {
   const getUserSpecificDetail = async () => {
     setLoading(true)
     const response = await getSpecificUserDetails(userId!)
+    console.log('response', response)
     setUser(response?.user)
     setLoading(false)
   }
@@ -143,7 +144,7 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }, [])
 
-  console.log('user', user?.profilePictureURL)
+  console.log('user 147', user)
 
   return (
     <>
