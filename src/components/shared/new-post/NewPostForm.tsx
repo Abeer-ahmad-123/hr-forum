@@ -9,6 +9,7 @@ import Dropdown from './Dropdown'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSelector } from 'react-redux'
+import { Plus, Image } from 'lucide-react'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
@@ -146,24 +147,28 @@ export default function NewPostForm({ open }: newPostFormInterface) {
       />
 
       <div className="flex items-start justify-start">
-        <button
+        <div
           onClick={handlePost}
-          className={`ml-2 w-[100px] rounded-md p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px]  p-2 ${
             !postImage
-              ? 'bg-blue-500 text-white transition duration-200 hover:bg-blue-600'
-              : ' bg-stone-200'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              : 'opacity-50'
           }`}>
-          Post{' '}
-        </button>
-        <button
+          <Plus size={20} />
+          <button>Post</button>
+        </div>
+        <div
           onClick={imageOnClick}
-          className={`ml-2 w-[100px] rounded-md p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px]  p-2 ${
             postImage
-              ? 'bg-blue-500 text-white transition duration-200 hover:bg-blue-600'
-              : ' bg-stone-200'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              : ' opacity-50'
           }`}>
-          Image{' '}
-        </button>
+          <Image size={20} />
+          <button>Image</button>
+          <hr />
+        </div>
+
         <input
           type="file"
           accept="image/*"
@@ -172,22 +177,29 @@ export default function NewPostForm({ open }: newPostFormInterface) {
           id="imageInput"
         />
       </div>
+      <p className="!mb-[35px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
 
       {postImage ? (
         <>
-          <div className="mx-auto flex h-[350px] w-[400px] items-center justify-center rounded-lg border-2 border-gray-200 p-2">
+          <div
+            className={`mx-auto flex h-[343px] w-[400px] items-center justify-center rounded-lg border-[3px] border-gray-200 ${
+              postImage ? 'w-full max-w-[702px] border-dotted' : ''
+            }`}>
             <label
               htmlFor="changeBackgroundImage"
-              className=" w-fit rounded-md p-2">
+              className=" w-fit cursor-pointer rounded-md">
               {selectedImage ? (
                 <img
                   src={typeof selectedImage === 'string' ? selectedImage : ''}
                   alt="Upload Image"
-                  className=" mx-auto h-[350px] w-[400px] rounded-md border-0 hover:cursor-pointer"
+                  className=" mx-auto h-[343px] w-[400px] rounded-md border-0 object-contain"
                   id="uploadedImage"
                 />
               ) : (
-                <ImageIcon className="h-[250px] w-[250px] cursor-pointer text-gray-500" />
+                <>
+                  <ImageIcon className="h-[250px] w-[250px]  text-gray-500" />
+                  <p>Browser Files to Upload</p>
+                </>
               )}
             </label>
 
@@ -216,11 +228,9 @@ export default function NewPostForm({ open }: newPostFormInterface) {
         <button
           onClick={createPost}
           disabled={isDisabled}
-          className={`rounded-md ${
-            isDisabled ? 'bg-stone-200' : 'bg-blue-500'
-          } p-2 text-white transition duration-200 hover:${
-            isDisabled ? 'bg-stone-200' : 'bg-blue-600'
-          }`}>
+          className={`w-[100px] rounded-md ${
+            isDisabled ? 'bg-stone-200' : 'bg-accent'
+          } p-2 text-white transition duration-200`}>
           {loading ? 'Loading...' : 'Next'}
         </button>
       </div>
