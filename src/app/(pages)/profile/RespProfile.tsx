@@ -151,7 +151,7 @@ const RespProfile = ({ userId }: profileProps) => {
       <div className="profile-page  max-md:block">
         <section className="relative block h-[650px]">
           <div
-            className="bg-fit absolute top-0 h-[60%] w-full bg-center"
+            className="absolute top-0 h-[60%] w-full bg-cover bg-center"
             style={{
               backgroundImage: `url(${
                 user?.backgroundPictureURL ||
