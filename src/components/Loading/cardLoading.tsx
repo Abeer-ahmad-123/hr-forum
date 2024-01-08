@@ -1,9 +1,7 @@
-import React from 'react'
-import RenderFeedLoading from './renderFeedLoading'
 import PostBar from '@/components/shared/new-post/NewPostModal'
-import ProfileCardSkelton from '../ProfileCardSkelton'
 import ChannelCardSkelton from '../ChannelCardSkelton'
-import RulesCardSkelton from '../RuleCardSkelton'
+import ProfileCardSkelton from '../ProfileCardSkelton'
+import RenderFeedLoading from './renderFeedLoading'
 
 function CardLoading() {
   const renderTimes = 5
@@ -27,10 +25,10 @@ function CardLoading() {
           <div> {componentsArray}</div>
         </div>
 
-        <div className="sticky max-h-screen " style={{ top: '60px' }}>
+        {/* <div className="sticky max-h-screen " style={{ top: '60px' }}>
           {' '}
           <RulesCardSkelton />
-        </div>
+        </div> */}
       </div>
     </div>
   )
