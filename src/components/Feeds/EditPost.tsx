@@ -35,7 +35,7 @@ export default function EditPost({ close, title, content, data }: any) {
         onChange={handleInputChange}
       />
 
-      <div className="border-2 border-gray-300">
+      <div className="h-[343px] min-h-[343px] border-2 border-gray-300">
         <Editor
           value={formValues.content}
           onContentChange={handleEditorContentChange}

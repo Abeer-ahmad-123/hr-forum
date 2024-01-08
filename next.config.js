@@ -39,6 +39,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 't4.ftcdn.net',
       },
+      {
+        protocol: 'https',
+        hostname: 'h-forum.s3.us-east-2.amazonaws.com',
+      },
     ],
   },
 }

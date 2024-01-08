@@ -88,16 +88,14 @@ export default function NewPostForm({ open }) {
       if (result?.success) {
         console.log('result', result?.data?.post?.id)
         if (postImage) {
-          console.log('here')
           try {
             const formData = new FormData()
             formData.append('file', image)
             const postId = result?.data?.post?.id
-            console.log('postId', postId)
             const sendImage = await feedImageCreateInChannel({
-              postId,
-              formData,
-              token,
+              postId: postId,
+              file: formData,
+              token: token,
             })
             if (sendImage?.success) {
               console.log('result', result?.data?.post?.id)
@@ -237,7 +235,7 @@ export default function NewPostForm({ open }) {
         </>
       ) : (
         <>
-          <div className=" ">
+          <div className="h-[343px] min-h-[343px]">
             <Editor
               value={formValues.content}
               onContentChange={handleEditorContentChange}
@@ -247,11 +245,7 @@ export default function NewPostForm({ open }) {
       )}
 
       <div className="flex items-center justify-between">
-        <div className="flex gap-4">
-          <AttachmentIcon className="h-6 w-6 text-gray-700 transition duration-200 hover:text-blue-500" />
-          <ImageIcon className="h-6 w-6 text-gray-700 transition duration-200 hover:text-blue-500" />
-          <LinkIcon className="h-6 w-6 text-gray-700 transition duration-200 hover:text-blue-500" />
-        </div>
+        <div />
         <button
           onClick={createPost}
           disabled={isDisabled}

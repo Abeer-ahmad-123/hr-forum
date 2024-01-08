@@ -20,10 +20,11 @@ const Card = ({ post, channels }: any) => {
     user_reaction,
     user_has_bookmarked,
     user_id,
+    image_url,
   } = post
   const pathName = usePathname()
   const userDetails = useSelector((state) => state.loggedInUser.userData)
-  console.log('yuserdataa', user)
+  console.log('post', post)
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
@@ -78,10 +79,14 @@ const Card = ({ post, channels }: any) => {
               <div className="my-3 text-start text-[28px] font-semibold dark:text-white">
                 {title}
               </div>
-              <div
-                className="text-start text-[15px] text-gray-700 dark:text-gray-300"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
+              {!image_url ? (
+                <div
+                  className="text-start text-[15px] text-gray-700 dark:text-gray-300"
+                  dangerouslySetInnerHTML={{ __html: content }}
+                />
+              ) : (
+                <Image src={image_url} alt="post" height={400} width={300} />
+              )}
             </div>
           </div>
         </CustomLink>
