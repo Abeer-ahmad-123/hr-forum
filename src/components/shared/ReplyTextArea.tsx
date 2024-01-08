@@ -17,6 +17,7 @@ function ReplyTextArea({
   isLoading,
   commentId,
   inputRef = null,
+  author = '',
 }: any) {
   const [showTextArea, setShowTextArea] = useState(false)
 
@@ -28,33 +29,28 @@ function ReplyTextArea({
   }
 
   return (
-    <div className="flex flex-col">
-      <div className="flex items-center  justify-between  pr-5">
-        <div className="flex space-x-5 ">
-          <button
-            onClick={toggleTextArea}
-            className="cursor-pointer text-sm text-gray-400">
-            Reply
-          </button>
-          <Popover>
-            <PopoverTrigger>
-              <button className="flex items-center space-x-2 p-2 text-gray-700 dark:text-gray-300">
-                <span className="text-sm text-gray-400">Share</span>
-              </button>
-            </PopoverTrigger>
+    <div>
+      <div className="flex gap-2.5 ">
+        <button
+          onClick={toggleTextArea}
+          className="cursor-pointer text-sm text-gray-400 hover:underline">
+          Reply
+        </button>
+        <Popover>
+          <PopoverTrigger>
+            <button className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
+              Share
+            </button>
+          </PopoverTrigger>
 
-            <PopoverContent className="bg-white">
-              <SocialButtons
-                className="flex gap-3"
-                postId={postId}
-                commentId={commentId}
-              />
-            </PopoverContent>
-          </Popover>
-
-          {/* <button className="text-sm text-gray-400">Report</button>
-          <MoreHorizontal className="pt-2 text-gray-400 " size={30} />*/}
-        </div>
+          <PopoverContent className="bg-white">
+            <SocialButtons
+              className="flex gap-3"
+              postId={postId}
+              commentId={commentId}
+            />
+          </PopoverContent>
+        </Popover>
       </div>
 
       <div className={` ${!showTextArea && 'hidden'} `}>
@@ -64,6 +60,7 @@ function ReplyTextArea({
           isLoading={isLoading}
           isCommentPage={true}
           inputRef={inputRef}
+          placeholder={`Reply to ${author}`}
         />
       </div>
     </div>

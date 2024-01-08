@@ -1,17 +1,17 @@
 'use client'
-import { Card } from '../shared'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
+import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
+import { ChannelByIdInterface } from '@/utils/interfaces/channels'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import CircularProgress from '../ui/circularProgress'
-import { ChannelByIdInterface } from '@/utils/interfaces/channels'
-import { PostsInterface } from '@/utils/interfaces/posts'
-import NoPosts from '../Cards/NoMore'
-import { SearchParams } from '@/utils/interfaces/renderFeeds'
-import { getSearchPosts } from '@/services/search'
 import { useSelector } from 'react-redux'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import NoPosts from '../Cards/NoMore'
+import { Card } from '../shared'
+import CircularProgress from '../ui/circularProgress'
 
 // Feed is a functional component that takes data and displays it as cards
 interface FeedProps {
@@ -72,6 +72,7 @@ const Feeds = ({
             loadReactions: true,
             loadUser: true,
             pageNumber: page,
+            userID: userData.id,
           })
           _data = data
         }

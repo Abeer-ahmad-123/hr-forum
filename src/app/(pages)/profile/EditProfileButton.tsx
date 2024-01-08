@@ -1,10 +1,6 @@
 'use client'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-} from '@/components/ui/Dialog/simpleDialog'
-import React, { useState } from 'react'
+import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
+import { useState } from 'react'
 import EditPage from './EditPage'
 
 interface userDataProps {
@@ -14,8 +10,12 @@ interface userDataProps {
 }
 interface EditProfileButtonProps {
   userData: userDataProps
+  setUserData: (userData: userDataProps) => void
 }
-const EditProfileButton = ({ userData }: EditProfileButtonProps) => {
+const EditProfileButton = ({
+  userData,
+  setUserData,
+}: EditProfileButtonProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const handleOpenDialog = () => {
     setOpenDialog(true)
@@ -24,17 +24,20 @@ const EditProfileButton = ({ userData }: EditProfileButtonProps) => {
     setOpenDialog(false)
   }
   return (
-    <div className="mt-32 px-3 py-6 ">
+    <div className="absolute right-0 top-0 mr-0 flex justify-end px-3 py-6">
       <button
-        className="mb-1 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600  sm:mr-2"
+        className="mb-1 w-full max-w-[130px] rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600  sm:mr-2"
         type="button"
-        onClick={handleOpenDialog}
-      >
+        onClick={handleOpenDialog}>
         Edit
       </button>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
-          <EditPage userData={userData} handleCloseDialog={handleCloseDialog} />
+          <EditPage
+            setUpdatedUserData={setUserData}
+            userData={userData}
+            handleCloseDialog={handleCloseDialog}
+          />
         </DialogContent>
       </Dialog>
     </div>

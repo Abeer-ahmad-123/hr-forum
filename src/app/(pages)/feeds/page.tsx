@@ -1,18 +1,20 @@
 import { RenderFeeds } from '@/components/Feeds'
-import { Suspense } from 'react'
 import CardLoading from '@/components/Loading/cardLoading'
+import RedirectLogic from '@/components/RedirectLogic'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
-import { cookies } from 'next/headers'
+import { Suspense } from 'react'
 
 const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   searchParams,
 }) => {
-  return (
-    <div>
-      <Suspense fallback={<CardLoading />}>
-        <RenderFeeds searchParams={searchParams} path="/feed" />
-      </Suspense>
-    </div>
+  const redirect = searchParams?.redirect
+
+  return redirect ? (
+    <RedirectLogic redirect={redirect} />
+  ) : (
+    <Suspense fallback={<CardLoading />}>
+      <RenderFeeds searchParams={searchParams} path="/feed" />
+    </Suspense>
   )
 }
 

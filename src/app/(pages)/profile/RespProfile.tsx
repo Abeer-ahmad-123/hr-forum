@@ -1,35 +1,61 @@
 'use client'
-import { updateUserBgImage, updateUserImage } from '@/services/user'
+import userImage from '@/assets/avatars/Unknown_person.jpeg'
+import ImageUpload from '@/components/ImageUpload'
+import { getUserSpecificPosts } from '@/services/posts'
+import {
+  getSpecificUserDetails,
+  updateUserBgImage,
+  updateUserImage,
+} from '@/services/user'
+import { setUserData } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { Mail, User } from 'lucide-react'
 import Image from 'next/image'
-import React, { Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
-import { LiaUserEditSolid } from 'react-icons/lia'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import UserSpecificPosts from './UserSpecificPosts'
-import UserDataBadge from './UserDataBadge'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import Skelton from '@/components/ui/skelton'
-import { setUser, setUserData } from '@/store/Slices/loggedInUserSlice'
-import { getUserSpecificPosts } from '@/services/posts'
 import PostLoadingSkelton from './PostLoadingSkelton'
+import UserDataBadge from './UserDataBadge'
+import UserSpecificPosts from './UserSpecificPosts'
 
-const RespProfile = () => {
+interface profileProps {
+  userId?: string
+}
+
+const RespProfile = ({ userId }: profileProps) => {
   const dispatch = useDispatch()
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
   const imageInputRef = useRef(null)
-  const [loading, setLoading] = useState(false)
   const [posts, setUserSpecificPosts] = useState<any>([])
+  const [user, setUser] = useState<any>('')
   const morePosts = useRef(false)
   const isFirstUser = useRef(true)
+
+  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
+  const [loading, setLoading] = useState(false)
+  const [image, setImage] = useState<any>(null)
+
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
+
+  const getUserSpecificDetail = async () => {
+    setLoading(true)
+    const response = await getSpecificUserDetails(userId!)
+    setUser(response?.user)
+    setLoading(false)
+  }
+
   const getAllUserSpecificPosts = async () => {
     setLoading(true)
-    const response = await getUserSpecificPosts(userDataInStore?.id)
+
+    const response = await getUserSpecificPosts(
+      userId ? userId : userDataInStore?.id,
+    )
     if (response.success) {
       setUserSpecificPosts(response?.data?.posts)
       morePosts.current =
@@ -39,29 +65,43 @@ const RespProfile = () => {
     }
     setLoading(false)
   }
-  useEffect(() => {
-    if (isFirstUser.current) {
-      isFirstUser.current = false
-      getAllUserSpecificPosts()
-    }
-  }, [])
 
-  const onInputChange = async (e: any) => {
+  const handleInputChange = (e: any) => {
     const file = e.target.files[0]
-    const response = await updateUserImage(userToken, file)
-    if (response?.success) {
-      showSuccessAlert('Image Uploaded')
-      dispatch(
-        setUserData({
-          userData: {
-            ...userDataInStore,
-            profilePictureURL: response?.data?.url,
-          },
-        }),
-      )
+
+    setImage(file)
+    setOpenDialog(true)
+  }
+
+  const saveImage = async (e: any) => {
+    if (e === null) {
+      setImage(null)
     } else {
-      showErrorAlert('Issues in image uploaded')
+      try {
+        const file = e
+        setImage(file)
+        setLoading(true)
+        const response = await updateUserImage(userToken, file)
+        if (response?.success) {
+          showSuccessAlert('Image Uploaded')
+          setLoading(false)
+
+          dispatch(
+            setUserData({
+              userData: {
+                ...userDataInStore,
+                profilePictureURL: response?.data?.url,
+              },
+            }),
+          )
+        } else {
+          showErrorAlert('Issues in image uploaded')
+        }
+      } catch (e: any) {
+        throw new Error(e)
+      }
     }
+    setOpenDialog(false)
   }
 
   const onBgImageInputChange = async (e: any) => {
@@ -77,169 +117,53 @@ const RespProfile = () => {
           },
         }),
       )
+
+      setUser({
+        ...user,
+        backgroundPictureURL: response?.data?.url,
+      })
     } else {
       showErrorAlert('Issues in image uploaded')
     }
   }
 
+  const UserSpecificationPosts = async () => {
+    if (userId) {
+      await getUserSpecificDetail()
+    } else {
+      setUser(userDataInStore)
+    }
+    getAllUserSpecificPosts()
+  }
+
+  useEffect(() => {
+    if (isFirstUser.current) {
+      isFirstUser.current = false
+      UserSpecificationPosts()
+    }
+  }, [])
+
+  console.log('user', user?.profilePictureURL)
+
   return (
     <>
-      <div className="profile-page hidden max-md:block">
-        <section className="relative block h-[500px]">
+      <div className="profile-page  max-md:block">
+        <section className="relative block h-[650px]">
           <div
-            className="absolute top-0 h-[50%] w-full bg-cover bg-center"
+            className="bg-fit absolute top-0 h-[60%] w-full bg-center"
             style={{
               backgroundImage: `url(${
-                userDataInStore?.backgroundPictureURL ||
+                user?.backgroundPictureURL ||
                 'https://source.unsplash.com/random'
               })`,
             }}>
-            <label
-              htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-              <LiaUserEditSolid className="cursor-pointer text-white" />
-            </label>
-            <span
-              id="blackOverlay"
-              className="absolute left-0 h-full w-full bg-black opacity-50"></span>
-          </div>
-          <div
-            className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
-            style={{ transform: 'translateZ(0px)' }}>
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0">
-              <polygon
-                className="text-blueGray-200 fill-current"
-                points="2560 0 2560 100 0 100"></polygon>
-            </svg>
-          </div>
-        </section>
-        <section className="bg-blueGray-200 relative mt-[-25%] pb-2">
-          <div className=" w-full">
-            <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
-              <div className=" px-6">
-                <div className=" flex-wrap ">
-                  <div className="flex w-full justify-between  pr-4">
-                    <div className="relative ">
-                      <Image
-                        alt="..."
-                        width={150}
-                        height={150}
-                        src={
-                          userDataInStore?.profilePictureURL ||
-                          'https://source.unsplash.com/random/300×300'
-                        }
-                        className="absolute -m-12  h-28 w-28 max-w-[150px] rounded-full border-none align-middle shadow-xl max-md:-ml-4"
-                      />
-                      <label
-                        htmlFor="changeImage"
-                        className="absolute w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                        <LiaUserEditSolid className="cursor-pointer text-white" />
-                      </label>
-                      <input
-                        className="hidden"
-                        id="changeImage"
-                        ref={imageInputRef}
-                        type="file"
-                        accept="image/*"
-                        onChange={onInputChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="">
-                    <EditProfileButton
-                      userData={{
-                        name: userDataInStore?.name || '',
-                        email: userDataInStore?.email || '',
-                        bio: userDataInStore?.bio || '',
-                      }}
-                    />
-                    <div className="w-full px-4"></div>
-                  </div>
-                </div>
-                <div className="mt-12 text-center">
-                  <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                    {userDataInStore?.name}
-                  </h3>
-                  <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
-                    <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
-
-                    {userDataInStore?.username}
-                  </div>
-                  <div className="text-blueGray-600 mb-2 mt-1">
-                    <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                    {userDataInStore?.email}
-                  </div>
-                  <div className="text-blueGray-600 max-sm:[6px] mb-2 pb-2 text-left max-md:text-[13px]">
-                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                    {userDataInStore?.bio ||
-                      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem.'}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-[4rem] md:flex-row">
-            <div className=" flex flex-col gap-[1.5rem]">
-              {/* <SideCardBadge />
-              <SideCardSkill /> */}
-              <UserDataBadge />
-            </div>
-            {!loading ? (
-              <UserSpecificPosts posts={posts} morePosts={morePosts.current} />
-            ) : (
-              [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
+            {!userId && (
+              <label
+                htmlFor="changeBackgroundImage"
+                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                <LiaUserEditSolid className="cursor-pointer text-white" />
+              </label>
             )}
-          </div>
-          <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-wrap items-center justify-center md:justify-between">
-                <div className="mx-auto w-full px-4 text-center md:w-6/12">
-                  <div className="text-blueGray-500 py-1 text-sm font-semibold">
-                    Made with{' '}
-                    <a
-                      href="https://www.creative-tim.com/product/notus-js"
-                      className="text-blueGray-500 hover:text-gray-800"
-                      target="_blank">
-                      Notus JS
-                    </a>{' '}
-                    by{' '}
-                    <a
-                      href="https://www.creative-tim.com"
-                      className="text-blueGray-500 hover:text-blueGray-800"
-                      target="_blank">
-                      {' '}
-                      Creative Tim
-                    </a>
-                    .
-                  </div>
-                </div>
-              </div>
-            </div>
-          </footer>
-        </section>
-      </div>
-      <div className="profile-page max-md:hidden">
-        <section className="relative block h-[500px]">
-          <div
-            className="absolute top-0 h-full w-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${
-                userDataInStore?.backgroundPictureURL ||
-                'https://source.unsplash.com/random'
-              })`,
-            }}>
-            <label
-              htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-4 z-40 w-fit rounded-full  bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-              <LiaUserEditSolid className="cursor-pointer text-white" />
-            </label>
             <input
               className="hidden"
               id="changeBackgroundImage"
@@ -269,80 +193,103 @@ const RespProfile = () => {
             </svg>
           </div>
         </section>
-        <section className="bg-blueGray-200 relative ">
-          <div className="mx-auto w-[80%]">
-            <div className="relative -mt-64 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg bg-white shadow-xl dark:bg-dark-background">
-              <div className=" px-6">
-                <div className="flex flex-wrap justify-center">
-                  <div className="flex w-full justify-center px-4 lg:order-2 lg:w-3/12">
-                    <div className="relative">
+
+        <section className="bg-blueGray-200 relative mx-auto max-w-screen-xl max-md:w-full">
+          <div className=" mx-auto ">
+            <div className="relative -mt-80 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
+              {/* Profile card start */}
+              <div className="px-6">
+                <div className="top-0">
+                  <div className="flex w-full">
+                    <div className="relative flex justify-center md:w-full">
+                      {/* TO be corrected */}
                       <Image
                         alt="..."
-                        width={150}
-                        height={150}
+                        width={96}
+                        height={96}
                         src={
-                          userDataInStore?.profilePictureURL ||
-                          'https://source.unsplash.com/random/300×300'
+                          userId
+                            ? user?.profilePictureURL || userImage
+                            : userDataInStore?.profilePictureURL
                         }
-                        className="absolute -m-16 -ml-20  max-w-[150px] rounded-full border-none align-middle shadow-xl lg:-ml-16"
+                        className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />
-                      <label
-                        htmlFor="changeImage"
-                        className="absolute top-10 w-fit rounded-full bg-gray-600 p-2">
-                        <LiaUserEditSolid className="cursor-pointer text-white" />
-                      </label>
+                      {!userId && (
+                        <label
+                          htmlFor="changeImage"
+                          className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
+                          <LiaUserEditSolid className="cursor-pointer text-white" />
+                        </label>
+                      )}
                       <input
+                        key={`${dialogOpen}`}
                         className="hidden"
                         id="changeImage"
                         ref={imageInputRef}
                         type="file"
                         accept="image/*"
-                        onChange={onInputChange}
+                        onChange={handleInputChange}
                       />
+                      {/* TODO: Uploading an image two times not working!!! */}
+                      <ImageUpload
+                        image={image}
+                        dialogOpen={dialogOpen}
+                        setOpenDialog={setOpenDialog}
+                        saveCroppedImage={saveImage}
+                        disableButton={loading}
+                      />
+                      {/* ///  */}
                     </div>
                   </div>
-                  <div className="w-full px-4 lg:order-1 lg:w-4/12"></div>
-                  <div className="w-full px-4 lg:order-3 lg:w-4/12 lg:self-center lg:text-right">
+
+                  {!userId && (
                     <EditProfileButton
                       userData={{
                         name: userDataInStore?.name || '',
                         email: userDataInStore?.email || '',
                         bio: userDataInStore?.bio || '',
                       }}
+                      setUserData={setUser}
                     />
-                  </div>
+                  )}
                 </div>
-                <div className="mt-12 text-center">
-                  <h3 className="text-blueGray-700 mb-2 text-4xl font-semibold uppercase leading-normal">
-                    {userDataInStore?.name}
-                  </h3>
-                  <div className="text-blueGray-400 mb-2 mt-0 text-sm font-medium leading-normal">
-                    <i className="fas fa-map-marker-alt text-blueGray-400 mr-2 text-lg"></i>
 
-                    {userDataInStore?.username}
-                  </div>
-                  <div className="text-blueGray-600 mb-2 mt-1">
-                    <i className="fas fa-briefcase text-blueGray-400 mr-2 text-lg"></i>
-                    {userDataInStore?.email}
-                  </div>
-                  <div className="text-blueGray-600 mb-2 pb-2 text-left">
-                    <i className="fas fa-university text-blueGray-400 mr-2 text-lg "></i>
-                    {userDataInStore?.bio ||
-                      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque assumenda eligendi quod laborum, esse ad similique sed minima eum quos illum accusantium atque, est ex culpa magnam incidunt. Quibusdam reprehenderit beatae consectetur rem.'}
+                {/* */}
+
+                <div className="flex justify-center gap-[20px] pb-6">
+                  <div className="mt-12 p-6 text-center max-md:text-left">
+                    <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal">
+                      {user?.name}
+                    </h3>
+                    <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
+                      <div className="flex items-center">
+                        <User className="mr-1 text-gray-600" size={17} />
+                        <div>{user?.username}</div>
+                      </div>
+                      <div className="flex items-center">
+                        <Mail className="mr-1 text-gray-600" size={17} />
+                        <div>{user?.email}</div>
+                      </div>
+                    </div>
+                    <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
+                      {user?.bio}
+                    </div>
                   </div>
                 </div>
               </div>
+
+              {/*Profile card end!!*/}
             </div>
           </div>
-
-          <div className=" mx-auto flex w-[80%]  gap-[4rem] ">
-            <div>
+          <div className="flex flex-col gap-[2rem] lg:flex-row">
+            <div className=" w- flex flex-col gap-[1.5rem]">
               <UserDataBadge />
             </div>
-            <div className="w-full">
+            <div className="flex w-full flex-col">
               {!loading ? (
                 <UserSpecificPosts
                   posts={posts}
+                  user={userId ? user : userDataInStore}
                   morePosts={morePosts.current}
                 />
               ) : (
@@ -350,6 +297,13 @@ const RespProfile = () => {
               )}
             </div>
           </div>
+          <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
+            <div className="container mx-auto px-4">
+              <div className="flex flex-wrap items-center justify-center md:justify-between">
+                <div className="mx-auto w-full px-4 text-center md:w-6/12"></div>
+              </div>
+            </div>
+          </footer>
         </section>
       </div>
     </>

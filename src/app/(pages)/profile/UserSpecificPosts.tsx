@@ -1,14 +1,13 @@
-import React, { Suspense, useEffect, useRef, useState } from 'react'
-import ProfilePosts from './Posts'
-import Skelton from '@/components/ui/skelton'
-import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
-import { getUserSpecificPosts } from '@/services/posts'
-import { useSelector } from 'react-redux'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useInView } from 'react-intersection-observer'
 import CircularProgress from '@/components/ui/circularProgress'
+import { getUserSpecificPosts } from '@/services/posts'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
+import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
+import { useSelector } from 'react-redux'
+import ProfilePosts from './Posts'
 
-const UserSpecificPosts = ({ posts: initialPosts, morePosts }: any) => {
+const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   const [posts, setPosts] = useState([...initialPosts])
   const [page, setPage] = useState(2)
   const [ref, inView] = useInView()
@@ -17,12 +16,18 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts }: any) => {
   )
 
   let morePostsExist = useRef(morePosts)
+
   const getPosts = async () => {
-    const { data } = await getUserSpecificPosts(userData?.id, page)
+    const { data } = await getUserSpecificPosts(
+      user ? user.id : userData?.id,
+      page,
+    )
+
     setPage(page + 1)
     morePostsExist.current =
       data?.pagination?.CurrentPage &&
       data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+
     setPosts([...posts, ...data?.posts])
   }
 
@@ -31,10 +36,11 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts }: any) => {
       getPosts()
     }
   }, [inView])
+
   return (
     <div className="flex flex-col">
       {posts?.map((post: UserSpecificationPostInterface, i: number) => (
-        <ProfilePosts key={i} post={post} />
+        <ProfilePosts key={i} user={user} post={post} />
       ))}
       {morePostsExist?.current && <CircularProgress incommingRef={ref} />}
     </div>

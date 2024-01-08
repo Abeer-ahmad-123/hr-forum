@@ -1,13 +1,18 @@
 'use client'
-import { useState } from 'react'
 import SignupForm from '@/components/Signup/SignupForm'
-import GoogleButton from '../shared/GoogleButton/'
-import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { signUp, signIn, googleAuthStart } from '@/services/auth/authService'
-import { useDispatch } from 'react-redux'
+import { googleAuthStart, signIn, signUp } from '@/services/auth/authService'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import {
+  isValidEmail,
+  isValidUserName,
+  showErrorAlert,
+  showSuccessAlert,
+} from '@/utils/helper'
+import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import GoogleButton from '../shared/GoogleButton/'
 
 export default function Signup({
   toggleForm,
@@ -24,7 +29,7 @@ export default function Signup({
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState(initialValues)
   const [loading, setLoading] = useState<boolean>(false)
-
+  const dispatch = useDispatch()
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
     let error = handleAuthError(name, value)
@@ -45,31 +50,64 @@ export default function Signup({
 
   const handleSignupSubmit = async (e: any) => {
     try {
-      setLoading(true)
       e.preventDefault()
-      let isFieldsValid = handleValidations()
+      if (
+        !!formValues.name &&
+        !!formValues.username &&
+        !!formValues.email &&
+        !!formValues.password
+      ) {
+        if (
+          isValidUserName(formValues.username) &&
+          isValidEmail(formValues.email)
+        ) {
+          setLoading(true)
+          let isFieldsValid = handleValidations()
 
-      if (!isFieldsValid) return
-      await signUp(formValues)
-      const result = await signIn(
-        JSON.stringify({
-          email: formValues.email,
-          password: formValues.password,
-        }),
-      )
-      if (result?.success) {
-        // localStorage.setItem('token', result?.token)
-        // localStorage.setItem('userData', JSON.stringify(result?.userData))
-        // dispatch(setUser(result))
-        // handleDialogClose()
-        showSuccessAlert('Successfully Signup. Please login...')
+          if (!isFieldsValid) return
+
+          await signUp(formValues)
+
+          const result = await signIn(
+            JSON.stringify({
+              email: formValues.email,
+              password: formValues.password,
+            }),
+          )
+          if (
+            !result?.success &&
+            (result?.status === 401 || result?.status === 404)
+          ) {
+            showErrorAlert('Sign-in failed. Please check your credentials.')
+            setErrors({
+              ...errors,
+              password: 'Unauthenticated! email or password not matched.',
+            })
+            return
+          }
+          if (result?.data?.token) {
+            dispatch(
+              setUser({
+                ...result?.data,
+                refreshToken: result?.data['refresh-token'],
+              }),
+            )
+            showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
+            handleDialogClose()
+            router.refresh()
+          }
+        } else {
+          showErrorAlert('Please enter valid email or username.')
+        }
       } else {
-        showErrorAlert('unauthenticated email or password not matched.')
+        showErrorAlert('Please fill all the fields.')
+        let isFieldsValid = handleValidations()
+        if (!isFieldsValid) return
       }
     } catch (err: any) {
       console.log('err', err)
     } finally {
-      setLoading(true)
+      setLoading(false)
     }
   }
 

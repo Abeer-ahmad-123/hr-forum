@@ -50,7 +50,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
       className={`ml-12 mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
       }`}>
-      <div className="flex gap-[2%] pt-5">
+      <div className="flex gap-2.5">
         <div className="flex  flex-col items-center">
           <div className="rounded-full border border-black">
             <img
@@ -73,21 +73,19 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
           {/* ÷  */}
 
           <div className="flex items-center justify-between pr-5">
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center gap-2.5">
               <div className="group relative inline-block">
-                <span className="ml-2 pt-4 text-left text-sm italic text-gray-400">
+                <span className="pointer ml-2 pt-4 text-left text-xs text-gray-400 hover:underline">
                   {convertDate(reply.created_at)}
                 </span>
-                <div className="absolute bottom-full hidden -translate-x-1/2  transform whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block">
+                <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
                   {formattedDate}
                 </div>
               </div>
               <Popover>
                 <PopoverTrigger>
-                  <button className="visited:text-indigo-500 flex items-center space-x-2 p-2  pl-0 active:text-gray-700">
-                    <span className="text-sm text-gray-400 hover:text-blue-500">
-                      Share
-                    </span>
+                  <button className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
+                    Share
                   </button>
                 </PopoverTrigger>
                 <PopoverContent className="bg-white">
@@ -100,7 +98,9 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                 </PopoverContent>
               </Popover>
 
-              <button className="text-sm text-gray-400">Report</button>
+              <button className="pointer text-sm text-gray-400 hover:underline">
+                Report
+              </button>
             </div>
             {/* <MoreHorizontal className="ml-2 text-gray-400" /> */}
           </div>

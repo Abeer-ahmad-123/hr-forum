@@ -6,6 +6,7 @@ export interface ChannelInterface {
   color?: string
   code?: string
   href?: string
+  ImageURL: string
 }
 export interface StoreChannels {
   channels: {

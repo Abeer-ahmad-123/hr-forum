@@ -1,8 +1,8 @@
 'use client'
 
 import PostActionBar from '@/components/shared/PostActionBar'
+import { useRef } from 'react'
 import Comments from './shared/post/Comments'
-import { useRef, useState } from 'react'
 
 function CommentsLogic({
   postId,

@@ -1,6 +1,6 @@
-import { menuItems } from '@/utils/data'
-import Link from 'next/link'
 import { DownIcon } from '@/assets/icons'
+import { menuItems } from '@/utils/data'
+import { CustomLink } from '../shared/customLink/CustomLink'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { CustomLink } from '../shared/customLink/CustomLink'
 
 export default function NavMenuDropdown() {
   return (
@@ -21,7 +20,9 @@ export default function NavMenuDropdown() {
       <DropdownMenuContent className="dark:hover:bg-primary-accent bg-white dark:bg-dark-primary">
         <DropdownMenuSeparator />
         {menuItems.map((item) => (
-          <DropdownMenuItem key={item.label} className="hover:text-white">
+          <DropdownMenuItem
+            key={item.label}
+            className="hover:bg-accent hover:text-white">
             <CustomLink
               href={item.href}
               className={`group flex w-full items-center justify-start py-2 text-sm font-light`}>

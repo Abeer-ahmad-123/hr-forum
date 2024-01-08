@@ -1,40 +1,33 @@
 'use client'
-import React, {
-  ButtonHTMLAttributes,
-  MouseEvent,
-  useEffect,
-  useRef,
-} from 'react'
-import { BsBookmarkFill as BookmarkIcon } from 'react-icons/bs'
 ////
 
-import { PiShareFat } from 'react-icons/pi'
-import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
-import { useState } from 'react'
-import CommentOrReply from '../CommentOrReply'
-import CommentSection from './CommentSection'
-import { ReactionButton } from './reaction'
 import {
   deleteReactions,
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useSelector } from 'react-redux'
 import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
+import { PiShareFat } from 'react-icons/pi'
+import { useSelector } from 'react-redux'
+import CommentOrReply from '../CommentOrReply'
+import CommentSection from './CommentSection'
+import { ReactionButton } from './reaction'
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import SocialButtons from './SocialButtons'
 import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Dialog } from '../ui/Dialog/simpleDialog'
+import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 
 interface PostActionBarProps {
@@ -58,10 +51,9 @@ const PostActionBar = ({
   const { id } = useParams()
 
   const submitReaction = async (value: string, isFirstReaction: boolean) => {
-    console.log('user_reaction', user_reaction)
     if (tokenInRedux) {
       const response = isFirstReaction
-        ? value !== user_reaction
+        ? !user_reaction
           ? await postReactions(
               {
                 reactionType: value,
@@ -77,6 +69,7 @@ const PostActionBar = ({
               tokenInRedux,
             )
         : await deleteReactions(postId, tokenInRedux)
+
       if (!response?.success) {
         showErrorAlert('Something went wrong while posting reaction')
       } else {
@@ -121,14 +114,14 @@ const PostActionBar = ({
       setShowSignModal(true)
     }
   }
-
+  console.log(comment)
   return (
     <>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog />
       </Dialog>
       <div className="flex flex-col">
-        <div className="flex w-full justify-between px-[2%] max-md:flex-row max-md:gap-[2%]">
+        <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
           {/* bg-[#F9F9F9] bg on the message button before */}
 
           <ReactionButton
@@ -178,7 +171,7 @@ const PostActionBar = ({
         {!id && (
           <div className={`${!showCommentArea && 'hidden'} `}>
             <CommentOrReply
-              className="m-2 px-8"
+              className="m-2"
               btnClass="mr-[0px]"
               Id={postId}
               setComments={setComment}

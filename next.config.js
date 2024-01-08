@@ -35,6 +35,10 @@ const nextConfig = {
         hostname: 'source.unsplash.com',
       },
       { protocol: 'https', hostname: 'h-forum.s3.us-east-2.amazonaws.com' },
+      {
+        protocol: 'https',
+        hostname: 't4.ftcdn.net',
+      },
     ],
   },
 }

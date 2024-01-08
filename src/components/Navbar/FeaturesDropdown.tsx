@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState, useCallback } from 'react'
+import { setChecked } from '@/store/Slices/dropDownSlice'
+import { usePathname } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { AiFillHome, AiOutlineUserAdd } from 'react-icons/ai'
+import { BsDot, BsFillBookmarksFill } from 'react-icons/bs'
 import {
   RiArrowDropDownLine as DownArrow,
   RiSettings4Fill,
 } from 'react-icons/ri'
-import { AiFillHome, AiOutlineUserAdd } from 'react-icons/ai'
-import { BsDot, BsFillBookmarksFill } from 'react-icons/bs'
-import { usePathname } from 'next/navigation'
 import { useDispatch, useSelector } from 'react-redux'
-import { setChecked } from '@/store/Slices/dropDownSlice'
 import DropDownContent from '../shared/DropDownContent'
 
 const OldFeaturesDropDown = () => {
@@ -64,7 +64,7 @@ const OldFeaturesDropDown = () => {
     if (words === 'Feed') {
       setSelected('Home')
     } else {
-      setSelected(words)
+      setSelected('Home')
     }
   }, [pathname])
 

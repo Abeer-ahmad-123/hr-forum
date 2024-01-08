@@ -6,8 +6,13 @@ const ReactionEmoji = ({
   isReactionSelected,
   onEmojiClick,
   className,
+  isReactionOnLike = false,
 }: any) => {
-  const styles = isReactionSelected ? 'scale-150' : 'transform hover:scale-105'
+  const styles = isReactionSelected
+    ? 'scale-150'
+    : isReactionOnLike
+    ? ''
+    : 'transition-all duration-200 ease-in-out hover:scale-150'
 
   return (
     <div

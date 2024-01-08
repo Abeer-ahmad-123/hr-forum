@@ -1,16 +1,16 @@
 'use client'
-
-import { SigninForm } from './SigninForm'
-import React, { ChangeEvent, useState } from 'react'
-import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { googleAuthStart, signIn } from '@/services/auth/authService'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { AppDispatch } from '@/store'
-import { useDispatch } from 'react-redux'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
+import { ChangeEvent, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton/'
+import { SigninForm } from './SigninForm'
 
+import { useParams } from 'next/navigation'
 export default function Signin({
   toggleForm,
   handleDialogClose = () => {},
@@ -18,10 +18,13 @@ export default function Signin({
   const dispatch = useDispatch<AppDispatch>()
   const pathname = usePathname()
   const router = useRouter()
+  const params = useParams()
+
   const initialValues = {
     email: '',
     password: '',
   }
+
   const [formValues, setFormValues] = useState<any>(initialValues)
   const [errors, setErrors] = useState<any>(initialValues)
   const [loading, setLoading] = useState<boolean>(false)
@@ -84,10 +87,15 @@ export default function Signin({
         )
         showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
         handleDialogClose()
-        router.refresh()
+
+        if (
+          pathname.includes('/feeds/feed') &&
+          !pathname.includes('/channels/')
+        ) {
+          router.push(`/feeds?redirect=/feed/${params.id}`)
+        } else router.refresh()
       }
     } catch (err) {
-      console.log('err', err)
       showErrorAlert('Something went wrong while signing in.')
     } finally {
       setLoading(false)

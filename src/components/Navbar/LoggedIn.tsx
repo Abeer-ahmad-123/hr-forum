@@ -1,5 +1,10 @@
 'use client'
-import Link from 'next/link'
+import { logout } from '@/services/auth/authService'
+import { clearUser } from '@/store/Slices/loggedInUserSlice'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { CustomLink } from '../shared/customLink/CustomLink'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,13 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import { useDispatch } from 'react-redux'
-import { clearUser } from '@/store/Slices/loggedInUserSlice'
-import { useState } from 'react'
-import { logout } from '@/services/auth/authService'
-import { CustomLink } from '../shared/customLink/CustomLink'
 
 function LoggedIn() {
   const router = useRouter()
@@ -29,7 +27,7 @@ function LoggedIn() {
   function handleLogout() {
     logout()
     dispatch(clearUser())
-    router.push('/')
+    router.refresh()
   }
 
   const UserDropdown = () => (

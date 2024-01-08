@@ -1,12 +1,12 @@
 'use client'
-import { useState } from 'react'
-import TextArea from './ui/TextArea'
-import { useParams } from 'next/navigation'
-import ReplyTextArea from './shared/ReplyTextArea'
 import { postComment, postCommentReply } from '@/services/comments'
 import { showErrorAlert } from '@/utils/helper'
-import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
+import ReplyTextArea from './shared/ReplyTextArea'
+import TextArea from './ui/TextArea'
 
 function CommentOrReply({
   reply = false,
@@ -17,6 +17,7 @@ function CommentOrReply({
   btnClass = '',
   Id = '',
   inputRef = null,
+  author = '',
 }: any) {
   const params = useParams()
   const postId = params['id'] || Id
@@ -68,6 +69,7 @@ function CommentOrReply({
           isLoading={isLoading}
           commentId={commentId}
           inputRef={inputRef}
+          author={author}
         />
       ) : (
         <TextArea
@@ -77,6 +79,7 @@ function CommentOrReply({
           className={className}
           btnClass={btnClass}
           inputRef={inputRef}
+          placeholder="Write your comment..."
         />
       )}
     </div>

@@ -1,12 +1,10 @@
 'use client'
 import SearchIcon from '@/assets/icons/SearchIcon'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import '@/components/shared/customLink/style.css'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import NProgress from 'nprogress'
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
-import CircularProgress from '../ui/circularProgress'
-import NProgress from 'nprogress'
-import '@/components/shared/customLink/style.css'
 
 const SearchBar = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
@@ -44,14 +42,14 @@ const SearchBar = () => {
 
   return (
     <form
-      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out  focus-within:max-w-[690px] hover:bg-white  focus:max-w-[690px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
+      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-none border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out focus-within:max-w-[690px] focus:max-w-[690px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
       <input
         ref={refForInput}
         onKeyDown={handleKeyDown}
         onChange={handleSearch}
         value={search}
         type="text"
-        className="ml-4 w-full border-none bg-transparent font-light text-black outline-none hover:border-none dark:text-white"
+        className="ml-4 w-full border-none bg-transparent font-light text-black outline-none hover:border-none dark:text-white "
         placeholder="Search Forum"
       />
       <label className="absolute left-[-6px]">

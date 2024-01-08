@@ -1,23 +1,23 @@
 'use client'
-import React, { useEffect, useCallback, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Navbar from '@/components/Navbar/Navbar'
 import '@/assets/styles/globals.css'
-import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from 'react-toastify'
-import { getChannels } from '@/services/channel/channel'
-import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
-import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
-import { arrayToKeyIdNValueData } from '@/utils/channels'
+import Navbar from '@/components/Navbar/Navbar'
 import {
   getRefreshToken,
   googleCodeExchange,
   googleTokenExchange,
 } from '@/services/auth/authService'
-import { useSearchParams, useRouter, usePathname } from 'next/navigation'
+import { getChannels } from '@/services/channel/channel'
+import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
+import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
+import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import UserNameDialog from './UserNameDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import UserNameDialog from './UserNameDialog'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
@@ -26,8 +26,6 @@ const LayoutWrapper = ({ children }: any) => {
   )
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
   const searchParams = useSearchParams()
-  const router = useRouter()
-  const pathname = usePathname()
 
   const dispatch = useDispatch()
   const isFirstRun = useRef(true)
@@ -40,7 +38,7 @@ const LayoutWrapper = ({ children }: any) => {
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err) {
-      console.error('err', err)
+      throw err
     }
   }, [])
 
@@ -87,7 +85,6 @@ const LayoutWrapper = ({ children }: any) => {
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {
-        console.error('err', err)
         showErrorAlert('Issue in google authentication')
       }
     }
@@ -140,13 +137,14 @@ const LayoutWrapper = ({ children }: any) => {
   }, [])
 
   return (
-    <body className={` ${styles} theme-default font-primary dark:bg-slate-700`}>
+    <body
+      className={` ${styles} theme-default pt-4 font-primary dark:bg-slate-700`}>
+      {/* ADD bg-background in body */}
       <Navbar />
       <ToastContainer />
       <main
-        className={`bg-primary-light  min-h-screen pt-14 font-primary dark:bg-dark-background`}>
+        className={`bg-primary-light pt-[45px] font-primary dark:bg-dark-background`}>
         <div className="bg-primary-light grid">
-          <div className="fixed left-0 top-0 z-10 w-full"></div>
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div className="max-h-auto mx-auto -mt-5 min-h-[100vh] w-full bg-background px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]">
               {children}

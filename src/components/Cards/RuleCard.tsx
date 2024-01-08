@@ -1,34 +1,33 @@
-import React from 'react'
-
 const rulesArr = [
-  'Rule 1: Vel elit, ut ut.',
-  'Rule 2: Cras nec purus et.',
-  'Rule 3: Fusce auctor odio.',
-  ' Rule 4: Suspendisse non',
-  ' Rule 5: Sed euismod',
-  'Rule 6: Vel elit, ut ut.',
-  'Rule 7: Cras nec purus.',
-  'Rule 8: Fusce auctor.',
-  'Rule 9: Suspendisse.',
-  'Rule 10: Sed euismod',
+  'Vel elit, ut ut.',
+  'Cras nec purus et.',
+  'Fusce auctor odio.',
+  'Suspendisse non',
+  'Sed euismod',
+  'Vel elit, ut ut.',
+  'Cras nec purus.',
+  'Fusce auctor.',
+  'Suspendisse.',
+  'Sed euismod',
 ]
+import { ShieldPlus } from 'lucide-react'
 
 const RulesCard = () => {
   return (
     <>
-      <div className="cursor-cursor ml-5 h-auto w-[200px] rounded-[10px] bg-white pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white ">
-        <h1 className="mb-[20px] justify-center pt-5 text-center text-[15px] font-medium ">
-          CHANNELS RULES
-        </h1>
+      <div className="h-auto w-[200px] cursor-pointer rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white">
+        <p className="mb-[10px] pt-5 text-start text-[11px] font-semibold">
+          Channel Rules
+        </p>
 
-        <ul className="cursor-pointer pl-[7px] pr-[10px] text-left">
+        <ul className="text-left">
           <li>
             {rulesArr.map((item, index) => (
               <li key={index}>
-                <div className="display-inline  mb-[10px] mt-[10px] w-full pl-[10px] text-[12px] font-medium text-gray-500 ">
+                <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent">
+                  <ShieldPlus size={20} />
                   <span>{item}</span>
                 </div>
-                <hr className="my-1 mt-1 border-t border-gray-400" />
               </li>
             ))}
           </li>

@@ -1,5 +1,4 @@
 'use server'
-import { cookies } from 'next/headers'
 import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
@@ -14,7 +13,7 @@ type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
   loadReactions?: boolean
   channelID?: number
-  userID?: number
+  userID?: string
   pageNumber?: number
   pageSize?: number
 }
@@ -38,9 +37,7 @@ export async function getAllPosts({
 
     url += `&page=${pageNumber}&pageSize=${pageSize}`
 
-    let res: any = await fetch(url, {
-      cache: 'no-store',
-    })
+    let res: any = await fetch(url)
     const response = await res.json()
     return response
   } catch (err) {
@@ -119,6 +116,30 @@ export async function postCreatePostInChannel({ channelID, body, token }: any) {
         method: 'POST',
         headers,
         body: requestBody,
+      },
+    )
+    const response = await res.json()
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function feedImageCreateInChannel({ postId, file, token }: any) {
+  try {
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    }
+
+    // const requestBody = JSON.stringify(body)
+
+    let res = await fetch(
+      `https://api.enxsis.com/api/v1/images/posts/${postId}/upload`,
+      {
+        method: 'POST',
+        headers,
+        body: file,
       },
     )
     const response = await res.json()
