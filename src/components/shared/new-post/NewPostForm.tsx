@@ -1,24 +1,20 @@
-//@ts-nocheck
 import {
   postCreatePostInChannel,
   feedImageCreateInChannel,
 } from '@/services/posts'
-import { useRef, useState } from 'react'
-import { AiOutlineLink as LinkIcon } from 'react-icons/ai'
+import { useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
-import { IoDocumentAttachOutline as AttachmentIcon } from 'react-icons/io5'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
-// import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSelector } from 'react-redux'
-import Image from 'next/image'
-import { document } from 'postcss'
-import { LiaUserEditSolid } from 'react-icons/lia'
-import { Image as iconImg } from 'lucide-react'
 
-export default function NewPostForm({ open }) {
+interface newPostFormInterface {
+  open: (arg0: boolean) => void
+}
+
+export default function NewPostForm({ open }: newPostFormInterface) {
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',
@@ -27,8 +23,10 @@ export default function NewPostForm({ open }) {
 
   const [postImage, setPostImage] = useState(false)
 
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [image, setImage] = useState()
+  const [selectedImage, setSelectedImage] = useState<
+    string | ArrayBuffer | null | undefined
+  >(null)
+  const [image, setImage] = useState<string | Blob>()
 
   const handleImageChange = (event: any) => {
     const content = 'image:'
@@ -40,7 +38,6 @@ export default function NewPostForm({ open }) {
       const reader = new FileReader()
       reader.onloadend = () => {
         setSelectedImage(reader.result)
-        console.log('imageeeeeee', selectedImage)
       }
       reader.readAsDataURL(file)
     }
@@ -90,7 +87,7 @@ export default function NewPostForm({ open }) {
         if (postImage) {
           try {
             const formData = new FormData()
-            formData.append('file', image)
+            if (image) formData.append('file', image)
             const postId = result?.data?.post?.id
             const sendImage = await feedImageCreateInChannel({
               postId: postId,
@@ -119,9 +116,11 @@ export default function NewPostForm({ open }) {
       setLoading(false)
       open(false)
     }
-    //  finally {
+  }
 
-    // }
+  const handlePost = () => {
+    setPostImage(false)
+    setSelectedImage('')
   }
 
   return (
@@ -148,10 +147,7 @@ export default function NewPostForm({ open }) {
 
       <div className="flex items-start justify-start">
         <button
-          onClick={() => {
-            setPostImage(false)
-            setSelectedImage('')
-          }}
+          onClick={handlePost}
           className={`ml-2 w-[100px] rounded-md p-2 ${
             !postImage
               ? 'bg-blue-500 text-white transition duration-200 hover:bg-blue-600'
@@ -179,21 +175,14 @@ export default function NewPostForm({ open }) {
 
       {postImage ? (
         <>
-          {/* <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-            id="uploadImage"
-          /> */}
           <div className="mx-auto flex h-[350px] w-[400px] items-center justify-center rounded-lg border-2 border-gray-200 p-2">
             <label
               htmlFor="changeBackgroundImage"
               className=" w-fit rounded-md p-2">
               {selectedImage ? (
                 <img
-                  src={selectedImage || ''}
-                  // alt="Upload Image"
+                  src={typeof selectedImage === 'string' ? selectedImage : ''}
+                  alt="Upload Image"
                   className=" mx-auto h-[350px] w-[400px] rounded-md border-0 hover:cursor-pointer"
                   id="uploadedImage"
                 />
@@ -205,33 +194,11 @@ export default function NewPostForm({ open }) {
             <input
               className="hidden"
               id="changeBackgroundImage"
-              // ref={imageInputRef}
               type="file"
               accept="image/*"
               onChange={handleImageChange}
             />
-            {/* <label htmlFor="uploadedImage">
-              <img
-                src={selectedImage || ''}
-                // alt="Upload Image"
-                className=" mx-auto h-[350px] w-[400px] rounded-md border-0 hover:cursor-pointer"
-                id="uploadedImage"
-              />
-            </label> */}
           </div>
-
-          {/* <div className="flex items-center justify-between">
-            <button
-              onClick={createPost}
-              disabled={isDisabled}
-              className={`rounded-md ${
-                isDisabled ? 'bg-stone-200' : 'bg-blue-500'
-              } p-2 text-white transition duration-200 hover:${
-                isDisabled ? 'bg-stone-200' : 'bg-blue-600'
-              }`}>
-              {loading ? 'Loading...' : 'Next'}
-            </button>
-          </div> */}
         </>
       ) : (
         <>
