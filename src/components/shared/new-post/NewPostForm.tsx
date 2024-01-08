@@ -1,19 +1,22 @@
-//@ts-nocheck
 import {
   feedImageCreateInChannel,
   postCreatePostInChannel,
 } from '@/services/posts'
-import { useState } from 'react'
-import { CiImageOn as ImageIcon } from 'react-icons/ci'
-import { Editor } from '../editor'
-import Dropdown from './Dropdown'
-// import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { Plus } from 'lucide-react'
 import Image from 'next/image'
+import { useState } from 'react'
+import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useSelector } from 'react-redux'
+import { Editor } from '../editor'
+import Dropdown from './Dropdown'
 
-export default function NewPostForm({ open }) {
+interface newPostFormInterface {
+  open: (arg0: boolean) => void
+}
+
+export default function NewPostForm({ open }: newPostFormInterface) {
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',
@@ -22,8 +25,10 @@ export default function NewPostForm({ open }) {
 
   const [postImage, setPostImage] = useState(false)
 
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [image, setImage] = useState()
+  const [selectedImage, setSelectedImage] = useState<
+    string | ArrayBuffer | null | undefined
+  >(null)
+  const [image, setImage] = useState<string | Blob>()
 
   const handleImageChange = (event: any) => {
     const content = 'image:'
@@ -35,7 +40,6 @@ export default function NewPostForm({ open }) {
       const reader = new FileReader()
       reader.onloadend = () => {
         setSelectedImage(reader.result)
-        console.log('imageeeeeee', selectedImage)
       }
       reader.readAsDataURL(file)
     }
@@ -85,7 +89,7 @@ export default function NewPostForm({ open }) {
         if (postImage) {
           try {
             const formData = new FormData()
-            formData.append('file', image)
+            if (image) formData.append('file', image)
             const postId = result?.data?.post?.id
             const sendImage = await feedImageCreateInChannel({
               postId: postId,
@@ -114,9 +118,11 @@ export default function NewPostForm({ open }) {
       setLoading(false)
       open(false)
     }
-    //  finally {
+  }
 
-    // }
+  const handlePost = () => {
+    setPostImage(false)
+    setSelectedImage('')
   }
 
   return (
@@ -142,27 +148,28 @@ export default function NewPostForm({ open }) {
       />
 
       <div className="flex items-start justify-start">
-        <button
-          onClick={() => {
-            setPostImage(false)
-            setSelectedImage('')
-          }}
-          className={`ml-2 w-[100px] rounded-md p-2 ${
+        <div
+          onClick={handlePost}
+          className={`ml-2 flex w-[100px] items-center gap-[8px]  p-2 ${
             !postImage
-              ? 'bg-blue-500 text-white transition duration-200 hover:bg-blue-600'
-              : ' bg-stone-200'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              : 'opacity-50'
           }`}>
-          Post{' '}
-        </button>
-        <button
+          <Plus size={20} />
+          <button>Post</button>
+        </div>
+        <div
           onClick={imageOnClick}
-          className={`ml-2 w-[100px] rounded-md p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px]  p-2 ${
             postImage
-              ? 'bg-blue-500 text-white transition duration-200 hover:bg-blue-600'
-              : ' bg-stone-200'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              : ' opacity-50'
           }`}>
-          Image{' '}
-        </button>
+          <Image src={''} height={20} width={20} alt="upload image" />
+          <button>Image</button>
+          <hr />
+        </div>
+
         <input
           type="file"
           accept="image/*"
@@ -171,64 +178,42 @@ export default function NewPostForm({ open }) {
           id="imageInput"
         />
       </div>
+      <p className="!mb-[35px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
 
       {postImage ? (
         <>
-          {/* <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            className="hidden"
-            id="uploadImage"
-          /> */}
-          <div className="mx-auto flex h-[350px] w-[400px] items-center justify-center rounded-lg border-2 border-gray-200 p-2">
+          <div
+            className={`mx-auto flex h-[343px] w-[400px] items-center justify-center rounded-lg border-[3px] border-gray-200 ${
+              postImage ? 'w-full max-w-[702px] border-dotted' : ''
+            }`}>
             <label
               htmlFor="changeBackgroundImage"
-              className=" w-fit rounded-md p-2">
+              className=" w-fit cursor-pointer rounded-md">
               {selectedImage ? (
                 <Image
-                  src={selectedImage || ''}
+                  src={typeof selectedImage === 'string' ? selectedImage : ''}
                   alt="Upload Image"
-                  className=" mx-auto h-[350px] w-[400px] rounded-md border-0 hover:cursor-pointer"
+                  className=" mx-auto h-[343px] w-[400px] rounded-md border-0 object-contain"
                   id="uploadedImage"
                   height={350}
                   width={400}
                 />
               ) : (
-                <ImageIcon className="h-[250px] w-[250px] cursor-pointer text-gray-500" />
+                <>
+                  <ImageIcon className="h-[250px] w-[250px]  text-gray-500" />
+                  <p>Browser Files to Upload</p>
+                </>
               )}
             </label>
 
             <input
               className="hidden"
               id="changeBackgroundImage"
-              // ref={imageInputRef}
               type="file"
               accept="image/*"
               onChange={handleImageChange}
             />
-            {/* <label htmlFor="uploadedImage">
-              <img
-                src={selectedImage || ''}
-                // alt="Upload Image"
-                className=" mx-auto h-[350px] w-[400px] rounded-md border-0 hover:cursor-pointer"
-                id="uploadedImage"
-              />
-            </label> */}
           </div>
-
-          {/* <div className="flex items-center justify-between">
-            <button
-              onClick={createPost}
-              disabled={isDisabled}
-              className={`rounded-md ${
-                isDisabled ? 'bg-stone-200' : 'bg-blue-500'
-              } p-2 text-white transition duration-200 hover:${
-                isDisabled ? 'bg-stone-200' : 'bg-blue-600'
-              }`}>
-              {loading ? 'Loading...' : 'Next'}
-            </button>
-          </div> */}
         </>
       ) : (
         <>
@@ -246,11 +231,9 @@ export default function NewPostForm({ open }) {
         <button
           onClick={createPost}
           disabled={isDisabled}
-          className={`rounded-md ${
-            isDisabled ? 'bg-stone-200' : 'bg-blue-500'
-          } p-2 text-white transition duration-200 hover:${
-            isDisabled ? 'bg-stone-200' : 'bg-blue-600'
-          }`}>
+          className={`w-[100px] rounded-md ${
+            isDisabled ? 'bg-stone-200' : 'bg-accent'
+          } p-2 text-white transition duration-200`}>
           {loading ? 'Loading...' : 'Next'}
         </button>
       </div>

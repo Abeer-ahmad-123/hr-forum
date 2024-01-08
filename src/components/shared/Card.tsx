@@ -88,7 +88,13 @@ const Card = ({ post, channels }: any) => {
                   dangerouslySetInnerHTML={{ __html: content }}
                 />
               ) : (
-                <Image src={image_url} alt="post" height={400} width={300} />
+                <Image
+                  src={image_url}
+                  alt="post"
+                  height={400}
+                  width={300}
+                  className="w-full max-w-[400px]"
+                />
               )}
             </div>
           </div>

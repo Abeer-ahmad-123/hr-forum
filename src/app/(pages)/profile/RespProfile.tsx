@@ -151,7 +151,7 @@ const RespProfile = ({ userId }: profileProps) => {
       <div className="profile-page  max-md:block">
         <section className="relative block h-[650px]">
           <div
-            className="bg-fit absolute top-0 h-[60%] w-full bg-center"
+            className="absolute top-0 h-[60%] w-full bg-cover bg-center"
             style={{
               backgroundImage: `url(${
                 user?.backgroundPictureURL ||
@@ -197,7 +197,7 @@ const RespProfile = ({ userId }: profileProps) => {
 
         <section className="bg-blueGray-200 relative mx-auto max-w-screen-xl max-md:w-full">
           <div className=" mx-auto ">
-            <div className="relative -mt-80 mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
+            <div className="relative -mt-[30rem] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
               {/* Profile card start */}
               <div className="px-6">
                 <div className="top-0">
