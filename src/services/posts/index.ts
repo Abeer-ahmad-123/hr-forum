@@ -128,8 +128,7 @@ export async function postCreatePostInChannel({ channelID, body, token }: any) {
 export async function feedImageCreateInChannel({ postId, file, token }: any) {
   try {
     const headers = {
-      'Content-Type': 'multipart/form-data',
-      accept: 'application/json',
+      Accept: 'application/json',
       Authorization: `Bearer ${token}`,
     }
 
