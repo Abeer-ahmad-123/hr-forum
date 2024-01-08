@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useState } from 'react'
 
 const NewCommentCard = ({ onAdd }: any) => {
@@ -22,10 +23,12 @@ const NewCommentCard = ({ onAdd }: any) => {
       {/* Desktop View */}
       <div className="hidden sm:block">
         <div className="flex rounded-md bg-white p-6 dark:bg-dark-primary">
-          <img
+          <Image
             alt="avatar"
             className="mr-4 h-10 w-10 rounded-full"
             src={`/images/avatars/image-juliusomo.webp`}
+            height={10}
+            width={10}
           />
           <textarea
             value={text}
@@ -38,8 +41,7 @@ const NewCommentCard = ({ onAdd }: any) => {
           <button
             autoFocus={false}
             className="h-12 w-36 rounded-lg bg-primary text-white hover:opacity-50"
-            onClick={handleText}
-          >
+            onClick={handleText}>
             SEND
           </button>
         </div>
@@ -57,7 +59,9 @@ const NewCommentCard = ({ onAdd }: any) => {
             onFocus={focusTextArea}
           />
           <div className="flex justify-between">
-            <img
+            <Image
+              height={10}
+              width={10}
               alt="avatar"
               className="mr-4 h-10 w-10 rounded-full"
               src={`/images/avatars/image-juliusomo.webp`}
@@ -66,8 +70,7 @@ const NewCommentCard = ({ onAdd }: any) => {
             <button
               autoFocus={false}
               className="h-12 w-28 rounded-lg fill-[#5357B6] text-white"
-              onClick={handleText}
-            >
+              onClick={handleText}>
               SEND
             </button>
           </div>

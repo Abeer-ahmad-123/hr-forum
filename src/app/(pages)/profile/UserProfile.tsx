@@ -1,21 +1,18 @@
 'use client'
-import { getUserDetails, updateUserImage } from '@/services/user'
+import { updateUserImage } from '@/services/user'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import { getUserSpecificPosts } from '@/services/posts'
+import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
-import { userData } from '@/utils/interfaces/userData'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import EditProfileButton from './EditProfileButton'
-import SideCardBadge from './SideCardBadge'
-import SideCardSkill from './SideCardSkill'
-import UserSpecificPosts from './UserSpecificPosts'
-import Skelton from '@/components/ui/skelton'
 import UserDataBadge from './UserDataBadge'
+import UserSpecificPosts from './UserSpecificPosts'
 
 function UserProfile() {
   const [userSpecificPosts, setUserSpecificPosts] =
@@ -122,6 +119,7 @@ function UserProfile() {
                       email: userDataInStore?.email || '',
                       bio: userDataInStore?.bio || '',
                     }}
+                    setUserData={setUserData}
                   />
                 </div>
               </div>

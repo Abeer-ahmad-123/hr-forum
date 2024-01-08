@@ -1,22 +1,17 @@
 //@ts-nocheck
 import {
-  postCreatePostInChannel,
   feedImageCreateInChannel,
+  postCreatePostInChannel,
 } from '@/services/posts'
-import { useRef, useState } from 'react'
-import { AiOutlineLink as LinkIcon } from 'react-icons/ai'
+import { useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
-import { IoDocumentAttachOutline as AttachmentIcon } from 'react-icons/io5'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 // import { useRouter } from 'next/navigation'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useSelector } from 'react-redux'
 import Image from 'next/image'
-import { document } from 'postcss'
-import { LiaUserEditSolid } from 'react-icons/lia'
-import { Image as iconImg } from 'lucide-react'
+import { useSelector } from 'react-redux'
 
 export default function NewPostForm({ open }) {
   const [formValues, setFormValues] = useState({
@@ -191,11 +186,13 @@ export default function NewPostForm({ open }) {
               htmlFor="changeBackgroundImage"
               className=" w-fit rounded-md p-2">
               {selectedImage ? (
-                <img
+                <Image
                   src={selectedImage || ''}
-                  // alt="Upload Image"
+                  alt="Upload Image"
                   className=" mx-auto h-[350px] w-[400px] rounded-md border-0 hover:cursor-pointer"
                   id="uploadedImage"
+                  height={350}
+                  width={400}
                 />
               ) : (
                 <ImageIcon className="h-[250px] w-[250px] cursor-pointer text-gray-500" />

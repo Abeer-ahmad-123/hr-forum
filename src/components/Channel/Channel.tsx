@@ -1,4 +1,5 @@
 import { channels } from '@/utils/data'
+import Image from 'next/image'
 // import { Notification, ToggleButton } from '../shared'
 
 const Channel = () => {
@@ -20,15 +21,16 @@ const Channel = () => {
             <div
               className={`flex justify-between border-l-4 border-transparent bg-transparent px-4 py-5 ${styles(
                 channel.online,
-              )}`}
-            >
+              )}`}>
               {/* :channel DETAILS */}
               <div className="flex pr-8 sm:items-center sm:pl-4">
                 {/* ::channel Picture */}
-                <img
+                <Image
+                  height={8}
+                  width={8}
                   src={channel.picture}
                   alt={channel.name}
-                  className="mr-3 h-8 w-8 rounded-full sm:h-12 sm:w-12"
+                  className="mr-3 rounded-full sm:h-12 sm:w-12"
                 />
                 {/* ::channel Infos */}
                 <div className="space-y-1">

@@ -1,19 +1,15 @@
 'use client'
-import { useState, useRef, useEffect, MutableRefObject } from 'react'
-import UpdownButton from '../ui/updownButton'
-import ReplyTextArea from './ReplyTextArea'
-import { useSearchParams } from 'next/navigation'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import SocialButtons from './SocialButtons'
-import { MoreHorizontal } from 'lucide-react'
-import { useParams } from 'next/navigation'
-import { ConvertDate } from '@/utils/helper'
-import { FormatCreatedAt } from '@/utils/helper'
+import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { ReplyInterface } from '@/utils/interfaces/reply'
+import Image from 'next/image'
+import { useParams, useSearchParams } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
+import SocialButtons from './SocialButtons'
 
 function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
@@ -53,7 +49,10 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
       <div className="flex gap-2.5">
         <div className="flex  flex-col items-center">
           <div className="rounded-full border border-black">
-            <img
+            <Image
+              alt="profile picture"
+              height={8}
+              width={8}
               src={reply['author_details'].profile_picture_url}
               className="h-8 w-8 rounded-full"
             />
