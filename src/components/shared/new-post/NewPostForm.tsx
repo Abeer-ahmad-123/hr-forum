@@ -4,7 +4,7 @@ import {
 } from '@/services/posts'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Plus } from 'lucide-react'
+import { Image as IconImage, Plus } from 'lucide-react'
 import Image from 'next/image'
 import { useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
@@ -165,7 +165,7 @@ export default function NewPostForm({ open }: newPostFormInterface) {
               ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
               : ' opacity-50'
           }`}>
-          <Image src={''} height={20} width={20} alt="upload image" />
+          <IconImage height={20} width={20} />
           <button>Image</button>
           <hr />
         </div>

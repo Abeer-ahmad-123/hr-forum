@@ -46,8 +46,8 @@ function LoggedIn() {
             src={
               profilePictureURL || 'https://ui-avatars.com/api/?name=John+Doe'
             }
-            height={8}
-            width={8}
+            height={25}
+            width={25}
             alt="User"
           />
         </div>
