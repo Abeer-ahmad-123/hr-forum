@@ -8,6 +8,7 @@ import {
   DialogFooter,
 } from './ui/Dialog/simpleDialog'
 
+import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { Slider } from './ui/slider'
 
 interface ImageUploadProps {
@@ -98,10 +99,17 @@ function ImageUpload({
           <button
             onClick={save}
             type="button"
-            className={`dark:bg-accent-600 hover:bg-accent-800 mb-2 me-2 rounded-lg   ${
+            className={`dark:bg-accent-600 hover:bg-accent-800 mb-2 me-2 flex rounded-lg   ${
               disableButton ? 'bg-gray-400' : 'bg-accent'
             }  px-5 py-2.5 text-sm font-medium text-white focus:outline-none`}>
             Save
+            {disableButton ? (
+              <div className="ml-2">
+                <CircularProgressIcon color="gray" />
+              </div>
+            ) : (
+              <></>
+            )}
           </button>
         </div>
       </DialogContent>
