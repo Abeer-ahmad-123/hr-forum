@@ -1,6 +1,8 @@
 import userImage from '@/assets/avatars/Unknown_person.jpeg'
+import { ChannelPill } from '@/components/shared'
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
 import { getAllPosts } from '@/services/posts'
+import { timeFormatInHours } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
@@ -34,6 +36,9 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
+  const channels = useSelector(
+    (state: StoreChannels) => state?.channels.channels,
+  )
   const channelsKeyValuePair = useSelector(
     (state: StoreChannels) => state?.channels?.channelsKeyValuePair,
   )
@@ -45,7 +50,6 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       <div className=" w-full rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <div className="px-5 py-4">
           <div className="flex text-left font-semibold dark:text-white">
-            {/* Default image ushowing need to be updated. We can show the image from server */}
             <Image
               src={user?.profilePictureURL || userImage}
               alt="profile"
@@ -54,11 +58,28 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
               height={100}
             />
 
-            <div className="ml-4 flex flex-col">
-              <div className="font-light"> {user?.name}</div>
-              <div className="pr-2 text-[80%] font-normal text-gray-400">
-                {user?.email}
+            <div className="ml-4 flex flex-col items-start align-baseline">
+              <div className="flex flex-row">
+                <CustomLink
+                  href={
+                    userData?.id === (post.user_id as unknown as string)
+                      ? '/profile'
+                      : `/profile/${post.user_id}`
+                  }>
+                  <p
+                    className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                    aria-label="user-name">
+                    {user?.name}
+
+                    {/* Yogesh Choudhary Paliyal */}
+                  </p>
+                </CustomLink>
+                <ChannelPill channel_id={post.channel_id} channels={channels} />
               </div>
+
+              <p className="text-xs font-light text-slate-500 dark:text-gray-400">
+                {timeFormatInHours(post.created_at as unknown as Date)}
+              </p>
             </div>
           </div>
         </div>

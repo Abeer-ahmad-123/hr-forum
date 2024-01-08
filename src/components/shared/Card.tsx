@@ -1,12 +1,13 @@
 'use client'
 import ChannelPill from '@/components/shared/ChannelPill'
 import { timeFormatInHours } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
-import { useSelector } from 'react-redux'
 
 const Card = ({ post, channels }: any) => {
   const {
@@ -23,7 +24,9 @@ const Card = ({ post, channels }: any) => {
     image_url,
   } = post
   const pathName = usePathname()
-  const userDetails = useSelector((state) => state.loggedInUser.userData)
+  const userDetails = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.userData,
+  )
   console.log('post', post)
   return (
     <>
