@@ -102,7 +102,6 @@ const PostActionBar = ({
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(postId, tokenInRedux)
-
         if (res.data) {
           setBookmarkSuccess(true)
         } else if (res.status === 200 || res.status === 204) {

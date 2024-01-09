@@ -7,9 +7,15 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { BookmarkedPostInterface } from '@/utils/interfaces/savedPost'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import RenderFeedLoading from './Loading/renderFeedLoading'
 import { Card } from './shared'
 
 const SavedPost = () => {
+  const renderTimes = 5
+  const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
+    <RenderFeedLoading key={index} />
+  ))
+
   const tokenInRedux = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
@@ -66,7 +72,7 @@ const SavedPost = () => {
             )
           })
         ) : (
-          <p>No saved posts</p>
+          <div>{componentsArray}</div>
         )}
       </div>
     </>
