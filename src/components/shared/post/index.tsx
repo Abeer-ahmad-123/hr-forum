@@ -107,7 +107,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
             ) : null}
           </div>
           <div className="w-full">
-            <hr className="mx-10" />
+            <hr />
 
             <CommentsLogic
               postId={postId}

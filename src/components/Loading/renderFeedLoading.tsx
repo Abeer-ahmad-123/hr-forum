@@ -34,7 +34,7 @@ const RenderFeedLoading = () => {
           </div>
         </div>
 
-        <hr className="mx-10" />
+        <hr />
 
         <div className="mx-5 py-1">
           <div className="flex flex-row  items-center justify-around  ">

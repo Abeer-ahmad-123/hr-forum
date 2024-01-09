@@ -57,7 +57,7 @@ const PostReactionBar = ({
 
   return addCountOfAll(reactionArray) ? (
     <>
-      <hr className="mx-10" />
+      <hr />
       <div className="flex items-center justify-between px-[3.2rem] py-1">
         <div className="felx gap-1">
           {getEmojis(reactionArray, reactionOptions)
