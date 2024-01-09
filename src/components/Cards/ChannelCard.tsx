@@ -1,9 +1,9 @@
 'use client'
-import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
-import { useSelector } from 'react-redux'
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
+import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
 import { Building2 } from 'lucide-react'
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 const ChannelCard = () => {
   const channels = useSelector(
@@ -19,7 +19,7 @@ const ChannelCard = () => {
           {channels.map((channel: ChannelInterface, index: number) => (
             <React.Fragment key={index}>
               <CustomLink href={`/channels/${channel.slug}`}>
-                <li className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent">
+                <li className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent  dark:text-gray-400 dark:hover:text-accent">
                   <Building2 size={20} />
                   <span>{channel.name}</span>
                 </li>

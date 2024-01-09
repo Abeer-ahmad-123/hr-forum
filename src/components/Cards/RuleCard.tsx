@@ -24,7 +24,7 @@ const RulesCard = () => {
           <li>
             {rulesArr.map((item, index) => (
               <li key={index}>
-                <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500">
+                <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 dark:text-gray-400 ">
                   <ShieldPlus size={20} />
                   <span>{item}</span>
                 </div>
