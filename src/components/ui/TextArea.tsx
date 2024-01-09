@@ -1,13 +1,11 @@
 'use client'
+import { Dialog } from '@/components/ui/Dialog/interceptDialog'
+import { noProfilePicture } from '@/utils/ImagesLink'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { SendHorizonal } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
-// import {useRouter} from 'next/navigation'
-
-import { Dialog } from '@/components/ui/Dialog/interceptDialog'
-import { noProfilePicture } from '@/utils/ImagesLink'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 function TextArea({
   submitCallback,
