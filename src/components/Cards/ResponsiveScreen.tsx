@@ -2,8 +2,8 @@
 import { useState } from 'react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6'
 import { useSelector } from 'react-redux'
-import ResChannelCard from './ResponsiveChannelCard'
-import ResProfileCard from './ResposniveProfileCard'
+import ChannelCard from './ChannelCard'
+import ProfileCard from './ProfileCard'
 
 const RespScreen = () => {
   const [showComponent, setShowComponent] = useState(false)
@@ -18,8 +18,8 @@ const RespScreen = () => {
   return (
     <>
       <div>
-        {!!loggedInUseraDetails.id && <ResProfileCard />}
-        {showComponent && <ResChannelCard />}
+        {!!loggedInUseraDetails.id && <ProfileCard />}
+        {showComponent && <ChannelCard />}
         <div className="pointer mb-5 w-full">
           <button className="text-gray-500" onClick={handleClick}>
             {' '}
