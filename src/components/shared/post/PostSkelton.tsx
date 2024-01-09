@@ -1,7 +1,5 @@
-import React from 'react'
-import CommentSkelton from '../CommentSkelton'
 import Skelton from '../../ui/skelton'
-import UpdownButtonSkelton from '../UpDownButtonSkelton'
+import CommentSkelton from '../CommentSkelton'
 
 async function PostSkelton({ isDialogPost = false }) {
   return (
@@ -9,8 +7,7 @@ async function PostSkelton({ isDialogPost = false }) {
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
       ${!isDialogPost && 'shadow-lg'} 
-      dark:bg-dark-primary dark:text-gray-300`}
-      >
+      dark:bg-dark-primary dark:text-gray-300`}>
         <div className="flex w-full flex-col items-center p-10 pl-4 pt-0">
           <div className="mb-5 h-fit w-full  cursor-pointer rounded-xl bg-white  dark:bg-slate-800 dark:text-gray-300">
             <div className="px-4 py-4">
@@ -43,7 +40,7 @@ async function PostSkelton({ isDialogPost = false }) {
               </div>
             </div>
 
-            <hr />
+            <hr className="mx-10" />
 
             <div className="mx-5 py-1">
               <div className="flex flex-row  items-center justify-around  ">

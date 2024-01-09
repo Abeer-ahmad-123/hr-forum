@@ -101,7 +101,7 @@ const Card = ({ post, channels }: any) => {
         </CustomLink>
 
         <PostReactionBar reaction_summary={reaction_summary} postId={id} />
-        <hr />
+        <hr className="mx-10" />
 
         <div className="py-1">
           <PostActionBar

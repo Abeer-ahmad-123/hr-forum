@@ -167,7 +167,7 @@ export default function NewPostForm({ open }: newPostFormInterface) {
           }`}>
           <IconImage height={20} width={20} />
           <button>Image</button>
-          <hr />
+          <hr className="mx-10" />
         </div>
 
         <input
