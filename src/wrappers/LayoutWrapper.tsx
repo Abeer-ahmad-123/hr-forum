@@ -11,7 +11,6 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -21,15 +20,13 @@ import UserNameDialog from './UserNameDialog'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
-  const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
   const searchParams = useSearchParams()
-
   const dispatch = useDispatch()
+
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
+
+  const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
 
   const styles = darkMode ? 'dark' : ''
   const getChannelsLocal = useCallback(async () => {

@@ -73,10 +73,10 @@ const ReactionButton = ({
       <div
         onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeft}
-        className="flex basis-1/4 items-center justify-center hover:bg-gray-300 dark:hover:text-slate-800">
+        className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:text-slate-800">
         <PopoverTrigger asChild>
           <button
-            className="dark:text-icon-dark pointer flex items-center justify-center rounded-sm dark:text-gray-300 "
+            className="dark:text-icon-dark pointer flex items-center justify-center  dark:text-gray-300 "
             onClick={handleLikeWrapperExtended}>
             <div className="flex flex-col items-center">
               {/* Align the children in the center */}
