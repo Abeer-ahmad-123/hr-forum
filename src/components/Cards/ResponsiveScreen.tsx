@@ -1,21 +1,24 @@
 'use client'
-import React, { useState } from 'react'
-import ResProfileCard from './ResposniveProfileCard'
+import { useState } from 'react'
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa6'
+import { useSelector } from 'react-redux'
 import ResChannelCard from './ResponsiveChannelCard'
-import { FaAngleDown } from 'react-icons/fa6'
-import { FaAngleUp } from 'react-icons/fa6'
+import ResProfileCard from './ResposniveProfileCard'
 
 const RespScreen = () => {
   const [showComponent, setShowComponent] = useState(false)
+  const loggedInUseraDetails = useSelector(
+    (state: any) => state?.loggedInUser?.userData,
+  )
 
   const handleClick = () => {
     setShowComponent(!showComponent)
   }
+
   return (
     <>
       <div>
-        {' '}
-        <ResProfileCard />
+        {!!loggedInUseraDetails.id && <ResProfileCard />}
         {showComponent && <ResChannelCard />}
         <div className="pointer mb-5 w-full">
           <button className="text-gray-500" onClick={handleClick}>
