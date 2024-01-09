@@ -15,6 +15,7 @@ const SavedPost = () => {
   const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
     <RenderFeedLoading key={index} />
   ))
+  const [bookmarkupdated, setBookmarkupdated] = useState(false)
 
   const tokenInRedux = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
@@ -46,7 +47,7 @@ const SavedPost = () => {
   }
   useEffect(() => {
     getSavePost()
-  }, [])
+  }, [bookmarkupdated])
 
   return (
     <>
@@ -65,12 +66,17 @@ const SavedPost = () => {
         </div>
       </div>
       <div className="min-h-[70vh]">
-        {!!posts?.Bookmarks?.length ? (
-          posts?.Bookmarks?.map((post: any) => {
-            return (
-              <Card key={post?.title} post={post.post} channels={channels} />
-            )
-          })
+        {posts?.Bookmarks?.length ? (
+          posts?.Bookmarks?.map((post: any) => (
+            <Card
+              key={post?.title}
+              post={post.post}
+              channels={channels}
+              setBookmarkupdated={setBookmarkupdated}
+            />
+          ))
+        ) : posts?.Bookmarks?.length === 0 ? (
+          <p className="my-5 text-center">No saved posts yet.</p>
         ) : (
           <div>{componentsArray}</div>
         )}
