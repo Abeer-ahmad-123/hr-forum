@@ -283,7 +283,10 @@ const RespProfile = ({ userId }: profileProps) => {
           </div>
           <div className="flex flex-col gap-[2rem] lg:flex-row">
             <div className=" w- flex flex-col gap-[1.5rem]">
-              <UserDataBadge />
+              <UserDataBadge
+                postCount={user?.post_count}
+                commentCount={user?.comment_count}
+              />
             </div>
             <div className="flex w-full flex-col">
               {!loading ? (
