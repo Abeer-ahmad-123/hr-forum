@@ -19,10 +19,9 @@ export default function EditPost({ close, title, content, data }: any) {
 
   const handleEditPost = async () => {
     try {
-      // await api.editPost(formValues, data?.id)
       close({ isEdit: true })
     } catch (err) {
-      console.log(err)
+      throw err
     }
   }
 

@@ -81,10 +81,7 @@ export default function NewPostForm({ open }: newPostFormInterface) {
         token,
       })
 
-      console.log('FormValues', formValues)
-
       if (result?.success) {
-        console.log('result', result?.data?.post?.id)
         if (postImage) {
           try {
             const formData = new FormData()
@@ -96,7 +93,6 @@ export default function NewPostForm({ open }: newPostFormInterface) {
               token: token,
             })
             if (sendImage?.success) {
-              console.log('result', result?.data?.post?.id)
               showSuccessAlert('Post created successfully')
               setLoading(false)
             }

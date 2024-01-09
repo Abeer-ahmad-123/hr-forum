@@ -114,7 +114,7 @@ const PostActionBar = ({
       setShowSignModal(true)
     }
   }
-  console.log(comment)
+
   return (
     <>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>

@@ -81,7 +81,6 @@ async function RenderFeeds({
   }
 
   const getImageUrlBySlug = (slug: string) => {
-    console.log(slug)
     const matchingObject = channels.find(
       (obj: { slug: string }) => obj.slug === slug,
     )

@@ -26,7 +26,7 @@ const Card = ({ post, channels }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  console.log('post', post)
+
   return (
     <>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">

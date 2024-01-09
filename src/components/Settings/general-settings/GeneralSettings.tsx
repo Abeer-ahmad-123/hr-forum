@@ -1,8 +1,8 @@
 import UploadImage from '@/services/image/image'
 
-import ProfilePicture from './ProfilePicture'
-import Information from './Information'
 import { useSession } from 'next-auth/react'
+import Information from './Information'
+import ProfilePicture from './ProfilePicture'
 
 const GeneralSettings = () => {
   const api = new UploadImage()
@@ -19,7 +19,7 @@ const GeneralSettings = () => {
         userData: { ...session?.user, profilePictureURL: res.data.data.url },
       })
     } catch (err) {
-      console.log('err', err)
+      throw err
     }
   }
 
