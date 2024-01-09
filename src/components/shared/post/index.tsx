@@ -5,7 +5,6 @@ import { getComment, getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
 import { timeFormatInHours } from '@/utils/helper'
 import { cookies } from 'next/headers'
-import Image from 'next/image'
 import ChannelPill from '../ChannelPill'
 import { CustomLink } from '../customLink/CustomLink'
 
@@ -56,7 +55,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
             <div className="flex items-center">
               <div className="-z-2">
                 <div className="static rounded-full">
-                  <Image
+                  <img
                     src={`${post?.author_details?.profile_picture_url}`}
                     className="h-16 w-16 rounded-full"
                     alt="avatar"
@@ -97,7 +96,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
           />
           <div>
             {post.image_url ? (
-              <Image
+              <img
                 src={post.image_url}
                 style={{ objectFit: 'fill' }}
                 alt="Picture of the author"

@@ -1,7 +1,6 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
-import Image from 'next/image'
 import { useState } from 'react'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
 import Reply from './Reply'
@@ -63,7 +62,7 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
         <div className="flex  flex-col items-center">
           <div className="">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <Image
+            <img
               alt="avatar"
               src={comment?.author_details?.profile_picture_url}
               className="h-8 w-8 rounded-full border border-black"

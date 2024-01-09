@@ -1,7 +1,6 @@
 'use client'
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -41,7 +40,7 @@ function LoggedIn() {
       </span>
       <div className="relative">
         <div className="relative h-8 w-8 overflow-hidden rounded-full">
-          <Image
+          <img
             className="h-full w-full rounded-full object-cover"
             src={
               profilePictureURL || 'https://ui-avatars.com/api/?name=John+Doe'

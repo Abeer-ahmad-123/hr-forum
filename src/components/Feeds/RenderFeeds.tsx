@@ -7,13 +7,12 @@ import PostBar from '@/components/shared/new-post/NewPostModal'
 import { getChannels } from '@/services/channel/channel'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
+import { noChannelBanner } from '@/utils/ImagesLink'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { toPascalCase } from '@/utils/common'
 import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import RespScreen from '../Cards/ResponsiveScreen'
-import Image from 'next/image'
-import { noChannelBanner } from '@/utils/ImagesLink'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -111,7 +110,7 @@ async function RenderFeeds({
         {!!channelSlug && (
           <div className="mx-auto mt-[20px] max-w-[768px]">
             <div className="mb-[20px] h-[170px] rounded-xl bg-white">
-              <Image
+              <img
                 className=" h-[100px] w-full max-w-[768px] rounded-t-xl"
                 src={getImageUrlBySlug(channelSlug) || noChannelBanner}
                 alt="banner"

@@ -1,19 +1,13 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
 import { SendHorizonal } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
 // import {useRouter} from 'next/navigation'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-} from '@/components/ui/Dialog/interceptDialog'
-import Image from 'next/image'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { noProfilePicture } from '@/utils/ImagesLink'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 function TextArea({
   submitCallback,
@@ -68,7 +62,7 @@ function TextArea({
 
   return (
     <div className="flex items-center gap-2.5 px-[20px]">
-      <Image
+      <img
         src={userData.profilePictureURL || noProfilePicture}
         className="w-18 h-8 rounded-full border border-solid border-black"
         alt="avatar"

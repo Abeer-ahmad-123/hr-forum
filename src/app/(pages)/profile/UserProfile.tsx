@@ -1,6 +1,5 @@
 'use client'
 import { updateUserImage } from '@/services/user'
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -86,7 +85,7 @@ function UserProfile() {
               <div className="flex flex-wrap justify-center">
                 <div className="flex w-full justify-center px-4 lg:order-2 lg:w-3/12">
                   <div className="relative">
-                    <Image
+                    <img
                       alt="..."
                       width={150}
                       height={150}

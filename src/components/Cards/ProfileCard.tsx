@@ -1,9 +1,8 @@
 'use client'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import Image from 'next/image'
+import { Mail } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { CustomLink } from '../shared/customLink/CustomLink'
-import { Mail } from 'lucide-react'
 
 const ProfileCard = () => {
   const userDetails = useSelector(
@@ -15,7 +14,7 @@ const ProfileCard = () => {
   }
   return (
     <div className="relative h-auto w-[200px] cursor-pointer overflow-hidden rounded-[10px] border border-solid border-gray-300 bg-white shadow-lg dark:bg-slate-800 dark:text-white">
-      <Image
+      <img
         className="h-[70px] w-full"
         src={
           userDetails?.backgroundPictureURL ||
@@ -26,7 +25,7 @@ const ProfileCard = () => {
         height={70}
       />
       <div className="flex items-center justify-center">
-        <Image
+        <img
           src={
             userDetails?.profilePictureURL ||
             'https://image.winudf.com/v2/image1/bmV0LndsbHBwci5ib3lzX3Byb2ZpbGVfcGljdHVyZXNfc2NyZWVuXzBfMTY2NzUzNzYxN18wOTk/screen-0.webp?fakeurl=1&type=.webp'

@@ -6,7 +6,6 @@ import {
 } from '@/components/ui/popover'
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { ReplyInterface } from '@/utils/interfaces/reply'
-import Image from 'next/image'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import SocialButtons from './SocialButtons'
@@ -49,7 +48,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
       <div className="flex gap-2.5">
         <div className="flex  flex-col items-center">
           <div className="rounded-full border border-black">
-            <Image
+            <img
               alt="profile picture"
               height={8}
               width={8}

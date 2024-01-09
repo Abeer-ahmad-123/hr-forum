@@ -1,9 +1,6 @@
 'use client'
-import React from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useSelector } from 'react-redux'
 import { CustomLink } from '../shared/customLink/CustomLink'
 const ResProfileCard = () => {
   const userDetails = useSelector(
@@ -14,7 +11,7 @@ const ResProfileCard = () => {
     <>
       <div>
         <div className="relative  mb-5  h-auto w-auto  cursor-pointer overflow-hidden  rounded-[10px] bg-white shadow-lg dark:bg-slate-800 dark:text-white">
-          <Image
+          <img
             className="h-[70px] w-full"
             src="https://i.pinimg.com/originals/71/dc/d9/71dcd9ddf43b7ca29f7199305af68f08.png"
             alt="background"
@@ -22,7 +19,7 @@ const ResProfileCard = () => {
             height={70}
           />
           <div className="flex items-center justify-center">
-            <Image
+            <img
               src={
                 userDetails?.profilePictureURL ||
                 'https://image.winudf.com/v2/image1/bmV0LndsbHBwci5ib3lzX3Byb2ZpbGVfcGljdHVyZXNfc2NyZWVuXzBfMTY2NzUzNzYxN18wOTk/screen-0.webp?fakeurl=1&type=.webp'

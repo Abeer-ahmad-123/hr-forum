@@ -2,7 +2,6 @@
 import ChannelPill from '@/components/shared/ChannelPill'
 import { timeFormatInHours } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
@@ -42,7 +41,7 @@ const Card = ({ post, channels }: any) => {
               <div className="flex items-center">
                 <div className="-z-2">
                   <div className="static rounded-xl ">
-                    <Image
+                    <img
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
                       width={32}
                       height={32}
@@ -88,7 +87,7 @@ const Card = ({ post, channels }: any) => {
                   dangerouslySetInnerHTML={{ __html: content }}
                 />
               ) : (
-                <Image
+                <img
                   src={image_url}
                   alt="post"
                   height={400}
