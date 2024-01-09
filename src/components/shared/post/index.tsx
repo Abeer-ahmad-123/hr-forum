@@ -1,4 +1,3 @@
-import picture from '@/assets/avatars/img.jpeg'
 import CommentsLogic from '@/components/CommentsLogic'
 import ReactionDetails from '@/components/ReactionDetails'
 import { getChannels } from '@/services/channel/channel'
@@ -50,8 +49,6 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
           className={`flex w-full flex-col  pt-0 ${
             isDialogPost ? '' : 'p-10'
           }`}>
-          {/* TODO */}
-
           <div
             className={`${
               !isDialogPost ? 'mt-6' : ''
@@ -76,8 +73,6 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
                       className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                       aria-label="user-name">
                       {post?.author_details?.name}
-
-                      {/* Yogesh Choudhary Paliyal */}
                     </p>
                   </CustomLink>
                   <ChannelPill
@@ -96,25 +91,22 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
           <ReactionDetails reactionSummary={post.reaction_summary} />
 
           <div className="mt-2 text-left text-4xl">{post.title}</div>
-
-          {/* //////// */}
-
-          {/*  */}
           <div
             className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
           <div>
-            {!!post.image ? (
+            {post.image_url ? (
               <Image
-                src={picture}
+                src={post.image_url}
                 style={{ objectFit: 'fill' }}
                 alt="Picture of the author"
                 className="mb-7"
+                width={300}
+                height={400}
               />
             ) : null}
           </div>
-          {/* <div className="mb-9 w-full border-b border-gray-500 pr-5"></div> */}
           <div className="w-full">
             <hr />
 
