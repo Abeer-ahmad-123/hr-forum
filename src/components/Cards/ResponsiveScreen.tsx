@@ -1,4 +1,5 @@
 'use client'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useState } from 'react'
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa6'
 import { useSelector } from 'react-redux'
@@ -8,7 +9,7 @@ import ProfileCard from './ProfileCard'
 const RespScreen = () => {
   const [showComponent, setShowComponent] = useState(false)
   const loggedInUseraDetails = useSelector(
-    (state: any) => state?.loggedInUser?.userData,
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
   const handleClick = () => {
