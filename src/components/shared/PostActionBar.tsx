@@ -101,10 +101,14 @@ const PostActionBar = ({
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
+        console.log(getApi)
         const res = await getApi(postId, tokenInRedux)
+        console.log('Status', res)
         if (res.data) {
           setBookmarkSuccess(true)
         } else if (res.status === 200) {
+          setBookmarkSuccess(false)
+        } else if (res.status === 204) {
           setBookmarkSuccess(false)
         }
       } catch (error) {
@@ -122,8 +126,6 @@ const PostActionBar = ({
       </Dialog>
       <div className="flex flex-col">
         <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
-          {/* bg-[#F9F9F9] bg on the message button before */}
-
           <ReactionButton
             handleLikeWrapper={handleLikeWrapper}
             userReaction={user_reaction}
@@ -134,7 +136,7 @@ const PostActionBar = ({
             onClick={handleBookmark}
             className="dark:text-icon-dark  text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
             <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
-            <span className="font-light   max-custom-sm:hidden ">Bookmark</span>
+            <span className="font-light max-custom-sm:hidden ">Bookmark</span>
           </div>
 
           <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800">
