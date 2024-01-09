@@ -16,14 +16,14 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             <span className="pr-2">
               <BsPostcard />{' '}
             </span>
-            {`${postCount} post published`}
+            {`${postCount ? postCount : 0} post published`}
           </div>
           <div className=" flex items-center text-gray-400">
             {' '}
             <span className="pr-2">
               <FaRegComment />{' '}
             </span>
-            {`${commentCount} comment written`}
+            {`${commentCount ? commentCount : 0} comment written`}
           </div>
         </div>
       </div>
