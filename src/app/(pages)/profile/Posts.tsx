@@ -6,7 +6,6 @@ import { timeFormatInHours } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
-import Image from 'next/image'
 import { useSelector } from 'react-redux'
 
 interface userData {
@@ -50,12 +49,10 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       <div className=" w-full rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <div className="px-5 py-4">
           <div className="flex text-left font-semibold dark:text-white">
-            <Image
-              src={user?.profilePictureURL || userImage}
+            <img
+              src={user?.profilePictureURL || userImage.toString()}
               alt="profile"
               className="relative h-12 w-12 transform rounded-full"
-              width={80}
-              height={100}
             />
 
             <div className="ml-4 flex flex-col items-start align-baseline">

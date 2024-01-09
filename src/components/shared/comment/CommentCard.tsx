@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import CommentActions from './CommentActions'
 
 const CommentCard = ({ comment }: any) => {
@@ -9,7 +8,7 @@ const CommentCard = ({ comment }: any) => {
   return (
     <div className="mb-4 rounded-lg bg-white dark:bg-dark-primary">
       <div className="mt-[38px] flex items-start space-x-4">
-        <Image
+        <img
           className="rounded-full object-cover"
           width={40}
           height={40}

@@ -1,15 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { getPostByPostId } from '@/services/posts'
-import { reactionOptions } from '@/utils/data'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { reactionOptions } from '@/utils/data'
 import { getEmojisAsArray } from '@/utils/reactionDetails'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { CustomLink } from './customLink/CustomLink'
 interface PostReactionBarProps {
   postId: string

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import { useState } from 'react'
 
 const NewCommentCard = ({ onAdd }: any) => {
@@ -20,10 +19,9 @@ const NewCommentCard = ({ onAdd }: any) => {
 
   return (
     <>
-      {/* Desktop View */}
       <div className="hidden sm:block">
         <div className="flex rounded-md bg-white p-6 dark:bg-dark-primary">
-          <Image
+          <img
             alt="avatar"
             className="mr-4 h-10 w-10 rounded-full"
             src={`/images/avatars/image-juliusomo.webp`}
@@ -59,7 +57,7 @@ const NewCommentCard = ({ onAdd }: any) => {
             onFocus={focusTextArea}
           />
           <div className="flex justify-between">
-            <Image
+            <img
               height={10}
               width={10}
               alt="avatar"

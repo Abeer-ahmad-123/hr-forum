@@ -5,7 +5,6 @@ import {
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Image as IconImage, Plus } from 'lucide-react'
-import Image from 'next/image'
 import { useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useSelector } from 'react-redux'
@@ -190,7 +189,7 @@ export default function NewPostForm({ open }: newPostFormInterface) {
               htmlFor="changeBackgroundImage"
               className=" w-fit cursor-pointer rounded-md">
               {selectedImage ? (
-                <Image
+                <img
                   src={typeof selectedImage === 'string' ? selectedImage : ''}
                   alt="Upload Image"
                   className=" mx-auto h-[343px] w-[400px] rounded-md border-0 object-contain"

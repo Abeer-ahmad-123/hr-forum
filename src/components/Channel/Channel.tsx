@@ -1,5 +1,4 @@
 import { channels } from '@/utils/data'
-import Image from 'next/image'
 // import { Notification, ToggleButton } from '../shared'
 
 const Channel = () => {
@@ -25,7 +24,7 @@ const Channel = () => {
               {/* :channel DETAILS */}
               <div className="flex pr-8 sm:items-center sm:pl-4">
                 {/* ::channel Picture */}
-                <Image
+                <img
                   height={8}
                   width={8}
                   src={channel.picture}

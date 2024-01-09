@@ -1,14 +1,13 @@
 'use client'
 import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
-import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import { Card } from './shared'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { noChannelBanner } from '@/utils/ImagesLink'
 import { StoreChannels } from '@/utils/interfaces/channels'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { BookmarkedPostInterface } from '@/utils/interfaces/savedPost'
-import Image from 'next/image'
-import { noChannelBanner } from '@/utils/ImagesLink'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { Card } from './shared'
 
 const SavedPost = () => {
   const tokenInRedux = useSelector(
@@ -47,7 +46,7 @@ const SavedPost = () => {
     <>
       <div className="mx-auto mt-[20px] max-w-[768px]">
         <div className="mb-[20px] h-[170px] rounded-xl bg-white">
-          <Image
+          <img
             className=" h-[100px] w-full max-w-[768px] rounded-t-xl"
             src={noChannelBanner}
             alt="banner"

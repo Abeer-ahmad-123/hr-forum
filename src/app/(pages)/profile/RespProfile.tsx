@@ -11,7 +11,6 @@ import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
-import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
@@ -204,7 +203,7 @@ const RespProfile = ({ userId }: profileProps) => {
                   <div className="flex w-full">
                     <div className="relative flex justify-center md:w-full">
                       {/* TO be corrected */}
-                      <Image
+                      <img
                         alt="..."
                         width={96}
                         height={96}
