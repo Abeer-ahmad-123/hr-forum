@@ -1,10 +1,10 @@
 'use client'
 import FeaturesDropDown from '@/components/Navbar/FeaturesDropdown'
 import NavMenuDropdown from '@/components/Navbar/NavMenuDropdown'
-import LogButton from './LogButton'
 import Logo from './Logo'
 import NightModeToggle from './NightModeToggle'
 import SearchBar from './SearchBar'
+import LogButton from './LogButton'
 type NavbarProps = {}
 
 const Navbar: React.FC<NavbarProps> = () => {
