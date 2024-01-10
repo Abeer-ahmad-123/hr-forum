@@ -34,7 +34,7 @@ interface PostActionBarProps {
   bookmark: boolean
   user_reaction: string
   inputRef?: any
-  setBookmarkupdated?: any // TODO: fix this: Need to find proper type ()=>void is not working
+  setBookmarkupdated?: React.Dispatch<React.SetStateAction<boolean>> // TODO: fix this: Need to find proper type ()=>void is not working
 }
 
 const PostActionBar = ({
@@ -98,7 +98,9 @@ const PostActionBar = ({
   }
   const handleBookmark = async () => {
     if (pathName.includes('/saved')) {
-      setBookmarkupdated((pre: boolean) => !pre)
+      if (setBookmarkupdated) {
+        setBookmarkupdated((pre: boolean) => !pre)
+      }
     }
 
     if (tokenInRedux) {

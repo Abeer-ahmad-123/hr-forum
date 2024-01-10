@@ -15,7 +15,7 @@ const SavedPost = () => {
   const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
     <RenderFeedLoading key={index} />
   ))
-  const [bookmarkupdated, setBookmarkupdated] = useState(false)
+  const [bookmarkupdated, setBookmarkupdated] = useState<boolean>(false)
 
   const tokenInRedux = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
