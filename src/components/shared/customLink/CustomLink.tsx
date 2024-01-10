@@ -15,10 +15,8 @@ export const CustomLink: React.FC<
   }, [])
 
   return (
-    <>
-      <Link href={href} className={className} onClick={() => NProgress.start()}>
-        {children}
-      </Link>
-    </>
+    <Link href={href} className={className} onClick={() => NProgress.start()}>
+      {children}
+    </Link>
   )
 }
