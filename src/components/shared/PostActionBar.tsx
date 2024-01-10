@@ -4,7 +4,6 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
@@ -73,12 +72,6 @@ const PostActionBar = ({
         )
       } else if (value === 'none' || value === user_reaction) {
         response = await deleteReactions(postId, tokenInRedux)
-      }
-
-      if (!response?.success) {
-        showErrorAlert('Something went wrong while posting reaction')
-      } else {
-        showSuccessAlert('posting reaction posted')
       }
     } else {
       setShowSignModal(true)

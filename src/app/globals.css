@@ -3,8 +3,13 @@
 @tailwind utilities;
 
 @layer base {
+
   html,
   body {
     height: 100%;
   }
 }
+
+/* #nprogress .bar .spinner {
+  display: none;
+} */
