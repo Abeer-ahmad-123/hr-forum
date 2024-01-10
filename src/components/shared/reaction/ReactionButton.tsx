@@ -7,7 +7,13 @@ import {
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import React, { MouseEvent, useCallback, useEffect, useState } from 'react'
+import React, {
+  ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import { useSelector } from 'react-redux'
 import { ReactionEmoji } from '.'
 
@@ -36,7 +42,7 @@ const ReactionButton = ({
       updateCurrentReaction((prevReaction: string) =>
         prevReaction === reactionName ? 'none' : reactionName,
       )
-      onReact(reactionName, reactionName !== 'none')
+      onReact(reactionName)
     },
     [onReact], // Removed currentReaction and post
   )
@@ -44,8 +50,9 @@ const ReactionButton = ({
   const toggleHeartReaction = useCallback(() => {
     const newReaction = currentReaction === 'none' ? 'love' : 'none'
     updateCurrentReaction(newReaction)
-    onReact(newReaction, newReaction !== 'none')
+    onReact(newReaction)
   }, [onReact, currentReaction]) // Removed post
+
   const handleReactionEmoji = () => {
     if (tokenInRedux) {
       !loading && isLargeScreen && toggleHeartReaction()
@@ -61,6 +68,10 @@ const ReactionButton = ({
 
   const mouseLeft = () => {
     if (tokenInRedux) !loading && setEmojiPopoverVisible(false)
+  }
+
+  const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {
+    !loading && selectReaction(e.target.id)
   }
 
   useEffect(() => {
@@ -107,9 +118,7 @@ const ReactionButton = ({
                       reactionName={reaction.name}
                       emojiCharacter={reaction.emoji}
                       isReactionSelected={currentReaction === reaction.name}
-                      onEmojiClick={() =>
-                        !loading && selectReaction(reaction.name)
-                      }
+                      onEmojiClick={onEmojiClick}
                     />
                   </span>
                 ))}

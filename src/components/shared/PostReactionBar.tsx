@@ -12,6 +12,7 @@ import { CustomLink } from './customLink/CustomLink'
 interface PostReactionBarProps {
   postId: string
   reaction_summary: any
+  total_comments: number
 }
 export type ReactionCounts = {
   [key: string]: number
@@ -19,6 +20,7 @@ export type ReactionCounts = {
 const PostReactionBar = ({
   postId,
   reaction_summary,
+  total_comments,
 }: PostReactionBarProps) => {
   const pathName = usePathname()
   const [reactionArray, setReactionArray] = useState<[string, number][]>([])
@@ -87,8 +89,10 @@ const PostReactionBar = ({
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
                 {addCountOfAll(reactionArray) > 1
-                  ? `name and ${addCountOfAll(reactionArray) - 1} others`
-                  : 'name here'}
+                  ? `and ${addCountOfAll(reactionArray) - 1} other`
+                  : addCountOfAll(reactionArray) > 2
+                  ? `and ${addCountOfAll(reactionArray) - 1} other`
+                  : ''}
               </span>
             </PopoverTrigger>
             <PopoverContent className="bg-white">
@@ -113,7 +117,9 @@ const PostReactionBar = ({
               ? `feeds/feed/${postId}`
               : ` /feeds/feed/${postId}`
           }>
-          <span className="text-xs text-slate-400">2 comments</span>
+          <span className="text-xs text-slate-400">
+            {total_comments} comments
+          </span>
         </CustomLink>
       </div>
     </>

@@ -13,7 +13,6 @@ const ReactionEmoji = ({
     : isReactionOnLike
     ? ''
     : 'transition-all duration-200 ease-in-out hover:scale-150'
-
   return (
     <div
       onClick={onEmojiClick}
@@ -21,9 +20,12 @@ const ReactionEmoji = ({
         'flex cursor-pointer items-center rounded-lg border-none px-3  dark:hover:text-slate-800',
         styles,
       )}
+      id={reactionName}
       role="button"
       aria-label={`select ${reactionName} emoji`}>
-      <span className="text-xl text-black dark:text-gray-300 dark:hover:text-slate-800">
+      <span
+        className="text-xl text-black dark:text-gray-300 dark:hover:text-slate-800"
+        id={reactionName}>
         {emojiCharacter}
       </span>
     </div>
