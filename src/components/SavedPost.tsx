@@ -51,21 +51,22 @@ const SavedPost = () => {
 
   return (
     <>
-      <div className="mx-auto mt-[20px] max-w-[768px]">
-        <div className="mb-[20px] h-[170px] rounded-xl bg-white">
+      <div className="max-w-768px mx-auto mt-11">
+        <div className="h-170px relative overflow-hidden rounded-xl">
+          <div className="absolute inset-0 z-0 bg-black opacity-50"></div>
           <img
-            className=" h-[100px] w-full max-w-[768px] rounded-t-xl"
+            className="h-100px max-w-768px z-10 w-full rounded-t-xl"
             src={noChannelBanner}
             alt="banner"
             width={200}
             height={100}
           />
-          <p className="my-5 mb-4 text-3xl text-black dark:text-white">
+          <p className="absolute inset-0 z-20 flex items-center justify-center text-base text-white max-md:text-2xl lg:text-3xl">
             Saved Posts
           </p>
         </div>
       </div>
-      <div className="min-h-[70vh]">
+      <div className="mt-10 min-h-[70vh]">
         {posts?.Bookmarks?.length ? (
           posts?.Bookmarks?.map((post: any) => (
             <Card
