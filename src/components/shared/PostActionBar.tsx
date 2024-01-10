@@ -4,7 +4,6 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
@@ -27,6 +26,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Dialog } from '../ui/Dialog/simpleDialog'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 
 interface PostActionBarProps {
   linkToFeed: string
