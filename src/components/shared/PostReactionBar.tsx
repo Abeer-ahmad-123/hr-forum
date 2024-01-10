@@ -35,13 +35,20 @@ const PostReactionBar = ({
     countArray: [string, number][],
     options: { name: string; emoji: string }[],
   ): string[] => {
-    return countArray
-      .filter(([name]) => options.some((option) => name.includes(option.name)))
-      .map(
-        ([name]) =>
-          options.find((option) => name.includes(option.name))?.emoji || '',
-      )
+    // Sort the reaction_summary based on count in descending order
+    const sortedReactions = countArray.sort((a, b) => b[1] - a[1])
+
+    // Map the emojis from reactionOptions for non-zero counts
+    return sortedReactions
+      .filter(([_, count]) => count > 0)
+      .map(([reactionName, _]) => {
+        const { emoji } = options.find(
+          (option) => option.name === reactionName.replace('_count', ''),
+        )!
+        return emoji
+      })
   }
+
   const addCountOfAll = (arr: [string, number][]): number => {
     return arr.reduce((acc, [, count]) => acc + count, 0)
   }
