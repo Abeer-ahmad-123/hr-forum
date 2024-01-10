@@ -117,7 +117,7 @@ async function RenderFeeds({
                 width={200}
                 height={100}
               />
-              <p className="absolute inset-0 z-20 flex items-center justify-center text-base text-white sm:text-xl md:text-2xl lg:text-3xl">
+              <p className="absolute inset-0 z-20 flex items-center justify-center text-base text-white max-md:text-2xl lg:text-3xl">
                 {toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
               </p>
             </div>
