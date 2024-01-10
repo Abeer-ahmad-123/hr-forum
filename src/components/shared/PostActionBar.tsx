@@ -1,13 +1,11 @@
 'use client'
-////
-
 import {
   deleteReactions,
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -36,6 +34,7 @@ interface PostActionBarProps {
   bookmark: boolean
   user_reaction: string
   inputRef?: any
+  setBookmarkupdated?: React.Dispatch<React.SetStateAction<boolean>> // TODO: fix this: Need to find proper type ()=>void is not working
 }
 
 const PostActionBar = ({
@@ -44,11 +43,13 @@ const PostActionBar = ({
   inputRef,
   bookmark,
   user_reaction,
+  setBookmarkupdated,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
+  const pathName = usePathname()
 
   const submitReaction = async (value: string, isFirstReaction: boolean) => {
     if (tokenInRedux) {
@@ -82,9 +83,7 @@ const PostActionBar = ({
 
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
-  const [bookmarkSuccess, setBookmarkSuccess] = useState(
-    bookmark ? bookmark : false,
-  )
+  const [bookmarkSuccess, setBookmarkSuccess] = useState(bookmark)
   const toggleCommentArea = () => {
     id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
   }
@@ -98,11 +97,14 @@ const PostActionBar = ({
     }
   }
   const handleBookmark = async () => {
+    if (pathName.includes('/saved')) {
+      setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
+    }
+
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(postId, tokenInRedux)
-
         if (res.data) {
           setBookmarkSuccess(true)
         } else if (res.status === 200 || res.status === 204) {

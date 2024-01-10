@@ -8,7 +8,7 @@ import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 
-const Card = ({ post, channels }: any) => {
+const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
     id,
     created_at,
@@ -29,7 +29,9 @@ const Card = ({ post, channels }: any) => {
 
   return (
     <>
-      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+      <div
+        key={Math.random()}
+        className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <CustomLink
           href={
             pathName.includes('/channels/')
@@ -108,6 +110,7 @@ const Card = ({ post, channels }: any) => {
             postId={id}
             bookmark={user_has_bookmarked}
             user_reaction={user_reaction}
+            setBookmarkupdated={setBookmarkupdated}
           />
         </div>
       </div>
