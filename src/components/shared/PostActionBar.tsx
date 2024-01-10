@@ -26,7 +26,6 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Dialog } from '../ui/Dialog/simpleDialog'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 
 interface PostActionBarProps {
   linkToFeed: string
@@ -73,12 +72,6 @@ const PostActionBar = ({
         )
       } else if (value === 'none' || value === user_reaction) {
         response = await deleteReactions(postId, tokenInRedux)
-      }
-
-      if (!response?.success) {
-        showErrorAlert('Something went wrong while posting reaction')
-      } else {
-        showSuccessAlert('posting reaction posted')
       }
     } else {
       setShowSignModal(true)
