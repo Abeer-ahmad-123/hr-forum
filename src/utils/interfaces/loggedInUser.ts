@@ -9,6 +9,8 @@ export interface LoggedInUser {
       bio: string
       profilePictureURL: string
       backgroundPictureURL: string
+      post_count?: number
+      comment_count?: number
     }
     refreshToken: string | null
   }

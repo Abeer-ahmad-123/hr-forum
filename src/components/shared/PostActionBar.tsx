@@ -101,14 +101,11 @@ const PostActionBar = ({
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
-        console.log(getApi)
         const res = await getApi(postId, tokenInRedux)
-        console.log('Status', res)
+
         if (res.data) {
           setBookmarkSuccess(true)
-        } else if (res.status === 200) {
-          setBookmarkSuccess(false)
-        } else if (res.status === 204) {
+        } else if (res.status === 200 || res.status === 204) {
           setBookmarkSuccess(false)
         }
       } catch (error) {

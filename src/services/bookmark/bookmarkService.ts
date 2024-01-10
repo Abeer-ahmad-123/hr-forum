@@ -24,7 +24,6 @@ export async function bookmarkPost(postId: string, token: string) {
   }
 }
 export async function deleteBookmarkPost(postId: string, token: string) {
-  console.log('delete book mark is called')
   try {
     let deleteBookmarkPostUrl = DELETE_BOOKMARK_POST.replace('postId', postId)
     let responseFromAuth = await fetch(deleteBookmarkPostUrl, {
@@ -34,7 +33,6 @@ export async function deleteBookmarkPost(postId: string, token: string) {
         authorization: 'Bearer ' + token,
       },
     })
-    console.log('responseFromAuth', responseFromAuth)
 
     return { status: responseFromAuth?.status }
   } catch (err) {

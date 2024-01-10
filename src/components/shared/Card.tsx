@@ -26,7 +26,6 @@ const Card = ({ post, channels }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  console.log('BOOK MARKED  ? ', user_has_bookmarked)
 
   return (
     <>
