@@ -6,6 +6,8 @@ import NProgress from 'nprogress'
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
+NProgress.configure({ showSpinner: false })
+
 const SearchBar = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
 

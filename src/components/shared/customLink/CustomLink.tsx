@@ -1,9 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import { PropsWithChildren, useEffect } from 'react'
 import NProgress from 'nprogress'
+import { PropsWithChildren, useEffect } from 'react'
 import './style.css'
+
+NProgress.configure({ showSpinner: false })
 
 export const CustomLink: React.FC<
   PropsWithChildren<{ href: string; className?: string }>
