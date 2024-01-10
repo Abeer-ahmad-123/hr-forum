@@ -98,9 +98,7 @@ const PostActionBar = ({
   }
   const handleBookmark = async () => {
     if (pathName.includes('/saved')) {
-      if (setBookmarkupdated) {
-        setBookmarkupdated((pre: boolean) => !pre)
-      }
+      setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
     }
 
     if (tokenInRedux) {
