@@ -21,6 +21,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     user_has_bookmarked,
     user_id,
     image_url,
+    total_comments,
   } = post
   const pathName = usePathname()
   const userDetails = useSelector(
@@ -101,7 +102,11 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           </div>
         </CustomLink>
 
-        <PostReactionBar reaction_summary={reaction_summary} postId={id} />
+        <PostReactionBar
+          reaction_summary={reaction_summary}
+          postId={id}
+          total_comments={total_comments}
+        />
         <hr />
 
         <div className="py-1">

@@ -47,29 +47,33 @@ const PostActionBar = ({
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
   const pathName = usePathname()
 
-  const submitReaction = async (value: string, isFirstReaction: boolean) => {
+  const submitReaction = async (value: string) => {
+    let response
     if (tokenInRedux) {
-      const response = isFirstReaction
-        ? !user_reaction
-          ? await postReactions(
-              {
-                reactionType: value,
-              },
-              postId,
-              tokenInRedux,
-            )
-          : await updatePostReaction(
-              {
-                reactionType: value,
-              },
-              postId,
-              tokenInRedux,
-            )
-        : await deleteReactions(postId, tokenInRedux)
+      if (!user_reaction) {
+        response = await postReactions(
+          {
+            reactionType: value,
+          },
+          postId,
+          tokenInRedux,
+        )
+      } else if (value !== 'none' && value !== user_reaction) {
+        response = await updatePostReaction(
+          {
+            reactionType: value,
+          },
+          postId,
+          tokenInRedux,
+        )
+      } else if (value === 'none' || value === user_reaction) {
+        response = await deleteReactions(postId, tokenInRedux)
+      }
 
       if (!response?.success) {
         showErrorAlert('Something went wrong while posting reaction')
