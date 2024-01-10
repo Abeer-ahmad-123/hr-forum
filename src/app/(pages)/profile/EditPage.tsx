@@ -33,7 +33,6 @@ const EditPage = ({
   const handleSubmit = async () => {
     try {
       const response = await updateUserDetails(token, userDetails)
-      console.log(response)
       if (response?.success) {
         dispatch(setUserData({ userData: response?.data }))
 

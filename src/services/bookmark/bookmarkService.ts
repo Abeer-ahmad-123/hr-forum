@@ -33,6 +33,7 @@ export async function deleteBookmarkPost(postId: string, token: string) {
         authorization: 'Bearer ' + token,
       },
     })
+
     return { status: responseFromAuth?.status }
   } catch (err) {
     throw err

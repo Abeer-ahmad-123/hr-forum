@@ -45,7 +45,6 @@ const RespProfile = ({ userId }: profileProps) => {
   const getUserSpecificDetail = async () => {
     setLoading(true)
     const response = await getSpecificUserDetails(userId!)
-    console.log('response', response)
     setUser(response?.user)
     setLoading(false)
   }
@@ -142,8 +141,6 @@ const RespProfile = ({ userId }: profileProps) => {
       UserSpecificationPosts()
     }
   }, [])
-
-  console.log('user 147', user)
 
   return (
     <>
@@ -283,7 +280,14 @@ const RespProfile = ({ userId }: profileProps) => {
           </div>
           <div className="flex flex-col gap-[2rem] lg:flex-row">
             <div className=" w- flex flex-col gap-[1.5rem]">
-              <UserDataBadge />
+              <UserDataBadge
+                postCount={
+                  userId ? user?.post_count : userDataInStore.post_count
+                }
+                commentCount={
+                  userId ? user?.comment_count : userDataInStore.comment_count
+                }
+              />
             </div>
             <div className="flex w-full flex-col">
               {!loading ? (

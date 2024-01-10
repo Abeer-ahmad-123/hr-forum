@@ -7,9 +7,16 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { BookmarkedPostInterface } from '@/utils/interfaces/savedPost'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import RenderFeedLoading from './Loading/renderFeedLoading'
 import { Card } from './shared'
 
 const SavedPost = () => {
+  const renderTimes = 5
+  const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
+    <RenderFeedLoading key={index} />
+  ))
+  const [bookmarkupdated, setBookmarkupdated] = useState<boolean>(false)
+
   const tokenInRedux = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
@@ -40,7 +47,7 @@ const SavedPost = () => {
   }
   useEffect(() => {
     getSavePost()
-  }, [])
+  }, [bookmarkupdated])
 
   return (
     <>
@@ -59,14 +66,19 @@ const SavedPost = () => {
         </div>
       </div>
       <div className="min-h-[70vh]">
-        {!!posts?.Bookmarks?.length ? (
-          posts?.Bookmarks?.map((post: any) => {
-            return (
-              <Card key={post?.title} post={post.post} channels={channels} />
-            )
-          })
+        {posts?.Bookmarks?.length ? (
+          posts?.Bookmarks?.map((post: any) => (
+            <Card
+              key={post?.title}
+              post={post.post}
+              channels={channels}
+              setBookmarkupdated={setBookmarkupdated}
+            />
+          ))
+        ) : posts?.Bookmarks?.length === 0 ? (
+          <p className="my-5 text-center">No saved posts yet.</p>
         ) : (
-          <p>No saved posts</p>
+          <div>{componentsArray}</div>
         )}
       </div>
     </>

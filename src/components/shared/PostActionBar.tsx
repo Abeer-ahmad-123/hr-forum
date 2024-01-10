@@ -1,13 +1,11 @@
 'use client'
-////
-
 import {
   deleteReactions,
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -36,6 +34,7 @@ interface PostActionBarProps {
   bookmark: boolean
   user_reaction: string
   inputRef?: any
+  setBookmarkupdated?: React.Dispatch<React.SetStateAction<boolean>> // TODO: fix this: Need to find proper type ()=>void is not working
 }
 
 const PostActionBar = ({
@@ -44,11 +43,13 @@ const PostActionBar = ({
   inputRef,
   bookmark,
   user_reaction,
+  setBookmarkupdated,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
+  const pathName = usePathname()
 
   const submitReaction = async (value: string, isFirstReaction: boolean) => {
     if (tokenInRedux) {
@@ -82,9 +83,7 @@ const PostActionBar = ({
 
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
-  const [bookmarkSuccess, setBookmarkSuccess] = useState(
-    bookmark ? bookmark : false,
-  )
+  const [bookmarkSuccess, setBookmarkSuccess] = useState(bookmark)
   const toggleCommentArea = () => {
     id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
   }
@@ -98,13 +97,17 @@ const PostActionBar = ({
     }
   }
   const handleBookmark = async () => {
+    if (pathName.includes('/saved')) {
+      setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
+    }
+
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(postId, tokenInRedux)
         if (res.data) {
           setBookmarkSuccess(true)
-        } else if (res.status === 200) {
+        } else if (res.status === 200 || res.status === 204) {
           setBookmarkSuccess(false)
         }
       } catch (error) {
@@ -114,7 +117,7 @@ const PostActionBar = ({
       setShowSignModal(true)
     }
   }
-  console.log(comment)
+
   return (
     <>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
@@ -122,8 +125,6 @@ const PostActionBar = ({
       </Dialog>
       <div className="flex flex-col">
         <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
-          {/* bg-[#F9F9F9] bg on the message button before */}
-
           <ReactionButton
             handleLikeWrapper={handleLikeWrapper}
             userReaction={user_reaction}
@@ -134,7 +135,7 @@ const PostActionBar = ({
             onClick={handleBookmark}
             className="dark:text-icon-dark  text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
             <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
-            <span className="font-light   max-custom-sm:hidden ">Bookmark</span>
+            <span className="font-light max-custom-sm:hidden ">Bookmark</span>
           </div>
 
           <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800">

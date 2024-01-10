@@ -81,7 +81,6 @@ async function RenderFeeds({
   }
 
   const getImageUrlBySlug = (slug: string) => {
-    console.log(slug)
     const matchingObject = channels.find(
       (obj: { slug: string }) => obj.slug === slug,
     )
@@ -136,7 +135,7 @@ async function RenderFeeds({
               <PostBar />
             </div>
 
-            <div className="mt-[20px]  w-full max-w-screen-md dark:text-white">
+            <div className="mt-[40px]  w-full max-w-screen-md dark:text-white">
               <div className="mb-5 max-md:hidden max-sm:hidden">
                 <PostBar />
               </div>
