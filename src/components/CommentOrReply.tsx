@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
+import { useInterceptor } from '@/hooks/interceptors'
 
 function CommentOrReply({
   reply = false,
@@ -22,6 +23,10 @@ function CommentOrReply({
   const params = useParams()
   const postId = params['id'] || Id
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const refreshToken = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
+  )
+  const { customFetch } = useInterceptor()
   const [isLoading, setIsLoading] = useState({
     loading: false,
     status: 'null',
@@ -34,14 +39,19 @@ function CommentOrReply({
         ? await postCommentReply({
             commentId,
             content: { content: value },
+            customFetch,
             token,
+            refreshToken,
           })
-        : await postComment({ postId, content: { content: value }, token })
+        : await postComment({
+            postId,
+            content: { content: value },
+            customFetch,
+            token,
+            refreshToken,
+          })
 
       if (result?.success) {
-        // refetchComments()
-        //  **** uncomment the after update from Behzad ****
-
         if (!commentId) {
           setComments((prevComments: Array<Object>) => [
             result?.data?.comment,

@@ -1,5 +1,4 @@
 import Feeds from '@/components/Feeds/Feeds'
-
 import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
@@ -13,7 +12,6 @@ import { toPascalCase } from '@/utils/common'
 import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import RespScreen from '../Cards/ResponsiveScreen'
-import { redirect } from 'next/navigation'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -81,9 +79,7 @@ async function RenderFeeds({
         initialPosts = data?.posts
         morePosts =
           data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-      } catch (error) {
-        redirect('/error')
-      }
+      } catch (error) {}
     }
   }
 

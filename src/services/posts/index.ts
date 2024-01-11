@@ -3,10 +3,7 @@ import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
 const GET_All_POSTS = API_BASE_URL + '/posts'
-const ADD_POST = API_BASE_URL + '/channels/channelId/posts'
-const EDIT_POST = API_BASE_URL + '/posts/postId'
 const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
-const SEARCH_POSTS = API_BASE_URL + '/posts/search'
 const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
 
 type GET_ALL_POSTS_PROPS = {
@@ -103,16 +100,23 @@ export async function getPostByPostId(
   }
 }
 
-export async function postCreatePostInChannel({ channelID, body, token }: any) {
+export async function postCreatePostInChannel({
+  channelID,
+  body,
+  customFetch,
+  token,
+  refreshToken,
+}: any) {
   try {
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      refreshToken: `Bearer ${refreshToken}`,
     }
 
     const requestBody = JSON.stringify(body)
 
-    let res = await fetch(
+    let res = await customFetch(
       `https://api.enxsis.com/api/v1/channels/${channelID}/posts`,
       {
         method: 'POST',
@@ -127,16 +131,23 @@ export async function postCreatePostInChannel({ channelID, body, token }: any) {
   }
 }
 
-export async function feedImageCreateInChannel({ postId, file, token }: any) {
+export async function feedImageCreateInChannel({
+  postId,
+  file,
+  customFetch,
+  token,
+  refreshToken,
+}: any) {
   try {
     const headers = {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
+      refreshToken: `Bearer ${refreshToken}`,
     }
 
     // const requestBody = JSON.stringify(body)
 
-    let res = await fetch(
+    let res = await customFetch(
       `https://api.enxsis.com/api/v1/images/posts/${postId}/upload`,
       {
         method: 'POST',

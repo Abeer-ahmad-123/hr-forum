@@ -11,12 +11,7 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import {
-  redirect,
-  usePathname,
-  useRouter,
-  useSearchParams,
-} from 'next/navigation'
+import { usePathname, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
@@ -59,7 +54,6 @@ const LayoutWrapper = ({ children }: any) => {
         const currentUrl = window.location.href
         const url = new URL(currentUrl)
 
-        // Remove the "example" query parameter
         url.searchParams.delete('code')
 
         window.history.replaceState({}, document.title, url.href)
@@ -83,7 +77,6 @@ const LayoutWrapper = ({ children }: any) => {
         const currentUrl = window.location.href
         const url = new URL(currentUrl)
 
-        // Remove the "example" query parameter
         url.searchParams.delete('googleAccessToken')
 
         window.history.replaceState({}, document.title, url.href)
@@ -120,7 +113,7 @@ const LayoutWrapper = ({ children }: any) => {
     refreshInterval = setInterval(async () => {
       const localStorageToken = localStorage.getItem('token') || null
       if (localStorageToken && localStorageToken !== 'undefined') {
-        const tokenResponse = await (await getRefreshToken()).json()
+        const tokenResponse = await getRefreshToken()
 
         dispatch(
           setToken({

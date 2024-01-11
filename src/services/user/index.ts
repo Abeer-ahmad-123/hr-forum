@@ -1,28 +1,9 @@
 import { API_BASE_URL } from '..'
 
-const GET_USER_DETAILS = API_BASE_URL + '/auth/getUserDetails'
 const GET_SPECIFIC_USER_DETAILS = API_BASE_URL + '/users/userId'
 const UPDATE_USER_DETAILS = API_BASE_URL + '/auth/updateUserDetails'
 const UPDATE_USER_IMAGE = API_BASE_URL + '/images/uploadUserImage'
 const UPDATE_USER_BG_IMAGE = API_BASE_URL + '/images/uploadUserBackgroundImage'
-
-export async function getUserDetails(token: any) {
-  try {
-    let res = await fetch(GET_USER_DETAILS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-
-    const response = await res.json()
-    const { data } = response
-    return data
-  } catch (err) {
-    throw err
-  }
-}
 
 export async function getSpecificUserDetails(userId: string) {
   try {
@@ -45,14 +26,20 @@ export async function getSpecificUserDetails(userId: string) {
   }
 }
 
-export async function updateUserDetails(token: any, userData: any) {
+export async function updateUserDetails(
+  customFetch: any,
+  token: string,
+  refreshToken: string,
+  userData: any,
+) {
   try {
-    let res = await fetch(UPDATE_USER_DETAILS, {
+    let res = await customFetch(UPDATE_USER_DETAILS, {
       method: 'PUT',
       body: JSON.stringify(userData),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
+        refreshToken: `Bearer ${refreshToken}`,
       },
     })
 
@@ -63,16 +50,22 @@ export async function updateUserDetails(token: any, userData: any) {
   }
 }
 
-export async function updateUserImage(token: any, userImage: any) {
+export async function updateUserImage(
+  customFetch: any,
+  token: string,
+  refreshToken: string,
+  userImage: any,
+) {
   const imageFormData = new FormData()
   imageFormData.append('file', userImage)
   try {
-    let res = await fetch(UPDATE_USER_IMAGE, {
+    let res = await customFetch(UPDATE_USER_IMAGE, {
       method: 'POST',
       body: imageFormData,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
+        refreshToken: `Bearer ${refreshToken}`,
       },
     })
 
@@ -83,16 +76,22 @@ export async function updateUserImage(token: any, userImage: any) {
   }
 }
 
-export async function updateUserBgImage(token: any, userImage: any) {
+export async function updateUserBgImage(
+  customFetch: any,
+  token: string,
+  refreshToken: string,
+  userImage: any,
+) {
   const imageFormData = new FormData()
   imageFormData.append('file', userImage)
   try {
-    let res = await fetch(UPDATE_USER_BG_IMAGE, {
+    let res = await customFetch(UPDATE_USER_BG_IMAGE, {
       method: 'POST',
       body: imageFormData,
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
+        refreshToken: `Bearer ${refreshToken}`,
       },
     })
 
