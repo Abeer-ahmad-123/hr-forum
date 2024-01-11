@@ -1,9 +1,9 @@
 'use client'
 import { InputField } from '@/components/shared'
+import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 interface userDataProps {
@@ -23,16 +23,25 @@ const EditPage = ({
   setUpdatedUserData,
 }: EditPageProps) => {
   const dispatch = useDispatch()
-  const router = useRouter()
   const [userDetails, setUserDetails] = useState(userData)
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const refreshToken =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
+  const { customFetch } = useInterceptor()
+
   const handleChange = (e: any) => {
     setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
   }
 
   const handleSubmit = async () => {
     try {
-      const response = await updateUserDetails(token, userDetails)
+      const response = await updateUserDetails(
+        customFetch,
+        token,
+        refreshToken,
+        userDetails,
+      )
       if (response?.success) {
         dispatch(setUserData({ userData: response?.data }))
 

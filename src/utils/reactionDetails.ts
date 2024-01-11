@@ -31,6 +31,5 @@ export const getEmojisAsArray = (
       }
     }
   }
-
   return result
 }

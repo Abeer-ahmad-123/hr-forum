@@ -4,16 +4,23 @@ import { API_BASE_URL } from '..'
 const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
 const GET_COMMENT = API_BASE_URL + '/comments/commentId'
 
-export async function postComment({ postId, content, token }: any) {
+export async function postComment({
+  postId,
+  content,
+  customFetch,
+  token,
+  refreshToken,
+}: any) {
   try {
     const requestBody = JSON.stringify(content)
 
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      refreshToken: `Bearer ${refreshToken}`,
     }
 
-    let res = await fetch(`${API_BASE_URL}/posts/${postId}/comments`, {
+    let res = await customFetch(`${API_BASE_URL}/posts/${postId}/comments`, {
       method: 'POST',
       headers,
       body: requestBody,
@@ -26,21 +33,30 @@ export async function postComment({ postId, content, token }: any) {
   }
 }
 
-export async function postCommentReply({ commentId, content, token }: any) {
+export async function postCommentReply({
+  commentId,
+  content,
+  customFetch,
+  token,
+  refreshToken,
+}: any) {
   try {
     const requestBody = JSON.stringify(content)
-    // const reduxToken = useSelector((state: any) => state.loggedInUser.token)
 
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
+      refreshToken: `Bearer ${refreshToken}`,
     }
 
-    let res = await fetch(`${API_BASE_URL}/comments/${commentId}/replies`, {
-      method: 'POST',
-      headers,
-      body: requestBody,
-    })
+    let res = await customFetch(
+      `${API_BASE_URL}/comments/${commentId}/replies`,
+      {
+        method: 'POST',
+        headers,
+        body: requestBody,
+      },
+    )
 
     const response = await res.json()
     return response

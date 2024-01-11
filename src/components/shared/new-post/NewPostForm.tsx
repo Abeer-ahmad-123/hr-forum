@@ -10,6 +10,7 @@ import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
+import { useInterceptor } from '@/hooks/interceptors'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
@@ -29,6 +30,14 @@ export default function NewPostForm({ open }: newPostFormInterface) {
   >(null)
   const [image, setImage] = useState<string | Blob>()
 
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const refreshToken = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
+  )
+  const { customFetch } = useInterceptor()
+
+  const [loading, setLoading] = useState(false)
+
   const handleImageChange = (event: any) => {
     const content = 'image:'
     setFormValues({ ...formValues, content })
@@ -43,10 +52,6 @@ export default function NewPostForm({ open }: newPostFormInterface) {
       reader.readAsDataURL(file)
     }
   }
-
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-
-  const [loading, setLoading] = useState(false)
 
   const isDisabled =
     !formValues.channelId ||
@@ -78,7 +83,9 @@ export default function NewPostForm({ open }: newPostFormInterface) {
       const result = await postCreatePostInChannel({
         channelID: channelId,
         body,
+        customFetch,
         token,
+        refreshToken,
       })
 
       if (result?.success) {
@@ -90,7 +97,9 @@ export default function NewPostForm({ open }: newPostFormInterface) {
             const sendImage = await feedImageCreateInChannel({
               postId: postId,
               file: formData,
-              token: token,
+              customFetch,
+              token,
+              refreshToken,
             })
             if (sendImage?.success) {
               showSuccessAlert('Post created successfully')

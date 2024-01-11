@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import RenderFeedLoading from './Loading/renderFeedLoading'
 import { Card } from './shared'
+import { useInterceptor } from '@/hooks/interceptors'
+import { redirect } from 'next/navigation'
 
 const SavedPost = () => {
   const renderTimes = 5
@@ -20,6 +22,11 @@ const SavedPost = () => {
   const tokenInRedux = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
+  const refreshTokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
+  const { customFetch } = useInterceptor()
+
   const { id } = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
@@ -30,7 +37,12 @@ const SavedPost = () => {
 
   const getSavePost = async () => {
     try {
-      const res = await getBookmarkPosts(id, tokenInRedux)
+      const res = await getBookmarkPosts(
+        id,
+        customFetch,
+        tokenInRedux,
+        refreshTokenInRedux,
+      )
       const updatedBookmarks = res.data.Bookmarks.map(
         (bookmark: { post: PostsInterface }) => ({
           ...bookmark,
@@ -43,6 +55,7 @@ const SavedPost = () => {
       setPosts({ Bookmarks: updatedBookmarks })
     } catch (error) {
       console.error(`${error}`)
+      redirect('/feeds')
     }
   }
   useEffect(() => {

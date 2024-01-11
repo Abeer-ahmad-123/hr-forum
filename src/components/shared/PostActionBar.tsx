@@ -4,7 +4,7 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { useParams, usePathname } from 'next/navigation'
+import { redirect, useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -27,6 +27,7 @@ import { Dialog } from '../ui/Dialog/simpleDialog'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
+import { useInterceptor } from '@/hooks/interceptors'
 
 const PostActionBar = ({
   linkToFeed,
@@ -41,10 +42,14 @@ const PostActionBar = ({
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  const refreshTokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
 
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
   const pathName = usePathname()
+  const { customFetch } = useInterceptor()
 
   const submitReaction = async (value: string) => {
     let response
@@ -56,7 +61,9 @@ const PostActionBar = ({
               reactionType: value,
             },
             postId,
+            customFetch,
             tokenInRedux,
+            refreshTokenInRedux,
           )
           updateReactionArray(reactionSummary, {
             value: value,
@@ -69,7 +76,9 @@ const PostActionBar = ({
               reactionType: value,
             },
             postId,
+            customFetch,
             tokenInRedux,
+            refreshTokenInRedux,
           )
           updateReactionArray(reactionSummary, {
             value: value,
@@ -77,7 +86,12 @@ const PostActionBar = ({
             previousAction: userReaction,
           })
         } else if (value === 'none' || value === userReaction) {
-          response = await deleteReactions(postId, tokenInRedux)
+          response = await deleteReactions(
+            postId,
+            customFetch,
+            tokenInRedux,
+            refreshTokenInRedux,
+          )
           updateReactionArray(reactionSummary, {
             value: value === 'none' ? userReaction : value,
             action: 'delete',
@@ -117,7 +131,12 @@ const PostActionBar = ({
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
-        const res = await getApi(postId, tokenInRedux)
+        const res = await getApi(
+          postId,
+          customFetch,
+          tokenInRedux,
+          refreshTokenInRedux,
+        )
         if (res.data) {
           setBookmarkSuccess(true)
         } else if (res.status === 200 || res.status === 204) {
@@ -125,6 +144,7 @@ const PostActionBar = ({
         }
       } catch (error) {
         console.error(error)
+        redirect('/feeds')
       }
     } else {
       setShowSignModal(true)

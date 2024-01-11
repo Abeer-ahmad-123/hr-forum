@@ -18,6 +18,7 @@ import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
+import { useInterceptor } from '@/hooks/interceptors'
 
 interface profileProps {
   userId?: string
@@ -28,6 +29,11 @@ const RespProfile = ({ userId }: profileProps) => {
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
+  const refreshToken =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
+
+  const { customFetch } = useInterceptor()
   const imageInputRef = useRef(null)
   const [posts, setUserSpecificPosts] = useState<any>([])
   const [user, setUser] = useState<any>('')
@@ -80,7 +86,12 @@ const RespProfile = ({ userId }: profileProps) => {
         const file = e
         setImage(file)
         setLoading(true)
-        const response = await updateUserImage(userToken, file)
+        const response = await updateUserImage(
+          customFetch,
+          userToken,
+          refreshToken,
+          file,
+        )
         if (response?.success) {
           showSuccessAlert('Image Uploaded')
           setLoading(false)
@@ -105,7 +116,12 @@ const RespProfile = ({ userId }: profileProps) => {
 
   const onBgImageInputChange = async (e: any) => {
     const file = e.target.files[0]
-    const response = await updateUserBgImage(userToken, file)
+    const response = await updateUserBgImage(
+      customFetch,
+      userToken,
+      refreshToken,
+      file,
+    )
     if (response?.success) {
       showSuccessAlert('Image Uploaded')
       dispatch(
