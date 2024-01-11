@@ -9,19 +9,17 @@ interface UserDataBadgeProps {
 const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
   return (
     <>
-      <div className="h-auto max-h-screen min-w-[14rem] rounded-[10px] bg-white  pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white  ">
-        <div className="flex flex-col py-3 pl-5 leading-[50px]">
-          <div className=" flex items-center text-gray-400">
-            {' '}
+      <div className="flex min-h-[168px] min-w-[14rem] flex-col items-center justify-center rounded-[10px] bg-white pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white">
+        <div className="flex flex-col py-3 leading-[50px]">
+          <div className="flex items-center">
             <span className="pr-2">
-              <BsPostcard />{' '}
+              <BsPostcard />
             </span>
             {`${postCount ? postCount : 0} post published`}
           </div>
-          <div className=" flex items-center text-gray-400">
-            {' '}
+          <div className="flex items-center">
             <span className="pr-2">
-              <FaRegComment />{' '}
+              <FaRegComment />
             </span>
             {`${commentCount ? commentCount : 0} comment written`}
           </div>

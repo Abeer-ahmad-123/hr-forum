@@ -4,14 +4,15 @@ import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
 import { Building2 } from 'lucide-react'
 import React from 'react'
 import { useSelector } from 'react-redux'
+import ChannelCardSkelton from '../ChannelCardSkelton'
 
-const ChannelCard = () => {
+const ChannelCard = async () => {
   const channels = useSelector(
     (state: StoreChannels) => state?.channels?.channels,
   )
-  return (
+  return channels ? (
     <>
-      <div className=" sticky top-0 mr-4 mt-[25px] h-auto max-h-screen w-[200px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-md:w-full  ">
+      <div className=" sticky top-0 mr-4 mt-[20px] h-auto max-h-screen w-[200px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-md:w-full  ">
         <h1 className="mb-[0px] mt-[10px] text-start text-[11px] font-semibold">
           Channels
         </h1>
@@ -30,6 +31,8 @@ const ChannelCard = () => {
       </div>
       <div></div>
     </>
+  ) : (
+    <ChannelCardSkelton />
   )
 }
 export default ChannelCard

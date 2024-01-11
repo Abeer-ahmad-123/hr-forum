@@ -64,7 +64,7 @@ const OldFeaturesDropDown = () => {
     if (words === 'Feed') {
       setSelected('Home')
     } else {
-      setSelected('Home')
+      setSelected(words)
     }
   }, [pathname])
 
