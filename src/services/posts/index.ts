@@ -36,10 +36,12 @@ export async function getAllPosts({
     }
 
     url += `&page=${pageNumber}&pageSize=${pageSize}`
-
     let res: any = await fetch(url)
-    const response = await res.json()
-    return response
+    if (!res.ok) {
+      throw 'error'
+    } else {
+      return await res.json()
+    }
   } catch (err) {
     throw err
   }

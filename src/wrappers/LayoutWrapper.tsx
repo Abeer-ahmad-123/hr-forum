@@ -11,7 +11,12 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { useSearchParams } from 'next/navigation'
+import {
+  redirect,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
@@ -22,6 +27,7 @@ const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
+  const pathname = usePathname()
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
@@ -124,11 +130,13 @@ const LayoutWrapper = ({ children }: any) => {
         )
       }
     }, 900000)
-
     if (isFirstRun.current) {
       isFirstRun.current = false
-
-      getChannelsLocal()
+      try {
+        getChannelsLocal()
+      } catch (error) {
+        throw error
+      }
     }
     return () => clearInterval(refreshInterval)
   }, [])
@@ -137,13 +145,16 @@ const LayoutWrapper = ({ children }: any) => {
     <body
       className={` ${styles} theme-default pt-4 font-primary dark:bg-slate-700`}>
       {/* ADD bg-background in body */}
-      <Navbar />
+
+      {pathname !== '/error' && <Navbar />}
       <ToastContainer />
-      <main
-        className={`bg-primary-light pt-[45px] font-primary dark:bg-dark-background`}>
-        <div className="bg-primary-light grid">
+      <main className="pt-[45px] font-primary">
+        <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
-            <div className="max-h-auto mx-auto -mt-5 min-h-[100vh] w-full bg-background px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]">
+            <div
+              className={`max-h-auto mx-auto -mt-5 min-h-[100vh] w-full ${
+                pathname !== '/error' && 'bg-background'
+              } px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]`}>
               {children}
             </div>
           </div>
