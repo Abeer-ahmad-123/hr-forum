@@ -1,3 +1,5 @@
+import { EmojiActionInterface, ReactionSummary } from './card'
+
 export interface PostsInterface {
   id: number
   created_at: string
@@ -38,4 +40,19 @@ export interface UserSpecificationPostInterface {
 export interface UserSpecificPostsInterface {
   posts: UserSpecificationPostInterface[]
   pagination: Object
+}
+
+export interface PostActionBarProps {
+  linkToFeed: string
+  postId: string
+  bookmark: boolean
+  userReaction: string
+  setUserReaction: (arg0: string) => void
+  inputRef?: any
+  setBookmarkupdated?: React.Dispatch<React.SetStateAction<boolean>> // TODO: fix this: Need to find proper type ()=>void is not working
+  updateReactionArray: (
+    reactionArray: ReactionSummary,
+    reactionObject: EmojiActionInterface,
+  ) => void
+  reactionSummary: ReactionSummary
 }

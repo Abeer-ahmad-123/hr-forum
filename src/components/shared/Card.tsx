@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
+import { useEffect, useState } from 'react'
+import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -27,6 +29,65 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+
+  const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
+    like_count: 0,
+    love_count: 0,
+    clap_count: 0,
+    celebrate_count: 0,
+  })
+  const [userReaction, setUserReaction] = useState('')
+
+  const updateReactionArray = (
+    reactionArray: ReactionSummary,
+    reactionObject: EmojiActionInterface,
+  ) => {
+    if (reactionObject.action === 'post') {
+      incrementReactionCount(`${reactionObject.value}_count`)
+    } else if (reactionObject.action === 'update') {
+      updateReactions(
+        `${reactionObject.value}_count`,
+        `${reactionObject.previousAction}_count`,
+      )
+    } else if (reactionObject.action === 'delete') {
+      deleteReaction(`${reactionObject.value}_count`)
+    }
+
+    return reactionArray
+  }
+
+  const updateReactions = (increment: string, decrement: string) => {
+    setReactionSummary({
+      ...reactionSummary,
+      [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
+      [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
+    })
+  }
+
+  const incrementReactionCount = (increment: string) => {
+    setReactionSummary({
+      ...reactionSummary,
+      [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
+    })
+  }
+  const deleteReaction = (decrement: string) => {
+    setReactionSummary({
+      ...reactionSummary,
+      [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
+    })
+  }
+
+  useEffect(() => {
+    if (reaction_summary) {
+      setReactionSummary(reaction_summary)
+    }
+  }, [reaction_summary])
+
+  useEffect(() => {
+    if (user_reaction) {
+      setUserReaction(user_reaction)
+    }
+  }, [user_reaction])
 
   return (
     <>
@@ -103,7 +164,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
         </CustomLink>
 
         <PostReactionBar
-          reaction_summary={reaction_summary}
+          reaction_summary={reactionSummary}
           postId={id}
           total_comments={total_comments}
         />
@@ -114,8 +175,11 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
             linkToFeed={`/feeds/feed/${id}`}
             postId={id}
             bookmark={user_has_bookmarked}
-            user_reaction={user_reaction}
+            userReaction={userReaction}
+            setUserReaction={setUserReaction}
             setBookmarkupdated={setBookmarkupdated}
+            updateReactionArray={updateReactionArray}
+            reactionSummary={reactionSummary}
           />
         </div>
       </div>

@@ -26,23 +26,18 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Dialog } from '../ui/Dialog/simpleDialog'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
-
-interface PostActionBarProps {
-  linkToFeed: string
-  postId: string
-  bookmark: boolean
-  user_reaction: string
-  inputRef?: any
-  setBookmarkupdated?: React.Dispatch<React.SetStateAction<boolean>> // TODO: fix this: Need to find proper type ()=>void is not working
-}
+import { PostActionBarProps } from '@/utils/interfaces/posts'
 
 const PostActionBar = ({
   linkToFeed,
   postId,
   inputRef,
   bookmark,
-  user_reaction,
+  userReaction,
+  setUserReaction,
   setBookmarkupdated,
+  updateReactionArray,
+  reactionSummary,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -54,24 +49,45 @@ const PostActionBar = ({
   const submitReaction = async (value: string) => {
     let response
     if (tokenInRedux) {
-      if (!user_reaction) {
-        response = await postReactions(
-          {
-            reactionType: value,
-          },
-          postId,
-          tokenInRedux,
-        )
-      } else if (value !== 'none' && value !== user_reaction) {
-        response = await updatePostReaction(
-          {
-            reactionType: value,
-          },
-          postId,
-          tokenInRedux,
-        )
-      } else if (value === 'none' || value === user_reaction) {
-        response = await deleteReactions(postId, tokenInRedux)
+      try {
+        if (!userReaction || userReaction === 'none') {
+          response = await postReactions(
+            {
+              reactionType: value,
+            },
+            postId,
+            tokenInRedux,
+          )
+          updateReactionArray(reactionSummary, {
+            value: value,
+            action: 'post',
+            previousAction: userReaction,
+          })
+        } else if (value !== 'none' && value !== userReaction) {
+          response = await updatePostReaction(
+            {
+              reactionType: value,
+            },
+            postId,
+            tokenInRedux,
+          )
+          updateReactionArray(reactionSummary, {
+            value: value,
+            action: 'update',
+            previousAction: userReaction,
+          })
+        } else if (value === 'none' || value === userReaction) {
+          response = await deleteReactions(postId, tokenInRedux)
+          updateReactionArray(reactionSummary, {
+            value: value === 'none' ? userReaction : value,
+            action: 'delete',
+            previousAction: userReaction,
+          })
+        }
+        setUserReaction(userReaction === value ? '' : value)
+      } catch (error) {
+        setUserReaction('')
+        throw error
       }
     } else {
       setShowSignModal(true)
@@ -124,7 +140,7 @@ const PostActionBar = ({
         <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
           <ReactionButton
             handleLikeWrapper={handleLikeWrapper}
-            userReaction={user_reaction}
+            userReaction={userReaction}
             onReact={submitReaction}
           />
 

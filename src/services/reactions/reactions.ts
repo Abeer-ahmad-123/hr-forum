@@ -16,8 +16,11 @@ async function postReactions(body: any, postId: string, token?: string) {
       },
       body: await JSON.stringify(body),
     })
-    const data = await response.json()
-    return data
+    if (response.ok) {
+      return await response.json()
+    } else {
+      throw 'Error'
+    }
   } catch (error) {
     throw error
   }
@@ -33,8 +36,11 @@ async function deleteReactions(postId: string, token: string) {
         authorization: 'Bearer ' + token,
       },
     })
-    const data = await response.json()
-    return data
+    if (response.ok) {
+      return await response.json()
+    } else {
+      throw 'Error'
+    }
   } catch (error) {
     throw error
   }
@@ -65,8 +71,11 @@ async function updatePostReaction(body: any, postId: string, token: string) {
       },
       body: JSON.stringify(body),
     })
-    const data = await response.json()
-    return data
+    if (response.ok) {
+      return await response.json()
+    } else {
+      throw 'Error'
+    }
   } catch (error) {
     throw error
   }
