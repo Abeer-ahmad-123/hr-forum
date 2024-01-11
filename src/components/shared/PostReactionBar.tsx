@@ -61,6 +61,21 @@ const PostReactionBar = ({
   const mouseLeave = () => {
     setEmojiPopoverVisible(false)
   }
+  const isExceptOneZero = (obj: any) => {
+    let nonZeroCount = 0
+
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key) && obj[key] !== 0) {
+        nonZeroCount++
+        if (nonZeroCount > 1) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
+
   useEffect(() => {
     getAllPostData()
   }, [])
@@ -91,10 +106,13 @@ const PostReactionBar = ({
                 className="text-xs text-slate-400"
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
-                {addCountOfAll(reactionArray) > 1
+                {isExceptOneZero(reaction_summary)
+                  ? addCountOfAll(reactionArray) > 1 &&
+                    `and ${addCountOfAll(reactionArray) - 1} more`
+                  : addCountOfAll(reactionArray) > 1
                   ? `and ${addCountOfAll(reactionArray) - 1} other`
                   : addCountOfAll(reactionArray) > 2
-                  ? `and ${addCountOfAll(reactionArray) - 1} other`
+                  ? `and ${addCountOfAll(reactionArray) - 1} others`
                   : ''}
               </span>
             </PopoverTrigger>
