@@ -9,6 +9,7 @@ import { getEmojisAsArray } from '@/utils/reactionDetails'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CustomLink } from './customLink/CustomLink'
+
 interface PostReactionBarProps {
   postId: string
   reaction_summary: any
