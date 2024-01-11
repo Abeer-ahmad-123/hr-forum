@@ -3,16 +3,14 @@ import {
   FacebookShareButton,
   LinkedinIcon,
   LinkedinShareButton,
-  PinterestIcon,
-  PinterestShareButton,
   RedditIcon,
   RedditShareButton,
   TelegramIcon,
   TelegramShareButton,
-  WhatsappIcon,
-  WhatsappShareButton,
   TwitterIcon,
   TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
 } from 'react-share'
 
 import { DOMAIN_URL } from '@/services'

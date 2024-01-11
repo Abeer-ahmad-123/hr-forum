@@ -77,7 +77,9 @@ const PostReactionBar = ({
                 className={`${
                   index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
                 } rounded-full bg-white p-1 text-xs dark:bg-slate-800`}
-                key={index}>
+                key={index}
+                onMouseEnter={mouseEnter}
+                onMouseLeave={mouseLeave}>
                 {react}
               </span>
             ))}
