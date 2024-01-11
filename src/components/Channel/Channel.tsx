@@ -34,7 +34,7 @@ const Channel = () => {
                 {/* ::channel Infos */}
                 <div className="space-y-1">
                   {/* :::name */}
-                  <p className="text-base font-bold tracking-wide text-gray-700 dark:text-white">
+                  <p className="text-left text-base font-bold tracking-wide text-gray-700 dark:text-white">
                     {channel.name}
                   </p>
                   {/* :::description */}
