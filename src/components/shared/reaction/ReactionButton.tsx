@@ -48,7 +48,8 @@ const ReactionButton = ({
   )
 
   const toggleHeartReaction = useCallback(() => {
-    const newReaction = currentReaction === 'none' ? 'love' : 'none'
+    const newReaction =
+      currentReaction == '' || currentReaction == 'none' ? 'love' : 'none'
     updateCurrentReaction(newReaction)
     onReact(newReaction)
   }, [onReact, currentReaction]) // Removed post
