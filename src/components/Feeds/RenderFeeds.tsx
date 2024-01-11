@@ -13,6 +13,7 @@ import { toPascalCase } from '@/utils/common'
 import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import RespScreen from '../Cards/ResponsiveScreen'
+import { redirect } from 'next/navigation'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -68,15 +69,21 @@ async function RenderFeeds({
       initialPosts = data?.posts
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
     } else {
-      const { data } = await getAllPosts({
-        loadReactions: true,
-        loadUser: true,
-        userID:
-          (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
-          undefined,
-      })
-      initialPosts = data?.posts
-      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      try {
+        const { data } = await getAllPosts({
+          loadReactions: true,
+          loadUser: true,
+          userID:
+            (userDetailsCookies &&
+              JSON.parse(userDetailsCookies?.value!)?.id) ??
+            undefined,
+        })
+        initialPosts = data?.posts
+        morePosts =
+          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      } catch (error) {
+        redirect('/error')
+      }
     }
   }
 
