@@ -25,7 +25,7 @@ export async function signIn(body: any) {
       credentials: 'include',
     })
     const responseJson = await responseFromAuth.json()
-    setUserCookies(responseJson)
+    if (responseJson.success) setUserCookies(responseJson)
     return { ...responseJson, status: responseFromAuth?.status }
   } catch (err) {
     throw err
@@ -43,7 +43,9 @@ export async function signUp(body: any) {
       },
     })
     const responseJson = await responseFromSignup.json()
-    setUserCookies(responseJson)
+    if (responseJson.success) {
+      setUserCookies(responseJson)
+    }
 
     return responseJson
   } catch (err) {

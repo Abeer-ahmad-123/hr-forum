@@ -1,3 +1,4 @@
+'use client'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 const LoggedIn = dynamic(() => import('./LoggedIn'), { ssr: false })
@@ -21,7 +22,15 @@ const LogButton = () => {
 
   return (
     <div>
-      {/* {showContent ? reduxToken ? <LoggedIn /> : <SigninNavButton /> : <></>} */}
+      {/* {typeof window !== 'undefined' ? (
+        reduxToken ? (
+          <LoggedIn />
+        ) : (
+          <SigninNavButton />
+        )
+      ) : (
+        <></>
+      )} */}
       {window ? reduxToken ? <LoggedIn /> : <SigninNavButton /> : <></>}
     </div>
   )

@@ -11,7 +11,7 @@ export default function SignupForm({
   const { name, username, email, password } = formValues
 
   return (
-    <form className="mt-6" onSubmit={handleSignupSubmit}>
+    <form className="mt-6">
       <InputField
         error={errors['name']}
         name="name"
@@ -35,26 +35,26 @@ export default function SignupForm({
         onChange={handleInputChange}
       />
       <InputField
+        type="password"
         error={errors['password']}
         name="password"
         placeholder="password"
         value={password}
         onChange={handleInputChange}
       />
-      <div className="">
-        <button
-          className={`flex w-full transform justify-center rounded-xl bg-accent px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ${
-            loading && 'bg-gray-400'
-          }`}>
-          <p>Sign up</p>
-          {loading ? (
-            <div className="ml-2">
-              <CircularProgressIcon color="gray" />
-            </div>
-          ) : (
-            <></>
-          )}
-        </button>
+      <div
+        onClick={handleSignupSubmit}
+        className={`flex w-full transform justify-center rounded-xl bg-accent px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ${
+          loading && 'bg-gray-400'
+        }`}>
+        <button>Sign up</button>
+        {loading ? (
+          <div className="ml-2">
+            <CircularProgressIcon color="gray" />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </form>
   )

@@ -94,7 +94,7 @@ const RespProfile = ({ userId }: profileProps) => {
           file,
         )
         if (response?.success) {
-          showSuccessAlert('Image Uploaded')
+          showSuccessAlert('Profile picture updated')
           setLoading(false)
 
           dispatch(
@@ -106,7 +106,7 @@ const RespProfile = ({ userId }: profileProps) => {
             }),
           )
         } else {
-          showErrorAlert('Issues in image uploaded')
+          showErrorAlert('Something went wrong')
         }
       } catch (e: any) {
         throw new Error(e)
@@ -124,7 +124,7 @@ const RespProfile = ({ userId }: profileProps) => {
       file,
     )
     if (response?.success) {
-      showSuccessAlert('Image Uploaded')
+      showSuccessAlert('Profile picture updated')
       dispatch(
         setUserData({
           userData: {
@@ -139,7 +139,7 @@ const RespProfile = ({ userId }: profileProps) => {
         backgroundPictureURL: response?.data?.url,
       })
     } else {
-      showErrorAlert('Issues in image uploaded')
+      showErrorAlert('Something went wrong')
     }
   }
 
