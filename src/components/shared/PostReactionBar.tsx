@@ -76,6 +76,19 @@ const PostReactionBar = ({
     return true
   }
 
+  const generateReactionSummary = () => {
+    const reactionCount = addCountOfAll(reactionArray)
+    let result = ''
+
+    if (isExceptOneZero(reaction_summary) && reactionCount > 1) {
+      result = `and ${reactionCount - 1} more`
+    } else if (reactionCount > 1) {
+      result = `and ${reactionCount - 1} other${reactionCount > 2 ? 's' : ''}`
+    }
+
+    return result
+  }
+
   useEffect(() => {
     getAllPostData()
   }, [])
@@ -106,14 +119,7 @@ const PostReactionBar = ({
                 className="text-xs text-slate-400"
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
-                {isExceptOneZero(reaction_summary)
-                  ? addCountOfAll(reactionArray) > 1 &&
-                    `and ${addCountOfAll(reactionArray) - 1} more`
-                  : addCountOfAll(reactionArray) > 1
-                  ? `and ${addCountOfAll(reactionArray) - 1} other`
-                  : addCountOfAll(reactionArray) > 2
-                  ? `and ${addCountOfAll(reactionArray) - 1} others`
-                  : ''}
+                {generateReactionSummary()}
               </span>
             </PopoverTrigger>
             <PopoverContent className="bg-white">
