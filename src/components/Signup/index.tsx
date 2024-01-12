@@ -67,35 +67,44 @@ export default function Signup({
           if (!isFieldsValid) return
           const response = await signUp(formValues)
           if (!response.success) {
-            showErrorAlert(response.errors[0])
-          }
-          const result = await signIn(
-            JSON.stringify({
-              email: formValues.email,
-              password: formValues.password,
-            }),
-          )
-          if (
-            !result?.success &&
-            (result?.status === 401 || result?.status === 404)
-          ) {
-            showErrorAlert('Sign-in failed. Please check your credentials.')
             setErrors({
               ...errors,
-              password: 'Unauthenticated! email or password not matched.',
+              email: response.errors[0].includes('email') && response.errors[0],
+              username:
+                response.errors[0].includes('username') &&
+                'username already exists',
             })
-            return
-          }
-          if (result?.data?.token) {
-            dispatch(
-              setUser({
-                ...result?.data,
-                refreshToken: result?.data['refresh-token'],
+          } else {
+            const result = await signIn(
+              JSON.stringify({
+                email: formValues.email,
+                password: formValues.password,
               }),
             )
-            showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
-            handleDialogClose()
-            router.refresh()
+
+            if (
+              !result?.success &&
+              (result?.status === 401 || result?.status === 404)
+            ) {
+              setErrors({
+                ...errors,
+                password:
+                  result.errors[0].includes('password') && 'Invalid Password',
+                email: result.errors[0].includes('email') && result.errors[0],
+              })
+              return
+            }
+            if (result?.data?.token) {
+              dispatch(
+                setUser({
+                  ...result?.data,
+                  refreshToken: result?.data['refresh-token'],
+                }),
+              )
+              showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
+              handleDialogClose()
+              router.refresh()
+            }
           }
         } else {
           showErrorAlert('Please enter valid email or username.')
@@ -142,7 +151,6 @@ export default function Signup({
             handleInputChange={handleInputChange}
             handleSignupSubmit={handleSignupSubmit}
           />
-          {/* Login Link */}
           <>
             <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
               Already have an account?{' '}
@@ -156,10 +164,8 @@ export default function Signup({
               </button>
             </p>
           </>
-          {/* Login Link Ends */}
         </div>
       </div>
-      {/* Form Ends */}
     </div>
   )
 }

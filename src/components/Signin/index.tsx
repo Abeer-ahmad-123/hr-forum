@@ -68,14 +68,14 @@ export default function Signin({
       )
       if (
         !result?.success &&
-        result?.status === 401 &&
-        result?.status === 404
+        (result?.status === 401 || result?.status === 404)
       ) {
-        showErrorAlert('Sign-in failed. Please check your credentials.')
         setErrors({
           ...errors,
-          password: 'Unauthenticated! email or password not matched.',
+          password: result.errors[0].includes('password') && 'Invalid Password',
+          email: result.errors[0].includes('email') && result.errors[0],
         })
+
         return
       }
       if (result?.data?.token) {
