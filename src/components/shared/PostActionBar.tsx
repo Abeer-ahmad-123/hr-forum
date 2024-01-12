@@ -54,7 +54,6 @@ const PostActionBar = ({
     ''
 
   const [showSignModal, setShowSignModal] = useState(false)
-  const [showIcons, setShowIcons] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const { id } = useParams()
   const pathName = usePathname()
@@ -159,12 +158,6 @@ const PostActionBar = ({
       setShowSignModal(true)
     }
   }
-  const handleOpenDialog = () => {
-    setOpenDialog(true)
-  }
-  const handleCloseDialog = () => {
-    setOpenDialog(false)
-  }
 
   return (
     <>
@@ -229,7 +222,11 @@ const PostActionBar = ({
                       </button>
                     </DialogTrigger>
                     <DialogContent className="bg-white sm:max-w-[500px]">
-                      <Report />
+                      <Report
+                        reportType="post"
+                        setOpenDialog={setOpenDialog}
+                        postId={postId}
+                      />
                     </DialogContent>
                   </Dialog>
 

@@ -1,68 +1,92 @@
-'use Client'
+'use client'
 import React, { useState } from 'react'
 import InfoIcon from '@/assets/icons/InfoIcon'
+import { reportPost } from '@/services/report'
+import { useInterceptor } from '@/hooks/interceptors'
+import { useSelector } from 'react-redux'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 const Data = [
   {
-    Reason: 'Sexual content',
-    Description:
+    reason: 'Sexual content',
+    description:
       'content that include graphics ,nudity or other type of sexual content',
   },
   {
-    Reason: 'Hateful and Abusive Content',
-    Description: 'content that is voilent,graphics or posted to shock viewers',
+    reason: 'Hateful and Abusive Content',
+    description: 'content that is voilent,graphics or posted to shock viewers',
   },
   {
-    Reason: 'Harness or bullying',
-    Description:
+    reason: 'Harness or bullying',
+    description:
       'content that promotes hatred against protected groups abusive vulnerarble individuals',
   },
   {
-    Reason: 'Harmful and dangerous acts',
-    Description: 'content that included acts that may physical harm',
+    reason: 'Harmful and dangerous acts',
+    description: 'content that included acts that may physical harm',
   },
   {
-    Reason: 'Misinformation',
-    Description:
+    reason: 'Misinformation',
+    description:
       'content that is misleading or deceptive with serious risk of egresious harm',
   },
   {
-    Reason: 'Child Abuse',
-    Description:
+    reason: 'Child Abuse',
+    description:
       'content that includes sexual , predatory or abusive communications towards minors',
   },
   {
-    Reason: 'Promotes terrorism',
-    Description: 'content that is intended to recruit terrorsit organizations',
+    reason: 'Promotes terrorism',
+    description: 'content that is intended to recruit terrorsit organizations',
   },
   {
-    Reason: 'Spam or misLeading',
-    Description:
+    reason: 'Spam or misLeading',
+    description:
       'content that is massively posted or have miss leading information',
   },
   {
-    Reason: 'legal issues',
-    Description: 'copyrights , privacy or other legal complaints',
+    reason: 'legal issues',
+    description: 'copyrights , privacy or other legal complaints',
   },
   {
-    Reason: 'Caption issues',
-    Description: 'missing inaccurate or abusive captions ',
+    reason: 'Caption issues',
+    description: 'missing inaccurate or abusive captions ',
   },
 ]
 
 interface ReportInterface {
+  postId: string
   reportType: string
   setOpenDialog: (arg0: boolean) => void
 }
 
-const Report = () => {
+const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
-
+  const tokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  const refreshTokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
+  const { customFetch } = useInterceptor()
   const handleClick = (reason: any) => {
     setSelectedItem(reason)
   }
-  const handleCancel = () => {}
-  const handleSubmit = async () => {}
+  const handleCancel = () => {
+    setOpenDialog(false)
+  }
+  console.log(tokenInRedux)
+  const handleSubmit = async () => {
+    if (reportType == 'post') {
+      const response = await reportPost(
+        postId,
+        selectedItem,
+        customFetch,
+        tokenInRedux,
+        refreshTokenInRedux,
+      )
+    }
+  }
+  console.log(selectedItem)
   return (
     <div className="gap-8">
       <div className="flex justify-items-start pb-8 "> Report comment</div>
@@ -74,11 +98,11 @@ const Report = () => {
               id={`radioButton-${index}`}
               name="example"
               className="h-4 w-4 cursor-pointer"
-              onChange={() => handleClick(text.Reason)}
+              onChange={() => handleClick(text.reason)}
               value={selectedItem}
             />
 
-            <div className="">{text.Reason}</div>
+            <div>{text.reason}</div>
             <div className=" relative hover:block hover:opacity-100">
               <div className="opacity-1 z-10 transition-opacity duration-300 ease-in-out">
                 <div className="group relative">
@@ -86,7 +110,7 @@ const Report = () => {
                     <InfoIcon />
                   </div>
                   <div className="invisible absolute  left-full top-0 z-10 h-20 w-[8rem] overflow-auto rounded-md bg-gray-800 p-2 text-[12px] text-white opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100">
-                    {text.Description}
+                    {text.description}
                   </div>
                 </div>
               </div>
