@@ -37,10 +37,8 @@ function ReplyTextArea({
           Reply
         </button>
         <Popover>
-          <PopoverTrigger>
-            <button className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
-              Share
-            </button>
+          <PopoverTrigger className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
+            Share
           </PopoverTrigger>
 
           <PopoverContent className="bg-white">

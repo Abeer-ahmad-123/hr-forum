@@ -26,9 +26,9 @@ export default function NewPost() {
   return (
     <>
       <Dialog open={openDilog} onOpenChange={handleClosedialog}>
-        <button className="w-full max-w-screen-md" onClick={handleOpenDialog}>
+        <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
           <PostBar />
-        </button>
+        </div>
         {data ? (
           <DialogContent className="border bg-white sm:max-w-screen-md">
             <NewPostForm open={setOpenDilog} />
@@ -43,17 +43,10 @@ export default function NewPost() {
 
 const PostBar = () => {
   return (
-    <div className=" justify-center flex w-full items-center rounded-xl bg-white dark:bg-slate-800 dark:text-white">
-      {/* <div className="flex h-10 items-center p-1.5">
-        <img
-          src="https://avatar.iran.liara.run/public/boy"
-          className="h-8 w-8"
-        />
-      </div> */}
+    <div className=" flex w-full items-center justify-center rounded-xl bg-white dark:bg-slate-800 dark:text-white">
       <div
         id="search"
-        className="text-grey-400 block w-full cursor-pointer rounded-bl-xl rounded-tl-xl bg-white py-3 pl-4 pr-3 text-left text-gray-400 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6"
-      >
+        className="text-grey-400 block w-full cursor-pointer rounded-bl-xl rounded-tl-xl bg-white py-3 pl-4 pr-3 text-left text-gray-400 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6">
         Add a new thread
       </div>
       <PlusButton />

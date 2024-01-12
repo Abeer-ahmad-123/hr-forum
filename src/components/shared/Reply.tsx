@@ -81,10 +81,8 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                 </div>
               </div>
               <Popover>
-                <PopoverTrigger>
-                  <button className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
-                    Share
-                  </button>
+                <PopoverTrigger className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
+                  Share
                 </PopoverTrigger>
                 <PopoverContent className="bg-white">
                   <SocialButtons
@@ -100,9 +98,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                 Report
               </button>
             </div>
-            {/* <MoreHorizontal className="ml-2 text-gray-400" /> */}
           </div>
-          {/*  ÷  */}
         </div>
       </div>
     </div>

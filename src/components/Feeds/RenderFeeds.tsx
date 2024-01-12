@@ -22,7 +22,6 @@ async function RenderFeeds({
   let initialPosts = []
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
-
   if (channelSlug) {
     if (!searchParams.search) {
       const getChannelId = getChannelIdByChannelName(channelSlug, channels)

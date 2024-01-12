@@ -42,7 +42,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
       {posts?.map((post: UserSpecificationPostInterface, i: number) => (
         <ProfilePosts key={i} user={user} post={post} />
       ))}
-      {morePostsExist?.current && <CircularProgress incommingRef={ref} />}
+      {!!morePostsExist?.current && <CircularProgress incommingRef={ref} />}
     </div>
   )
 }
