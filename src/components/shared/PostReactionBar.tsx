@@ -61,7 +61,7 @@ const PostReactionBar = ({
   const mouseLeave = () => {
     setEmojiPopoverVisible(false)
   }
-  const isExceptOneZero = (obj: any) => {
+  const isExceptOneZero = (obj: ReactionCounts) => {
     let nonZeroCount = 0
 
     for (const key in obj) {
