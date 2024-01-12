@@ -147,7 +147,8 @@ const LayoutWrapper = ({ children }: any) => {
             <div
               className={`max-h-auto mx-auto -mt-5 min-h-[100vh] w-full ${
                 pathname !== '/error' && 'bg-background'
-              } px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]`}>
+              } px-10 
+              dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px]`}>
               {children}
             </div>
           </div>

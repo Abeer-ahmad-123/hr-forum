@@ -1,9 +1,16 @@
 import React from 'react'
 import Skelton from './ui/skelton'
 
-const RulesCardSkelton = () => {
+interface RulesCardSkeltonProps {
+  className?: string
+}
+
+const RulesCardSkelton = ({ className }: RulesCardSkeltonProps) => {
   return (
-    <div className="ml-12  h-[460px] w-[200px] rounded-[10px] bg-white pb-[10px] shadow-lg dark:bg-slate-800 ">
+    <div
+      className={`${
+        className ? className : 'ml-12'
+      }  h-[460px] w-[200px] rounded-[10px] bg-white pb-[10px] shadow-lg dark:bg-slate-800`}>
       <div className="pt-4">
         <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-5 justify-center text-center font-bold" />
       </div>
