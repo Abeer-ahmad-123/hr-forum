@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 import ProfileCardSkelton from '../ProfileCardSkelton'
 import RulesCardSkelton from '../RuleCardSkelton'
+import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
 
 function CardLoading() {
@@ -23,17 +24,20 @@ function CardLoading() {
   }, [token])
   return (
     <div>
-      <div className={`mt-5 flex justify-center`}>
-        <div className={`flex flex-col ${hidden ? ' pr-5' : 'mt-[70px]'}`}>
-          {token && <ProfileCardSkelton />}
+      <div
+        className={`mt-8 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
+        <div className={`flex flex-col ${hidden ? ' pr-4' : ''}`}>
+          {token && <ProfileCardSkelton className={'max-md:w-full'} />}
+          <Skelton className="mx-auto mt-2 hidden h-6  w-24 rounded-sm bg-skelton max-md:block" />
 
-          <div className="sticky top-[20px] max-h-screen">
-            <ChannelCardSkelton token={token} />
+          <div className=" sticky top-[20px] max-h-screen max-md:static">
+            <ChannelCardSkelton token={token} className={'max-md:hidden'} />
           </div>
           <div className="sticky top-[400px] mt-5 max-h-screen max-lg:top-[335px]">
-            <RulesCardSkelton />
+            <RulesCardSkelton className={'max-md:hidden'} />
           </div>
         </div>
+
         <div className="flex w-full max-w-screen-md flex-col">
           <div className="mb-5">
             <PostBar />
