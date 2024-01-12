@@ -3,13 +3,18 @@ import { useState } from 'react'
 import { MoreHorizontal } from 'lucide-react'
 import TextArea from '../ui/TextArea'
 import { useParams, useSearchParams } from 'next/navigation'
-
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '@/components/ui/Dialog/simpleDialog'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
 import SocialButtons from './SocialButtons'
+import Report from '../Report/Report'
 
 function ReplyTextArea({
   submitCallback,
@@ -20,6 +25,7 @@ function ReplyTextArea({
   author = '',
 }: any) {
   const [showTextArea, setShowTextArea] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
 
   const params = useParams()
   const postId = params?.id as string
@@ -51,6 +57,22 @@ function ReplyTextArea({
             />
           </PopoverContent>
         </Popover>
+
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+        <DialogTrigger asChild>
+         
+        <button className="pointer text-sm text-gray-400 hover:underline">
+                Report
+              </button>
+        </DialogTrigger>
+        <DialogContent className="bg-white sm:max-w-[500px]">
+        {/* <h2> this the dialogue content for this</h2> */}
+
+        <Report/>
+     
+
+        </DialogContent>
+      </Dialog>
       </div>
 
       <div className={` ${!showTextArea && 'hidden'} `}>
