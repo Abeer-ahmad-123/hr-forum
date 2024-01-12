@@ -10,7 +10,10 @@ const ChannelPill = ({ channel_id, channels }: any) => {
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
 
   return (
-    <span className="px-1 text-xs font-light text-slate-500 dark:text-gray-400 ">
+    <span
+      className="px-1 text-xs 
+    font-light
+    text-slate-500 dark:text-gray-400 max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm ">
       Posted in
       <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
