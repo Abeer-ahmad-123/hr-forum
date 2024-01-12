@@ -57,20 +57,20 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
   }
 
   return (
-    <div className="mt-4 w-full rounded-lg">
+    <div className=" mt-4 w-full rounded-lg px-[45px]">
       <div className="flex">
-        <div className="flex  flex-col items-center">
-          <div className="">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
+        <div className="flex min-h-[32px] min-w-[32px]  flex-col items-center">
+          <div className="rounded-full border border-black">
             <img
-              alt="avatar"
-              src={comment?.author_details?.profile_picture_url}
-              className="h-8 w-8 rounded-full border border-black"
+              alt="profile picture"
               height={8}
               width={8}
+              src={comment?.['author_details'].profile_picture_url}
+              className="h-8 min-h-[32px] w-8 min-w-[32px] rounded-full"
             />
           </div>
         </div>
+
         <div className="  ml-3  ">
           <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
             <div className=" text-left text-accent ">
