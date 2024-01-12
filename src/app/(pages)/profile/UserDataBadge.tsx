@@ -21,7 +21,9 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             <span className="pr-2">
               <FaRegComment size={18} />
             </span>
-            {`${commentCount ? commentCount : 0} comments written`}
+            {`${commentCount ? commentCount : 0} ${
+              commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
+            } written`}
           </div>
         </div>
       </div>
