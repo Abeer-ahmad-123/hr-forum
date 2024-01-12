@@ -1,6 +1,7 @@
 'use client'
 import userImage from '@/assets/avatars/Unknown_person.jpeg'
 import ImageUpload from '@/components/ImageUpload'
+import { useInterceptor } from '@/hooks/interceptors'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
@@ -18,7 +19,6 @@ import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
-import { useInterceptor } from '@/hooks/interceptors'
 
 interface profileProps {
   userId?: string
@@ -42,6 +42,7 @@ const RespProfile = ({ userId }: profileProps) => {
 
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState(false)
+  const [loadingPosts, setLoadingPosts] = useState(true)
   const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
@@ -56,7 +57,7 @@ const RespProfile = ({ userId }: profileProps) => {
   }
 
   const getAllUserSpecificPosts = async () => {
-    setLoading(true)
+    setLoadingPosts(true)
 
     const response = await getUserSpecificPosts(
       userId ? userId : userDataInStore?.id,
@@ -68,7 +69,7 @@ const RespProfile = ({ userId }: profileProps) => {
         response?.data?.pagination?.CurrentPage !==
           response?.data?.pagination?.TotalPages
     }
-    setLoading(false)
+    setLoadingPosts(false)
   }
 
   const handleInputChange = (e: any) => {
@@ -215,7 +216,6 @@ const RespProfile = ({ userId }: profileProps) => {
                 <div className="top-0">
                   <div className="flex w-full">
                     <div className="relative flex justify-center md:w-full">
-                      {/* TO be corrected */}
                       <img
                         alt="..."
                         width={96}
@@ -251,7 +251,6 @@ const RespProfile = ({ userId }: profileProps) => {
                         saveCroppedImage={saveImage}
                         disableButton={loading}
                       />
-                      {/* ///  */}
                     </div>
                   </div>
 
@@ -266,8 +265,6 @@ const RespProfile = ({ userId }: profileProps) => {
                     />
                   )}
                 </div>
-
-                {/* */}
 
                 <div className="flex justify-center gap-[20px] pb-6">
                   <div className="mt-12 p-6 text-center max-md:text-left">
@@ -290,8 +287,6 @@ const RespProfile = ({ userId }: profileProps) => {
                   </div>
                 </div>
               </div>
-
-              {/*Profile card end!!*/}
             </div>
           </div>
           <div className="flex flex-col gap-[2rem] lg:flex-row">
@@ -306,7 +301,7 @@ const RespProfile = ({ userId }: profileProps) => {
               />
             </div>
             <div className="flex w-full flex-col">
-              {!loading ? (
+              {!loadingPosts ? (
                 <UserSpecificPosts
                   posts={posts}
                   user={userId ? user : userDataInStore}
