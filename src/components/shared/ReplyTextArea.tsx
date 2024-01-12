@@ -59,20 +59,15 @@ function ReplyTextArea({
         </Popover>
 
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogTrigger asChild>
-         
-        <button className="pointer text-sm text-gray-400 hover:underline">
-                Report
-              </button>
-        </DialogTrigger>
-        <DialogContent className="bg-white sm:max-w-[500px]">
-        {/* <h2> this the dialogue content for this</h2> */}
-
-        <Report/>
-     
-
-        </DialogContent>
-      </Dialog>
+          <DialogTrigger asChild>
+            <button className="pointer text-sm text-gray-400 hover:underline">
+              Report
+            </button>
+          </DialogTrigger>
+          <DialogContent className="bg-white sm:max-w-[500px]">
+            <Report />
+          </DialogContent>
+        </Dialog>
       </div>
 
       <div className={` ${!showTextArea && 'hidden'} `}>

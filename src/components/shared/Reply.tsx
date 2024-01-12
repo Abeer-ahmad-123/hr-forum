@@ -45,14 +45,12 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
   /////// date formate change on hover
   const formattedDate = FormatCreatedAt(reply.created_at)
 
-
   const handleOpenDialog = () => {
     setOpenDialog(true)
   }
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
-
 
   return (
     <div
@@ -111,31 +109,21 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                   />
                 </PopoverContent>
               </Popover>
-{/*     */}
+              {/*     */}
 
+              <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                <DialogTrigger asChild>
+                  <button className="pointer text-sm text-gray-400 hover:underline">
+                    Report
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="bg-white sm:max-w-[500px]">
+                  <Report />
+                </DialogContent>
+              </Dialog>
 
-<Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogTrigger asChild>
-         
-        <button className="pointer text-sm text-gray-400 hover:underline">
-                Report
-              </button>
-        </DialogTrigger>
-        <DialogContent className="bg-white sm:max-w-[500px]">
-        {/* <h2> this the dialogue content for this</h2> */}
-
-        <Report/>
-     
-
-        </DialogContent>
-      </Dialog>
-
-
-
-
-{/*     */}
+              {/*     */}
             </div>
-            {/* <MoreHorizontal className="ml-2 text-gray-400" /> */}
           </div>
           {/*  ÷  */}
         </div>

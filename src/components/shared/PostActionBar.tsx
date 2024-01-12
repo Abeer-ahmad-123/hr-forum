@@ -34,7 +34,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/Dialog/simpleDialog'
 import Report from '../Report/Report'
-import { MoreHorizontal , MessageCircleIcon } from 'lucide-react'
+import { MoreHorizontal, AlertOctagon } from 'lucide-react'
 
 const PostActionBar = ({
   linkToFeed,
@@ -54,7 +54,7 @@ const PostActionBar = ({
     ''
 
   const [showSignModal, setShowSignModal] = useState(false)
-  const [showIcons , setShowIcons] = useState(false)
+  const [showIcons, setShowIcons] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const { id } = useParams()
   const pathName = usePathname()
@@ -179,8 +179,6 @@ const PostActionBar = ({
             onReact={submitReaction}
           />
 
-         
-
           <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800">
             <button
               onClick={toggleCommentArea}
@@ -209,94 +207,44 @@ const PostActionBar = ({
                 <SocialButtons className="flex gap-3" postId={postId} />
               </PopoverContent>
             </Popover>
-      
-
           </div>
-          <div className='flex gap-6 '> 
-         
-          {/* <div className=' flex justify-end cursor-pointer' onClick={() => {setShowIcons(!showIcons)}}> 
-          <MoreHorizontal />
-          </div> */}
-          
-{/* {showIcons && ( 
-        <div className='gap-2'> 
-
-
-<Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogTrigger asChild>
-         
-        <button className=" flex pointer text-[15px]  hover: text-gray-400">
-        <MessageCircleIcon />
-            <span>     Report</span>
-              </button>
-        </DialogTrigger>
-        <DialogContent className="bg-white sm:max-w-[500px]">
-  
-
-        <Report/>
-     
-
-        </DialogContent>
-      </Dialog>
-
-
-
-<div
-            onClick={handleBookmark}
-            className="dark:text-icon-dark  text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-            <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
-            <span className="font-light text-[15px] max-custom-sm:hidden ">Bookmark</span>
-          </div>
-        </div>
-        )} */}
-
-
-<Popover>
+          <div className="flex gap-6 ">
+            <Popover>
               <PopoverTrigger>
                 <button className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
-                  {/* <IoShareSocial size={'24px'} color="#D2D3D5" /> */}
                   <MoreHorizontal className="h-6 w-6 font-light" />
-                 
                 </button>
               </PopoverTrigger>
 
               <PopoverContent className="bg-white">
-              <div> 
+                <div>
+                  <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                    <DialogTrigger asChild>
+                      <button className=" dark:text-icon-dark  text-icon-light pyrepo-2 flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                        <AlertOctagon size={17} />
+                        <span className="text-[15px] font-light max-custom-sm:hidden">
+                          {' '}
+                          Report
+                        </span>
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-white sm:max-w-[500px]">
+                      <Report />
+                    </DialogContent>
+                  </Dialog>
 
-
-<Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogTrigger asChild>
-         
-        <button className=" dark:text-icon-dark  text-icon-light flex basis-1/4 cursor-pointer items-center justify-center pb-2 space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-        <MessageCircleIcon size={17} />
-            <span className="font-light text-[15px] max-custom-sm:hidden"> Report</span>
-              </button>
-        </DialogTrigger>
-        <DialogContent className="bg-white sm:max-w-[500px]">
-  
-
-        <Report/>
-     
-
-        </DialogContent>
-      </Dialog>
-
-
-
-<div
-            onClick={handleBookmark}
-            className="dark:text-icon-dark  text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-            <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
-            <span className="font-light text-[15px] max-custom-sm:hidden ">Bookmark</span>
-          </div>
-        </div>
+                  <div
+                    onClick={handleBookmark}
+                    className="dark:text-icon-dark text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                    <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
+                    <span className="text-[15px] font-light max-custom-sm:hidden ">
+                      Bookmark
+                    </span>
+                  </div>
+                </div>
               </PopoverContent>
             </Popover>
-
-        
-
-        </div>
-       
+          </div>
         </div>
 
         {!id && (
