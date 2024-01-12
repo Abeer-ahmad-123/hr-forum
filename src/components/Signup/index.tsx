@@ -65,9 +65,10 @@ export default function Signup({
           let isFieldsValid = handleValidations()
 
           if (!isFieldsValid) return
-
-          await signUp(formValues)
-
+          const response = await signUp(formValues)
+          if (!response.success) {
+            showErrorAlert(response.errors[0])
+          }
           const result = await signIn(
             JSON.stringify({
               email: formValues.email,
@@ -92,7 +93,7 @@ export default function Signup({
                 refreshToken: result?.data['refresh-token'],
               }),
             )
-            showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
+            showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
             handleDialogClose()
             router.refresh()
           }

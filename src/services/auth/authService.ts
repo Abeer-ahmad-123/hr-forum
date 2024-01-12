@@ -43,7 +43,9 @@ export async function signUp(body: any) {
       },
     })
     const responseJson = await responseFromSignup.json()
-    setUserCookies(responseJson)
+    if (responseJson.success) {
+      setUserCookies(responseJson)
+    }
 
     return responseJson
   } catch (err) {
