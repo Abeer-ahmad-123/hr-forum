@@ -41,8 +41,8 @@ const RespProfile = ({ userId }: profileProps) => {
   const isFirstUser = useRef(true)
 
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
-  const [loading, setLoading] = useState(false)
-  const [loadingPosts, setLoadingPosts] = useState(true)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
   const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
