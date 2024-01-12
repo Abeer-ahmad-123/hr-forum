@@ -146,7 +146,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                   <ChannelPill channel_id={channel_id} channels={channels} />
                 </div>
 
-                <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm">
+                <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[8px] md:text-xs lg:text-sm xl:text-sm">
                   {timeFormatInHours(created_at)}
                 </p>
               </div>
@@ -154,12 +154,12 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           </div>
 
           <div className="flex flex-col">
-            <div className="my-3 text-start text-[28px] font-semibold dark:text-white">
+            <div className="my-3 text-start text-xl font-semibold dark:text-white max-[380px]:text-base">
               {title}
             </div>
             {!image_url ? (
               <div
-                className="text-start text-[15px] text-gray-700 dark:text-gray-300"
+                className="text-start text-base text-gray-700 dark:text-gray-300 max-[380px]:text-[13px]"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             ) : (
