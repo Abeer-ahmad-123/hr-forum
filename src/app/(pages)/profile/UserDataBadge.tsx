@@ -13,15 +13,15 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
         <div className="flex flex-col py-3 leading-[50px]">
           <div className="flex items-center">
             <span className="pr-2">
-              <BsPostcard />
+              <BsPostcard size={20} />
             </span>
             {`${postCount ? postCount : 0} post published`}
           </div>
           <div className="flex items-center">
             <span className="pr-2">
-              <FaRegComment />
+              <FaRegComment size={20} />
             </span>
-            {`${commentCount ? commentCount : 0} comment written`}
+            {`${commentCount ? commentCount : 0} comments written`}
           </div>
         </div>
       </div>
