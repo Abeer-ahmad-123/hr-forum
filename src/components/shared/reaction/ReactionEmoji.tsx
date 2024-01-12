@@ -21,7 +21,6 @@ const ReactionEmoji = ({
         styles,
       )}
       id={reactionName}
-      role="button"
       aria-label={`select ${reactionName} emoji`}>
       <span
         className="text-xl text-black dark:text-gray-300 dark:hover:text-slate-800"

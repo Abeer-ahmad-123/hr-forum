@@ -3,12 +3,12 @@ import ChannelPill from '@/components/shared/ChannelPill'
 import { timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
-import { CustomLink } from './customLink/CustomLink'
+import nProgress from 'nprogress'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -37,6 +37,8 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     celebrate_count: 0,
   })
   const [userReaction, setUserReaction] = useState('')
+
+  const router = useRouter()
 
   const updateReactionArray = (
     reactionArray: ReactionSummary,
@@ -76,6 +78,23 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
       [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
     })
   }
+  const handleNavigateProfile = () => {
+    nProgress.start()
+    router.push(
+      `${userDetails?.id === user_id ? '/profile' : `/profile/${user_id}`}`,
+    )
+  }
+
+  const handleNavigateFeed = () => {
+    nProgress.start()
+    router.push(
+      `${
+        pathName.includes('/channels/')
+          ? `feeds/feed/${id}`
+          : `/feeds/feed/${id}`
+      }`,
+    )
+  }
 
   useEffect(() => {
     if (reaction_summary) {
@@ -89,83 +108,71 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     }
   }, [user_reaction])
 
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
+
   return (
     <>
       <div
         key={Math.random()}
         className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
-        <CustomLink
-          href={
-            pathName.includes('/channels/')
-              ? `feeds/feed/${id}`
-              : ` /feeds/feed/${id}`
-          }>
-          <div className="px-10 py-4">
-            <div className="flex items-center justify-between max-md:block">
-              <div className="flex items-center">
-                <div className="-z-2">
-                  <div className="static rounded-xl ">
-                    <img
-                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
-                      width={32}
-                      height={32}
-                      src={user?.profile_picture_url}
-                      alt="user-picture"
-                    />
-                  </div>
+        <div className="px-10 py-4" onClick={handleNavigateFeed}>
+          <div className="flex items-center justify-between max-md:block">
+            <div className="flex items-center">
+              <div className="-z-2">
+                <div className="static rounded-xl ">
+                  <img
+                    className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
+                    width={32}
+                    height={32}
+                    src={user?.profile_picture_url}
+                    alt="user-picture"
+                  />
                 </div>
+              </div>
 
-                <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row items-center">
-                    <CustomLink
-                      href={
-                        userDetails?.id === user_id
-                          ? '/profile'
-                          : `/profile/${user_id}`
-                      }>
-                      <p
-                        className="w-full text-xs font-normal leading-none text-gray-900 hover:bg-gray-200 dark:text-gray-300 
-                        max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm"
-                        aria-label="user-name">
-                        {user?.name}
-                      </p>
-                    </CustomLink>
-                    <ChannelPill channel_id={channel_id} channels={channels} />
-                  </div>
-
+              <div className="ml-2 flex flex-col items-start align-baseline">
+                <div className="flex flex-row items-center">
                   <p
-                    className="text-xs 
-                    font-light text-slate-500 dark:text-gray-400
-
-                  max-[380px]:text-[9px] 
-                  md:text-xs lg:text-sm xl:text-sm">
-                    {timeFormatInHours(created_at)}
+                    onClick={handleNavigateProfile}
+                    className="text-xs font-normal leading-none text-gray-900 hover:bg-gray-200 dark:text-gray-300 
+                        max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm"
+                    aria-label="user-name">
+                    {user?.name}
                   </p>
+                  <ChannelPill channel_id={channel_id} channels={channels} />
                 </div>
-              </div>
-            </div>
 
-            <div className="flex flex-col">
-              <div className="my-3 text-start text-xl font-semibold dark:text-white max-[380px]:text-base">
-                {title}
+                <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm">
+                  {timeFormatInHours(created_at)}
+                </p>
               </div>
-              {!image_url ? (
-                <div
-                  className="text-start text-base text-gray-700 dark:text-gray-300 max-[380px]:text-[13px]"
-                  dangerouslySetInnerHTML={{ __html: content }}
-                />
-              ) : (
-                <img
-                  src={image_url}
-                  alt="post"
-                  height={400}
-                  width={300}
-                  className="w-full max-w-[400px]"
-                />
-              )}
             </div>
           </div>
-        </CustomLink>
+
+          <div className="flex flex-col">
+            <div className="my-3 text-start text-[28px] font-semibold dark:text-white">
+              {title}
+            </div>
+            {!image_url ? (
+              <div
+                className="text-start text-[15px] text-gray-700 dark:text-gray-300"
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            ) : (
+              <img
+                src={image_url}
+                alt="post"
+                height={400}
+                width={300}
+                className="w-full max-w-[400px]"
+              />
+            )}
+          </div>
+        </div>
 
         <PostReactionBar
           reaction_summary={reactionSummary}

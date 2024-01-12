@@ -5,7 +5,7 @@ import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
-import ProfilePosts from './Posts'
+import ProfilePosts from './ProfilePosts'
 
 const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   const [posts, setPosts] = useState([...initialPosts])
@@ -42,7 +42,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
       {posts?.map((post: UserSpecificationPostInterface, i: number) => (
         <ProfilePosts key={i} user={user} post={post} />
       ))}
-      {morePostsExist?.current && <CircularProgress incommingRef={ref} />}
+      {!!morePostsExist?.current && <CircularProgress incommingRef={ref} />}
     </div>
   )
 }

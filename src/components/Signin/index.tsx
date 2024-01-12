@@ -85,7 +85,7 @@ export default function Signin({
             refreshToken: result?.data['refresh-token'],
           }),
         )
-        showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
+        showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
         handleDialogClose()
 
         if (
@@ -135,16 +135,14 @@ export default function Signin({
             handleLoginSubmit={handleLoginSubmit}
           />
           {/* Sign Up Link */}
-          <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
-            {"Don't have an account? "}
+          <div className="mt-2 flex justify-center text-center text-xs font-light text-gray-700 dark:text-white">
+            <p>Don't have an account?</p>
             <button
               className="text-primary-purple cursor-pointer font-medium hover:underline"
-              onClick={() => {
-                toggleForm()
-              }}>
+              onClick={toggleForm}>
               Sign up
             </button>
-          </p>
+          </div>
           {/* Sign Up Link End*/}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
+import RespProfile from '@/components/RespProfile'
 import { Suspense } from 'react'
-import RespProfile from '../RespProfile'
 
 interface profileProps {
   params: {

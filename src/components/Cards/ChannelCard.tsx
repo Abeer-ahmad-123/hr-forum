@@ -6,7 +6,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 
-const ChannelCard = async () => {
+const ChannelCard = () => {
   const channels = useSelector(
     (state: StoreChannels) => state?.channels?.channels,
   )

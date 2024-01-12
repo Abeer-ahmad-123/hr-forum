@@ -1,4 +1,3 @@
-import React from 'react'
 import Skelton from './ui/skelton'
 
 function ProfileCardSkelton() {

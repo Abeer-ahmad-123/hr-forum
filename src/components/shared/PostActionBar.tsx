@@ -175,24 +175,16 @@ const PostActionBar = ({
             <button
               onClick={toggleCommentArea}
               className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
-              {/* <MessageIcon size={'24px'} color="#D2D3D5" /> */}
               <FaRegComment />
-              <span className="font-light   max-custom-sm:hidden ">
-                Comment
-              </span>
+              <span className="font-light max-custom-sm:hidden ">Comment</span>
             </button>
           </div>
 
           <div className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300  dark:hover:text-slate-800">
             <Popover>
-              <PopoverTrigger>
-                <button className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
-                  {/* <IoShareSocial size={'24px'} color="#D2D3D5" /> */}
-                  <PiShareFat className="h-6 w-6 font-light" />
-                  <span className="font-light  max-custom-sm:hidden ">
-                    Share
-                  </span>
-                </button>
+              <PopoverTrigger className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
+                <PiShareFat className="h-6 w-6 font-light" />
+                <span className="font-light  max-custom-sm:hidden ">Share</span>
               </PopoverTrigger>
 
               <PopoverContent className="bg-white">

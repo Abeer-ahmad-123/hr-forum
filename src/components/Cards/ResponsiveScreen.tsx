@@ -22,7 +22,7 @@ const RespScreen = () => {
         {!!loggedInUseraDetails.id && <ProfileCard />}
         {showComponent && <ChannelCard />}
         <div className="pointer mb-5 w-full">
-          <button className="text-gray-500" onClick={handleClick}>
+          <div className="text-gray-500" onClick={handleClick}>
             {' '}
             {showComponent ? (
               <div className="flex flex-row items-center justify-center gap-x-2">
@@ -37,7 +37,7 @@ const RespScreen = () => {
                 </span>
               </div>
             )}{' '}
-          </button>
+          </div>
         </div>
       </div>
     </>
