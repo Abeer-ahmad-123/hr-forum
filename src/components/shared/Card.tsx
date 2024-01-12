@@ -1,14 +1,13 @@
 'use client'
 import ChannelPill from '@/components/shared/ChannelPill'
 import { timeFormatInHours } from '@/utils/helper'
+import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
-import { useEffect, useState } from 'react'
-import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
-import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
@@ -136,17 +135,18 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
               </div>
 
               <div className="ml-2 flex flex-col items-start align-baseline">
-                <div className="flex flex-row">
+                <div className="flex flex-row items-center">
                   <p
                     onClick={handleNavigateProfile}
-                    className="text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                    className="text-xs font-normal leading-none text-gray-900 hover:bg-gray-200 dark:text-gray-300 
+                        max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm"
                     aria-label="user-name">
                     {user?.name}
                   </p>
                   <ChannelPill channel_id={channel_id} channels={channels} />
                 </div>
 
-                <p className="text-xs font-light text-slate-500 dark:text-gray-400">
+                <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[9px] md:text-xs lg:text-sm xl:text-sm">
                   {timeFormatInHours(created_at)}
                 </p>
               </div>

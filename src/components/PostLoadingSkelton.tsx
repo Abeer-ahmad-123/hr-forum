@@ -1,5 +1,4 @@
 import Skelton from '@/components/ui/skelton'
-import React from 'react'
 
 const PostLoadingSkelton = () => {
   return (
