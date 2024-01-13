@@ -19,9 +19,9 @@ export default function NavMenuDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="dark:hover:bg-primary-accent bg-white dark:bg-dark-primary">
         <DropdownMenuSeparator />
-        {menuItems.map((item) => (
+        {menuItems.map((item, index) => (
           <DropdownMenuItem
-            key={item.label}
+            key={index}
             className="hover:bg-accent hover:text-white">
             <CustomLink
               href={item.href}

@@ -33,12 +33,12 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="bg-white dark:bg-dark-primary">
             <DropdownMenuSeparator />
-            {channels.map((item) => (
+            {channels.map((item, index) => (
               <DropdownMenuItem
                 onClick={() => {
                   setButtonValue(item.name), handleDropDownValue(item.id)
                 }}
-                key={item.name}
+                key={index}
                 className="hover:text-white">
                 <div className="ml-2 flex-shrink-0">{item.name}</div>
               </DropdownMenuItem>

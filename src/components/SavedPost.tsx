@@ -81,14 +81,17 @@ const SavedPost = () => {
       </div>
       <div className="mt-10 min-h-[70vh]">
         {posts?.Bookmarks?.length ? (
-          posts?.Bookmarks?.map((post: any) => (
-            <Card
-              key={post?.title}
-              post={post.post}
-              channels={channels}
-              setBookmarkupdated={setBookmarkupdated}
-            />
-          ))
+          posts?.Bookmarks?.map((post: any, index: number) => {
+            return (
+              <div key={index}>
+                <Card
+                  post={post.post}
+                  channels={channels}
+                  setBookmarkupdated={setBookmarkupdated}
+                />
+              </div>
+            )
+          })
         ) : posts?.Bookmarks?.length === 0 ? (
           <p className="my-5 text-center">No saved posts yet.</p>
         ) : (

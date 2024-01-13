@@ -27,8 +27,8 @@ const LoggedOut = ({ handleLoginModalOpen }: any) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-white dark:bg-dark-primary">
           <DropdownMenuSeparator />
-          {menuItems.map((item) => (
-            <DropdownMenuItem key={item.label}>
+          {menuItems.map((item, index) => (
+            <DropdownMenuItem key={index}>
               <CustomLink
                 href={item.href}
                 className={`group flex w-full items-center justify-start py-2 text-sm font-light`}>

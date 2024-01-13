@@ -111,7 +111,6 @@ const ReactionButton = ({
                 {reactionOptions.slice(1).map((reaction, i) => (
                   <span key={i}>
                     <ReactionEmoji
-                      key={reaction.name}
                       reactionName={reaction.name}
                       emojiCharacter={reaction.emoji}
                       isReactionSelected={currentReaction === reaction.name}

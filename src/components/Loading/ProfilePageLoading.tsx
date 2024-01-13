@@ -43,9 +43,9 @@ const ProfilePageLoading = () => {
           {/*right card */}
           <div className="flex w-full flex-col gap-[5px]">
             {/**change rightCardToMap array to change map render  */}
-            {rightCardToMap.map(() => (
+            {rightCardToMap.map((_, index) => (
               <div
-                key={Math.random()}
+                key={index}
                 className="my-2 w-full cursor-pointer rounded-xl bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4">
                 <div className="flex items-center">
                   <Skelton className="h-8 w-8  rounded-full" />

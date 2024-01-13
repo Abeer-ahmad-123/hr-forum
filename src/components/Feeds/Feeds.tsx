@@ -98,8 +98,12 @@ const Feeds = ({
   return (
     <div className=" min-h-[70vh]  w-full">
       {!!posts?.length ? (
-        posts?.map((post: any) => {
-          return <Card key={post?.title} post={post} channels={channels} />
+        posts?.map((post: any, index: number) => {
+          return (
+            <div key={index}>
+              <Card post={post} channels={channels} />
+            </div>
+          )
         })
       ) : (
         <NoPosts />

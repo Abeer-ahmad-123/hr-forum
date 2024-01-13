@@ -20,9 +20,9 @@ const Reaction = () => {
     <div>
       <h3 className="mb-2 text-lg font-bold">Reactions:</h3>
       <div className="flex gap-4">
-        {reactionOptions.map((react) => (
+        {reactionOptions.map((react, index) => (
           <div
-            key={react.name}
+            key={index}
             onClick={() => handleReactionClick(react.name)}
             className={`flex cursor-pointer items-center rounded-lg px-3 py-2 ${styles(
               react.name,

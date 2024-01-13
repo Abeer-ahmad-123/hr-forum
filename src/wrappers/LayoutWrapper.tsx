@@ -1,5 +1,4 @@
 'use client'
-import '@/assets/styles/globals.css'
 import Navbar from '@/components/Navbar/Navbar'
 import {
   getRefreshToken,

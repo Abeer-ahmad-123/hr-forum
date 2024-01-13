@@ -104,10 +104,9 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
       </div>
 
       {replies.comment?.replies?.length !== 0 &&
-        replies.comment?.replies?.map((reply: any) => {
+        replies.comment?.replies?.map((reply: any, index: number) => {
           return (
             <Reply
-              key={reply?.id}
               reply={reply}
               commentLength={commentLength}
               commentId={comment?.id}
