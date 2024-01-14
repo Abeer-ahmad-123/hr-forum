@@ -10,19 +10,18 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
 import InitialLoading from '@/components/InitialLoading'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
-  const pathname = usePathname()
   const [loading, setLoading] = useState(true)
 
   const isFirstRun = useRef(true)
@@ -134,14 +133,14 @@ const LayoutWrapper = ({ children }: any) => {
         throw error
       }
     }
+    setLoading(false)
+
     return () => clearInterval(refreshInterval)
   }, [])
 
   return (
     <body
       className={` ${styles} theme-default bg-background pt-4 font-primary dark:bg-slate-700`}>
-      {/* ADD bg-background in body */}
-
       {!loading && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">

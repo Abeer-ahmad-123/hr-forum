@@ -4,7 +4,7 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { redirect, useParams, usePathname } from 'next/navigation'
+import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -28,6 +28,7 @@ import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
 import { useInterceptor } from '@/hooks/interceptors'
+import Router from 'next/router'
 
 const PostActionBar = ({
   linkToFeed,
@@ -49,6 +50,7 @@ const PostActionBar = ({
   const [showSignModal, setShowSignModal] = useState(false)
   const { id } = useParams()
   const pathName = usePathname()
+  const router = useRouter()
   const { customFetch } = useInterceptor()
 
   const submitReaction = async (value: string) => {
@@ -144,7 +146,7 @@ const PostActionBar = ({
         }
       } catch (error) {
         console.error(error)
-        redirect('/feeds')
+        router.push('/feeds')
       }
     } else {
       setShowSignModal(true)

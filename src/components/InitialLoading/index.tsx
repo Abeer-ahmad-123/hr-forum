@@ -1,4 +1,3 @@
-import React from 'react'
 import './index.css'
 
 const InitialLoading = () => {
@@ -23,7 +22,7 @@ const InitialLoading = () => {
         <span></span>
         <span></span>
       </div>
-      <h1>Redirecting</h1>
+      <h1>Loading HR Forum</h1>
     </div>
   )
 }

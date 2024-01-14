@@ -38,7 +38,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   }, [inView])
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-2">
       {posts?.map((post: UserSpecificationPostInterface, i: number) => (
         <ProfilePosts user={user} post={post} />
       ))}
