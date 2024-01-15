@@ -23,6 +23,7 @@ export interface PostsInterface {
   total_comments: number
   user_reaction: string
   user_has_bookmarked: boolean
+  user_has_reported: boolean
 }
 export interface UserSpecificationPostInterface {
   id: number
