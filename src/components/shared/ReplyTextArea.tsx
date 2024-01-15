@@ -1,19 +1,18 @@
 'use client'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@/components/ui/Dialog/simpleDialog'
+import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import Report from '../Report/Report'
 import TextArea from '../ui/TextArea'
 import SocialButtons from './SocialButtons'
+import SignInDialog from './new-post/SignInDialog'
 
 function ReplyTextArea({
   submitCallback,
@@ -23,14 +22,25 @@ function ReplyTextArea({
   inputRef = null,
   author = '',
 }: any) {
-  const [showTextArea, setShowTextArea] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
+  const [showTextArea, setShowTextArea] = useState<boolean>(false)
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
 
   const params = useParams()
   const postId = params?.id as string
+  const tokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
   const toggleTextArea = () => {
     setShowTextArea((pre) => !pre)
+  }
+
+  const handleClick = () => {
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else {
+      setOpenDialog(true)
+    }
   }
 
   return (
@@ -58,11 +68,12 @@ function ReplyTextArea({
         </Popover>
 
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <DialogTrigger asChild>
-            <button className="pointer text-sm text-gray-400 hover:underline">
-              Report
-            </button>
-          </DialogTrigger>
+          <button
+            className="pointer text-sm text-gray-400 hover:underline"
+            onClick={handleClick}>
+            Report
+          </button>
+
           <DialogContent className="bg-white sm:max-w-[500px]">
             <Report
               commentId={commentId}
@@ -83,6 +94,10 @@ function ReplyTextArea({
           placeholder={`Reply to ${author}`}
         />
       </div>
+
+      <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
+        <SignInDialog />
+      </Dialog>
     </div>
   )
 }

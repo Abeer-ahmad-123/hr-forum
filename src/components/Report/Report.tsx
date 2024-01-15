@@ -3,6 +3,7 @@ import InfoIcon from '@/assets/icons/InfoIcon'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
+import { showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -86,22 +87,27 @@ const Report = ({
   const handleSubmit = async () => {
     setLoading(true)
 
-    if (reportType == 'post') {
-      const response = await reportPost(
-        postId!,
-        selectedItem,
-        customFetch,
-        tokenInRedux,
-        refreshTokenInRedux,
-      )
-    } else if (reportType == 'comment' || reportType == 'reply') {
-      const response = await reportComment(
-        commentId!,
-        selectedItem,
-        customFetch,
-        tokenInRedux,
-        refreshTokenInRedux,
-      )
+    const response =
+      reportType == 'post'
+        ? await reportPost(
+            postId!,
+            selectedItem,
+            customFetch,
+            tokenInRedux,
+            refreshTokenInRedux,
+          ) // else report type can be comment and reply so calling the same endpoint with Id of either comment or reply
+        : await reportComment(
+            commentId!,
+            selectedItem,
+            customFetch,
+            tokenInRedux,
+            refreshTokenInRedux,
+          )
+
+    if (response.success) {
+      showSuccessAlert('Thanks for submitting you feedback')
+    } else {
+      showSuccessAlert('Something went wrong')
     }
 
     setLoading(false)

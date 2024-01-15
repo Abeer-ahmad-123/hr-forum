@@ -24,11 +24,7 @@ import {
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@/components/ui/Dialog/simpleDialog'
+import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { useInterceptor } from '@/hooks/interceptors'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal } from 'lucide-react'
@@ -159,11 +155,14 @@ const PostActionBar = ({
     }
   }
 
+  const handleClick = () => {
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else setOpenDialog(true)
+  }
+
   return (
     <>
-      <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
-        <SignInDialog />
-      </Dialog>
       <div className="flex flex-col">
         <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
           <ReactionButton
@@ -212,15 +211,16 @@ const PostActionBar = ({
               <PopoverContent className="bg-white">
                 <div>
                   <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-                    <DialogTrigger asChild>
-                      <button className=" dark:text-icon-dark  text-icon-light pyrepo-2 flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-                        <AlertOctagon size={17} />
-                        <span className="text-[15px] font-light max-custom-sm:hidden">
-                          {' '}
-                          Report
-                        </span>
-                      </button>
-                    </DialogTrigger>
+                    <button
+                      className=" dark:text-icon-dark  text-icon-light pyrepo-2 flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                      onClick={handleClick}>
+                      <AlertOctagon size={17} />
+                      <span className="text-[15px] font-light max-custom-sm:hidden">
+                        {' '}
+                        Report
+                      </span>
+                    </button>
+
                     <DialogContent className="bg-white sm:max-w-[500px]">
                       <Report
                         reportType="post"
@@ -258,6 +258,9 @@ const PostActionBar = ({
           </div>
         )}
       </div>
+      <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
+        <SignInDialog />
+      </Dialog>
     </>
   )
 }
