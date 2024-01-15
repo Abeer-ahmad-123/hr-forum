@@ -24,17 +24,17 @@ import {
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
-import SocialButtons from './SocialButtons'
-import SignInDialog from './new-post/SignInDialog'
-import { PostActionBarProps } from '@/utils/interfaces/posts'
-import { useInterceptor } from '@/hooks/interceptors'
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/Dialog/simpleDialog'
+import { useInterceptor } from '@/hooks/interceptors'
+import { PostActionBarProps } from '@/utils/interfaces/posts'
+import { AlertOctagon, MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
-import { MoreHorizontal, AlertOctagon } from 'lucide-react'
+import SocialButtons from './SocialButtons'
+import SignInDialog from './new-post/SignInDialog'
 
 const PostActionBar = ({
   linkToFeed,

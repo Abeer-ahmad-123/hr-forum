@@ -37,7 +37,12 @@ export async function reportComment(
   token: string,
   refreshToken: string,
 ) {
+  const reqBody = {
+    details: details,
+    reportType: 'other',
+  }
   try {
+    console.log('line 46 commentid', commentId)
     let reportCommentUrl = REPORT_COMMENT.replace('commentid', commentId)
     let res = await customFetch(reportCommentUrl, {
       method: 'POST',
@@ -46,6 +51,7 @@ export async function reportComment(
         authorization: 'Bearer ' + token,
         refreshToken: 'Bearer ' + refreshToken,
       },
+      body: JSON.stringify(reqBody),
     })
     const response = await res.json()
     return response

@@ -1,20 +1,20 @@
 'use client'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import {
   Dialog,
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/Dialog/simpleDialog'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { ReplyInterface } from '@/utils/interfaces/reply'
 import { useParams, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import SocialButtons from './SocialButtons'
 import Report from '../Report/Report'
+import SocialButtons from './SocialButtons'
 
 function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
@@ -118,7 +118,11 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                   </button>
                 </DialogTrigger>
                 <DialogContent className="bg-white sm:max-w-[500px]">
-                  <Report />
+                  <Report
+                    commentId={reply.id}
+                    reportType="reply"
+                    setOpenDialog={setOpenDialog}
+                  />
                 </DialogContent>
               </Dialog>
 

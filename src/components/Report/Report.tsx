@@ -2,7 +2,7 @@
 import InfoIcon from '@/assets/icons/InfoIcon'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
-import { reportPost } from '@/services/report'
+import { reportComment, reportPost } from '@/services/report'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -56,12 +56,18 @@ const Data = [
 ]
 
 interface ReportInterface {
-  postId: string
+  postId?: string
   reportType: string
   setOpenDialog: (arg0: boolean) => void
+  commentId?: string
 }
 
-const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
+const Report = ({
+  postId,
+  reportType,
+  commentId,
+  setOpenDialog,
+}: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
   const tokenInRedux =
@@ -77,18 +83,30 @@ const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
     setOpenDialog(false)
   }
   console.log(tokenInRedux)
+
   const handleSubmit = async () => {
     setLoading(true)
+
     if (reportType == 'post') {
       const response = await reportPost(
-        postId,
+        postId!,
+        selectedItem,
+        customFetch,
+        tokenInRedux,
+        refreshTokenInRedux,
+      )
+    } else if (reportType == 'comment' || reportType == 'reply') {
+      const response = await reportComment(
+        commentId!,
         selectedItem,
         customFetch,
         tokenInRedux,
         refreshTokenInRedux,
       )
     }
+
     setLoading(false)
+    setOpenDialog(false)
   }
   console.log(selectedItem)
   return (

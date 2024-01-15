@@ -1,8 +1,4 @@
 'use client'
-import { useState } from 'react'
-import { MoreHorizontal } from 'lucide-react'
-import TextArea from '../ui/TextArea'
-import { useParams, useSearchParams } from 'next/navigation'
 import {
   Dialog,
   DialogContent,
@@ -13,8 +9,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import SocialButtons from './SocialButtons'
+import { useParams } from 'next/navigation'
+import { useState } from 'react'
 import Report from '../Report/Report'
+import TextArea from '../ui/TextArea'
+import SocialButtons from './SocialButtons'
 
 function ReplyTextArea({
   submitCallback,
@@ -65,7 +64,11 @@ function ReplyTextArea({
             </button>
           </DialogTrigger>
           <DialogContent className="bg-white sm:max-w-[500px]">
-            <Report />
+            <Report
+              commentId={commentId}
+              reportType="comment"
+              setOpenDialog={setOpenDialog}
+            />
           </DialogContent>
         </Dialog>
       </div>
