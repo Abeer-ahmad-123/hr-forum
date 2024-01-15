@@ -42,7 +42,6 @@ export async function reportComment(
     reportType: 'other',
   }
   try {
-    console.log('line 46 commentid', commentId)
     let reportCommentUrl = REPORT_COMMENT.replace('commentid', commentId)
     let res = await customFetch(reportCommentUrl, {
       method: 'POST',

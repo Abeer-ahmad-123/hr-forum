@@ -82,7 +82,6 @@ const Report = ({
   const handleCancel = () => {
     setOpenDialog(false)
   }
-  console.log(tokenInRedux)
 
   const handleSubmit = async () => {
     setLoading(true)
@@ -108,7 +107,7 @@ const Report = ({
     setLoading(false)
     setOpenDialog(false)
   }
-  console.log(selectedItem)
+
   return (
     <div className="gap-8">
       <div className="flex justify-items-start pb-8 "> Report comment</div>
