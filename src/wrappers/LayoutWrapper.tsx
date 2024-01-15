@@ -108,6 +108,8 @@ const LayoutWrapper = ({ children }: any) => {
   }, [searchParams])
 
   useEffect(() => {
+    setLoading(false)
+
     let refreshInterval: any
     if (!localStorage.getItem('token')) {
       clearInterval(refreshInterval)
@@ -133,7 +135,6 @@ const LayoutWrapper = ({ children }: any) => {
         throw error
       }
     }
-    setLoading(false)
 
     return () => clearInterval(refreshInterval)
   }, [])
