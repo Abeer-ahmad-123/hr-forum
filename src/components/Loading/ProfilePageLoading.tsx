@@ -36,7 +36,6 @@ const ProfilePageLoading = () => {
             <div className="flex flex-col gap-[20px] pb-3 pl-5 pt-8">
               <Skelton className="h-[22px] w-full max-w-[170px] rounded-sm" />
               <Skelton className="h-[22px] w-full max-w-[170px] rounded-sm" />
-              {/* <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" /> */}
             </div>
           </div>
 
