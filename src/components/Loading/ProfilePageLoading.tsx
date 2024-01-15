@@ -5,7 +5,7 @@ const ProfilePageLoading = () => {
   return (
     <div>
       <div className="relative h-[500px] w-full">
-        <Skelton className=" h-full w-full" />
+        <Skelton className=" h-[78%] w-full" />
         <div className="absolute bottom-0 left-0 right-0 top-[18rem] m-auto h-[60%] w-[80%] rounded-md bg-white shadow-xl dark:bg-slate-800 max-md:w-full">
           {/* edit button */}
           <div className="absolute right-[40px] top-0 w-[130px]">
@@ -32,11 +32,11 @@ const ProfilePageLoading = () => {
         <div className="mt-[80px] flex h-[88%] w-[80%] gap-[65px] rounded-md max-md:w-full max-md:flex-col max-md:gap-[20px]">
           {/*Left card */}
 
-          <div className="h-[194px] max-h-screen min-w-[15rem] rounded-[10px] bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 ">
+          <div className="h-[168px] max-h-screen min-w-[15rem] rounded-[10px] bg-white pb-2 pt-3 shadow-lg dark:bg-slate-800 ">
             <div className="flex flex-col gap-[20px] pb-3 pl-5 pt-8">
-              <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" />
-              <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" />
-              <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" />
+              <Skelton className="h-[22px] w-full max-w-[170px] rounded-sm" />
+              <Skelton className="h-[22px] w-full max-w-[170px] rounded-sm" />
+              {/* <Skelton className="h-[22px] w-full max-w-[140px] rounded-sm" /> */}
             </div>
           </div>
 
@@ -46,13 +46,22 @@ const ProfilePageLoading = () => {
             {rightCardToMap.map((_, index) => (
               <div
                 key={index}
-                className="my-2 w-full cursor-pointer rounded-xl bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4">
+                className={`w-full cursor-pointer rounded-xl bg-white px-5 ${
+                  index == 0 ? 'mb-2' : 'my-2'
+                } py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4`}>
                 <div className="flex items-center">
-                  <Skelton className="h-8 w-8  rounded-full" />
-                  <Skelton className="ml-2 h-6  w-24 rounded-md" />
+                  <Skelton className="h-12 w-12  rounded-full" />
+                  <div className="ml-4">
+                    <div className="flex flex-row gap-x-2">
+                      <Skelton className="h-6 w-24 rounded-sm bg-skelton" />
+                      <Skelton className="h-4 w-20  rounded-sm bg-skelton" />
+                    </div>
+                    <Skelton className=" mt-2 h-4 w-20  rounded-sm bg-skelton" />
+                  </div>
                 </div>
+                <div className="ml-4 flex flex-col items-start align-baseline"></div>
                 <div>
-                  <Skelton className="w-54 ml-10 mt-2 h-10 rounded-md" />
+                  <Skelton className="w-54 ml-16 mt-2 h-10 rounded-md pl-[85px] pr-3 max-md:pl-6" />
                 </div>
               </div>
             ))}

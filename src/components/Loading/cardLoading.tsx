@@ -14,7 +14,7 @@ function CardLoading() {
   const renderTimes = 5
   const [hidden, setHidden] = useState<boolean>(false)
   const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
-    <RenderFeedLoading />
+    <RenderFeedLoading key={index} />
   ))
 
   useEffect(() => {
