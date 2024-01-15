@@ -1,10 +1,11 @@
 'use client'
-import React, { useState } from 'react'
 import InfoIcon from '@/assets/icons/InfoIcon'
-import { reportPost } from '@/services/report'
+import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
-import { useSelector } from 'react-redux'
+import { reportPost } from '@/services/report'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const Data = [
   {
@@ -62,6 +63,7 @@ interface ReportInterface {
 
 const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
+  const [loading, setLoading] = useState<boolean>(false)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const refreshTokenInRedux =
@@ -76,6 +78,7 @@ const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
   }
   console.log(tokenInRedux)
   const handleSubmit = async () => {
+    setLoading(true)
     if (reportType == 'post') {
       const response = await reportPost(
         postId,
@@ -85,6 +88,7 @@ const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
         refreshTokenInRedux,
       )
     }
+    setLoading(false)
   }
   console.log(selectedItem)
   return (
@@ -128,10 +132,17 @@ const Report = ({ postId, reportType, setOpenDialog }: ReportInterface) => {
         </button>
         <button
           onClick={handleSubmit}
-          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-white ${
-            !selectedItem ? 'bg-gray-300' : 'bg-accent'
-          }`}>
+          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-white 
+          ${loading ? 'bg-gray-300' : 'bg-accent'}
+          ${!selectedItem ? 'bg-gray-300' : 'bg-accent'}`}>
           submit{' '}
+          {loading ? (
+            <div className="ml-2">
+              <CircularProgressIcon color="gray" />
+            </div>
+          ) : (
+            <></>
+          )}
         </button>
       </div>
     </div>

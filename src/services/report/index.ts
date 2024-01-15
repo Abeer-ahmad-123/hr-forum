@@ -10,6 +10,10 @@ export async function reportPost(
 ) {
   try {
     let reportPostUrl = REPORT_POST.replace('postid', postId)
+    const reqBody = {
+      details: details,
+      reportType: 'other',
+    }
     let res = await customFetch(reportPostUrl, {
       method: 'POST',
       headers: {
@@ -17,7 +21,7 @@ export async function reportPost(
         authorization: 'Bearer ' + token,
         refreshToken: 'Bearer ' + refreshToken,
       },
-      body: details,
+      body: JSON.stringify(reqBody),
     })
     const response = await res.json()
     return response
