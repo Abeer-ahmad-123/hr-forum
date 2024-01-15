@@ -208,9 +208,9 @@ const RespProfile = ({ userId }: profileProps) => {
           </div>
         </section>
 
-        <section className="bg-blueGray-200 relative mx-auto max-w-screen-xl max-md:w-full">
+        <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
           <div className=" mx-auto ">
-            <div className="relative -mt-[30rem] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
+            <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
               {/* Profile card start */}
               <div className="px-6">
                 <div className="top-0">
@@ -289,7 +289,7 @@ const RespProfile = ({ userId }: profileProps) => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col gap-[2rem] lg:flex-row">
+          <div className="mt-[40px] flex flex-col gap-[65px] lg:flex-row">
             <div className=" w- flex flex-col gap-[1.5rem]">
               <UserDataBadge
                 postCount={
