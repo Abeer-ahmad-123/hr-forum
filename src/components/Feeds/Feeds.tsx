@@ -88,13 +88,14 @@ const Feeds = ({
       }
     }
     const filteredPosts = _data?.posts?.filter(
-      (post: PostsInterface) => !post.user_has_reported,
+      (post: PostsInterface) => !post?.user_has_reported || post.id == 32, //
     )
+    debugger
 
     setPage(page + 1)
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
-    setPosts([...posts, ...filteredPosts?.posts])
+    setPosts([...posts, ...filteredPosts])
   }
   useEffect(() => {
     if (inView) {
