@@ -1,4 +1,5 @@
 'use client'
+import { useInterceptor } from '@/hooks/interceptors'
 import { postComment, postCommentReply } from '@/services/comments'
 import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -7,7 +8,6 @@ import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
-import { useInterceptor } from '@/hooks/interceptors'
 
 function CommentOrReply({
   reply = false,
@@ -19,6 +19,7 @@ function CommentOrReply({
   Id = '',
   inputRef = null,
   author = '',
+  setReportedCommentId,
 }: any) {
   const params = useParams()
   const postId = params['id'] || Id
@@ -80,6 +81,7 @@ function CommentOrReply({
           commentId={commentId}
           inputRef={inputRef}
           author={author}
+          setReportedCommentId={setReportedCommentId}
         />
       ) : (
         <TextArea

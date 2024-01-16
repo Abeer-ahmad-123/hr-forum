@@ -21,6 +21,7 @@ function ReplyTextArea({
   commentId,
   inputRef = null,
   author = '',
+  setReportedCommentId,
 }: any) {
   const [showTextArea, setShowTextArea] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
@@ -79,6 +80,7 @@ function ReplyTextArea({
               commentId={commentId}
               reportType="comment"
               setOpenDialog={setOpenDialog}
+              setReportedReplyId={setReportedCommentId}
             />
           </DialogContent>
         </Dialog>

@@ -5,7 +5,12 @@ import { useState } from 'react'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
 import Reply from './Reply'
 
-const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
+const CommentSection = ({
+  comment,
+  refetchComments,
+  commentLength,
+  setReportedCommentId,
+}: any) => {
   const [replies, setReplies] = useState({
     comment: comment,
     pagination: {
@@ -98,6 +103,8 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
                 commentId={replies?.comment?.id}
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
+                // Pass here the reportCommmentIdSetter
+                setReportedCommentId={setReportedCommentId}
               />
             </div>
           </div>

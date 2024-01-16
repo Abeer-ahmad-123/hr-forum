@@ -17,6 +17,9 @@ function Comments({
 
   const [comments, setComments] = useState([...initialComments])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
+  const [reportedCommentId, setReportedCommentId] = useState<string | null>(
+    null,
+  )
 
   const nothingToLoadMore = useRef(
     pagination?.TotalPages !== 0 &&
@@ -59,14 +62,16 @@ function Comments({
         <div>
           {comments?.length !== 0 &&
             comments?.map((comment: any) => {
-              return (
-                <CommentSection
-                  key={comment?.id}
-                  comment={comment}
-                  refetchComments={refetchComments}
-                  commentLength={comments.length}
-                />
-              )
+              if (comment?.id != reportedCommentId)
+                return (
+                  <CommentSection
+                    key={comment?.id}
+                    comment={comment}
+                    refetchComments={refetchComments}
+                    commentLength={comments.length}
+                    setReportedCommentId={setReportedCommentId}
+                  />
+                )
             })}
         </div>
 
