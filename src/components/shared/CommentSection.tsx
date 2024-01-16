@@ -23,6 +23,7 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
   /////
 
   const formattedDate = FormatCreatedAt(replies.comment?.created_at)
+  const [reportedReplyId, setReportedReplyId] = useState<string | null>(null)
 
   /////
 
@@ -105,14 +106,17 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
 
       {replies.comment?.replies?.length !== 0 &&
         replies.comment?.replies?.map((reply: any) => {
-          return (
-            <Reply
-              key={reply?.id}
-              reply={reply}
-              commentLength={commentLength}
-              commentId={comment?.id}
-            />
-          )
+          if (reportedReplyId != reply?.id) {
+            return (
+              <Reply
+                key={reply?.id}
+                reply={reply}
+                commentLength={commentLength}
+                commentId={comment?.id}
+                setReportedReplyId={setReportedReplyId}
+              />
+            )
+          }
         })}
 
       <LoadMoreReplyButton

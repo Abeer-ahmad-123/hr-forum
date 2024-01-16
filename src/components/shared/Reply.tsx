@@ -16,7 +16,12 @@ import { useEffect, useRef, useState } from 'react'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 
-function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
+function Reply({
+  reply,
+  commentLength,
+  commentId = null,
+  setReportedReplyId,
+}: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
   const searchParams = useSearchParams()
   const params = useParams()
@@ -122,6 +127,7 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                     commentId={reply.id}
                     reportType="reply"
                     setOpenDialog={setOpenDialog}
+                    setReportedReplyId={setReportedReplyId}
                   />
                 </DialogContent>
               </Dialog>

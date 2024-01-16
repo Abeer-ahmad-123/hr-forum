@@ -19,4 +19,5 @@ export interface ReplyInterface {
   reply: reply
   commentLength: number
   commentId: string | null
+  setReportedReplyId: (id: string) => void
 }

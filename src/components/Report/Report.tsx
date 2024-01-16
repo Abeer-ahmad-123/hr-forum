@@ -61,6 +61,7 @@ interface ReportInterface {
   reportType: string
   setOpenDialog: (arg0: boolean) => void
   commentId?: string
+  setReportedReplyId: (arg1: string) => void
 }
 
 const Report = ({
@@ -68,6 +69,7 @@ const Report = ({
   reportType,
   commentId,
   setOpenDialog,
+  setReportedReplyId,
 }: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -106,6 +108,7 @@ const Report = ({
 
     if (response.success) {
       showSuccessAlert('Thanks for submitting you feedback')
+      setReportedReplyId && setReportedReplyId(commentId!)
     } else {
       showSuccessAlert('Something went wrong')
     }
