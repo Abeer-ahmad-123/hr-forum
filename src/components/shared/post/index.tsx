@@ -7,15 +7,17 @@ import { timeFormatInHours } from '@/utils/helper'
 import { cookies } from 'next/headers'
 import ChannelPill from '../ChannelPill'
 import { CustomLink } from '../customLink/CustomLink'
+import ProfileImage from './ProfileImage'
 
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const userDetailsCookies = cookies().get('user-details')
 
+  const userId =
+    userDetailsCookies && JSON?.parse(userDetailsCookies?.value!).id
+
   const { post } = await getPostByPostId(postId, {
     loadUser: true,
-    userId:
-      userDetailsCookies &&
-      (JSON?.parse(userDetailsCookies?.value!)?.id || undefined),
+    userId: userDetailsCookies && (userId || undefined),
   })
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
@@ -35,6 +37,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
     commentResult = comments
     paginationResult = pagination
   }
+
   return (
     <div
       className={`mx-auto max-w-5xl rounded-full ${
@@ -55,12 +58,9 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
             <div className="flex items-center">
               <div className="-z-2">
                 <div className="static rounded-full">
-                  <img
-                    src={`${post?.author_details?.profile_picture_url}`}
-                    className="h-16 w-16 rounded-full"
-                    alt="avatar"
-                    width={32}
-                    height={32}
+                  <ProfileImage
+                    imgSrc={post?.author_details?.profile_picture_url}
+                    postUserId={post?.user_id}
                   />
                 </div>
               </div>
@@ -80,7 +80,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
                   />
                 </div>
 
-                <p className="text-xs font-light text-slate-500 dark:text-gray-400">
+                <p className="text-[10px] font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[8px] md:text-[10px] lg:text-xs xl:text-xs">
                   {timeFormatInHours(post.created_at)}
                 </p>
               </div>

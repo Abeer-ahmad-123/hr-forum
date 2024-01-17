@@ -1,7 +1,10 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
 import Reply from './Reply'
 
@@ -18,11 +21,16 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
     },
   })
 
+  const userDetails = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.userData,
+  )
+
   const convertDate = ConvertDate
 
   /////
 
   const formattedDate = FormatCreatedAt(replies.comment?.created_at)
+  const router = useRouter()
 
   /////
 
@@ -56,24 +64,37 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
     })
   }
 
+  const handleImgClick = () => {
+    router.push(
+      `${
+        userDetails?.id === comment?.user_id
+          ? '/profile'
+          : `/profile/${comment?.user_id}`
+      }`,
+    )
+  }
+
   return (
     <div className=" mt-4 w-full rounded-lg px-[45px]">
       <div className="flex">
         <div className="flex min-h-[32px] min-w-[32px]  flex-col items-center">
-          <div className="rounded-full border border-black">
+          <div className="cursor-pointer rounded-full border border-black">
             <img
               alt="profile picture"
               height={8}
               width={8}
               src={comment?.['author_details'].profile_picture_url}
               className="h-8 min-h-[32px] w-8 min-w-[32px] rounded-full"
+              onClick={handleImgClick}
             />
           </div>
         </div>
 
         <div className="  ml-3  ">
           <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
-            <div className=" text-left text-accent ">
+            <div
+              className=" cursor-pointer text-left text-accent hover:underline"
+              onClick={handleImgClick}>
               {replies.comment?.author_details?.name}
             </div>
 
@@ -83,20 +104,13 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
           </div>
 
           <div className="flex items-baseline gap-2.5">
-            <div className="group relative inline-block">
-              <span className="pointer ml-2 pt-4 text-left text-xs text-gray-400 hover:underline">
-                {convertDate(replies?.comment?.created_at)}
-              </span>
-              <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
-                {formattedDate}
-              </div>
-            </div>
             <div className=" ml-0 text-gray-500">
               <CommentOrReply
                 reply={true}
                 commentId={replies?.comment?.id}
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
+                createdDate={replies?.comment?.created_at}
               />
             </div>
           </div>
@@ -110,6 +124,7 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
               reply={reply}
               commentLength={commentLength}
               commentId={comment?.id}
+              key={comment?.id}
             />
           )
         })}

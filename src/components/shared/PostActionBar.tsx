@@ -4,7 +4,7 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -18,17 +18,16 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useInterceptor } from '@/hooks/interceptors'
 import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { PostActionBarProps } from '@/utils/interfaces/posts'
 import { Dialog } from '../ui/Dialog/simpleDialog'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
-import { PostActionBarProps } from '@/utils/interfaces/posts'
-import { useInterceptor } from '@/hooks/interceptors'
-import Router from 'next/router'
 
 const PostActionBar = ({
   linkToFeed,
@@ -48,6 +47,7 @@ const PostActionBar = ({
     ''
 
   const [showSignModal, setShowSignModal] = useState(false)
+  const [popOver, setPopOver] = useState(false)
   const { id } = useParams()
   const pathName = usePathname()
   const router = useRouter()
@@ -153,6 +153,13 @@ const PostActionBar = ({
     }
   }
 
+  const setOpenPopOver = () => {
+    setPopOver((pre) => !pre)
+  }
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPopOver(false)
+  }
+
   return (
     <>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
@@ -182,14 +189,20 @@ const PostActionBar = ({
             </button>
           </div>
 
-          <div className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300  dark:hover:text-slate-800">
-            <Popover>
+          <div
+            className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300  dark:hover:text-slate-800"
+            onMouseLeave={handleMouseDown}>
+            <Popover open={popOver} onOpenChange={setPopOver}>
               <PopoverTrigger className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
                 <PiShareFat className="h-6 w-6 font-light" />
-                <span className="font-light  max-custom-sm:hidden ">Share</span>
+                <span
+                  className="font-light  max-custom-sm:hidden "
+                  onClick={setOpenPopOver}>
+                  Share
+                </span>
               </PopoverTrigger>
 
-              <PopoverContent className="bg-white">
+              <PopoverContent className="cursor-pointer bg-white">
                 <SocialButtons className="flex gap-3" postId={postId} />
               </PopoverContent>
             </Popover>

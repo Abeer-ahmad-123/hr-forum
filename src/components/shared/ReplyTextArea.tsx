@@ -1,14 +1,14 @@
 'use client'
-import { useState } from 'react'
-import { MoreHorizontal } from 'lucide-react'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import TextArea from '../ui/TextArea'
-import { useParams, useSearchParams } from 'next/navigation'
 
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import SocialButtons from './SocialButtons'
 
 function ReplyTextArea({
@@ -18,8 +18,10 @@ function ReplyTextArea({
   commentId,
   inputRef = null,
   author = '',
+  createdDate,
 }: any) {
   const [showTextArea, setShowTextArea] = useState(false)
+  const [formattedDate, setFormatedDate] = useState('')
 
   const params = useParams()
   const postId = params?.id as string
@@ -28,9 +30,22 @@ function ReplyTextArea({
     setShowTextArea((pre) => !pre)
   }
 
+  useEffect(() => {
+    setFormatedDate(FormatCreatedAt(createdDate))
+  }, [])
+
   return (
     <div>
-      <div className="flex gap-2.5 ">
+      <div className="flex items-center gap-2.5 ">
+        <div className="group relative inline-block">
+          <span className="cursor-pointer text-sm text-gray-400 hover:underline">
+            {ConvertDate(createdDate)}
+          </span>
+          <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
+            {formattedDate}
+          </div>
+        </div>
+        {/* //// */}
         <button
           onClick={toggleTextArea}
           className="cursor-pointer text-sm text-gray-400 hover:underline">

@@ -81,7 +81,7 @@ const ReactionButton = ({
       <div
         onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeft}
-        className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:text-slate-800">
+        className="flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:text-slate-800">
         <PopoverTrigger asChild>
           <div
             className="dark:text-icon-dark pointer flex items-center justify-center  dark:text-gray-300 "

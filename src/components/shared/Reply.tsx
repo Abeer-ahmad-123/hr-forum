@@ -5,9 +5,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { ReplyInterface } from '@/utils/interfaces/reply'
-import { useParams, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import SocialButtons from './SocialButtons'
 
 function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
@@ -17,6 +19,11 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
   const replyIdFromUrl = searchParams?.get('replyId')
   const [highlighted, setHighlighted] = useState(false)
   const postId = params.id as string
+  const router = useRouter()
+
+  const userDetails = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.userData,
+  )
 
   useEffect(() => {
     if (
@@ -37,6 +44,15 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
 
   /////// date formate change on hover
   const formattedDate = FormatCreatedAt(reply.created_at)
+  const handleImgClick = () => {
+    router.push(
+      `${
+        userDetails?.id === (reply?.user_id as unknown as string)
+          ? '/profile'
+          : `/profile/${reply?.user_id}`
+      }`,
+    )
+  }
 
   return (
     <div
@@ -47,19 +63,22 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
       }`}>
       <div className="flex gap-2.5">
         <div className="flex  flex-col items-center">
-          <div className="rounded-full border border-black">
+          <div className="cursor-pointer rounded-full border border-black ">
             <img
               alt="profile picture"
               height={8}
               width={8}
               src={reply['author_details'].profile_picture_url}
-              className="h-8 w-8 rounded-full"
+              className="h-8 min-h-[32px] min-w-[32px] rounded-full"
+              onClick={handleImgClick}
             />
           </div>
         </div>
         <div className="min-w-sm flex flex-col">
           <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
-            <div className="pl-2 text-left text-accent">
+            <div
+              className="cursor-pointer pl-2 text-left text-accent hover:underline"
+              onClick={handleImgClick}>
               {reply['author_details'].name}
             </div>
 
@@ -72,11 +91,11 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
 
           <div className="flex items-center justify-between pr-5">
             <div className="flex items-center gap-2.5">
-              <div className="group relative inline-block">
-                <span className="pointer ml-2 pt-4 text-left text-xs text-gray-400 hover:underline">
+              <div className="group relative inline-block shrink-0">
+                <span className="pointer ml-2  pt-4 text-left text-xs text-gray-400 hover:underline">
                   {convertDate(reply.created_at)}
                 </span>
-                <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
+                <div className="absolute bottom-full left-[79px] hidden shrink-0 -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
                   {formattedDate}
                 </div>
               </div>

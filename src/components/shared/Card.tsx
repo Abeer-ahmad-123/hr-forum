@@ -4,11 +4,11 @@ import { timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import nProgress from 'nprogress'
+import { MouseEvent, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
-import nProgress from 'nprogress'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -78,8 +78,10 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
       [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
     })
   }
-  const handleNavigateProfile = () => {
+  const handleNavigateProfile = (event: MouseEvent<HTMLParagraphElement>) => {
     nProgress.start()
+    event.stopPropagation() // Stop the event from propagating to parent elements
+
     router.push(
       `${userDetails?.id === user_id ? '/profile' : `/profile/${user_id}`}`,
     )
@@ -122,11 +124,12 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
             <div className="-z-2">
               <div className="static rounded-xl ">
                 <img
-                  className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
+                  className="inline-block cursor-pointer rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
                   width={32}
                   height={32}
                   src={user?.profile_picture_url}
                   alt="user-picture"
+                  onClick={handleNavigateProfile}
                 />
               </div>
             </div>
@@ -143,7 +146,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                 <ChannelPill channel_id={channel_id} channels={channels} />
               </div>
 
-              <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[8px] md:text-xs lg:text-sm xl:text-sm">
+              <p className="text-[10px] font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[8px] md:text-[10px] lg:text-xs xl:text-xs">
                 {timeFormatInHours(created_at)}
               </p>
             </div>
