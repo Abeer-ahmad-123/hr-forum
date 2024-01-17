@@ -102,8 +102,6 @@ const Feeds = ({
     }
   }, [inView])
 
-  console.log(posts)
-
   return (
     <div className=" min-h-[70vh]  w-full">
       {!!posts?.length ? (
