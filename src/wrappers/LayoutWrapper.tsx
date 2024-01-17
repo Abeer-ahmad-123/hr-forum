@@ -1,4 +1,5 @@
 'use client'
+import InitialLoading from '@/components/InitialLoading'
 import Navbar from '@/components/Navbar/Navbar'
 import {
   getRefreshToken,
@@ -10,15 +11,15 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import UserNameDialog from './UserNameDialog'
-import InitialLoading from '@/components/InitialLoading'
 import 'react-toastify/dist/ReactToastify.css'
+import UserNameDialog from './UserNameDialog'
 
 const LayoutWrapper = ({ children }: any) => {
+  const router = useRouter()
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
@@ -57,6 +58,7 @@ const LayoutWrapper = ({ children }: any) => {
         const url = new URL(currentUrl)
 
         url.searchParams.delete('code')
+        router.replace('/feeds')
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {
