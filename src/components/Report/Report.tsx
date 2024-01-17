@@ -5,6 +5,7 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -80,6 +81,8 @@ const Report = ({
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
+  const router = useRouter()
+
   const { customFetch } = useInterceptor()
   const handleClick = (reason: any) => {
     setSelectedItem(reason)
@@ -112,6 +115,7 @@ const Report = ({
       showSuccessAlert('Thanks for submitting you feedback')
       setReportedReplyId && setReportedReplyId(commentId!)
       setReportedCommentId && setReportedCommentId(commentId!)
+      router.refresh()
     } else {
       showSuccessAlert('Something went wrong')
     }

@@ -88,9 +88,8 @@ const Feeds = ({
       }
     }
     const filteredPosts = _data?.posts?.filter(
-      (post: PostsInterface) => !post?.user_has_reported || post.id == 32, //
+      (post: PostsInterface) => !post?.user_has_reported,
     )
-    debugger
 
     setPage(page + 1)
     noMorePosts.current =
@@ -102,6 +101,8 @@ const Feeds = ({
       getPosts()
     }
   }, [inView])
+
+  console.log(posts)
 
   return (
     <div className=" min-h-[70vh]  w-full">
