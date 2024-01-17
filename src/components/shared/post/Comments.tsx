@@ -62,7 +62,10 @@ function Comments({
         <div>
           {comments?.length !== 0 &&
             comments?.map((comment: any) => {
-              if (comment?.id != reportedCommentId)
+              if (
+                comment?.id != reportedCommentId &&
+                !comment?.user_has_reported
+              )
                 return (
                   <CommentSection
                     key={comment?.id}
