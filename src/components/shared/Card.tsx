@@ -30,7 +30,6 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  console.log(post)
 
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -158,7 +157,9 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                     </div>
                     {/*  */}
 
-                    <span className="max-custom-sm:hidden">Reported</span>
+                    <span className="text-[0.65rem] max-custom-sm:hidden">
+                      Reported
+                    </span>
                   </div>
                 )}
               </div>

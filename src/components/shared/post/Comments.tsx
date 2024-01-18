@@ -56,7 +56,6 @@ function Comments({
   const handleLoadMore = () => {
     refetchComments()
   }
-  console.log(comments)
 
   return (
     <>

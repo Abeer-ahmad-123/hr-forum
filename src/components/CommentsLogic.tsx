@@ -20,7 +20,16 @@ function CommentsLogic({
         linkToFeed={`/feeds/feed/${postId}`}
         postId={postId}
         inputRef={inputRef}
-        user_reaction={user_reaction}
+        userReaction={user_reaction}
+        setUserReaction={() => {}}
+        setBookmarkupdated={() => {}}
+        updateReactionArray={() => {}}
+        reactionSummary={{
+          like_count: 0,
+          love_count: 0,
+          clap_count: 0,
+          celebrate_count: 0,
+        }}
       />
       <Comments
         postId={postId}
