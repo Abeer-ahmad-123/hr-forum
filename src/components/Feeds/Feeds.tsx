@@ -30,7 +30,7 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, setPosts] = useState([...initialPosts])
+  const [posts, setPosts] = useState<Array<object>>([{}])
   const [page, setPage] = useState(2)
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
@@ -95,15 +95,18 @@ const Feeds = ({
       getPosts()
     }
   }, [inView])
+
+  useEffect(() => {
+    if (initialPosts.length) {
+      setPosts([...initialPosts])
+    }
+  }, [initialPosts])
+
   return (
     <div className=" min-h-[70vh]  w-full">
       {!!posts?.length ? (
         posts?.map((post: any, index: number) => {
-          return (
-            <div key={index}>
-              <Card post={post} channels={channels} />
-            </div>
-          )
+          return <Card key={post?.title} post={post} channels={channels} />
         })
       ) : (
         <NoPosts />

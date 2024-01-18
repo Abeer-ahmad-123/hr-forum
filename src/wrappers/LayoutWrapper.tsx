@@ -38,7 +38,6 @@ const LayoutWrapper = ({ children }: any) => {
     } catch (err) {
       throw err
     } finally {
-      setLoading(false)
     }
   }, [])
 
