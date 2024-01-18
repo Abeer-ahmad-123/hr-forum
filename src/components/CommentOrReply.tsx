@@ -53,7 +53,6 @@ function CommentOrReply({
             token,
             refreshToken,
           })
-      console.log(result)
       if (result?.success) {
         if (!commentId) {
           setComments((prevComments: Array<Object>) => [
