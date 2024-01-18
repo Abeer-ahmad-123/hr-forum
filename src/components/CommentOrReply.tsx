@@ -20,6 +20,8 @@ function CommentOrReply({
   inputRef = null,
   author = '',
   createdDate,
+  replies,
+  commentLength,
 }: any) {
   const params = useParams()
   const postId = params['id'] || Id
@@ -51,7 +53,7 @@ function CommentOrReply({
             token,
             refreshToken,
           })
-
+      console.log(result)
       if (result?.success) {
         if (!commentId) {
           setComments((prevComments: Array<Object>) => [
@@ -82,6 +84,9 @@ function CommentOrReply({
           inputRef={inputRef}
           author={author}
           createdDate={createdDate}
+          replies={replies}
+          commentLength={commentLength}
+          refetchComments={refetchComments}
         />
       ) : (
         <TextArea

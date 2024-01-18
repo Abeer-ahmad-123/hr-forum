@@ -25,14 +25,7 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
-  const convertDate = ConvertDate
-
-  /////
-
-  const formattedDate = FormatCreatedAt(replies.comment?.created_at)
   const router = useRouter()
-
-  /////
 
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
@@ -111,30 +104,13 @@ const CommentSection = ({ comment, refetchComments, commentLength }: any) => {
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
                 createdDate={replies?.comment?.created_at}
+                replies={replies}
+                commentLength={commentLength}
               />
             </div>
           </div>
         </div>
       </div>
-
-      {replies.comment?.replies?.length !== 0 &&
-        replies.comment?.replies?.map((reply: any, index: number) => {
-          return (
-            <Reply
-              reply={reply}
-              commentLength={commentLength}
-              commentId={comment?.id}
-              key={comment?.id}
-            />
-          )
-        })}
-
-      <LoadMoreReplyButton
-        getAllReplies={getAllReplies}
-        commentId={comment?.id}
-        total_replies={replies.comment?.total_replies}
-        repliesLength={replies.comment?.replies?.length}
-      />
     </div>
   )
 }
