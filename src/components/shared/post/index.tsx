@@ -11,11 +11,12 @@ import { CustomLink } from '../customLink/CustomLink'
 async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const userDetailsCookies = cookies().get('user-details')
 
+  const userId =
+    userDetailsCookies &&
+    (JSON?.parse(userDetailsCookies?.value!)?.id || undefined)
   const { post } = await getPostByPostId(postId, {
     loadUser: true,
-    userId:
-      userDetailsCookies &&
-      (JSON?.parse(userDetailsCookies?.value!)?.id || undefined),
+    userId: userId,
   })
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
@@ -31,7 +32,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
     })
     commentResult = [comment]
   } else {
-    let { comments, pagination } = await getPostsComments(postId, {})
+    let { comments, pagination } = await getPostsComments(postId, userId, {})
     commentResult = comments
     paginationResult = pagination
   }

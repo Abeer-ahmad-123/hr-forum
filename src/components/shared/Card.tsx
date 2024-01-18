@@ -1,14 +1,14 @@
 'use client'
 import ChannelPill from '@/components/shared/ChannelPill'
 import { timeFormatInHours } from '@/utils/helper'
+import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
-import { useEffect, useState } from 'react'
-import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -29,6 +29,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+  console.log(post)
 
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,

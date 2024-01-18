@@ -85,6 +85,7 @@ const CommentSection = ({
 
             <div className=" ml-6 h-full w-full  pb-1 text-left leading-loose text-gray-600 dark:text-white">
               {replies?.comment?.content}
+              {replies?.comment?.id}
             </div>
           </div>
 
@@ -113,7 +114,7 @@ const CommentSection = ({
 
       {replies.comment?.replies?.length !== 0 &&
         replies.comment?.replies?.map((reply: any) => {
-          if (reportedReplyId != reply?.id) {
+          if (!(reportedReplyId == reply?.id || reply?.user_has_reported)) {
             return (
               <Reply
                 key={reply?.id}

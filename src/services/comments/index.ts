@@ -1,4 +1,3 @@
-import { showErrorAlert } from '@/utils/helper'
 import { API_BASE_URL } from '..'
 
 const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
@@ -67,6 +66,7 @@ export async function postCommentReply({
 
 export async function getPostsComments(
   id: string,
+  userId: string,
   {
     loadUser = true,
     loadReactions = true,
@@ -80,14 +80,14 @@ export async function getPostsComments(
   try {
     const postId = GET_POST_COMMENT.replace('postId', id)
 
-    let res = await fetch(
-      `
-    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&page=${page}
-    `,
-      {
-        cache: 'no-cache',
-      },
-    )
+    let url = `${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&page=${page}`
+    if (userId) {
+      url += `&userID=${userId}`
+    }
+
+    let res = await fetch(url, {
+      cache: 'no-cache',
+    })
     const response = await res.json()
     const { data } = response
     return data

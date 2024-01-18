@@ -84,10 +84,9 @@ function Reply({
 
             <div className="ml-4 mt-0 h-full w-full   text-left leading-loose text-gray-600 dark:text-white">
               {reply.content}
+              {reply.id}
             </div>
           </div>
-
-          {/* ÷  */}
 
           <div className="flex items-center justify-between pr-5">
             <div className="flex items-center gap-2.5">

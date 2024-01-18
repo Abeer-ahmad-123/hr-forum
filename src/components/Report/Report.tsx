@@ -3,7 +3,7 @@ import InfoIcon from '@/assets/icons/InfoIcon'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
-import { showSuccessAlert } from '@/utils/helper'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -112,17 +112,22 @@ const Report = ({
           )
 
     if (response.success) {
+      console.log('Reported comment or reply Id', commentId)
       showSuccessAlert('Thanks for submitting you feedback')
       setReportedReplyId && setReportedReplyId(commentId!)
       setReportedCommentId && setReportedCommentId(commentId!)
       router.refresh()
     } else {
-      showSuccessAlert('Something went wrong')
+      tokenInRedux
+        ? showErrorAlert('Something went wrong')
+        : showErrorAlert('Please login to report')
     }
 
     setLoading(false)
     setOpenDialog(false)
   }
+
+  console.log('Comment id in props', commentId)
 
   return (
     <div className="gap-8">

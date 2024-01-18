@@ -1,8 +1,10 @@
 'use client'
 import CommentOrReply from '@/components/CommentOrReply'
 import { getPostsComments } from '@/services/comments'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSearchParams } from 'next/navigation'
 import { Suspense, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
 
 function Comments({
@@ -12,6 +14,10 @@ function Comments({
   inputRef = null,
 }: any) {
   const searchParams = useSearchParams()
+
+  const userData = useSelector(
+    (state: LoggedInUser) => state.loggedInUser?.userData,
+  )
 
   const commentId = searchParams.get('commentId')
 
@@ -28,7 +34,7 @@ function Comments({
   const refetchComments = async (pageNumber: number = 0) => {
     // Re-fetch comments
 
-    const commentsResponse = await getPostsComments(postId, {
+    const commentsResponse = await getPostsComments(postId, userData.id, {
       page: pageNumber || commentPage,
     })
     nothingToLoadMore.current =
@@ -50,6 +56,7 @@ function Comments({
   const handleLoadMore = () => {
     refetchComments()
   }
+  console.log(comments)
 
   return (
     <>
@@ -63,8 +70,9 @@ function Comments({
           {comments?.length !== 0 &&
             comments?.map((comment: any) => {
               if (
-                comment?.id != reportedCommentId &&
-                !comment?.user_has_reported
+                !(
+                  comment?.id == reportedCommentId || comment?.user_has_reported
+                )
               )
                 return (
                   <CommentSection
