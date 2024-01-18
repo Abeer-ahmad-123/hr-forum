@@ -68,14 +68,14 @@ export default function Signin({
       )
       if (
         !result?.success &&
-        result?.status === 401 &&
-        result?.status === 404
+        (result?.status === 401 || result?.status === 404)
       ) {
-        showErrorAlert('Sign-in failed. Please check your credentials.')
         setErrors({
           ...errors,
-          password: 'Unauthenticated! email or password not matched.',
+          password: result.errors[0].includes('password') && 'Invalid Password',
+          email: result.errors[0].includes('email') && result.errors[0],
         })
+
         return
       }
       if (result?.data?.token) {
@@ -85,7 +85,7 @@ export default function Signin({
             refreshToken: result?.data['refresh-token'],
           }),
         )
-        showSuccessAlert('Welcome back! ' + result?.data?.userData?.name)
+        showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
         handleDialogClose()
 
         if (
@@ -135,16 +135,14 @@ export default function Signin({
             handleLoginSubmit={handleLoginSubmit}
           />
           {/* Sign Up Link */}
-          <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
-            {"Don't have an account? "}
+          <div className="mt-2 flex justify-center text-center text-xs font-light text-gray-700 dark:text-white">
+            <p>Don't have an account?</p>
             <button
               className="text-primary-purple cursor-pointer font-medium hover:underline"
-              onClick={() => {
-                toggleForm()
-              }}>
+              onClick={toggleForm}>
               Sign up
             </button>
-          </p>
+          </div>
           {/* Sign Up Link End*/}
         </div>
       </div>

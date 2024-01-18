@@ -7,13 +7,7 @@ import {
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import React, {
-  ChangeEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react'
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ReactionEmoji } from '.'
 
@@ -30,7 +24,9 @@ const ReactionButton = ({
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
-  const handleLikeWrapperExtended = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleLikeWrapperExtended: React.MouseEventHandler<HTMLDivElement> = (
+    e,
+  ) => {
     e.stopPropagation()
     if (!handleLikeWrapper()) {
       handleReactionEmoji()
@@ -48,7 +44,8 @@ const ReactionButton = ({
   )
 
   const toggleHeartReaction = useCallback(() => {
-    const newReaction = currentReaction === 'none' ? 'love' : 'none'
+    const newReaction =
+      currentReaction == '' || currentReaction == 'none' ? 'love' : 'none'
     updateCurrentReaction(newReaction)
     onReact(newReaction)
   }, [onReact, currentReaction]) // Removed post
@@ -75,18 +72,17 @@ const ReactionButton = ({
   }
 
   useEffect(() => {
-    if (userReaction?.reactionType)
-      updateCurrentReaction(userReaction?.reactionType?.toLowerCase())
-  }, [userReaction?.reactionType])
+    updateCurrentReaction(userReaction?.toLowerCase())
+  }, [userReaction])
 
   return (
     <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>
       <div
         onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeft}
-        className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:text-slate-800">
+        className="flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:text-slate-800">
         <PopoverTrigger asChild>
-          <button
+          <div
             className="dark:text-icon-dark pointer flex items-center justify-center  dark:text-gray-300 "
             onClick={handleLikeWrapperExtended}>
             <div className="flex flex-col items-center">
@@ -104,7 +100,7 @@ const ReactionButton = ({
               </span>
             </div>
             <div className="font-light max-custom-sm:hidden">Like</div>
-          </button>
+          </div>
         </PopoverTrigger>
         <PopoverContent className="-mt-2 border-0 shadow-none">
           {' '}
@@ -114,7 +110,6 @@ const ReactionButton = ({
                 {reactionOptions.slice(1).map((reaction, i) => (
                   <span key={i}>
                     <ReactionEmoji
-                      key={reaction.name}
                       reactionName={reaction.name}
                       emojiCharacter={reaction.emoji}
                       isReactionSelected={currentReaction === reaction.name}

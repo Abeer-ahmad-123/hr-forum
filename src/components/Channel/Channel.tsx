@@ -15,8 +15,8 @@ const Channel = () => {
         {/* <Notification /> */}
       </div>
       <ul className="flex flex-col">
-        {channels.map((channel: any) => (
-          <li key={channel.name} className="border-b-2 border-gray-100">
+        {channels.map((channel: any, index: number) => (
+          <li key={index} className="border-b-2 border-gray-100">
             <div
               className={`flex justify-between border-l-4 border-transparent bg-transparent px-4 py-5 ${styles(
                 channel.online,

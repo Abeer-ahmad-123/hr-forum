@@ -15,6 +15,7 @@ export const useInterceptor = () => {
       const headersForRefresh = {
         RefreshToken: options.headers.refreshToken,
       }
+
       const refreshResponse = await fetch(AUTH_REFRESH_TOKEN, {
         method: 'POST',
         headers: headersForRefresh,
@@ -34,6 +35,7 @@ export const useInterceptor = () => {
       } else {
         disptach(clearUser())
         logout()
+        throw 'error'
       }
     } catch (refreshError) {
       disptach(clearUser())
@@ -51,8 +53,7 @@ export const useInterceptor = () => {
     } catch (error: any) {
       if (response && response.status === 401) {
         fetchRefreshToken(options, customFetch, url)
-      } else {
-        throw error
+        throw 'error'
       }
     }
     return response

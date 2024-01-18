@@ -1,6 +1,7 @@
 'use client'
 import userImage from '@/assets/avatars/Unknown_person.jpeg'
 import ImageUpload from '@/components/ImageUpload'
+import { useInterceptor } from '@/hooks/interceptors'
 import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
@@ -18,7 +19,6 @@ import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
-import { useInterceptor } from '@/hooks/interceptors'
 
 interface profileProps {
   userId?: string
@@ -41,7 +41,8 @@ const RespProfile = ({ userId }: profileProps) => {
   const isFirstUser = useRef(true)
 
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
   const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
@@ -56,7 +57,7 @@ const RespProfile = ({ userId }: profileProps) => {
   }
 
   const getAllUserSpecificPosts = async () => {
-    setLoading(true)
+    setLoadingPosts(true)
 
     const response = await getUserSpecificPosts(
       userId ? userId : userDataInStore?.id,
@@ -68,7 +69,7 @@ const RespProfile = ({ userId }: profileProps) => {
         response?.data?.pagination?.CurrentPage !==
           response?.data?.pagination?.TotalPages
     }
-    setLoading(false)
+    setLoadingPosts(false)
   }
 
   const handleInputChange = (e: any) => {
@@ -93,7 +94,7 @@ const RespProfile = ({ userId }: profileProps) => {
           file,
         )
         if (response?.success) {
-          showSuccessAlert('Image Uploaded')
+          showSuccessAlert('Profile picture updated')
           setLoading(false)
 
           dispatch(
@@ -105,7 +106,7 @@ const RespProfile = ({ userId }: profileProps) => {
             }),
           )
         } else {
-          showErrorAlert('Issues in image uploaded')
+          showErrorAlert('Something went wrong')
         }
       } catch (e: any) {
         throw new Error(e)
@@ -123,7 +124,7 @@ const RespProfile = ({ userId }: profileProps) => {
       file,
     )
     if (response?.success) {
-      showSuccessAlert('Image Uploaded')
+      showSuccessAlert('Profile picture updated')
       dispatch(
         setUserData({
           userData: {
@@ -138,7 +139,7 @@ const RespProfile = ({ userId }: profileProps) => {
         backgroundPictureURL: response?.data?.url,
       })
     } else {
-      showErrorAlert('Issues in image uploaded')
+      showErrorAlert('Something went wrong')
     }
   }
 
@@ -207,15 +208,14 @@ const RespProfile = ({ userId }: profileProps) => {
           </div>
         </section>
 
-        <section className="bg-blueGray-200 relative mx-auto max-w-screen-xl max-md:w-full">
+        <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
           <div className=" mx-auto ">
-            <div className="relative -mt-[30rem] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
+            <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
               {/* Profile card start */}
               <div className="px-6">
                 <div className="top-0">
                   <div className="flex w-full">
                     <div className="relative flex justify-center md:w-full">
-                      {/* TO be corrected */}
                       <img
                         alt="..."
                         width={96}
@@ -251,7 +251,6 @@ const RespProfile = ({ userId }: profileProps) => {
                         saveCroppedImage={saveImage}
                         disableButton={loading}
                       />
-                      {/* ///  */}
                     </div>
                   </div>
 
@@ -266,8 +265,6 @@ const RespProfile = ({ userId }: profileProps) => {
                     />
                   )}
                 </div>
-
-                {/* */}
 
                 <div className="flex justify-center gap-[20px] pb-6">
                   <div className="mt-12 p-6 text-center max-md:text-left">
@@ -290,11 +287,9 @@ const RespProfile = ({ userId }: profileProps) => {
                   </div>
                 </div>
               </div>
-
-              {/*Profile card end!!*/}
             </div>
           </div>
-          <div className="flex flex-col gap-[2rem] lg:flex-row">
+          <div className="mt-[40px] flex flex-col gap-[65px] lg:flex-row">
             <div className=" w- flex flex-col gap-[1.5rem]">
               <UserDataBadge
                 postCount={
@@ -306,7 +301,7 @@ const RespProfile = ({ userId }: profileProps) => {
               />
             </div>
             <div className="flex w-full flex-col">
-              {!loading ? (
+              {!loadingPosts ? (
                 <UserSpecificPosts
                   posts={posts}
                   user={userId ? user : userDataInStore}

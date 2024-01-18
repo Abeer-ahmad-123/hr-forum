@@ -1,6 +1,6 @@
 const GoogleButton = ({ onClick, title }: any) => {
   return (
-    <button
+    <div
       onClick={onClick}
       className="mt-4 flex w-full items-center justify-center rounded-md border-transparent px-6 py-2 text-base font-medium text-white shadow-[inset_2px_2px_2px_3px_rgb(0,0,0,0.05)] transition duration-200 ease-in-out dark:shadow-[inset_2px_2px_2px_3px_rgb(255,255,255,0.2)] md:px-10 md:py-3 md:text-lg">
       <img
@@ -11,7 +11,7 @@ const GoogleButton = ({ onClick, title }: any) => {
         width={6}
       />
       <p className="text-black dark:text-white">{title} with Google</p>
-    </button>
+    </div>
   )
 }
 

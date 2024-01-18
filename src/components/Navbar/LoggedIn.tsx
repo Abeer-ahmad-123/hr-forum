@@ -2,9 +2,8 @@
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { CustomLink } from '../shared/customLink/CustomLink'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,6 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import nProgress from 'nprogress'
 
 function LoggedIn() {
   const router = useRouter()
@@ -24,11 +24,22 @@ function LoggedIn() {
     setOpenPopover(false)
   }
 
-  function handleLogout() {
+  const handleNavigateProfile = () => {
+    nProgress.start()
+    router.push('/profile')
+  }
+
+  const handleLogout = () => {
     logout()
     dispatch(clearUser())
     router.refresh()
   }
+
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
 
   const UserDropdown = () => (
     <div className="relative flex cursor-pointer items-center gap-4 ">
@@ -56,39 +67,37 @@ function LoggedIn() {
   )
 
   return (
-    <>
-      <div>
-        <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
-          <DropdownMenuTrigger
-            onChange={() => {
-              setOpenPopover(!openPopover)
-            }}>
-            <UserDropdown />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={handleClosePopover}
-              className="hover:text-white">
-              <CustomLink href="/profile">
-                <div className={`block px-4 py-2 text-sm dark:text-white`}>
-                  Profile
-                </div>
-              </CustomLink>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={handleClosePopover}
-              className="hover:text-white">
-              <button onClick={handleLogout}>
-                <div className={`block px-4 py-2 text-sm  dark:text-white`}>
-                  Logout
-                </div>
-              </button>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </>
+    <div>
+      <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
+        <DropdownMenuTrigger
+          onChange={() => {
+            setOpenPopover(!openPopover)
+          }}>
+          <UserDropdown />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={handleClosePopover}
+            className="hover:text-white">
+            <div
+              className={`block px-4 py-2 text-sm dark:text-white`}
+              onClick={handleNavigateProfile}>
+              Profile
+            </div>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={handleClosePopover}
+            className="hover:text-white">
+            <button
+              onClick={handleLogout}
+              className={`block px-4 py-2 text-sm  dark:text-white`}>
+              Logout
+            </button>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }
 

@@ -3,15 +3,16 @@ import Skelton from './ui/skelton'
 
 interface ChannelCardSkeltonProps {
   token?: string
+  className?: string
 }
 
-function ChannelCardSkelton({ token }: ChannelCardSkeltonProps) {
+function ChannelCardSkelton({ token, className }: ChannelCardSkeltonProps) {
   return (
     <>
       <div
-        className={`sticky top-0 ml-[50px] ${
+        className={`${!className && 'ml-[50px]'} ${
           token ? 'mt-[25px]' : 'mt-[70px]'
-        }  h-[300px] max-h-screen w-[200px] cursor-pointer rounded-[10px]  bg-white pt-3 shadow-lg dark:bg-slate-800`}>
+        }  h-[300px] ${className} max-h-screen w-[200px] cursor-pointer rounded-[10px]  bg-white pt-3 shadow-lg dark:bg-slate-800`}>
         <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-5 justify-center text-center font-bold" />
 
         <ul className="ml-[2px] cursor-pointer list-none text-left">

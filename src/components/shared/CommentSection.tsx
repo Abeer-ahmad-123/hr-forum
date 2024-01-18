@@ -108,9 +108,9 @@ const CommentSection = ({
             </div>
           </div>
 
-          <div className="flex items-baseline gap-2.5">
+          <div className="flex items-baseline gap-2">
             <div className="group relative inline-block">
-              <span className="pointer ml-2 pt-4 text-left text-xs text-gray-400 hover:underline">
+              <span className="pointer ml-2 text-left text-xs text-gray-400 hover:underline">
                 {convertDate(replies?.comment?.created_at)}
               </span>
               <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">

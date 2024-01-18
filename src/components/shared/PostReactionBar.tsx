@@ -24,6 +24,9 @@ const PostReactionBar = ({
   total_comments,
 }: PostReactionBarProps) => {
   const pathName = usePathname()
+  const [reactionSummary, setReactionSummary] = useState<string>('')
+  const [countofAll, setCountofAll] = useState<number>(0)
+  const [emojis, setEmojis] = useState<Array<string>>()
   const [reactionArray, setReactionArray] = useState<[string, number][]>([])
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
 
@@ -61,28 +64,62 @@ const PostReactionBar = ({
   const mouseLeave = () => {
     setEmojiPopoverVisible(false)
   }
-  useEffect(() => {
-    getAllPostData()
-  }, [])
+  const isExceptOneZero = (obj: ReactionCounts) => {
+    let nonZeroCount = 0
 
-  return addCountOfAll(reactionArray) ? (
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key) && obj[key] !== 0) {
+        nonZeroCount++
+        if (nonZeroCount > 1) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
+
+  const generateReactionSummary = () => {
+    const reactionCount = addCountOfAll(reactionArray)
+    let result = ''
+
+    if (isExceptOneZero(reaction_summary) && reactionCount > 1) {
+      result = `and ${reactionCount - 1} more`
+    } else if (reactionCount > 1) {
+      result = `and ${reactionCount - 1} other${reactionCount > 2 ? 's' : ''}`
+    }
+
+    return result
+  }
+
+  useEffect(() => {
+    if (reaction_summary) getAllPostData()
+  }, [reaction_summary])
+
+  useEffect(() => {
+    if (reactionArray.length) {
+      setCountofAll(addCountOfAll(reactionArray))
+      setEmojis(getEmojis(reactionArray, reactionOptions))
+      setReactionSummary(generateReactionSummary())
+    }
+  }, [reactionArray])
+
+  return (
     <>
       <hr />
       <div className="flex items-center justify-between px-[3.2rem] py-1">
         <div className="felx gap-1">
-          {getEmojis(reactionArray, reactionOptions)
-            .slice(0, addCountOfAll(reactionArray))
-            .map((react, index) => (
-              <span
-                className={`${
-                  index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
-                } rounded-full bg-white p-1 text-xs dark:bg-slate-800`}
-                key={index}
-                onMouseEnter={mouseEnter}
-                onMouseLeave={mouseLeave}>
-                {react}
-              </span>
-            ))}
+          {emojis?.slice(0, countofAll).map((react, index) => (
+            <span
+              className={`${
+                index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
+              } rounded-full bg-white p-1 text-xs dark:bg-slate-800`}
+              key={index}
+              onMouseEnter={mouseEnter}
+              onMouseLeave={mouseLeave}>
+              {react}
+            </span>
+          ))}
           <Popover
             open={emojiPopoverVisible}
             onOpenChange={setEmojiPopoverVisible}>
@@ -91,11 +128,7 @@ const PostReactionBar = ({
                 className="text-xs text-slate-400"
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
-                {addCountOfAll(reactionArray) > 1
-                  ? `and ${addCountOfAll(reactionArray) - 1} other`
-                  : addCountOfAll(reactionArray) > 2
-                  ? `and ${addCountOfAll(reactionArray) - 1} other`
-                  : ''}
+                {reactionSummary}
               </span>
             </PopoverTrigger>
             <PopoverContent className="bg-white">
@@ -126,8 +159,6 @@ const PostReactionBar = ({
         </CustomLink>
       </div>
     </>
-  ) : (
-    <></>
   )
 }
 

@@ -4,6 +4,7 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 interface userDataProps {
@@ -24,6 +25,7 @@ const EditPage = ({
 }: EditPageProps) => {
   const dispatch = useDispatch()
   const [userDetails, setUserDetails] = useState(userData)
+  const router = useRouter()
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
@@ -42,10 +44,13 @@ const EditPage = ({
         refreshToken,
         userDetails,
       )
+
       if (response?.success) {
         dispatch(setUserData({ userData: response?.data }))
 
         setUpdatedUserData(response?.data)
+      } else {
+        router.push('/feeds')
       }
     } catch (err) {
       throw err
@@ -85,7 +90,7 @@ const EditPage = ({
       </div>
       <button
         onClick={handleSubmit}
-        className="mb-1 mt-2 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none active:bg-pink-600 sm:mr-2">
+        className="mb-1 mt-2 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none sm:mr-2">
         Update
       </button>
     </div>

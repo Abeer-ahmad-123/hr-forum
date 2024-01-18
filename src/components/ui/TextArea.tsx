@@ -3,6 +3,7 @@ import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { noProfilePicture } from '@/utils/ImagesLink'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { SendHorizonal } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
@@ -24,6 +25,8 @@ function TextArea({
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+
+  const router = useRouter()
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
     // add other styles as needed
@@ -53,19 +56,23 @@ function TextArea({
       setIsLoading({ loading: false, status: 'null' })
     }
   }
+  const handleImgClick = () => {
+    router.push('/profile')
+  }
 
   useEffect(() => {
     resetStatus()
   }, [isLoading])
 
   return (
-    <div className="flex items-center gap-2.5 px-[20px]">
+    <div className="flex cursor-pointer items-center gap-2.5">
       <img
         src={userData.profilePictureURL || noProfilePicture}
         className="w-18 h-8 rounded-full border border-solid border-black"
         alt="avatar"
         width={32}
         height={32}
+        onClick={handleImgClick}
       />
       <div className={`flex ${className} `} style={textareaStyle}>
         <div className="border-grey-700 flex w-full rounded-lg border border-solid">

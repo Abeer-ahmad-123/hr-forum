@@ -12,6 +12,7 @@ const ProfileCard = () => {
   if (!userDetails.id) {
     return <></>
   }
+
   return (
     <div className="relative mt-5 h-auto w-[200px] cursor-pointer overflow-hidden rounded-[10px] border border-solid border-gray-300 bg-white shadow-lg dark:bg-slate-800 dark:text-white max-md:mt-4 max-md:w-full">
       <img
@@ -47,7 +48,9 @@ const ProfileCard = () => {
       </p>
       <hr className="my-1 border-t border-gray-200" />
       <div className="flex items-center justify-center gap-2.5 px-3">
-        <Mail size={20} />
+        <div>
+          <Mail size={18} />
+        </div>
         <p
           className="mb-[10px] mt-[10px] flex text-xs font-light"
           style={{ wordWrap: 'break-word' }}>

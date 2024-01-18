@@ -76,11 +76,11 @@ const DropDownContent = ({
     <ul className={`bg-white dark:bg-dark-primary`}>
       <div className="lg:h-3"></div>
 
-      {navigation.map((item: NavigationItem) => {
+      {navigation.map((item: NavigationItem, index: number) => {
         return (
           <li
             className="hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-            key={item?.name}
+            key={index}
             onClick={handleLi}>
             <CustomLink
               href={item?.href}
@@ -103,10 +103,10 @@ const DropDownContent = ({
         Current Channels <span className="text-xs">({channels?.length})</span>
       </div>
 
-      {channels?.map((item: any) => (
+      {channels?.map((item: any, index: number) => (
         <li
           className="border-none"
-          key={item?.name}
+          key={index}
           onClick={handleLi}
           data-testid="side-channels">
           <CustomLink

@@ -67,7 +67,7 @@ function Comments({
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div>
           {comments?.length !== 0 &&
-            comments?.map((comment: any) => {
+            comments?.map((comment: any, index: number) => {
               // if (
               //   !(
               //     comment?.id == reportedCommentId || comment?.user_has_reported
@@ -75,7 +75,7 @@ function Comments({
               // )
               return (
                 <CommentSection
-                  key={comment?.id}
+                  key={index}
                   comment={comment}
                   refetchComments={refetchComments}
                   commentLength={comments.length}

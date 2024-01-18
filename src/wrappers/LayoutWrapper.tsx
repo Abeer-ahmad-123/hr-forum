@@ -1,5 +1,4 @@
 'use client'
-import '@/assets/styles/globals.css'
 import Navbar from '@/components/Navbar/Navbar'
 import {
   getRefreshToken,
@@ -11,18 +10,19 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { usePathname, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
+import InitialLoading from '@/components/InitialLoading'
+import 'react-toastify/dist/ReactToastify.css'
 
 const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
-  const pathname = usePathname()
+  const [loading, setLoading] = useState(true)
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
@@ -37,6 +37,7 @@ const LayoutWrapper = ({ children }: any) => {
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err) {
       throw err
+    } finally {
     }
   }, [])
 
@@ -106,6 +107,8 @@ const LayoutWrapper = ({ children }: any) => {
   }, [searchParams])
 
   useEffect(() => {
+    setLoading(false)
+
     let refreshInterval: any
     if (!localStorage.getItem('token')) {
       clearInterval(refreshInterval)
@@ -131,24 +134,22 @@ const LayoutWrapper = ({ children }: any) => {
         throw error
       }
     }
+
     return () => clearInterval(refreshInterval)
   }, [])
 
   return (
     <body
-      className={` ${styles} theme-default pt-4 font-primary dark:bg-slate-700`}>
-      {/* ADD bg-background in body */}
-
-      {pathname !== '/error' && <Navbar />}
+      className={` ${styles} theme-default bg-background pt-4 font-primary dark:bg-slate-700`}>
+      {!loading && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
-              className={`max-h-auto mx-auto -mt-5 min-h-[100vh] w-full ${
-                pathname !== '/error' && 'bg-background'
-              } px-10 py-5 dark:bg-dark-background dark:text-white max-sm:p-[10px]`}>
-              {children}
+              className={`max-h-auto mx-auto -mt-5 min-h-[100vh] w-full px-10 
+              dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px]`}>
+              {loading ? <InitialLoading /> : children}
             </div>
           </div>
         </div>

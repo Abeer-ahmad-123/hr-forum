@@ -10,3 +10,8 @@ export interface EmojiActionInterface {
   action: string
   previousAction: string
 }
+
+export interface ProfileImageInterface {
+  imgSrc: string | undefined
+  postUserId: string | undefined
+}
