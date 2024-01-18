@@ -103,7 +103,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           }>
           <div className="px-10 py-4">
             <div className="flex flex-row justify-between">
-              <div className="flex w-full items-center justify-between max-md:block">
+              <div className="flex w-full  flex-row items-center justify-between max-custom-sm:flex-col max-custom-sm:items-start ">
                 <div className="flex items-center">
                   <div className="-z-2">
                     <div className="static rounded-xl ">
@@ -129,8 +129,6 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                           className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
                           aria-label="user-name">
                           {user?.name}
-
-                          {/* Yogesh Choudhary Paliyal */}
                         </p>
                       </CustomLink>
                       <ChannelPill
@@ -144,14 +142,21 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                     </p>
                   </div>
                 </div>
+
+                {post?.user_has_reported && (
+                  <div className="inline-flex cursor-default items-center rounded-md bg-gray-50 px-2 py-1 text-[9px] font-medium text-gray-500 ring-1 ring-inset ring-gray-500/10 max-custom-sm:ml-9">
+                    {' '}
+                    Reported
+                  </div>
+                )}
               </div>
 
-              {post?.user_has_reported && (
+              {/* {post?.user_has_reported && (
                 <div className="inline-flex cursor-default items-center rounded-md bg-gray-50 px-2 py-1 text-[9px] font-medium text-gray-500 ring-1 ring-inset ring-gray-500/10">
                   {' '}
                   Reported
                 </div>
-              )}
+              )} */}
             </div>
 
             <div className="flex flex-col">
