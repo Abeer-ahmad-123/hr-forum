@@ -1,6 +1,8 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
+
+import { AlertOctagon } from 'lucide-react'
 import { useState } from 'react'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
 import Reply from './Reply'
@@ -78,13 +80,26 @@ const CommentSection = ({
         </div>
         <div className="  ml-3  ">
           <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
-            <div className="flex flex-row justify-between max-custom-sm:flex-col">
+            <div className="flex flex-row justify-between ">
               <div className=" text-left text-accent ">
                 {replies.comment?.author_details?.name}
               </div>
+
               {comment.user_has_reported && (
-                <div className="inline-flex w-fit cursor-default items-center rounded-md bg-gray-50  p-1 text-[7px] font-medium text-gray-500 ring-1 ring-inset ring-gray-500/10">
-                  Reported
+                <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
+                  {/*  */}
+                  <div className="group relative inline-block">
+                    <AlertOctagon
+                      size={15}
+                      className="hidden cursor-pointer max-custom-sm:block"
+                    />
+                    <div className="absolute bottom-full left-[50px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
+                      Reported
+                    </div>
+                  </div>
+                  {/*  */}
+
+                  <span className="max-custom-sm:hidden">Reported</span>
                 </div>
               )}
             </div>

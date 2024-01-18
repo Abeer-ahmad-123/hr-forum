@@ -112,7 +112,6 @@ const Report = ({
           )
 
     if (response.success) {
-      console.log('Reported comment or reply Id', commentId)
       showSuccessAlert('Thanks for submitting you feedback')
       setReportedReplyId && setReportedReplyId(commentId!)
       setReportedCommentId && setReportedCommentId(commentId!)
@@ -126,8 +125,6 @@ const Report = ({
     setLoading(false)
     setOpenDialog(false)
   }
-
-  console.log('Comment id in props', commentId)
 
   return (
     <div className="gap-8">
