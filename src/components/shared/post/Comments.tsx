@@ -69,20 +69,20 @@ function Comments({
         <div>
           {comments?.length !== 0 &&
             comments?.map((comment: any) => {
-              if (
-                !(
-                  comment?.id == reportedCommentId || comment?.user_has_reported
-                )
+              // if (
+              //   !(
+              //     comment?.id == reportedCommentId || comment?.user_has_reported
+              //   )
+              // )
+              return (
+                <CommentSection
+                  key={comment?.id}
+                  comment={comment}
+                  refetchComments={refetchComments}
+                  commentLength={comments.length}
+                  setReportedCommentId={setReportedCommentId}
+                />
               )
-                return (
-                  <CommentSection
-                    key={comment?.id}
-                    comment={comment}
-                    refetchComments={refetchComments}
-                    commentLength={comments.length}
-                    setReportedCommentId={setReportedCommentId}
-                  />
-                )
             })}
         </div>
 

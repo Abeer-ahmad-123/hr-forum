@@ -30,9 +30,7 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, setPosts] = useState(
-    ...[initialPosts.filter((post) => !post.user_has_reported)],
-  )
+  const [posts, setPosts] = useState([...initialPosts])
   const [page, setPage] = useState(2)
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
@@ -87,14 +85,11 @@ const Feeds = ({
         _data = data
       }
     }
-    const filteredPosts = _data?.posts?.filter(
-      (post: PostsInterface) => !post?.user_has_reported,
-    )
 
     setPage(page + 1)
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
-    setPosts([...posts, ...filteredPosts])
+    setPosts([...posts, ..._data?.posts])
   }
   useEffect(() => {
     if (inView) {

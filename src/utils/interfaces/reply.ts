@@ -4,6 +4,7 @@ type reply = {
     name: string
     profile_picture_url: string
   }
+  user_has_reported?: boolean
   content: string
   created_at: string
   id: string

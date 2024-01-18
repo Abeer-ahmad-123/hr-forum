@@ -102,44 +102,56 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
               : ` /feeds/feed/${id}`
           }>
           <div className="px-10 py-4">
-            <div className="flex items-center justify-between max-md:block">
-              <div className="flex items-center">
-                <div className="-z-2">
-                  <div className="static rounded-xl ">
-                    <img
-                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
-                      width={32}
-                      height={32}
-                      src={user?.profile_picture_url}
-                      alt="user-picture"
-                    />
-                  </div>
-                </div>
-
-                <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row">
-                    <CustomLink
-                      href={
-                        userDetails?.id === user_id
-                          ? '/profile'
-                          : `/profile/${user_id}`
-                      }>
-                      <p
-                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
-                        aria-label="user-name">
-                        {user?.name}
-
-                        {/* Yogesh Choudhary Paliyal */}
-                      </p>
-                    </CustomLink>
-                    <ChannelPill channel_id={channel_id} channels={channels} />
+            <div className="flex flex-row justify-between">
+              <div className="flex w-full items-center justify-between max-md:block">
+                <div className="flex items-center">
+                  <div className="-z-2">
+                    <div className="static rounded-xl ">
+                      <img
+                        className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
+                        width={32}
+                        height={32}
+                        src={user?.profile_picture_url}
+                        alt="user-picture"
+                      />
+                    </div>
                   </div>
 
-                  <p className="text-xs font-light text-slate-500 dark:text-gray-400">
-                    {timeFormatInHours(created_at)}
-                  </p>
+                  <div className="ml-2 flex flex-col items-start align-baseline">
+                    <div className="flex flex-row">
+                      <CustomLink
+                        href={
+                          userDetails?.id === user_id
+                            ? '/profile'
+                            : `/profile/${user_id}`
+                        }>
+                        <p
+                          className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                          aria-label="user-name">
+                          {user?.name}
+
+                          {/* Yogesh Choudhary Paliyal */}
+                        </p>
+                      </CustomLink>
+                      <ChannelPill
+                        channel_id={channel_id}
+                        channels={channels}
+                      />
+                    </div>
+
+                    <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400">
+                      {timeFormatInHours(created_at)}
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              {post?.user_has_reported && (
+                <div className="inline-flex cursor-default items-center rounded-md bg-gray-50 px-2 py-1 text-[9px] font-medium text-gray-500 ring-1 ring-inset ring-gray-500/10">
+                  {' '}
+                  Reported
+                </div>
+              )}
             </div>
 
             <div className="flex flex-col">

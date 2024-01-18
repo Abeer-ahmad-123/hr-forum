@@ -67,7 +67,6 @@ const CommentSection = ({
       <div className="flex">
         <div className="flex  flex-col items-center">
           <div className="">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               alt="avatar"
               src={comment?.author_details?.profile_picture_url}
@@ -79,13 +78,18 @@ const CommentSection = ({
         </div>
         <div className="  ml-3  ">
           <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
-            <div className=" text-left text-accent ">
-              {replies.comment?.author_details?.name}
+            <div className="flex flex-row justify-between">
+              <div className=" text-left text-accent ">
+                {replies.comment?.author_details?.name}
+              </div>
+              {comment.user_has_reported && (
+                <div className="inline-flex w-fit cursor-default items-center rounded-md bg-gray-50  p-1 text-[7px] font-medium text-gray-500 ring-1 ring-inset ring-gray-500/10">
+                  Reported
+                </div>
+              )}
             </div>
-
-            <div className=" ml-6 h-full w-full  pb-1 text-left leading-loose text-gray-600 dark:text-white">
+            <div className=" h-full w-fit  pb-1 text-left leading-loose text-gray-600 dark:text-white">
               {replies?.comment?.content}
-              {replies?.comment?.id}
             </div>
           </div>
 
@@ -104,7 +108,6 @@ const CommentSection = ({
                 commentId={replies?.comment?.id}
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
-                // Pass here the reportCommmentIdSetter
                 setReportedCommentId={setReportedCommentId}
               />
             </div>
@@ -114,7 +117,7 @@ const CommentSection = ({
 
       {replies.comment?.replies?.length !== 0 &&
         replies.comment?.replies?.map((reply: any) => {
-          if (!(reportedReplyId == reply?.id || reply?.user_has_reported)) {
+          {
             return (
               <Reply
                 key={reply?.id}

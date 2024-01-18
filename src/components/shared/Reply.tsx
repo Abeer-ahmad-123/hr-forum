@@ -78,13 +78,19 @@ function Reply({
         </div>
         <div className="min-w-sm flex flex-col">
           <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
-            <div className="pl-2 text-left text-accent">
-              {reply['author_details'].name}
+            <div className="flex flex-row justify-between">
+              <div className="pl-2 text-left text-accent">
+                {reply['author_details'].name}
+              </div>
+              {reply?.user_has_reported && (
+                <div className="inline-flex w-fit cursor-default items-center rounded-md bg-gray-50 p-1 text-[7px] font-normal text-gray-500 ring-1 ring-inset ring-gray-500/10">
+                  Reported
+                </div>
+              )}
             </div>
 
-            <div className="ml-4 mt-0 h-full w-full   text-left leading-loose text-gray-600 dark:text-white">
+            <div className="mt-0 h-full w-full p-2.5 text-left leading-loose text-gray-600 dark:text-white">
               {reply.content}
-              {reply.id}
             </div>
           </div>
 
@@ -113,7 +119,6 @@ function Reply({
                   />
                 </PopoverContent>
               </Popover>
-              {/*     */}
 
               <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                 <DialogTrigger asChild>
@@ -130,11 +135,8 @@ function Reply({
                   />
                 </DialogContent>
               </Dialog>
-
-              {/*     */}
             </div>
           </div>
-          {/*  ÷  */}
         </div>
       </div>
     </div>
