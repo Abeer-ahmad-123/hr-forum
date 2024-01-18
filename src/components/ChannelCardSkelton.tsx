@@ -10,8 +10,8 @@ function ChannelCardSkelton({ token, className }: ChannelCardSkeltonProps) {
   return (
     <>
       <div
-        className={`${!className && 'ml-[50px]'} ${
-          token ? 'mt-[25px]' : 'mt-[70px]'
+        className={`${!className && 'mr-[50px]'} ${
+          token ? 'mt-[25px]' : 'mt-[20px]'
         }  h-[300px] ${className} max-h-screen w-[200px] cursor-pointer rounded-[10px]  bg-white pt-3 shadow-lg dark:bg-slate-800`}>
         <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-5 justify-center text-center font-bold" />
 
