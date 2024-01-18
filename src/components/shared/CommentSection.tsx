@@ -78,7 +78,7 @@ const CommentSection = ({
         </div>
         <div className="  ml-3  ">
           <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between max-custom-sm:flex-col">
               <div className=" text-left text-accent ">
                 {replies.comment?.author_details?.name}
               </div>

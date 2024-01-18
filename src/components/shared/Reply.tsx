@@ -78,8 +78,8 @@ function Reply({
         </div>
         <div className="min-w-sm flex flex-col">
           <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
-            <div className="flex flex-row justify-between">
-              <div className="pl-2 text-left text-accent">
+            <div className="flex flex-row justify-between max-custom-sm:flex-col">
+              <div className="text-left text-accent">
                 {reply['author_details'].name}
               </div>
               {reply?.user_has_reported && (
