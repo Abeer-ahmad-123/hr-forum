@@ -13,7 +13,7 @@ async function Post({ isDialogPost = false, postId, searchParams }: any) {
   const userDetailsCookies = cookies().get('user-details')
 
   const userId =
-    userDetailsCookies && JSON?.parse(userDetailsCookies?.value!).id
+    userDetailsCookies?.value && JSON?.parse(userDetailsCookies?.value!).id
 
   const { post } = await getPostByPostId(postId, {
     loadUser: true,
