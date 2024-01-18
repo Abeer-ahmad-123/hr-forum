@@ -90,10 +90,10 @@ const isValidUserName = (userName: string) => {
 export {
   isEmpty,
   isValidEmail,
+  isValidUserName,
   showErrorAlert,
   showSuccessAlert,
   timeFormatInHours,
-  isValidUserName,
 }
 
 export const ConvertDate = (date: string) => {
@@ -111,6 +111,7 @@ export const ConvertDate = (date: string) => {
   )
 
   // Return the result
+
   if (daysAgo > 0) {
     return daysAgo === 1 ? '1 day ago' : `${daysAgo}d ago`
   } else if (hoursAgo > 0) {

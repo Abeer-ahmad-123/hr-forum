@@ -109,14 +109,6 @@ const CommentSection = ({
           </div>
 
           <div className="flex items-baseline gap-2">
-            <div className="group relative inline-block">
-              <span className="pointer ml-2 text-left text-xs text-gray-400 hover:underline">
-                {convertDate(replies?.comment?.created_at)}
-              </span>
-              <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
-                {formattedDate}
-              </div>
-            </div>
             <div className=" ml-0 text-gray-500">
               <CommentOrReply
                 reply={true}
@@ -124,6 +116,7 @@ const CommentSection = ({
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
                 setReportedCommentId={setReportedCommentId}
+                replies={replies}
               />
             </div>
           </div>

@@ -78,7 +78,6 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     })
   }
   const handleNavigateFeed = () => {
-    debugger
     router.push(
       pathName.includes('/channels/')
         ? `feeds/feed/${id}`

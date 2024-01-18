@@ -78,7 +78,7 @@ function Reply({
     <div
       ref={replyRef}
       id={`reply-${reply.id}`}
-      className={`ml-12 mt-4 rounded-lg ${
+      className={`mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
       }`}>
       <div className="flex gap-2.5">

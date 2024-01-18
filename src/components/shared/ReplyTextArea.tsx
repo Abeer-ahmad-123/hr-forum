@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { FormatCreatedAt } from '@/utils/helper'
+import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSelector } from 'react-redux'
 import Report from '../Report/Report'
@@ -36,7 +36,7 @@ function ReplyTextArea({
 
   const [showTextArea, setShowTextArea] = useState(false)
   const [formattedDate, setFormatedDate] = useState('')
-
+  console.log('Here are replies', replies)
   const params = useParams()
   const postId = params?.id as string
   const tokenInRedux =
@@ -53,6 +53,8 @@ function ReplyTextArea({
       setOpenDialog(true)
     }
   }
+
+  console.log('Created date', createdDate)
   useEffect(() => {
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])
@@ -60,8 +62,13 @@ function ReplyTextArea({
   return (
     <div>
       <div className="flex items-center gap-2.5 ">
-        <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
-          {formattedDate}
+        <div className="group relative inline-block">
+          <span className="pointer ml-2 text-left text-xs text-gray-400 hover:underline">
+            {ConvertDate(replies?.comment?.created_at)}
+          </span>
+          <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
+            {formattedDate}
+          </div>
         </div>
         <button
           onClick={toggleTextArea}
@@ -126,6 +133,7 @@ function ReplyTextArea({
           isCommentPage={true}
           inputRef={inputRef}
           placeholder={`Reply to ${author}`}
+          className={'max-sm:w-2/3'}
         />
       </div>
 
