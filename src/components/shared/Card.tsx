@@ -99,9 +99,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   }, [reaction_summary])
 
   useEffect(() => {
-    if (user_reaction) {
-      setUserReaction(user_reaction)
-    }
+    setUserReaction(user_reaction)
   }, [user_reaction])
 
   return (
