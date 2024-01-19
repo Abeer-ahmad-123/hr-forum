@@ -42,6 +42,7 @@ const PostActionBar = ({
   setBookmarkupdated,
   updateReactionArray,
   reactionSummary,
+  getPostCommets,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -232,6 +233,7 @@ const PostActionBar = ({
                         reportType="post"
                         setOpenDialog={setOpenDialog}
                         postId={postId}
+                        getPostCommets={getPostCommets}
                       />
                     </DialogContent>
                   </Dialog>

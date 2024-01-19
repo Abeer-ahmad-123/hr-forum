@@ -10,6 +10,7 @@ function CommentsLogic({
   paginationResult,
   bookmark,
   user_reaction,
+  getPostCommets,
 }: any) {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -30,12 +31,14 @@ function CommentsLogic({
           clap_count: 0,
           celebrate_count: 0,
         }}
+        getPostCommets={getPostCommets}
       />
       <Comments
         postId={postId}
         initialComments={commentResult}
         pagination={paginationResult}
         inputRef={inputRef}
+        getPostCommets={getPostCommets}
       />
     </div>
   )

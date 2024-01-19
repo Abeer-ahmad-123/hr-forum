@@ -79,7 +79,7 @@ export async function getPostsByChannelId({
 
 export async function getPostByPostId(
   id: string,
-  { loadUser = true, loadReactions = true, userId = null },
+  { loadUser = true, loadReactions = true, userId = '' },
 ) {
   try {
     const postId = GET_POST_BY_ID.replace('postId', id)

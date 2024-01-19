@@ -1,16 +1,17 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { AlertOctagon } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const CommentSection = ({
   comment,
   refetchComments,
   commentLength,
   setReportedCommentId,
+  getPostCommets,
 }: any) => {
   const [replies, setReplies] = useState({
-    comment: comment,
+    comment: { id: '', replies: [], author_details: { name: '' }, content: '' },
     pagination: {
       CurrentPage: 0,
       FirstRecord: 0,
@@ -50,6 +51,9 @@ const CommentSection = ({
           },
     })
   }
+  useEffect(() => {
+    setReplies({ ...replies, comment: comment })
+  }, [comment])
 
   return (
     <div className="mt-4 w-full rounded-lg">
@@ -102,6 +106,7 @@ const CommentSection = ({
                 author={replies.comment?.author_details?.name}
                 setReportedCommentId={setReportedCommentId}
                 replies={replies}
+                getPostCommets={getPostCommets}
               />
             </div>
           </div>

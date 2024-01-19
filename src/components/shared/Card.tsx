@@ -204,6 +204,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
             setBookmarkupdated={setBookmarkupdated}
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
+            getPostCommets={() => {}}
           />
         </div>
       </div>

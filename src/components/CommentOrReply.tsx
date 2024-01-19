@@ -14,6 +14,7 @@ function CommentOrReply({
   commentId = null,
   refetchComments = () => {},
   setComments = () => {},
+  getPostCommets = () => {},
   className = '',
   btnClass = '',
   Id = '',
@@ -88,6 +89,7 @@ function CommentOrReply({
           replies={replies}
           commentLength={commentLength}
           refetchComments={refetchComments}
+          getPostCommets={getPostCommets}
         />
       ) : (
         <TextArea
@@ -98,6 +100,7 @@ function CommentOrReply({
           btnClass={btnClass}
           inputRef={inputRef}
           placeholder="Write your comment..."
+          getPostCommets={getPostCommets}
         />
       )}
     </div>

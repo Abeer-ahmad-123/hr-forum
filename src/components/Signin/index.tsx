@@ -92,7 +92,6 @@ export default function Signin({
           pathname.includes('/feeds/feed') &&
           !pathname.includes('/channels/')
         ) {
-          router.push(`/feeds?redirect=/feed/${params.id}`)
         } else router.refresh()
       }
     } catch (err) {

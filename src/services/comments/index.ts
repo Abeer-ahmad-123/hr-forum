@@ -12,7 +12,6 @@ export async function postComment({
 }: any) {
   try {
     const requestBody = JSON.stringify(content)
-
     const headers = {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,

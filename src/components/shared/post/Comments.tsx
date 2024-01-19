@@ -3,7 +3,7 @@ import CommentOrReply from '@/components/CommentOrReply'
 import { getPostsComments } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
 
@@ -12,6 +12,7 @@ function Comments({
   initialComments,
   pagination,
   inputRef = null,
+  getPostCommets,
 }: any) {
   const searchParams = useSearchParams()
 
@@ -21,7 +22,7 @@ function Comments({
 
   const commentId = searchParams.get('commentId')
 
-  const [comments, setComments] = useState([...initialComments])
+  const [comments, setComments] = useState<any>([])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
   const [reportedCommentId, setReportedCommentId] = useState<string | null>(
     null,
@@ -56,6 +57,9 @@ function Comments({
   const handleLoadMore = () => {
     refetchComments()
   }
+  useEffect(() => {
+    setComments([...initialComments])
+  }, [initialComments])
 
   return (
     <>
@@ -63,6 +67,7 @@ function Comments({
         refetchComments={refetchComments}
         setComments={setComments}
         inputRef={inputRef}
+        getPostCommets={getPostCommets}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div>
@@ -80,6 +85,7 @@ function Comments({
                   refetchComments={refetchComments}
                   commentLength={comments.length}
                   setReportedCommentId={setReportedCommentId}
+                  getPostCommets={getPostCommets}
                 />
               )
             })}

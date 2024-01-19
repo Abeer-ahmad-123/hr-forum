@@ -21,4 +21,5 @@ export interface ReplyInterface {
   commentLength: number
   commentId: string | null
   setReportedReplyId: (id: string) => void
+  getPostCommets: () => void
 }

@@ -30,13 +30,13 @@ function ReplyTextArea({
   replies,
   commentLength,
   refetchComments,
+  getPostCommets,
 }: any) {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
 
   const [showTextArea, setShowTextArea] = useState(false)
   const [formattedDate, setFormatedDate] = useState('')
-  console.log('Here are replies', replies)
   const params = useParams()
   const postId = params?.id as string
   const tokenInRedux =
@@ -54,7 +54,6 @@ function ReplyTextArea({
     }
   }
 
-  console.log('Created date', createdDate)
   useEffect(() => {
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])
@@ -102,6 +101,7 @@ function ReplyTextArea({
               reportType="comment"
               setOpenDialog={setOpenDialog}
               setReportedReplyId={setReportedCommentId}
+              getPostCommets={getPostCommets}
             />
           </DialogContent>
         </Dialog>
@@ -115,6 +115,7 @@ function ReplyTextArea({
               commentId={commentId}
               key={commentId}
               setReportedReplyId={() => {}}
+              getPostCommets={getPostCommets}
             />
           )
         })}
