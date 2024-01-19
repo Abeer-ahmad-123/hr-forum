@@ -142,7 +142,7 @@ const LayoutWrapper = ({ children }: any) => {
 
   return (
     <body
-      className={` ${styles} theme-default bg-background pt-4 font-primary dark:bg-slate-700`}>
+      className={`${styles.trim()} theme-default bg-background pt-4 font-primary dark:bg-slate-700`}>
       {!loading && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
@@ -156,9 +156,7 @@ const LayoutWrapper = ({ children }: any) => {
           </div>
         </div>
         {openUserNameDialog && (
-          <div>
-            <UserNameDialog handleSubmit={handleSubmitUserName} />
-          </div>
+          <UserNameDialog handleSubmit={handleSubmitUserName} />
         )}
       </main>
     </body>

@@ -31,7 +31,15 @@ const LogButton = () => {
       ) : (
         <></>
       )} */}
-      {window ? reduxToken ? <LoggedIn /> : <SigninNavButton /> : <></>}
+      {window ? (
+        reduxToken ? (
+          <LoggedIn />
+        ) : (
+          <SigninNavButton />
+        )
+      ) : (
+        <SigninNavButton />
+      )}
     </div>
   )
 }
