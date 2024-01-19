@@ -468,3 +468,16 @@ export const reportData = [
     description: 'missing inaccurate or abusive captions ',
   },
 ]
+
+export const rulesData = [
+  'Vel elit, ut ut.',
+  'Cras nec purus et.',
+  'Fusce auctor odio.',
+  'Suspendisse non',
+  'Sed euismod',
+  'Vel elit, ut ut.',
+  'Cras nec purus.',
+  'Fusce auctor.',
+  'Suspendisse.',
+  'Sed euismod',
+]

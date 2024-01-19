@@ -1,15 +1,4 @@
-const rulesArr = [
-  'Vel elit, ut ut.',
-  'Cras nec purus et.',
-  'Fusce auctor odio.',
-  'Suspendisse non',
-  'Sed euismod',
-  'Vel elit, ut ut.',
-  'Cras nec purus.',
-  'Fusce auctor.',
-  'Suspendisse.',
-  'Sed euismod',
-]
+import { rulesData } from '@/utils/data'
 import { ShieldPlus } from 'lucide-react'
 
 const RulesCard = () => {
@@ -21,7 +10,7 @@ const RulesCard = () => {
         </p>
 
         <ul className="text-left">
-          {rulesArr.map((item, index) => (
+          {rulesData.map((item, index) => (
             <li key={index}>
               <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 dark:text-gray-400 ">
                 <ShieldPlus size={20} />
