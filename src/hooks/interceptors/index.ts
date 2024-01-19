@@ -30,7 +30,9 @@ export const useInterceptor = () => {
           }),
         )
         options.headers = options.headers || {}
-        options.headers['Authorization'] = `Bearer ${newTokens.accessToken}`
+        options.headers.authorization = `Bearer ${newTokens.data.token}`
+        options.headers.refreshToken = `Bearer ${newTokens.data['refresh-token']}`
+
         return await customFetch(url, options)
       } else {
         disptach(clearUser())
@@ -48,12 +50,11 @@ export const useInterceptor = () => {
     try {
       response = await fetch(url, options)
       if (response?.status === 401) {
-        fetchRefreshToken(options, customFetch, url)
+        return fetchRefreshToken(options, customFetch, url)
       }
     } catch (error: any) {
       if (response && response.status === 401) {
-        fetchRefreshToken(options, customFetch, url)
-        throw 'error'
+        return fetchRefreshToken(options, customFetch, url)
       }
     }
     return response

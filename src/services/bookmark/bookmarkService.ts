@@ -18,7 +18,7 @@ export async function bookmarkPost(
       headers: {
         'content-type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
     })
     if (responseFromAuth.ok) {
@@ -45,7 +45,7 @@ export async function deleteBookmarkPost(
       headers: {
         'content-type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
     })
     if (responseFromAuth.ok) {
@@ -72,7 +72,7 @@ export async function getBookmarkPosts(
       headers: {
         'content-type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
     })
     if (responseFromAuth.ok) {

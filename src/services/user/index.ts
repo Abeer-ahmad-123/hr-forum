@@ -39,7 +39,7 @@ export async function updateUserDetails(
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`,
+        refreshToken: refreshToken,
       },
     })
 
@@ -65,7 +65,7 @@ export async function updateUserImage(
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`,
+        refreshToken: refreshToken,
       },
     })
 
@@ -91,7 +91,7 @@ export async function updateUserBgImage(
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
-        refreshToken: `Bearer ${refreshToken}`,
+        refreshToken: refreshToken,
       },
     })
 

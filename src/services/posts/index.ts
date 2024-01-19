@@ -111,7 +111,7 @@ export async function postCreatePostInChannel({
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
-      refreshToken: `Bearer ${refreshToken}`,
+      refreshToken: refreshToken,
     }
 
     const requestBody = JSON.stringify(body)
@@ -142,7 +142,7 @@ export async function feedImageCreateInChannel({
     const headers = {
       Accept: 'application/json',
       Authorization: `Bearer ${token}`,
-      refreshToken: `Bearer ${refreshToken}`,
+      refreshToken: refreshToken,
     }
 
     // const requestBody = JSON.stringify(body)
