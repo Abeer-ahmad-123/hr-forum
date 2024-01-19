@@ -43,6 +43,7 @@ export default function SigninNavButton() {
           <Signin
             toggleForm={toggleForm}
             handleDialogClose={handleCloseDialog}
+            setShowSignModal={() => {}}
           />
         )}
       </DialogContent>

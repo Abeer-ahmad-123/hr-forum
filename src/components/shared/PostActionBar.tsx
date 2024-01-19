@@ -269,7 +269,7 @@ const PostActionBar = ({
         )}
       </div>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
-        <SignInDialog />
+        <SignInDialog setShowSignModal={setShowSignModal} />
       </Dialog>
     </>
   )

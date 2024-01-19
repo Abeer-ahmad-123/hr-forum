@@ -103,7 +103,7 @@ function TextArea({
 
       {!reduxToken && (
         <Dialog open={open} onOpenChange={handleClosedialog}>
-          <SignInDialog />
+          <SignInDialog setShowSignModal={setIsopen} />
         </Dialog>
       )}
     </div>

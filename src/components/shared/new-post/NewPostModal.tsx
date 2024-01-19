@@ -34,7 +34,7 @@ export default function NewPost() {
             <NewPostForm open={setOpenDilog} />
           </DialogContent>
         ) : (
-          <SignInDialog />
+          <SignInDialog setShowSignModal={() => {}} />
         )}
       </Dialog>
     </>
