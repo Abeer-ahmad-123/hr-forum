@@ -1,11 +1,7 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
-import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
-
 import { AlertOctagon } from 'lucide-react'
 import { useState } from 'react'
-import LoadMoreReplyButton from './LoadMoreReplyButton'
-import Reply from './Reply'
 
 const CommentSection = ({
   comment,
@@ -24,15 +20,6 @@ const CommentSection = ({
       TotalRecords: 0,
     },
   })
-
-  const convertDate = ConvertDate
-
-  /////
-
-  const formattedDate = FormatCreatedAt(replies.comment?.created_at)
-  const [reportedReplyId, setReportedReplyId] = useState<string | null>(null)
-
-  /////
 
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
@@ -87,7 +74,6 @@ const CommentSection = ({
 
               {comment.user_has_reported && (
                 <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
-                  {/*  */}
                   <div className="group relative inline-block">
                     <AlertOctagon
                       size={15}
@@ -97,7 +83,6 @@ const CommentSection = ({
                       Reported
                     </div>
                   </div>
-                  {/*  */}
 
                   <span className="max-custom-sm:hidden">Reported</span>
                 </div>
@@ -122,28 +107,6 @@ const CommentSection = ({
           </div>
         </div>
       </div>
-
-      {replies.comment?.replies?.length !== 0 &&
-        replies.comment?.replies?.map((reply: any) => {
-          {
-            return (
-              <Reply
-                key={reply?.id}
-                reply={reply}
-                commentLength={commentLength}
-                commentId={comment?.id}
-                setReportedReplyId={setReportedReplyId}
-              />
-            )
-          }
-        })}
-
-      <LoadMoreReplyButton
-        getAllReplies={getAllReplies}
-        commentId={comment?.id}
-        total_replies={replies.comment?.total_replies}
-        repliesLength={replies.comment?.replies?.length}
-      />
     </div>
   )
 }
