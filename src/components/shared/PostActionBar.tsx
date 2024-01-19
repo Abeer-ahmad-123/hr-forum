@@ -218,7 +218,7 @@ const PostActionBar = ({
                 <div>
                   <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                     <button
-                      className=" dark:text-icon-dark  text-icon-light pyrepo-2 flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                      className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
                       onClick={handleClick}>
                       <AlertOctagon size={17} />
                       <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -238,7 +238,7 @@ const PostActionBar = ({
 
                   <div
                     onClick={handleBookmark}
-                    className="dark:text-icon-dark text-icon-light flex basis-1/4 cursor-pointer items-center justify-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                    className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
                     <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
                     <span className="text-[15px] font-light max-custom-sm:hidden ">
                       Bookmark
