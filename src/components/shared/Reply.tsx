@@ -55,11 +55,8 @@ function Reply({
     }
   }, [replyIdFromUrl, reply.id])
 
-  /////// convertDate
-
   const convertDate = ConvertDate
 
-  /////// date formate change on hover
   const formattedDate = FormatCreatedAt(reply.created_at)
   const handleImgClick = () => {
     router.push(
@@ -151,7 +148,7 @@ function Reply({
                   </PopoverContent>
                 </Popover>
 
-                <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                <Dialog open={openDialog} onOpenChange={handleClick}>
                   <DialogTrigger asChild>
                     <button
                       className="pointer text-sm text-gray-400 hover:underline"

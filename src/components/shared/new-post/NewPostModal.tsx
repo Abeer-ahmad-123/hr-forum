@@ -43,10 +43,10 @@ export default function NewPost() {
 
 const PostBar = () => {
   return (
-    <div className=" flex w-full items-center justify-center rounded-xl bg-white dark:bg-slate-800 dark:text-white">
+    <div className=" flex w-full cursor-pointer items-center justify-center rounded-xl bg-white dark:bg-slate-800 dark:text-white">
       <div
         id="search"
-        className="text-grey-400 block w-full cursor-pointer rounded-bl-xl rounded-tl-xl bg-white py-3 pl-4 pr-3 text-left text-gray-400 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6">
+        className="text-grey-400 block w-full rounded-bl-xl rounded-tl-xl bg-white py-3 pl-4 pr-3 text-left text-gray-400 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:bg-slate-800 dark:text-white sm:text-sm sm:leading-6">
         Add a new thread
       </div>
       <PlusButton />

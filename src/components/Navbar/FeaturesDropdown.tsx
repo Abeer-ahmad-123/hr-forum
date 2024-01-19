@@ -52,10 +52,11 @@ const OldFeaturesDropDown = () => {
     let urlSegment
     if (pathname.includes('feed')) {
       urlSegment = pathname.split('/')[1]
+    } else if (pathname.includes('profile')) {
+      urlSegment = 'profile'
     } else {
       urlSegment = pathname.split('/').pop()
     }
-
     const words = urlSegment!
       .split('-')
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))

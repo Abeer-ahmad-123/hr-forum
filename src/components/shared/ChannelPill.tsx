@@ -2,6 +2,8 @@
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { useRouter } from 'next/navigation'
 import { CustomLink } from './customLink/CustomLink'
+import nProgress from 'nprogress'
+import { useEffect } from 'react'
 interface ChannelObject {
   [key: string]: {
     name?: string
@@ -13,11 +15,16 @@ const ChannelPill = ({ channel_id, channels }: any) => {
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
 
   const handleLinkClick = (event: any) => {
+    nProgress.start()
     event.preventDefault()
     event.stopPropagation() // Prevent propagation to card's onClick
     router.push(`${'/channels/' + lowerCaseChannelName}/`)
   }
-
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
   return (
     <span
       className="px-1 text-xs 

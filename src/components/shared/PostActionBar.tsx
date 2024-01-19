@@ -121,7 +121,11 @@ const PostActionBar = ({
   const [comment, setComment] = useState([])
   const [bookmarkSuccess, setBookmarkSuccess] = useState(bookmark)
   const toggleCommentArea = () => {
-    id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
+    if (tokenInRedux) {
+      id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
+    } else {
+      setShowSignModal(true)
+    }
   }
   const handleLikeWrapper = () => {
     if (!tokenInRedux) {
@@ -187,7 +191,7 @@ const PostActionBar = ({
               onClick={toggleCommentArea}
               className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
               <FaRegComment />
-              <span className="font-light max-custom-sm:hidden ">Comment</span>
+              <span className="font-light max-custom-sm:hidden">Comment</span>
             </button>
           </div>
 

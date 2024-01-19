@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
+import nProgress from 'nprogress'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -78,13 +79,17 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     })
   }
   const handleNavigateFeed = () => {
+    nProgress.start()
     router.push(
-      pathName.includes('/channels/')
-        ? `feeds/feed/${id}`
-        : ` /feeds/feed/${id}`,
+      pathName.includes('channels')
+        ? `/channels/feeds/feed/${id}`
+        : pathName.includes('saved')
+        ? `/saved/feeds/feed/${id}`
+        : `/feeds/feed/${id}`,
     )
   }
   const handleNavigateProfile = (event: any) => {
+    nProgress.start()
     event.preventDefault()
     event.stopPropagation() // Prevent propagation to card's onClick
     router.push(
@@ -102,6 +107,11 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     setUserReaction(user_reaction)
   }, [user_reaction])
 
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
   return (
     <>
       <div
