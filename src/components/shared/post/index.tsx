@@ -16,6 +16,7 @@ import ChannelPill from '../ChannelPill'
 import { CustomLink } from '../customLink/CustomLink'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
+import { useRouter } from 'next/navigation'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   // const userDetailsCookies = cookies().get('user-details')
@@ -24,7 +25,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [paginationResult, setPaginationResult] = useState()
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
-
+  const router = useRouter()
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
@@ -57,9 +58,14 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   }
 
   const getChannel = async () => {
-    const { channels: channelsData } = await getChannels()
-
-    setChannel(channelsData)
+    try {
+      const { channels: channelsData } = await getChannels()
+      setChannel(channelsData)
+    } catch (error) {
+      if (error instanceof Error && error.message) {
+        router.push('/error')
+      }
+    }
   }
 
   useEffect(() => {
@@ -174,6 +180,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
               bookmark={post?.user_has_bookmarked}
               user_reaction={post?.user_reaction}
               getPostCommets={getPostCommets}
+              getPost={getPost}
             />
           </div>
         </div>

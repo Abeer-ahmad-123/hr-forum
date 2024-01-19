@@ -12,19 +12,29 @@ import { toPascalCase } from '@/utils/common'
 import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import RespScreen from '../Cards/ResponsiveScreen'
+import { redirect } from 'next/navigation'
 
 async function RenderFeeds({
   channelSlug = '',
   searchParams,
   path,
 }: RenderFeedsInterface) {
-  const { channels } = await getChannels()
+  let channelData: any
+
+  try {
+    const { channels } = await getChannels()
+    channelData = channels
+  } catch (error) {
+    if (error instanceof Error && error.message) {
+      redirect('/error')
+    }
+  }
   let initialPosts = []
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
   if (channelSlug) {
     if (!searchParams.search) {
-      const getChannelId = getChannelIdByChannelName(channelSlug, channels)
+      const getChannelId = getChannelIdByChannelName(channelSlug, channelData)
 
       const { data } = await getPostsByChannelId({
         id: getChannelId,
@@ -41,7 +51,7 @@ async function RenderFeeds({
     } else {
       const getChannelId =
         path === '/channels' && channelSlug
-          ? getChannelIdByChannelName(channelSlug, channels) || undefined
+          ? getChannelIdByChannelName(channelSlug, channelData) || undefined
           : undefined
       const { data } = await getSearchPosts({
         search: searchParams.search,
@@ -83,7 +93,7 @@ async function RenderFeeds({
   }
 
   const getImageUrlBySlug = (slug: string) => {
-    const matchingObject = channels.find(
+    const matchingObject = channelData.find(
       (obj: { slug: string }) => obj.slug === slug,
     )
 
@@ -145,7 +155,7 @@ async function RenderFeeds({
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={initialPosts}
-                channels={channels}
+                channels={channelData}
                 morePosts={morePosts}
                 searchParams={searchParams}
                 path={path}

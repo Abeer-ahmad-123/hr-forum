@@ -11,6 +11,7 @@ function CommentsLogic({
   bookmark,
   user_reaction,
   getPostCommets,
+  getPost,
 }: any) {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -32,6 +33,7 @@ function CommentsLogic({
           celebrate_count: 0,
         }}
         getPostCommets={getPostCommets}
+        getPost={getPost}
       />
       <Comments
         postId={postId}

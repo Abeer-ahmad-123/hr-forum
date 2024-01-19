@@ -57,4 +57,5 @@ export interface PostActionBarProps {
   ) => void
   reactionSummary: ReactionSummary
   getPostCommets: () => void
+  getPost: () => void
 }

@@ -129,7 +129,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row items-center">
                     <p
-                      className="text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                      className="text-sm font-normal leading-none text-gray-900  dark:text-gray-300"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {user?.name}
@@ -205,6 +205,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
             getPostCommets={() => {}}
+            getPost={() => {}}
           />
         </div>
       </div>

@@ -43,6 +43,7 @@ const PostActionBar = ({
   updateReactionArray,
   reactionSummary,
   getPostCommets,
+  getPost,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -106,6 +107,7 @@ const PostActionBar = ({
           })
         }
         setUserReaction(userReaction === value ? '' : value)
+        getPost()
       } catch (error) {
         setUserReaction('')
         throw error

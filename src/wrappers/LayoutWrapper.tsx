@@ -11,7 +11,7 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
@@ -23,6 +23,7 @@ const LayoutWrapper = ({ children }: any) => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
+  const pathname = usePathname()
   const [loading, setLoading] = useState(true)
 
   const isFirstRun = useRef(true)
@@ -36,9 +37,10 @@ const LayoutWrapper = ({ children }: any) => {
       let response: any = await getChannels()
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
-    } catch (err) {
-      throw err
-    } finally {
+    } catch (err: unknown) {
+      if (err instanceof Error && err.message) {
+        router.push('/error')
+      }
     }
   }, [])
 
@@ -143,7 +145,7 @@ const LayoutWrapper = ({ children }: any) => {
   return (
     <body
       className={`${styles.trim()} theme-default bg-background pt-4 font-primary dark:bg-slate-700`}>
-      {!loading && <Navbar />}
+      {!loading && !pathname.includes('/error') && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
         <div className="grid">
