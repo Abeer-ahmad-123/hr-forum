@@ -137,7 +137,7 @@ export default function Signin({
           />
           {/* Sign Up Link */}
           <div className="mt-2 flex justify-center text-center text-xs font-light text-gray-700 dark:text-white">
-            <p>Don't have an account?</p>
+            <p>Don't have an account? </p>
             <button
               className="text-primary-purple cursor-pointer font-medium hover:underline"
               onClick={toggleForm}>

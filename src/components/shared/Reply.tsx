@@ -98,8 +98,8 @@ function Reply({
             </div>
           </div>
           <div className="min-w-sm flex flex-col">
-            <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
-              <div className="flex flex-row justify-between">
+            <div className="min-w-sml rounded-2xl bg-slate-100  px-4 py-2 dark:bg-slate-800 ">
+              <div className="flex flex-row items-center justify-between">
                 <div className="text-left text-accent">
                   {reply['author_details'].name}
                 </div>
