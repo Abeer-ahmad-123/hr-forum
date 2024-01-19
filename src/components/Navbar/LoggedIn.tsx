@@ -2,6 +2,7 @@
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { useRouter } from 'next/navigation'
+import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -11,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
-import nProgress from 'nprogress'
 
 function LoggedIn() {
   const router = useRouter()
@@ -42,7 +42,7 @@ function LoggedIn() {
   }, [])
 
   const UserDropdown = () => (
-    <div className="relative flex cursor-pointer items-center gap-4 ">
+    <div className="relative flex cursor-pointer select-none items-center  gap-4">
       <span className="text-right max-custom-sm:hidden">
         <span className="block text-sm font-medium text-black dark:text-white ">
           {name}

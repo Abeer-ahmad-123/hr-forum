@@ -162,7 +162,7 @@ const RespProfile = ({ userId }: profileProps) => {
   return (
     <>
       <div className="profile-page  max-md:block">
-        <section className="relative block h-[650px]">
+        <section className="relative mt-5 block h-[650px]">
           <div
             className="absolute top-0 h-[60%] w-full bg-cover bg-center"
             style={{
