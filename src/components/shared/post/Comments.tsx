@@ -2,6 +2,7 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getPostsComments } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { Reply } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -93,9 +94,12 @@ function Comments({
 
         {(!!commentId || nothingToLoadMore?.current) && (
           <button
-            className="mt-4 rounded-lg px-2 py-1 text-sm text-accent "
+            className="mb-3 mt-3 flex w-full items-center gap-2.5 rounded-lg px-2 py-1 text-start text-sm text-gray-500"
             onClick={handleLoadMore}>
-            Load More Comments
+            <span className="rotate-180">
+              <Reply />
+            </span>
+            View all {comments.length} Comments
           </button>
         )}
       </Suspense>
