@@ -15,15 +15,25 @@ async function postReactions(
 ) {
   try {
     const postRequestUrl = POST_REACTIONS.replace('postId', postId)
+
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    }
+
+    if (token) {
+      headers['authorization'] = 'Bearer ' + token
+    }
+
+    if (refreshToken) {
+      headers['refreshToken'] = refreshToken
+    }
+
     const response = await customFetch(postRequestUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
-      },
-      body: await JSON.stringify(body),
+      headers,
+      body: JSON.stringify(body),
     })
+
     if (response.ok) {
       return await response.json()
     } else {
@@ -47,7 +57,7 @@ async function deleteReactions(
       headers: {
         'Content-Type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
     })
     if (response.ok) {
@@ -88,7 +98,7 @@ async function updatePostReaction(
       headers: {
         'Content-Type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
       body: JSON.stringify(body),
     })

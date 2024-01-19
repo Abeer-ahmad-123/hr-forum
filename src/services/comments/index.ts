@@ -16,7 +16,7 @@ export async function postComment({
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
-      refreshToken: `Bearer ${refreshToken}`,
+      refreshToken: refreshToken,
     }
 
     let res = await customFetch(`${API_BASE_URL}/posts/${postId}/comments`, {
@@ -45,7 +45,7 @@ export async function postCommentReply({
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
-      refreshToken: `Bearer ${refreshToken}`,
+      refreshToken: refreshToken,
     }
 
     let res = await customFetch(
