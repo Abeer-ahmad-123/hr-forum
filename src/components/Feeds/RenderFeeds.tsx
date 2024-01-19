@@ -96,10 +96,13 @@ async function RenderFeeds({
     <div className="mx-auto flex max-w-screen-xl justify-center">
       <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
         {userDetailsCookies && <ProfileCard />}
-        <div className="sticky top-[60px] max-h-screen">
+        <div
+          className={`${
+            userDetailsCookies ? 'top-[70px] mt-[20px]' : 'top-[60px]'
+          } sticky  max-h-screen`}>
           <ChannelCard />
         </div>
-        <div className="sticky top-[321px] mt-5 max-h-screen">
+        <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[330px]">
           {' '}
           <RulesCard />
         </div>

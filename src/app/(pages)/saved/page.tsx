@@ -17,7 +17,7 @@ const SavedPostPage = () => {
           <div className="sticky top-[60px] max-h-screen">
             <ChannelCard />
           </div>
-          <div className="sticky top-[400px] mt-5 max-h-screen max-lg:top-[335px]">
+          <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[330px]">
             {' '}
             <RulesCard />
           </div>

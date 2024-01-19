@@ -30,11 +30,17 @@ function CardLoading() {
           {token && <ProfileCardSkelton className={'max-md:w-full'} />}
           <Skelton className="mx-auto mt-2 hidden h-6  w-24 rounded-sm bg-skelton max-md:block" />
 
-          <div className=" sticky top-[20px] max-h-screen max-md:static">
+          <div
+            className={`${
+              token ? 'top-[40px]' : 'top-[70px]'
+            } sticky max-h-screen max-md:static`}>
             <ChannelCardSkelton token={token} className={'max-md:hidden'} />
           </div>
-          <div className="sticky top-[400px] mt-5 max-h-screen max-lg:top-[335px]">
-            <RulesCardSkelton className={'max-md:hidden'} />
+          <div
+            className={`sticky ${
+              token ? 'top-[315px] ' : 'top-[335px]'
+            }  max-h-screen`}>
+            <RulesCardSkelton className={'max-md:hidden'} token={token} />
           </div>
         </div>
 
