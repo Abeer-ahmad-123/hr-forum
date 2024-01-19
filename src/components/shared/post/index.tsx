@@ -76,8 +76,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     getChannel()
   }, [])
 
-  console.log(post)
-
   return post?.author_details?.name && post ? (
     <div
       className={`mx-auto max-w-5xl rounded-full ${

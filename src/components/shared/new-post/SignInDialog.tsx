@@ -1,10 +1,12 @@
 'use client'
-import React from 'react'
 import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
 import { DialogContent } from '@/components/ui/Dialog/simpleDialog'
-
-function SignInDialog() {
+import React from 'react'
+interface SignInDialogProps {
+  setShowSignModal?: (arg0: boolean) => void
+}
+function SignInDialog({ setShowSignModal }: SignInDialogProps) {
   const [showSignUpForm, setShowSignUpForm] = React.useState(false)
   const toggleForm = () => {
     setShowSignUpForm((current) => !current)
@@ -14,7 +16,7 @@ function SignInDialog() {
       {showSignUpForm ? (
         <Signup toggleForm={toggleForm} />
       ) : (
-        <Signin toggleForm={toggleForm} />
+        <Signin toggleForm={toggleForm} setShowSignModal={setShowSignModal} />
       )}
     </DialogContent>
   )

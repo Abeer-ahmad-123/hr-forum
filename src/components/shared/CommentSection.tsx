@@ -1,5 +1,6 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
+import { noProfilePicture } from '@/utils/ImagesLink'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -73,7 +74,9 @@ const CommentSection = ({
           <div className="">
             <img
               alt="avatar"
-              src={comment?.author_details?.profile_picture_url}
+              src={
+                comment?.author_details?.profile_picture_url || noProfilePicture
+              }
               className="h-8 w-8 rounded-full border border-black"
               height={8}
               width={8}

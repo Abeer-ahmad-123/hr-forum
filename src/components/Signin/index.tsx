@@ -14,6 +14,7 @@ import { useParams } from 'next/navigation'
 export default function Signin({
   toggleForm,
   handleDialogClose = () => {},
+  setShowSignModal,
 }: any) {
   const dispatch = useDispatch<AppDispatch>()
   const pathname = usePathname()
@@ -98,6 +99,7 @@ export default function Signin({
       showErrorAlert('Something went wrong while signing in.')
     } finally {
       setLoading(false)
+      setShowSignModal(false)
     }
   }
 
