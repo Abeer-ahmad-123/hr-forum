@@ -74,14 +74,24 @@ export async function getPostsComments(
     loadNestedReactions = true,
     nestedLimit = 2,
     page = 1,
+    pageSize = 10,
   },
 ) {
   try {
     const postId = GET_POST_COMMENT.replace('postId', id)
 
-    let url = `${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&page=${page}`
+    let url = `${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}`
     if (userId) {
       url += `&userID=${userId}`
+    }
+    if (nestedLimit) {
+      url += `&nestedLimit=${nestedLimit}`
+    }
+    if (page) {
+      url += `&page=${page}`
+    }
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`
     }
 
     let res = await fetch(url, {
@@ -97,6 +107,7 @@ export async function getPostsComments(
 
 export async function getComment(
   commentId: string,
+  userId: string,
   {
     loadUser = true,
     loadReactions = true,
@@ -104,20 +115,32 @@ export async function getComment(
     loadNestedUser = true,
     loadNestedReactions = true,
     allReplies = false,
-    nestedLimit = 2,
-    page = 1,
+    nestedPage = 2,
+    nestedPageSize = 10,
   },
 ) {
   try {
     const postId = GET_COMMENT.replace('commentId', commentId)
-    let res = await fetch(
-      `
-    ${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}&nestedLimit=${nestedLimit}&allReplies=${allReplies}&page=${page}
-    `,
-      {
-        cache: 'no-cache',
-      },
-    )
+
+    let url = `${postId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}`
+
+    if (allReplies) {
+      url += `&allReplies=${allReplies}`
+    }
+
+    if (userId) {
+      url += `&userID=${userId}`
+    }
+    if (nestedPage) {
+      url += `&nestedPage=${nestedPage}`
+    }
+    if (nestedPageSize) {
+      url += `&nestedPageSize=${nestedPageSize}`
+    }
+
+    let res = await fetch(url, {
+      cache: 'no-cache',
+    })
     const response = await res.json()
     const { data } = response
     return data
