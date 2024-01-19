@@ -15,7 +15,7 @@ export async function postComment({
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
       refreshToken: refreshToken,
     }
 
@@ -44,7 +44,7 @@ export async function postCommentReply({
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
       refreshToken: refreshToken,
     }
 

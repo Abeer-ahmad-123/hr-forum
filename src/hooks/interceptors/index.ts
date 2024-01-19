@@ -20,7 +20,6 @@ export const useInterceptor = () => {
         method: 'POST',
         headers: headersForRefresh,
       })
-
       if (refreshResponse.ok) {
         const newTokens = await refreshResponse.json()
         disptach(
@@ -29,6 +28,7 @@ export const useInterceptor = () => {
             refreshToken: newTokens.data['refresh-token'],
           }),
         )
+
         options.headers = options.headers || {}
         options.headers.authorization = `Bearer ${newTokens.data.token}`
         options.headers.refreshToken = `Bearer ${newTokens.data['refresh-token']}`
@@ -37,7 +37,7 @@ export const useInterceptor = () => {
       } else {
         disptach(clearUser())
         logout()
-        throw 'error'
+        throw `Session Expired! Please Login Again`
       }
     } catch (refreshError) {
       disptach(clearUser())

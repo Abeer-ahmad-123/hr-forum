@@ -110,7 +110,7 @@ export async function postCreatePostInChannel({
   try {
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
       refreshToken: refreshToken,
     }
 
@@ -141,7 +141,7 @@ export async function feedImageCreateInChannel({
   try {
     const headers = {
       Accept: 'application/json',
-      Authorization: `Bearer ${token}`,
+      authorization: `Bearer ${token}`,
       refreshToken: refreshToken,
     }
 
