@@ -1,4 +1,6 @@
+'use client'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
+import { useRouter } from 'next/navigation'
 import { CustomLink } from './customLink/CustomLink'
 interface ChannelObject {
   [key: string]: {
@@ -6,8 +8,15 @@ interface ChannelObject {
   }
 }
 const ChannelPill = ({ channel_id, channels }: any) => {
+  const router = useRouter()
   const channelObj: ChannelObject = arrayToKeyIdNValueData(channels)
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
+
+  const handleLinkClick = (event: any) => {
+    event.preventDefault()
+    event.stopPropagation() // Prevent propagation to card's onClick
+    router.push(`${'/channels/' + lowerCaseChannelName}/`)
+  }
 
   return (
     <span
@@ -17,7 +26,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
       Posted in
       <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
-        <span className="underline hover:text-accent">
+        <span className="underline hover:text-accent" onClick={handleLinkClick}>
           {channelObj[channel_id]?.name}
         </span>
       </CustomLink>

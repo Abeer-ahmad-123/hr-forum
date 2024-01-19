@@ -85,6 +85,7 @@ const Feeds = ({
         _data = data
       }
     }
+
     setPage(page + 1)
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages

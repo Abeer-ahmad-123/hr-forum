@@ -19,7 +19,7 @@ const RespScreen = () => {
   return (
     <>
       <div>
-        {!!loggedInUseraDetails.id && <ProfileCard />}
+        {loggedInUseraDetails.id && <ProfileCard />}
         {showComponent && <ChannelCard />}
         <div className="pointer mb-5 w-full">
           <div className="text-gray-500" onClick={handleClick}>

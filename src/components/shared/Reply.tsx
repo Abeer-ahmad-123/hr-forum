@@ -1,5 +1,10 @@
 'use client'
 import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '@/components/ui/Dialog/simpleDialog'
+import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -7,17 +12,25 @@ import {
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { ReplyInterface } from '@/utils/interfaces/reply'
+import { AlertOctagon } from 'lucide-react'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 
-function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
+function Reply({
+  reply,
+  commentLength,
+  commentId = null,
+  setReportedReplyId,
+}: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
   const searchParams = useSearchParams()
   const params = useParams()
   const replyIdFromUrl = searchParams?.get('replyId')
   const [highlighted, setHighlighted] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
   const postId = params.id as string
   const router = useRouter()
 
@@ -54,11 +67,18 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
     )
   }
 
+  const handleOpenDialog = () => {
+    setOpenDialog(true)
+  }
+  const handleCloseDialog = () => {
+    setOpenDialog(false)
+  }
+
   return (
     <div
       ref={replyRef}
       id={`reply-${reply.id}`}
-      className={`ml-12 mt-4 rounded-lg ${
+      className={`mt-4 rounded-lg ${
         highlighted ? 'animate-pulse border-2 border-primary' : ''
       }`}>
       <div className="flex gap-2.5">
@@ -76,18 +96,33 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
         </div>
         <div className="min-w-sm flex flex-col">
           <div className="min-w-sml rounded-2xl bg-slate-100  px-2 py-1 dark:bg-slate-800 ">
-            <div
-              className="cursor-pointer pl-2 text-left text-accent hover:underline"
-              onClick={handleImgClick}>
-              {reply['author_details'].name}
+            <div className="flex flex-row justify-between">
+              <div className="text-left text-accent">
+                {reply['author_details'].name}
+              </div>
+              {reply?.user_has_reported && (
+                <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
+                  {/*  */}
+                  <div className="group relative inline-block">
+                    <AlertOctagon
+                      size={15}
+                      className="hidden cursor-pointer max-custom-sm:block"
+                    />
+                    <div className="absolute bottom-full left-[50px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
+                      Reported
+                    </div>
+                  </div>
+                  {/*  */}
+
+                  <span className="max-custom-sm:hidden">Reported</span>
+                </div>
+              )}
             </div>
 
-            <div className="ml-4 mt-0 h-full w-full   text-left leading-loose text-gray-600 dark:text-white">
+            <div className="mt-0 h-full w-full p-2.5 text-left leading-loose text-gray-600 dark:text-white">
               {reply.content}
             </div>
           </div>
-
-          {/* ÷  */}
 
           <div className="flex items-center justify-between pr-5">
             <div className="flex items-center gap-2.5">
@@ -113,9 +148,21 @@ function Reply({ reply, commentLength, commentId = null }: ReplyInterface) {
                 </PopoverContent>
               </Popover>
 
-              <button className="pointer text-sm text-gray-400 hover:underline">
-                Report
-              </button>
+              <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+                <DialogTrigger asChild>
+                  <button className="pointer text-sm text-gray-400 hover:underline">
+                    Report
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="bg-white sm:max-w-[500px]">
+                  <Report
+                    commentId={reply.id}
+                    reportType="reply"
+                    setOpenDialog={setOpenDialog}
+                    setReportedReplyId={setReportedReplyId}
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
           </div>
         </div>

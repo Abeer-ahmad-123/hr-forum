@@ -19,6 +19,7 @@ function CommentOrReply({
   Id = '',
   inputRef = null,
   author = '',
+  setReportedCommentId,
   createdDate,
   replies,
   commentLength,
@@ -82,6 +83,7 @@ function CommentOrReply({
           commentId={commentId}
           inputRef={inputRef}
           author={author}
+          setReportedCommentId={setReportedCommentId}
           createdDate={createdDate}
           replies={replies}
           commentLength={commentLength}
