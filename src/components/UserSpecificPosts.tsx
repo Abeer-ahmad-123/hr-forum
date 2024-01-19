@@ -40,7 +40,9 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   return (
     <div className="flex flex-col gap-2">
       {posts?.map((post: UserSpecificationPostInterface, i: number) => (
-        <ProfilePosts user={user} post={post} />
+        <div key={i}>
+          <ProfilePosts user={user} post={post} />
+        </div>
       ))}
       {!!morePostsExist?.current && <CircularProgress incommingRef={ref} />}
     </div>

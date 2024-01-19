@@ -72,9 +72,8 @@ const ReactionButton = ({
   }
 
   useEffect(() => {
-    if (userReaction?.reactionType)
-      updateCurrentReaction(userReaction?.reactionType?.toLowerCase())
-  }, [userReaction?.reactionType])
+    updateCurrentReaction(userReaction?.toLowerCase())
+  }, [userReaction])
 
   return (
     <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>
