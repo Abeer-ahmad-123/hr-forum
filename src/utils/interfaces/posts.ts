@@ -56,4 +56,5 @@ export interface PostActionBarProps {
     reactionObject: EmojiActionInterface,
   ) => void
   reactionSummary: ReactionSummary
+  getPostCommets: () => void
 }

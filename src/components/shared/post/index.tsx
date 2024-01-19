@@ -76,9 +76,9 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     getChannel()
   }, [])
 
-  console.log('NEW POST', post)
+  console.log(post)
 
-  return commentResult.length && post ? (
+  return post?.author_details?.name && post ? (
     <div
       className={`mx-auto max-w-5xl rounded-full ${
         isDialogPost ? 'mb-5' : 'my-5'
@@ -155,9 +155,9 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             dangerouslySetInnerHTML={{ __html: post?.content }}
           />
           <div>
-            {post?.image_url ? (
+            {post?.author_details?.profile_picture_url ? (
               <img
-                src={post?.image_url}
+                src={post?.author_details?.profile_picture_url}
                 style={{ objectFit: 'fill' }}
                 alt="Picture of the author"
                 className="mb-7"
@@ -175,6 +175,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
               paginationResult={paginationResult}
               bookmark={post?.user_has_bookmarked}
               user_reaction={post?.user_reaction}
+              getPostCommets={getPostCommets}
             />
           </div>
         </div>

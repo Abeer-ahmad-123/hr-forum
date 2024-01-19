@@ -14,6 +14,7 @@ function CommentOrReply({
   commentId = null,
   refetchComments = () => {},
   setComments = () => {},
+  getPostCommets = () => {},
   className = '',
   btnClass = '',
   Id = '',
@@ -37,7 +38,6 @@ function CommentOrReply({
   })
 
   const handleSubmit = async (value: any) => {
-    debugger
     try {
       setIsLoading({ ...isLoading, loading: true })
       const result = reply
@@ -89,6 +89,7 @@ function CommentOrReply({
           replies={replies}
           commentLength={commentLength}
           refetchComments={refetchComments}
+          getPostCommets={getPostCommets}
         />
       ) : (
         <TextArea
@@ -99,6 +100,7 @@ function CommentOrReply({
           btnClass={btnClass}
           inputRef={inputRef}
           placeholder="Write your comment..."
+          getPostCommets={getPostCommets}
         />
       )}
     </div>

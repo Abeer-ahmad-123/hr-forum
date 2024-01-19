@@ -30,6 +30,7 @@ function ReplyTextArea({
   replies,
   commentLength,
   refetchComments,
+  getPostCommets,
 }: any) {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
@@ -100,6 +101,7 @@ function ReplyTextArea({
               reportType="comment"
               setOpenDialog={setOpenDialog}
               setReportedReplyId={setReportedCommentId}
+              getPostCommets={getPostCommets}
             />
           </DialogContent>
         </Dialog>
@@ -113,6 +115,7 @@ function ReplyTextArea({
               commentId={commentId}
               key={commentId}
               setReportedReplyId={() => {}}
+              getPostCommets={getPostCommets}
             />
           )
         })}

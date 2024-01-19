@@ -8,6 +8,7 @@ const CommentSection = ({
   refetchComments,
   commentLength,
   setReportedCommentId,
+  getPostCommets,
 }: any) => {
   const [replies, setReplies] = useState({
     comment: { id: '', replies: [], author_details: { name: '' }, content: '' },
@@ -53,7 +54,7 @@ const CommentSection = ({
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
   }, [comment])
-  console.log('COMMENT', comment)
+
   return (
     <div className="mt-4 w-full rounded-lg">
       <div className="flex">
@@ -105,6 +106,7 @@ const CommentSection = ({
                 author={replies.comment?.author_details?.name}
                 setReportedCommentId={setReportedCommentId}
                 replies={replies}
+                getPostCommets={getPostCommets}
               />
             </div>
           </div>

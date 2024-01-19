@@ -24,6 +24,7 @@ function Reply({
   commentLength,
   commentId = null,
   setReportedReplyId,
+  getPostCommets,
 }: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
   const searchParams = useSearchParams()
@@ -160,6 +161,7 @@ function Reply({
                     reportType="reply"
                     setOpenDialog={setOpenDialog}
                     setReportedReplyId={setReportedReplyId}
+                    getPostCommets={getPostCommets}
                   />
                 </DialogContent>
               </Dialog>

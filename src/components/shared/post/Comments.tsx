@@ -12,6 +12,7 @@ function Comments({
   initialComments,
   pagination,
   inputRef = null,
+  getPostCommets,
 }: any) {
   const searchParams = useSearchParams()
 
@@ -66,6 +67,7 @@ function Comments({
         refetchComments={refetchComments}
         setComments={setComments}
         inputRef={inputRef}
+        getPostCommets={getPostCommets}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div>
@@ -83,6 +85,7 @@ function Comments({
                   refetchComments={refetchComments}
                   commentLength={comments.length}
                   setReportedCommentId={setReportedCommentId}
+                  getPostCommets={getPostCommets}
                 />
               )
             })}
