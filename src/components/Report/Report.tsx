@@ -3,59 +3,12 @@ import InfoIcon from '@/assets/icons/InfoIcon'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
+import { reportData } from '@/utils/data'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
-
-const Data = [
-  {
-    reason: 'Sexual content',
-    description:
-      'content that include graphics ,nudity or other type of sexual content',
-  },
-  {
-    reason: 'Hateful and Abusive Content',
-    description: 'content that is voilent,graphics or posted to shock viewers',
-  },
-  {
-    reason: 'Harness or bullying',
-    description:
-      'content that promotes hatred against protected groups abusive vulnerarble individuals',
-  },
-  {
-    reason: 'Harmful and dangerous acts',
-    description: 'content that included acts that may physical harm',
-  },
-  {
-    reason: 'Misinformation',
-    description:
-      'content that is misleading or deceptive with serious risk of egresious harm',
-  },
-  {
-    reason: 'Child Abuse',
-    description:
-      'content that includes sexual , predatory or abusive communications towards minors',
-  },
-  {
-    reason: 'Promotes terrorism',
-    description: 'content that is intended to recruit terrorsit organizations',
-  },
-  {
-    reason: 'Spam or misLeading',
-    description:
-      'content that is massively posted or have miss leading information',
-  },
-  {
-    reason: 'legal issues',
-    description: 'copyrights , privacy or other legal complaints',
-  },
-  {
-    reason: 'Caption issues',
-    description: 'missing inaccurate or abusive captions ',
-  },
-]
 
 interface ReportInterface {
   postId?: string
@@ -116,10 +69,10 @@ const Report = ({
       setReportedReplyId && setReportedReplyId(commentId!)
       setReportedCommentId && setReportedCommentId(commentId!)
       router.refresh()
+    } else if (!response.success) {
+      showErrorAlert('Session Expired! Please login again.')
     } else {
-      tokenInRedux
-        ? showErrorAlert('Something went wrong')
-        : showErrorAlert('Please login to report')
+      showErrorAlert('Something went wrong')
     }
 
     setLoading(false)
@@ -129,14 +82,14 @@ const Report = ({
   return (
     <div className="gap-8">
       <div className="flex justify-items-start pb-8 "> Report comment</div>
-      {Data.map((text, index) => (
+      {reportData.map((text, index) => (
         <div key={index} className={`flex cursor-pointer  gap-4`}>
-          <div className="flex items-center gap-4 pb-2">
+          <div className="flex items-center gap-4 pb-4">
             <input
               type="radio"
               id={`radioButton-${index}`}
               name="example"
-              className="h-4 w-4 cursor-pointer"
+              className="h-4 w-4 cursor-pointer accent-[#571ce0]"
               onChange={() => handleClick(text.reason)}
               value={selectedItem}
             />

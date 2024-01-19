@@ -420,3 +420,51 @@ export const mockChannelkeyValuePair = {
     slug: 'hr-performance',
   },
 }
+
+export const reportData = [
+  {
+    reason: 'Sexual content',
+    description:
+      'content that include graphics ,nudity or other type of sexual content',
+  },
+  {
+    reason: 'Hateful and Abusive Content',
+    description: 'content that is voilent,graphics or posted to shock viewers',
+  },
+  {
+    reason: 'Harness or bullying',
+    description:
+      'content that promotes hatred against protected groups abusive vulnerarble individuals',
+  },
+  {
+    reason: 'Harmful and dangerous acts',
+    description: 'content that included acts that may physical harm',
+  },
+  {
+    reason: 'Misinformation',
+    description:
+      'content that is misleading or deceptive with serious risk of egresious harm',
+  },
+  {
+    reason: 'Child Abuse',
+    description:
+      'content that includes sexual , predatory or abusive communications towards minors',
+  },
+  {
+    reason: 'Promotes terrorism',
+    description: 'content that is intended to recruit terrorsit organizations',
+  },
+  {
+    reason: 'Spam or misLeading',
+    description:
+      'content that is massively posted or have miss leading information',
+  },
+  {
+    reason: 'legal issues',
+    description: 'copyrights , privacy or other legal complaints',
+  },
+  {
+    reason: 'Caption issues',
+    description: 'missing inaccurate or abusive captions ',
+  },
+]
