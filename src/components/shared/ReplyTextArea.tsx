@@ -36,7 +36,6 @@ function ReplyTextArea({
 
   const [showTextArea, setShowTextArea] = useState(false)
   const [formattedDate, setFormatedDate] = useState('')
-  console.log('Here are replies', replies)
   const params = useParams()
   const postId = params?.id as string
   const tokenInRedux =
@@ -54,7 +53,6 @@ function ReplyTextArea({
     }
   }
 
-  console.log('Created date', createdDate)
   useEffect(() => {
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])

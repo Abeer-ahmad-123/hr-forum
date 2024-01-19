@@ -3,7 +3,7 @@ import CommentOrReply from '@/components/CommentOrReply'
 import { getPostsComments } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
 
@@ -21,7 +21,7 @@ function Comments({
 
   const commentId = searchParams.get('commentId')
 
-  const [comments, setComments] = useState([...initialComments])
+  const [comments, setComments] = useState<any>([])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
   const [reportedCommentId, setReportedCommentId] = useState<string | null>(
     null,
@@ -56,6 +56,9 @@ function Comments({
   const handleLoadMore = () => {
     refetchComments()
   }
+  useEffect(() => {
+    setComments([...initialComments])
+  }, [initialComments])
 
   return (
     <>

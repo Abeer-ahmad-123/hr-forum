@@ -1,7 +1,7 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { AlertOctagon } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const CommentSection = ({
   comment,
@@ -10,7 +10,7 @@ const CommentSection = ({
   setReportedCommentId,
 }: any) => {
   const [replies, setReplies] = useState({
-    comment: comment,
+    comment: { id: '', replies: [], author_details: { name: '' }, content: '' },
     pagination: {
       CurrentPage: 0,
       FirstRecord: 0,
@@ -50,7 +50,10 @@ const CommentSection = ({
           },
     })
   }
-
+  useEffect(() => {
+    setReplies({ ...replies, comment: comment })
+  }, [comment])
+  console.log('COMMENT', comment)
   return (
     <div className="mt-4 w-full rounded-lg">
       <div className="flex">
