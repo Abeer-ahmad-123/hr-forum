@@ -144,7 +144,9 @@ const LayoutWrapper = ({ children }: any) => {
 
   return (
     <body
-      className={`${styles.trim()} theme-default bg-background pt-4 font-primary dark:bg-slate-700`}>
+      className={`${styles.trim()} theme-default ${
+        pathname.includes('/error') ? 'bg-white' : 'bg-background'
+      } pt-4 font-primary dark:bg-slate-700`}>
       {!loading && !pathname.includes('/error') && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
