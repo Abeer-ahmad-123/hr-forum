@@ -10,13 +10,15 @@ import { useSelector } from 'react-redux'
 import RenderFeedLoading from './Loading/renderFeedLoading'
 import { Card } from './shared'
 import { useInterceptor } from '@/hooks/interceptors'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const SavedPost = () => {
   const renderTimes = 5
   const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
     <RenderFeedLoading key={index} />
   ))
+
+  const router = useRouter()
   const [bookmarkupdated, setBookmarkupdated] = useState<boolean>(false)
 
   const tokenInRedux = useSelector(
@@ -55,7 +57,7 @@ const SavedPost = () => {
       setPosts({ Bookmarks: updatedBookmarks })
     } catch (error) {
       console.error(`${error}`)
-      redirect('/feeds')
+      router.push('/feeds')
     }
   }
   useEffect(() => {
