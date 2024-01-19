@@ -13,7 +13,7 @@ const UserNameDialog = ({ handleSubmit }: any) => {
 
   return (
     <Dialog open>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <h1 className="text-left text-lg font-semibold">
           Select Your UserName
         </h1>
