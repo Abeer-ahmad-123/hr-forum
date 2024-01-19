@@ -47,9 +47,7 @@ const Report = ({
   }
 
   const handleSubmit = async () => {
-    getPostCommets()
     setLoading(true)
-
     const response =
       reportType == 'post'
         ? await reportPost(
