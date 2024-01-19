@@ -19,9 +19,8 @@ import ProfileImage from './ProfileImage'
 import { useRouter } from 'next/navigation'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
-  // const userDetailsCookies = cookies().get('user-details')
+  const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
 
-  const [commentResult, setCommentResult] = useState<Array<object>>([])
   const [paginationResult, setPaginationResult] = useState()
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
@@ -81,8 +80,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     getChannel()
   }, [])
-
-  return post?.author_details?.name && post ? (
+  return post && post?.author_details?.name && commentResult?.length ? (
     <div
       className={`mx-auto max-w-5xl rounded-full ${
         isDialogPost ? 'mb-5' : 'my-5'

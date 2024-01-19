@@ -29,10 +29,7 @@ function TextArea({
   const router = useRouter()
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
-    // add other styles as needed
   }
-
-  // const router = useRouter()
 
   const handleTextAreaChange = (e: any) => {
     setTextAreaValue(e.target.value)
@@ -65,7 +62,7 @@ function TextArea({
   }, [isLoading])
 
   return (
-    <div className="flex cursor-pointer items-center gap-2.5">
+    <div className="flex cursor-pointer items-center gap-2.5 px-4">
       <img
         src={userData.profilePictureURL || noProfilePicture}
         className="w-18 h-8 rounded-full border border-solid border-black"
