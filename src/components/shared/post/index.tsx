@@ -45,7 +45,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
   const getPostCommets = async () => {
     if (commentId) {
-      const { comment } = await getComment(commentId, {
+      const { comment } = await getComment(commentId, userId, {
         loadNestedComments: replyId ? true : false,
         allReplies: replyId ? true : false,
       })
@@ -98,7 +98,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
           <div
             className={`${
               !isDialogPost ? 'mt-6' : ''
-            } items-left flex flex-row items-center justify-between max-md:block`}>
+            } items-left flex flex-row items-center justify-between`}>
             <div className="flex items-center">
               <div className="-z-2">
                 <div className="static rounded-full">
@@ -129,6 +129,8 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 </p>
               </div>
             </div>
+
+            {/* ////// */}
 
             {post?.user_has_reported && (
               <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">

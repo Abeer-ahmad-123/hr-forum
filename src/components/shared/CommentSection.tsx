@@ -1,7 +1,10 @@
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
+import { noProfilePicture } from '@/utils/ImagesLink'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 const CommentSection = ({
   comment,
@@ -11,7 +14,12 @@ const CommentSection = ({
   getPostCommets,
 }: any) => {
   const [replies, setReplies] = useState({
-    comment: { id: '', replies: [], author_details: { name: '' }, content: '' },
+    comment: {
+      id: '',
+      replies: [],
+      author_details: { name: '', id: '' },
+      content: '',
+    },
     pagination: {
       CurrentPage: 0,
       FirstRecord: 0,
@@ -22,10 +30,14 @@ const CommentSection = ({
     },
   })
 
+  const userId = useSelector(
+    (state: LoggedInUser) => state.loggedInUser?.userData?.id,
+  )
+
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = replies?.pagination?.CurrentPage + 1
-    const data = await getComment(comment.id, { page: index })
+    const data = await getComment(comment.id, userId, { nestedPage: index })
 
     setReplies({
       ...replies,
@@ -62,7 +74,9 @@ const CommentSection = ({
           <div className="">
             <img
               alt="avatar"
-              src={comment?.author_details?.profile_picture_url}
+              src={
+                comment?.author_details?.profile_picture_url || noProfilePicture
+              }
               className="h-8 w-8 rounded-full border border-black"
               height={8}
               width={8}

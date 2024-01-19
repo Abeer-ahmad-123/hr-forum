@@ -54,7 +54,7 @@ const ProfileCard = () => {
         <p
           className="mb-[10px] mt-[10px] flex text-xs font-light"
           style={{ wordWrap: 'break-word' }}>
-          {email.length > 20 ? email.slice(0, 20).concat('...') : email}
+          {email.length > 17 ? email.slice(0, 17).concat('...') : email}
         </p>
       </div>
     </div>
