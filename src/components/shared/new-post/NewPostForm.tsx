@@ -102,7 +102,6 @@ export default function NewPostForm({ open }: newPostFormInterface) {
               refreshToken,
             })
             if (sendImage?.success) {
-              showSuccessAlert('Post created successfully')
               setLoading(false)
             }
           } catch (err) {

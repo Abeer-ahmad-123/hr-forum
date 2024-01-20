@@ -1,4 +1,3 @@
-'use server'
 import { API_BASE_URL } from '..'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
