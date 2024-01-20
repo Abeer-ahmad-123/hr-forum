@@ -80,13 +80,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   }
   const handleNavigateFeed = () => {
     nProgress.start()
-    router.push(
-      pathName.includes('channels')
-        ? `/channels/feeds/feed/${id}`
-        : pathName.includes('saved')
-        ? `/saved/feeds/feed/${id}`
-        : `/feeds/feed/${id}`,
-    )
+    router.push(`/feeds/feed/${id}`)
   }
   const handleNavigateProfile = (event: any) => {
     nProgress.start()
