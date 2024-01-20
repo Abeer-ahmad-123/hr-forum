@@ -86,8 +86,10 @@ export async function getRefreshToken() {
       },
     })
     const responseFromJson = await responseFromRefresh.json()
-    cookies().set('access-token', responseFromJson.data.token)
-    cookies().set('refresh-token', responseFromJson.data['refresh-token'])
+    if (responseFromJson.success) {
+      cookies().set('access-token', responseFromJson.data.token)
+      cookies().set('refresh-token', responseFromJson.data['refresh-token'])
+    }
     return responseFromJson
   } catch (err) {
     throw err
