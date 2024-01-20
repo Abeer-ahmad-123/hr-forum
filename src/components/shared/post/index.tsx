@@ -79,7 +79,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     getChannel()
   }, [])
-  return post && post?.author_details?.name && commentResult?.length ? (
+  return post && post?.author_details?.name && commentResult !== null ? (
     <div
       className={`mx-auto max-w-5xl rounded-full ${
         isDialogPost ? 'mb-5' : 'my-5'
