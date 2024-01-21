@@ -1,40 +1,26 @@
-import SavedPost from '@/components/SavedPost'
-import ChannelCard from '@/components/SideCards/ChannelCard'
-import ProfileCard from '@/components/SideCards/ProfileCard'
-import RulesCard from '@/components/SideCards/RuleCard'
+import { RenderFeeds } from '@/components/Feeds'
+import CardLoading from '@/components/Loading/cardLoading'
+import RedirectLogic from '@/components/RedirectLogic'
+import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
-const SavedPostPage = () => {
-  const userDetailsCookies = cookies().get('user-details')
-  if (!userDetailsCookies) {
-    redirect('/feeds')
-  } else {
-    return (
-      <div className="mx-auto flex max-w-screen-xl justify-center">
-        <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-          {userDetailsCookies && <ProfileCard />}
-          <div className="sticky top-[60px] max-h-screen">
-            <ChannelCard />
-          </div>
-          <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[330px]">
-            {' '}
-            <RulesCard />
-          </div>
-        </div>
-
-        <div className="w-full max-w-screen-md">
-          <div className="flex w-full justify-center">
-            <div className="w-full">
-              <div className="mt-[40px]  w-full max-w-screen-md dark:text-white">
-                <SavedPost />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    )
+const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
+  searchParams,
+}) => {
+  const redirectLogic = searchParams?.redirect
+  const tokenInCookes = cookies().get('access-token')?.value
+  if (!tokenInCookes) {
+    redirect('/')
   }
+  return redirectLogic ? (
+    <RedirectLogic redirect={redirectLogic} />
+  ) : (
+    <Suspense fallback={<CardLoading />}>
+      <RenderFeeds searchParams={searchParams} path="/saved" />
+    </Suspense>
+  )
 }
 
-export default SavedPostPage
+export default FeedPage

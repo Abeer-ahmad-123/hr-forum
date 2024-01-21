@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 import nProgress from 'nprogress'
+import { noProfilePicture } from '@/utils/ImagesLink'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -82,9 +83,9 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     nProgress.start()
     router.push(
       pathName.includes('channels')
-        ? `/channels/feeds/feed/${id}`
+        ? `${pathName}/feed/${id}`
         : pathName.includes('saved')
-        ? `/saved/feeds/feed/${id}`
+        ? `/saved/feed/${id}`
         : `/feeds/feed/${id}`,
     )
   }
@@ -127,7 +128,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
                       width={32}
                       height={32}
-                      src={user?.profile_picture_url}
+                      src={user?.profile_picture_url || noProfilePicture}
                       alt="user-picture"
                       onClick={handleNavigateProfile}
                     />

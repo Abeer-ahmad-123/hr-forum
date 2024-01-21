@@ -149,8 +149,8 @@ const PostReactionBar = ({
         </div>
         <CustomLink
           href={
-            pathName.includes('/channels/')
-              ? `feeds/feed/${postId}`
+            pathName.includes('channels')
+              ? `${pathName}/feed/${postId}`
               : ` /feeds/feed/${postId}`
           }>
           <span className="text-xs text-slate-400">

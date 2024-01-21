@@ -3,7 +3,7 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { postComment, postCommentReply } from '@/services/comments'
 import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
@@ -26,6 +26,8 @@ function CommentOrReply({
   commentLength,
 }: any) {
   const params = useParams()
+  const pathName = usePathname()
+  const router = useRouter()
   const postId = params['id'] || Id
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const refreshToken = useSelector(
@@ -71,6 +73,9 @@ function CommentOrReply({
     } catch (err) {
       showErrorAlert(`${err}`)
       setIsLoading({ ...isLoading, loading: false, status: 'error' })
+      if (pathName.includes('saved')) {
+        router.push('/feeds')
+      }
     }
   }
 

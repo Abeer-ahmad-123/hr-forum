@@ -9,10 +9,14 @@ import { getSearchPosts } from '@/services/search'
 import { noChannelBanner } from '@/utils/ImagesLink'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { toPascalCase } from '@/utils/common'
-import { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
+import {
+  BookmarkData,
+  RenderFeedsInterface,
+} from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
 import RespScreen from '../Cards/ResponsiveScreen'
 import { redirect } from 'next/navigation'
+import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -32,6 +36,7 @@ async function RenderFeeds({
   let initialPosts = []
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
+
   if (channelSlug) {
     if (!searchParams.search) {
       const getChannelId = getChannelIdByChannelName(channelSlug, channelData)
@@ -76,22 +81,43 @@ async function RenderFeeds({
       initialPosts = data?.posts
       morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
     } else {
-      try {
-        const { data } = await getAllPosts({
-          loadReactions: true,
-          loadUser: true,
-          userID:
+      if (path === '/feed') {
+        try {
+          const { data } = await getAllPosts({
+            loadReactions: true,
+            loadUser: true,
+            userID:
+              (userDetailsCookies &&
+                JSON.parse(userDetailsCookies?.value!)?.id) ??
+              undefined,
+          })
+          initialPosts = data?.posts
+          morePosts =
+            data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+        } catch (error) {}
+      } else if (path === '/saved') {
+        try {
+          const res = await getBookmarkPosts(
             (userDetailsCookies &&
               JSON.parse(userDetailsCookies?.value!)?.id) ??
-            undefined,
-        })
-        initialPosts = data?.posts
-        morePosts =
-          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-      } catch (error) {}
+              '',
+          )
+
+          initialPosts = res.data.Bookmarks.map((item: BookmarkData) => {
+            const { userID, postID, bookmarkedAt, post, ...rest } = item
+            return {
+              ...rest,
+              ...post,
+              user_has_bookmarked: true,
+            }
+          })
+          morePosts = false
+        } catch (error) {
+          console.error(`${error}`)
+        }
+      }
     }
   }
-
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = channelData.find(
       (obj: { slug: string }) => obj.slug === slug,
@@ -108,7 +134,7 @@ async function RenderFeeds({
         {userDetailsCookies && <ProfileCard />}
         <div
           className={`${
-            userDetailsCookies ? 'top-[70px] mt-[20px]' : 'top-[60px] mt-[20px]'
+            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
           } sticky  max-h-screen`}>
           <ChannelCard />
         </div>
@@ -119,19 +145,21 @@ async function RenderFeeds({
       </div>
 
       <div className="w-full max-w-screen-md">
-        {!!channelSlug && (
+        {(!!channelSlug || path === '/saved') && (
           <div className="max-w-768px mx-auto mt-11">
             <div className="h-170px relative overflow-hidden rounded-xl">
               <div className="absolute inset-0 z-0 bg-black opacity-50"></div>
               <img
-                className="h-100px max-w-768px z-10 w-full rounded-t-xl"
-                src={getImageUrlBySlug(channelSlug) || noChannelBanner}
+                className="max-w-768px z-10 h-[200px] w-full rounded-t-xl"
+                src={
+                  channelSlug ? getImageUrlBySlug(channelSlug) : noChannelBanner
+                }
                 alt="banner"
-                width={200}
-                height={100}
               />
               <p className="absolute inset-0 z-20 flex items-center justify-center text-base text-white max-md:text-2xl lg:text-3xl">
-                {toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))}
+                {channelSlug
+                  ? toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))
+                  : 'Saved Posts'}
               </p>
             </div>
           </div>
@@ -143,15 +171,20 @@ async function RenderFeeds({
               {' '}
               <RespScreen />
             </div>
-            <div className="mb-5 max-sm:block md:hidden lg:hidden">
+            {/* <div className="mb-5 max-sm:block md:hidden lg:hidden">
               {' '}
               <PostBar />
-            </div>
+            </div> */}
 
-            <div className="mt-[40px]  w-full max-w-screen-md dark:text-white">
-              <div className="mb-5 max-md:hidden max-sm:hidden">
-                <PostBar />
-              </div>
+            <div
+              className={`${
+                path === '/saved' ? 'mt-[20px]' : 'mt-[40px]'
+              }  w-full max-w-screen-md dark:text-white`}>
+              {path !== '/saved' && (
+                <div className="mb-5">
+                  <PostBar />
+                </div>
+              )}
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={initialPosts}
@@ -162,9 +195,6 @@ async function RenderFeeds({
               />
             </div>
           </div>
-
-          {/* <div className='sticky max-h-screen lg:block max-sm:hidden sm:hidden ' style={{ top: '60px' }}> <RulesCard />
-        </div> */}
         </div>
       </div>
     </div>

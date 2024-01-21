@@ -1,7 +1,7 @@
 'use client'
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,6 +16,7 @@ import {
 function LoggedIn() {
   const router = useRouter()
   const dispatch = useDispatch()
+  const pathname = usePathname()
   const [openPopover, setOpenPopover] = useState(false)
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { name, username, profilePictureURL } = user
@@ -32,7 +33,11 @@ function LoggedIn() {
   const handleLogout = () => {
     logout()
     dispatch(clearUser())
-    router.refresh()
+    if (pathname.includes('saved')) {
+      router.push('/feeds')
+    } else {
+      router.refresh()
+    }
   }
 
   useEffect(() => {

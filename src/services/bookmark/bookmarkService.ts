@@ -58,29 +58,21 @@ export async function deleteBookmarkPost(
   }
 }
 
-export async function getBookmarkPosts(
-  userId: string,
-  customFetch: CustomFetchFunction,
-  token: string,
-  refreshToken: string,
-) {
+export async function getBookmarkPosts(userId: string) {
   try {
     let getBookmarkPostUrl = GET_BOOKMARK_POSTS.replace('userId', userId)
 
-    let responseFromAuth = await customFetch(getBookmarkPostUrl, {
+    let responseFromAuth = await fetch(getBookmarkPostUrl, {
       method: 'GET',
       headers: {
         'content-type': 'application/json',
-        authorization: 'Bearer ' + token,
-        refreshToken: refreshToken,
       },
     })
+    const responseJson = await responseFromAuth.json()
     if (responseFromAuth.ok) {
-      const responseJson = await responseFromAuth.json()
-
       return { ...responseJson, status: responseFromAuth?.status }
     } else {
-      throw 'Error'
+      throw responseJson.error
     }
   } catch (err) {
     throw err

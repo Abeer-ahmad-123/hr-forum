@@ -31,6 +31,7 @@ import { AlertOctagon, MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
+import { showErrorAlert } from '@/utils/helper'
 
 const PostActionBar = ({
   linkToFeed,
@@ -109,8 +110,11 @@ const PostActionBar = ({
         setUserReaction(userReaction === value ? '' : value)
         getPost()
       } catch (error) {
+        if (pathName.includes('saved')) {
+          router.push('/feeds')
+        }
         setUserReaction('')
-        throw error
+        showErrorAlert(`${error}`)
       }
     } else {
       setShowSignModal(true)
@@ -137,9 +141,9 @@ const PostActionBar = ({
     }
   }
   const handleBookmark = async () => {
-    if (pathName.includes('/saved')) {
-      setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
-    }
+    // if (pathName.includes('/saved')) {
+    //   setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
+    // }
 
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
@@ -156,8 +160,10 @@ const PostActionBar = ({
           setBookmarkSuccess(false)
         }
       } catch (error) {
-        console.error(error)
-        router.push('/feeds')
+        if (pathName.includes('saved')) {
+          router.push('/feeds')
+        }
+        showErrorAlert(`${error}`)
       }
     } else {
       setShowSignModal(true)
