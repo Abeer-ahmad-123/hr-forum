@@ -1,6 +1,6 @@
 import { LayoutWrapper } from '@/wrappers/index'
 import StoreProvider from '@/Providers/StoreProvider'
-import '@/app/globals.css'
+import '@/assets/styles/globals.css'
 
 export default function RootLayout({ children }: any) {
   return (
