@@ -30,7 +30,7 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, setPosts] = useState<Array<object>>([{}])
+  const [posts, setPosts] = useState<Array<object>>([])
   const [page, setPage] = useState(2)
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
