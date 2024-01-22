@@ -45,7 +45,8 @@ async function RenderFeeds({
         id: getChannelId,
 
         userID:
-          (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
+          (userDetailsCookies?.value &&
+            JSON.parse(userDetailsCookies?.value!)?.id) ??
           undefined,
 
         loadReactions: true,
