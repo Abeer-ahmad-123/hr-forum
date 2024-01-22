@@ -1,4 +1,5 @@
 'use client'
+import PostBar from '@/components/shared/new-post/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
@@ -103,16 +104,23 @@ const Feeds = ({
     }
   }, [initialPosts])
   return (
-    <div className="min-h-[70vh] w-full">
-      {!!posts?.length ? (
-        posts?.map((post: any, index: number) => {
-          return <Card key={post?.title} post={post} channels={channels} />
-        })
-      ) : (
-        <NoPosts />
+    <>
+      {path !== '/saved' && (
+        <div className="mb-5">
+          <PostBar setPosts={setPosts} />
+        </div>
       )}
-      {noMorePosts?.current && <CircularProgress incommingRef={ref} />}
-    </div>
+      <div className="min-h-[70vh] w-full">
+        {!!posts?.length ? (
+          posts?.map((post: any, index: number) => {
+            return <Card key={post?.title} post={post} channels={channels} />
+          })
+        ) : (
+          <NoPosts />
+        )}
+        {noMorePosts?.current && <CircularProgress incommingRef={ref} />}
+      </div>
+    </>
   )
 }
 

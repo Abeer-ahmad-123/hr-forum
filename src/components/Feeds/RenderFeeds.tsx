@@ -2,7 +2,8 @@ import Feeds from '@/components/Feeds/Feeds'
 import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
-import PostBar from '@/components/shared/new-post/NewPostModal'
+
+import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
 import { getChannels } from '@/services/channel/channel'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
@@ -14,9 +15,8 @@ import {
   RenderFeedsInterface,
 } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
-import RespScreen from '../Cards/ResponsiveScreen'
 import { redirect } from 'next/navigation'
-import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
+import RespScreen from '../Cards/ResponsiveScreen'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -171,20 +171,11 @@ async function RenderFeeds({
               {' '}
               <RespScreen />
             </div>
-            {/* <div className="mb-5 max-sm:block md:hidden lg:hidden">
-              {' '}
-              <PostBar />
-            </div> */}
 
             <div
               className={`${
                 path === '/saved' ? 'mt-[20px]' : 'mt-[40px]'
               }  w-full max-w-screen-md dark:text-white`}>
-              {path !== '/saved' && (
-                <div className="mb-5">
-                  <PostBar />
-                </div>
-              )}
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={initialPosts}
