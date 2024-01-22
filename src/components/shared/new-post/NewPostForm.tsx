@@ -204,7 +204,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
           id="imageInput"
         />
       </div>
-      <p className="!mb-[35px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
+      <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
 
       {postImage ? (
         <>
