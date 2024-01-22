@@ -1,16 +1,16 @@
 'use client'
 import ChannelPill from '@/components/shared/ChannelPill'
+import { noProfilePicture } from '@/utils/ImagesLink'
 import { timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
-import nProgress from 'nprogress'
-import { noProfilePicture } from '@/utils/ImagesLink'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -113,6 +113,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
       nProgress.done()
     }
   }, [])
+
   return (
     <>
       <div
