@@ -157,21 +157,23 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
         <h3 className="w-content mb-4 flex-shrink-0 text-xl font-medium text-gray-700 dark:text-white">
           Ask for help from the community...
         </h3>
+      </div>
+
+      <div className="flex justify-between">
+        <input
+          className="mb-3 w-full rounded-lg p-1.5 text-xl placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out  focus:outline-none  focus:ring-purple-100 dark:bg-dark-primary dark:text-white dark:placeholder-white"
+          type="text"
+          placeholder="Add a title"
+          name="title"
+          onChange={handleFormChange}
+          value={formValues.title}
+        />
         <Dropdown
           value={formValues.channelId}
           onSelect={handleFormChange}
           handleDropDownValue={handleDropDownValue}
         />
       </div>
-
-      <input
-        className="mb-3 w-full rounded-lg p-2 text-xl placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out  focus:outline-none  focus:ring-purple-100 dark:bg-dark-primary dark:text-white dark:placeholder-white"
-        type="text"
-        placeholder="Add a title"
-        name="title"
-        onChange={handleFormChange}
-        value={formValues.title}
-      />
 
       <div className="flex items-start justify-start">
         <div

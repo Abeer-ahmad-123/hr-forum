@@ -1,7 +1,7 @@
 'use client'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { DownIcon } from '@/assets/icons'
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import {
   DropdownMenu,
@@ -20,13 +20,13 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
   const [buttonValue, setButtonValue] = useState('Select a Channel')
 
   return (
-    <div className="relative mr-4 inline-block w-full text-right">
+    <div className="relative mr-4 w-1/2 text-right">
       <div className="items-left">
         <DropdownMenu>
           <DropdownMenuTrigger>
             <button
               type="button"
-              className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white">
+              className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white">
               {value?.name || buttonValue}
               <DownIcon className="ml-2 h-5 w-5 cursor-pointer" />
             </button>
