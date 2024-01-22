@@ -1,16 +1,33 @@
 'use client'
 import ChannelPill from '@/components/shared/ChannelPill'
 import { noProfilePicture } from '@/utils/ImagesLink'
-import { timeFormatInHours } from '@/utils/helper'
+import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+
+import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
+import { useInterceptor } from '@/hooks/interceptors'
+import {
+  bookmarkPost,
+  deleteBookmarkPost,
+} from '@/services/bookmark/bookmarkService'
+import { MoreHorizontal } from 'lucide-react'
+import Report from '../Report/Report'
+import SignInDialog from './new-post/SignInDialog'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -32,6 +49,14 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+  const { customFetch } = useInterceptor()
+  const tokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  const [popOver, setPopOver] = useState(false)
+
+  const refreshTokenInRedux =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
 
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -40,6 +65,16 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     celebrate_count: 0,
   })
   const [userReaction, setUserReaction] = useState('')
+
+  const [showSignModal, setShowSignModal] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+  const [bookmarkSuccess, setBookmarkSuccess] = useState(user_has_bookmarked)
+
+  const setOpenPopOver = (e: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setPopOver((pre) => !pre)
+  }
 
   const updateReactionArray = (
     reactionArray: ReactionSummary,
@@ -97,6 +132,9 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
       userDetails?.id === user_id ? '/profile' : `/profile/${user_id}`,
     )
   }
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPopOver(false)
+  }
 
   useEffect(() => {
     if (reaction_summary) {
@@ -113,12 +151,66 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
       nProgress.done()
     }
   }, [])
+  const handleReportClick = (event: any) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setPopOver(false)
+
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else {
+      setOpenDialog(true)
+    }
+  }
+
+  const handleBookmark = async (event: any) => {
+    // if (pathName.includes('/saved')) {
+    //   setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
+    // }
+
+    event.preventDefault()
+    event.stopPropagation()
+    if (tokenInRedux) {
+      const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
+      try {
+        const res = await getApi(
+          id,
+          customFetch,
+          tokenInRedux,
+          refreshTokenInRedux,
+        )
+        if (res.data) {
+          setBookmarkSuccess(true)
+        } else if (res.status === 200 || res.status === 204) {
+          setBookmarkSuccess(false)
+        }
+      } catch (error) {
+        if (pathName.includes('saved')) {
+          router.push('/feeds')
+        }
+        showErrorAlert(`${error}`)
+      }
+    } else {
+      setShowSignModal(true)
+    }
+  }
 
   return (
     <>
       <div
         key={Math.random()}
         className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+          <DialogContent className="bg-white sm:max-w-[500px]">
+            <Report
+              reportType="post"
+              setOpenDialog={setOpenDialog}
+              postId={id}
+              getPostCommets={() => {}}
+            />
+          </DialogContent>
+        </Dialog>
+
         <div className="px-10 py-4" onClick={handleNavigateFeed}>
           <div className="flex flex-row justify-between">
             <div className="flex w-full  flex-row items-center justify-between max-custom-sm:items-start ">
@@ -154,25 +246,60 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                 </div>
               </div>
 
-              {post?.user_has_reported && (
-                <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
-                  {/*  */}
-                  <div className="group relative inline-block">
-                    <AlertOctagon
-                      size={15}
-                      className="hidden cursor-pointer max-custom-sm:block"
-                    />
-                    <div className="absolute bottom-full left-[50px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
-                      Reported
+              <div className="flex justify-around ">
+                {post?.user_has_reported && (
+                  <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
+                    <div className="group relative inline-block">
+                      <AlertOctagon
+                        size={15}
+                        className="hidden cursor-pointer max-custom-sm:block"
+                      />
+                      <div className="absolute bottom-full left-[50px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
+                        Reported
+                      </div>
                     </div>
-                  </div>
-                  {/*  */}
 
-                  <span className="text-[0.65rem] max-custom-sm:hidden">
-                    Reported
-                  </span>
+                    <span className="text-[0.65rem] max-custom-sm:hidden">
+                      Reported
+                    </span>
+                  </div>
+                )}
+
+                <div onMouseLeave={handleMouseDown}>
+                  <Popover open={popOver} onOpenChange={setPopOver}>
+                    <PopoverTrigger>
+                      <span
+                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
+                        onClick={setOpenPopOver}>
+                        <MoreHorizontal className="h-6 w-6 font-light" />
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent className="bg-white">
+                      <div
+                        className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                        onClick={handleReportClick}>
+                        <AlertOctagon size={17} />
+                        <span className="text-[15px] font-light max-custom-sm:hidden">
+                          {' '}
+                          Report
+                        </span>
+                      </div>
+                      <div
+                        onClick={handleBookmark}
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                        {bookmarkSuccess ? (
+                          <FaBookmark color="blue" />
+                        ) : (
+                          <FaRegBookmark />
+                        )}
+                        <span className="text-[15px] font-light max-custom-sm:hidden ">
+                          Bookmark
+                        </span>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
@@ -219,6 +346,9 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           />
         </div>
       </div>
+      <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
+        <SignInDialog setShowSignModal={setShowSignModal} />
+      </Dialog>
     </>
   )
 }
