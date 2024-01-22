@@ -1,3 +1,4 @@
+import { useInterceptor } from '@/hooks/interceptors'
 import {
   feedImageCreateInChannel,
   postCreatePostInChannel,
@@ -10,13 +11,13 @@ import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
-import { useInterceptor } from '@/hooks/interceptors'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
+  setPosts?: (arg0: any) => void
 }
 
-export default function NewPostForm({ open }: newPostFormInterface) {
+export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',
@@ -31,6 +32,10 @@ export default function NewPostForm({ open }: newPostFormInterface) {
   const [image, setImage] = useState<string | Blob>()
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const userDetails = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
+
   const refreshToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
   )
@@ -89,6 +94,19 @@ export default function NewPostForm({ open }: newPostFormInterface) {
       })
 
       if (result?.success) {
+        result.data.post.author_details = {
+          name: userDetails.name,
+          username: userDetails.username,
+          profile_picture_url: userDetails.profilePictureURL,
+        }
+
+        result.data.post.reaction_summary = {
+          celebrate_count: 0,
+          clap_count: 0,
+          like_count: 0,
+          love_count: 0,
+        }
+
         if (postImage) {
           try {
             const formData = new FormData()
@@ -101,7 +119,10 @@ export default function NewPostForm({ open }: newPostFormInterface) {
               token,
               refreshToken,
             })
+
             if (sendImage?.success) {
+              result.data.post.image_url = sendImage?.data?.url
+
               setLoading(false)
             }
           } catch (err) {
@@ -109,6 +130,8 @@ export default function NewPostForm({ open }: newPostFormInterface) {
           }
         }
 
+        setPosts &&
+          setPosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
         showSuccessAlert('Post has been created successfully')
         setLoading(false)
         open(false)
@@ -134,21 +157,23 @@ export default function NewPostForm({ open }: newPostFormInterface) {
         <h3 className="w-content mb-4 flex-shrink-0 text-xl font-medium text-gray-700 dark:text-white">
           Ask for help from the community...
         </h3>
+      </div>
+
+      <div className="flex justify-between">
+        <input
+          className="mb-3 w-full rounded-lg p-1.5 text-xl placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out  focus:outline-none  focus:ring-purple-100 dark:bg-dark-primary dark:text-white dark:placeholder-white"
+          type="text"
+          placeholder="Add a title"
+          name="title"
+          onChange={handleFormChange}
+          value={formValues.title}
+        />
         <Dropdown
           value={formValues.channelId}
           onSelect={handleFormChange}
           handleDropDownValue={handleDropDownValue}
         />
       </div>
-
-      <input
-        className="mb-3 w-full rounded-lg p-2 text-xl placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out  focus:outline-none  focus:ring-purple-100 dark:bg-dark-primary dark:text-white dark:placeholder-white"
-        type="text"
-        placeholder="Add a title"
-        name="title"
-        onChange={handleFormChange}
-        value={formValues.title}
-      />
 
       <div className="flex items-start justify-start">
         <div
@@ -181,7 +206,7 @@ export default function NewPostForm({ open }: newPostFormInterface) {
           id="imageInput"
         />
       </div>
-      <p className="!mb-[35px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
+      <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
 
       {postImage ? (
         <>
@@ -204,7 +229,7 @@ export default function NewPostForm({ open }: newPostFormInterface) {
               ) : (
                 <>
                   <ImageIcon className="h-[250px] w-[250px]  text-gray-500" />
-                  <p>Browser Files to Upload</p>
+                  <p>Browser File to Upload</p>
                 </>
               )}
             </label>

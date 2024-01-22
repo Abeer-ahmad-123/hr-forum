@@ -46,7 +46,7 @@ function CardLoading() {
 
         <div className="flex w-full max-w-screen-md flex-col">
           <div className="mb-5">
-            <PostBar />
+            <PostBar setPosts={() => {}} />
           </div>
 
           <div> {componentsArray}</div>

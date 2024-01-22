@@ -1,9 +1,9 @@
 'use client'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { useRouter } from 'next/navigation'
-import { CustomLink } from './customLink/CustomLink'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
+import { CustomLink } from './customLink/CustomLink'
 interface ChannelObject {
   [key: string]: {
     name?: string
@@ -33,7 +33,9 @@ const ChannelPill = ({ channel_id, channels }: any) => {
       Posted in
       <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
-        <span className="underline hover:text-accent" onClick={handleLinkClick}>
+        <span
+          className="font-medium underline  hover:text-accent"
+          onClick={handleLinkClick}>
           {channelObj[channel_id]?.name}
         </span>
       </CustomLink>

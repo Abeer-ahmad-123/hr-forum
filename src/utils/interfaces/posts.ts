@@ -8,6 +8,7 @@ export interface PostsInterface {
   content: string
   slug: string
   user_id: number
+  image_url?: string
   channel_id: number
   author_details: {
     username: string

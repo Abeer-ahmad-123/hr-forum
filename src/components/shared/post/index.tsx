@@ -1,21 +1,21 @@
 'use client'
 import CommentsLogic from '@/components/CommentsLogic'
 import ReactionDetails from '@/components/ReactionDetails'
-import { getComment, getPostsComments } from '@/services/comments'
-import { timeFormatInHours } from '@/utils/helper'
 import { getChannels } from '@/services/channel/channel'
+import { getComment, getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
+import { timeFormatInHours } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { AlertOctagon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ChannelPill from '../ChannelPill'
 import { CustomLink } from '../customLink/CustomLink'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
-import { useRouter } from 'next/navigation'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
@@ -79,6 +79,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     getChannel()
   }, [])
+
   return post && post?.author_details?.name && commentResult !== null ? (
     <div
       className={`mx-auto max-w-5xl rounded-full ${
@@ -158,9 +159,9 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             dangerouslySetInnerHTML={{ __html: post?.content }}
           />
           <div>
-            {post?.author_details?.profile_picture_url ? (
+            {post?.image_url ? (
               <img
-                src={post?.author_details?.profile_picture_url}
+                src={post?.image_url}
                 style={{ objectFit: 'fill' }}
                 alt="Picture of the author"
                 className="mb-7"

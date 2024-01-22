@@ -6,7 +6,7 @@ import {
 } from '@/services/reactions/reactions'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { FaRegBookmark, FaRegComment } from 'react-icons/fa'
+import { FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
@@ -25,13 +25,11 @@ import {
 } from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
-import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
+import { Dialog } from '@/components/ui/Dialog/simpleDialog'
+import { showErrorAlert } from '@/utils/helper'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
-import { AlertOctagon, MoreHorizontal } from 'lucide-react'
-import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
-import { showErrorAlert } from '@/utils/helper'
 
 const PostActionBar = ({
   linkToFeed,
@@ -216,49 +214,6 @@ const PostActionBar = ({
 
               <PopoverContent className="cursor-pointer bg-white">
                 <SocialButtons className="flex gap-3" postId={postId} />
-              </PopoverContent>
-            </Popover>
-          </div>
-          <div className="flex gap-6 ">
-            <Popover>
-              <PopoverTrigger>
-                <button className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
-                  <MoreHorizontal className="h-6 w-6 font-light" />
-                </button>
-              </PopoverTrigger>
-
-              <PopoverContent className="bg-white">
-                <div>
-                  <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-                    <button
-                      className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
-                      onClick={handleClick}>
-                      <AlertOctagon size={17} />
-                      <span className="text-[15px] font-light max-custom-sm:hidden">
-                        {' '}
-                        Report
-                      </span>
-                    </button>
-
-                    <DialogContent className="bg-white sm:max-w-[500px]">
-                      <Report
-                        reportType="post"
-                        setOpenDialog={setOpenDialog}
-                        postId={postId}
-                        getPostCommets={getPostCommets}
-                      />
-                    </DialogContent>
-                  </Dialog>
-
-                  <div
-                    onClick={handleBookmark}
-                    className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-                    <FaRegBookmark color={bookmarkSuccess ? 'blue' : ''} />
-                    <span className="text-[15px] font-light max-custom-sm:hidden ">
-                      Bookmark
-                    </span>
-                  </div>
-                </div>
               </PopoverContent>
             </Popover>
           </div>

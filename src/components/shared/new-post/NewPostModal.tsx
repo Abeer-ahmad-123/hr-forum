@@ -1,18 +1,16 @@
 'use client'
 import { PlusButton } from '@/components/shared'
-import React, { useState } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogClose,
-} from '@/components/ui/Dialog/simpleDialog'
-import NewPostForm from './NewPostForm'
+import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useSelector } from 'react-redux'
-import Signin from '@/components/Signin'
+import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
 
-export default function NewPost() {
+interface NewPostProps {
+  setPosts: Dispatch<SetStateAction<object[]>>
+}
+
+export default function NewPost({ setPosts }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: any) => state.loggedInUser.token)
 
@@ -31,7 +29,7 @@ export default function NewPost() {
         </div>
         {data ? (
           <DialogContent className="border bg-white sm:max-w-screen-md">
-            <NewPostForm open={setOpenDilog} />
+            <NewPostForm setPosts={setPosts} open={setOpenDilog} />
           </DialogContent>
         ) : (
           <SignInDialog setShowSignModal={() => {}} />
