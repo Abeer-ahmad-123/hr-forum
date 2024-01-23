@@ -6,7 +6,7 @@ async function PostSkelton({ isDialogPost = false }) {
     <div className="mx-auto my-5 h-screen max-w-5xl rounded-full">
       <div
         className={`mx-auto mb-5 flex max-w-screen-lg cursor-pointer rounded-xl bg-white
-      ${!isDialogPost && 'shadow-lg'} 
+       
       dark:bg-dark-primary dark:text-gray-300`}>
         <div className="flex w-full flex-col items-center p-10 pl-4 pt-0">
           <div className="mb-5 h-fit w-full  cursor-pointer rounded-xl bg-white  dark:bg-slate-800 dark:text-gray-300">

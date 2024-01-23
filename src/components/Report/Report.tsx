@@ -15,9 +15,10 @@ interface ReportInterface {
   reportType: string
   setOpenDialog: (arg0: boolean) => void
   commentId?: string
-  setReportedReplyId?: (arg1: string) => void
-  setReportedCommentId?: (arg1: string) => void
+  setReportedReplyId: (arg1: string) => void
+  setReportedCommentId: (arg1: string) => void
   getPostCommets: () => void
+  setReported: (arg1: boolean) => void
 }
 
 const Report = ({
@@ -28,6 +29,7 @@ const Report = ({
   setReportedReplyId,
   setReportedCommentId,
   getPostCommets,
+  setReported,
 }: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -68,8 +70,9 @@ const Report = ({
     if (response.success) {
       showSuccessAlert('Thanks for submitting you feedback')
       getPostCommets()
-      setReportedReplyId && setReportedReplyId(commentId!)
-      setReportedCommentId && setReportedCommentId(commentId!)
+      setReported(true)
+      setReportedReplyId(commentId!)
+      setReportedCommentId(commentId!)
       router.refresh()
     } else if (!response.success) {
       showErrorAlert('Session Expired! Please login again.')

@@ -206,6 +206,9 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
               setOpenDialog={setOpenDialog}
               postId={id}
               getPostCommets={() => {}}
+              setReported={() => {}}
+              setReportedReplyId={() => {}}
+              setReportedCommentId={() => {}}
             />
           </DialogContent>
         </Dialog>
@@ -230,7 +233,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row items-center">
                     <p
-                      className="text-sm font-normal leading-none text-gray-900  dark:text-gray-300"
+                      className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-[450px]:text-[9px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {user?.name}
@@ -239,28 +242,21 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                     <ChannelPill channel_id={channel_id} channels={channels} />
                   </div>
 
-                  <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400">
+                  <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400 max-[450px]:text-[8px] lg:text-sm xl:text-sm">
                     {timeFormatInHours(created_at)}
                   </p>
                 </div>
               </div>
 
-              <div className="flex justify-around ">
+              <div className="flex items-start">
                 {post?.user_has_reported && (
-                  <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
+                  <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block">
-                      <AlertOctagon
-                        size={15}
-                        className="hidden cursor-pointer max-custom-sm:block"
-                      />
-                      <div className="absolute bottom-full left-[50px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
+                      <AlertOctagon size={15} className="cursor-pointer" />
+                      <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
                         Reported
                       </div>
                     </div>
-
-                    <span className="text-[0.65rem] max-custom-sm:hidden">
-                      Reported
-                    </span>
                   </div>
                 )}
 
@@ -268,9 +264,9 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                   <Popover open={popOver} onOpenChange={setPopOver}>
                     <PopoverTrigger>
                       <span
-                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
+                        className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
                         onClick={setOpenPopOver}>
-                        <MoreHorizontal className="h-6 w-6 font-light" />
+                        <MoreHorizontal className="h-fit w-fit  font-light" />
                       </span>
                     </PopoverTrigger>
                     <PopoverContent className="bg-white">
@@ -303,12 +299,12 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           </div>
 
           <div className="flex flex-col">
-            <div className="my-3 text-start text-[28px] font-semibold dark:text-white">
+            <div className="my-3 text-start text-xl font-semibold dark:text-white max-[450px]:text-base">
               {title}
             </div>
             {!image_url ? (
               <div
-                className="text-start text-[15px] text-gray-700 dark:text-gray-300"
+                className="text-start text-base text-gray-700 dark:text-gray-300 max-[450px]:text-[13px]"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             ) : (

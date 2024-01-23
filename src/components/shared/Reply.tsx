@@ -163,6 +163,8 @@ function Reply({
                       setOpenDialog={setOpenDialog}
                       setReportedReplyId={setReportedReplyId}
                       getPostCommets={getPostCommets}
+                      setReported={() => {}}
+                      setReportedCommentId={() => {}}
                     />
                   </DialogContent>
                 </Dialog>
