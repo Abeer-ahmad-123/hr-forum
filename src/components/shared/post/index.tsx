@@ -40,17 +40,17 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const [reported, setReported] = useState(false)
+  const [reported, setReported] = useState<boolean>(false)
 
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
-  const [popOver, setPopOver] = useState(false)
+  const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
-  const [showSignModal, setShowSignModal] = useState(false)
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
-  const [openDialog, setOpenDialog] = useState(false)
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
   const { customFetch } = useInterceptor()
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -67,7 +67,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     })
     setPost(postData)
   }
-  const [bookmarkSuccess, setBookmarkSuccess] = useState(false) // TODO
+  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
 
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
