@@ -92,7 +92,6 @@ const Feeds = ({
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     setPosts((prev: any) => [...prev, ..._data?.posts])
   }
-  console.log(posts)
   useEffect(() => {
     if (inView) {
       getPosts()

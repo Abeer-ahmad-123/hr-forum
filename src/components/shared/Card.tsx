@@ -44,7 +44,6 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     image_url,
     total_comments,
   } = post
-  console.log(post)
   const pathName = usePathname()
   const router = useRouter()
   const userDetails = useSelector(
@@ -236,7 +235,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                       className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-[450px]:text-[9px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
-                      {user?.name}
+                      {user?.name === userDetails?.name ? 'You' : user?.name}
                     </p>
 
                     <ChannelPill channel_id={channel_id} channels={channels} />

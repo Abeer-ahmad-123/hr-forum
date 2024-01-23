@@ -67,12 +67,12 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
           />
 
           <div className="ml-4 flex flex-col items-start align-baseline">
-            <div className="flex flex-row">
+            <div className="flex flex-row items-center">
               <p
                 onClick={handleNavigateProfile}
-                className=" text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                className=" text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
                 aria-label="user-name">
-                {user?.name}
+                {user?.name === userData?.name ? 'You' : user?.name}
               </p>
               <ChannelPill channel_id={post.channel_id} channels={channels} />
             </div>

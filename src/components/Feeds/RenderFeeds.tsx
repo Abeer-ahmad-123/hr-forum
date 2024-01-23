@@ -36,7 +36,6 @@ async function RenderFeeds({
   let initialPosts = []
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
-
   if (channelSlug) {
     if (!searchParams.search) {
       try {
@@ -93,7 +92,7 @@ async function RenderFeeds({
           userID:
             (userDetailsCookies &&
               JSON.parse(userDetailsCookies?.value!)?.id) ??
-            undefined,
+            '',
         })
 
         initialPosts = data?.posts

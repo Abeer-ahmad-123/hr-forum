@@ -110,7 +110,7 @@ const RespProfile = ({ userId }: profileProps) => {
           showErrorAlert('Something went wrong')
         }
       } catch (e: any) {
-        throw new Error(e)
+        showErrorAlert(e)
       }
     }
     setOpenDialog(false)
@@ -222,7 +222,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         width={96}
                         height={96}
                         src={
-                          userId
+                          user?.profilePictureURL
                             ? user?.profilePictureURL || userImage
                             : noProfilePicture
                         }
