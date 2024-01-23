@@ -140,7 +140,11 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
         setLoading(false)
       }
     } catch (err) {
-      showErrorAlert('Something went wrong while creating post.')
+      if ((err as string).includes('Session Expired! Please Login Again')) {
+        showErrorAlert(err as string)
+      } else {
+        showErrorAlert('Something went wrong while creating post.')
+      }
       setLoading(false)
       open(false)
     }

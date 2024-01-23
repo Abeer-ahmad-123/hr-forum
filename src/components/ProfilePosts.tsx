@@ -1,5 +1,5 @@
-import userImage from '@/assets/avatars/Unknown_person.jpeg'
 import { ChannelPill } from '@/components/shared'
+import { noProfilePicture } from '@/utils/ImagesLink'
 
 import { timeFormatInHours } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
@@ -54,7 +54,6 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       nProgress.done()
     }
   }, [])
-
   return (
     <div
       className=" w-full rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300"
@@ -62,7 +61,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       <div className="px-5 py-4">
         <div className="flex text-left font-semibold dark:text-white">
           <img
-            src={user?.profilePictureURL || userImage.toString()}
+            src={user?.profilePictureURL || noProfilePicture}
             alt="profile"
             className="relative h-12 w-12 transform rounded-full"
           />

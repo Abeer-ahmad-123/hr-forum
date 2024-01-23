@@ -19,6 +19,7 @@ import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
+import { noProfilePicture } from '@/utils/ImagesLink'
 
 interface profileProps {
   userId?: string
@@ -223,7 +224,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         src={
                           userId
                             ? user?.profilePictureURL || userImage
-                            : userDataInStore?.profilePictureURL
+                            : noProfilePicture
                         }
                         className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />
