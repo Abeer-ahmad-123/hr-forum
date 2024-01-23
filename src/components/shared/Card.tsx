@@ -44,6 +44,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     image_url,
     total_comments,
   } = post
+  console.log(post)
   const pathName = usePathname()
   const router = useRouter()
   const userDetails = useSelector(
@@ -196,10 +197,8 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   }
 
   return (
-    <>
-      <div
-        key={Math.random()}
-        className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+    <div key={id}>
+      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="bg-white sm:max-w-[500px]">
             <Report
@@ -349,7 +348,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />
       </Dialog>
-    </>
+    </div>
   )
 }
 
