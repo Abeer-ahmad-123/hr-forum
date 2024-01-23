@@ -169,6 +169,8 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             postId={postId}
             getPostCommets={() => {}}
             setReported={setReported}
+            setReportedReplyId={() => {}}
+            setReportedCommentId={() => {}}
           />
         </DialogContent>
       </Dialog>

@@ -207,6 +207,8 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
               postId={id}
               getPostCommets={() => {}}
               setReported={() => {}}
+              setReportedReplyId={() => {}}
+              setReportedCommentId={() => {}}
             />
           </DialogContent>
         </Dialog>
