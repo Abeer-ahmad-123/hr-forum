@@ -18,6 +18,7 @@ interface ReportInterface {
   setReportedReplyId?: (arg1: string) => void
   setReportedCommentId?: (arg1: string) => void
   getPostCommets: () => void
+  setReported?: (arg1: boolean) => void
 }
 
 const Report = ({
@@ -28,6 +29,7 @@ const Report = ({
   setReportedReplyId,
   setReportedCommentId,
   getPostCommets,
+  setReported,
 }: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -68,6 +70,7 @@ const Report = ({
     if (response.success) {
       showSuccessAlert('Thanks for submitting you feedback')
       getPostCommets()
+      setReported && setReported(true)
       setReportedReplyId && setReportedReplyId(commentId!)
       setReportedCommentId && setReportedCommentId(commentId!)
       router.refresh()
