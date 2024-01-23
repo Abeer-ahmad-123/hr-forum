@@ -187,7 +187,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             <div
               className={`${
                 !isDialogPost ? 'mt-6' : ''
-              } items-left flex flex-row items-center justify-between`}>
+              } items-left flex flex-row items-center justify-between pt-1`}>
               <div className="flex items-center">
                 <div className="-z-2">
                   <div className="static rounded-full">
@@ -202,7 +202,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                   <div className="flex flex-row">
                     <CustomLink href={`/profile/${post?.user_id}`}>
                       <p
-                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300"
+                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-[450px]:text-[9px]"
                         aria-label="user-name">
                         {post?.author_details?.name}
                       </p>
@@ -213,7 +213,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                     />
                   </div>
 
-                  <p className="text-[10px] font-light text-slate-500 dark:text-gray-400 max-[380px]:text-[8px] md:text-[10px] lg:text-xs xl:text-xs">
+                  <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[450px]:text-[8px] md:text-[10px] lg:text-sm xl:text-sm">
                     {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
@@ -221,60 +221,55 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
               {/* ////// */}
 
-              {post?.user_has_reported && (
-                <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
-                  {/*  */}
-                  <div className="group relative inline-block">
-                    <AlertOctagon
-                      size={15}
-                      className="hidden cursor-pointer max-custom-sm:block"
-                    />
-                    <div className="absolute bottom-full left-[50px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
-                      Reported
+              <div className="mt-[-12px] flex ">
+                {post?.user_has_reported && (
+                  <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
+                    <div className="group relative inline-block">
+                      <AlertOctagon
+                        size={15}
+                        className="cursor-pointer max-custom-sm:block"
+                      />
+                      <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[0px]">
+                        Reported
+                      </div>
                     </div>
                   </div>
-                  {/*  */}
+                )}
 
-                  <span className="text-[0.65rem] max-custom-sm:hidden">
-                    Reported
-                  </span>
+                <div onMouseLeave={handleMouseDown}>
+                  <Popover open={popOver} onOpenChange={setPopOver}>
+                    <PopoverTrigger>
+                      <span
+                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
+                        onClick={setOpenPopOver}>
+                        <MoreHorizontal className="h-6 w-6 font-light" />
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent className="bg-white">
+                      <div
+                        className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                        onClick={handleReportClick}>
+                        <AlertOctagon size={17} />
+                        <span className="text-[15px] font-light max-custom-sm:hidden">
+                          {' '}
+                          Report
+                        </span>
+                      </div>
+                      <div
+                        onClick={handleBookmark}
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                        {bookmarkSuccess ? (
+                          <FaBookmark color="blue" />
+                        ) : (
+                          <FaRegBookmark />
+                        )}
+                        <span className="text-[15px] font-light max-custom-sm:hidden ">
+                          Bookmark
+                        </span>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </div>
-              )}
-
-              {/*  */}
-              <div onMouseLeave={handleMouseDown}>
-                <Popover open={popOver} onOpenChange={setPopOver}>
-                  <PopoverTrigger>
-                    <span
-                      className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
-                      onClick={setOpenPopOver}>
-                      <MoreHorizontal className="h-6 w-6 font-light" />
-                    </span>
-                  </PopoverTrigger>
-                  <PopoverContent className="bg-white">
-                    <div
-                      className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
-                      onClick={handleReportClick}>
-                      <AlertOctagon size={17} />
-                      <span className="text-[15px] font-light max-custom-sm:hidden">
-                        {' '}
-                        Report
-                      </span>
-                    </div>
-                    <div
-                      onClick={handleBookmark}
-                      className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-                      {bookmarkSuccess ? (
-                        <FaBookmark color="blue" />
-                      ) : (
-                        <FaRegBookmark />
-                      )}
-                      <span className="text-[15px] font-light max-custom-sm:hidden ">
-                        Bookmark
-                      </span>
-                    </div>
-                  </PopoverContent>
-                </Popover>
               </div>
 
               {/*  */}
@@ -282,9 +277,11 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
             <ReactionDetails reactionSummary={post?.reaction_summary} />
 
-            <div className="mt-2 text-left text-4xl">{post?.title}</div>
+            <div className="mt-2 text-left text-xl max-[450px]:text-base ">
+              {post?.title}
+            </div>
             <div
-              className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left leading-loose text-gray-600 dark:text-white"
+              className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-[450px]:text-[13px]"
               dangerouslySetInnerHTML={{ __html: post?.content }}
             />
             <div>
