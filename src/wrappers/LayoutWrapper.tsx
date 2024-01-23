@@ -38,7 +38,7 @@ const LayoutWrapper = ({ children }: any) => {
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err: unknown) {
-      if (err instanceof Error && err.message) {
+      if (err instanceof Error && err.message.includes('fetch failed')) {
         router.push('/error')
       }
     }
@@ -63,6 +63,9 @@ const LayoutWrapper = ({ children }: any) => {
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {
+        if (err instanceof Error && err.message.includes('fetch failed')) {
+          router.push('/error')
+        }
         showErrorAlert('Issue in google authentication')
       }
     }
@@ -86,6 +89,9 @@ const LayoutWrapper = ({ children }: any) => {
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {
+        if (err instanceof Error && err.message.includes('fetch failed')) {
+          router.push('/error')
+        }
         showErrorAlert('Issue in google authentication')
       }
     }
@@ -120,23 +126,28 @@ const LayoutWrapper = ({ children }: any) => {
     refreshInterval = setInterval(async () => {
       const localStorageToken = localStorage.getItem('token') || null
       if (localStorageToken && localStorageToken !== 'undefined') {
-        const tokenResponse = await getRefreshToken()
+        try {
+          const tokenResponse = await getRefreshToken()
 
-        dispatch(
-          setToken({
-            token: tokenResponse?.token,
-            refreshToken: tokenResponse['refresh-token'],
-          }),
-        )
+          dispatch(
+            setToken({
+              token: tokenResponse?.token,
+              refreshToken: tokenResponse['refresh-token'],
+            }),
+          )
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message.includes('fetch failed')
+          ) {
+            router.push('/error')
+          }
+        }
       }
     }, 900000)
     if (isFirstRun.current) {
       isFirstRun.current = false
-      try {
-        getChannelsLocal()
-      } catch (error) {
-        throw error
-      }
+      getChannelsLocal()
     }
 
     return () => clearInterval(refreshInterval)

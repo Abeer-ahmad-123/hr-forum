@@ -15,8 +15,8 @@ import {
   RenderFeedsInterface,
 } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
 import RespScreen from '../Cards/ResponsiveScreen'
+import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -30,7 +30,7 @@ async function RenderFeeds({
     channelData = channels
   } catch (error) {
     if (error instanceof Error && error.message) {
-      redirect('/error')
+      handleFetchFailed(error)
     }
   }
   let initialPosts = []
@@ -39,48 +39,71 @@ async function RenderFeeds({
 
   if (channelSlug) {
     if (!searchParams.search) {
-      const getChannelId = getChannelIdByChannelName(channelSlug, channelData)
+      try {
+        const getChannelId = getChannelIdByChannelName(channelSlug, channelData)
 
-      const { data } = await getPostsByChannelId({
-        id: getChannelId,
+        const { data } = await getPostsByChannelId({
+          id: getChannelId,
 
-        userID:
-          (userDetailsCookies?.value &&
-            JSON.parse(userDetailsCookies?.value!)?.id) ??
-          undefined,
+          userID:
+            (userDetailsCookies?.value &&
+              JSON.parse(userDetailsCookies?.value!)?.id) ??
+            undefined,
 
-        loadReactions: true,
-        loadUser: true,
-      })
-      initialPosts = data?.posts
-      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+          loadReactions: true,
+          loadUser: true,
+        })
+        initialPosts = data?.posts
+        morePosts =
+          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      } catch (error) {
+        if (error instanceof Error) {
+          handleFetchFailed(error)
+        }
+      }
     } else {
-      const getChannelId =
-        path === '/channels' && channelSlug
-          ? getChannelIdByChannelName(channelSlug, channelData) || undefined
-          : undefined
-      const { data } = await getSearchPosts({
-        search: searchParams.search,
-        userID:
-          (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
-          undefined,
-        channelID: getChannelId,
-      })
+      try {
+        const getChannelId =
+          path === '/channels' && channelSlug
+            ? getChannelIdByChannelName(channelSlug, channelData) || undefined
+            : undefined
+        const { data } = await getSearchPosts({
+          search: searchParams.search,
+          userID:
+            (userDetailsCookies &&
+              JSON.parse(userDetailsCookies?.value!)?.id) ??
+            undefined,
+          channelID: getChannelId,
+        })
 
-      initialPosts = data?.posts
-      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+        initialPosts = data?.posts
+        morePosts =
+          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      } catch (error) {
+        if (error instanceof Error) {
+          handleFetchFailed(error)
+        }
+      }
     }
   } else {
     if (Object.keys(searchParams).length && searchParams.search) {
-      const { data } = await getSearchPosts({
-        search: searchParams.search,
-        userID:
-          (userDetailsCookies && JSON.parse(userDetailsCookies?.value!)?.id) ??
-          undefined,
-      })
+      try {
+        const { data } = await getSearchPosts({
+          search: searchParams.search,
+          userID:
+            (userDetailsCookies &&
+              JSON.parse(userDetailsCookies?.value!)?.id) ??
+            undefined,
+        })
 
-      initialPosts = data?.posts
-      morePosts = data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+        initialPosts = data?.posts
+        morePosts =
+          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      } catch (error) {
+        if (error instanceof Error) {
+          handleFetchFailed(error)
+        }
+      }
     } else {
       if (path === '/feed') {
         try {
@@ -95,7 +118,11 @@ async function RenderFeeds({
           initialPosts = data?.posts
           morePosts =
             data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-        } catch (error) {}
+        } catch (error) {
+          if (error instanceof Error) {
+            handleFetchFailed(error)
+          }
+        }
       } else if (path === '/saved') {
         try {
           const res = await getBookmarkPosts(
@@ -114,7 +141,9 @@ async function RenderFeeds({
           })
           morePosts = false
         } catch (error) {
-          console.error(`${error}`)
+          if (error instanceof Error) {
+            handleFetchFailed(error)
+          }
         }
       }
     }

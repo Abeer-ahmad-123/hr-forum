@@ -12,15 +12,16 @@ const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
   const redirectLogic = searchParams?.redirect
   const tokenInCookes = cookies().get('access-token')?.value
   if (!tokenInCookes) {
-    redirect('/')
+    redirect('/feeds')
+  } else {
+    return redirectLogic ? (
+      <RedirectLogic redirect={redirectLogic} />
+    ) : (
+      <Suspense fallback={<CardLoading />}>
+        <RenderFeeds searchParams={searchParams} path="/saved" />
+      </Suspense>
+    )
   }
-  return redirectLogic ? (
-    <RedirectLogic redirect={redirectLogic} />
-  ) : (
-    <Suspense fallback={<CardLoading />}>
-      <RenderFeeds searchParams={searchParams} path="/saved" />
-    </Suspense>
-  )
 }
 
 export default FeedPage

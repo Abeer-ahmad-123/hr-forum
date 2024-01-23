@@ -9,14 +9,14 @@ const Profile = () => {
 
   if (!userDetailsCookies) {
     redirect('/feeds')
+  } else {
+    return (
+      <Suspense fallback={<ProfilePageLoading />}>
+        <RespProfile />
+        {/* <ProfilePageLoading /> */}
+      </Suspense>
+    )
   }
-
-  return (
-    <Suspense fallback={<ProfilePageLoading />}>
-      <RespProfile />
-      {/* <ProfilePageLoading /> */}
-    </Suspense>
-  )
 }
 
 export default Profile
