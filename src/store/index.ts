@@ -5,6 +5,7 @@ import loadingIndicatorReducer from '@/store/Slices/loadingIndicator'
 import loggedInUserReducer from '@/store/Slices/loggedInUserSlice'
 import modalSliceReducer from '@/store/Slices/modal'
 import postReducer from '@/store/Slices/postSlice'
+import notFoundReducer from '@/store/Slices/not-found'
 import { configureStore } from '@reduxjs/toolkit'
 
 const store = configureStore({
@@ -16,6 +17,7 @@ const store = configureStore({
     loadingIndicator: loadingIndicatorReducer,
     channels: channelsReducer,
     posts: postReducer,
+    notFound: notFoundReducer,
   },
 })
 

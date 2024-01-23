@@ -21,6 +21,7 @@ import UserNameDialog from './UserNameDialog'
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
+  const notFound = useSelector((state: any) => state.notFound.notFound)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
   const pathname = usePathname()
@@ -158,7 +159,7 @@ const LayoutWrapper = ({ children }: any) => {
       className={`${styles.trim()} theme-default ${
         pathname.includes('/error') ? 'bg-white' : 'bg-background'
       } pt-4 font-primary dark:bg-slate-700`}>
-      {!loading && !pathname.includes('/error') && <Navbar />}
+      {!loading && !pathname.includes('/error') && !notFound && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
         <div className="grid">

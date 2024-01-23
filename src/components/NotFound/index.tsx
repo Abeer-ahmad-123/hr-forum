@@ -1,6 +1,19 @@
+'use client'
+import { useDispatch } from 'react-redux'
 import './index.css'
+import { setNotFound } from '@/store/Slices/not-found'
+import { useEffect } from 'react'
 
 const NotFound = () => {
+  const dispatch = useDispatch()
+
+  const setNotFoundTrue = async () => {
+    await dispatch(setNotFound())
+  }
+
+  useEffect(() => {
+    setNotFoundTrue()
+  }, [])
   return (
     <div className="not-found">
       <div className="error-contain">
