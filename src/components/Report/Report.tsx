@@ -18,7 +18,7 @@ interface ReportInterface {
   setReportedReplyId?: (arg1: string) => void
   setReportedCommentId?: (arg1: string) => void
   getPostCommets: () => void
-  setReported?: (arg1: boolean) => void
+  setReported: (arg1: boolean) => void
 }
 
 const Report = ({

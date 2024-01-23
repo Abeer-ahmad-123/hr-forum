@@ -102,6 +102,7 @@ function ReplyTextArea({
               setOpenDialog={setOpenDialog}
               setReportedReplyId={setReportedCommentId}
               getPostCommets={getPostCommets}
+              setReported={() => {}}
             />
           </DialogContent>
         </Dialog>
