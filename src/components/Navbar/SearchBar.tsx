@@ -23,13 +23,15 @@ const SearchBar = () => {
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      NProgress.start()
       e.preventDefault()
-      const baseRoute = pathname.includes('channels/') ? pathname : '/feeds'
+      if (search !== SearchParams.get('search')) {
+        NProgress.start()
+        const baseRoute = pathname.includes('channels/') ? pathname : '/feeds'
 
-      const queryParams = search ? `?search=${search}` : ''
-      router.push(`${baseRoute}${queryParams}`)
-      refForInput.current.blur()
+        const queryParams = search ? `?search=${search}` : ''
+        router.push(`${baseRoute}${queryParams}`)
+        refForInput.current.blur()
+      }
     }
   }
 
