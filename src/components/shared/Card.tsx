@@ -4,7 +4,7 @@ import { noProfilePicture } from '@/utils/ImagesLink'
 import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { AlertOctagon } from 'lucide-react'
+import { AlertOctagon, Trash2 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
@@ -28,6 +28,7 @@ import {
 import { MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
+import DeletePost from './post/DeletePost'
 
 const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const {
@@ -69,6 +70,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const [showSignModal, setShowSignModal] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [bookmarkSuccess, setBookmarkSuccess] = useState(user_has_bookmarked)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -163,6 +165,18 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     }
   }
 
+  const handleDeleteClick = (event: any) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setPopOver(false)
+
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else {
+      setOpenDeleteDialog(true)
+    }
+  }
+
   const handleBookmark = async (event: any) => {
     // if (pathName.includes('/saved')) {
     //   setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
@@ -208,6 +222,16 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
               setReported={() => {}}
               setReportedReplyId={() => {}}
               setReportedCommentId={() => {}}
+            />
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+          <DialogContent className="bg-white sm:max-w-[500px]">
+            <DeletePost
+              setOpenDeleteDialog={setOpenDeleteDialog}
+              postId={id}
+              setReported={() => {}}
             />
           </DialogContent>
         </Dialog>
@@ -269,15 +293,28 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                       </span>
                     </PopoverTrigger>
                     <PopoverContent className="bg-white">
-                      <div
-                        className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
-                        onClick={handleReportClick}>
-                        <AlertOctagon size={17} />
-                        <span className="text-[15px] font-light max-custom-sm:hidden">
-                          {' '}
-                          Report
-                        </span>
-                      </div>
+                      {' '}
+                      {(post.user_id as string) === userDetails.id ? (
+                        <div
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                          onClick={handleDeleteClick}>
+                          <Trash2 size={17} />
+                          <span className="text-[15px] font-light max-custom-sm:hidden">
+                            {' '}
+                            Delete
+                          </span>
+                        </div>
+                      ) : (
+                        <div
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                          onClick={handleReportClick}>
+                          <AlertOctagon size={17} />
+                          <span className="text-[15px] font-light max-custom-sm:hidden">
+                            {' '}
+                            Report
+                          </span>
+                        </div>
+                      )}
                       <div
                         onClick={handleBookmark}
                         className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
