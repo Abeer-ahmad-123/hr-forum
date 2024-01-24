@@ -29,7 +29,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
     <span
       className="px-1 text-xs 
     font-light
-    text-slate-500 dark:text-gray-400 max-[450px]:text-[9px] md:text-xs lg:text-sm xl:text-sm ">
+    text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] md:text-xs lg:text-sm xl:text-sm ">
       Posted in
       <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}

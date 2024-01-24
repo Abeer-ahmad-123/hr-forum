@@ -1,4 +1,7 @@
 'use client'
+
+import BgBanner from '@/assets/icons/bgBanner'
+import { noProfilePicture } from '@/utils/ImagesLink'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail } from 'lucide-react'
 import { useSelector } from 'react-redux'
@@ -15,22 +18,20 @@ const ProfileCard = () => {
 
   return (
     <div className="relative mt-5 h-auto w-[200px] cursor-pointer overflow-hidden rounded-[10px] border border-solid border-gray-300 bg-white shadow-lg dark:bg-slate-800 dark:text-white max-md:mt-4 max-md:w-full">
-      <img
-        className="h-[70px] w-full max-md:object-cover"
-        src={
-          userDetails?.backgroundPictureURL ||
-          'https://i.pinimg.com/originals/71/dc/d9/71dcd9ddf43b7ca29f7199305af68f08.png'
-        }
-        alt="background"
-        width={200}
-        height={70}
-      />
+      {userDetails?.backgroundPictureURL ? (
+        <img
+          className="h-[70px] w-full object-cover"
+          src={userDetails?.backgroundPictureURL}
+          alt="background"
+          width={200}
+          height={70}
+        />
+      ) : (
+        <BgBanner />
+      )}
       <div className="flex items-center justify-center">
         <img
-          src={
-            userDetails?.profilePictureURL ||
-            'https://image.winudf.com/v2/image1/bmV0LndsbHBwci5ib3lzX3Byb2ZpbGVfcGljdHVyZXNfc2NyZWVuXzBfMTY2NzUzNzYxN18wOTk/screen-0.webp?fakeurl=1&type=.webp'
-          }
+          src={userDetails?.profilePictureURL || noProfilePicture}
           alt="profile"
           className="relative top-[-20px] h-14 w-14 rounded-full border-2 border-solid border-white"
           width={50}

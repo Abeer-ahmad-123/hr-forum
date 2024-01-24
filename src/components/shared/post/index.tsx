@@ -201,10 +201,10 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 </div>
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row">
+                  <div className="flex flex-row items-center">
                     <CustomLink href={`/profile/${post?.user_id}`}>
                       <p
-                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-[450px]:text-[9px]"
+                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-custom-sm:text-[9px]"
                         aria-label="user-name">
                         {post?.author_details?.name}
                       </p>
@@ -215,7 +215,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                     />
                   </div>
 
-                  <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-[450px]:text-[8px] md:text-[10px] lg:text-sm xl:text-sm">
+                  <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px] md:text-[10px] lg:text-sm xl:text-sm">
                     {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
@@ -279,11 +279,11 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
             <ReactionDetails reactionSummary={post?.reaction_summary} />
 
-            <div className="mt-2 text-left text-xl max-[450px]:text-base ">
+            <div className="mt-2 text-left text-xl max-custom-sm:text-base ">
               {post?.title}
             </div>
             <div
-              className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-[450px]:text-[13px]"
+              className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px]"
               dangerouslySetInnerHTML={{ __html: post?.content }}
             />
             <div>
