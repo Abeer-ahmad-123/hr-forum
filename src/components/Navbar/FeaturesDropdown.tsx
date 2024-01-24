@@ -10,7 +10,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import DropDownContent from '../shared/DropDownContent'
 
-const OldFeaturesDropDown = () => {
+const FeaturesDropDown = () => {
   const [selected, setSelected] = useState('Home')
   const checked = useSelector((state: any) => state.dropDown.checked)
   const dispatch = useDispatch()
@@ -39,10 +39,6 @@ const OldFeaturesDropDown = () => {
     },
     [setCheckFalse],
   )
-
-  const setBorder = checked
-    ? 'border-b-0 border-r border-l border-t  border-[#e6e6e6]'
-    : 'border-transparent hover:border-[#e6e6e6] dark:hover:border-white'
 
   const showDiv = checked
     ? 'ml-[-1px] block w-[270px] border-b border-l border-r border-[#e6e6e6]  max-lg:w-[200px]'
@@ -131,4 +127,4 @@ const OldFeaturesDropDown = () => {
   )
 }
 
-export default OldFeaturesDropDown
+export default FeaturesDropDown
