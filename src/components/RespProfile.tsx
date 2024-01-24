@@ -20,6 +20,7 @@ import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
 import { noProfilePicture } from '@/utils/ImagesLink'
+import { useRouter } from 'next/navigation'
 
 interface profileProps {
   userId?: string
@@ -33,7 +34,7 @@ const RespProfile = ({ userId }: profileProps) => {
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-
+  const router = useRouter()
   const { customFetch } = useInterceptor()
   const imageInputRef = useRef(null)
   const [posts, setUserSpecificPosts] = useState<any>([])
@@ -97,7 +98,7 @@ const RespProfile = ({ userId }: profileProps) => {
         if (response?.success) {
           showSuccessAlert('Profile picture updated')
           setLoading(false)
-
+          setUser({ ...user, profilePictureURL: response?.data?.url })
           dispatch(
             setUserData({
               userData: {
@@ -110,12 +111,12 @@ const RespProfile = ({ userId }: profileProps) => {
           showErrorAlert('Something went wrong')
         }
       } catch (e: any) {
+        if (e.includes('Session Expired')) router.push('/')
         showErrorAlert(e)
       }
     }
     setOpenDialog(false)
   }
-
   const onBgImageInputChange = async (e: any) => {
     const file = e.target.files[0]
     const response = await updateUserBgImage(
@@ -223,7 +224,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         height={96}
                         src={
                           user?.profilePictureURL
-                            ? user?.profilePictureURL || userImage
+                            ? user?.profilePictureURL
                             : noProfilePicture
                         }
                         className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
