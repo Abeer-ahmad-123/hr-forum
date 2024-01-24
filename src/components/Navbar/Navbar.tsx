@@ -1,13 +1,19 @@
 'use client'
 import FeaturesDropDown from '@/components/Navbar/FeaturesDropdown'
 import NavMenuDropdown from '@/components/Navbar/NavMenuDropdown'
-import LogButton from './LogButton'
 import Logo from './Logo'
 import NightModeToggle from './NightModeToggle'
 import SearchBar from './SearchBar'
+import { useSelector } from 'react-redux'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import LoggedIn from './LoggedIn'
+import SigninNavButton from './SigninNavButton'
 type NavbarProps = {}
 
 const Navbar: React.FC<NavbarProps> = () => {
+  const reduxToken = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.token,
+  )
   return (
     <div className="fixed top-0 z-50 h-14 w-full items-center bg-white px-4 py-2 shadow-sm dark:bg-black">
       <div className="flex w-full items-center justify-between">
@@ -21,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = () => {
             <NightModeToggle />
 
             <NavMenuDropdown />
-            <LogButton />
+            {reduxToken ? <LoggedIn /> : <SigninNavButton />}
           </div>
         </div>
       </div>
