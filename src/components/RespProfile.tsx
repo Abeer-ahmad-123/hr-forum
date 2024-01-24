@@ -1,5 +1,5 @@
 'use client'
-import userImage from '@/assets/avatars/Unknown_person.jpeg'
+import BgBanner from '@/assets/icons/bgBanner'
 import ImageUpload from '@/components/ImageUpload'
 import { useInterceptor } from '@/hooks/interceptors'
 import { getUserSpecificPosts } from '@/services/posts'
@@ -9,9 +9,12 @@ import {
   updateUserImage,
 } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
+
+import { noProfilePicture } from '@/utils/ImagesLink'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,8 +22,6 @@ import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
-import { noProfilePicture } from '@/utils/ImagesLink'
-import { useRouter } from 'next/navigation'
 
 interface profileProps {
   userId?: string
@@ -165,33 +166,52 @@ const RespProfile = ({ userId }: profileProps) => {
     <>
       <div className="profile-page  max-md:block">
         <section className="relative mt-5 block h-[650px]">
-          <div
-            className="absolute top-0 h-[60%] w-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${
-                user?.backgroundPictureURL ||
-                'https://source.unsplash.com/random'
-              })`,
-            }}>
-            {!userId && (
-              <label
-                htmlFor="changeBackgroundImage"
-                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                <LiaUserEditSolid className="cursor-pointer text-white" />
-              </label>
-            )}
-            <input
-              className="hidden"
-              id="changeBackgroundImage"
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              onChange={onBgImageInputChange}
-            />
-            <span
-              id="blackOverlay"
-              className="absolute left-0 h-full w-full bg-black opacity-50"></span>
-          </div>
+          {user?.backgroundPictureURL ? (
+            <div
+              className="absolute top-0 h-[60%] w-full bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${user?.backgroundPictureURL})`,
+              }}>
+              {!userId && (
+                <label
+                  htmlFor="changeBackgroundImage"
+                  className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                  <LiaUserEditSolid className="cursor-pointer text-white" />
+                </label>
+              )}
+              <input
+                className="hidden"
+                id="changeBackgroundImage"
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                onChange={onBgImageInputChange}
+              />
+              <span
+                id="blackOverlay"
+                className="absolute left-0 h-full w-full bg-black opacity-50"></span>
+            </div>
+          ) : (
+            <>
+              <BgBanner />
+              {!userId && (
+                <label
+                  htmlFor="changeBackgroundImage"
+                  className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                  <LiaUserEditSolid className="cursor-pointer text-white" />
+                </label>
+              )}
+              <input
+                className="hidden"
+                id="changeBackgroundImage"
+                ref={imageInputRef}
+                type="file"
+                accept="image/*"
+                onChange={onBgImageInputChange}
+              />
+            </>
+          )}
+
           <div
             className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
             style={{ transform: 'translateZ(0px)' }}>

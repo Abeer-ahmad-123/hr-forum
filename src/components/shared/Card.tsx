@@ -232,7 +232,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row items-center">
                     <p
-                      className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-[450px]:text-[9px]"
+                      className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-custom-sm:text-[9px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {user?.name === userDetails?.name ? 'You' : user?.name}
@@ -241,7 +241,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                     <ChannelPill channel_id={channel_id} channels={channels} />
                   </div>
 
-                  <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400 max-[450px]:text-[8px] lg:text-sm xl:text-sm">
+                  <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px] lg:text-sm xl:text-sm">
                     {timeFormatInHours(created_at)}
                   </p>
                 </div>
@@ -298,12 +298,12 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           </div>
 
           <div className="flex flex-col">
-            <div className="my-3 text-start text-xl font-semibold dark:text-white max-[450px]:text-base">
+            <div className="my-3 text-start text-xl font-semibold dark:text-white max-custom-sm:text-base">
               {title}
             </div>
             {!image_url ? (
               <div
-                className="text-start text-base text-gray-700 dark:text-gray-300 max-[450px]:text-[13px]"
+                className="text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             ) : (
