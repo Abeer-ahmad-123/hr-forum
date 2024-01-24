@@ -19,7 +19,7 @@ const showErrorAlert = (title: string) => {
     pauseOnHover: false,
     draggable: false,
     progress: undefined,
-    theme: 'light',
+    theme: 'colored',
   })
 }
 
@@ -32,7 +32,7 @@ const showSuccessAlert = (title: string) => {
     pauseOnHover: false,
     draggable: false,
     progress: undefined,
-    theme: 'light',
+    theme: 'colored',
   })
 }
 
