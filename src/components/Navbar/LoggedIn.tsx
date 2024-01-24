@@ -75,6 +75,7 @@ function LoggedIn() {
     <div>
       <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
         <DropdownMenuTrigger
+          className="border-none outline-0"
           onChange={() => {
             setOpenPopover(!openPopover)
           }}>
