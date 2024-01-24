@@ -241,7 +241,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                     <ChannelPill channel_id={channel_id} channels={channels} />
                   </div>
 
-                  <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px] lg:text-sm xl:text-sm">
+                  <p className="justify-start text-xs font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px]">
                     {timeFormatInHours(created_at)}
                   </p>
                 </div>

@@ -215,7 +215,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                     />
                   </div>
 
-                  <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px] md:text-[10px] lg:text-sm xl:text-sm">
+                  <p className="text-xs font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px] md:text-[10px]">
                     {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
