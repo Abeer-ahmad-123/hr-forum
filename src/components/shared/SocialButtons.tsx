@@ -14,6 +14,8 @@ import {
 } from 'react-share'
 
 import { DOMAIN_URL } from '@/services'
+import { showSuccessAlert } from '@/utils/helper'
+import { Link2 } from 'lucide-react'
 
 interface SocialButtonsProps {
   className: string
@@ -22,15 +24,20 @@ interface SocialButtonsProps {
   replyId?: string | null
 }
 
-function SocialButtons({
+const SocialButtons = ({
   className,
   postId,
   commentId = null,
   replyId = null,
-}: SocialButtonsProps) {
+}: SocialButtonsProps) => {
   const url = `${DOMAIN_URL}/feeds/feed/${postId}${
     commentId === null ? '' : `?commentId=${commentId}`
   }${replyId === null ? '' : `&replyId=${replyId}`}`
+
+  const copyToClipBoard = () => {
+    navigator.clipboard.writeText(url)
+    showSuccessAlert('Link copied to clipboard')
+  }
 
   return (
     <div className={`${className}`}>
@@ -53,6 +60,10 @@ function SocialButtons({
       <TwitterShareButton url={url}>
         <TwitterIcon size={30} round />
       </TwitterShareButton>
+
+      <button className="rounded-full bg-accent p-1" onClick={copyToClipBoard}>
+        <Link2 color="white" className="-rotate-45" size={20} />
+      </button>
     </div>
   )
 }
