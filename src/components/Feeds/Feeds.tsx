@@ -31,12 +31,11 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, setPosts] = useState<Array<object>>([])
+  const [posts, setPosts] = useState<Array<PostsInterface>>([])
   const [page, setPage] = useState(2)
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
 
@@ -90,7 +89,7 @@ const Feeds = ({
     setPage(page + 1)
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
-    setPosts((prev: any) => [...prev, ..._data?.posts])
+    setPosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
   }
   useEffect(() => {
     if (inView) {
@@ -99,9 +98,7 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    if (initialPosts.length) {
-      setPosts([...initialPosts])
-    }
+    setPosts([...initialPosts])
   }, [initialPosts])
   return (
     <>
@@ -118,7 +115,9 @@ const Feeds = ({
         ) : (
           <NoPosts />
         )}
-        {noMorePosts?.current && <CircularProgress incommingRef={ref} />}
+        {!!posts?.length && noMorePosts?.current && (
+          <CircularProgress incommingRef={ref} />
+        )}
       </div>
     </>
   )

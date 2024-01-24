@@ -12,7 +12,7 @@ const SearchBar = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
 
   const SearchParams = useSearchParams()
-  const [search, setSearch] = useState<string>(SearchParams.get('search') ?? '')
+  const [search, setSearch] = useState<string>('')
   const router = useRouter()
   const refForInput: any = useRef()
   const pathname = usePathname()
@@ -36,11 +36,13 @@ const SearchBar = () => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
+
   useEffect(() => {
+    setSearch(SearchParams.get('search') ?? '')
     return () => {
       NProgress.done()
     }
-  }, [])
+  }, [SearchParams])
 
   return (
     <form
