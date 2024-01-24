@@ -5,14 +5,16 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { PostsInterface } from '@/utils/interfaces/posts'
 
 interface NewPostProps {
-  setPosts: Dispatch<SetStateAction<object[]>>
+  setPosts: (arg0: Array<PostsInterface>) => void
 }
 
 export default function NewPost({ setPosts }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
-  const data = useSelector((state: any) => state.loggedInUser.token)
+  const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
   const handleOpenDialog = () => {
     setOpenDilog(true)
