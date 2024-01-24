@@ -107,7 +107,7 @@ const PostReactionBar = ({
   return (
     <>
       <hr />
-      <div className="flex items-center justify-between px-[3.2rem] py-1">
+      <div className="flex items-center justify-between px-10 py-1">
         <div className="felx gap-1">
           {emojis?.slice(0, countofAll).map((react, index) => (
             <span
