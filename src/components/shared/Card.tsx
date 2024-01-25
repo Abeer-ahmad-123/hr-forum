@@ -166,7 +166,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     }
   }
 
-  const handleDeleteClick = (event: any) => {
+  const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
     setPopOver(false)
