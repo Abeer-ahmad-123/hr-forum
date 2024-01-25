@@ -168,15 +168,14 @@ const PostActionBar = ({
     }
   }
 
-  const handleClick = () => {
-    if (!tokenInRedux) {
-      setShowSignModal(true)
-    } else setOpenDialog(true)
-  }
   const setOpenPopOver = () => {
     setPopOver((pre) => !pre)
   }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPopOver(false)
+  }
+
+  const handleButtonClick = () => {
     setPopOver(false)
   }
 
@@ -213,7 +212,11 @@ const PostActionBar = ({
               </PopoverTrigger>
 
               <PopoverContent className="cursor-pointer bg-white">
-                <SocialButtons className="flex gap-3" postId={postId} />
+                <SocialButtons
+                  className="flex gap-3"
+                  postId={postId}
+                  handleButtonClick={handleButtonClick}
+                />
               </PopoverContent>
             </Popover>
           </div>

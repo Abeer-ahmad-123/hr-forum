@@ -22,6 +22,7 @@ interface SocialButtonsProps {
   postId: string | null
   commentId?: string | null
   replyId?: string | null
+  handleButtonClick: () => void
 }
 
 const SocialButtons = ({
@@ -29,6 +30,7 @@ const SocialButtons = ({
   postId,
   commentId = null,
   replyId = null,
+  handleButtonClick,
 }: SocialButtonsProps) => {
   const url = `${DOMAIN_URL}/feeds/feed/${postId}${
     commentId === null ? '' : `?commentId=${commentId}`
@@ -37,6 +39,7 @@ const SocialButtons = ({
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(url)
     showSuccessAlert('Link copied to clipboard')
+    handleButtonClick()
   }
 
   return (
