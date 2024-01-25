@@ -184,7 +184,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       dark:bg-dark-background dark:text-gray-300`}>
           <div
             className={`flex w-full flex-col  pt-0 ${
-              isDialogPost ? '' : 'p-10'
+              isDialogPost ? '' : 'p-10 max-custom-sm:px-2'
             }`}>
             <div
               className={`${
@@ -204,9 +204,12 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                   <div className="flex flex-row items-center">
                     <CustomLink href={`/profile/${post?.user_id}`}>
                       <p
-                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-custom-sm:text-[9px]"
+                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                         aria-label="user-name">
-                        {post?.author_details?.name}
+                        {post?.author_details?.name === userDetails?.name
+                          ? 'You'
+                          : post?.author_details?.name}
                       </p>
                     </CustomLink>
                     <ChannelPill
@@ -225,13 +228,13 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
               <div className="mt-[-12px] flex ">
                 {post?.user_has_reported && (
-                  <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
+                  <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block">
                       <AlertOctagon
                         size={15}
-                        className="cursor-pointer max-custom-sm:block"
+                        className="h-4 w-4 cursor-pointer max-custom-sm:block max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]"
                       />
-                      <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[0px]">
+                      <div className="absolute bottom-full hidden -translate-x-1/2 transform whitespace-nowrap rounded-xl bg-gray-400 px-[5px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[0px]">
                         Reported
                       </div>
                     </div>
@@ -240,11 +243,11 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
                 <div onMouseLeave={handleMouseDown}>
                   <Popover open={popOver} onOpenChange={setPopOver}>
-                    <PopoverTrigger>
+                    <PopoverTrigger className="flex">
                       <span
-                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
+                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black max-[392px]:px-0"
                         onClick={setOpenPopOver}>
-                        <MoreHorizontal className="h-6 w-6 font-light" />
+                        <MoreHorizontal className="h-6 w-6 font-light max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                       </span>
                     </PopoverTrigger>
                     <PopoverContent className="bg-white">

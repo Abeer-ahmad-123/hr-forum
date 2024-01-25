@@ -236,14 +236,16 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           </DialogContent>
         </Dialog>
 
-        <div className="px-10 py-4" onClick={handleNavigateFeed}>
+        <div
+          className="px-10 py-4 max-custom-sm:px-6 max-[392px]:px-2"
+          onClick={handleNavigateFeed}>
           <div className="flex flex-row justify-between">
             <div className="flex w-full  flex-row items-center justify-between max-custom-sm:items-start ">
               <div className="flex items-center">
                 <div className="-z-2">
-                  <div className="static rounded-xl ">
+                  <div className="static rounded-xl">
                     <img
-                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
+                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
                       width={32}
                       height={32}
                       src={user?.profile_picture_url || noProfilePicture}
@@ -256,7 +258,8 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row items-center">
                     <p
-                      className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-custom-sm:text-[9px]"
+                      className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-custom-sm:text-[11px] 
+                      max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {user?.name === userDetails?.name ? 'You' : user?.name}
@@ -265,17 +268,17 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                     <ChannelPill channel_id={channel_id} channels={channels} />
                   </div>
 
-                  <p className="justify-start text-[0.70rem] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[8px]">
+                  <p className="justify-start text-[0.70rem] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
                     {timeFormatInHours(created_at)}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start">
+              <div className="flex items-center gap-0.5">
                 {post?.user_has_reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block">
-                      <AlertOctagon size={15} className="cursor-pointer" />
+                      <AlertOctagon className="h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
                       <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
                         Reported
                       </div>
@@ -285,11 +288,11 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
 
                 <div onMouseLeave={handleMouseDown}>
                   <Popover open={popOver} onOpenChange={setPopOver}>
-                    <PopoverTrigger>
+                    <PopoverTrigger className="flex">
                       <span
-                        className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
+                        className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
                         onClick={setOpenPopOver}>
-                        <MoreHorizontal className="h-fit w-fit  font-light" />
+                        <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                       </span>
                     </PopoverTrigger>
                     <PopoverContent className="bg-white">
