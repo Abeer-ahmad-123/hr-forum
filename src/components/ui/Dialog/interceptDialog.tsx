@@ -51,16 +51,12 @@ const DialogContent = React.forwardRef<
           className,
         )}
         {...props}>
+        <button className="focus:ring-ring data-[state=open]:text-muted-foreground absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent">
+          <X className="h-4 w-4 dark:text-white" onClick={close} />
+          <span className="sr-only">Close</span>
+        </button>
         <div className="hide-scrollbar mt-[10px] max-h-[calc(90vh-3rem)] overflow-auto">
-          <div className="flex ">
-            <div className="mr-3 w-full">{children}</div>
-            <button
-              className="focus:ring-ring data-[state=open]:text-muted-foreground absolute right-4 top-4 
-            mt-[34px] flex h-fit  w-fit rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent">
-              <X className="h-4 w-4 dark:text-white" onClick={close} />
-              <span className="sr-only">Close</span>
-            </button>
-          </div>
+          {children}
         </div>
       </DialogPrimitive.Content>
     </DialogPortal>
