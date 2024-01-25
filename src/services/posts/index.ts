@@ -194,9 +194,10 @@ export async function deletePost(
         refreshToken: refreshToken,
       },
     })
-    const response = await res.json()
-    return response
+
+    return res
   } catch (err) {
+    console.log('Here is my error', err)
     throw err
   }
 }

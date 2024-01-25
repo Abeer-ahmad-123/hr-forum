@@ -3,6 +3,7 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -33,7 +34,6 @@ const DeletePost = ({
     setOpenDeleteDialog(false)
   }
 
-  //
   const handleDeletePost = async () => {
     setLoading(true)
     try {
@@ -43,20 +43,21 @@ const DeletePost = ({
         tokenInRedux,
         refreshTokenInRedux,
       )
-      if (response.status === 200) {
+      if (response.status === 204) {
         setLoading(false)
         setOpenDeleteDialog(false)
-        setReported(true)
+        showSuccessAlert('Post deleted successfully')
+        router.refresh()
       }
     } catch (error) {
-      setLoading(false)
       if (error instanceof Error) {
-        console.log(error.message)
+        showErrorAlert('Something went wrong')
       }
+    } finally {
+      setLoading(false)
+      setOpenDeleteDialog(false)
     }
   }
-
-  //
 
   return (
     <div className="rounded-lg bg-white p-4">
