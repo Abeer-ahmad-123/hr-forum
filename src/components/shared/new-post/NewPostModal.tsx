@@ -1,12 +1,12 @@
 'use client'
 import { PlusButton } from '@/components/shared'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
 
 interface NewPostProps {
   setPosts: (arg0: Array<PostsInterface>) => void
