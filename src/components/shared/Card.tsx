@@ -67,10 +67,11 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   })
   const [userReaction, setUserReaction] = useState('')
 
-  const [showSignModal, setShowSignModal] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
-  const [bookmarkSuccess, setBookmarkSuccess] = useState(user_has_bookmarked)
-  const [openDeleteDialog, setOpenDeleteDialog] = useState(false)
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [bookmarkSuccess, setBookmarkSuccess] =
+    useState<boolean>(user_has_bookmarked)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()

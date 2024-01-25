@@ -191,7 +191,7 @@ export async function deletePost(
       headers: {
         'content-type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
     })
     const response = await res.json()

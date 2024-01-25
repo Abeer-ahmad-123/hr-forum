@@ -59,7 +59,7 @@ const DeletePost = ({
   //
 
   return (
-    <div className="rounded-lg bg-white p-4         ">
+    <div className="rounded-lg bg-white p-4">
       <div className="mb-4 text-center text-lg font-medium">
         Are you sure you want to delete the post?
       </div>
@@ -72,7 +72,7 @@ const DeletePost = ({
         </button>
         <button
           onClick={handleDeletePost}
-          className={`// flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
+          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
         text-white   ${loading ? 'bg-gray-300' : 'bg-accent'}
           `}>
           Delete{' '}

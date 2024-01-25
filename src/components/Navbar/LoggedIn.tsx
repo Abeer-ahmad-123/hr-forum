@@ -39,6 +39,9 @@ function LoggedIn() {
       router.refresh()
     }
   }
+  const handleChange = () => {
+    setOpenPopover(!openPopover)
+  }
 
   useEffect(() => {
     return () => {
@@ -76,9 +79,7 @@ function LoggedIn() {
       <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
         <DropdownMenuTrigger
           className="border-none outline-0"
-          onChange={() => {
-            setOpenPopover(!openPopover)
-          }}>
+          onChange={handleChange}>
           <UserDropdown />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
