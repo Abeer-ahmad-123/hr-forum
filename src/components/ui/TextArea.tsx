@@ -3,12 +3,12 @@ import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { noProfilePicture } from '@/utils/ImagesLink'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { SendHorizonal } from 'lucide-react'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
 
-function TextArea({
+const TextArea = ({
   submitCallback,
   isLoading,
   setIsLoading,
@@ -18,7 +18,7 @@ function TextArea({
   shouldFocus = false,
   inputRef = null,
   placeholder = 'Write your comment...',
-}: any) {
+}: any) => {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
   const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
@@ -26,6 +26,7 @@ function TextArea({
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
+  const pathName = usePathname()
   const router = useRouter()
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
@@ -62,7 +63,10 @@ function TextArea({
   }, [isLoading])
 
   return (
-    <div className="flex cursor-pointer items-center gap-2.5 px-4">
+    <div
+      className={` ${
+        pathName === '/feeds' && 'mb-4'
+      }  flex cursor-pointer items-center gap-2.5 px-4`}>
       <img
         src={userData.profilePictureURL || noProfilePicture}
         className="w-18 h-8 rounded-full border border-solid border-black"

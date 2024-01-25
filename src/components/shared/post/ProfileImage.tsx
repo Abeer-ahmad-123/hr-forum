@@ -22,7 +22,7 @@ function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
       onClick={handleImageClick}
       width={32}
       height={32}
-      className="h-16 w-16 rounded-full"
+      className="h-16 w-16 rounded-full max-custom-sx:h-6 max-custom-sx:w-6"
     />
   )
 }

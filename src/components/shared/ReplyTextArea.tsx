@@ -34,6 +34,7 @@ function ReplyTextArea({
 }: any) {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  const [popOver, setPopOver] = useState<boolean>(false)
 
   const [showTextArea, setShowTextArea] = useState(false)
   const [formattedDate, setFormatedDate] = useState('')
@@ -52,6 +53,17 @@ function ReplyTextArea({
     } else {
       setOpenDialog(true)
     }
+  }
+
+  const setOpenPopOver = () => {
+    setPopOver((pre) => !pre)
+  }
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPopOver(false)
+  }
+
+  const handleButtonClick = () => {
+    setPopOver(false)
   }
 
   useEffect(() => {
@@ -74,19 +86,27 @@ function ReplyTextArea({
           className="cursor-pointer text-sm text-gray-400 hover:underline">
           Reply
         </button>
-        <Popover>
-          <PopoverTrigger className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
-            Share
-          </PopoverTrigger>
 
-          <PopoverContent className="bg-white">
-            <SocialButtons
-              className="flex gap-3"
-              postId={postId}
-              commentId={commentId}
-            />
-          </PopoverContent>
-        </Popover>
+        <div onMouseLeave={handleMouseDown}>
+          <Popover open={popOver} onOpenChange={setPopOver}>
+            <PopoverTrigger className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
+              <span
+                className="font-light  max-custom-sm:hidden "
+                onClick={setOpenPopOver}>
+                Share
+              </span>
+            </PopoverTrigger>
+
+            <PopoverContent className="bg-white">
+              <SocialButtons
+                className="flex gap-3"
+                postId={postId}
+                commentId={commentId}
+                handleButtonClick={handleButtonClick}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
 
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <button

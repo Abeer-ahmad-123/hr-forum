@@ -35,6 +35,7 @@ function Reply({
   const replyIdFromUrl = searchParams?.get('replyId')
   const [highlighted, setHighlighted] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
+  const [popOver, setPopOver] = useState<boolean>(false)
   const postId = params.id as string
   const router = useRouter()
 
@@ -66,6 +67,17 @@ function Reply({
           : `/profile/${reply?.user_id}`
       }`,
     )
+  }
+
+  const setOpenPopOver = () => {
+    setPopOver((pre) => !pre)
+  }
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    setPopOver(false)
+  }
+
+  const handleButtonClick = () => {
+    setPopOver(false)
   }
 
   const handleClick = () => {
@@ -134,19 +146,26 @@ function Reply({
                     {formattedDate}
                   </div>
                 </div>
-                <Popover>
-                  <PopoverTrigger className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
-                    Share
-                  </PopoverTrigger>
-                  <PopoverContent className="bg-white">
-                    <SocialButtons
-                      className="flex gap-3"
-                      postId={postId}
-                      commentId={commentId}
-                      replyId={reply.id}
-                    />
-                  </PopoverContent>
-                </Popover>
+                <div onMouseLeave={handleMouseDown}>
+                  <Popover open={popOver} onOpenChange={setPopOver}>
+                    <PopoverTrigger className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
+                      <span
+                        className="font-light  max-custom-sm:hidden "
+                        onClick={setOpenPopOver}>
+                        Share
+                      </span>
+                    </PopoverTrigger>
+                    <PopoverContent className="bg-white">
+                      <SocialButtons
+                        className="flex gap-3"
+                        postId={postId}
+                        commentId={commentId}
+                        replyId={reply.id}
+                        handleButtonClick={handleButtonClick}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
 
                 <Dialog open={openDialog} onOpenChange={handleClick}>
                   <DialogTrigger asChild>

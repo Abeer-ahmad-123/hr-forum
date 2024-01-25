@@ -41,9 +41,7 @@ const Report = ({
   const router = useRouter()
 
   const { customFetch } = useInterceptor()
-  const handleClick = (reason: any) => {
-    setSelectedItem(reason)
-  }
+
   const handleCancel = () => {
     setOpenDialog(false)
   }
@@ -84,29 +82,38 @@ const Report = ({
     setOpenDialog(false)
   }
 
+  const handleTextClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    setSelectedItem((e.target as HTMLDivElement).id)
+  }
+
   return (
     <div className="gap-8">
       <div className="flex justify-items-start pb-8 "> Report comment</div>
       {reportData.map((text, index) => (
         <div key={index} className={`flex cursor-pointer  gap-4`}>
           <div className="flex items-center gap-4 pb-4">
-            <input
-              type="radio"
-              id={`radioButton-${index}`}
-              name="example"
-              className="h-4 w-4 cursor-pointer accent-[#571ce0]"
-              onChange={() => handleClick(text.reason)}
-              value={selectedItem}
-            />
+            <div
+              className="flex items-center gap-3"
+              onClick={handleTextClick}
+              id={text.reason}>
+              <input
+                type="radio"
+                id={text.reason}
+                name="example"
+                className="h-4 w-4 cursor-pointer accent-[#571ce0]"
+                value={selectedItem}
+                checked={selectedItem === text.reason}
+              />
 
-            <div>{text.reason}</div>
+              <div id={text.reason}>{text.reason}</div>
+            </div>
             <div className=" relative hover:block hover:opacity-100">
               <div className="opacity-1 z-10 transition-opacity duration-300 ease-in-out">
                 <div className="group relative">
                   <div className="rounded-full">
                     <InfoIcon />
                   </div>
-                  <div className="invisible absolute  left-full top-0 z-10 h-20 w-[8rem] overflow-auto rounded-md bg-gray-800 p-2 text-[12px] text-white opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100">
+                  <div className="invisible absolute  left-full top-0 z-10 w-[8rem] overflow-auto rounded-md bg-gray-800 p-2 text-[12px] text-white opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100">
                     {text.description}
                   </div>
                 </div>

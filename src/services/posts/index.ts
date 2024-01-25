@@ -1,4 +1,6 @@
+import { CustomFetchFunction } from '@/utils/types/customFetch'
 import { API_BASE_URL } from '..'
+import { DELETE_POST } from './route'
 
 const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
 const GET_All_POSTS = API_BASE_URL + '/posts'
@@ -167,6 +169,30 @@ export async function getUserSpecificPosts(userId: string, pageNumber = 1) {
 
     let res = await fetch(formatedRequestUrl + `?page=${pageNumber}`, {
       cache: 'no-store',
+    })
+    const response = await res.json()
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function deletePost(
+  postId: string,
+  customFetch: CustomFetchFunction,
+  token: string,
+  refreshToken: string,
+) {
+  try {
+    let reportPostUrl = DELETE_POST.replace('postid', postId)
+
+    let res = await customFetch(reportPostUrl, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        authorization: 'Bearer ' + token,
+        refreshToken: refreshToken,
+      },
     })
     const response = await res.json()
     return response
