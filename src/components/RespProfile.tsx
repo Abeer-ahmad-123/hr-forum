@@ -13,7 +13,6 @@ import { noProfilePicture } from '@/assets/images'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
@@ -339,7 +338,7 @@ const RespProfile = ({ userId }: profileProps) => {
                 }
               />
             </div>
-            <div className="flex w-full flex-col">
+            <div className={`flex w-full flex-col ${!loading && 'gap-2'}`}>
               {!loadingPosts ? (
                 <UserSpecificPosts
                   posts={posts}

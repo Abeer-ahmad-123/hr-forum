@@ -50,6 +50,7 @@ function ImageUpload({
         <DialogDescription>
           <div>
             <AvatarEditor
+              className="avatarEditor"
               ref={imgCanvas}
               image={image}
               border={10}

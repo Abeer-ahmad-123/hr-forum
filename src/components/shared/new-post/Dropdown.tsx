@@ -20,33 +20,22 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
   const pathName = usePathname()
   const [buttonValue, setButtonValue] = useState('Select a Channel')
 
-  const checkChannel = () => {
-    if (pathName.includes('/channels/')) {
-      const channel = channels.find((channel) => {
-        return channel.slug === pathName.split('/')[2]
-      })
-      if (channel) {
-        setButtonValue(channel.name)
-      }
-    }
-  }
-
   useEffect(() => {
-    checkChannel()
-  }, [])
+    setButtonValue(value)
+  }, [value])
 
   return (
-    <div className="relative mr-4 w-1/2 text-right">
+    <div className="relative mr-4 w-1/2 text-right max-[490px]:w-full max-[490px]:text-start">
       <div className="items-left">
         <DropdownMenu>
           <DropdownMenuTrigger
             className={`inline-flex ${
               pathName.split('/')[2] ? 'pointer-events-none' : 'cursor-pointer'
             } items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
-            <div className="flex">
-              {value?.name || buttonValue}
+            <div className="flex items-center justify-center">
+              <span className="max-sm:text-xs md:text-sm">{buttonValue}</span>{' '}
               {!pathName.split('/')[2] && (
-                <DownIcon className="ml-2 h-5 w-5 cursor-pointer" />
+                <DownIcon className="ml-2 h-5 cursor-pointer max-sm:w-3 md:w-5" />
               )}
             </div>
           </DropdownMenuTrigger>
@@ -60,7 +49,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
                 }}
                 key={index}
                 className="hover:text-white">
-                <div className="ml-2 flex-shrink-0">{item.name}</div>
+                <div className="ml-2 flex-shrink-0 ">{item.name}</div>
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>

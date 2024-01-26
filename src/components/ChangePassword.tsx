@@ -130,7 +130,7 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
       <h1 className="mb-4 text-2xl font-bold">Change Password</h1>
       <div className="flex flex-col gap-4">
         <div>
-          <div className="border-grey-700 flex w-full rounded-lg border border-solid">
+          <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#571ce0]">
             <input
               type={showOldPassword ? 'text' : 'password'}
               id="oldPassword"
@@ -152,7 +152,7 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
           {errors.password && <ErrorText text={errors['password']} />}
         </div>
 
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid">
+        <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#571ce0]">
           <input
             type={showNewPassword ? 'text' : 'password'}
             id="newPassword"
@@ -174,7 +174,7 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
         {errors.password && <ErrorText text={errors['password']} />}
 
         {/* Confirm Pass */}
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid">
+        <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#571ce0]">
           <input
             type={showNewPassword ? 'text' : 'password'}
             id="confirmPassword"

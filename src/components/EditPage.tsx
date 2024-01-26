@@ -84,7 +84,7 @@ const EditPage = ({
         <textarea
           name="bio"
           placeholder="bio"
-          className="w-full rounded-lg p-4 font-sans font-light ring-1 ring-gray-200"
+          className="w-full rounded-lg border border-[#571ce0] p-4 font-sans font-light ring-1 ring-gray-200"
           value={userDetails?.bio}
           onChange={handleChange}
         />

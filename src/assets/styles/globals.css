@@ -15,3 +15,9 @@
   --color-accent: #571ce0;
   --color-background: #f7f2fd;
 }
+@media (max-width: 520px) {
+  .avatarEditor {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
