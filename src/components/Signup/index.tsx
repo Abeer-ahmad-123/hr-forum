@@ -10,7 +10,8 @@ import {
 } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import nProgress from 'nprogress'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton/'
 
@@ -107,6 +108,7 @@ export default function Signup({
             }
 
             if (pathname.includes('/signIn')) {
+              nProgress.start()
               router.push('/feeds')
             }
           }
@@ -132,6 +134,12 @@ export default function Signup({
       }
     } catch (err) {}
   }
+
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
 
   return (
     <div

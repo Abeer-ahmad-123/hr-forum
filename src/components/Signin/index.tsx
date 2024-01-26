@@ -5,7 +5,8 @@ import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
+import nProgress from 'nprogress'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton/'
 import { SigninForm } from './SigninForm'
@@ -95,6 +96,7 @@ export default function Signin({
       }
 
       if (pathname.includes('/signIn')) {
+        nProgress.start()
         router.push('/feeds')
       }
     } catch (err) {
@@ -113,6 +115,11 @@ export default function Signin({
       }
     } catch (err) {}
   }
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
 
   return (
     <div

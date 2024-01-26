@@ -10,13 +10,14 @@ function SignUpRoute() {
 
   const changeRoute = () => {
     if (pathName === '/signUp') {
-      nProgress.start()
       router.replace('/signIn')
     }
   }
 
   useEffect(() => {
-    nProgress.done()
+    return () => {
+      nProgress.done()
+    }
   }, [])
 
   return <Signup toggleForm={changeRoute} />

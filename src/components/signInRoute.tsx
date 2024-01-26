@@ -19,7 +19,9 @@ function SignInRoute() {
   }
 
   useEffect(() => {
-    nProgress.done()
+    return () => {
+      nProgress.done()
+    }
   }, [])
 
   return (
