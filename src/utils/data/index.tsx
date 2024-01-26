@@ -1,15 +1,6 @@
 import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
 import { AiFillHome } from 'react-icons/ai'
 import { BsFillBookmarksFill } from 'react-icons/bs'
-import avatar2Png from '../../assets/avatars/image-amyrobson.png'
-import avatar2Webp from '../../assets/avatars/image-amyrobson.webp'
-import avatarPng from '../../assets/avatars/image-juliusomo.png'
-import avatarWebp from '../../assets/avatars/image-juliusomo.webp'
-import avatar3Png from '../../assets/avatars/image-maxblagun.png'
-import avatar3Webp from '../../assets/avatars/image-maxblagun.webp'
-import avatar4Png from '../../assets/avatars/image-ramsesmiron.png'
-import avatar4Webp from '../../assets/avatars/image-ramsesmiron.webp'
-
 export const colors = ['indigo', 'blue', 'coral', 'mint', 'sunset', 'mauve']
 
 export const menuItems = [
@@ -49,100 +40,7 @@ export const reactions = [
   { name: 'clap', emoji: '👏' },
   { name: 'celebrate', emoji: '🎉' },
 ]
-export const data = {
-  currentUser: {
-    image: {
-      png: avatarPng.src,
-      webp: avatarWebp.src,
-    },
-    username: 'juliusomo',
-  },
-  comments: [
-    {
-      id: 1,
-      content:
-        "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
-      createdAt: 1641854725,
-      score: 12,
-      user: {
-        image: {
-          png: avatar2Png.src,
-          webp: avatar2Webp.src,
-        },
-        username: 'amyrobson',
-      },
-      replies: [
-        {
-          parentId: 1,
-          id: 5,
-          content:
-            "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
-          createdAt: 1642459525,
-          score: 4,
-          replyingTo: 'maxblagun',
-          replies: [],
-          user: {
-            image: {
-              png: avatar3Png.src,
-              webp: avatar3Webp.src,
-            },
-            username: 'ramsesmiron',
-          },
-        },
-      ],
-    },
-    {
-      id: 2,
-      content:
-        "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!",
-      createdAt: 1629236725,
-      score: 5,
-      user: {
-        image: {
-          png: avatar3Png.src,
-          webp: avatar3Webp.src,
-        },
-        username: 'maxblagun',
-      },
-      replies: [
-        {
-          parentId: 2,
-          id: 3,
-          content:
-            "If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first.",
-          createdAt: 1644792325,
-          score: 4,
-          replyingTo: 'maxblagun',
-          replies: [],
-          user: {
-            image: {
-              png: avatar4Png.src,
-              webp: avatar4Webp.src,
-            },
-            username: 'ramsesmiron',
-          },
-        },
-        {
-          parentId: 2,
-          id: 4,
-          content:
-            "I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant.",
-          createdAt: 1644533125,
-          score: 2,
-          replyingTo: 'ramsesmiron',
-          replies: [],
-          user: {
-            image: {
-              png: avatarPng.src,
-              webp: avatarWebp.src,
-            },
-            username: 'juliusomo',
-          },
-        },
-      ],
-    },
-  ],
-}
+
 export const imageUrls = [
   'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
   'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',

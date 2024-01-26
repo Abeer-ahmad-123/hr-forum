@@ -1,6 +1,6 @@
 import Error from '@/components/error'
 
-function ErrorPage() {
+const ErrorPage = () => {
   return <Error />
 }
 

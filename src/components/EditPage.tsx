@@ -3,6 +3,7 @@ import { InputField } from '@/components/shared'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -53,7 +54,7 @@ const EditPage = ({
         router.push('/feeds')
       }
     } catch (err) {
-      throw err
+      showErrorAlert(`${err}`)
     } finally {
       handleCloseDialog()
     }

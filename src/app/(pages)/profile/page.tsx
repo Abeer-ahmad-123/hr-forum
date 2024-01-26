@@ -13,7 +13,6 @@ const Profile = () => {
     return (
       <Suspense fallback={<ProfilePageLoading />}>
         <RespProfile />
-        {/* <ProfilePageLoading /> */}
       </Suspense>
     )
   }
