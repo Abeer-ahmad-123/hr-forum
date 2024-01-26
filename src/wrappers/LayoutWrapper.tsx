@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
-import { removeUserCookies } from '@/utils/cookies'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -184,7 +183,8 @@ const LayoutWrapper = ({ children }: any) => {
     <body
       className={`${styles.trim()} theme-default ${
         pathname.includes('/error') ? 'bg-white' : 'bg-background'
-      } pt-4 font-primary dark:bg-slate-700`}>
+      } pt-4 font-primary dark:bg-slate-700   
+      `}>
       {!loading && !pathname.includes('/error') && !notFound && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
@@ -192,7 +192,11 @@ const LayoutWrapper = ({ children }: any) => {
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
               className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
-              dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px]`}>
+              dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px] ${
+                pathname === '/signUp' || pathname === '/signIn'
+                  ? 'flex items-center justify-center'
+                  : ''
+              }`}>
               {loading ? <InitialLoading /> : children}
             </div>
           </div>
