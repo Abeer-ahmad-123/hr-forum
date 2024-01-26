@@ -97,7 +97,11 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    if (initialPosts.length) setPosts([...initialPosts])
+    if (searchParams.search) {
+      setPosts([...initialPosts])
+    } else if (!searchParams.search && initialPosts.length) {
+      setPosts([...initialPosts])
+    }
   }, [initialPosts])
   return (
     <>
