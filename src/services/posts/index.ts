@@ -114,7 +114,6 @@ export async function postCreatePostInChannel({
       authorization: `Bearer ${token}`,
       refreshToken: refreshToken,
     }
-
     const requestBody = JSON.stringify(body)
 
     let res = await customFetch(

@@ -42,6 +42,9 @@ function ReplyTextArea({
   const postId = params?.id as string
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  const userData = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
 
   const toggleTextArea = () => {
     setShowTextArea((pre) => !pre)
@@ -74,16 +77,21 @@ function ReplyTextArea({
     <div>
       <div className="flex items-center gap-2.5 ">
         <div className="group relative inline-block">
-          <span className="pointer ml-2 text-left text-xs text-gray-400 hover:underline">
+          <span
+            className="pointer ml-2 text-left text-xs text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
             {ConvertDate(replies?.comment?.created_at)}
           </span>
-          <div className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
+          <div
+            className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]  max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
             {formattedDate}
           </div>
         </div>
         <button
           onClick={toggleTextArea}
-          className="cursor-pointer text-sm text-gray-400 hover:underline">
+          className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
           Reply
         </button>
 
@@ -91,7 +99,8 @@ function ReplyTextArea({
           <Popover open={popOver} onOpenChange={setPopOver}>
             <PopoverTrigger className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
               <span
-                className="font-light  max-custom-sm:hidden "
+                className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                 onClick={setOpenPopOver}>
                 Share
               </span>
@@ -107,26 +116,28 @@ function ReplyTextArea({
             </PopoverContent>
           </Popover>
         </div>
+        {author !== userData.name && (
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+            <button
+              className="pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+              onClick={handleClick}>
+              Report
+            </button>
 
-        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <button
-            className="pointer text-sm text-gray-400 hover:underline"
-            onClick={handleClick}>
-            Report
-          </button>
-
-          <DialogContent className="bg-white sm:max-w-[500px]">
-            <Report
-              commentId={commentId}
-              reportType="comment"
-              setOpenDialog={setOpenDialog}
-              setReportedReplyId={setReportedCommentId}
-              getPostCommets={getPostCommets}
-              setReported={() => {}}
-              setReportedCommentId={() => {}}
-            />
-          </DialogContent>
-        </Dialog>
+            <DialogContent className="bg-white sm:max-w-[500px]">
+              <Report
+                commentId={commentId}
+                reportType="comment"
+                setOpenDialog={setOpenDialog}
+                setReportedReplyId={setReportedCommentId}
+                getPostCommets={getPostCommets}
+                setReported={() => {}}
+                setReportedCommentId={() => {}}
+              />
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
       {replies?.comment?.replies?.length !== 0 &&
         replies?.comment?.replies?.map((reply: any, index: number) => {
@@ -155,7 +166,7 @@ function ReplyTextArea({
           isLoading={isLoading}
           isCommentPage={true}
           inputRef={inputRef}
-          placeholder={`Reply to ${author}`}
+          placeholder={`Reply to ${author === userData.name ? 'you' : author}`}
           className={'max-sm:w-2/3'}
         />
       </div>

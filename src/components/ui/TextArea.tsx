@@ -83,7 +83,8 @@ const TextArea = ({
             placeholder={placeholder}
             value={textAreaValue}
             onChange={handleTextAreaChange}
-            className={`caret-gray mr-4 w-full resize-none rounded-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
+            className={`caret-gray mr-4 w-full resize-none rounded-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]`}
           />
 
           <button

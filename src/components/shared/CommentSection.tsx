@@ -66,7 +66,6 @@ const CommentSection = ({
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
   }, [comment])
-
   return (
     <div className="mt-4 w-full rounded-lg">
       <div className="flex">
@@ -84,10 +83,12 @@ const CommentSection = ({
             />
           </div>
         </div>
-        <div className="  ml-3  ">
+        <div className="ml-3">
           <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
             <div className="flex flex-row justify-between ">
-              <div className=" text-left text-accent ">
+              <div
+                className="text-left text-accent max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
                 {replies.comment?.author_details?.name}
               </div>
 
@@ -107,7 +108,9 @@ const CommentSection = ({
                 </div>
               )}
             </div>
-            <div className=" h-full w-fit  pb-1 text-left leading-loose text-gray-600 dark:text-white">
+            <div
+              className=" h-full w-fit  pb-1 text-left leading-loose text-gray-600 dark:text-white max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
               {replies?.comment?.content}
             </div>
           </div>

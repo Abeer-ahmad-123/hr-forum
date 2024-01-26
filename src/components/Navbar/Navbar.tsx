@@ -26,7 +26,7 @@ const Navbar = () => {
         </div>
         <div className="flex w-full items-center justify-end max-lg:justify-between">
           <SearchBar />
-          <div className="mx-5 flex items-center justify-end space-x-2">
+          <div className="mx-5 flex items-center justify-end gap-2">
             <NightModeToggle />
 
             <NavMenuDropdown />

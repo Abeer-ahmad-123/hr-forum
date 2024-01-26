@@ -223,7 +223,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
               {/* ////// */}
 
-              <div className="mt-[-12px] flex ">
+              <div className="mt-[-12px] flex  max-[392px]:mr-[7px]">
                 {post?.user_has_reported && (
                   <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block">
@@ -242,7 +242,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                   <Popover open={popOver} onOpenChange={setPopOver}>
                     <PopoverTrigger className="flex">
                       <span
-                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black max-[392px]:px-0"
+                        className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
                         onClick={setOpenPopOver}>
                         <MoreHorizontal className="h-6 w-6 font-light max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                       </span>
