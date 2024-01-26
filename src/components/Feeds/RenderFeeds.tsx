@@ -10,13 +10,15 @@ import { getSearchPosts } from '@/services/search'
 import { noChannelBanner } from '@/utils/ImagesLink'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { toPascalCase } from '@/utils/common'
+import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
+import { ChannelInterface } from '@/utils/interfaces/channels'
 import {
   BookmarkData,
   RenderFeedsInterface,
 } from '@/utils/interfaces/renderFeeds'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import RespScreen from '../Cards/ResponsiveScreen'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -37,52 +39,63 @@ async function RenderFeeds({
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
   if (channelSlug) {
-    if (!searchParams.search) {
-      try {
-        const getChannelId = getChannelIdByChannelName(channelSlug, channelData)
+    if (
+      channelData.some(
+        (channel: ChannelInterface) => channel.slug === channelSlug,
+      )
+    ) {
+      if (!searchParams.search) {
+        try {
+          const getChannelId = getChannelIdByChannelName(
+            channelSlug,
+            channelData,
+          )
 
-        const { data } = await getPostsByChannelId({
-          id: getChannelId,
+          const { data } = await getPostsByChannelId({
+            id: getChannelId,
 
-          userID:
-            (userDetailsCookies?.value &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-            undefined,
+            userID:
+              (userDetailsCookies?.value &&
+                JSON.parse(userDetailsCookies?.value!)?.id) ??
+              undefined,
 
-          loadReactions: true,
-          loadUser: true,
-        })
-        initialPosts = data?.posts
-        morePosts =
-          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-      } catch (error) {
-        if (error instanceof Error) {
-          handleFetchFailed(error)
+            loadReactions: true,
+            loadUser: true,
+          })
+          initialPosts = data?.posts
+          morePosts =
+            data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+        } catch (error) {
+          if (error instanceof Error) {
+            handleFetchFailed(error)
+          }
+        }
+      } else {
+        try {
+          const getChannelId =
+            path === '/channels' && channelSlug
+              ? getChannelIdByChannelName(channelSlug, channelData) || undefined
+              : undefined
+          const { data } = await getSearchPosts({
+            search: searchParams.search,
+            userID:
+              (userDetailsCookies &&
+                JSON.parse(userDetailsCookies?.value!)?.id) ??
+              undefined,
+            channelID: getChannelId,
+          })
+
+          initialPosts = data?.posts
+          morePosts =
+            data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+        } catch (error) {
+          if (error instanceof Error) {
+            handleFetchFailed(error)
+          }
         }
       }
     } else {
-      try {
-        const getChannelId =
-          path === '/channels' && channelSlug
-            ? getChannelIdByChannelName(channelSlug, channelData) || undefined
-            : undefined
-        const { data } = await getSearchPosts({
-          search: searchParams.search,
-          userID:
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-            undefined,
-          channelID: getChannelId,
-        })
-
-        initialPosts = data?.posts
-        morePosts =
-          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-      } catch (error) {
-        if (error instanceof Error) {
-          handleFetchFailed(error)
-        }
-      }
+      redirect('/404')
     }
   } else {
     if (Object.keys(searchParams).length && searchParams.search) {

@@ -6,7 +6,7 @@ const RulesCard = () => {
     <>
       <div className="h-auto w-[200px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white">
         <p className="mb-[10px] pt-5 text-start text-[11px] font-semibold">
-          Channel Rules
+          Forum Rules
         </p>
 
         <ul className="text-left">
