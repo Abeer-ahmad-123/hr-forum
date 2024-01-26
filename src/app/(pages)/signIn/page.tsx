@@ -1,4 +1,4 @@
-import SignInRoute from '@/components/SSSSSSSSignInRoute'
+import SignInRoute from '@/components/SignInRoute'
 
 const SignRoute = () => {
   return <SignInRoute />
