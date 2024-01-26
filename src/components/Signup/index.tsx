@@ -105,6 +105,10 @@ export default function Signup({
               handleDialogClose()
               router.refresh()
             }
+
+            if (pathname.includes('/signIn')) {
+              router.push('/feeds')
+            }
           }
         } else {
           showErrorAlert('Please enter valid email or username.')
@@ -131,7 +135,11 @@ export default function Signup({
 
   return (
     <div
-      className={`container mx-auto flex h-[550px] w-full max-w-[400px] flex-col justify-center space-y-6`}>
+      className={`container mx-auto flex h-[550px]
+      
+       ${
+         pathname === '/signUp' ? 'w-[440px] ' : 'w-full max-w-[440px]'
+       } flex-col justify-center space-y-6`}>
       <div
         className={`${
           pathname === '/signUp' ? 'rounded-md shadow-2xl' : ''

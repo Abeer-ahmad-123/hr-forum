@@ -2,7 +2,8 @@
 import Signin from '@/components/Signin'
 
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import nProgress from 'nprogress'
+import { useEffect, useState } from 'react'
 
 function SignInRoute() {
   const [showSignUpForm, setShowSignUpForm] = useState(false)
@@ -12,9 +13,14 @@ function SignInRoute() {
 
   const changeRoute = () => {
     if (pathName === '/signIn') {
+      nProgress.start()
       router.replace('/signUp')
     }
   }
+
+  useEffect(() => {
+    nProgress.done()
+  }, [])
 
   return (
     <div>

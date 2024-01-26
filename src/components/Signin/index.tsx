@@ -115,7 +115,10 @@ export default function Signin({
   }
 
   return (
-    <div className="container mx-auto flex h-[550px] w-full max-w-[440px] flex-col justify-center space-y-6">
+    <div
+      className={`container mx-auto flex h-[550px] ${
+        pathname === '/signIn' ? 'w-[440px]' : ' w-full max-w-[440px]'
+      }  flex-col justify-center space-y-6`}>
       <div
         className={`${
           pathname === '/signIn' ? 'shadow-2xl' : ''
