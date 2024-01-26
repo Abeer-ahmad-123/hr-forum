@@ -5,10 +5,13 @@ import {
   getRefreshToken,
   googleCodeExchange,
   googleTokenExchange,
+  isTokenExpired,
+  logout,
+  setUserToken,
 } from '@/services/auth/authService'
 import { getChannels } from '@/services/channel/channel'
 import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
-import { setToken, setUser } from '@/store/Slices/loggedInUserSlice'
+import { clearUser, setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -17,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
+import { removeUserCookies } from '@/utils/cookies'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -33,14 +37,29 @@ const LayoutWrapper = ({ children }: any) => {
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
 
   const styles = darkMode ? 'dark' : ''
+  const clearAuthentication = () => {
+    dispatch(clearUser())
+    logout()
+    if (pathname.includes('saved') || pathname === '/profile') {
+      router.push('/feeds')
+    } else {
+      router.refresh()
+    }
+  }
   const getChannelsLocal = useCallback(async () => {
     try {
       let response: any = await getChannels()
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err: unknown) {
-      if (err instanceof Error && err.message.includes('fetch failed')) {
+      if (
+        err instanceof Error &&
+        (err.message.includes('fetch failed') ||
+          err.message.includes('Unexpected token'))
+      ) {
         router.push('/error')
+      } else {
+        showErrorAlert(`${err}`)
       }
     }
   }, [])
@@ -68,6 +87,7 @@ const LayoutWrapper = ({ children }: any) => {
           router.push('/error')
         }
         showErrorAlert('Issue in google authentication')
+        clearAuthentication()
       }
     }
   }
@@ -94,6 +114,7 @@ const LayoutWrapper = ({ children }: any) => {
           router.push('/error')
         }
         showErrorAlert('Issue in google authentication')
+        clearAuthentication()
       }
     }
   }
@@ -117,41 +138,48 @@ const LayoutWrapper = ({ children }: any) => {
     }
   }, [searchParams])
 
+  const getToken = async () => {
+    try {
+      const res = await isTokenExpired()
+      console.log(res)
+      if (res.IsExpired) {
+        try {
+          const tokenResponse = await getRefreshToken()
+          console.log(tokenResponse)
+
+          if (tokenResponse.success) {
+            dispatch(
+              setToken({
+                token: tokenResponse?.data?.token,
+                refreshToken: tokenResponse?.data?.['refresh-token'],
+              }),
+            )
+            setUserToken(tokenResponse.data)
+          } else {
+            throw tokenResponse.errors[0]
+          }
+        } catch (error) {
+          throw error
+        }
+      }
+    } catch (error) {
+      clearAuthentication()
+      if (error instanceof Error && error.message.includes('fetch failed')) {
+        router.push('/error')
+      }
+    }
+  }
   useEffect(() => {
     setLoading(false)
 
-    let refreshInterval: any
-    if (!localStorage.getItem('token')) {
-      clearInterval(refreshInterval)
+    const token = localStorage.getItem('token')
+    if (token) {
+      getToken()
     }
-    refreshInterval = setInterval(async () => {
-      const localStorageToken = localStorage.getItem('token') || null
-      if (localStorageToken && localStorageToken !== 'undefined') {
-        try {
-          const tokenResponse = await getRefreshToken()
-
-          dispatch(
-            setToken({
-              token: tokenResponse?.token,
-              refreshToken: tokenResponse['refresh-token'],
-            }),
-          )
-        } catch (error) {
-          if (
-            error instanceof Error &&
-            error.message.includes('fetch failed')
-          ) {
-            router.push('/error')
-          }
-        }
-      }
-    }, 900000)
     if (isFirstRun.current) {
       isFirstRun.current = false
       getChannelsLocal()
     }
-
-    return () => clearInterval(refreshInterval)
   }, [])
 
   return (
@@ -165,7 +193,7 @@ const LayoutWrapper = ({ children }: any) => {
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
-              className={`max-h-auto mx-auto -mt-5 min-h-[100vh] w-full px-10 
+              className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
               dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px]`}>
               {loading ? <InitialLoading /> : children}
             </div>

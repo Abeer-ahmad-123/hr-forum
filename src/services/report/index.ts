@@ -19,7 +19,7 @@ export async function reportPost(
       headers: {
         'content-type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
       body: JSON.stringify(reqBody),
     })
@@ -48,7 +48,7 @@ export async function reportComment(
       headers: {
         'content-type': 'application/json',
         authorization: 'Bearer ' + token,
-        refreshToken: 'Bearer ' + refreshToken,
+        refreshToken: refreshToken,
       },
       body: JSON.stringify(reqBody),
     })

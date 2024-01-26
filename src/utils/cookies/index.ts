@@ -1,19 +1,5 @@
 import { cookies } from 'next/headers'
-
-interface ResponseData {
-  data: {
-    token: string
-    userData: {
-      id: string
-      email: string
-      username: string
-      name: string
-      bio: string
-      profilePictureURL: string
-    }
-    'refresh-token': string
-  }
-}
+import { ResponseData, setTokenCookies } from '../interfaces/cookies'
 
 export const setUserCookies = (responseJson: ResponseData) => {
   const userData = responseJson.data.userData
@@ -26,4 +12,8 @@ export const removeUserCookies = () => {
   cookies().delete('user-details')
   cookies().delete('access-token')
   cookies().delete('refresh-token')
+}
+export const setUserTokens = (data: setTokenCookies) => {
+  cookies().set('access-token', data.token)
+  cookies().set('refresh-token', data['refresh-token'])
 }

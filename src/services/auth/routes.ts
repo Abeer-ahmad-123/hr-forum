@@ -10,6 +10,7 @@ const AUTH_UPDATE_USER_DETAILS = API_BASE_URL + '/auth/updateUserDetails'
 const GOOGLE_AUTH_START = API_BASE_URL + '/auth/google/start-auth'
 const GOOGLE_REGISTER = API_BASE_URL + '/auth/google/register'
 const GOOGLE_EXCHANGE_CODE = API_BASE_URL + '/auth/google/exchange-code'
+const AUTH_IS_TOKEN_EXPIRED = API_BASE_URL + '/auth/isTokenExpired'
 export {
   AUTH_WITH_EMAIL,
   AUTH_REGISTER,
@@ -21,4 +22,5 @@ export {
   GOOGLE_AUTH_START,
   GOOGLE_REGISTER,
   GOOGLE_EXCHANGE_CODE,
+  AUTH_IS_TOKEN_EXPIRED,
 }
