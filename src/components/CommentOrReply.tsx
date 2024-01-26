@@ -1,15 +1,14 @@
 'use client'
 import { useInterceptor } from '@/hooks/interceptors'
 import { postComment, postCommentReply } from '@/services/comments'
-import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
 
-function CommentOrReply({
+const CommentOrReply = ({
   reply = false,
   commentId = null,
   refetchComments = () => {},
@@ -24,10 +23,9 @@ function CommentOrReply({
   createdDate,
   replies,
   commentLength,
-}: any) {
+  setCommentCount,
+}: any) => {
   const params = useParams()
-  const pathName = usePathname()
-  const router = useRouter()
   const postId = params['id'] || Id
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const refreshToken = useSelector(
@@ -63,6 +61,8 @@ function CommentOrReply({
             result?.data?.comment,
             ...prevComments,
           ])
+
+          setCommentCount((prev: number) => prev + 1)
         } else {
           refetchComments()
         }

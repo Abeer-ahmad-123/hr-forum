@@ -20,7 +20,7 @@ import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -36,7 +36,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
 
   const [paginationResult, setPaginationResult] = useState()
-  const pathName = usePathname()
+  const [commentCount, setCommentCount] = useState<number>(0)
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
@@ -155,6 +155,9 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     getChannel()
   }, [])
+  useEffect(() => {
+    setCommentCount(post?.total_comments ?? 0)
+  }, [post])
 
   return post && post?.author_details?.name && commentResult !== null ? (
     <>
@@ -309,6 +312,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 user_reaction={post?.user_reaction}
                 getPostCommets={getPostCommets}
                 getPost={getPost}
+                setCommentCount={setCommentCount}
               />
             </div>
           </div>

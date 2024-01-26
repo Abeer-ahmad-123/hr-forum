@@ -12,6 +12,7 @@ const CommentSection = ({
   commentLength,
   setReportedCommentId,
   getPostCommets,
+  setCommentCount,
 }: any) => {
   const [replies, setReplies] = useState({
     comment: {
@@ -66,6 +67,7 @@ const CommentSection = ({
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
   }, [comment])
+
   return (
     <div className="mt-4 w-full rounded-lg">
       <div className="flex">
@@ -125,6 +127,7 @@ const CommentSection = ({
                 setReportedCommentId={setReportedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}
+                setCommentCount={setCommentCount}
               />
             </div>
           </div>

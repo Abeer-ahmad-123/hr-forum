@@ -12,6 +12,7 @@ const CommentsLogic = ({
   user_reaction,
   getPostCommets,
   getPost,
+  setCommentCount,
 }: any) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -32,6 +33,7 @@ const CommentsLogic = ({
         getPost={getPost}
         disableReactionButton={false}
         setDisableReactionButton={() => {}}
+        setCommentCount={setCommentCount}
       />
       <Comments
         postId={postId}

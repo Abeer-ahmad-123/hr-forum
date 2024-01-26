@@ -30,7 +30,7 @@ import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 
-const Card = ({ post, channels, setBookmarkupdated }: any) => {
+const Card = ({ post, channels, setPosts, posts }: any) => {
   const {
     id,
     created_at,
@@ -58,6 +58,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
+  const [commentCount, setCommentCount] = useState<number>(0)
 
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -165,10 +166,6 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   }
 
   const handleBookmark = async (event: any) => {
-    // if (pathName.includes('/saved')) {
-    //   setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
-    // }
-
     event.preventDefault()
     event.stopPropagation()
     if (tokenInRedux) {
@@ -209,6 +206,10 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     }
   }, [])
 
+  useEffect(() => {
+    setCommentCount(total_comments)
+  }, [total_comments])
+
   return (
     <div key={id}>
       <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
@@ -232,6 +233,8 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
               setOpenDeleteDialog={setOpenDeleteDialog}
               postId={id}
               setReported={() => {}}
+              setPosts={setPosts}
+              posts={posts}
             />
           </DialogContent>
         </Dialog>
@@ -361,7 +364,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
         <PostReactionBar
           reaction_summary={reactionSummary}
           postId={id}
-          total_comments={total_comments}
+          total_comments={commentCount}
         />
         <hr />
 
@@ -375,6 +378,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
             getPost={() => {}}
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
+            setCommentCount={setCommentCount}
           />
         </div>
       </div>

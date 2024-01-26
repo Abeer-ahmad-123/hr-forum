@@ -36,6 +36,7 @@ const PostActionBar = ({
   getPost,
   disableReactionButton,
   setDisableReactionButton,
+  setCommentCount,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -194,9 +195,15 @@ const PostActionBar = ({
               btnClass="mr-[0px]"
               Id={postId}
               setComments={setComment}
+              setCommentCount={setCommentCount}
             />
             <div className="mx-10">
-              {comment.length != 0 && <CommentSection comment={comment[0]} />}
+              {comment.length != 0 && (
+                <CommentSection
+                  comment={comment[0]}
+                  setCommentCount={setCommentCount}
+                />
+              )}
             </div>
           </div>
         )}
