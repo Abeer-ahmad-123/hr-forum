@@ -18,16 +18,16 @@ const SignUpRoute = () => {
   }
 
   useEffect(() => {
-    if (token) {
-      router.replace('/feeds')
-    }
-
     return () => {
       nProgress.done()
     }
   }, [])
 
-  return <Signup toggleForm={changeRoute} />
+  if (token) {
+    router.replace('/feeds')
+  } else {
+    return <Signup toggleForm={changeRoute} />
+  }
 }
 
 export default SignUpRoute

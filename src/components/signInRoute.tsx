@@ -19,20 +19,20 @@ const SignInRoute = () => {
   }
 
   useEffect(() => {
-    if (token) {
-      router.replace('/feeds')
-    }
-
     return () => {
       nProgress.done()
     }
   }, [])
 
-  return (
-    <div>
-      <Signin toggleForm={changeRoute} />
-    </div>
-  )
+  if (token) {
+    router.replace('/feeds')
+  } else {
+    return (
+      <div>
+        <Signin toggleForm={changeRoute} />
+      </div>
+    )
+  }
 }
 
 export default SignInRoute
