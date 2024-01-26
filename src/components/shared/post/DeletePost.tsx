@@ -64,7 +64,7 @@ const DeletePost = ({
       <div className="mb-4 text-center text-lg font-medium">
         Are you sure you want to delete the post?
       </div>
-      <div className="flex justify-end gap-2">
+      <div className="flex justify-center gap-2">
         <button
           onClick={handleCancel}
           className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white ">
