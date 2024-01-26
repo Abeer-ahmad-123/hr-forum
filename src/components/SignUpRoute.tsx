@@ -4,13 +4,13 @@ import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
 
-function SignUpRoute() {
+const SignUpRoute = () => {
   const pathName = usePathname()
   const router = useRouter()
 
   const changeRoute = () => {
-    if (pathName === '/signUp') {
-      router.replace('/signIn')
+    if (pathName === '/signup') {
+      router.replace('/signin')
     }
   }
 

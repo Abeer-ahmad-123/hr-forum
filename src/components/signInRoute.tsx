@@ -1,20 +1,17 @@
 'use client'
 import Signin from '@/components/Signin'
-
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
-function SignInRoute() {
-  const [showSignUpForm, setShowSignUpForm] = useState(false)
-
+const SignInRoute = () => {
   const pathName = usePathname()
   const router = useRouter()
 
   const changeRoute = () => {
-    if (pathName === '/signIn') {
+    if (pathName === '/signin') {
       nProgress.start()
-      router.replace('/signUp')
+      router.replace('/signup')
     }
   }
 

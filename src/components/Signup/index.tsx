@@ -107,7 +107,7 @@ export default function Signup({
               router.refresh()
             }
 
-            if (pathname.includes('/signIn')) {
+            if (pathname.includes('/signin')) {
               nProgress.start()
               router.push('/feeds')
             }
@@ -146,11 +146,11 @@ export default function Signup({
       className={`container mx-auto flex h-[550px]
       
        ${
-         pathname === '/signUp' ? 'w-[440px] ' : 'w-full max-w-[440px]'
+         pathname === '/signup' ? 'w-[440px] ' : 'w-full max-w-[440px]'
        } flex-col justify-center space-y-6`}>
       <div
         className={`${
-          pathname === '/signUp' ? 'rounded-md shadow-2xl' : ''
+          pathname === '/signup' ? 'rounded-md shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-primary lg:max-w-xl`}>
