@@ -42,10 +42,13 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
         : `/profile/${post.user_id}`,
     )
   }
-
   const handleNavigateFeed = () => {
     nProgress.start()
-    router.push(`/channels/${post?.slug}/feed/${post?.id}}`)
+    router.push(
+      `/channels/${channelsKeyValuePair[
+        post?.channel_id
+      ]?.name.toLocaleLowerCase()}/feed/${post?.id}`,
+    )
   }
 
   useEffect(() => {
