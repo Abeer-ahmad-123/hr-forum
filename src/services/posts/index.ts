@@ -197,7 +197,6 @@ export async function deletePost(
 
     return res
   } catch (err) {
-    console.log('Here is my error', err)
     throw err
   }
 }
