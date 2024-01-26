@@ -1,11 +1,9 @@
 'use client'
-
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -13,12 +11,16 @@ interface DeletePostInterface {
   postId: string
   setReported: (arg1: boolean) => void
   setOpenDeleteDialog: (arg0: boolean) => void
+  setPosts: any
+  posts: any
 }
 
 const DeletePost = ({
   postId,
   setReported,
   setOpenDeleteDialog,
+  setPosts,
+  posts,
 }: DeletePostInterface) => {
   const [loading, setLoading] = useState<boolean>(false)
   const tokenInRedux =
@@ -26,14 +28,12 @@ const DeletePost = ({
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const router = useRouter()
 
   const { customFetch } = useInterceptor()
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)
   }
-
   const handleDeletePost = async () => {
     setLoading(true)
     try {
@@ -47,7 +47,7 @@ const DeletePost = ({
         setLoading(false)
         setOpenDeleteDialog(false)
         showSuccessAlert('Post deleted successfully')
-        router.refresh()
+        setPosts(posts.filter((item: any) => item.id !== postId))
       }
     } catch (error) {
       if (error instanceof Error) {
