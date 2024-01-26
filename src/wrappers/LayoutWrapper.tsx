@@ -141,11 +141,9 @@ const LayoutWrapper = ({ children }: any) => {
   const getToken = async () => {
     try {
       const res = await isTokenExpired()
-      console.log(res)
       if (res.IsExpired) {
         try {
           const tokenResponse = await getRefreshToken()
-          console.log(tokenResponse)
 
           if (tokenResponse.success) {
             dispatch(

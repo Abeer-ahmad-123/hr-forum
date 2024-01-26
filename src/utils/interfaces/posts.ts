@@ -45,9 +45,7 @@ export interface UserSpecificPostsInterface {
 }
 
 export interface PostActionBarProps {
-  linkToFeed: string
   postId: string
-  bookmark: boolean
   userReaction: string
   setUserReaction: (arg0: string) => void
   inputRef?: any
@@ -57,6 +55,7 @@ export interface PostActionBarProps {
     reactionObject: EmojiActionInterface,
   ) => void
   reactionSummary: ReactionSummary
-  getPostCommets: () => void
   getPost: () => void
+  disableReactionButton: boolean
+  setDisableReactionButton: (arg0: boolean) => void
 }

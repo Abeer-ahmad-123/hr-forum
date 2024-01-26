@@ -115,7 +115,6 @@ export default function Signup({
         if (!isFieldsValid) return
       }
     } catch (err: any) {
-      console.log('err', err)
     } finally {
       setLoading(false)
     }
@@ -127,12 +126,10 @@ export default function Signup({
       if (response?.success) {
         router.push(response?.data)
       }
-    } catch (err) {
-      console.log('err', err)
-    }
+    } catch (err) {}
   }
   return (
-    <div className="container mx-auto flex h-[550px] w-[400px] flex-col justify-center space-y-6">
+    <div className="container mx-auto flex h-[550px] w-full max-w-[400px] flex-col justify-center space-y-6">
       <div className="relative flex flex-col justify-center overflow-hidden">
         <div className="m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-primary lg:max-w-xl">
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">

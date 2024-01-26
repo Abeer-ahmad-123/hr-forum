@@ -135,9 +135,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
           setBookmarkSuccess(false)
         }
       } catch (error) {
-        if (pathName.includes('saved')) {
-          router.push('/feeds')
-        }
         showErrorAlert(`${error}`)
       }
     } else {

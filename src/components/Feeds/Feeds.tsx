@@ -14,7 +14,6 @@ import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
 
-// Feed is a functional component that takes data and displays it as cards
 interface FeedProps {
   channelSlug?: string | null
   initialPosts: PostsInterface[]
@@ -98,7 +97,7 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    setPosts([...initialPosts])
+    if (initialPosts.length) setPosts([...initialPosts])
   }, [initialPosts])
   return (
     <>

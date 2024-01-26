@@ -71,11 +71,7 @@ function CommentOrReply({
       const status = result?.success ? 'success' : 'error'
       setIsLoading({ ...isLoading, loading: false, status: status })
     } catch (err) {
-      showErrorAlert(`${err}`)
       setIsLoading({ ...isLoading, loading: false, status: 'error' })
-      if (pathName.includes('saved')) {
-        router.push('/feeds')
-      }
     }
   }
 

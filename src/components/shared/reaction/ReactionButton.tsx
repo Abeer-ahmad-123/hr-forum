@@ -17,6 +17,8 @@ const ReactionButton = ({
   userReaction,
   loading,
   handleLikeWrapper,
+  disableReactionButton,
+  setDisableReactionButton,
 }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
   const [currentReaction, updateCurrentReaction] = useState(userReaction)
@@ -51,16 +53,18 @@ const ReactionButton = ({
   }, [onReact, currentReaction]) // Removed post
 
   const handleReactionEmoji = () => {
-    if (tokenInRedux) {
-      !loading && isLargeScreen && toggleHeartReaction()
+    if (tokenInRedux && !disableReactionButton && !loading && isLargeScreen) {
+      setDisableReactionButton(true)
+      toggleHeartReaction()
+      setEmojiPopoverVisible(false)
     }
   }
   const currentReactionEmoji = reactionOptions.find(
     (reaction) => reaction.name === currentReaction,
   )
-
   const mouseEnter = () => {
-    if (tokenInRedux) !loading && setEmojiPopoverVisible(true)
+    if (tokenInRedux && !disableReactionButton)
+      !loading && setEmojiPopoverVisible(true)
   }
 
   const mouseLeft = () => {
@@ -86,13 +90,11 @@ const ReactionButton = ({
             className="dark:text-icon-dark pointer flex items-center justify-center  dark:text-gray-300 "
             onClick={handleLikeWrapperExtended}>
             <div className="flex flex-col items-center">
-              {/* Align the children in the center */}
               <ReactionEmoji
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={currentReactionEmoji?.emoji || '♡'}
                 isReactionSelected={false}
                 isReactionOnLike={true}
-                // onEmojiClick={handleReactionEmoji}
               />
               {/* Add a small number under the heart emoji */}
               <span className=" text-xs text-gray-600 dark:text-white">

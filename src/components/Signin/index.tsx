@@ -5,7 +5,7 @@ import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton/'
 import { SigninForm } from './SigninForm'
@@ -19,7 +19,6 @@ export default function Signin({
   const dispatch = useDispatch<AppDispatch>()
   const pathname = usePathname()
   const router = useRouter()
-  const params = useParams()
 
   const initialValues = {
     email: '',
@@ -109,13 +108,11 @@ export default function Signin({
       if (response?.success) {
         router.push(response?.data)
       }
-    } catch (err) {
-      console.log('err', err)
-    }
+    } catch (err) {}
   }
 
   return (
-    <div className="container mx-auto flex h-[550px] w-[440px] flex-col justify-center space-y-6">
+    <div className="container mx-auto flex h-[550px] w-full max-w-[440px] flex-col justify-center space-y-6">
       <div className="relative flex flex-col justify-center overflow-hidden">
         <div className="m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl ">
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
@@ -144,10 +141,8 @@ export default function Signin({
               Sign up
             </button>
           </div>
-          {/* Sign Up Link End*/}
         </div>
       </div>
-      {/* Form Ends */}
     </div>
   )
 }

@@ -125,7 +125,8 @@ const PostReactionBar = ({
             onOpenChange={setEmojiPopoverVisible}>
             <PopoverTrigger asChild>
               <span
-                className="text-xs text-slate-400"
+                className="text-xs text-slate-400 max-custom-sm:text-[11px] 
+                      max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
                 {reactionSummary}
@@ -153,7 +154,9 @@ const PostReactionBar = ({
               ? `${pathName}/feed/${postId}`
               : ` /feeds/feed/${postId}`
           }>
-          <span className="text-xs text-slate-400">
+          <span
+            className="text-xs text-slate-400 max-custom-sm:text-[11px] 
+                      max-[392px]:text-[10px] max-custom-sx:text-[8px]">
             {total_comments} comments
           </span>
         </CustomLink>
