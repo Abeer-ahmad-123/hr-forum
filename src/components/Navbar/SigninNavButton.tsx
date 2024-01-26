@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/Dialog/simpleDialog'
 import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
-import { DialogClose } from '../ui/Dialog/interceptDialog'
 
 export default function SigninNavButton() {
   const [showSignUpForm, setShowSignUpForm] = React.useState(false)
@@ -18,9 +17,6 @@ export default function SigninNavButton() {
     setShowSignUpForm((current) => !current)
   }
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true)
-  }
   const handleCloseDialog = () => {
     setOpenDialog(false)
   }
