@@ -3,12 +3,14 @@ import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserPassword } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Eye, EyeOff } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { ErrorText } from './shared'
 
 interface userDataProps {
   oldPassword: string
@@ -19,7 +21,7 @@ interface ChangePasswordProps {
 }
 
 function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
-  const [userData, setUserData] = useState<userDataProps>({
+  const [userData, setUserData] = useState<any>({
     oldPassword: '',
     newPassword: '',
   })
@@ -28,6 +30,10 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
+  const initialValues = {
+    password: '',
+  }
+  const [errors, setErrors] = useState<any>(initialValues)
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const refreshToken =
@@ -50,12 +56,18 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
   const handleSubmit = async () => {
     setLoading(true)
     try {
+      let isFieldsValid = handleValidations()
+      if (!isFieldsValid) {
+        return
+      }
+
       const response = await updateUserPassword(
         customFetch,
         token,
         refreshToken,
         userData,
       )
+      console.log(response)
       if (response.success) {
         setLoading(false)
         setOpenPasswordDialog(false)
@@ -70,14 +82,30 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
       }
     } finally {
       setLoading(false)
-      setOpenPasswordDialog(false)
     }
+  }
+  const handleValidations = () => {
+    let errors = {}
+    Object.keys(userData).map((key, index) => {
+      let error = handleAuthError('password', userData[key])
+
+      if (error) {
+        errors = { ...errors, [error.name]: error.message }
+      }
+    })
+    setErrors(errors)
+
+    return !Object?.keys(errors)?.length
   }
 
   const handleChange = (e: any) => {
+    const { id, value } = e.target
+    let error = handleAuthError(id, value)
+    setErrors({ ...errors, [id]: error?.message || '' })
+
     setUserData({
       ...userData,
-      [e.target.id]: e.target.value,
+      [id]: value,
     })
   }
 
@@ -85,25 +113,27 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
     <div className="container mx-auto p-4">
       <h1 className="mb-4 text-2xl font-bold">Change Password</h1>
       <div className="flex flex-col gap-4">
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid">
-          <input
-            type={showOldPassword ? 'text' : 'password'}
-            id="oldPassword"
-            value={userData.oldPassword}
-            placeholder="Old Password"
-            // onChange={handleOldPasswordChange}
-            onChange={handleChange}
-            className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
-          />
-          <button
-            onClick={toggleShowOldPassword}
-            className="rounded-r-lg bg-white px-3 text-white">
-            {showOldPassword ? (
-              <Eye color="#D3D3D3" />
-            ) : (
-              <EyeOff color="#D3D3D3" />
-            )}
-          </button>
+        <div>
+          <div className="border-grey-700 flex w-full rounded-lg border border-solid">
+            <input
+              type={showOldPassword ? 'text' : 'password'}
+              id="oldPassword"
+              value={userData.oldPassword}
+              placeholder="Old Password"
+              onChange={handleChange}
+              className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
+            />
+            <button
+              onClick={toggleShowOldPassword}
+              className="rounded-r-lg bg-white px-3 text-white">
+              {showOldPassword ? (
+                <Eye color="#D3D3D3" />
+              ) : (
+                <EyeOff color="#D3D3D3" />
+              )}
+            </button>
+          </div>
+          {errors.password && <ErrorText text={errors['password']} />}
         </div>
 
         <div className="border-grey-700 flex w-full rounded-lg border border-solid">
@@ -112,7 +142,6 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
             id="newPassword"
             value={userData.newPassword}
             placeholder="New Password"
-            // onChange={handleNewPasswordChange}
             onChange={handleChange}
             className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
           />
@@ -126,6 +155,7 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
             )}
           </button>
         </div>
+        {errors.password && <ErrorText text={errors['password']} />}
       </div>
 
       <div className="mt-3 flex justify-center gap-2">
