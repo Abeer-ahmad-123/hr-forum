@@ -56,7 +56,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
   }, [])
   return (
     <div
-      className=" w-full rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300"
+      className="w-full cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300"
       onClick={handleNavigateFeed}>
       <div className="px-5 py-4">
         <div className="flex text-left font-semibold dark:text-white">
