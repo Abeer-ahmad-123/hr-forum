@@ -146,8 +146,6 @@ export async function feedImageCreateInChannel({
       refreshToken: refreshToken,
     }
 
-    // const requestBody = JSON.stringify(body)
-
     let res = await customFetch(
       `https://api.enxsis.com/api/v1/images/posts/${postId}/upload`,
       {

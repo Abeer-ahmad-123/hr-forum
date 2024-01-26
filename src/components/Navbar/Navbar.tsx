@@ -8,9 +8,8 @@ import { useSelector } from 'react-redux'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import LoggedIn from './LoggedIn'
 import SigninNavButton from './SigninNavButton'
-type NavbarProps = {}
 
-const Navbar: React.FC<NavbarProps> = () => {
+const Navbar = () => {
   const reduxToken = useSelector(
     (state: LoggedInUser) => state.loggedInUser.token,
   )
@@ -19,7 +18,11 @@ const Navbar: React.FC<NavbarProps> = () => {
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center">
           <Logo />
-          <FeaturesDropDown />
+          <FeaturesDropDown
+            classNameOuter="max-md:hidden max-lg:w-[200px] w-[270px]"
+            classNameInner="fixed top-[14px] ml-[-26px] max-lg:w-[200px] w-[270px]"
+            classNamefeaturesDropDowm="w-[270px] max-lg:w-[200px] max-md:w-[200px]"
+          />
         </div>
         <div className="flex w-full items-center justify-end max-lg:justify-between">
           <SearchBar />

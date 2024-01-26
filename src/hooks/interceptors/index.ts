@@ -1,10 +1,14 @@
 import { logout } from '@/services/auth/authService'
 import { AUTH_REFRESH_TOKEN } from '@/services/auth/routes'
 import { clearUser, setToken } from '@/store/Slices/loggedInUserSlice'
+import { showErrorAlert } from '@/utils/helper'
+import { usePathname, useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 
 export const useInterceptor = () => {
   const disptach = useDispatch()
+  const router = useRouter()
+  const pathName = usePathname()
 
   const fetchRefreshToken = async (
     options: any,
@@ -31,18 +35,18 @@ export const useInterceptor = () => {
 
         options.headers = options.headers || {}
         options.headers.authorization = `Bearer ${newTokens.data.token}`
-        options.headers.refreshToken = `Bearer ${newTokens.data['refresh-token']}`
 
         return await customFetch(url, options)
       } else {
-        disptach(clearUser())
-        logout()
         throw `Session Expired! Please Login Again`
       }
     } catch (refreshError) {
       disptach(clearUser())
       logout()
-      throw refreshError
+      if (pathName.includes('saved') || pathName === '/profile') {
+        router.push('/feeds')
+      }
+      showErrorAlert(`${refreshError}`)
     }
   }
   async function customFetch(url: any, options: any) {

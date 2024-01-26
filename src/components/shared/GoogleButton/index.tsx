@@ -6,10 +6,10 @@ const GoogleButton = ({ title, callbackFunction }: any) => {
     <div className="flex">
       <button
         type="button"
-        className="login-with-google-btn login-container mt-10 flex w-full items-center rounded-xl text-black"
+        className="login-with-google-btn login-container mt-10 flex w-full items-center rounded-xl text-black ring-0"
         onClick={callbackFunction}>
         <GoogleIcon />
-        <span className="w-full pl-2 text-left">{title} with Google</span>
+        <span className="w-fit pl-2">{title} with Google</span>
       </button>
     </div>
   )

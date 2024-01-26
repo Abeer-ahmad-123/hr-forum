@@ -1,8 +1,5 @@
-import Link from 'next/link'
-import { navigation, sidebarChannels } from '@/utils/data'
+import { navigation } from '@/utils/data'
 import { usePathname, useRouter } from 'next/navigation'
-import { RiSettings4Fill } from 'react-icons/ri'
-import { AiOutlineUserAdd } from 'react-icons/ai'
 import { BsDot } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import { StoreChannels } from '@/utils/interfaces/channels'
@@ -24,13 +21,9 @@ const DropDownContent = ({
   const channels = useSelector(
     (state: StoreChannels) => state?.channels?.channels,
   )
-  const handleChannelClick = () => {
-    router.push('/channels')
-  }
 
   const commonPrimaryText: string = 'text-accent'
   const commonDarkModeText: string = 'dark:text-gray-200'
-  const commonDullPrimaryText: string = 'text-[#6395f0]'
 
   const textStyle = (key: string): string => {
     return checkEqual(key)
@@ -48,12 +41,6 @@ const DropDownContent = ({
     return checkEqual(key)
       ? `${commonPrimaryText} dark:${commonPrimaryText}`
       : `text-gray-500 ${commonDarkModeText}`
-  }
-
-  const channelCodeStyle = (key: string): string => {
-    return checkEqual(key)
-      ? `${commonDullPrimaryText} dark:${commonDullPrimaryText}`
-      : `text-gray-400 ${commonDarkModeText}`
   }
 
   const sidebarLinkStyle = (key: string): string => {
@@ -136,42 +123,6 @@ const DropDownContent = ({
           </CustomLink>
         </li>
       ))}
-      <CustomLink href="/channels" data-testid="join-new-channel">
-        <li onClick={handleLi} className="max-md:w-[200px] lg:w-[258px]">
-          <div
-            className="flex h-12 items-center rounded-lg bg-accent text-white"
-            onClick={handleChannelClick}>
-            <div className=" m-[0px_0px_0px_0.35em] h-8 w-8 rounded-lg bg-accent ">
-              <AiOutlineUserAdd
-                className="ml-1 mt-1 h-6 w-6 text-white"
-                data-testid="join-new-channel-icon"
-              />
-            </div>
-            <div className="w-7.5 h-7.5 m-1.5 rounded-lg bg-accent pr-8 pt-1 font-light text-white max-lg:p-0 max-lg:text-[15px]">
-              Join a new channel
-            </div>
-          </div>
-        </li>
-      </CustomLink>
-
-      {/* <CustomLink
-        href="/settings"
-        className="mt-auto hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-        onClick={handleLi}
-        data-testid="settings">
-        <li
-          className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 text-gray-800 ${textStyle(
-            '/settings',
-          )}`}>
-          <RiSettings4Fill
-            className={`h-6 w-6 shrink-0  dark:text-gray-200 dark:group-hover:text-white ${iconStyle(
-              '/settings',
-            )}`}
-            data-testid="settings-icon"
-          />
-          Settings
-        </li>
-      </CustomLink> */}
     </ul>
   )
 }

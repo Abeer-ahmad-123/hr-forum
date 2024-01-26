@@ -1,8 +1,13 @@
 'use server'
-import { removeUserCookies, setUserCookies } from '@/utils/cookies'
+import {
+  removeUserCookies,
+  setUserCookies,
+  setUserTokens,
+} from '@/utils/cookies'
 import { cookies } from 'next/headers'
 import {
   AUTH_GET_USER_DETAILS,
+  AUTH_IS_TOKEN_EXPIRED,
   AUTH_REFRESH_TOKEN,
   AUTH_REGISTER,
   AUTH_UPDATE_PASSWORD,
@@ -12,6 +17,7 @@ import {
   GOOGLE_EXCHANGE_CODE,
   GOOGLE_REGISTER,
 } from './routes'
+import { setTokenCookies } from '@/utils/interfaces/cookies'
 
 export async function signIn(body: any) {
   try {
@@ -72,10 +78,18 @@ export async function logout() {
     throw err
   }
 }
+export async function setUserToken(data: setTokenCookies) {
+  try {
+    setUserTokens(data)
+  } catch (err) {
+    throw err
+  }
+}
 
 export async function getRefreshToken() {
   const accessToken = cookies().get('access-token')
   const refreshToken = cookies().get('refresh-token')
+
   try {
     const responseFromRefresh = await fetch(AUTH_REFRESH_TOKEN, {
       method: 'POST',
@@ -86,10 +100,14 @@ export async function getRefreshToken() {
       },
     })
     const responseFromJson = await responseFromRefresh.json()
+
     if (responseFromJson.success) {
       cookies().set('access-token', responseFromJson.data.token)
       cookies().set('refresh-token', responseFromJson.data['refresh-token'])
+    } else {
+      removeUserCookies()
     }
+
     return responseFromJson
   } catch (err) {
     throw err
@@ -135,7 +153,6 @@ export async function googleAuthStart(url: string) {
         'content-type': 'application/json',
       },
     })
-
     const responseJson = await responseFromRefresh.json()
     // setUserCookies(responseJson)
 
@@ -202,5 +219,22 @@ export async function googleTokenExchange(token: string, username: string) {
     return responseJson?.data
   } catch (err) {
     throw err
+  }
+}
+
+export async function isTokenExpired() {
+  const accessToken = cookies().get('access-token')
+
+  try {
+    const response = await fetch(AUTH_IS_TOKEN_EXPIRED, {
+      method: 'GET',
+      cache: 'no-cache',
+      headers: {
+        Authorization: 'Bearer' + accessToken?.value?.toString()!,
+      },
+    })
+    return await response.json()
+  } catch (error) {
+    throw error
   }
 }

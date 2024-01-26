@@ -1,6 +1,6 @@
 'use client'
 import { Dialog } from '@/components/ui/Dialog/interceptDialog'
-import { noProfilePicture } from '@/utils/ImagesLink'
+import { noProfilePicture } from '@/assets/images'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { SendHorizonal } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -68,7 +68,7 @@ const TextArea = ({
         pathName === '/feeds' && 'mb-4'
       }  flex cursor-pointer items-center gap-2.5 px-4`}>
       <img
-        src={userData.profilePictureURL || noProfilePicture}
+        src={userData.profilePictureURL || noProfilePicture.src}
         className="w-18 h-8 rounded-full border border-solid border-black"
         alt="avatar"
         width={32}

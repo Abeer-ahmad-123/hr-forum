@@ -4,7 +4,7 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -19,12 +19,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { useInterceptor } from '@/hooks/interceptors'
-import {
-  bookmarkPost,
-  deleteBookmarkPost,
-} from '@/services/bookmark/bookmarkService'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { showErrorAlert } from '@/utils/helper'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
@@ -32,17 +27,15 @@ import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 
 const PostActionBar = ({
-  linkToFeed,
   postId,
   inputRef,
-  bookmark,
   userReaction,
   setUserReaction,
-  setBookmarkupdated,
   updateReactionArray,
   reactionSummary,
-  getPostCommets,
   getPost,
+  disableReactionButton,
+  setDisableReactionButton,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -51,11 +44,9 @@ const PostActionBar = ({
     ''
 
   const [showSignModal, setShowSignModal] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
   const [popOver, setPopOver] = useState(false)
   const { id } = useParams()
-  const pathName = usePathname()
-  const router = useRouter()
+
   const { customFetch } = useInterceptor()
 
   const submitReaction = async (value: string) => {
@@ -107,12 +98,14 @@ const PostActionBar = ({
         }
         setUserReaction(userReaction === value ? '' : value)
         getPost()
-      } catch (error) {
-        if (pathName.includes('saved')) {
-          router.push('/feeds')
+        if (!response.success) {
+          throw response.errors[0]
         }
+      } catch (error) {
         setUserReaction('')
         showErrorAlert(`${error}`)
+      } finally {
+        setDisableReactionButton(false)
       }
     } else {
       setShowSignModal(true)
@@ -121,7 +114,6 @@ const PostActionBar = ({
 
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
-  const [bookmarkSuccess, setBookmarkSuccess] = useState(bookmark)
   const toggleCommentArea = () => {
     if (tokenInRedux) {
       id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
@@ -136,35 +128,6 @@ const PostActionBar = ({
     } else {
       setShowSignModal(false)
       return false
-    }
-  }
-  const handleBookmark = async () => {
-    // if (pathName.includes('/saved')) {
-    //   setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
-    // }
-
-    if (tokenInRedux) {
-      const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
-      try {
-        const res = await getApi(
-          postId,
-          customFetch,
-          tokenInRedux,
-          refreshTokenInRedux,
-        )
-        if (res.data) {
-          setBookmarkSuccess(true)
-        } else if (res.status === 200 || res.status === 204) {
-          setBookmarkSuccess(false)
-        }
-      } catch (error) {
-        if (pathName.includes('saved')) {
-          router.push('/feeds')
-        }
-        showErrorAlert(`${error}`)
-      }
-    } else {
-      setShowSignModal(true)
     }
   }
 
@@ -187,6 +150,8 @@ const PostActionBar = ({
             handleLikeWrapper={handleLikeWrapper}
             userReaction={userReaction}
             onReact={submitReaction}
+            disableReactionButton={disableReactionButton}
+            setDisableReactionButton={setDisableReactionButton}
           />
 
           <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800">

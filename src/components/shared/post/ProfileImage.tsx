@@ -1,5 +1,5 @@
 'use client'
-import { noProfilePicture } from '@/utils/ImagesLink'
+import { noProfilePicture } from '@/assets/images'
 import { ProfileImageInterface } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { redirect } from 'next/navigation'
@@ -18,7 +18,7 @@ function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
   return (
     <img
       alt="profile Image"
-      src={imgSrc || noProfilePicture}
+      src={imgSrc || noProfilePicture.src}
       onClick={handleImageClick}
       width={32}
       height={32}

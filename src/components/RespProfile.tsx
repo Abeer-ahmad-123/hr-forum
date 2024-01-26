@@ -9,8 +9,7 @@ import {
   updateUserImage,
 } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
-
-import { noProfilePicture } from '@/utils/ImagesLink'
+import { noProfilePicture } from '@/assets/images'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
@@ -35,7 +34,6 @@ const RespProfile = ({ userId }: profileProps) => {
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const router = useRouter()
   const { customFetch } = useInterceptor()
   const imageInputRef = useRef(null)
   const [posts, setUserSpecificPosts] = useState<any>([])
@@ -53,31 +51,45 @@ const RespProfile = ({ userId }: profileProps) => {
   )
 
   const getUserSpecificDetail = async () => {
-    setLoading(true)
-    const response = await getSpecificUserDetails(userId!)
-    setUser(response?.user)
-    setLoading(false)
+    try {
+      setLoading(true)
+      const response = await getSpecificUserDetails(userId!)
+      if (response.success) {
+        setUser(response?.user)
+        setLoading(false)
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      showErrorAlert(`${error}`)
+    }
   }
 
   const getAllUserSpecificPosts = async () => {
-    setLoadingPosts(true)
+    try {
+      setLoadingPosts(true)
 
-    const response = await getUserSpecificPosts(
-      userId ? userId : userDataInStore?.id,
-    )
-    if (response.success) {
-      setUserSpecificPosts(response?.data?.posts)
-      morePosts.current =
-        response?.data?.pagination?.TotalPages &&
-        response?.data?.pagination?.CurrentPage !==
-          response?.data?.pagination?.TotalPages
+      const response = await getUserSpecificPosts(
+        userId ? userId : userDataInStore?.id,
+      )
+      if (response.success) {
+        setUserSpecificPosts(response?.data?.posts)
+        morePosts.current =
+          response?.data?.pagination?.TotalPages &&
+          response?.data?.pagination?.CurrentPage !==
+            response?.data?.pagination?.TotalPages
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      showErrorAlert(`${error}`)
+    } finally {
+      setLoadingPosts(false)
     }
-    setLoadingPosts(false)
   }
 
   const handleInputChange = (e: any) => {
     const file = e.target.files[0]
-
     setImage(file)
     setOpenDialog(true)
   }
@@ -109,40 +121,45 @@ const RespProfile = ({ userId }: profileProps) => {
             }),
           )
         } else {
-          showErrorAlert('Something went wrong')
+          throw response.errors[0]
         }
       } catch (e: any) {
-        if (e.includes('Session Expired')) router.push('/')
+        // if (e.includes('Session Expired')) router.push('/')
         showErrorAlert(e)
       }
     }
     setOpenDialog(false)
   }
   const onBgImageInputChange = async (e: any) => {
-    const file = e.target.files[0]
-    const response = await updateUserBgImage(
-      customFetch,
-      userToken,
-      refreshToken,
-      file,
-    )
-    if (response?.success) {
-      showSuccessAlert('Profile picture updated')
-      dispatch(
-        setUserData({
-          userData: {
-            ...userDataInStore,
-            backgroundPictureURL: response?.data?.url,
-          },
-        }),
+    try {
+      const file = e.target.files[0]
+      const response = await updateUserBgImage(
+        customFetch,
+        userToken,
+        refreshToken,
+        file,
       )
+      if (response?.success) {
+        showSuccessAlert('Profile picture updated')
+        dispatch(
+          setUserData({
+            userData: {
+              ...userDataInStore,
+              backgroundPictureURL: response?.data?.url,
+            },
+          }),
+        )
 
-      setUser({
-        ...user,
-        backgroundPictureURL: response?.data?.url,
-      })
-    } else {
-      showErrorAlert('Something went wrong')
+        setUser({
+          ...user,
+          backgroundPictureURL: response?.data?.url,
+        })
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      // if ((error as string).includes('Session Expired')) router.push('/')
+      showErrorAlert(`${error}`)
     }
   }
 
@@ -245,7 +262,7 @@ const RespProfile = ({ userId }: profileProps) => {
                         src={
                           user?.profilePictureURL
                             ? user?.profilePictureURL
-                            : noProfilePicture
+                            : noProfilePicture.src
                         }
                         className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                       />

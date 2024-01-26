@@ -1,6 +1,6 @@
 'use client'
 import ChannelPill from '@/components/shared/ChannelPill'
-import { noProfilePicture } from '@/utils/ImagesLink'
+import { noProfilePicture } from '@/assets/images'
 import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -65,6 +65,8 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
     clap_count: 0,
     celebrate_count: 0,
   })
+  const [disableReactionButton, setDisableReactionButton] =
+    useState<boolean>(false)
   const [userReaction, setUserReaction] = useState('')
 
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
@@ -138,22 +140,6 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setPopOver(false)
   }
-
-  useEffect(() => {
-    if (reaction_summary) {
-      setReactionSummary(reaction_summary)
-    }
-  }, [reaction_summary])
-
-  useEffect(() => {
-    setUserReaction(user_reaction)
-  }, [user_reaction])
-
-  useEffect(() => {
-    return () => {
-      nProgress.done()
-    }
-  }, [])
   const handleReportClick = (event: any) => {
     event.preventDefault()
     event.stopPropagation()
@@ -200,15 +186,28 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
           setBookmarkSuccess(false)
         }
       } catch (error) {
-        if (pathName.includes('saved')) {
-          router.push('/feeds')
-        }
         showErrorAlert(`${error}`)
       }
     } else {
       setShowSignModal(true)
     }
   }
+
+  useEffect(() => {
+    if (reaction_summary) {
+      setReactionSummary(reaction_summary)
+    }
+  }, [reaction_summary])
+
+  useEffect(() => {
+    setUserReaction(user_reaction)
+  }, [user_reaction])
+
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
 
   return (
     <div key={id}>
@@ -249,7 +248,7 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
                       width={32}
                       height={32}
-                      src={user?.profile_picture_url || noProfilePicture}
+                      src={user?.profile_picture_url || noProfilePicture.src}
                       alt="user-picture"
                       onClick={handleNavigateProfile}
                     />
@@ -368,16 +367,14 @@ const Card = ({ post, channels, setBookmarkupdated }: any) => {
 
         <div className="py-1">
           <PostActionBar
-            linkToFeed={`/feeds/feed/${id}`}
             postId={id}
-            bookmark={user_has_bookmarked}
             userReaction={userReaction}
             setUserReaction={setUserReaction}
-            setBookmarkupdated={setBookmarkupdated}
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
-            getPostCommets={() => {}}
             getPost={() => {}}
+            disableReactionButton={disableReactionButton}
+            setDisableReactionButton={setDisableReactionButton}
           />
         </div>
       </div>

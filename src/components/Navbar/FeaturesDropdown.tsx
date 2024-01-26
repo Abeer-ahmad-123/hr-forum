@@ -10,38 +10,41 @@ import {
 import { useDispatch, useSelector } from 'react-redux'
 import DropDownContent from '../shared/DropDownContent'
 
-const FeaturesDropDown = () => {
+interface FeaturesDropDownInterface {
+  classNameOuter: string
+  classNameInner: string
+  classNamefeaturesDropDowm: string
+}
+
+const FeaturesDropDown = ({
+  classNameOuter,
+  classNameInner,
+  classNamefeaturesDropDowm,
+}: FeaturesDropDownInterface) => {
   const [selected, setSelected] = useState('Home')
-  const checked = useSelector((state: any) => state.dropDown.checked)
-  const dispatch = useDispatch()
+  const [showMenu, setShowMenu] = useState<boolean>(false)
 
   const divRef: any = useRef(null)
 
   const pathname = usePathname()
-
-  const handleChecked = () => {
-    dispatch(setChecked(!checked))
+  const setCheckFalse = () => {
+    setShowMenu(false)
   }
-
-  const setCheckFalse = useCallback(() => {
-    dispatch(setChecked(false))
-  }, [dispatch])
-
   const handleLi = () => {
     setCheckFalse()
   }
+  const handleChecked = () => {
+    setShowMenu(!showMenu)
+  }
 
-  const handleClickOutside = useCallback(
-    (event: any) => {
-      if (divRef.current && !divRef.current.contains(event?.target)) {
-        setCheckFalse()
-      }
-    },
-    [setCheckFalse],
-  )
+  const handleClickOutside = (event: any) => {
+    if (divRef.current && !divRef.current.contains(event?.target)) {
+      setCheckFalse()
+    }
+  }
 
-  const showDiv = checked
-    ? 'ml-[-1px] block w-[270px] border-b border-l border-r border-[#e6e6e6]  max-lg:w-[200px]'
+  const showDiv = showMenu
+    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {
@@ -78,11 +81,11 @@ const FeaturesDropDown = () => {
 
   useEffect(() => {
     setCheckFalse()
-    window.addEventListener('scroll', setCheckFalse)
+    document.addEventListener('scroll', setCheckFalse)
     return () => {
-      window.removeEventListener('scroll', setCheckFalse)
+      document.removeEventListener('scroll', setCheckFalse)
     }
-  }, [setCheckFalse])
+  }, [])
 
   const getSelectedIcon = () => {
     const styles = 'mr-2 h-5 w-5 text-accent'
@@ -106,10 +109,10 @@ const FeaturesDropDown = () => {
 
   return (
     <div
-      className="relative flex w-[270px] cursor-pointer justify-center  max-lg:hidden"
+      className={`relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`fixed top-[14px] ml-[-26px] h-8 w-[270px] rounded border border-[#e6e6e6] dark:bg-dark-background`}>
+        className={`${classNameInner} h-8 rounded border border-[#e6e6e6] dark:bg-dark-background`}>
         <div
           className="mt-[3px] flex justify-between px-[0.75rem] py-0"
           onClick={handleChecked}>

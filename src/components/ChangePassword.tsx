@@ -74,7 +74,6 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
         refreshToken,
         userData,
       )
-      console.log(response)
       if (response.success) {
         setLoading(false)
         setOpenPasswordDialog(false)

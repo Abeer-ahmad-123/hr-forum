@@ -1,6 +1,5 @@
+import { noProfilePicture } from '@/assets/images'
 import { ChannelPill } from '@/components/shared'
-import { noProfilePicture } from '@/utils/ImagesLink'
-
 import { timeFormatInHours } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -61,7 +60,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       <div className="px-5 py-4">
         <div className="flex text-left font-semibold dark:text-white">
           <img
-            src={user?.profilePictureURL || noProfilePicture}
+            src={user?.profilePictureURL || noProfilePicture.src}
             alt="profile"
             className="relative h-12 w-12 transform rounded-full"
           />

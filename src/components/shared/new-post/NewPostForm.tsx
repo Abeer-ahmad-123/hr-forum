@@ -14,7 +14,7 @@ import Dropdown from './Dropdown'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
-  setPosts?: (arg0: any) => void
+  setPosts: (arg0: any) => void
 }
 
 export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
@@ -44,17 +44,23 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
   const [loading, setLoading] = useState(false)
 
   const handleImageChange = (event: any) => {
-    const content = 'image:'
-    setFormValues({ ...formValues, content })
-    setPostImage(true)
-    const file = event.target.files[0]
-    setImage(file)
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setSelectedImage(reader.result)
+    const maxAllowedSize = 5 * 1024 * 1024
+    if (event.target.files[0].size > maxAllowedSize) {
+      event.target.value = ''
+      showErrorAlert('Please upload image upto 5mb')
+    } else {
+      const content = 'image:'
+      setFormValues({ ...formValues, content })
+      setPostImage(true)
+      const file = event.target.files[0]
+      setImage(file)
+      if (file) {
+        const reader = new FileReader()
+        reader.onloadend = () => {
+          setSelectedImage(reader.result)
+        }
+        reader.readAsDataURL(file)
       }
-      reader.readAsDataURL(file)
     }
   }
 
@@ -125,13 +131,10 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
 
               setLoading(false)
             }
-          } catch (err) {
-            console.log('error', err)
-          }
+          } catch (err) {}
         }
 
-        setPosts &&
-          setPosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
+        setPosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
         showSuccessAlert('Post has been created successfully')
         setLoading(false)
         open(false)
@@ -140,11 +143,11 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
         setLoading(false)
       }
     } catch (err) {
-      if ((err as string).includes('Session Expired! Please Login Again')) {
-        showErrorAlert(err as string)
-      } else {
-        showErrorAlert('Something went wrong while creating post.')
-      }
+      // if ((err as string).includes('Session Expired! Please Login Again')) {
+      //   showErrorAlert(err as string)
+      // } else {
+      showErrorAlert('Something went wrong while creating post.')
+      // }
       setLoading(false)
       open(false)
     }
@@ -233,7 +236,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
               ) : (
                 <>
                   <ImageIcon className="h-[250px] w-[250px]  text-gray-500" />
-                  <p>Browser File to Upload</p>
+                  <p>Browser Image to Upload</p>
                 </>
               )}
             </label>

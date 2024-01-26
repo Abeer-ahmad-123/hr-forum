@@ -5,7 +5,6 @@ import { Building2 } from 'lucide-react'
 import React from 'react'
 import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
-import { usePathname, useRouter } from 'next/navigation'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 const ChannelCard = () => {
@@ -14,11 +13,11 @@ const ChannelCard = () => {
   )
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
-  const pathname = usePathname()
-
   return channels.length ? (
     <div
-      className={`${'mt-[20px]'}  sticky top-[20px] mr-4 h-auto max-h-screen w-[200px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-md:w-full`}>
+      className={`sticky  top-[20px] mr-4 ${
+        token ? 'mt-[20px]' : 'mt-[0px]'
+      } h-auto max-h-screen w-[200px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-md:w-full`}>
       <h1 className="mb-[0px] mt-[10px] text-start text-[11px] font-semibold">
         Channels
       </h1>

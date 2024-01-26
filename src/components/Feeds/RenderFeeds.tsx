@@ -2,12 +2,10 @@ import Feeds from '@/components/Feeds/Feeds'
 import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
-
 import { getBookmarkPosts } from '@/services/bookmark/bookmarkService'
 import { getChannels } from '@/services/channel/channel'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
-import { noChannelBanner } from '@/utils/ImagesLink'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { toPascalCase } from '@/utils/common'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
@@ -19,6 +17,7 @@ import {
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import RespScreen from '../Cards/ResponsiveScreen'
+import { noChannelBanner } from '@/assets/images'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -194,7 +193,9 @@ async function RenderFeeds({
               <img
                 className="max-w-768px z-10 h-[200px] w-full rounded-t-xl"
                 src={
-                  channelSlug ? getImageUrlBySlug(channelSlug) : noChannelBanner
+                  channelSlug
+                    ? getImageUrlBySlug(channelSlug)
+                    : noChannelBanner.src
                 }
                 alt="banner"
               />
@@ -209,14 +210,14 @@ async function RenderFeeds({
 
         <div className="flex w-full justify-center">
           <div className="w-full">
-            <div className="max-sm:block md:hidden lg:hidden">
+            <div>
               {' '}
               <RespScreen />
             </div>
 
             <div
               className={`${
-                path === '/saved' ? 'mt-[20px]' : 'mt-[40px]'
+                path === '/saved' ? 'mt-[20px]' : 'mt-[40px] max-md:mt-[20px]'
               }  w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}

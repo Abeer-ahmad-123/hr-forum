@@ -37,7 +37,10 @@ async function postReactions(
     if (response.ok) {
       return await response.json()
     } else {
-      throw 'Error'
+      if (response.type === 'cors') {
+        throw 'Something went wrong'
+      }
+      return await response.json()
     }
   } catch (error) {
     throw error
@@ -63,7 +66,10 @@ async function deleteReactions(
     if (response.ok) {
       return await response.json()
     } else {
-      throw 'Error'
+      if (response.type === 'cors') {
+        throw 'Something went wrong'
+      }
+      return await response.json()
     }
   } catch (error) {
     throw error
@@ -105,7 +111,10 @@ async function updatePostReaction(
     if (response.ok) {
       return await response.json()
     } else {
-      throw 'Error'
+      if (response.type === 'cors') {
+        throw 'Something went wrong'
+      }
+      return await response.json()
     }
   } catch (error) {
     throw error
