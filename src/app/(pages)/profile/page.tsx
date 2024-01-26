@@ -1,8 +1,8 @@
 import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
-import { Suspense } from 'react'
+import RespProfile from '@/components/RespProfile'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import RespProfile from '@/components/RespProfile'
+import { Suspense } from 'react'
 
 const Profile = () => {
   const userDetailsCookies = cookies().get('user-details')

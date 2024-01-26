@@ -8,8 +8,14 @@ const ProfilePageLoading = () => {
         <Skelton className=" h-[78%] w-full" />
         <div className="absolute bottom-0 left-0 right-0 top-[18rem] m-auto h-[60%] w-[80%] rounded-md bg-white shadow-xl dark:bg-slate-800 max-md:w-full">
           {/* edit button */}
-          <div className="absolute right-[40px] top-0 w-[130px]">
-            <Skelton className="mr-[50px] mt-[10px] h-[32px] w-full max-w-[130px] rounded"></Skelton>
+          <div className="flex flex-col">
+            <div className="absolute right-[40px] top-0 w-[160px]">
+              <Skelton className="mr-[50px] mt-[10px] h-[32px] w-full max-w-[150px] rounded"></Skelton>
+            </div>
+
+            <div className="absolute right-[40px] top-9 w-[160px]">
+              <Skelton className="mr-[50px] mt-[10px] h-[32px] w-full max-w-[150px] rounded"></Skelton>
+            </div>
           </div>
           <div className="flex flex-col gap-[50px] px-4">
             {/* profile picture */}
