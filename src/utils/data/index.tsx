@@ -1,14 +1,14 @@
+import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
 import { AiFillHome } from 'react-icons/ai'
 import { BsFillBookmarksFill } from 'react-icons/bs'
-import avatarPng from '../../assets/avatars/image-juliusomo.png'
-import avatarWebp from '../../assets/avatars/image-juliusomo.webp'
 import avatar2Png from '../../assets/avatars/image-amyrobson.png'
 import avatar2Webp from '../../assets/avatars/image-amyrobson.webp'
+import avatarPng from '../../assets/avatars/image-juliusomo.png'
+import avatarWebp from '../../assets/avatars/image-juliusomo.webp'
 import avatar3Png from '../../assets/avatars/image-maxblagun.png'
 import avatar3Webp from '../../assets/avatars/image-maxblagun.webp'
 import avatar4Png from '../../assets/avatars/image-ramsesmiron.png'
 import avatar4Webp from '../../assets/avatars/image-ramsesmiron.webp'
-import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
 
 export const colors = ['indigo', 'blue', 'coral', 'mint', 'sunset', 'mauve']
 
@@ -470,14 +470,44 @@ export const reportData = [
 ]
 
 export const rulesData = [
-  'Vel elit, ut ut.',
-  'Cras nec purus et.',
-  'Fusce auctor odio.',
-  'Suspendisse non',
-  'Sed euismod',
-  'Vel elit, ut ut.',
-  'Cras nec purus.',
-  'Fusce auctor.',
-  'Suspendisse.',
-  'Sed euismod',
+  {
+    title: 'Vel elit, ut ut.',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Cras nec purus et.',
+    description:
+      'In hac habitasse platea dictumst. Vivamus vel felis eu ligula consequat tincidunt. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Fusce auctor odio.',
+    description:
+      'Fusce auctor odio ac neque varius, vitae efficitur justo suscipit. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Suspendisse non',
+    description:
+      'Suspendisse non ligula nec urna fermentum consectetur. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Sed euismod',
+    description:
+      'Sed euismod neque non metus fermentum, a bibendum lacus ultricies. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Cras nec purus.',
+    description:
+      'Cras nec purus ac odio feugiat posuere. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Fusce auctor.',
+    description:
+      'Fusce auctor justo vel massa fermentum, vel cursus metus blandit. Quisquam, voluptatibus.',
+  },
+  {
+    title: 'Suspendisse.',
+    description:
+      'Suspendisse potenti. Nulla facilisi. Duis vehicula, eros vitae posuere. Quisquam, voluptatibus.',
+  },
 ]

@@ -28,6 +28,7 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
 
   const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+  const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
   const initialValues = {
@@ -55,9 +56,15 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
 
   const handleSubmit = async () => {
     setLoading(true)
+
     try {
       let isFieldsValid = handleValidations()
       if (!isFieldsValid) {
+        return
+      }
+
+      if (userData.newPassword !== confirmPassword) {
+        setErrors({ ...errors, confirmPassword: 'Passwords do not match' })
         return
       }
 
@@ -101,12 +108,22 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
   const handleChange = (e: any) => {
     const { id, value } = e.target
     let error = handleAuthError(id, value)
-    setErrors({ ...errors, [id]: error?.message || '' })
 
-    setUserData({
-      ...userData,
-      [id]: value,
-    })
+    if (id === 'confirmPassword') {
+      setConfirmPassword(value)
+      if (value !== userData.newPassword) {
+        setErrors({ ...errors, [id]: 'Passwords do not match' })
+      } else {
+        setErrors({ ...errors, [id]: '' })
+      }
+    } else {
+      setErrors({ ...errors, [id]: error?.message || '' })
+
+      setUserData({
+        ...userData,
+        [id]: value,
+      })
+    }
   }
 
   return (
@@ -156,6 +173,30 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
           </button>
         </div>
         {errors.password && <ErrorText text={errors['password']} />}
+
+        {/* Confirm Pass */}
+        <div className="border-grey-700 flex w-full rounded-lg border border-solid">
+          <input
+            type={showNewPassword ? 'text' : 'password'}
+            id="confirmPassword"
+            value={confirmPassword}
+            placeholder="Confirm Password"
+            onChange={handleChange}
+            className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
+          />
+          <button
+            onClick={toggleShowNewPassword}
+            className="rounded-r-lg bg-white px-3 text-white">
+            {showNewPassword ? (
+              <Eye color="#D3D3D3" />
+            ) : (
+              <EyeOff color="#D3D3D3" />
+            )}
+          </button>
+        </div>
+        {errors.confirmPassword && (
+          <ErrorText text={errors['confirmPassword']} />
+        )}
       </div>
 
       <div className="mt-3 flex justify-center gap-2">

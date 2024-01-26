@@ -1,5 +1,13 @@
+'use client'
 import { rulesData } from '@/utils/data'
 import { ShieldPlus } from 'lucide-react'
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 
 const RulesCard = () => {
   return (
@@ -9,16 +17,29 @@ const RulesCard = () => {
           Forum Rules
         </p>
 
-        <ul className="text-left">
-          {rulesData.map((item, index) => (
-            <li key={index}>
-              <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 dark:text-gray-400 ">
-                <ShieldPlus size={20} />
-                <span>{item}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <Accordion type="single" collapsible>
+          <ul className="text-left">
+            {rulesData.map((item, index) => {
+              return (
+                <AccordionItem value={item.title} key={index}>
+                  <AccordionTrigger>
+                    <li>
+                      <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 dark:text-gray-400 ">
+                        <ShieldPlus size={20} />
+                        <span>{item.title}</span>
+                      </div>
+                    </li>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="text-[12px] font-normal text-gray-500 dark:text-gray-400">
+                      {item.description}
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              )
+            })}
+          </ul>
+        </Accordion>
       </div>
     </>
   )

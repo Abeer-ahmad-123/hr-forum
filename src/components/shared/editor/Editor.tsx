@@ -1,5 +1,5 @@
-import { useMemo } from 'react'
 import dynamic from 'next/dynamic'
+import { useMemo } from 'react'
 import 'react-quill/dist/quill.snow.css' // import styles
 import './editor.css'
 
@@ -30,7 +30,7 @@ Editor.modules = {
     [{ header: '1' }],
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
     [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link', 'image', 'video'],
+    ['link', 'video'],
     [{ color: [] }, { background: [] }],
     ['code-block', 'divider'],
     ['clean'],
@@ -50,7 +50,6 @@ Editor.formats = [
   'list',
   'bullet',
   'link',
-  'image',
   'video',
   'color',
   'background',
