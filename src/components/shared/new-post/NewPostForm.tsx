@@ -6,11 +6,13 @@ import {
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Image as IconImage, Plus } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
+import { usePathname } from 'next/navigation'
+import { StoreChannels } from '@/utils/interfaces/channels'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
@@ -23,7 +25,10 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
     content: '',
     channelId: '',
   })
-
+  const [buttonValue, setButtonValue] = useState('Select a Channel')
+  const channels = useSelector(
+    (state: StoreChannels) => state.channels.channels,
+  )
   const [postImage, setPostImage] = useState(false)
 
   const [selectedImage, setSelectedImage] = useState<
@@ -35,7 +40,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
   const userDetails = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
-
+  const pathname = usePathname()
   const refreshToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
   )
@@ -66,6 +71,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
 
   const isDisabled =
     !formValues.channelId ||
+    !buttonValue ||
     !formValues.title ||
     loading ||
     (postImage && !selectedImage)
@@ -143,11 +149,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
         setLoading(false)
       }
     } catch (err) {
-      // if ((err as string).includes('Session Expired! Please Login Again')) {
-      //   showErrorAlert(err as string)
-      // } else {
       showErrorAlert('Something went wrong while creating post.')
-      // }
       setLoading(false)
       open(false)
     }
@@ -158,17 +160,32 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
     setSelectedImage('')
   }
 
+  const checkChannel = () => {
+    if (pathname.includes('/channels/')) {
+      const channel = channels.find((channel) => {
+        return channel.slug === pathname.split('/')[2]
+      })
+      if (channel) {
+        setButtonValue(channel.name)
+        setFormValues({ ...formValues, ['channelId']: channel?.id.toString() })
+      }
+    }
+  }
+  useEffect(() => {
+    checkChannel()
+  }, [pathname])
+
   return (
     <div className="flex flex-col  space-y-6 rounded-xl bg-white p-2 dark:bg-dark-background">
       <div className="flex w-full justify-between">
-        <h3 className="w-content mb-4 flex-shrink-0 text-xl font-medium text-gray-700 dark:text-white">
+        <h3 className="w-content mb-4 flex-shrink-0 font-medium text-gray-700 dark:text-white md:text-lg lg:text-xl">
           Ask for help from the community...
         </h3>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex justify-between max-[490px]:flex-col">
         <input
-          className="mb-3 w-full rounded-lg p-1.5 text-xl placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out  focus:outline-none  focus:ring-purple-100 dark:bg-dark-primary dark:text-white dark:placeholder-white"
+          className="mb-3 rounded-lg p-1.5 placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
           type="text"
           placeholder="Add a title"
           name="title"
@@ -176,7 +193,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
           value={formValues.title}
         />
         <Dropdown
-          value={formValues.channelId}
+          value={buttonValue}
           onSelect={handleFormChange}
           handleDropDownValue={handleDropDownValue}
         />
@@ -185,23 +202,23 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
       <div className="flex items-start justify-start">
         <div
           onClick={handlePost}
-          className={`ml-2 flex w-[100px] items-center gap-[8px]  p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 ${
             !postImage
               ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
               : 'opacity-50'
           }`}>
           <Plus size={20} />
-          <button>Post</button>
+          <button> Post</button>
         </div>
         <div
           onClick={imageOnClick}
-          className={`ml-2 flex w-[100px] items-center gap-[8px]  p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 ${
             postImage
               ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
               : ' opacity-50'
           }`}>
-          <IconImage height={20} width={20} />
-          <button>Image</button>
+          <IconImage size={20} />
+          <button> Image</button>
           <hr />
         </div>
 
@@ -236,7 +253,9 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
               ) : (
                 <>
                   <ImageIcon className="h-[250px] w-[250px]  text-gray-500" />
-                  <p>Browser Image to Upload</p>
+                  <p className='md:text-sm" max-sm:text-xs'>
+                    Browser Image to Upload
+                  </p>
                 </>
               )}
             </label>
@@ -269,7 +288,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
           className={`w-[100px] rounded-md ${
             isDisabled ? 'bg-stone-200' : 'bg-accent'
           } p-2 text-white transition duration-200`}>
-          {loading ? 'Loading...' : 'Next'}
+          {loading ? 'Loading...' : 'Create'}
         </button>
       </div>
     </div>
