@@ -62,7 +62,7 @@ const EditProfileButton = ({
 
       <Dialog open={openPasswordDialog} onOpenChange={setOpenPasswordDialog}>
         <DialogContent>
-          <ChangePassword />
+          <ChangePassword setOpenPasswordDialog={setOpenPasswordDialog} />
         </DialogContent>
       </Dialog>
     </div>

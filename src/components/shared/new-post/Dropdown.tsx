@@ -31,8 +31,6 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
     }
   }
 
-  console.log()
-
   useEffect(() => {
     checkChannel()
   }, [])

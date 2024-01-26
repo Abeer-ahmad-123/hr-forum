@@ -1,24 +1,39 @@
+'use client'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
+import { useInterceptor } from '@/hooks/interceptors'
+import { updateUserPassword } from '@/services/user'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Eye, EyeOff } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
-function ChangePassword() {
-  const [oldPassword, setOldPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [showOldPassword, setShowOldPassword] = useState(false)
-  const [showNewPassword, setShowNewPassword] = useState(false)
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 
-  const handleOldPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setOldPassword(event.target.value)
-  }
+interface userDataProps {
+  oldPassword: string
+  newPassword: string
+}
+interface ChangePasswordProps {
+  setOpenPasswordDialog: (arg0: boolean) => void
+}
 
-  const handleNewPasswordChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setNewPassword(event.target.value)
-  }
+function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
+  const [userData, setUserData] = useState<userDataProps>({
+    oldPassword: '',
+    newPassword: '',
+  })
+
+  const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const router = useRouter()
+
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const refreshToken =
+    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+    ''
+  const { customFetch } = useInterceptor()
 
   const toggleShowOldPassword = () => {
     setShowOldPassword((prevShow) => !prevShow)
@@ -28,11 +43,43 @@ function ChangePassword() {
     setShowNewPassword((prevShow) => !prevShow)
   }
 
-  const handleCancelClick = () => {}
+  const handleCancel = () => {
+    setOpenPasswordDialog(false)
+  }
 
-  const handleSaveClick = () => {}
+  const handleSubmit = async () => {
+    setLoading(true)
+    try {
+      const response = await updateUserPassword(
+        customFetch,
+        token,
+        refreshToken,
+        userData,
+      )
+      if (response.success) {
+        setLoading(false)
+        setOpenPasswordDialog(false)
+        showSuccessAlert('Password Updated successfully')
+        router.refresh()
+      } else {
+        showErrorAlert('Something went wrong')
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        showErrorAlert('Something went wrong')
+      }
+    } finally {
+      setLoading(false)
+      setOpenPasswordDialog(false)
+    }
+  }
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  const handleChange = (e: any) => {
+    setUserData({
+      ...userData,
+      [e.target.id]: e.target.value,
+    })
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -42,9 +89,10 @@ function ChangePassword() {
           <input
             type={showOldPassword ? 'text' : 'password'}
             id="oldPassword"
-            value={oldPassword}
+            value={userData.oldPassword}
             placeholder="Old Password"
-            onChange={handleOldPasswordChange}
+            // onChange={handleOldPasswordChange}
+            onChange={handleChange}
             className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
           />
           <button
@@ -62,9 +110,10 @@ function ChangePassword() {
           <input
             type={showNewPassword ? 'text' : 'password'}
             id="newPassword"
-            value={newPassword}
+            value={userData.newPassword}
             placeholder="New Password"
-            onChange={handleNewPasswordChange}
+            // onChange={handleNewPasswordChange}
+            onChange={handleChange}
             className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
           />
           <button
@@ -81,18 +130,18 @@ function ChangePassword() {
 
       <div className="mt-3 flex justify-center gap-2">
         <button
-          onClick={handleCancelClick}
+          onClick={handleCancel}
           className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white ">
           {' '}
           cancel
         </button>
         <button
-          onClick={handleSaveClick}
+          onClick={handleSubmit}
           className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
-        text-white   ${false ? 'bg-gray-300' : 'bg-accent'}
+        text-white   ${loading ? 'bg-gray-300' : 'bg-accent'}
           `}>
           Save{' '}
-          {false ? (
+          {loading ? (
             <div className="ml-2">
               <CircularProgressIcon color="gray" />
             </div>
