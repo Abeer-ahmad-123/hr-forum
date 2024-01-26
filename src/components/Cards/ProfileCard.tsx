@@ -1,7 +1,7 @@
 'use client'
 
 import BgBanner from '@/assets/icons/bgBanner'
-import { noProfilePicture } from '@/utils/ImagesLink'
+import { noProfilePicture } from '@/assets/images'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail } from 'lucide-react'
 import { useSelector } from 'react-redux'
@@ -31,7 +31,7 @@ const ProfileCard = () => {
       )}
       <div className="flex items-center justify-center">
         <img
-          src={userDetails?.profilePictureURL || noProfilePicture}
+          src={userDetails?.profilePictureURL || noProfilePicture.src}
           alt="profile"
           className="relative top-[-20px] h-14 w-14 rounded-full border-2 border-solid border-white"
           width={50}
