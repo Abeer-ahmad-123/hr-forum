@@ -1,6 +1,6 @@
 'use client'
-import ChannelPill from '@/components/shared/ChannelPill'
 import { noProfilePicture } from '@/assets/images'
+import ChannelPill from '@/components/shared/ChannelPill'
 import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -50,6 +50,7 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+
   const { customFetch } = useInterceptor()
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''

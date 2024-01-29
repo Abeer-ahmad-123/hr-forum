@@ -38,6 +38,12 @@ export interface UserSpecificationPostInterface {
   total_comments: number
   user_reaction: Object
   user_has_bookmarked: boolean
+  reaction_summary: {
+    like_count: number
+    love_count: number
+    clap_count: number
+    celebrate_count: number
+  }
 }
 export interface UserSpecificPostsInterface {
   posts: UserSpecificationPostInterface[]

@@ -160,13 +160,20 @@ export async function feedImageCreateInChannel({
   }
 }
 
-export async function getUserSpecificPosts(userId: string, pageNumber = 1) {
+export async function getUserSpecificPosts(
+  userId: string,
+  pageNumber = 1,
+  { loadReactions = true, loadUser = true },
+) {
   try {
     const formatedRequestUrl = USER_SPECIFIC_POSTS.replace('userId', userId)
 
-    let res = await fetch(formatedRequestUrl + `?page=${pageNumber}`, {
-      cache: 'no-store',
-    })
+    let res = await fetch(
+      `${`${formatedRequestUrl}?page=${pageNumber}&loadReactions=${loadReactions}&loadUser=${loadUser}`}`,
+      {
+        cache: 'no-store',
+      },
+    )
     const response = await res.json()
     return response
   } catch (err) {

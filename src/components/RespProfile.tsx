@@ -1,5 +1,6 @@
 'use client'
 import BgBanner from '@/assets/icons/bgBanner'
+import { noProfilePicture } from '@/assets/images'
 import ImageUpload from '@/components/ImageUpload'
 import { useInterceptor } from '@/hooks/interceptors'
 import { getUserSpecificPosts } from '@/services/posts'
@@ -9,10 +10,9 @@ import {
   updateUserImage,
 } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
-import { noProfilePicture } from '@/assets/images'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Mail, User } from 'lucide-react'
+import { Mail, MessageSquare, Plus, SmilePlus, User } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,6 +30,10 @@ const RespProfile = ({ userId }: profileProps) => {
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
+  const [isComment, setIsComment] = useState<boolean>(false)
+  const [isReaction, setIsReaction] = useState<boolean>(false)
+  const [isPost, setIsPost] = useState<boolean>(true)
+
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
@@ -64,12 +68,21 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }
 
+  const handlePost = () => {
+    setIsPost(true)
+    setIsComment(false)
+    setIsReaction(false)
+
+    // setSelectedImage('')
+  }
   const getAllUserSpecificPosts = async () => {
     try {
       setLoadingPosts(true)
 
       const response = await getUserSpecificPosts(
         userId ? userId : userDataInStore?.id,
+        1,
+        { loadReactions: true },
       )
       if (response.success) {
         setUserSpecificPosts(response?.data?.posts)
@@ -160,6 +173,16 @@ const RespProfile = ({ userId }: profileProps) => {
       // if ((error as string).includes('Session Expired')) router.push('/')
       showErrorAlert(`${error}`)
     }
+  }
+  const commentOnClick = () => {
+    setIsPost(false)
+    setIsReaction(false)
+    setIsComment(true)
+  }
+  const reactionOnClick = () => {
+    setIsComment(false)
+    setIsPost(false)
+    setIsReaction(true)
   }
 
   const UserSpecificationPosts = async () => {
@@ -338,7 +361,59 @@ const RespProfile = ({ userId }: profileProps) => {
                 }
               />
             </div>
-            <div className={`flex w-full flex-col ${!loading && 'gap-2'}`}>
+            <div className="mb-3 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6">
+              <div className="justify-start pl-4">
+                <div className="text-start text-xl font-normal">Activity</div>
+                <div className="flex items-start justify-start">
+                  <div
+                    onClick={handlePost}
+                    className={`flex w-[100px] items-center gap-[8px] p-2 ${
+                      isPost
+                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+                        : 'opacity-50'
+                    }`}>
+                    <Plus size={20} />
+                    <button> Post</button>
+                  </div>
+                  <div
+                    onClick={commentOnClick}
+                    className={`ml-2 flex w-[130px] items-center gap-[8px] p-2 ${
+                      isComment
+                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+                        : ' opacity-50'
+                    }`}>
+                    <MessageSquare size={20} />
+                    <button> Comment</button>
+                    <hr />
+                  </div>
+                  <div
+                    onClick={reactionOnClick}
+                    className={`ml-2 flex w-[130px] items-center gap-[8px] p-2 ${
+                      isReaction
+                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+                        : ' opacity-50'
+                    }`}>
+                    <SmilePlus size={20} />
+                    <button> Reactions</button>
+                    <hr />
+                  </div>
+                  <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
+                </div>
+              </div>
+              <div className="mt-2 w-full">
+                {!loadingPosts ? (
+                  <UserSpecificPosts
+                    posts={posts}
+                    user={userId ? user : userDataInStore}
+                    morePosts={morePosts.current}
+                  />
+                ) : (
+                  [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+                )}
+              </div>
+            </div>
+
+            {/* <div className={`flex w-full flex-col ${!loading && 'gap-2'}`}>
               {!loadingPosts ? (
                 <UserSpecificPosts
                   posts={posts}
@@ -348,15 +423,8 @@ const RespProfile = ({ userId }: profileProps) => {
               ) : (
                 [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
               )}
-            </div>
+            </div> */}
           </div>
-          <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-wrap items-center justify-center md:justify-between">
-                <div className="mx-auto w-full px-4 text-center md:w-6/12"></div>
-              </div>
-            </div>
-          </footer>
         </section>
       </div>
     </>

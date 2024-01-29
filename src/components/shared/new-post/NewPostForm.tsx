@@ -4,15 +4,15 @@ import {
   postCreatePostInChannel,
 } from '@/services/posts'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Image as IconImage, Plus } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
-import { usePathname } from 'next/navigation'
-import { StoreChannels } from '@/utils/interfaces/channels'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
