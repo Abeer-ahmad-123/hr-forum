@@ -29,6 +29,7 @@ const LayoutWrapper = ({ children }: any) => {
   const dispatch = useDispatch()
   const pathname = usePathname()
   const [loading, setLoading] = useState(true)
+  const [isError, setIsError] = useState<boolean>(false)
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
@@ -167,6 +168,10 @@ const LayoutWrapper = ({ children }: any) => {
     }
   }
   useEffect(() => {
+    if (pathname.includes('/error')) setIsError(true)
+  }, [pathname])
+
+  useEffect(() => {
     setLoading(false)
 
     const token = localStorage.getItem('token')
@@ -182,10 +187,10 @@ const LayoutWrapper = ({ children }: any) => {
   return (
     <body
       className={`${styles.trim()} theme-default ${
-        pathname.includes('/error') ? 'bg-white' : 'bg-background'
-      } pt-4 font-primary dark:bg-slate-700   
+        isError ? 'bg-white' : 'bg-background'
+      } pt-4 font-primary ${!isError && 'dark:bg-slate-700'} 
       `}>
-      {!loading && !pathname.includes('/error') && !notFound && <Navbar />}
+      {!loading && !isError && !notFound && <Navbar />}
       <ToastContainer />
       <main className="pt-[45px] font-primary">
         <div className="grid">
