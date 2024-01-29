@@ -31,6 +31,8 @@ export default function Signup({
   const [errors, setErrors] = useState(initialValues)
   const [loading, setLoading] = useState<boolean>(false)
   const dispatch = useDispatch()
+  const isSignUpRoute = pathname === '/signup'
+
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
     let error = handleAuthError(name, value)
@@ -144,13 +146,12 @@ export default function Signup({
   return (
     <div
       className={`container mx-auto flex h-[550px]
-      
        ${
-         pathname === '/signup' ? 'w-[440px] ' : 'w-full max-w-[440px]'
+         isSignUpRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
        } flex-col justify-center space-y-6`}>
       <div
         className={`${
-          pathname === '/signup' ? 'rounded-md shadow-2xl' : ''
+          isSignUpRoute ? 'rounded-md shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-primary lg:max-w-xl`}>
