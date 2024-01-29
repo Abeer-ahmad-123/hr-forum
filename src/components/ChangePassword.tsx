@@ -20,8 +20,8 @@ interface ChangePasswordProps {
   setOpenPasswordDialog: (arg0: boolean) => void
 }
 
-function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
-  const [userData, setUserData] = useState<any>({
+const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
+  const [userData, setUserData] = useState<userDataProps>({
     oldPassword: '',
     newPassword: '',
   })
@@ -93,7 +93,10 @@ function ChangePassword({ setOpenPasswordDialog }: ChangePasswordProps) {
   const handleValidations = () => {
     let errors = {}
     Object.keys(userData).map((key, index) => {
-      let error = handleAuthError('password', userData[key])
+      let error = handleAuthError(
+        'password',
+        userData[key as keyof userDataProps],
+      )
 
       if (error) {
         errors = { ...errors, [error.name]: error.message }
