@@ -19,6 +19,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
   )
   const pathName = usePathname()
   const [buttonValue, setButtonValue] = useState('Select a Channel')
+  const channelSlugRoute = pathName.split('/')[2]
 
   useEffect(() => {
     setButtonValue(value)
@@ -30,11 +31,11 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
         <DropdownMenu>
           <DropdownMenuTrigger
             className={`inline-flex ${
-              pathName.split('/')[2] ? 'pointer-events-none' : 'cursor-pointer'
+              channelSlugRoute ? 'pointer-events-none' : 'cursor-pointer'
             } items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
             <div className="flex items-center justify-center">
               <span className="max-sm:text-xs md:text-sm">{buttonValue}</span>{' '}
-              {!pathName.split('/')[2] && (
+              {!channelSlugRoute && (
                 <DownIcon className="ml-2 h-5 cursor-pointer max-sm:w-3 md:w-5" />
               )}
             </div>
