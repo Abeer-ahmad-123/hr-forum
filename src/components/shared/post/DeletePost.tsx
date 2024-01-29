@@ -2,7 +2,8 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { showSuccessAlert } from '@/utils/helper'
+import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -51,7 +52,7 @@ const DeletePost = ({
       }
     } catch (error) {
       if (error instanceof Error) {
-        showErrorAlert('Something went wrong')
+        handleFetchFailed(error)
       }
     } finally {
       setLoading(false)

@@ -1,3 +1,4 @@
+import { CustomFetchFunction } from '@/utils/types/customFetch'
 import { API_BASE_URL } from '..'
 
 const GET_SPECIFIC_USER_DETAILS = API_BASE_URL + '/users/userId'
@@ -104,7 +105,7 @@ export async function updateUserBgImage(
 }
 
 export async function updateUserPassword(
-  customFetch: any,
+  customFetch: CustomFetchFunction,
   token: string,
   refreshToken: string,
   userData: any,
