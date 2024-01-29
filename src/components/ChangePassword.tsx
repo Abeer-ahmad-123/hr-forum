@@ -2,12 +2,13 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserPassword } from '@/services/user'
-import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
+import { showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Eye, EyeOff } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
+import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ErrorText } from './shared'
@@ -77,14 +78,13 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
       if (response.success) {
         setLoading(false)
         setOpenPasswordDialog(false)
-        showSuccessAlert('Password Updated successfully')
-        router.refresh()
+        showSuccessAlert(response.message)
       } else {
-        showErrorAlert('Something went wrong')
+        // TODO: when backend issue resolved
       }
     } catch (error) {
       if (error instanceof Error) {
-        showErrorAlert('Something went wrong')
+        handleFetchFailed(error)
       }
     } finally {
       setLoading(false)
@@ -107,7 +107,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
     return !Object?.keys(errors)?.length
   }
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
     let error = handleAuthError(id, value)
 
