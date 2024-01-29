@@ -1,9 +1,9 @@
 'use client'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
+import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
 import { showSuccessAlert } from '@/utils/helper'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -31,6 +31,7 @@ const DeletePost = ({
     ''
 
   const { customFetch } = useInterceptor()
+  const { handleRedirect } = handleFetchFailedClient()
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)
@@ -52,7 +53,7 @@ const DeletePost = ({
       }
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setLoading(false)

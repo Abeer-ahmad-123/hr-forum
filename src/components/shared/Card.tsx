@@ -29,6 +29,7 @@ import { MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
+import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const Card = ({ post, channels, setPosts, posts }: any) => {
   const {
@@ -51,6 +52,8 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
   const { customFetch } = useInterceptor()
+  const { handleRedirect } = handleFetchFailedClient()
+
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
@@ -96,8 +99,6 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
     } else if (reactionObject.action === 'delete') {
       deleteReaction(`${reactionObject.value}_count`)
     }
-
-    return reactionArray
   }
 
   const updateReactions = (increment: string, decrement: string) => {
@@ -177,12 +178,19 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
           tokenInRedux,
           refreshTokenInRedux,
         )
-        if (res.data) {
-          setBookmarkSuccess(true)
-        } else if (res.status === 200 || res.status === 204) {
-          setBookmarkSuccess(false)
+        if (res.success) {
+          if (res.data) {
+            setBookmarkSuccess(true)
+          } else if (res.status === 200 || res.status === 204) {
+            setBookmarkSuccess(false)
+          }
+        } else {
+          throw res.errors[0]
         }
       } catch (error) {
+        if (error instanceof Error) {
+          handleRedirect({ error })
+        }
         showErrorAlert(`${error}`)
       }
     } else {
