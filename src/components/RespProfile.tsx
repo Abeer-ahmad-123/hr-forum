@@ -20,7 +20,7 @@ import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface profileProps {
   userId?: string
@@ -35,7 +35,7 @@ const RespProfile = ({ userId }: profileProps) => {
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const { customFetch } = useInterceptor()
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
 
   const imageInputRef = useRef(null)
   const [posts, setUserSpecificPosts] = useState<any>([])

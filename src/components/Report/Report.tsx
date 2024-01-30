@@ -1,7 +1,7 @@
 'use client'
 import InfoIcon from '@/assets/icons/InfoIcon'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { reportData } from '@/utils/data'
@@ -40,7 +40,7 @@ const Report = ({
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const router = useRouter()
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
 
   const { customFetch } = useInterceptor()
 

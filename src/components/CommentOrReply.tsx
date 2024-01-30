@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
 import { showErrorAlert } from '@/utils/helper'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const CommentOrReply = ({
   reply = false,
@@ -33,7 +33,7 @@ const CommentOrReply = ({
   const refreshToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
   )
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
 
   const { customFetch } = useInterceptor()
   const [isLoading, setIsLoading] = useState({

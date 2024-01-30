@@ -25,7 +25,7 @@ import { showErrorAlert } from '@/utils/helper'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const PostActionBar = ({
   postId,
@@ -44,7 +44,7 @@ const PostActionBar = ({
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
   const [showSignModal, setShowSignModal] = useState(false)
   const [popOver, setPopOver] = useState(false)
   const { id } = useParams()

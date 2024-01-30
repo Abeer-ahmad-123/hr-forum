@@ -20,11 +20,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const notFound = useSelector((state: any) => state.notFound.notFound)
   const searchParams = useSearchParams()

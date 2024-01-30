@@ -29,7 +29,7 @@ import { MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const Card = ({ post, channels, setPosts, posts }: any) => {
   const {
@@ -52,7 +52,7 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
   const { customFetch } = useInterceptor()
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
 
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''

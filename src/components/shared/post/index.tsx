@@ -31,7 +31,7 @@ import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
@@ -51,7 +51,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const { customFetch } = useInterceptor()

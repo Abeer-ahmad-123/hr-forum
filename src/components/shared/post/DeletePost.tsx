@@ -1,6 +1,6 @@
 'use client'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
 import { showSuccessAlert } from '@/utils/helper'
@@ -31,7 +31,7 @@ const DeletePost = ({
     ''
 
   const { customFetch } = useInterceptor()
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)

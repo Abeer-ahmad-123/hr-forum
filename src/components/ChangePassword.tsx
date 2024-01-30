@@ -9,7 +9,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ErrorText } from './shared'
-import { handleFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface userDataProps {
   oldPassword: string
@@ -24,7 +24,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
     oldPassword: '',
     newPassword: '',
   })
-  const { handleRedirect } = handleFetchFailedClient()
+  const { handleRedirect } = useFetchFailedClient()
   const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [confirmPassword, setConfirmPassword] = useState<string>('')
