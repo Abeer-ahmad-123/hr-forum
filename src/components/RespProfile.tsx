@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserDataBadge from './UserDataBadge'
+import UserSpecificComments from './UserSpecificComments'
 import UserSpecificPosts from './UserSpecificPosts'
 
 interface profileProps {
@@ -54,6 +55,7 @@ const RespProfile = ({ userId }: profileProps) => {
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
+  const [loadingReaction, setLoadingReaction] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
@@ -382,15 +384,15 @@ const RespProfile = ({ userId }: profileProps) => {
                 }
               />
             </div>
-            <div className="mb-3 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6">
+            <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
               <div className="justify-start pl-4">
                 <div className="text-start text-xl font-normal">Activity</div>
-                <div className="flex cursor-pointer items-start justify-start">
+                <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-2xl">
                   <div
                     onClick={handlePost}
                     className={`flex w-[100px] items-center gap-[8px] p-2 ${
                       profileNav.isPost
-                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                         : 'opacity-50'
                     }`}>
                     <Plus size={20} />
@@ -400,7 +402,7 @@ const RespProfile = ({ userId }: profileProps) => {
                     onClick={commentOnClick}
                     className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
                       profileNav.isComment
-                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                         : ' opacity-50'
                     }`}>
                     <MessageSquare size={20} />
@@ -411,7 +413,7 @@ const RespProfile = ({ userId }: profileProps) => {
                     onClick={reactionOnClick}
                     className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
                       profileNav.isReaction
-                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                         : ' opacity-50'
                     }`}>
                     <SmilePlus size={20} />
@@ -422,14 +424,40 @@ const RespProfile = ({ userId }: profileProps) => {
                 </div>
               </div>
               <div className="mt-2 w-full">
-                {!loadingPosts ? (
-                  <UserSpecificPosts
-                    posts={posts}
-                    user={userId ? user : userDataInStore}
-                    morePosts={morePosts.current}
-                  />
+                {profileNav.isPost ? (
+                  <>
+                    {!loadingPosts ? (
+                      <UserSpecificPosts
+                        posts={posts}
+                        user={userId ? user : userDataInStore}
+                        morePosts={morePosts.current}
+                      />
+                    ) : (
+                      [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+                    )}
+                  </>
                 ) : (
-                  [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+                  <>
+                    {profileNav.isComment ? (
+                      <>
+                        <UserSpecificComments />
+                      </>
+                    ) : (
+                      <>
+                        {profileNav.isReaction ? (
+                          <>
+                            {!loadingReaction ? (
+                              <>USER REACTION POST </>
+                            ) : (
+                              <>NULL</>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </>
+                    )}
+                  </>
                 )}
               </div>
             </div>

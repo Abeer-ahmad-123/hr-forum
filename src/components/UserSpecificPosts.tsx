@@ -62,7 +62,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
         ?.map((post: UserSpecificationPostInterface, i: number) => (
           <ProfilePosts key={i} user={user} post={post} />
         ))}
-      <div className="mb-2 flex cursor-pointer justify-center">
+      <div className="flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <span onClick={handleClick}>Show more posts</span>
         <div>
           <ArrowRight size={16} className="ml-1 inline-block" />

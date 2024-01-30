@@ -112,7 +112,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
           total_comments={post.total_comments}
         />
       </div>
-      <hr />
+      <hr className="mx-3" />
     </>
   )
 }

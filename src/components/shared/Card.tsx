@@ -50,7 +50,6 @@ const Card = ({ post, channels, setPosts, posts, index }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  console.log(pathName)
 
   const { customFetch } = useInterceptor()
   const tokenInRedux =
