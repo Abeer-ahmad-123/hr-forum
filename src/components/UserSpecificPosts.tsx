@@ -3,6 +3,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
@@ -38,6 +39,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   }
 
   const handleClick = () => {
+    nProgress.start()
     router.push(`/feeds/${user?.id}/feed`)
   }
 
@@ -47,6 +49,12 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
     }
   }, [inView])
 
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
+
   return (
     <div className="flex flex-col gap-2">
       {posts
@@ -54,7 +62,6 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
         ?.map((post: UserSpecificationPostInterface, i: number) => (
           <ProfilePosts key={i} user={user} post={post} />
         ))}
-      {/* {!!morePostsExist?.current && <CircularProgress incommingRef={ref} />} */}
       <div className="mb-2 flex cursor-pointer justify-center">
         <span onClick={handleClick}>Show more posts</span>
         <div>

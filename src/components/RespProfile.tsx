@@ -364,7 +364,7 @@ const RespProfile = ({ userId }: profileProps) => {
             <div className="mb-3 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6">
               <div className="justify-start pl-4">
                 <div className="text-start text-xl font-normal">Activity</div>
-                <div className="flex items-start justify-start">
+                <div className="flex cursor-pointer items-start justify-start">
                   <div
                     onClick={handlePost}
                     className={`flex w-[100px] items-center gap-[8px] p-2 ${
@@ -377,7 +377,7 @@ const RespProfile = ({ userId }: profileProps) => {
                   </div>
                   <div
                     onClick={commentOnClick}
-                    className={`ml-2 flex w-[130px] items-center gap-[8px] p-2 ${
+                    className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
                       isComment
                         ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
                         : ' opacity-50'
@@ -388,7 +388,7 @@ const RespProfile = ({ userId }: profileProps) => {
                   </div>
                   <div
                     onClick={reactionOnClick}
-                    className={`ml-2 flex w-[130px] items-center gap-[8px] p-2 ${
+                    className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
                       isReaction
                         ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
                         : ' opacity-50'
@@ -412,18 +412,6 @@ const RespProfile = ({ userId }: profileProps) => {
                 )}
               </div>
             </div>
-
-            {/* <div className={`flex w-full flex-col ${!loading && 'gap-2'}`}>
-              {!loadingPosts ? (
-                <UserSpecificPosts
-                  posts={posts}
-                  user={userId ? user : userDataInStore}
-                  morePosts={morePosts.current}
-                />
-              ) : (
-                [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
-              )}
-            </div> */}
           </div>
         </section>
       </div>
