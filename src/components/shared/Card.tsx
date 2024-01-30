@@ -30,7 +30,7 @@ import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 
-const Card = ({ post, channels, setPosts, posts }: any) => {
+const Card = ({ post, channels, setPosts, posts, index }: any) => {
   const {
     id,
     created_at,
@@ -50,6 +50,7 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+  console.log(pathName)
 
   const { customFetch } = useInterceptor()
   const tokenInRedux =
@@ -213,7 +214,12 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
 
   return (
     <div key={id}>
-      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+      <div
+        className={`${
+          index === 0 && pathName.includes(`/${userDetails.id}/feed`)
+            ? 'rounded-b-xl'
+            : 'rounded-xl'
+        } mx-auto mb-5 max-w-screen-md cursor-pointer bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}>
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="bg-white sm:max-w-[500px]">
             <Report

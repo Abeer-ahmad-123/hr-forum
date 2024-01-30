@@ -30,9 +30,16 @@ const RespProfile = ({ userId }: profileProps) => {
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
-  const [isComment, setIsComment] = useState<boolean>(false)
-  const [isReaction, setIsReaction] = useState<boolean>(false)
-  const [isPost, setIsPost] = useState<boolean>(true)
+
+  const [profileNav, setProfileNav] = useState<{
+    isComment: boolean
+    isReaction: boolean
+    isPost: boolean
+  }>({
+    isComment: false,
+    isReaction: false,
+    isPost: true,
+  })
 
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
@@ -68,13 +75,6 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }
 
-  const handlePost = () => {
-    setIsPost(true)
-    setIsComment(false)
-    setIsReaction(false)
-
-    // setSelectedImage('')
-  }
   const getAllUserSpecificPosts = async () => {
     try {
       setLoadingPosts(true)
@@ -175,14 +175,35 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }
   const commentOnClick = () => {
-    setIsPost(false)
-    setIsReaction(false)
-    setIsComment(true)
+    setProfileNav((pre) => {
+      return {
+        ...pre,
+        isPost: false,
+        isComment: true,
+        isReaction: false,
+      }
+    })
   }
   const reactionOnClick = () => {
-    setIsComment(false)
-    setIsPost(false)
-    setIsReaction(true)
+    setProfileNav((pre) => {
+      return {
+        ...pre,
+        isPost: false,
+        isComment: false,
+        isReaction: true,
+      }
+    })
+  }
+
+  const handlePost = () => {
+    setProfileNav((pre) => {
+      return {
+        ...pre,
+        isPost: true,
+        isComment: false,
+        isReaction: false,
+      }
+    })
   }
 
   const UserSpecificationPosts = async () => {
@@ -368,7 +389,7 @@ const RespProfile = ({ userId }: profileProps) => {
                   <div
                     onClick={handlePost}
                     className={`flex w-[100px] items-center gap-[8px] p-2 ${
-                      isPost
+                      profileNav.isPost
                         ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
                         : 'opacity-50'
                     }`}>
@@ -378,7 +399,7 @@ const RespProfile = ({ userId }: profileProps) => {
                   <div
                     onClick={commentOnClick}
                     className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-                      isComment
+                      profileNav.isComment
                         ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
                         : ' opacity-50'
                     }`}>
@@ -389,7 +410,7 @@ const RespProfile = ({ userId }: profileProps) => {
                   <div
                     onClick={reactionOnClick}
                     className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-                      isReaction
+                      profileNav.isReaction
                         ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
                         : ' opacity-50'
                     }`}>

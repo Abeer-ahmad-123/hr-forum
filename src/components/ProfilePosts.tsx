@@ -64,12 +64,6 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
         onClick={handleNavigateFeed}>
         <div className="py-4 pr-5">
           <div className="flex text-left font-semibold dark:text-white">
-            {/* <img
-            src={user?.profilePictureURL || noProfilePicture.src}
-            alt="profile"
-            className="relative h-12 w-12 transform rounded-full"
-          /> */}
-
             <div className="ml-4 flex flex-col items-start align-baseline">
               <div className="flex flex-row items-center">
                 <p
@@ -91,17 +85,32 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
         <div className="text-bold pl-[14px] pr-3 text-left max-md:pl-6 max-md:text-lg">
           {post.title}
         </div>
-        <div
-          className="pl-[14px] text-left font-light"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+
+        <div className="flex gap-1">
+          {post.image_url && (
+            <div className="min-h-[70px] min-w-[80px] pl-[14px]">
+              <img
+                src={post?.image_url}
+                alt="post-image"
+                className="h-16 min-h-[64px] w-16 min-w-[64px] rounded-xl  object-cover"
+              />
+            </div>
+          )}
+          <div
+            className="pl-[14px] text-left font-light"
+            dangerouslySetInnerHTML={{
+              __html:
+                post.content.length > 150
+                  ? `${post.content.slice(0, 150)}...`
+                  : `${post.content}`,
+            }}
+          />
+        </div>
         <PostReactionBar
           postId={post.id as unknown as string}
           reaction_summary={post.reaction_summary}
           total_comments={post.total_comments}
         />
-
-        {/* <div className="mb-1 mt-1 pb-4 text-left"></div> */}
       </div>
       <hr />
     </>

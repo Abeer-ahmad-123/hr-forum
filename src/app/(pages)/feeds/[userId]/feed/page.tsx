@@ -1,6 +1,4 @@
-import CardLoading from '@/components/Loading/cardLoading'
 import UserFeeds from '@/components/UserFeeds'
-import { Suspense } from 'react'
 interface UserFeedsProps {
   params: {
     userId: string
@@ -8,11 +6,7 @@ interface UserFeedsProps {
 }
 
 function UserFeedPage({ params }: UserFeedsProps) {
-  return (
-    <Suspense fallback={<CardLoading />}>
-      <UserFeeds params={params} />
-    </Suspense>
-  )
+  return <UserFeeds params={params} />
 }
 
 export default UserFeedPage

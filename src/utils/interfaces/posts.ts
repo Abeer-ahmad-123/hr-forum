@@ -37,6 +37,7 @@ export interface UserSpecificationPostInterface {
   channel_id: number
   total_comments: number
   user_reaction: Object
+  image_url: string
   user_has_bookmarked: boolean
   reaction_summary: {
     like_count: number
