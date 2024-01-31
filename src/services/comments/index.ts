@@ -124,7 +124,7 @@ export async function getUserComments(
 
     let url = `${userId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}`
     if (userId) {
-      url += `&userID=${userId}`
+      url += `&userID=${id}`
     }
     if (nestedLimit) {
       url += `&nestedLimit=${nestedLimit}`

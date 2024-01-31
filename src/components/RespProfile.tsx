@@ -3,7 +3,6 @@ import BgBanner from '@/assets/icons/bgBanner'
 import { noProfilePicture } from '@/assets/images'
 import ImageUpload from '@/components/ImageUpload'
 import { useInterceptor } from '@/hooks/interceptors'
-import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
   updateUserBgImage,
@@ -12,15 +11,13 @@ import {
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Mail, MessageSquare, Plus, SmilePlus, User } from 'lucide-react'
+import { Mail, User } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
-import PostLoadingSkelton from './PostLoadingSkelton'
+import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
-import UserSpecificComments from './UserSpecificComments'
-import UserSpecificPosts from './UserSpecificPosts'
 
 interface profileProps {
   userId?: string
@@ -54,8 +51,6 @@ const RespProfile = ({ userId }: profileProps) => {
 
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
-  const [loadingReaction, setLoadingReaction] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
@@ -77,37 +72,11 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }
 
-  const getAllUserSpecificPosts = async () => {
-    try {
-      setLoadingPosts(true)
-
-      const response = await getUserSpecificPosts(
-        userId ? userId : userDataInStore?.id,
-        1,
-        { loadReactions: true },
-      )
-      if (response.success) {
-        setUserSpecificPosts(response?.data?.posts)
-        morePosts.current =
-          response?.data?.pagination?.TotalPages &&
-          response?.data?.pagination?.CurrentPage !==
-            response?.data?.pagination?.TotalPages
-      } else {
-        throw response.errors[0]
-      }
-    } catch (error) {
-      showErrorAlert(`${error}`)
-    } finally {
-      setLoadingPosts(false)
-    }
-  }
-
   const handleInputChange = (e: any) => {
     const file = e.target.files[0]
     setImage(file)
     setOpenDialog(true)
   }
-
   const saveImage = async (e: any) => {
     if (e === null) {
       setImage(null)
@@ -176,37 +145,6 @@ const RespProfile = ({ userId }: profileProps) => {
       showErrorAlert(`${error}`)
     }
   }
-  const commentOnClick = () => {
-    setProfileNav((pre) => {
-      return {
-        ...pre,
-        isPost: false,
-        isComment: true,
-        isReaction: false,
-      }
-    })
-  }
-  const reactionOnClick = () => {
-    setProfileNav((pre) => {
-      return {
-        ...pre,
-        isPost: false,
-        isComment: false,
-        isReaction: true,
-      }
-    })
-  }
-
-  const handlePost = () => {
-    setProfileNav((pre) => {
-      return {
-        ...pre,
-        isPost: true,
-        isComment: false,
-        isReaction: false,
-      }
-    })
-  }
 
   const UserSpecificationPosts = async () => {
     if (userId) {
@@ -214,7 +152,6 @@ const RespProfile = ({ userId }: profileProps) => {
     } else {
       setUser(userDataInStore)
     }
-    getAllUserSpecificPosts()
   }
 
   useEffect(() => {
@@ -384,83 +321,8 @@ const RespProfile = ({ userId }: profileProps) => {
                 }
               />
             </div>
-            <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
-              <div className="justify-start pl-4">
-                <div className="text-start text-xl font-normal">Activity</div>
-                <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-2xl">
-                  <div
-                    onClick={handlePost}
-                    className={`flex w-[100px] items-center gap-[8px] p-2 ${
-                      profileNav.isPost
-                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                        : 'opacity-50'
-                    }`}>
-                    <Plus size={20} />
-                    <button> Post</button>
-                  </div>
-                  <div
-                    onClick={commentOnClick}
-                    className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-                      profileNav.isComment
-                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                        : ' opacity-50'
-                    }`}>
-                    <MessageSquare size={20} />
-                    <button> Comment</button>
-                    <hr />
-                  </div>
-                  <div
-                    onClick={reactionOnClick}
-                    className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-                      profileNav.isReaction
-                        ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                        : ' opacity-50'
-                    }`}>
-                    <SmilePlus size={20} />
-                    <button> Reactions</button>
-                    <hr />
-                  </div>
-                  <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
-                </div>
-              </div>
-              <div className="mt-2 w-full">
-                {profileNav.isPost ? (
-                  <>
-                    {!loadingPosts ? (
-                      <UserSpecificPosts
-                        posts={posts}
-                        user={userId ? user : userDataInStore}
-                        morePosts={morePosts.current}
-                      />
-                    ) : (
-                      [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {profileNav.isComment ? (
-                      <>
-                        <UserSpecificComments />
-                      </>
-                    ) : (
-                      <>
-                        {profileNav.isReaction ? (
-                          <>
-                            {!loadingReaction ? (
-                              <>USER REACTION POST </>
-                            ) : (
-                              <>NULL</>
-                            )}
-                          </>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    )}
-                  </>
-                )}
-              </div>
-            </div>
+
+            <UserActivity userId={userDataInStore.id} />
           </div>
         </section>
       </div>

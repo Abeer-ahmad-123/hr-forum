@@ -18,14 +18,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import CardLoading from './Loading/cardLoading'
-interface UserFeedsProps {
-  params: {
-    userId: string
-  }
-}
 
-const UserFeeds = ({ params }: UserFeedsProps) => {
-  const userId = params.userId
+const UserFeeds = () => {
   const morePosts = useRef<boolean>(false)
   let noMorePosts = useRef(morePosts)
   const [ref, inView] = useInView()
@@ -52,7 +46,7 @@ const UserFeeds = ({ params }: UserFeedsProps) => {
 
   const getPosts = async () => {
     try {
-      const { data } = await getUserSpecificPosts(userId, page, {
+      const { data } = await getUserSpecificPosts(userData.id, page, {
         loadReactions: true,
         loadUser: true,
       })

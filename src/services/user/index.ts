@@ -21,8 +21,8 @@ export async function getSpecificUserDetails(userId: string) {
     })
 
     const response = await res.json()
-    const { data } = response
-    return data
+
+    return response
   } catch (err) {
     throw err
   }

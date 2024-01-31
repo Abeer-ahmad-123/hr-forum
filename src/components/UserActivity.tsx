@@ -1,0 +1,228 @@
+'use client'
+import { useEffect, useRef, useState } from 'react'
+
+import { getUserComments } from '@/services/comments'
+import { getUserSpecificPosts } from '@/services/posts'
+import { getSpecificUserDetails } from '@/services/user'
+import { showErrorAlert } from '@/utils/helper'
+import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { MessageSquare, Plus, SmilePlus } from 'lucide-react'
+import { useSelector } from 'react-redux'
+import PostLoadingSkelton from './PostLoadingSkelton'
+import UserSpecificComments from './UserSpecificComments'
+import UserSpecificPosts from './UserSpecificPosts'
+
+interface UserActivityProps {
+  userId: string | undefined
+}
+
+const UserActivity = ({ userId }: UserActivityProps) => {
+  const [profileNav, setProfileNav] = useState<{
+    isComment: boolean
+    isReaction: boolean
+    isPost: boolean
+  }>({
+    isComment: false,
+    isReaction: false,
+    isPost: true,
+  })
+  const [loading, setLoading] = useState<boolean>(false)
+  const [loadingReaction, setLoadingReaction] = useState<boolean>(false)
+  const [user, setUser] = useState<any>('')
+  const isFirstUser = useRef(true)
+  const [comments, setComments] = useState([])
+  const [isCommentsLoading, setIsCommentsLoading] = useState(true)
+
+  const morePosts = useRef<boolean>(false)
+  const [posts, setUserSpecificPosts] = useState<any>([])
+  const userDataInStore = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
+  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
+
+  const getAllUserSpecificPosts = async () => {
+    try {
+      setLoadingPosts(true)
+
+      const response = await getUserSpecificPosts(
+        userId ? userId : userDataInStore?.id,
+        1,
+        { loadReactions: true },
+      )
+      if (response.success) {
+        setUserSpecificPosts(response?.data?.posts)
+        morePosts.current =
+          response?.data?.pagination?.TotalPages &&
+          response?.data?.pagination?.CurrentPage !==
+            response?.data?.pagination?.TotalPages
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      showErrorAlert(`${error}`)
+    } finally {
+      setLoadingPosts(false)
+    }
+  }
+
+  const commentOnClick = () => {
+    setProfileNav((pre) => {
+      return {
+        ...pre,
+        isPost: false,
+        isComment: true,
+        isReaction: false,
+      }
+    })
+  }
+  const reactionOnClick = () => {
+    setProfileNav((pre) => {
+      return {
+        ...pre,
+        isPost: false,
+        isComment: false,
+        isReaction: true,
+      }
+    })
+  }
+
+  const handlePost = () => {
+    setProfileNav((pre) => {
+      return {
+        ...pre,
+        isPost: true,
+        isComment: false,
+        isReaction: false,
+      }
+    })
+  }
+  const getUserSpecificDetail = async () => {
+    try {
+      setLoading(true)
+      const response = await getSpecificUserDetails(userId!)
+
+      if (response.success) {
+        setUser(response?.user)
+        setLoading(false)
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      showErrorAlert(`${error}`)
+    }
+  }
+
+  const UserSpecificationPosts = async () => {
+    if (userId) {
+      await getUserSpecificDetail()
+    } else {
+      setUser(userDataInStore)
+    }
+    getAllUserSpecificPosts()
+  }
+
+  const getComments = async () => {
+    try {
+      setIsCommentsLoading(true)
+      const response = await getUserComments(userId!, {
+        loadUser: true,
+      })
+      if (response.success) {
+        setComments(response?.data?.comments)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        handleFetchFailed(error)
+      }
+    } finally {
+      setIsCommentsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    getComments()
+  }, [])
+
+  useEffect(() => {
+    UserSpecificationPosts()
+  }, [])
+
+  return (
+    <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
+      <div className="justify-start pl-4">
+        <div className="text-start text-xl font-normal">Activity</div>
+        <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-2xl">
+          <div
+            onClick={handlePost}
+            className={`flex w-[100px] items-center gap-[8px] p-2 ${
+              profileNav.isPost
+                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
+                : 'opacity-50'
+            }`}>
+            <Plus size={20} />
+            <button> Post</button>
+          </div>
+          <div
+            onClick={commentOnClick}
+            className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
+              profileNav.isComment
+                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
+                : ' opacity-50'
+            }`}>
+            <MessageSquare size={20} />
+            <button> Comment</button>
+            <hr />
+          </div>
+          <div
+            onClick={reactionOnClick}
+            className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
+              profileNav.isReaction
+                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
+                : ' opacity-50'
+            }`}>
+            <SmilePlus size={20} />
+            <button> Reactions</button>
+            <hr />
+          </div>
+          <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
+        </div>
+      </div>
+      <div className="mt-2 w-full">
+        {profileNav.isPost ? (
+          <>
+            {!loadingPosts ? (
+              <UserSpecificPosts
+                posts={posts}
+                user={userId ? user : userDataInStore}
+                morePosts={morePosts.current}
+              />
+            ) : (
+              [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+            )}
+          </>
+        ) : (
+          <>
+            {profileNav.isComment ? (
+              isCommentsLoading ? (
+                [1, 2, 3].map((_, i) => <PostLoadingSkelton key={i} />)
+              ) : (
+                <UserSpecificComments comments={comments as []} />
+              )
+            ) : (
+              <>
+                {profileNav.isReaction ? (
+                  <>{!loadingReaction ? <>USER REACTION POST </> : <>NULL</>}</>
+                ) : (
+                  <></>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default UserActivity
