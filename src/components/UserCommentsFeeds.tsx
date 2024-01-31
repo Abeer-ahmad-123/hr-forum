@@ -15,6 +15,8 @@ import { useInView } from 'react-intersection-observer'
 
 import { getUserComments } from '@/services/comments'
 import { MessageSquare, Plus, SmilePlus } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CardLoading from './Loading/cardLoading'
@@ -24,12 +26,15 @@ const UserCommentsFeeds = () => {
   let noMorePosts = useRef(morePosts)
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
+  const router = useRouter()
 
   const path = '/channels'
   const [comments, setComments] = useState([])
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+
+  const routeTo = `/feeds/${userData?.username}/feed`
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
@@ -40,9 +45,9 @@ const UserCommentsFeeds = () => {
     isReaction: boolean
     isPost: boolean
   }>({
-    isComment: false,
+    isComment: true,
     isReaction: false,
-    isPost: true,
+    isPost: false,
   })
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -60,35 +65,17 @@ const UserCommentsFeeds = () => {
   }
 
   const commentOnClick = () => {
-    setProfileNav((pre) => {
-      return {
-        ...pre,
-        isPost: false,
-        isComment: true,
-        isReaction: false,
-      }
-    })
+    nProgress.start()
+    router.push(`${routeTo}/comment`)
   }
   const reactionOnClick = () => {
-    setProfileNav((pre) => {
-      return {
-        ...pre,
-        isPost: false,
-        isComment: false,
-        isReaction: true,
-      }
-    })
+    nProgress.start()
+    router.push(`${routeTo}/reaction`)
   }
 
   const handlePost = () => {
-    setProfileNav((pre) => {
-      return {
-        ...pre,
-        isPost: true,
-        isComment: false,
-        isReaction: false,
-      }
-    })
+    nProgress.start()
+    router.push(`${routeTo}`)
   }
 
   useEffect(() => {
@@ -128,6 +115,12 @@ const UserCommentsFeeds = () => {
       getComments()
     }
   }, [inView])
+
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
 
   {
     return isCommentsLoading ? (
