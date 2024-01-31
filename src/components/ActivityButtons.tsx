@@ -22,7 +22,6 @@ const ActivityButtons = () => {
   )
   const routeTo = `/feeds/${userData?.username}/feed`
   const pathName = usePathname()
-  console.log(pathName)
 
   const router = useRouter()
   const commentOnClick = () => {
