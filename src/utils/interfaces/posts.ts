@@ -35,10 +35,17 @@ export interface UserSpecificationPostInterface {
   slug: string
   user_id: number
   channel_id: number
+
+  author_details: {
+    username: string
+    name: string
+    profile_picture_url: string
+  }
   total_comments: number
   user_reaction: Object
   image_url: string
   user_has_bookmarked: boolean
+
   reaction_summary: {
     like_count: number
     love_count: number

@@ -2,16 +2,18 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { getUserComments } from '@/services/comments'
-import { getUserSpecificPosts } from '@/services/posts'
+import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
 import { getSpecificUserDetails } from '@/services/user'
 import { showErrorAlert } from '@/utils/helper'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { MessageSquare, Plus, SmilePlus } from 'lucide-react'
+import { InView, useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserSpecificComments from './UserSpecificComments'
 import UserSpecificPosts from './UserSpecificPosts'
+import UserSpecificReaction from './UserSpecificReaction'
 
 interface UserActivityProps {
   userId: string | undefined
@@ -33,6 +35,8 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   const isFirstUser = useRef(true)
   const [comments, setComments] = useState([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
+  const [reactedPosts, setReactedPosts] = useState<any>()
+  const [ref, inView] = useInView()
 
   const morePosts = useRef<boolean>(false)
   const [posts, setUserSpecificPosts] = useState<any>([])
@@ -148,6 +152,143 @@ const UserActivity = ({ userId }: UserActivityProps) => {
     UserSpecificationPosts()
   }, [])
 
+  const getPosts = async () => {
+    try {
+      const data = await getUserReactedPosts(userDataInStore.id)
+      setReactedPosts([...reactedPosts, ...data])
+    } catch (error) {
+      if (error instanceof Error && error.message) {
+        handleFetchFailed(error)
+      }
+    } finally {
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    if (InView) {
+      getPosts()
+    }
+  }, [inView])
+  const dummyPost: any[] = [
+    {
+      id: 1,
+      created_at: '2024-01-31T12:00:00Z',
+      updated_at: '2024-01-31T14:30:00Z',
+      title: 'Introduction to TypeScript',
+      content: 'This is a brief introduction to TypeScript.',
+      slug: 'introduction-to-typescript',
+      user_id: 123,
+      image_url:
+        'https://images.pexels.com/photos/1000366/pexels-photo-1000366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      channel_id: 3,
+      author_details: {
+        username: 'john_doe',
+        name: 'John Doe',
+        profile_picture_url:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      },
+      reaction_summary: {
+        like_count: 20,
+        love_count: 10,
+        clap_count: 5,
+        celebrate_count: 2,
+      },
+      total_comments: 8,
+      user_reaction: 'like',
+      user_has_bookmarked: true,
+      user_has_reported: false,
+    },
+    {
+      id: 2,
+      created_at: '2024-01-30T10:45:00Z',
+      updated_at: '2024-01-30T11:15:00Z',
+      title: 'TypeScript Best Practices',
+      content:
+        'Learn the best practices for writing clean and maintainable TypeScript code.',
+      slug: 'typescript-best-practices',
+      user_id: 456,
+      image_url:
+        'https://images.pexels.com/photos/1000366/pexels-photo-1000366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1 https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      channel_id: 2,
+      author_details: {
+        username: 'jane_doe',
+        name: 'Jane Doe',
+        profile_picture_url:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      },
+      reaction_summary: {
+        like_count: 15,
+        love_count: 8,
+        clap_count: 3,
+        celebrate_count: 1,
+      },
+      total_comments: 12,
+      user_reaction: 'love',
+      user_has_bookmarked: false,
+      user_has_reported: true,
+    },
+
+    {
+      id: 3,
+      created_at: '2024-01-30T10:45:00Z',
+      updated_at: '2024-01-30T11:15:00Z',
+      title: 'TypeScript Best Practices',
+      content:
+        'Learn the best practices for writing clean and maintainable TypeScript code.',
+      slug: 'typescript-best-practices',
+      user_id: 19,
+      image_url:
+        'https://images.pexels.com/photos/1000366/pexels-photo-1000366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1 https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      channel_id: 1,
+      author_details: {
+        username: 'jane_doe',
+        name: 'Jane Doe',
+        profile_picture_url:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      },
+      reaction_summary: {
+        like_count: 15,
+        love_count: 8,
+        clap_count: 3,
+        celebrate_count: 1,
+      },
+      total_comments: 12,
+      user_reaction: 'love',
+      user_has_bookmarked: false,
+      user_has_reported: true,
+    },
+    {
+      id: 4,
+      created_at: '2024-01-30T10:45:00Z',
+      updated_at: '2024-01-30T11:15:00Z',
+      title: 'TypeScript Best Practices',
+      content:
+        'Learn the best practices for writing clean and maintainable TypeScript code.',
+      slug: 'typescript-best-practices',
+      user_id: 456,
+      image_url:
+        'https://images.pexels.com/photos/1000366/pexels-photo-1000366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1 https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      channel_id: 2,
+      author_details: {
+        username: 'jane_doe',
+        name: 'Jane Doe',
+        profile_picture_url:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnvOMF7xW5USwG31Zkv0W3AE-9bFKcJHmvkdi8Jkmn3Q&s',
+      },
+      reaction_summary: {
+        like_count: 15,
+        love_count: 8,
+        clap_count: 3,
+        celebrate_count: 1,
+      },
+      total_comments: 12,
+      user_reaction: 'love',
+      user_has_bookmarked: false,
+      user_has_reported: true,
+    },
+
+    // Add more objects as needed
+  ]
   return (
     <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
       <div className="justify-start pl-4">
@@ -212,7 +353,13 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             ) : (
               <>
                 {profileNav.isReaction ? (
-                  <>{!loadingReaction ? <>USER REACTION POST </> : <>NULL</>}</>
+                  <>
+                    {!loadingReaction ? (
+                      <UserSpecificReaction posts={dummyPost} />
+                    ) : (
+                      [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+                    )}
+                  </>
                 ) : (
                   <></>
                 )}

@@ -10,13 +10,17 @@ import { useSelector } from 'react-redux'
 import PostReactionBar from './shared/PostReactionBar'
 
 interface userData {
-  id: number
+  id: number | string
   bio: string
   email: string
   name: string
   profilePictureURL: string
   username: string
+  post_count?: number | undefined
+  comment_count?: number | undefined
+  backgroundPictureURL?: string
 }
+
 interface ProfilePostsProps {
   post: UserSpecificationPostInterface
   user: userData
