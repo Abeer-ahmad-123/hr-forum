@@ -108,6 +108,7 @@ export async function getPostsComments(
 
 export async function getUserComments(
   id: string,
+
   {
     loadUser = true,
     loadReactions = false,

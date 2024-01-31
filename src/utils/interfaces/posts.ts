@@ -66,4 +66,7 @@ export interface PostActionBarProps {
   disableReactionButton: boolean
   setDisableReactionButton: (arg0: boolean) => void
   setCommentCount: (arg0: number) => void
+  userComment: {
+    id: string
+  }
 }

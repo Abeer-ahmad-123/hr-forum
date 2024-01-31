@@ -30,7 +30,7 @@ import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 
-const Card = ({ post, channels, setPosts, posts, index }: any) => {
+const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   const {
     id,
     created_at,
@@ -215,7 +215,7 @@ const Card = ({ post, channels, setPosts, posts, index }: any) => {
     <div key={id}>
       <div
         className={`${
-          index === 0 && pathName.includes(`/${userDetails.id}/feed`)
+          index === 0 && pathName.includes(`/${userDetails.username}/feed`)
             ? 'rounded-b-xl'
             : 'rounded-xl'
         } mx-auto mb-5 max-w-screen-md cursor-pointer bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}>
@@ -385,6 +385,7 @@ const Card = ({ post, channels, setPosts, posts, index }: any) => {
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
             setCommentCount={setCommentCount}
+            userComment={userComment}
           />
         </div>
       </div>

@@ -1,9 +1,9 @@
 import { timeFormatInHours } from '@/utils/helper'
 
-const ProfileComment = ({ comment }: any) => {
+const ProfileComment = ({ comment, index }: any) => {
   return (
-    <>
-      <div className="mb-4">
+    <div className={`${index == 0 ? 'mt-0' : 'mt-2'} mb-4`}>
+      <div className={`${index == 0 ? 'mt-0' : 'mt-2'} mb-4`}>
         <div className="mb-2 flex flex-col items-start align-baseline">
           <div className="flex flex-row items-center">
             <p
@@ -20,13 +20,12 @@ const ProfileComment = ({ comment }: any) => {
             {timeFormatInHours(comment.created_at)}
           </p>
         </div>
-
         <div className="text-left text-[14px] font-light">
           {comment.content}
         </div>
       </div>
       <hr className="mx-3" />
-    </>
+    </div>
   )
 }
 

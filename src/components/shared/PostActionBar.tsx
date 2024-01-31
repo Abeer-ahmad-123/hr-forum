@@ -4,7 +4,7 @@ import {
   postReactions,
   updatePostReaction,
 } from '@/services/reactions/reactions'
-import { useParams } from 'next/navigation'
+import { useParams, usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
@@ -13,15 +13,15 @@ import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
 
+import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { useInterceptor } from '@/hooks/interceptors'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { showErrorAlert } from '@/utils/helper'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
@@ -37,16 +37,20 @@ const PostActionBar = ({
   disableReactionButton,
   setDisableReactionButton,
   setCommentCount,
+  userComment,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
+  const [showCommentArea, setShowCommentArea] = useState(false)
+  const [comment, setComment] = useState([])
 
   const [showSignModal, setShowSignModal] = useState(false)
   const [popOver, setPopOver] = useState(false)
   const { id } = useParams()
+  const pathName = usePathname()
 
   const { customFetch } = useInterceptor()
 
@@ -113,8 +117,6 @@ const PostActionBar = ({
     }
   }
 
-  const [showCommentArea, setShowCommentArea] = useState(false)
-  const [comment, setComment] = useState([])
   const toggleCommentArea = () => {
     if (tokenInRedux) {
       id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
@@ -186,6 +188,14 @@ const PostActionBar = ({
               </PopoverContent>
             </Popover>
           </div>
+        </div>
+        <div className="mx-10">
+          {pathName.includes('/comment') && (
+            <CommentSection
+              comment={userComment}
+              setCommentCount={setCommentCount}
+            />
+          )}
         </div>
 
         {!id && (
