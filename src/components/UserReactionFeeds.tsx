@@ -16,12 +16,11 @@ import {
   UserSpecificPostsInterface,
 } from '@/utils/interfaces/posts'
 
-import { MessageSquare, Plus, SmilePlus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const UserReactionFeeds = () => {
@@ -74,20 +73,6 @@ const UserReactionFeeds = () => {
         handleFetchFailed(error)
       }
     }
-  }
-
-  const commentOnClick = () => {
-    nProgress.start()
-    router.push(`${routeTo}/comment`)
-  }
-  const reactionOnClick = () => {
-    nProgress.start()
-    router.push(`${routeTo}/reaction`)
-  }
-
-  const handlePost = () => {
-    nProgress.start()
-    router.push(`${routeTo}`)
   }
 
   useEffect(() => {
@@ -194,49 +179,10 @@ const UserReactionFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    <div className="justify-start rounded-t-xl bg-white pl-10 pt-2">
-                      <div className="text-start text-xl font-normal">
-                        Activity
-                      </div>
-                      <div className="flex cursor-pointer items-start justify-start max-md:text-sm">
-                        <div
-                          onClick={handlePost}
-                          className={`flex w-[100px] items-center gap-[8px] p-2 ${
-                            profileNav.isPost
-                              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-                              : 'opacity-50'
-                          }`}>
-                          <Plus size={20} />
-                          <button> Post</button>
-                        </div>
-                        <div
-                          onClick={commentOnClick}
-                          className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-                            profileNav.isComment
-                              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-                              : ' opacity-50'
-                          }`}>
-                          <MessageSquare size={20} />
-                          <button> Comment</button>
-                          <hr />
-                        </div>
-                        <div
-                          onClick={reactionOnClick}
-                          className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-                            profileNav.isReaction
-                              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-                              : ' opacity-50'
-                          }`}>
-                          <SmilePlus size={20} />
-                          <button> Reactions</button>
-                          <hr />
-                        </div>
-                        <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
-                      </div>
-                    </div>
+                    <ActivityButtons />
 
                     <div>
-                      {!!dummyPost?.length ? ( // change it to post once backend issue resolved
+                      {!!dummyPost?.length ? (
                         dummyPost?.map((post: any, index: number) => {
                           // change it to post once backend issue resolved
                           return (
