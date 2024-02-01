@@ -289,7 +289,10 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
               {/*  */}
             </div>
 
-            <ReactionDetails reactionSummary={post?.reaction_summary} />
+            <ReactionDetails
+              reactionSummary={post?.reaction_summary}
+              total_comments={post.total_comments}
+            />
 
             <div className="mt-2 text-left text-xl max-custom-sm:text-base ">
               {post?.title}
