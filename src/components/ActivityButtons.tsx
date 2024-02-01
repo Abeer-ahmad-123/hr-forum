@@ -1,10 +1,11 @@
 'use client'
 
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { MessageSquare, Plus, SmilePlus } from 'lucide-react'
+import { Plus, SmilePlus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useState } from 'react'
+import { FaRegComment } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
 const ActivityButtons = () => {
@@ -38,14 +39,14 @@ const ActivityButtons = () => {
     router.push(`${routeTo}`)
   }
   return (
-    <div className="justify-start rounded-t-xl bg-white pl-10 pt-2">
+    <div className="justify-start rounded-t-xl bg-white px-10 pt-2 dark:bg-slate-800 dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
       <div className="text-start text-xl font-normal">Activity</div>
       <div className="flex cursor-pointer items-start justify-start max-md:text-sm">
         <div
           onClick={handlePost}
           className={`flex w-[100px] items-center gap-[8px] p-2 ${
             pathName === `${routeTo}`
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
               : 'opacity-50'
           }`}>
           <Plus size={20} />
@@ -55,10 +56,10 @@ const ActivityButtons = () => {
           onClick={commentOnClick}
           className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
             pathName.includes('/comment')
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
               : ' opacity-50'
           }`}>
-          <MessageSquare size={20} />
+          <FaRegComment size={20} />
           <button> Comment</button>
           <hr />
         </div>
@@ -66,7 +67,7 @@ const ActivityButtons = () => {
           onClick={reactionOnClick}
           className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
             pathName.includes('/reaction')
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
+              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
               : ' opacity-50'
           }`}>
           <SmilePlus size={20} />

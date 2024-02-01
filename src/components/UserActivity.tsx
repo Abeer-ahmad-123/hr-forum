@@ -7,7 +7,8 @@ import { getSpecificUserDetails } from '@/services/user'
 import { showErrorAlert } from '@/utils/helper'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { MessageSquare, Plus, SmilePlus } from 'lucide-react'
+import { Plus, SmilePlus } from 'lucide-react'
+import { FaRegComment } from 'react-icons/fa'
 import { InView, useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import PostLoadingSkelton from './PostLoadingSkelton'
@@ -291,9 +292,9 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   ]
   return (
     <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
-      <div className="justify-start pl-4">
+      <div className="ml-10 justify-start">
         <div className="text-start text-xl font-normal">Activity</div>
-        <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-2xl">
+        <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-sm">
           <div
             onClick={handlePost}
             className={`flex w-[100px] items-center gap-[8px] p-2 ${
@@ -311,7 +312,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                 : ' opacity-50'
             }`}>
-            <MessageSquare size={20} />
+            <FaRegComment size={20} />
             <button> Comment</button>
             <hr />
           </div>

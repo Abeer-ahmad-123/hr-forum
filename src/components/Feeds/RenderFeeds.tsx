@@ -1,3 +1,4 @@
+import { noChannelBanner } from '@/assets/images'
 import Feeds from '@/components/Feeds/Feeds'
 import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
@@ -17,7 +18,6 @@ import {
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import RespScreen from '../Cards/ResponsiveScreen'
-import { noChannelBanner } from '@/assets/images'
 
 async function RenderFeeds({
   channelSlug = '',

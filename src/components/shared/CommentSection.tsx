@@ -1,6 +1,6 @@
+import { noProfilePicture } from '@/assets/images'
 import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
-import { noProfilePicture } from '@/assets/images'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { useEffect, useState } from 'react'
@@ -85,8 +85,8 @@ const CommentSection = ({
             />
           </div>
         </div>
-        <div className="ml-3">
-          <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100 px-4 py-2 dark:bg-slate-800">
+        <div className="ml-3 ">
+          <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 dark:bg-dark-background ">
             <div className="flex flex-row justify-between ">
               <div
                 className="text-left text-accent max-custom-sm:text-[11px]

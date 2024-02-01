@@ -35,13 +35,15 @@ const EditProfileButton = ({
     <div className="absolute right-0 top-0 mr-0 flex justify-end pr-[35px] pt-2">
       <div className="flex flex-col">
         <button
-          className="mb-1 w-full self-end rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[100px] max-lg:px-2"
+          className="max-md:full mb-1 w-full self-end rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[150px] 
+          max-lg:px-2
+          max-lg:text-[9px]"
           onClick={handleOpenDialog}>
           Edit
         </button>
 
         <button
-          className="mb-1 w-full  rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[100px] max-lg:px-2"
+          className="max-md:full mb-1 w-full rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[150px] max-lg:px-2 max-lg:text-[9px]"
           onClick={handleOpenPassDialog}>
           update password
         </button>

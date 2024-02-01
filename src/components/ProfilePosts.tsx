@@ -67,8 +67,8 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
         className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300"
         onClick={handleNavigateFeed}>
         <div className="py-4 pr-5">
-          <div className="flex text-left font-semibold dark:text-white">
-            <div className="ml-4 flex flex-col items-start align-baseline">
+          <div className="ml-10 flex text-left font-semibold dark:text-white">
+            <div className="flex flex-col items-start align-baseline">
               <div className="flex flex-row items-center">
                 <p
                   onClick={handleNavigateProfile}
@@ -86,13 +86,13 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
           </div>
         </div>
 
-        <div className="text-bold pl-[14px] pr-3 text-left max-md:pl-6 max-md:text-lg">
+        <div className="text-bold ml-10 pr-3 text-left max-md:text-lg">
           {post.title}
         </div>
 
-        <div className="flex gap-1">
+        <div className="ml-10 mt-2 flex gap-1">
           {post.image_url && (
-            <div className="min-h-[70px] min-w-[80px] pl-[14px]">
+            <div className="min-h-[70px] min-w-[80px] ">
               <img
                 src={post?.image_url}
                 alt="post-image"
@@ -101,7 +101,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
             </div>
           )}
           <div
-            className="pl-[14px] text-left font-light"
+            className="text-left font-light"
             dangerouslySetInnerHTML={{
               __html:
                 post.content.length > 150
@@ -110,6 +110,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
             }}
           />
         </div>
+
         <PostReactionBar
           postId={post.id as unknown as string}
           reaction_summary={post.reaction_summary}

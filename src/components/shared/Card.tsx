@@ -26,6 +26,7 @@ import {
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
 import { MoreHorizontal } from 'lucide-react'
+import ActivityButtons from '../ActivityButtons'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
@@ -213,6 +214,10 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
 
   return (
     <div key={id}>
+      {index === 0 && pathName.includes(`/${userDetails.username}/feed`) && (
+        <ActivityButtons />
+      )}
+
       <div
         className={`${
           index === 0 && pathName.includes(`/${userDetails.username}/feed`)

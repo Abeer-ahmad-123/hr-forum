@@ -197,7 +197,7 @@ const LayoutWrapper = ({ children }: any) => {
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
               className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
-              dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px] ${
+              dark:mt-[-6px] dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px] ${
                 pathname === '/signup' || pathname === '/signin'
                   ? 'flex items-center justify-center'
                   : ''
