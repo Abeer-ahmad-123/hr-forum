@@ -1,6 +1,7 @@
 'use client'
 import InitialLoading from '@/components/InitialLoading'
 import Navbar from '@/components/Navbar/Navbar'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import {
   getRefreshToken,
   googleCodeExchange,
@@ -20,7 +21,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -38,7 +38,9 @@ const LayoutWrapper = ({ children }: any) => {
 
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
 
-  const styles = darkMode ? 'dark' : ''
+  const mode = localStorage.getItem('darkMode')
+
+  const styles = darkMode || mode == 'true' ? 'dark' : ''
   const clearAuthentication = () => {
     dispatch(clearUser())
     logout()

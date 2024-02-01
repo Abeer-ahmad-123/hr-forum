@@ -8,6 +8,7 @@ const NightModeToggle = () => {
   const dispatch = useDispatch()
 
   const toggleNightMode = () => {
+    localStorage.setItem('darkMode', darkMode ? 'false' : 'true')
     dispatch(setDarkMode())
   }
 
