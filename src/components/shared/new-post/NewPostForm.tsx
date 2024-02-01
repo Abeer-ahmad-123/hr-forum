@@ -185,7 +185,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
 
       <div className="flex justify-between max-[490px]:flex-col">
         <input
-          className="mb-3 rounded-lg p-1.5 placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
+          className="mb-3 rounded-lg border border-[#d3d3d3] p-1.5 placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
           type="text"
           placeholder="Add a title"
           name="title"
@@ -202,20 +202,20 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
       <div className="flex items-start justify-start">
         <div
           onClick={handlePost}
-          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 dark:text-white ${
             !postImage
               ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-              : 'opacity-50'
+              : 'opacity-50 dark:opacity-100'
           }`}>
           <Plus size={20} />
           <button> Post</button>
         </div>
         <div
           onClick={imageOnClick}
-          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 ${
+          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 dark:text-white ${
             postImage
               ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-              : ' opacity-50'
+              : ' opacity-50 dark:opacity-100'
           }`}>
           <IconImage size={20} />
           <button> Image</button>
@@ -226,7 +226,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          className="hidden"
+          className="hidden border border-[#d3d3d3]"
           id="imageInput"
         />
       </div>
@@ -252,8 +252,8 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
                 />
               ) : (
                 <>
-                  <ImageIcon className="h-[250px] w-[250px]  text-gray-500" />
-                  <p className='md:text-sm" max-sm:text-xs'>
+                  <ImageIcon className="h-[250px] w-[250px] text-gray-500  dark:text-white" />
+                  <p className='md:text-sm" dark:text-white max-sm:text-xs'>
                     Browser Image to Upload
                   </p>
                 </>
@@ -261,7 +261,7 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
             </label>
 
             <input
-              className="hidden"
+              className="hidden border border-[#d3d3d3]"
               id="changeBackgroundImage"
               type="file"
               accept="image/*"

@@ -1,8 +1,8 @@
 import { navigation } from '@/utils/data'
+import { StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname, useRouter } from 'next/navigation'
 import { BsDot } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
-import { StoreChannels } from '@/utils/interfaces/channels'
 import { CustomLink } from './customLink/CustomLink'
 
 type NavigationItem = {
@@ -60,7 +60,7 @@ const DropDownContent = ({
   }
 
   return (
-    <ul className={`bg-white dark:bg-dark-primary`}>
+    <ul className={`bg-white dark:bg-black`}>
       <div className="lg:h-3"></div>
 
       {navigation.map((item: NavigationItem, index: number) => {
@@ -106,7 +106,7 @@ const DropDownContent = ({
                 `/channels/${item?.name}`,
               )}`}>
               <BsDot
-                className="h-5 w-5 hover:border-2 hover:border-gray-800"
+                className="h-5 w-5 hover:border-2 hover:border-gray-800 dark:hover:border-none"
                 fill={item?.color}
                 data-testid="side-channels-icon"
               />

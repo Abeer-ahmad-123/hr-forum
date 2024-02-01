@@ -1,4 +1,3 @@
-import { setChecked } from '@/store/Slices/dropDownSlice'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AiFillHome, AiOutlineUserAdd } from 'react-icons/ai'
@@ -7,7 +6,6 @@ import {
   RiArrowDropDownLine as DownArrow,
   RiSettings4Fill,
 } from 'react-icons/ri'
-import { useDispatch, useSelector } from 'react-redux'
 import DropDownContent from '../shared/DropDownContent'
 
 interface FeaturesDropDownInterface {
@@ -112,7 +110,7 @@ const FeaturesDropDown = ({
       className={`relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} h-8 rounded border border-[#e6e6e6] dark:bg-dark-background`}>
+        className={`${classNameInner} h-8 rounded border border-[#e6e6e6] dark:dark:bg-black`}>
         <div
           className="mt-[3px] flex justify-between px-[0.75rem] py-0"
           onClick={handleChecked}>

@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/popover'
 
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import {
   bookmarkPost,
@@ -30,7 +31,6 @@ import ActivityButtons from '../ActivityButtons'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   const {
@@ -280,7 +280,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row items-center">
                     <p
-                      className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-custom-sm:text-[11px] 
+                      className="text-sm font-normal leading-none text-gray-900 dark:text-[#571ce0] max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
@@ -299,8 +299,8 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
               <div className="flex items-center gap-0.5">
                 {post?.user_has_reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
-                    <div className="group relative inline-block">
-                      <AlertOctagon className="h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
+                    <div className="group relative inline-block text-white dark:text-black">
+                      <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
                       <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
                         Reported
                       </div>
@@ -321,7 +321,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                       {' '}
                       {(post.user_id as string) === userDetails.id ? (
                         <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                          className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 hover:text-white dark:text-white dark:hover:text-slate-800"
                           onClick={handleDeleteClick}>
                           <Trash2 size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -331,7 +331,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                         </div>
                       ) : (
                         <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300  hover:text-white dark:hover:text-slate-800"
                           onClick={handleReportClick}>
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -342,7 +342,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 hover:text-white dark:text-white  dark:hover:text-slate-800">
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (

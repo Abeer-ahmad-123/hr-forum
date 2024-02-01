@@ -27,11 +27,11 @@ import { useSelector } from 'react-redux'
 import ChannelPill from '../ChannelPill'
 
 import Report from '@/components/Report/Report'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
@@ -238,7 +238,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
               <div className="mt-[-12px] flex  max-[392px]:mr-[7px]">
                 {post?.user_has_reported && (
                   <div className="flex h-6 w-fit cursor-default items-center justify-center rounded-md p-1 text-[7px] font-medium text-gray-500">
-                    <div className="group relative inline-block">
+                    <div className="group relative inline-block text-black dark:text-white">
                       <AlertOctagon
                         size={15}
                         className="h-4 w-4 cursor-pointer max-custom-sm:block max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]"

@@ -1,6 +1,6 @@
 'use client'
-import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { noProfilePicture } from '@/assets/images'
+import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { SendHorizonal } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -76,7 +76,7 @@ const TextArea = ({
         onClick={handleImgClick}
       />
       <div className={`flex ${className} `} style={textareaStyle}>
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid">
+        <div className="border-grey-700 flex w-full rounded-lg border border-solid dark:bg-dark-background">
           <textarea
             ref={inputRef}
             rows={1}
@@ -89,7 +89,7 @@ const TextArea = ({
 
           <button
             onClick={handleClick}
-            className={`${btnClass} rounded-lg px-3 text-white`}
+            className={`${btnClass} rounded-lg px-3 text-white dark:bg-dark-background`}
             disabled={isLoading['loading'] || textAreaValue === ''}>
             <SendHorizonal
               size={25}

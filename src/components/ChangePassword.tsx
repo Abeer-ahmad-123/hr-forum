@@ -1,5 +1,6 @@
 'use client'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserPassword } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
@@ -9,7 +10,6 @@ import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ErrorText } from './shared'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface userDataProps {
   oldPassword: string
@@ -129,10 +129,12 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="mb-4 text-2xl font-bold">Change Password</h1>
+      <h1 className="mb-4 text-2xl font-bold dark:text-white ">
+        Change Password
+      </h1>
       <div className="flex flex-col gap-4">
         <div>
-          <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#571ce0]">
+          <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#d3d3d3]">
             <input
               type={showOldPassword ? 'text' : 'password'}
               id="oldPassword"
@@ -143,7 +145,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
             />
             <button
               onClick={toggleShowOldPassword}
-              className="rounded-r-lg bg-white px-3 text-white">
+              className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
               {showOldPassword ? (
                 <Eye color="#D3D3D3" />
               ) : (
@@ -154,18 +156,18 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
           {errors.password && <ErrorText text={errors['password']} />}
         </div>
 
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#571ce0]">
+        <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#d3d3d3]">
           <input
             type={showNewPassword ? 'text' : 'password'}
             id="newPassword"
             value={userData.newPassword}
             placeholder="New Password"
             onChange={handleChange}
-            className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
+            className={`caret-gray w-full resize-none  rounded-l-lg border border-none border-[#d3d3d3] p-2 pl-2 text-left outline-none dark:bg-dark-background `}
           />
           <button
             onClick={toggleShowNewPassword}
-            className="rounded-r-lg bg-white px-3 text-white">
+            className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
             {showNewPassword ? (
               <Eye color="#D3D3D3" />
             ) : (
@@ -176,7 +178,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
         {errors.password && <ErrorText text={errors['password']} />}
 
         {/* Confirm Pass */}
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#571ce0]">
+        <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#d3d3d3]">
           <input
             type={showNewPassword ? 'text' : 'password'}
             id="confirmPassword"
@@ -187,7 +189,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
           />
           <button
             onClick={toggleShowNewPassword}
-            className="rounded-r-lg bg-white px-3 text-white">
+            className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
             {showNewPassword ? (
               <Eye color="#D3D3D3" />
             ) : (
@@ -203,7 +205,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
       <div className="mt-3 flex justify-center gap-2">
         <button
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white dark:text-white ">
           {' '}
           cancel
         </button>

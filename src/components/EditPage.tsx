@@ -62,25 +62,25 @@ const EditPage = ({
 
   return (
     <div>
-      <h3 className="mb-3 text-left text-lg font-bold">
+      <h3 className="mb-3 text-left text-lg font-bold dark:text-white">
         Edit your personal info
       </h3>
       <div>
-        <h4 className="mb-3 text-left text-sm ">Name</h4>
+        <h4 className="mb-3 text-left text-sm  dark:text-white">Name</h4>
         <InputField
           name="name"
           placeholder="name"
           value={userDetails?.name}
           onChange={handleChange}
         />
-        <h4 className="mb-3 text-left text-sm ">Email</h4>
+        <h4 className="mb-3 text-left text-sm  dark:text-white">Email</h4>
         <InputField
           name="email"
           placeholder="email"
           value={userDetails?.email}
           onChange={handleChange}
         />
-        <h4 className="mb-3 text-left text-sm ">Bio</h4>
+        <h4 className="mb-3 text-left text-sm  dark:text-white">Bio</h4>
         <textarea
           name="bio"
           placeholder="bio"

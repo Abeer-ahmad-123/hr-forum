@@ -154,7 +154,7 @@ export default function Signup({
           isSignUpRoute ? 'rounded-md shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
-          className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-primary lg:max-w-xl`}>
+          className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-background lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Sign Up
           </h1>
