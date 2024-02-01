@@ -20,9 +20,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
+  const { handleRedirect } = useFetchFailedClient()
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const notFound = useSelector((state: any) => state.notFound.notFound)
   const searchParams = useSearchParams()
@@ -162,8 +164,8 @@ const LayoutWrapper = ({ children }: any) => {
       }
     } catch (error) {
       clearAuthentication()
-      if (error instanceof Error && error.message.includes('fetch failed')) {
-        router.push('/error')
+      if (error instanceof Error) {
+        handleRedirect({ error })
       }
     }
   }

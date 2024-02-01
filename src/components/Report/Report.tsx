@@ -1,6 +1,7 @@
 'use client'
 import InfoIcon from '@/assets/icons/InfoIcon'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { reportData } from '@/utils/data'
@@ -39,6 +40,7 @@ const Report = ({
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const router = useRouter()
+  const { handleRedirect } = useFetchFailedClient()
 
   const { customFetch } = useInterceptor()
 
@@ -48,38 +50,43 @@ const Report = ({
 
   const handleSubmit = async () => {
     setLoading(true)
-    const response =
-      reportType == 'post'
-        ? await reportPost(
-            postId!,
-            selectedItem,
-            customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
-          ) // else report type can be comment and reply so calling the same endpoint with Id of either comment or reply
-        : await reportComment(
-            commentId!,
-            selectedItem,
-            customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
-          )
+    try {
+      const response =
+        reportType == 'post'
+          ? await reportPost(
+              postId!,
+              selectedItem,
+              customFetch,
+              tokenInRedux,
+              refreshTokenInRedux,
+            ) // else report type can be comment and reply so calling the same endpoint with Id of either comment or reply
+          : await reportComment(
+              commentId!,
+              selectedItem,
+              customFetch,
+              tokenInRedux,
+              refreshTokenInRedux,
+            )
 
-    if (response.success) {
-      showSuccessAlert('Thanks for submitting you feedback')
-      getPostCommets()
-      setReported(true)
-      setReportedReplyId(commentId!)
-      setReportedCommentId(commentId!)
-      router.refresh()
-    } else if (!response.success) {
-      showErrorAlert('Session Expired! Please login again.')
-    } else {
-      showErrorAlert('Something went wrong')
+      if (response.success) {
+        showSuccessAlert('Thanks for submitting you feedback')
+        getPostCommets()
+        setReported(true)
+        setReportedReplyId(commentId!)
+        setReportedCommentId(commentId!)
+        router.refresh()
+      } else if (!response.success) {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
+      showErrorAlert(`${error}`)
+    } finally {
+      setLoading(false)
+      setOpenDialog(false)
     }
-
-    setLoading(false)
-    setOpenDialog(false)
   }
 
   const handleTextClick = (e: React.MouseEvent<HTMLDivElement>) => {

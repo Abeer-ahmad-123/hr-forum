@@ -30,6 +30,7 @@ import ActivityButtons from '../ActivityButtons'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   const {
@@ -53,6 +54,8 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   )
 
   const { customFetch } = useInterceptor()
+  const { handleRedirect } = useFetchFailedClient()
+
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
@@ -98,8 +101,6 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
     } else if (reactionObject.action === 'delete') {
       deleteReaction(`${reactionObject.value}_count`)
     }
-
-    return reactionArray
   }
 
   const updateReactions = (increment: string, decrement: string) => {
@@ -179,12 +180,19 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
           tokenInRedux,
           refreshTokenInRedux,
         )
-        if (res.data) {
-          setBookmarkSuccess(true)
-        } else if (res.status === 200 || res.status === 204) {
-          setBookmarkSuccess(false)
+        if (res.success) {
+          if (res.data) {
+            setBookmarkSuccess(true)
+          } else if (res.status === 200 || res.status === 204) {
+            setBookmarkSuccess(false)
+          }
+        } else {
+          throw res.errors[0]
         }
       } catch (error) {
+        if (error instanceof Error) {
+          handleRedirect({ error })
+        }
         showErrorAlert(`${error}`)
       }
     } else {

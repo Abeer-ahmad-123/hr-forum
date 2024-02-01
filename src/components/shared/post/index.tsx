@@ -31,6 +31,7 @@ import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
@@ -50,6 +51,8 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
+  const { handleRedirect } = useFetchFailedClient()
+
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const { customFetch } = useInterceptor()
   const tokenInRedux =
@@ -92,7 +95,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setChannel(channelsData)
     } catch (error) {
       if (error instanceof Error && error.message) {
-        router.push('/error')
+        handleRedirect({ error })
       }
     }
   }
@@ -114,10 +117,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     }
   }
   const handleBookmark = async (event: any) => {
-    // if (pathName.includes('/saved')) {
-    //   setBookmarkupdated && setBookmarkupdated((pre: boolean) => !pre)
-    // }
-
     event.preventDefault()
     event.stopPropagation()
     if (tokenInRedux) {
@@ -129,13 +128,20 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
           tokenInRedux,
           refreshTokenInRedux,
         )
-        if (res.data) {
-          setBookmarkSuccess(true)
-        } else if (res.status === 200 || res.status === 204) {
-          setBookmarkSuccess(false)
+        if (res.success) {
+          if (res.data) {
+            setBookmarkSuccess(true)
+          } else if (res.status === 200 || res.status === 204) {
+            setBookmarkSuccess(false)
+          }
+        } else {
+          throw res.errors[0]
         }
       } catch (error) {
-        showErrorAlert(`${error}`)
+        if (error instanceof Error) {
+          handleRedirect({ error })
+          showErrorAlert(`${error}`)
+        }
       }
     } else {
       setShowSignModal(true)

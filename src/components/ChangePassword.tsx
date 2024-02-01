@@ -2,16 +2,14 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserPassword } from '@/services/user'
-import { showSuccessAlert } from '@/utils/helper'
+import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Eye, EyeOff } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ErrorText } from './shared'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface userDataProps {
   oldPassword: string
@@ -26,12 +24,11 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
     oldPassword: '',
     newPassword: '',
   })
-
+  const { handleRedirect } = useFetchFailedClient()
   const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
   const initialValues = {
     password: '',
   }
@@ -81,11 +78,13 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
         showSuccessAlert(response.message)
       } else {
         // TODO: when backend issue resolved
+        throw response.errors[0]
       }
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
+      showErrorAlert(`${error}`)
     } finally {
       setLoading(false)
     }

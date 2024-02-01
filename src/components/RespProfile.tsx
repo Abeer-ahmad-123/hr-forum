@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
+import UserSpecificPosts from './UserSpecificPosts'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface profileProps {
   userId?: string
@@ -43,6 +45,8 @@ const RespProfile = ({ userId }: profileProps) => {
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const { customFetch } = useInterceptor()
+  const { handleRedirect } = useFetchFailedClient()
+
   const imageInputRef = useRef(null)
   const [posts, setUserSpecificPosts] = useState<any>([])
   const [user, setUser] = useState<any>('')
@@ -68,6 +72,9 @@ const RespProfile = ({ userId }: profileProps) => {
         throw response.errors[0]
       }
     } catch (error) {
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
       showErrorAlert(`${error}`)
     }
   }
@@ -107,7 +114,7 @@ const RespProfile = ({ userId }: profileProps) => {
           throw response.errors[0]
         }
       } catch (e: any) {
-        // if (e.includes('Session Expired')) router.push('/')
+        handleRedirect({ error: e })
         showErrorAlert(e)
       }
     }
@@ -141,7 +148,9 @@ const RespProfile = ({ userId }: profileProps) => {
         throw response.errors[0]
       }
     } catch (error) {
-      // if ((error as string).includes('Session Expired')) router.push('/')
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
       showErrorAlert(`${error}`)
     }
   }

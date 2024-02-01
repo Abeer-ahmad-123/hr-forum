@@ -21,8 +21,12 @@ const ReactionButton = ({
   setDisableReactionButton,
 }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
-  const [currentReaction, updateCurrentReaction] = useState(userReaction)
+  const [currentReaction, updateCurrentReaction] = useState('')
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
+  const [currentReactionEmoji, setCurrentReactionEmoji] = useState({
+    name: '',
+    emoji: '',
+  })
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
@@ -45,12 +49,12 @@ const ReactionButton = ({
     [onReact], // Removed currentReaction and post
   )
 
-  const toggleHeartReaction = useCallback(() => {
+  const toggleHeartReaction = () => {
     const newReaction =
       currentReaction == '' || currentReaction == 'none' ? 'love' : 'none'
     updateCurrentReaction(newReaction)
     onReact(newReaction)
-  }, [onReact, currentReaction]) // Removed post
+  }
 
   const handleReactionEmoji = () => {
     if (tokenInRedux && !disableReactionButton && !loading && isLargeScreen) {
@@ -59,9 +63,7 @@ const ReactionButton = ({
       setEmojiPopoverVisible(false)
     }
   }
-  const currentReactionEmoji = reactionOptions.find(
-    (reaction) => reaction.name === currentReaction,
-  )
+
   const mouseEnter = () => {
     if (tokenInRedux && !disableReactionButton)
       !loading && setEmojiPopoverVisible(true)
@@ -74,6 +76,15 @@ const ReactionButton = ({
   const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {
     !loading && selectReaction(e.target.id)
   }
+  useEffect(() => {
+    if (currentReaction) {
+      setCurrentReactionEmoji(
+        reactionOptions.find(
+          (reaction) => reaction.name === currentReaction,
+        ) ?? { name: '', emoji: '' },
+      )
+    }
+  }, [currentReaction])
 
   useEffect(() => {
     updateCurrentReaction(userReaction?.toLowerCase())

@@ -25,6 +25,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const PostActionBar = ({
   postId,
@@ -47,6 +48,7 @@ const PostActionBar = ({
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
 
+  const { handleRedirect } = useFetchFailedClient()
   const [showSignModal, setShowSignModal] = useState(false)
   const [popOver, setPopOver] = useState(false)
   const { id } = useParams()
@@ -108,6 +110,10 @@ const PostActionBar = ({
         }
       } catch (error) {
         setUserReaction('')
+        if (error instanceof Error) {
+          handleRedirect({ error })
+        }
+
         showErrorAlert(`${error}`)
       } finally {
         setDisableReactionButton(false)
