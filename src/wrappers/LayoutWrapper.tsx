@@ -190,18 +190,20 @@ const LayoutWrapper = ({ children }: any) => {
   return (
     <body
       className={`${styles.trim()} theme-default ${
-        isError ? 'bg-white' : 'bg-background'
-      } pt-4 font-primary ${!isError && 'dark:bg-slate-700'} 
+        darkMode ? 'bg-dark-background' : 'bg-background '
+      } ${isError ? 'bg-white' : 'dark:bg-dark-background'} font-primary ${
+        !isError && 'dark:bg-slate-700'
+      } 
       `}>
       {!loading && !isError && !notFound && <Navbar />}
       <ToastContainer />
-      <main className="pt-[45px] font-primary">
+      <main className="pt-[45px] font-primary dark:bg-dark-background">
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
-              className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 dark:mt-[-6px] 
+              className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
               dark:text-white max-md:py-5 max-sm:p-[10px] ${
-                isError ? 'bg-white dark:bg-white' : 'dark:bg-dark-background'
+                isError ? 'dark:bg-white' : 'dark:bg-dark-background'
               } ${
                 pathname === '/signup' || pathname === '/signin'
                   ? 'flex items-center justify-center'

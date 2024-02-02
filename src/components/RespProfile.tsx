@@ -239,7 +239,7 @@ const RespProfile = ({ userId }: profileProps) => {
 
         <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
           <div className=" mx-auto ">
-            <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-dark-background">
+            <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-slate-800">
               {/* Profile card start */}
               <div className="px-6">
                 <div className="top-0">
