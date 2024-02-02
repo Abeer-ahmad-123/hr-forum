@@ -50,6 +50,9 @@ const ReactionButton = ({
     [onReact], // Removed currentReaction and post
   )
 
+  const isDark = localStorage.getItem('darkMode')
+  const color = isDark ? 'white' : 'black'
+
   const toggleHeartReaction = () => {
     const newReaction =
       currentReaction == '' || currentReaction == 'none' ? 'love' : 'none'
@@ -106,7 +109,11 @@ const ReactionButton = ({
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={
                   currentReactionEmoji?.emoji || (
-                    <Heart strokeWidth={1} color="black" />
+                    <Heart
+                      strokeWidth={1}
+                      // color={color}
+                      className="text-black group-hover:text-black dark:text-white dark:hover:text-black"
+                    />
                   )
                 }
                 isReactionSelected={false}

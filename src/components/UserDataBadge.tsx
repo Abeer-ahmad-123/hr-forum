@@ -22,9 +22,12 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()
-    e.currentTarget.id === 'post'
-      ? router.push(`${routeTo}`)
-      : router.push(`${routeTo}/comment`)
+    console.log(e.currentTarget.id, routeTo)
+
+    if (e.currentTarget.id === 'post') router.push(`${routeTo}`)
+    else if (e.currentTarget.id === 'comment') router.push(`${routeTo}/comment`)
+    else if (e.currentTarget.id === 'report-post')
+      router.push(`${routeTo}/reported/posts`)
   }
 
   useEffect(() => {

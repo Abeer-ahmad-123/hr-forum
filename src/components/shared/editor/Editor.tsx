@@ -31,7 +31,7 @@ Editor.modules = {
     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
     [{ list: 'ordered' }, { list: 'bullet' }],
     ['link', 'video'],
-    [{ color: [] }, { background: [] }],
+    [{ color: [''] }, { background: [] }],
     ['code-block', 'divider'],
     ['clean'],
   ],
