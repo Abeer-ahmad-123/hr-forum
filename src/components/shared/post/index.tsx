@@ -181,13 +181,16 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
         </DialogContent>
       </Dialog>
       <div
-        className={`mx-auto max-w-5xl rounded-full ${
+        className={`mx-auto max-w-5xl  rounded-full ${
           isDialogPost ? 'mb-5' : 'my-5'
         }`}>
         <div
           className={`mx-auto mb-5 flex max-w-screen-lg rounded-xl bg-white
-      ${!isDialogPost && 'shadow-lg'} 
-      dark:bg-dark-background dark:text-gray-300`}>
+      ${
+        !isDialogPost &&
+        'border border-gray-200  shadow-lg dark:border-gray-700 dark:shadow-xl'
+      } 
+      dark:bg-dark-background dark:text-gray-300 `}>
           <div
             className={`flex w-full flex-col  pt-0 ${
               isDialogPost ? '' : 'p-10 max-custom-sm:px-2'

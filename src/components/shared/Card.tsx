@@ -1,6 +1,6 @@
 'use client'
-import ChannelPill from '@/components/shared/ChannelPill'
 import { noProfilePicture } from '@/assets/images'
+import ChannelPill from '@/components/shared/ChannelPill'
 import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -26,12 +26,13 @@ import {
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
 import { MoreHorizontal } from 'lucide-react'
+import ActivityButtons from '../ActivityButtons'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
-const Card = ({ post, channels, setPosts, posts }: any) => {
+const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   const {
     id,
     created_at,
@@ -51,6 +52,7 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
 
@@ -220,7 +222,16 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
 
   return (
     <div key={id}>
-      <div className="mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+      {index === 0 && pathName.includes(`/${userDetails.username}/feed`) && (
+        <ActivityButtons />
+      )}
+
+      <div
+        className={`${
+          index === 0 && pathName.includes(`/${userDetails.username}/feed`)
+            ? 'rounded-b-xl'
+            : 'rounded-xl'
+        } mx-auto mb-5 max-w-screen-md cursor-pointer bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}>
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="bg-white sm:max-w-[500px]">
             <Report
@@ -387,6 +398,7 @@ const Card = ({ post, channels, setPosts, posts }: any) => {
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
             setCommentCount={setCommentCount}
+            userComment={userComment}
           />
         </div>
       </div>

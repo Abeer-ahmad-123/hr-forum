@@ -1,15 +1,14 @@
 'use client'
 import BgBanner from '@/assets/icons/bgBanner'
+import { noProfilePicture } from '@/assets/images'
 import ImageUpload from '@/components/ImageUpload'
 import { useInterceptor } from '@/hooks/interceptors'
-import { getUserSpecificPosts } from '@/services/posts'
 import {
   getSpecificUserDetails,
   updateUserBgImage,
   updateUserImage,
 } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
-import { noProfilePicture } from '@/assets/images'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
@@ -17,7 +16,7 @@ import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
-import PostLoadingSkelton from './PostLoadingSkelton'
+import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import UserSpecificPosts from './UserSpecificPosts'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
@@ -31,6 +30,17 @@ const RespProfile = ({ userId }: profileProps) => {
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
+
+  const [profileNav, setProfileNav] = useState<{
+    isComment: boolean
+    isReaction: boolean
+    isPost: boolean
+  }>({
+    isComment: false,
+    isReaction: false,
+    isPost: true,
+  })
+
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
@@ -45,7 +55,6 @@ const RespProfile = ({ userId }: profileProps) => {
 
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
-  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
   const [image, setImage] = useState<any>(null)
 
   const userDataInStore = useSelector(
@@ -70,38 +79,11 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }
 
-  const getAllUserSpecificPosts = async () => {
-    try {
-      setLoadingPosts(true)
-
-      const response = await getUserSpecificPosts(
-        userId ? userId : userDataInStore?.id,
-      )
-      if (response.success) {
-        setUserSpecificPosts(response?.data?.posts)
-        morePosts.current =
-          response?.data?.pagination?.TotalPages &&
-          response?.data?.pagination?.CurrentPage !==
-            response?.data?.pagination?.TotalPages
-      } else {
-        throw response.errors[0]
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        handleRedirect({ error })
-      }
-      showErrorAlert(`${error}`)
-    } finally {
-      setLoadingPosts(false)
-    }
-  }
-
   const handleInputChange = (e: any) => {
     const file = e.target.files[0]
     setImage(file)
     setOpenDialog(true)
   }
-
   const saveImage = async (e: any) => {
     if (e === null) {
       setImage(null)
@@ -179,7 +161,6 @@ const RespProfile = ({ userId }: profileProps) => {
     } else {
       setUser(userDataInStore)
     }
-    getAllUserSpecificPosts()
   }
 
   useEffect(() => {
@@ -349,25 +330,9 @@ const RespProfile = ({ userId }: profileProps) => {
                 }
               />
             </div>
-            <div className={`flex w-full flex-col ${!loading && 'gap-2'}`}>
-              {!loadingPosts ? (
-                <UserSpecificPosts
-                  posts={posts}
-                  user={userId ? user : userDataInStore}
-                  morePosts={morePosts.current}
-                />
-              ) : (
-                [1, 2, 3, 4, 5].map((_, i) => <PostLoadingSkelton key={i} />)
-              )}
-            </div>
+
+            <UserActivity userId={userDataInStore.id} />
           </div>
-          <footer className="bg-blueGray-200 relative mt-8 pb-6 pt-8">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-wrap items-center justify-center md:justify-between">
-                <div className="mx-auto w-full px-4 text-center md:w-6/12"></div>
-              </div>
-            </div>
-          </footer>
         </section>
       </div>
     </>

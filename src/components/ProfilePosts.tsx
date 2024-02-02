@@ -1,4 +1,3 @@
-import { noProfilePicture } from '@/assets/images'
 import { ChannelPill } from '@/components/shared'
 import { timeFormatInHours } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
@@ -8,15 +7,20 @@ import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import PostReactionBar from './shared/PostReactionBar'
 
 interface userData {
-  id: number
+  id: number | string
   bio: string
   email: string
   name: string
   profilePictureURL: string
   username: string
+  post_count?: number | undefined
+  comment_count?: number | undefined
+  backgroundPictureURL?: string
 }
+
 interface ProfilePostsProps {
   post: UserSpecificationPostInterface
   user: userData
@@ -56,48 +60,65 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
       nProgress.done()
     }
   }, [])
+
   return (
-    <div
-      className="w-full cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300"
-      onClick={handleNavigateFeed}>
-      <div className="px-5 py-4">
-        <div className="flex text-left font-semibold dark:text-white">
-          <img
-            src={user?.profilePictureURL || noProfilePicture.src}
-            alt="profile"
-            className="relative h-12 w-12 transform rounded-full"
-          />
+    <>
+      <div
+        className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300"
+        onClick={handleNavigateFeed}>
+        <div className="py-4 pr-5">
+          <div className="ml-10 flex text-left font-semibold dark:text-white">
+            <div className="flex flex-col items-start align-baseline">
+              <div className="flex flex-row items-center">
+                <p
+                  onClick={handleNavigateProfile}
+                  className=" text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
+                  aria-label="user-name">
+                  {user?.name === userData?.name ? 'You' : user?.name}
+                </p>
+                <ChannelPill channel_id={post.channel_id} channels={channels} />
+              </div>
 
-          <div className="ml-4 flex flex-col items-start align-baseline">
-            <div className="flex flex-row items-center">
-              <p
-                onClick={handleNavigateProfile}
-                className=" text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
-                aria-label="user-name">
-                {user?.name === userData?.name ? 'You' : user?.name}
+              <p className="text-xs font-light text-slate-500 dark:text-gray-400">
+                {timeFormatInHours(post.created_at as unknown as Date)}
               </p>
-              <ChannelPill channel_id={post.channel_id} channels={channels} />
             </div>
-
-            <p className="text-xs font-light text-slate-500 dark:text-gray-400">
-              {timeFormatInHours(post.created_at as unknown as Date)}
-            </p>
           </div>
         </div>
-      </div>
 
-      <div className="text-bold pl-[85px] pr-3 text-left max-md:pl-6 max-md:text-lg">
-        {post.title}
-      </div>
-      <div className="mb-1 mt-1 pb-4 text-left">
-        <div className="mb-[2%]">
-          <span className="pl-[85px] pr-3 text-gray-400  max-md:pl-6 max-md:text-sm ">
-            <span className="text-green-600"> #</span>
-            {channelsKeyValuePair[post?.channel_id]?.name}
-          </span>
+        <div className="text-bold ml-10 pr-3 text-left max-md:text-lg">
+          {post.title}
         </div>
+
+        <div className="ml-10 mt-2 flex gap-1">
+          {post.image_url && (
+            <div className="min-h-[70px] min-w-[80px] ">
+              <img
+                src={post?.image_url}
+                alt="post-image"
+                className="h-16 min-h-[64px] w-16 min-w-[64px] rounded-xl  object-cover"
+              />
+            </div>
+          )}
+          <div
+            className="text-left font-light"
+            dangerouslySetInnerHTML={{
+              __html:
+                post.content.length > 150
+                  ? `${post.content.slice(0, 150)}...`
+                  : `${post.content}`,
+            }}
+          />
+        </div>
+
+        <PostReactionBar
+          postId={post.id as unknown as string}
+          reaction_summary={post.reaction_summary}
+          total_comments={post.total_comments}
+        />
       </div>
-    </div>
+      <hr className="mx-3" />
+    </>
   )
 }
 export default ProfilePosts

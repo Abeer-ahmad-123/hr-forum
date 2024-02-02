@@ -86,7 +86,7 @@ function LoggedIn() {
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={handleClosePopover}
-            className="hover:text-white">
+            className="cursor-pointer hover:text-white">
             <div
               className={`block px-4 py-2 text-sm dark:text-white`}
               onClick={handleNavigateProfile}>
@@ -95,7 +95,7 @@ function LoggedIn() {
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={handleClosePopover}
-            className="hover:text-white">
+            className="cursor-pointer hover:text-white">
             <button
               onClick={handleLogout}
               className={`block px-4 py-2 text-sm  dark:text-white`}>

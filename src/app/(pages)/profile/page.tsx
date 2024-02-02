@@ -6,7 +6,6 @@ import { Suspense } from 'react'
 
 const Profile = () => {
   const userDetailsCookies = cookies().get('user-details')
-
   if (!userDetailsCookies) {
     redirect('/feeds')
   } else {

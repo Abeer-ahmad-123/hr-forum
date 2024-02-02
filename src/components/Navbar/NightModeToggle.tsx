@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { setDarkMode } from '@/store/Slices/colorModeSlice'
 import { MoonIcon, SunIcon } from '@/assets/icons'
 import { ReturnIconButton } from '@/components/shared'
+import { setDarkMode } from '@/store/Slices/colorModeSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 const NightModeToggle = () => {
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)

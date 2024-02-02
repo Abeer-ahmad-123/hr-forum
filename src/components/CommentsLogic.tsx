@@ -34,6 +34,7 @@ const CommentsLogic = ({
         disableReactionButton={false}
         setDisableReactionButton={() => {}}
         setCommentCount={setCommentCount}
+        userComment={{ id: '' }}
       />
       <Comments
         postId={postId}

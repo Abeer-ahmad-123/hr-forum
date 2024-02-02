@@ -2,6 +2,7 @@ import { API_BASE_URL } from '..'
 
 const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
 const GET_COMMENT = API_BASE_URL + '/comments/commentId'
+const GET_USER_COMMENTS = API_BASE_URL + '/users/userId/comments'
 
 export async function postComment({
   postId,
@@ -100,6 +101,47 @@ export async function getPostsComments(
     const response = await res.json()
     const { data } = response
     return data
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function getUserComments(
+  id: string,
+
+  {
+    loadUser = true,
+    loadReactions = false,
+    loadNestedComments = false,
+    loadNestedUser = false,
+    loadNestedReactions = false,
+    nestedLimit = 2,
+    page = 1,
+    pageSize = 10,
+  },
+) {
+  try {
+    const userId = GET_USER_COMMENTS.replace('userId', id)
+
+    let url = `${userId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}`
+    if (userId) {
+      url += `&userID=${id}`
+    }
+    if (nestedLimit) {
+      url += `&nestedLimit=${nestedLimit}`
+    }
+    if (page) {
+      url += `&page=${page}`
+    }
+    if (pageSize) {
+      url += `&pageSize=${pageSize}`
+    }
+
+    let res = await fetch(url, {
+      cache: 'no-cache',
+    })
+    const response = await res.json()
+    return response
   } catch (err) {
     throw err
   }

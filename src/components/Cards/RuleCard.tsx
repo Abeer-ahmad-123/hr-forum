@@ -24,7 +24,7 @@ const RulesCard = () => {
                 <AccordionItem value={item.title} key={index}>
                   <AccordionTrigger>
                     <li>
-                      <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 dark:text-gray-400 ">
+                      <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent dark:text-gray-400 dark:hover:text-accent">
                         <ShieldPlus size={20} />
                         <span>{item.title}</span>
                       </div>
