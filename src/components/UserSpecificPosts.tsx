@@ -1,6 +1,6 @@
 import { getUserSpecificPosts } from '@/services/posts'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
+import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
@@ -57,11 +57,9 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {posts
-        .slice(0, 3)
-        ?.map((post: UserSpecificationPostInterface, i: number) => (
-          <ProfilePosts key={i} user={user} post={post} />
-        ))}
+      {posts.slice(0, 3)?.map((post: PostsInterface, i: number) => (
+        <ProfilePosts key={i} user={user} post={post} />
+      ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">
           <span onClick={handleClick}>Show more posts</span>
