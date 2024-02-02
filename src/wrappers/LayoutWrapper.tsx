@@ -38,9 +38,8 @@ const LayoutWrapper = ({ children }: any) => {
 
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
 
-  const mode = localStorage.getItem('darkMode')
+  const styles = darkMode ? 'dark' : ''
 
-  const styles = darkMode || mode == 'true' ? 'dark' : ''
   const clearAuthentication = () => {
     dispatch(clearUser())
     logout()
