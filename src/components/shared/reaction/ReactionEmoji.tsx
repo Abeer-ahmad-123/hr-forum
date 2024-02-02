@@ -17,14 +17,12 @@ const ReactionEmoji = ({
     <div
       onClick={onEmojiClick}
       className={clsx(
-        'flex cursor-pointer items-center rounded-lg border-none px-3  dark:hover:text-slate-800',
+        'flex cursor-pointer items-center rounded-lg border-none px-3',
         styles,
       )}
       id={reactionName}
       aria-label={`select ${reactionName} emoji`}>
-      <span
-        className="text-xl text-black dark:text-gray-300 dark:hover:text-slate-800"
-        id={reactionName}>
+      <span className="text-xl text-black dark:text-gray-300" id={reactionName}>
         {emojiCharacter}
       </span>
     </div>

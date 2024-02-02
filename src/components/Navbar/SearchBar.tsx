@@ -55,7 +55,7 @@ const SearchBar = () => {
         onChange={handleSearch}
         value={search}
         type="text"
-        className="ml-4 w-full border-none bg-transparent font-light text-black outline-none hover:border-none dark:text-white "
+        className="ml-4 w-full border border-none border-[#d3d3d3] bg-transparent font-light text-black outline-none hover:border-none dark:text-white "
         placeholder="Search Forum"
       />
       <label className="absolute left-[-6px]">

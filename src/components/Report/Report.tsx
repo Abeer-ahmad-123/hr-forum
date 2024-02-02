@@ -107,7 +107,7 @@ const Report = ({
                 type="radio"
                 id={text.reason}
                 name="example"
-                className="h-4 w-4 cursor-pointer accent-[#571ce0]"
+                className="h-4 w-4 cursor-pointer border border-[#d3d3d3] accent-[#571ce0]"
                 value={selectedItem}
                 checked={selectedItem === text.reason}
               />

@@ -2,6 +2,7 @@
 import BgBanner from '@/assets/icons/bgBanner'
 import { noProfilePicture } from '@/assets/images'
 import ImageUpload from '@/components/ImageUpload'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import {
   getSpecificUserDetails,
@@ -18,8 +19,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
-import UserSpecificPosts from './UserSpecificPosts'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface profileProps {
   userId?: string
@@ -188,7 +187,7 @@ const RespProfile = ({ userId }: profileProps) => {
                 </label>
               )}
               <input
-                className="hidden"
+                className="hidden border border-[#d3d3d3]"
                 id="changeBackgroundImage"
                 ref={imageInputRef}
                 type="file"
@@ -210,7 +209,7 @@ const RespProfile = ({ userId }: profileProps) => {
                 </label>
               )}
               <input
-                className="hidden"
+                className="border=[#d3d3d3] hidden border"
                 id="changeBackgroundImage"
                 ref={imageInputRef}
                 type="file"
@@ -266,7 +265,7 @@ const RespProfile = ({ userId }: profileProps) => {
                       )}
                       <input
                         key={`${dialogOpen}`}
-                        className="hidden"
+                        className="hidden border border-[#d3d3d3]"
                         id="changeImage"
                         ref={imageInputRef}
                         type="file"

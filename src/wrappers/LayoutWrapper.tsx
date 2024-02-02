@@ -1,6 +1,7 @@
 'use client'
 import InitialLoading from '@/components/InitialLoading'
 import Navbar from '@/components/Navbar/Navbar'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import {
   getRefreshToken,
   googleCodeExchange,
@@ -20,7 +21,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -38,7 +38,9 @@ const LayoutWrapper = ({ children }: any) => {
 
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
 
-  const styles = darkMode ? 'dark' : ''
+  const mode = localStorage.getItem('darkMode')
+
+  const styles = darkMode || mode == 'true' ? 'dark' : ''
   const clearAuthentication = () => {
     dispatch(clearUser())
     logout()
@@ -198,8 +200,10 @@ const LayoutWrapper = ({ children }: any) => {
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
-              className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
-              dark:mt-[-6px] dark:bg-dark-background dark:text-white max-md:py-5 max-sm:p-[10px] ${
+              className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 dark:mt-[-6px] 
+              dark:text-white max-md:py-5 max-sm:p-[10px] ${
+                isError ? 'bg-white dark:bg-white' : 'dark:bg-dark-background'
+              } ${
                 pathname === '/signup' || pathname === '/signin'
                   ? 'flex items-center justify-center'
                   : ''

@@ -7,6 +7,7 @@ import {
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { Heart } from 'lucide-react'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { ReactionEmoji } from '.'
@@ -95,20 +96,24 @@ const ReactionButton = ({
       <div
         onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeft}
-        className="flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:text-slate-800">
+        className="group flex basis-1/4 cursor-pointer items-center justify-center rounded-sm  hover:bg-gray-300 dark:hover:text-black">
         <PopoverTrigger asChild>
           <div
-            className="dark:text-icon-dark pointer flex items-center justify-center  dark:text-gray-300 "
+            className="dark:text-icon-dark pointer flex items-center justify-center hover:dark:text-black"
             onClick={handleLikeWrapperExtended}>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center  group-hover:dark:hover:text-black">
               <ReactionEmoji
                 reactionName={currentReactionEmoji?.name || 'none'}
-                emojiCharacter={currentReactionEmoji?.emoji || '♡'}
+                emojiCharacter={
+                  currentReactionEmoji?.emoji || (
+                    <Heart strokeWidth={1} color="black" />
+                  )
+                }
                 isReactionSelected={false}
                 isReactionOnLike={true}
               />
               {/* Add a small number under the heart emoji */}
-              <span className=" text-xs text-gray-600 dark:text-white">
+              <span className=" text-xs text-black">
                 {post?.totalReactionCount}
               </span>
             </div>
@@ -118,7 +123,7 @@ const ReactionButton = ({
         <PopoverContent className="-mt-2 border-0 shadow-none">
           {' '}
           <React.Fragment>
-            <div className="flex w-fit flex-row gap-4 rounded-xl bg-[#cecece] shadow-2xl shadow-black dark:bg-slate-800">
+            <div className="flex w-fit flex-row gap-4 rounded-xl bg-[#cecece] shadow-2xl shadow-black dark:bg-dark-background">
               <div className="flex flex-row gap-2 p-1">
                 {reactionOptions.slice(1).map((reaction, i) => (
                   <span key={i}>

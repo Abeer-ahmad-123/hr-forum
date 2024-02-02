@@ -19,13 +19,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const PostActionBar = ({
   postId,
