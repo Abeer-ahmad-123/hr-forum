@@ -321,7 +321,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                       {' '}
                       {(post.user_id as string) === userDetails.id ? (
                         <div
-                          className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 hover:text-white dark:text-white dark:hover:text-slate-800"
+                          className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                           onClick={handleDeleteClick}>
                           <Trash2 size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -331,7 +331,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                         </div>
                       ) : (
                         <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300  hover:text-white dark:hover:text-slate-800"
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                           onClick={handleReportClick}>
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -342,7 +342,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 hover:text-white dark:text-white  dark:hover:text-slate-800">
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white">
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (
