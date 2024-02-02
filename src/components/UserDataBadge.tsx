@@ -28,6 +28,8 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
     else if (e.currentTarget.id === 'comment') router.push(`${routeTo}/comment`)
     else if (e.currentTarget.id === 'report-post')
       router.push(`${routeTo}/reported/posts`)
+    else if (e.currentTarget.id === 'report-comment')
+      router.push(`${routeTo}/reported/comments`)
   }
 
   useEffect(() => {
@@ -70,6 +72,18 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             </span>
             {`${commentCount ? commentCount : 0} ${
               commentCount === 0 || commentCount === 1 ? 'post' : 'posts'
+            } reported`}
+          </div>
+
+          <div
+            id="report-comment"
+            className="flex cursor-pointer items-center text-[14px]"
+            onClick={handleClick}>
+            <span className="pr-2">
+              <AlertOctagon className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
+            </span>
+            {`${commentCount ? commentCount : 0} ${
+              commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
             } reported`}
           </div>
         </div>
