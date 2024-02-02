@@ -7,7 +7,7 @@ import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
 import { getChannels } from '@/services/channel/channel'
-import { getUserReactedPosts } from '@/services/posts'
+import { getAllPosts } from '@/services/posts'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -22,9 +22,10 @@ import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import CardLoading from './Loading/cardLoading'
 
-const UserReactionFeeds = () => {
+const ReportedPostsFeeds = () => {
   const morePosts = useRef<boolean>(false)
   let noMorePosts = useRef(morePosts)
+  let initialPosts = []
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -51,16 +52,24 @@ const UserReactionFeeds = () => {
   })
 
   const getPosts = async () => {
-    try {
-      const data = await getUserReactedPosts(userData.id)
-      // NEED to Correct this end point as we are not getting success from backend
-      setPosts([...posts, ...data])
-    } catch (error) {
-      if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+    {
+      try {
+        const { data } = await getAllPosts({
+          loadReactions: true,
+          loadUser: true,
+          userID: userData.id,
+        })
+
+        morePostsExist.current =
+          data?.pagination?.CurrentPage &&
+          data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
+      } catch (error) {
+        if (error instanceof Error) {
+          handleFetchFailed(error)
+        }
+      } finally {
+        setLoading(false)
       }
-    } finally {
-      setLoading(false)
     }
   }
 
@@ -144,7 +153,6 @@ const UserReactionFeeds = () => {
       user_has_bookmarked: false,
       user_has_reported: true,
     },
-    // Add more objects as needed
   ]
 
   {
@@ -198,7 +206,7 @@ const UserReactionFeeds = () => {
                         <NoPosts />
                       )}
                     </div>
-                    {!!posts?.length && noMorePosts?.current && (
+                    {!!dummyPost?.length && noMorePosts?.current && (
                       <CircularProgress incommingRef={ref} />
                     )}
                   </div>
@@ -212,4 +220,4 @@ const UserReactionFeeds = () => {
   }
 }
 
-export default UserReactionFeeds
+export default ReportedPostsFeeds

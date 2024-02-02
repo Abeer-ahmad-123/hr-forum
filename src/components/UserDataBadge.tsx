@@ -1,5 +1,6 @@
 'use client'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { AlertOctagon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
@@ -55,6 +56,18 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             {`${commentCount ? commentCount : 0} ${
               commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
             } written`}
+          </div>
+
+          <div
+            id="report-post"
+            className="flex cursor-pointer items-center"
+            onClick={handleClick}>
+            <span className="pr-2">
+              <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
+            </span>
+            {`${commentCount ? commentCount : 0} ${
+              commentCount === 0 || commentCount === 1 ? 'post' : 'posts'
+            } reported`}
           </div>
         </div>
       </div>
