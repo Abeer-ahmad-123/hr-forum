@@ -95,8 +95,8 @@
   transform-origin: 50% 50%;
   border-radius: 0 0 0 2px;
 }
-.initial-loading .face,
-.initial-loading .face:after {
+.initial-loading .face-light,
+.initial-loading .face-light:after {
   background: white;
 }
 .initial-loading .body > span > span:nth-child(1),
