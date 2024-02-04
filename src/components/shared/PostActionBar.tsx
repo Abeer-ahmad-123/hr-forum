@@ -104,6 +104,7 @@ const PostActionBar = ({
           })
         }
         setUserReaction(userReaction === value ? '' : value)
+        debugger
         getPost()
         if (!response.success) {
           throw response.errors[0]
@@ -113,7 +114,6 @@ const PostActionBar = ({
         if (error instanceof Error) {
           handleRedirect({ error })
         }
-
         showErrorAlert(`${error}`)
       } finally {
         setDisableReactionButton(false)

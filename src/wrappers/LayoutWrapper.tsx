@@ -203,7 +203,9 @@ const LayoutWrapper = ({ children }: any) => {
             <div
               className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
               dark:text-white max-md:py-5 max-sm:p-[10px] ${
-                isError ? 'dark:bg-white' : 'dark:bg-dark-background'
+                isError
+                  ? 'bg-white dark:bg-white'
+                  : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
               } ${
                 pathname === '/signup' || pathname === '/signin'
                   ? 'flex items-center justify-center'
