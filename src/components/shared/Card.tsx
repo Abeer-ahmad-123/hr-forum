@@ -280,7 +280,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
                 <div className="ml-2 flex flex-col items-start align-baseline">
                   <div className="flex flex-row items-center">
                     <p
-                      className="text-sm font-normal leading-none text-gray-900 dark:text-[#571ce0] max-custom-sm:text-[11px] 
+                      className="text-sm font-normal leading-none text-gray-900 dark:text-white max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
@@ -299,7 +299,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
               <div className="flex items-center gap-0.5">
                 {post?.user_has_reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
-                    <div className="group relative inline-block text-white dark:text-black">
+                    <div className="group relative inline-block text-black dark:text-white">
                       <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
                       <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
                         Reported

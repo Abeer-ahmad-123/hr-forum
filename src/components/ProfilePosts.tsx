@@ -2,7 +2,7 @@ import { ChannelPill } from '@/components/shared'
 import { timeFormatInHours } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificationPostInterface } from '@/utils/interfaces/posts'
+import { PostsInterface } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
@@ -22,7 +22,7 @@ interface userData {
 }
 
 interface ProfilePostsProps {
-  post: UserSpecificationPostInterface
+  post: PostsInterface
   user: userData
 }
 

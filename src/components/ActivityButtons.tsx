@@ -27,7 +27,10 @@ const ActivityButtons = () => {
   const router = useRouter()
   const commentOnClick = () => {
     nProgress.start()
-    router.push(`${routeTo}/comment`)
+
+    pathName.includes('/reported')
+      ? router.push(`${routeTo}/reported/comments`)
+      : router.push(`${routeTo}/comment`)
   }
   const reactionOnClick = () => {
     nProgress.start()
@@ -45,7 +48,7 @@ const ActivityButtons = () => {
         <div
           onClick={handlePost}
           className={`flex w-[100px] items-center gap-[8px] p-2 ${
-            pathName === `${routeTo}`
+            pathName == routeTo || pathName.includes(`${'/reported/posts'}`)
               ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
               : 'opacity-50'
           }`}>
@@ -63,17 +66,21 @@ const ActivityButtons = () => {
           <button> Comment</button>
           <hr />
         </div>
-        <div
-          onClick={reactionOnClick}
-          className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-            pathName.includes('/reaction')
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-              : ' opacity-50'
-          }`}>
-          <SmilePlus size={20} />
-          <button> Reactions</button>
-          <hr />
-        </div>
+
+        {!pathName.includes('/reported') && (
+          <div
+            onClick={reactionOnClick}
+            className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
+              pathName.includes('/reaction')
+                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
+                : ' opacity-50'
+            }`}>
+            <SmilePlus size={20} />
+            <button> Reactions</button>
+            <hr />
+          </div>
+        )}
+
         <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
       </div>
     </div>

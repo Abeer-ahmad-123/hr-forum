@@ -27,6 +27,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
   const [confirmPassword, setConfirmPassword] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
   const initialValues = {
@@ -46,6 +47,9 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
 
   const toggleShowNewPassword = () => {
     setShowNewPassword((prevShow) => !prevShow)
+  }
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword((prevShow) => !prevShow)
   }
 
   const handleCancel = () => {
@@ -141,15 +145,15 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
               value={userData.oldPassword}
               placeholder="Old Password"
               onChange={handleChange}
-              className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
+              className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background dark:text-white`}
             />
             <button
               onClick={toggleShowOldPassword}
               className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
               {showOldPassword ? (
-                <Eye color="#D3D3D3" />
+                <Eye color="#D3D3D3" size={18} />
               ) : (
-                <EyeOff color="#D3D3D3" />
+                <EyeOff color="#D3D3D3" size={18} />
               )}
             </button>
           </div>
@@ -163,15 +167,15 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
             value={userData.newPassword}
             placeholder="New Password"
             onChange={handleChange}
-            className={`caret-gray w-full resize-none  rounded-l-lg border border-none border-[#d3d3d3] p-2 pl-2 text-left outline-none dark:bg-dark-background `}
+            className={`caret-gray w-full resize-none  rounded-l-lg border border-none border-[#d3d3d3] p-2 pl-2 text-left outline-none dark:bg-dark-background dark:text-white `}
           />
           <button
             onClick={toggleShowNewPassword}
             className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
             {showNewPassword ? (
-              <Eye color="#D3D3D3" />
+              <Eye color="#D3D3D3" size={18} />
             ) : (
-              <EyeOff color="#D3D3D3" />
+              <EyeOff color="#D3D3D3" size={18} />
             )}
           </button>
         </div>
@@ -185,15 +189,15 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
             value={confirmPassword}
             placeholder="Confirm Password"
             onChange={handleChange}
-            className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background`}
+            className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background dark:text-white`}
           />
           <button
-            onClick={toggleShowNewPassword}
+            onClick={toggleShowConfirmPassword}
             className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
-            {showNewPassword ? (
-              <Eye color="#D3D3D3" />
+            {showConfirmPassword ? (
+              <Eye color="#D3D3D3" size={18} />
             ) : (
-              <EyeOff color="#D3D3D3" />
+              <EyeOff color="#D3D3D3" size={18} />
             )}
           </button>
         </div>

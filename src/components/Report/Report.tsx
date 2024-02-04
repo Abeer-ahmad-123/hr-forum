@@ -1,5 +1,7 @@
 'use client'
-import InfoIcon from '@/assets/icons/InfoIcon'
+// import InfoIcon from '@/assets/icons/InfoIcon'
+import { Info } from 'lucide-react'
+
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
@@ -69,7 +71,7 @@ const Report = ({
             )
 
       if (response.success) {
-        showSuccessAlert('Thanks for submitting you feedback')
+        showSuccessAlert('Thanks for submitting your feedback')
         getPostCommets()
         setReported(true)
         setReportedReplyId(commentId!)
@@ -95,7 +97,10 @@ const Report = ({
 
   return (
     <div className="gap-8">
-      <div className="flex justify-items-start pb-8 "> Report comment</div>
+      <div className="flex justify-items-start pb-8  dark:text-white">
+        {' '}
+        Report comment
+      </div>
       {reportData.map((text, index) => (
         <div key={index} className={`flex cursor-pointer  gap-4`}>
           <div className="flex items-center gap-4 pb-4">
@@ -112,15 +117,17 @@ const Report = ({
                 checked={selectedItem === text.reason}
               />
 
-              <div id={text.reason}>{text.reason}</div>
+              <div className="dark:text-white" id={text.reason}>
+                {text.reason}
+              </div>
             </div>
             <div className=" relative hover:block hover:opacity-100">
               <div className="opacity-1 z-10 transition-opacity duration-300 ease-in-out">
                 <div className="group relative">
-                  <div className="rounded-full">
-                    <InfoIcon />
+                  <div className="rounded-full dark:text-white">
+                    <Info className="dark:text-white" />
                   </div>
-                  <div className="invisible absolute  left-full top-0 z-10 w-[8rem] overflow-auto rounded-md bg-gray-800 p-2 text-[12px] text-white opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100">
+                  <div className="invisible absolute  left-full top-0 z-10 w-[8rem] overflow-auto rounded-md bg-gray-800 p-2 text-[12px] text-white opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 dark:text-white">
                     {text.description}
                   </div>
                 </div>
