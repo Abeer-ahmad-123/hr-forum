@@ -76,7 +76,6 @@ const Report = ({
         setReported(true)
         setReportedReplyId(commentId!)
         setReportedCommentId(commentId!)
-        router.refresh()
       } else if (!response.success) {
         throw response.errors[0]
       }

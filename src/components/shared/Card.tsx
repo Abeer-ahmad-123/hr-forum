@@ -43,6 +43,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
     reaction_summary,
     user_reaction,
     user_has_bookmarked,
+    user_has_reported,
     user_id,
     image_url,
     total_comments,
@@ -79,6 +80,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [bookmarkSuccess, setBookmarkSuccess] =
     useState<boolean>(user_has_bookmarked)
+  const [reported, setReported] = useState<boolean>(user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const setOpenPopOver = (e: any) => {
@@ -239,7 +241,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
               setOpenDialog={setOpenDialog}
               postId={id}
               getPostCommets={() => {}}
-              setReported={() => {}}
+              setReported={setReported}
               setReportedReplyId={() => {}}
               setReportedCommentId={() => {}}
             />
@@ -297,7 +299,7 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
               </div>
 
               <div className="flex items-center gap-0.5">
-                {post?.user_has_reported && (
+                {reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block text-black dark:text-white">
                       <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
