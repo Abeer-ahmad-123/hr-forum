@@ -47,37 +47,46 @@ const ActivityButtons = () => {
       <div className="flex cursor-pointer items-start justify-start max-md:text-sm">
         <div
           onClick={handlePost}
-          className={`-ml-[3px] flex w-[80px] gap-[8px]  py-2 ${
-            pathName == routeTo || pathName.includes(`${'/reported/posts'}`)
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-              : 'opacity-50'
-          }`}>
-          <Plus size={20} />
-          <button> Post</button>
+          className={`-ml-[3px] flex w-[80px] gap-[8px]  py-2`}>
+          <div
+            className={`flex gap-2  ${
+              pathName == routeTo || pathName.includes(`${'/reported/posts'}`)
+                ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
+                : 'opacity-50'
+            }`}>
+            <Plus size={20} />
+            <button> Post</button>
+          </div>
         </div>
         <div
           onClick={commentOnClick}
-          className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2 pl-0 ${
-            pathName.includes('/comment')
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-              : ' opacity-50'
-          }`}>
-          <FaRegComment size={20} />
-          <button> Comment</button>
-          <hr />
+          className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] py-2 pl-0 `}>
+          <div
+            className={`flex gap-2  ${
+              pathName.includes('/comment')
+                ? 'z-10 border-b-2 border-[#571ce0]  pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
+                : ' opacity-50'
+            }`}>
+            <FaRegComment size={20} />
+            <button> Comment</button>
+            <hr />
+          </div>
         </div>
 
         {!pathName.includes('/reported') && (
           <div
             onClick={reactionOnClick}
-            className={`flex w-[130px] cursor-pointer items-center gap-[8px] py-2  ${
-              pathName.includes('/reaction')
-                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-                : ' opacity-50'
-            }`}>
-            <SmilePlus size={20} />
-            <button> Reactions</button>
-            <hr />
+            className={`flex w-[130px] cursor-pointer items-center gap-[8px] py-2  `}>
+            <div
+              className={`flex gap-2 ${
+                pathName.includes('/reaction')
+                  ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
+                  : ' opacity-50'
+              } `}>
+              <SmilePlus size={20} />
+              <button> Reactions</button>
+              <hr />
+            </div>
           </div>
         )}
 

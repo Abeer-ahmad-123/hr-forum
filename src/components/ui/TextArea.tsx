@@ -65,7 +65,8 @@ const TextArea = ({
   return (
     <div
       className={` ${
-        pathName === '/feeds' && 'mb-4'
+        pathName === '/feeds' ||
+        (pathName.includes(`${userData.username}`) && 'mb-4')
       }  flex cursor-pointer items-center gap-2.5 px-4`}>
       <img
         src={userData.profilePictureURL || noProfilePicture.src}

@@ -23,6 +23,8 @@ import CardLoading from './Loading/cardLoading'
 const UserFeeds = () => {
   const morePosts = useRef<boolean>(false)
   let noMorePosts = useRef(morePosts)
+  let morePostsExist = useRef(morePosts)
+
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -36,16 +38,6 @@ const UserFeeds = () => {
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  let morePostsExist = useRef(morePosts)
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: false,
-    isPost: true,
-  })
 
   const getPosts = async () => {
     try {
