@@ -20,7 +20,6 @@ import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -28,6 +27,7 @@ import ChannelPill from '../ChannelPill'
 
 import Report from '@/components/Report/Report'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { useRouter } from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import PostSkelton from './PostSkelton'
@@ -64,11 +64,15 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const userId = userDetails?.id
 
   const getPost = async () => {
-    const { post: postData } = await getPostByPostId(postId, {
+    const response = await getPostByPostId(postId, {
       loadUser: true,
       userId: userId,
     })
-    setPost(postData)
+    if (!response.success) {
+      router.push('/feeds')
+    }
+
+    setPost(response?.data?.post)
   }
   const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
 

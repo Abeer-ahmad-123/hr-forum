@@ -95,8 +95,7 @@ export async function getPostByPostId(
       },
     )
     const response = await res.json()
-    const { data } = response
-    return data
+    return response
   } catch (err) {
     throw err
   }
