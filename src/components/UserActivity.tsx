@@ -186,35 +186,44 @@ const UserActivity = ({ userId }: UserActivityProps) => {
         <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-sm">
           <div
             onClick={handlePost}
-            className={`flex w-[100px] items-center gap-[8px] p-2 ${
-              profileNav.isPost
-                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                : 'opacity-50'
-            }`}>
-            <Plus size={20} />
-            <button> Post</button>
+            className={`-ml-[3px] flex w-[85px] gap-[8px] py-2 `}>
+            <div
+              className={`flex gap-2 ${
+                profileNav.isPost
+                  ? 'z-10  border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
+                  : ' opacity-50'
+              }`}>
+              <Plus size={20} />
+              <button> Post</button>
+            </div>
           </div>
           <div
             onClick={commentOnClick}
-            className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-              profileNav.isComment
-                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                : ' opacity-50'
-            }`}>
-            <FaRegComment size={20} />
-            <button> Comment</button>
-            <hr />
+            className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2`}>
+            <div
+              className={`flex gap-2 ${
+                profileNav.isComment
+                  ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
+                  : 'opacity-50'
+              }`}>
+              <FaRegComment size={20} />
+              <button> Comment</button>
+              <hr />
+            </div>
           </div>
           <div
             onClick={reactionOnClick}
-            className={`ml-2 flex w-[130px] cursor-pointer items-center gap-[8px] p-2 ${
-              profileNav.isReaction
-                ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                : ' opacity-50'
-            }`}>
-            <SmilePlus size={20} />
-            <button> Reactions</button>
-            <hr />
+            className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2 `}>
+            <div
+              className={`flex gap-2 ${
+                profileNav.isReaction
+                  ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
+                  : 'opacity-50'
+              }`}>
+              <SmilePlus size={20} />
+              <button> Reactions</button>
+              <hr />
+            </div>
           </div>
           <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
         </div>
