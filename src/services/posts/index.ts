@@ -7,6 +7,7 @@ const GET_All_POSTS = API_BASE_URL + '/posts'
 const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
 const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
 const USER_REACTED_POSTS = API_BASE_URL + '/users/userId/reactions'
+const USER_REPORTED_POSTS = API_BASE_URL + '/users/userId/reports/posts'
 
 type GET_ALL_POSTS_PROPS = {
   loadUser?: boolean
@@ -170,6 +171,26 @@ export async function getUserSpecificPosts(
 
     let res = await fetch(
       `${`${formatedRequestUrl}?page=${pageNumber}&loadReactions=${loadReactions}&loadUser=${loadUser}`}`,
+      {
+        cache: 'no-store',
+      },
+    )
+    const response = await res.json()
+    return response
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function getReportedPosts(
+  userId: string,
+  { page = 1, pageSize = 10 },
+) {
+  try {
+    const formatedRequestUrl = USER_REPORTED_POSTS.replace('userId', userId)
+
+    let res = await fetch(
+      `${`${formatedRequestUrl}?page=${page}&pageSize=${pageSize} `}`,
       {
         cache: 'no-store',
       },
