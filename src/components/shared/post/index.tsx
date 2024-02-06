@@ -73,6 +73,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     }
 
     setPost(response?.data?.post)
+    console.log(response?.data?.post)
   }
   const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
 
@@ -276,7 +277,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                       <div
                         onClick={handleBookmark}
                         className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-                        {bookmarkSuccess ? (
+                        {bookmarkSuccess || post.user_has_bookmarked ? (
                           <FaBookmark color="blue" />
                         ) : (
                           <FaRegBookmark />
