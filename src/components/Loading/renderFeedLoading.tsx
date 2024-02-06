@@ -1,8 +1,33 @@
 import Skelton from '@/components/ui/skelton'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { usePathname } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
-const RenderFeedLoading = () => {
+interface RenderFeedLoadingProps {
+  index: number
+}
+
+const RenderFeedLoading = ({ index }: RenderFeedLoadingProps) => {
+  const pathName = usePathname()
+  const userData = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.userData,
+  )
   return (
     <div className="mx-auto mb-5 h-fit w-full max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+      {index == 0 && pathName.includes(`/${userData.username}`) && (
+        <div className="pt-2">
+          <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
+          <div className="mt-2 flex items-center">
+            <div className="ml-4">
+              <div className="flex flex-row gap-x-2">
+                <Skelton className="h-8 w-24 rounded-sm bg-skelton" />
+                <Skelton className="h-8 w-24  rounded-sm bg-skelton" />
+                <Skelton className="h-8 w-24 rounded-sm bg-skelton" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="px-4 py-4">
         <div className="flex items-center justify-between max-md:block">
           <div className="flex items-center">
@@ -38,7 +63,6 @@ const RenderFeedLoading = () => {
       <div className="mx-5 py-1">
         <div className="flex flex-row  items-center justify-around  ">
           <Skelton className="mx-1 h-7 w-24 rounded-md bg-skelton" />
-          <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
         </div>

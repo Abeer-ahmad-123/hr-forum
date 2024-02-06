@@ -1,6 +1,6 @@
 'use client'
-import PostBar from '@/components/shared/new-post/NewPostModal'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
@@ -13,9 +13,13 @@ function CardLoading() {
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const renderTimes = 5
   const [hidden, setHidden] = useState<boolean>(false)
+  const pathName = usePathname()
   const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
-    <RenderFeedLoading key={index} />
+    <RenderFeedLoading key={index} index={index} />
   ))
+  const userData = useSelector(
+    (state: LoggedInUser) => state.loggedInUser.userData,
+  )
 
   useEffect(() => {
     if (!token) {
@@ -45,10 +49,11 @@ function CardLoading() {
         </div>
 
         <div className="flex w-full max-w-screen-md flex-col">
-          <div className="mb-5">
-            <PostBar setPosts={() => {}} />
-          </div>
-
+          {!pathName.includes(`/${userData.username}`) && (
+            <div className="mb-5">
+              <Skelton className="h-12 w-full rounded-md bg-skelton" />
+            </div>
+          )}
           <div> {componentsArray}</div>
         </div>
       </div>

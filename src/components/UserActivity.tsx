@@ -340,14 +340,18 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 morePosts={morePosts.current}
               />
             ) : (
-              [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+              [1, 2, 3, 4].map((_, i) => (
+                <PostLoadingSkelton key={i} index={i} />
+              ))
             )}
           </>
         ) : (
           <>
             {profileNav.isComment ? (
               isCommentsLoading ? (
-                [1, 2, 3].map((_, i) => <PostLoadingSkelton key={i} />)
+                [1, 2, 3, 4].map((_, i) => (
+                  <PostLoadingSkelton key={i} index={i} />
+                ))
               ) : (
                 <UserSpecificComments comments={comments as []} />
               )
@@ -358,7 +362,9 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                     {!loadingReaction ? (
                       <UserSpecificReaction posts={dummyPost} />
                     ) : (
-                      [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} />)
+                      [1, 2, 3, 4].map((_, i) => (
+                        <PostLoadingSkelton key={i} index={i} />
+                      ))
                     )}
                   </>
                 ) : (

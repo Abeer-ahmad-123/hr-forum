@@ -1,9 +1,15 @@
 import Skelton from '@/components/ui/skelton'
 
-const PostLoadingSkelton = () => {
+interface PostLoadingSkeltonProps {
+  index: number
+}
+
+const PostLoadingSkelton = ({ index }: PostLoadingSkeltonProps) => {
   return (
     <div
-      className={`'my-2' w-full cursor-pointer rounded-xl bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4`}>
+      className={`'my-2' w-full ${
+        index == 3 ? 'rounded-b-xl' : ''
+      } cursor-pointer bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4`}>
       <div className="flex items-center">
         <Skelton className="h-12 w-12  rounded-full" />
         <div className="ml-4">
