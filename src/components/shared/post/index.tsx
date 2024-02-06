@@ -19,7 +19,7 @@ import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
-import { AlertOctagon, MoreHorizontal } from 'lucide-react'
+import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
@@ -30,6 +30,7 @@ import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useRouter } from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
+import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
 
@@ -76,6 +77,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     console.log(response?.data?.post)
   }
   const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
@@ -121,6 +123,19 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setOpenDialog(true)
     }
   }
+
+  const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setPopOver(false)
+
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else {
+      setOpenDeleteDialog(true)
+    }
+  }
+
   const handleBookmark = async (event: any) => {
     event.preventDefault()
     event.stopPropagation()
@@ -182,6 +197,17 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             setReported={setReported}
             setReportedReplyId={() => {}}
             setReportedCommentId={() => {}}
+          />
+        </DialogContent>
+      </Dialog>
+      <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+        <DialogContent className="bg-white sm:max-w-[500px]">
+          <DeletePost
+            setOpenDeleteDialog={setOpenDeleteDialog}
+            postId={post?.id as unknown as string}
+            setReported={() => {}}
+            setPosts={() => {}}
+            posts={[]}
           />
         </DialogContent>
       </Dialog>
@@ -265,15 +291,28 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                       </span>
                     </PopoverTrigger>
                     <PopoverContent className="bg-white">
-                      <div
-                        className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
-                        onClick={handleReportClick}>
-                        <AlertOctagon size={17} />
-                        <span className="text-[15px] font-light max-custom-sm:hidden">
-                          {' '}
-                          Report
-                        </span>
-                      </div>
+                      {(post.user_id as unknown as string) ===
+                      userDetails.id ? (
+                        <div
+                          className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                          onClick={handleDeleteClick}>
+                          <Trash2 size={17} />
+                          <span className="text-[15px] font-light max-custom-sm:hidden">
+                            {' '}
+                            Delete
+                          </span>
+                        </div>
+                      ) : (
+                        <div
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                          onClick={handleReportClick}>
+                          <AlertOctagon size={17} />
+                          <span className="text-[15px] font-light max-custom-sm:hidden">
+                            {' '}
+                            Report
+                          </span>
+                        </div>
+                      )}
                       <div
                         onClick={handleBookmark}
                         className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
