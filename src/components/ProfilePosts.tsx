@@ -104,7 +104,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
             className="text-left font-light"
             dangerouslySetInnerHTML={{
               __html:
-                post.content.length > 150
+                post?.content?.length > 150
                   ? `${post.content.slice(0, 150)}...`
                   : `${post.content}`,
             }}
