@@ -13,10 +13,11 @@ import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const UserFeeds = () => {
@@ -31,6 +32,7 @@ const UserFeeds = () => {
   )
   const routeTo = `/feeds/${userData?.username}/feed`
   const router = useRouter()
+  const pathName = usePathname()
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
@@ -121,6 +123,9 @@ const UserFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
+                    {pathName.includes(`/${userData.username}/feed`) && (
+                      <ActivityButtons />
+                    )}
                     <div>
                       {!!posts?.length ? (
                         posts?.map((post: any, index: number) => {
@@ -131,7 +136,6 @@ const UserFeeds = () => {
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              index={index}
                             />
                           )
                         })

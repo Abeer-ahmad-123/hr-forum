@@ -15,11 +15,12 @@ import {
   PostsInterface,
   UserSpecificPostsInterface,
 } from '@/utils/interfaces/posts'
-
-import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
+
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const ReportedPostsFeeds = () => {
@@ -40,6 +41,10 @@ const ReportedPostsFeeds = () => {
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
   let morePostsExist = useRef(morePosts)
   const routeTo = `/feeds/${userData?.username}/feed`
+  const pathName = usePathname()
+  const userDetails = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
 
   const [profileNav, setProfileNav] = useState<{
     isComment: boolean
@@ -187,6 +192,9 @@ const ReportedPostsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
+                    {pathName.includes(`/${userDetails.username}/feed`) && (
+                      <ActivityButtons />
+                    )}
                     <div>
                       {!!dummyPost?.length ? (
                         dummyPost?.map((post: any, index: number) => {
@@ -198,7 +206,6 @@ const ReportedPostsFeeds = () => {
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              index={index}
                             />
                           )
                         })

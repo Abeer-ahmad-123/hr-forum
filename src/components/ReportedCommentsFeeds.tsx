@@ -14,10 +14,11 @@ import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
 import { useInView } from 'react-intersection-observer'
 
 import { getUserComments } from '@/services/comments'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const ReportedCommentsFeeds = () => {
@@ -32,7 +33,7 @@ const ReportedCommentsFeeds = () => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-
+  const pathName = usePathname()
   const routeTo = `/feeds/${userData?.username}/feed`
 
   const [page, setPage] = useState(1)
@@ -139,6 +140,9 @@ const ReportedCommentsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
+                    {pathName.includes(`/${userDataInStore.username}/feed`) && (
+                      <ActivityButtons />
+                    )}
                     <div>
                       {!!comments?.length ? (
                         comments?.map((comment: any, index: number) => {
@@ -149,7 +153,6 @@ const ReportedCommentsFeeds = () => {
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              index={index}
                               userComment={comment}
                             />
                           )

@@ -16,10 +16,11 @@ import {
   UserSpecificPostsInterface,
 } from '@/utils/interfaces/posts'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const UserReactionFeeds = () => {
@@ -40,15 +41,7 @@ const UserReactionFeeds = () => {
   let morePostsExist = useRef(morePosts)
   const routeTo = `/feeds/${userData?.username}/feed`
 
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: true,
-    isPost: false,
-  })
+  const pathName = usePathname()
 
   const getPosts = async () => {
     try {
@@ -179,6 +172,9 @@ const UserReactionFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
+                    {pathName.includes(`/${userData.username}/feed`) && (
+                      <ActivityButtons />
+                    )}
                     <div>
                       {!!dummyPost?.length ? (
                         dummyPost?.map((post: any, index: number) => {
@@ -190,7 +186,6 @@ const UserReactionFeeds = () => {
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              index={index}
                             />
                           )
                         })
