@@ -219,6 +219,14 @@ const Card = ({ post, channels, setPosts, posts, index, userComment }: any) => {
   }, [])
 
   useEffect(() => {
+    setBookmarkSuccess(user_has_bookmarked)
+  }, [user_has_bookmarked])
+
+  useEffect(() => {
+    setReported(user_has_reported)
+  }, [user_has_reported])
+
+  useEffect(() => {
     setCommentCount(total_comments)
   }, [total_comments])
 
