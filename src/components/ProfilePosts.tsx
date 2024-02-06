@@ -74,7 +74,9 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
                   onClick={handleNavigateProfile}
                   className=" text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
                   aria-label="user-name">
-                  {user?.name === userData?.name ? 'You' : user?.name}
+                  {post?.author_details?.name == userData?.name
+                    ? 'You'
+                    : post?.author_details?.name}
                 </p>
                 <ChannelPill channel_id={post.channel_id} channels={channels} />
               </div>
@@ -104,7 +106,7 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
             className="text-left font-light"
             dangerouslySetInnerHTML={{
               __html:
-                post.content.length > 150
+                post?.content?.length > 150
                   ? `${post.content.slice(0, 150)}...`
                   : `${post.content}`,
             }}

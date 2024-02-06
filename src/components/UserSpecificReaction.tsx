@@ -8,6 +8,16 @@ import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import ProfilePosts from './ProfilePosts'
 
+interface ReactionPostsFeedsProps {
+  id: number
+  created_at: string
+  user_id: number
+  postId: number
+  reportType: string
+  details: string
+  post: PostsInterface
+}
+
 const UserSpecificReaction = ({ posts }: any) => {
   const [page, setPage] = useState(2)
   const [ref, inView] = useInView()
@@ -32,8 +42,8 @@ const UserSpecificReaction = ({ posts }: any) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {posts.slice(0, 3)?.map((post: PostsInterface, i: number) => (
-        <ProfilePosts key={i} user={userData} post={post} />
+      {posts?.map((post: ReactionPostsFeedsProps, i: number) => (
+        <ProfilePosts key={i} user={userData} post={post.post} />
       ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">

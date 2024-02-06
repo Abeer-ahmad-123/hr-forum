@@ -16,15 +16,18 @@ import {
   UserSpecificPostsInterface,
 } from '@/utils/interfaces/posts'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const UserReactionFeeds = () => {
   const morePosts = useRef<boolean>(false)
   let noMorePosts = useRef(morePosts)
+  let morePostsExist = useRef(morePosts)
+
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -37,24 +40,21 @@ const UserReactionFeeds = () => {
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  let morePostsExist = useRef(morePosts)
   const routeTo = `/feeds/${userData?.username}/feed`
 
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: true,
-    isPost: false,
-  })
+  const pathName = usePathname()
 
   const getPosts = async () => {
     try {
-      const data = await getUserReactedPosts(userData.id)
-      // NEED to Correct this end point as we are not getting success from backend
-      setPosts([...posts, ...data])
+      const { reactions } = await getUserReactedPosts(userData.id, {
+        page,
+      })
+      setPage(page + 1)
+      morePostsExist.current =
+        reactions?.pagination?.CurrentPage &&
+        reactions?.pagination?.CurrentPage !== reactions?.pagination?.TotalPages
+
+      setPosts([...posts, ...reactions])
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleFetchFailed(error)
@@ -179,18 +179,20 @@ const UserReactionFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
+                    {pathName.includes(`/${userData.username}/feed`) && (
+                      <ActivityButtons />
+                    )}
                     <div>
-                      {!!dummyPost?.length ? (
-                        dummyPost?.map((post: any, index: number) => {
+                      {posts?.length ? (
+                        posts?.map((reactionPost: any, index: number) => {
                           // change it to post once backend issue resolved
                           return (
                             <Card
                               key={index}
-                              post={post}
+                              post={reactionPost.post}
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              index={index}
                             />
                           )
                         })
@@ -198,7 +200,7 @@ const UserReactionFeeds = () => {
                         <NoPosts />
                       )}
                     </div>
-                    {!!posts?.length && noMorePosts?.current && (
+                    {posts?.length && noMorePosts?.current && (
                       <CircularProgress incommingRef={ref} />
                     )}
                   </div>

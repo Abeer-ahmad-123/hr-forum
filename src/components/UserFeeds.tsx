@@ -13,15 +13,18 @@ import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
 
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
+import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const UserFeeds = () => {
   const morePosts = useRef<boolean>(false)
   let noMorePosts = useRef(morePosts)
+  let morePostsExist = useRef(morePosts)
+
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const [loading, setLoading] = useState<boolean>(true)
@@ -31,19 +34,10 @@ const UserFeeds = () => {
   )
   const routeTo = `/feeds/${userData?.username}/feed`
   const router = useRouter()
+  const pathName = usePathname()
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  let morePostsExist = useRef(morePosts)
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: false,
-    isPost: true,
-  })
 
   const getPosts = async () => {
     try {
@@ -121,6 +115,9 @@ const UserFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
+                    {pathName.includes(`/${userData.username}/feed`) && (
+                      <ActivityButtons />
+                    )}
                     <div>
                       {!!posts?.length ? (
                         posts?.map((post: any, index: number) => {
@@ -131,7 +128,6 @@ const UserFeeds = () => {
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              index={index}
                             />
                           )
                         })

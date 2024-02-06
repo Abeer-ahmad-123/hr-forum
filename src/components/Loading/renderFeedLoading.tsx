@@ -40,7 +40,6 @@ const RenderFeedLoading = () => {
           <Skelton className="mx-1 h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
-          <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
         </div>
       </div>
     </div>

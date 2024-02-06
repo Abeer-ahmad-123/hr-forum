@@ -22,7 +22,6 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()
-    console.log(e.currentTarget.id, routeTo)
 
     if (e.currentTarget.id === 'post') router.push(`${routeTo}`)
     else if (e.currentTarget.id === 'comment') router.push(`${routeTo}/comment`)
@@ -39,7 +38,7 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
   }, [])
   return (
     <>
-      <div className="flex min-h-[168px] min-w-[14rem] flex-col items-center justify-center rounded-[10px] bg-white  px-[5px] pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white">
+      <div className="flex min-h-[168px] min-w-[15rem] flex-col items-center justify-center rounded-[10px] bg-white  px-[5px] pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white">
         <div className="flex flex-col py-3 leading-[50px]">
           <div
             id="post"
@@ -77,7 +76,7 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
 
           <div
             id="report-comment"
-            className="flex cursor-pointer items-center text-[14px]"
+            className="flex cursor-pointer items-center"
             onClick={handleClick}>
             <span className="pr-2">
               <AlertOctagon className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
