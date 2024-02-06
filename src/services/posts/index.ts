@@ -190,7 +190,7 @@ export async function getReportedPosts(
     const formatedRequestUrl = USER_REPORTED_POSTS.replace('userId', userId)
 
     let res = await fetch(
-      `${`${formatedRequestUrl}?page=${page}&pageSize=${pageSize} `}`,
+      `${`${formatedRequestUrl}?page=${page}&pageSize=${pageSize}`}`,
       {
         cache: 'no-store',
       },
@@ -202,13 +202,19 @@ export async function getReportedPosts(
   }
 }
 
-export async function getUserReactedPosts(userId: string) {
+export async function getUserReactedPosts(
+  userId: string,
+  { page = 1, pageSize = 10 },
+) {
   try {
     const formatedRequestUrl = USER_REACTED_POSTS.replace('userId', userId)
 
-    let res = await fetch(`${`${formatedRequestUrl}`}`, {
-      cache: 'no-store',
-    })
+    let res = await fetch(
+      `${`${formatedRequestUrl}?page=${page}&pageSize=${pageSize}`}`,
+      {
+        cache: 'no-store',
+      },
+    )
     const response = await res.json()
     return response
   } catch (err) {

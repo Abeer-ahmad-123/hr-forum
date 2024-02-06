@@ -155,7 +155,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
 
   const getPosts = async () => {
     try {
-      const data = await getUserReactedPosts(userDataInStore.id)
+      const data = await getUserReactedPosts(userDataInStore.id, {})
       setReactedPosts([...reactedPosts, ...data])
     } catch (error) {
       if (error instanceof Error && error.message) {
