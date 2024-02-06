@@ -104,7 +104,6 @@ const PostActionBar = ({
           })
         }
         setUserReaction(userReaction === value ? '' : value)
-        debugger
         getPost()
         if (!response.success) {
           throw response.errors[0]
