@@ -25,3 +25,11 @@
     height: 200px;
   }
 }
+
+.dark .ql-snow .ql-fill {
+  fill: white;
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: white;
+}
