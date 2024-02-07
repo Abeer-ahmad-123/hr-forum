@@ -34,7 +34,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
       <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
         <span
-          className="font-medium underline  hover:text-accent"
+          className="font-medium  text-gray-900 hover:underline dark:text-white"
           onClick={handleLinkClick}>
           {channelObj[channel_id]?.name}
         </span>
