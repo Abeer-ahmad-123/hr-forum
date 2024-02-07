@@ -9,7 +9,7 @@ async function PostSkelton({ isDialogPost = false }) {
           ${!isDialogPost && 'shadow-lg'} 
       dark:bg-dark-primary dark:text-gray-300`}>
         <div className="flex w-full flex-col items-center p-10 pl-4 pt-0">
-          <div className="mb-5 h-fit w-full  cursor-pointer rounded-xl bg-white  dark:bg-slate-800 dark:text-gray-300">
+          <div className="mb-5 h-fit w-full  cursor-pointer rounded-xl bg-white  dark:bg-dark-primary dark:text-gray-300">
             <div className="px-4 py-4">
               <div className="flex items-center justify-between max-md:block">
                 <div className="flex items-center">
@@ -45,7 +45,6 @@ async function PostSkelton({ isDialogPost = false }) {
             <div className="mx-5 py-1">
               <div className="flex flex-row  items-center justify-around  ">
                 <Skelton className="mx-1 h-7 w-24 rounded-md bg-skelton" />
-                <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
                 <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
                 <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
               </div>

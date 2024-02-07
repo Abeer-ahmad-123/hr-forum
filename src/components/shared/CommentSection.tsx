@@ -3,6 +3,7 @@ import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -34,6 +35,8 @@ const CommentSection = ({
   const userId = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData?.id,
   )
+
+  const pathName = usePathname()
 
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
@@ -86,7 +89,12 @@ const CommentSection = ({
           </div>
         </div>
         <div className="ml-3 ">
-          <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 dark:bg-dark-background ">
+          <div
+            className={`w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 ${
+              pathName === '/feeds'
+                ? 'dark:bg-dark-background'
+                : 'dark:bg-slate-800 '
+            } `}>
             <div className="flex flex-row justify-between ">
               <div
                 className="text-left text-accent max-custom-sm:text-[11px]
