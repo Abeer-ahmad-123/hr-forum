@@ -58,7 +58,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
   return (
     <div className="flex flex-col gap-2">
       {posts.slice(0, 3)?.map((post: PostsInterface, i: number) => (
-        <ProfilePosts key={i} user={user} post={post} />
+        <ProfilePosts key={i} userId={user} post={post} />
       ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">

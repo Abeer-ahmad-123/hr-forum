@@ -182,18 +182,20 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   return (
     <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
       <div className="ml-10 justify-start">
-        <div className="text-start text-xl font-normal">Activity</div>
+        <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
+          Activity
+        </div>
         <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-sm">
           <div
             onClick={handlePost}
             className={`-ml-[3px] flex w-[85px] gap-[8px] py-2 `}>
             <div
-              className={`flex gap-2 ${
+              className={`flex gap-2 max-custom-sm:text-xs ${
                 profileNav.isPost
                   ? 'z-10  border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                   : ' opacity-50'
               }`}>
-              <Plus size={20} />
+              <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
               <button> Post</button>
             </div>
           </div>
@@ -201,12 +203,15 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             onClick={commentOnClick}
             className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2`}>
             <div
-              className={`flex gap-2 ${
+              className={`flex gap-2 max-custom-sm:text-xs ${
                 profileNav.isComment
                   ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                   : 'opacity-50'
               }`}>
-              <FaRegComment size={20} />
+              <FaRegComment
+                size={20}
+                className="max-custom-sm:h-4 max-custom-sm:w-4"
+              />
               <button> Comment</button>
               <hr />
             </div>
@@ -215,12 +220,15 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             onClick={reactionOnClick}
             className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2 `}>
             <div
-              className={`flex gap-2 ${
+              className={`flex gap-2 max-custom-sm:text-xs ${
                 profileNav.isReaction
                   ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
                   : 'opacity-50'
               }`}>
-              <SmilePlus size={20} />
+              <SmilePlus
+                size={20}
+                className="max-custom-sm:h-4 max-custom-sm:w-4"
+              />
               <button> Reactions</button>
               <hr />
             </div>
