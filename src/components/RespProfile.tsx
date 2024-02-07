@@ -298,17 +298,23 @@ const RespProfile = ({ userId }: profileProps) => {
 
                 <div className="flex justify-center gap-[20px] pb-6">
                   <div className="mt-12 p-6 text-center max-md:text-left">
-                    <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal">
+                    <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
                       {user?.name}
                     </h3>
                     <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
                       <div className="flex items-center">
-                        <User className="mr-1 text-gray-600" size={17} />
-                        <div>{user?.username}</div>
+                        <User
+                          className="mr-1 text-gray-600 dark:text-white"
+                          size={17}
+                        />
+                        <div className="dark:text-white"> {user?.username}</div>
                       </div>
-                      <div className="flex items-center">
-                        <Mail className="mr-1 text-gray-600" size={17} />
-                        <div>{user?.email}</div>
+                      <div className="flex items-center dark:text-white">
+                        <Mail
+                          className="mr-1 text-gray-600 dark:text-white"
+                          size={17}
+                        />
+                        <div className="">{user?.email}</div>
                       </div>
                     </div>
                     <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
