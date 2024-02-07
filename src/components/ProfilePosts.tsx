@@ -23,10 +23,10 @@ interface userData {
 
 interface ProfilePostsProps {
   post: PostsInterface
-  user: userData
+  userId: number
 }
 
-const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
+const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
@@ -41,9 +41,9 @@ const ProfilePosts = ({ post, user }: ProfilePostsProps) => {
   const handleNavigateProfile = () => {
     nProgress.start()
     router.push(
-      userData?.id === (post.user_id as unknown as string)
+      userData?.id === (userId as unknown as string)
         ? '/profile'
-        : `/profile/${post.user_id}`,
+        : `/profile/${userId}`,
     )
   }
   const handleNavigateFeed = () => {

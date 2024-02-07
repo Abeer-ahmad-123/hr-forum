@@ -150,7 +150,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
 
   const getPosts = async () => {
     try {
-      const { reactions } = await getUserReactedPosts(userDataInStore.id, {})
+      const { reactions } = await getUserReactedPosts(userId!, {})
 
       setReactedPosts([...reactions.slice(0, 3)])
     } catch (error) {

@@ -64,8 +64,9 @@ const RespProfile = ({ userId }: profileProps) => {
     try {
       setLoading(true)
       const response = await getSpecificUserDetails(userId!)
+
       if (response.success) {
-        setUser(response?.user)
+        setUser(response?.data?.user)
         setLoading(false)
       } else {
         throw response.errors[0]
@@ -330,7 +331,7 @@ const RespProfile = ({ userId }: profileProps) => {
               />
             </div>
 
-            <UserActivity userId={userDataInStore.id} />
+            <UserActivity userId={userId} />
           </div>
         </section>
       </div>

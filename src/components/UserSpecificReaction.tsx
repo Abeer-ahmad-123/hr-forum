@@ -3,15 +3,14 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useEffect, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
+import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import ProfilePosts from './ProfilePosts'
 
 interface ReactionPostsFeedsProps {
   id: number
   created_at: string
-  user_id: number
+  userId: number
   postId: number
   reportType: string
   details: string
@@ -19,9 +18,6 @@ interface ReactionPostsFeedsProps {
 }
 
 const UserSpecificReaction = ({ posts }: any) => {
-  const [page, setPage] = useState(2)
-  const [ref, inView] = useInView()
-  const [loading, setLoading] = useState<boolean>()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
@@ -43,7 +39,7 @@ const UserSpecificReaction = ({ posts }: any) => {
   return (
     <div className="flex flex-col gap-2">
       {posts?.map((post: ReactionPostsFeedsProps, i: number) => (
-        <ProfilePosts key={i} user={userData} post={post.post} />
+        <ProfilePosts key={i} userId={post.userId} post={post.post} />
       ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">

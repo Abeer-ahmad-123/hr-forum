@@ -74,7 +74,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     }
 
     setPost(response?.data?.post)
-    console.log(response?.data?.post)
   }
   const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
