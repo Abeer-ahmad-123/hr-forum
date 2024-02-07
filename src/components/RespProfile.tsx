@@ -60,10 +60,13 @@ const RespProfile = ({ userId }: profileProps) => {
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
+  const user_Id = userId || userDataInStore.id
   const getUserSpecificDetail = async () => {
     try {
       setLoading(true)
-      const response = await getSpecificUserDetails(userId!)
+      const response = await getSpecificUserDetails(
+        userId || userDataInStore.id,
+      )
 
       if (response.success) {
         setUser(response?.data?.user)
@@ -337,7 +340,7 @@ const RespProfile = ({ userId }: profileProps) => {
               />
             </div>
 
-            <UserActivity userId={userId} />
+            <UserActivity userId={user_Id} />
           </div>
         </section>
       </div>
