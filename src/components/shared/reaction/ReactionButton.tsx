@@ -78,7 +78,10 @@ const ReactionButton = ({
   }
 
   const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {
-    !loading && selectReaction(e.target.id)
+    if (!loading && !disableReactionButton) {
+      setDisableReactionButton(true)
+      selectReaction(e.target.id)
+    }
   }
   useEffect(() => {
     if (currentReaction) {
