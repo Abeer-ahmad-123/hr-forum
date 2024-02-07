@@ -3,7 +3,8 @@ import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
+import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -37,6 +38,7 @@ const CommentSection = ({
   )
 
   const pathName = usePathname()
+  const router = useRouter()
 
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
@@ -67,6 +69,21 @@ const CommentSection = ({
           },
     })
   }
+
+  const handleImageClick = () => {
+    nProgress.start()
+    const url = `${
+      comment.user_id === userId ? '/profile' : `/profile/${comment.user_id}`
+    }`
+    router.push(url)
+  }
+
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
+
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
   }, [comment])
@@ -82,9 +99,10 @@ const CommentSection = ({
                 comment?.author_details?.profile_picture_url ||
                 noProfilePicture.src
               }
-              className="h-8 min-h-[32px] w-8 min-w-[32px] rounded-full border border-black"
+              className="h-8 min-h-[32px] w-8 min-w-[32px] cursor-pointer rounded-full border border-black"
               height={8}
               width={8}
+              onClick={handleImageClick}
             />
           </div>
         </div>
