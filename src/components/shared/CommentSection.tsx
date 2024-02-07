@@ -82,7 +82,7 @@ const CommentSection = ({
                 comment?.author_details?.profile_picture_url ||
                 noProfilePicture.src
               }
-              className="h-8 w-8 rounded-full border border-black"
+              className="h-8 min-h-[32px] w-8 min-w-[32px] rounded-full border border-black"
               height={8}
               width={8}
             />
@@ -97,7 +97,7 @@ const CommentSection = ({
             } `}>
             <div className="flex flex-row justify-between ">
               <div
-                className="text-left text-accent max-custom-sm:text-[11px]
+                className="text-left text-accent  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
                 {replies.comment?.author_details?.name}
               </div>
