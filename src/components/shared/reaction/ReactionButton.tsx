@@ -99,12 +99,12 @@ const ReactionButton = ({
       <div
         onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeft}
-        className="group flex basis-1/4 cursor-pointer items-center justify-center rounded-sm  hover:bg-gray-300 dark:hover:text-black">
+        className="group flex basis-1/4 cursor-pointer items-center justify-center rounded-sm  hover:bg-gray-300 dark:hover:bg-dark-background">
         <PopoverTrigger asChild>
           <div
-            className="dark:text-icon-dark pointer flex items-center justify-center hover:dark:text-black"
+            className="dark:text-icon-dark pointer flex items-center justify-center"
             onClick={handleLikeWrapperExtended}>
-            <div className="flex flex-col items-center  group-hover:dark:hover:text-black">
+            <div className="flex flex-col items-center  ">
               <ReactionEmoji
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={
@@ -112,7 +112,7 @@ const ReactionButton = ({
                     <Heart
                       strokeWidth={1}
                       // color={color}
-                      className="text-black group-hover:text-black dark:text-white dark:hover:text-black"
+                      className="text-black dark:text-white"
                     />
                   )
                 }

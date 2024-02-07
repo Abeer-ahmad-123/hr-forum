@@ -162,7 +162,7 @@ const PostActionBar = ({
             setDisableReactionButton={setDisableReactionButton}
           />
 
-          <div className="dark:text-icon-dark flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:text-slate-800">
+          <div className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:bg-dark-background">
             <button
               onClick={toggleCommentArea}
               className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
@@ -172,7 +172,7 @@ const PostActionBar = ({
           </div>
 
           <div
-            className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300  dark:hover:text-slate-800"
+            className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:bg-dark-background"
             onMouseLeave={handleMouseDown}>
             <Popover open={popOver} onOpenChange={setPopOver}>
               <PopoverTrigger className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
