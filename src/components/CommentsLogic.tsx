@@ -1,7 +1,7 @@
 'use client'
 
 import PostActionBar from '@/components/shared/PostActionBar'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import Comments from './shared/post/Comments'
 
 const CommentsLogic = ({
@@ -15,6 +15,8 @@ const CommentsLogic = ({
   setCommentCount,
 }: any) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const [disableReactionButton, setDisableReactionButton] =
+    useState<boolean>(false)
 
   return (
     <div>
@@ -31,8 +33,8 @@ const CommentsLogic = ({
           celebrate_count: 0,
         }}
         getPost={getPost}
-        disableReactionButton={false}
-        setDisableReactionButton={() => {}}
+        disableReactionButton={disableReactionButton}
+        setDisableReactionButton={setDisableReactionButton}
         setCommentCount={setCommentCount}
         userComment={{ id: '' }}
       />
