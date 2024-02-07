@@ -25,3 +25,15 @@
     height: 200px;
   }
 }
+
+.dark .ql-snow .ql-fill {
+  fill: white;
+}
+
+.dark .ql-snow .ql-stroke {
+  stroke: white;
+}
+
+.dark .quill>.ql-container>.ql-editor.ql-blank::before {
+  color: grey;
+}
