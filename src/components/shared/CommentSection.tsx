@@ -69,7 +69,7 @@ const CommentSection = ({
   }, [comment])
 
   return (
-    <div className="mt-4 w-full rounded-lg">
+    <div className="ml-4 mt-4 w-full rounded-lg">
       <div className="flex">
         <div className="flex  flex-col items-center">
           <div className="">

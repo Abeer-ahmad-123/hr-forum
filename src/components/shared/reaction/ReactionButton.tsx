@@ -104,7 +104,7 @@ const ReactionButton = ({
           <div
             className="dark:text-icon-dark pointer flex items-center justify-center"
             onClick={handleLikeWrapperExtended}>
-            <div className="flex flex-col items-center  ">
+            <div className="flex flex-col items-center">
               <ReactionEmoji
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={
