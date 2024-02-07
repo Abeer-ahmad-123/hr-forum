@@ -41,7 +41,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
             </div>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="bg-white dark:bg-dark-primary">
+          <DropdownMenuContent className="min-w-[11.5rem] bg-white dark:bg-dark-primary">
             <DropdownMenuSeparator />
             {channels.map((item, index) => (
               <DropdownMenuItem
