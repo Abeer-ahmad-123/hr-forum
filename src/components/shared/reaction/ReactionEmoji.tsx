@@ -25,10 +25,7 @@ const ReactionEmoji = ({
       aria-label={`select ${reactionName} emoji`}>
       <span className="text-xl text-black dark:text-gray-300" id={reactionName}>
         {emojiCharacter === '♡' ? (
-          <Heart
-            strokeWidth={1}
-            className="text-black group-hover:text-black dark:text-white dark:hover:text-black"
-          />
+          <Heart strokeWidth={1} className="text-black dark:text-white" />
         ) : (
           emojiCharacter
         )}
