@@ -48,7 +48,7 @@ const SearchBar = () => {
 
   return (
     <form
-      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-none border-gray-200 py-1 pl-3 outline-none focus-within:max-w-[690px] focus:max-w-[690px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
+      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-none border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out focus-within:max-w-[690px] focus:max-w-[690px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
       <input
         ref={refForInput}
         onKeyDown={handleKeyDown}
