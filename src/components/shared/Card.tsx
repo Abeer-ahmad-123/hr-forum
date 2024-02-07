@@ -181,12 +181,15 @@ const Card = ({ post, channels, setPosts, posts, userComment }: any) => {
           tokenInRedux,
           refreshTokenInRedux,
         )
+
         if (res.success) {
           if (res.data) {
             setBookmarkSuccess(true)
-          } else if (res.status === 200 || res.status === 204) {
+          } else if (res.status === 200) {
             setBookmarkSuccess(false)
           }
+        } else if (res.status === 204) {
+          setBookmarkSuccess(false)
         } else {
           throw res.errors[0]
         }
