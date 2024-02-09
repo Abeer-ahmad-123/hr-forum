@@ -396,7 +396,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
             setUserReaction={setUserReaction}
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
-            getPost={() => {}}
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
             setCommentCount={setCommentCount}
