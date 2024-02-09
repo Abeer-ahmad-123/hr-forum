@@ -92,6 +92,7 @@ const Feeds = ({
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
+    dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
   useEffect(() => {
     if (inView) {
