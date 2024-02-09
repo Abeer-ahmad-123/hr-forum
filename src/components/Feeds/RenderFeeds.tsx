@@ -29,14 +29,6 @@ async function RenderFeeds({
   try {
     const { channels } = await getChannels()
 
-    channels.map((channel: ChannelInterface) => {
-      if (channel.name === 'HR-General' && !channel.slug && !channel.ImageURL) {
-        channel.ImageURL =
-          'https://t4.ftcdn.net/jpg/02/18/18/55/360_F_218185587_P4zituDtWJOfClUKL6merI0BgLMIxoeC.jpg'
-        channel.slug = 'hr-general'
-      }
-    })
-
     channelData = channels
   } catch (error) {
     if (error instanceof Error && error.message) {

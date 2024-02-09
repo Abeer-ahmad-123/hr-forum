@@ -15,7 +15,6 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { clearUser, setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { ChannelInterface } from '@/utils/interfaces/channels'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -50,17 +49,6 @@ const LayoutWrapper = ({ children }: any) => {
   const getChannelsLocal = useCallback(async () => {
     try {
       let response: any = await getChannels()
-      response.channels.map((channel: ChannelInterface) => {
-        if (
-          channel.name === 'HR-General' &&
-          !channel.slug &&
-          !channel.ImageURL
-        ) {
-          channel.ImageURL =
-            'https://t4.ftcdn.net/jpg/02/18/18/55/360_F_218185587_P4zituDtWJOfClUKL6merI0BgLMIxoeC.jpg'
-          channel.slug = 'hr-general'
-        }
-      })
 
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
