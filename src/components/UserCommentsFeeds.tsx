@@ -21,12 +21,18 @@ import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-const UserCommentsFeeds = () => {
-  const morePosts = useRef<boolean>(false)
+interface UserCommentsFeedsProps {
+  slug: string
+}
+
+const UserCommentsFeeds = ({ slug }: UserCommentsFeedsProps) => {
+  const morePosts = useState<boolean>(true)
   let noMorePosts = useRef(morePosts)
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const router = useRouter()
+
+  const userId = slug.split('-')[1]
 
   const path = '/channels'
   const [comments, setComments] = useState([])
@@ -39,7 +45,6 @@ const UserCommentsFeeds = () => {
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  let morePostsExist = useRef(morePosts)
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
   const [profileNav, setProfileNav] = useState<{
     isComment: boolean
@@ -71,14 +76,14 @@ const UserCommentsFeeds = () => {
 
   const getComments = async () => {
     try {
-      const response = await getUserComments(userDataInStore.id, {
+      const response = await getUserComments(userId, {
         loadUser: true,
         page,
       })
 
       if (response.success) {
         setPage(page + 1)
-        morePostsExist.current =
+        noMorePosts.current =
           response.data?.pagination?.CurrentPage &&
           response.data?.pagination?.CurrentPage !==
             response.data?.pagination?.TotalPages

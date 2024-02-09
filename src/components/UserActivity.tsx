@@ -260,7 +260,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                   <PostLoadingSkelton key={i} index={i} />
                 ))
               ) : (
-                <UserSpecificComments comments={comments as []} />
+                <UserSpecificComments comments={comments as []} user={user} />
               )
             ) : (
               <>
