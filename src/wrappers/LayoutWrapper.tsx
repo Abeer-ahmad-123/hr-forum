@@ -5,7 +5,6 @@ import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import {
   getRefreshToken,
   googleCodeExchange,
-  googleTokenExchange,
   isTokenExpired,
   logout,
   setUserToken,
@@ -81,33 +80,6 @@ const LayoutWrapper = ({ children }: any) => {
 
         url.searchParams.delete('code')
         router.replace('/feeds')
-
-        window.history.replaceState({}, document.title, url.href)
-      } catch (err) {
-        if (err instanceof Error && err.message.includes('fetch failed')) {
-          router.push('/error')
-        }
-        showErrorAlert('Issue in google authentication')
-        clearAuthentication()
-      }
-    }
-  }
-
-  const exchangeGoogleToken = async (token: string, username: string) => {
-    if (token) {
-      try {
-        const response = await googleTokenExchange(token, username)
-        dispatch(
-          setUser({
-            ...response,
-            refreshToken: response['refresh-token'],
-          }),
-        )
-
-        const currentUrl = window.location.href
-        const url = new URL(currentUrl)
-
-        url.searchParams.delete('googleAccessToken')
 
         window.history.replaceState({}, document.title, url.href)
       } catch (err) {

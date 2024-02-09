@@ -15,7 +15,6 @@ import {
   AUTH_WITH_EMAIL,
   GOOGLE_AUTH_START,
   GOOGLE_EXCHANGE_CODE,
-  GOOGLE_REGISTER,
 } from './routes'
 import { setTokenCookies } from '@/utils/interfaces/cookies'
 
@@ -187,27 +186,6 @@ export async function googleCodeExchange(token: string) {
       method: 'POST',
       body: JSON.stringify({
         code: token,
-      }),
-      cache: 'no-cache',
-      headers: {
-        'content-type': 'application/json',
-      },
-    })
-    const responseJson = await responseFromRefresh.json()
-    setUserCookies(responseJson)
-    return responseJson?.data
-  } catch (err) {
-    throw err
-  }
-}
-
-export async function googleTokenExchange(token: string, username: string) {
-  try {
-    const responseFromRefresh = await fetch(GOOGLE_REGISTER, {
-      method: 'POST',
-      body: JSON.stringify({
-        googleAccessToken: token,
-        username: username,
       }),
       cache: 'no-cache',
       headers: {
