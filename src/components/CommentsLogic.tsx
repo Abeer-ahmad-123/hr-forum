@@ -1,8 +1,11 @@
 'use client'
 
 import PostActionBar from '@/components/shared/PostActionBar'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Comments from './shared/post/Comments'
+import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
+import { useDispatch, useSelector } from 'react-redux'
+import { setPosts } from '@/store/Slices/postSlice'
 
 const CommentsLogic = ({
   postId,
@@ -10,29 +13,142 @@ const CommentsLogic = ({
   paginationResult,
   bookmark,
   user_reaction,
+  reaction_summary,
   getPostCommets,
   getPost,
   setCommentCount,
+  reactionSummary,
+  setReactionSummary,
 }: any) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [disableReactionButton, setDisableReactionButton] =
     useState<boolean>(false)
+  const [userReaction, setUserReaction] = useState('')
+  const storePosts = useSelector((state: any) => state.posts.posts)
+  const dispatch = useDispatch()
+
+  const updateReactionArray = (
+    reactionArray: ReactionSummary,
+    reactionObject: EmojiActionInterface,
+  ) => {
+    if (reactionObject.action === 'post') {
+      incrementReactionCount(
+        `${reactionObject.value}_count`,
+        reactionObject.value,
+      )
+    } else if (reactionObject.action === 'update') {
+      updateReactions(
+        `${reactionObject.value}_count`,
+        `${reactionObject.previousAction}_count`,
+        reactionObject.value,
+      )
+    } else if (reactionObject.action === 'delete') {
+      deleteReaction(`${reactionObject.value}_count`, reactionObject.value)
+    }
+  }
+
+  const updateReactions = (
+    increment: string,
+    decrement: string,
+    value: string,
+  ) => {
+    setReactionSummary({
+      ...reactionSummary,
+      [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
+      [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
+    })
+
+    dispatch(
+      setPosts(
+        storePosts.map((post: any) => {
+          if (post.id === Number(postId)) {
+            return {
+              ...post,
+              reaction_summary: {
+                ...post.reaction_summary,
+                [increment]:
+                  reactionSummary[increment as keyof ReactionSummary] + 1,
+                [decrement]:
+                  reactionSummary[decrement as keyof ReactionSummary] - 1,
+              },
+              user_reaction: value,
+            }
+          }
+          return post
+        }),
+      ),
+    )
+  }
+
+  const incrementReactionCount = (increment: string, value: string) => {
+    setReactionSummary({
+      ...reactionSummary,
+      [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
+    })
+    dispatch(
+      setPosts(
+        storePosts.map((post: any) => {
+          if (post.id === Number(postId)) {
+            return {
+              ...post,
+              reaction_summary: {
+                ...post.reaction_summary,
+                [increment]:
+                  reactionSummary[increment as keyof ReactionSummary] + 1,
+              },
+              user_reaction: value,
+            }
+          }
+          return post
+        }),
+      ),
+    )
+  }
+  const deleteReaction = (decrement: string, value: string) => {
+    setReactionSummary({
+      ...reactionSummary,
+      [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
+    })
+
+    dispatch(
+      setPosts(
+        storePosts.map((post: any) => {
+          if (post.id === Number(postId)) {
+            return {
+              ...post,
+              reaction_summary: {
+                ...post.reaction_summary,
+                [decrement]:
+                  reactionSummary[decrement as keyof ReactionSummary] - 1,
+              },
+              user_reaction: value,
+            }
+          }
+          return post
+        }),
+      ),
+    )
+  }
+
+  useEffect(() => {
+    setUserReaction(user_reaction)
+  }, [user_reaction])
+
+  useEffect(() => {
+    if (reaction_summary) {
+      setReactionSummary(reaction_summary)
+    }
+  }, [reaction_summary])
 
   return (
     <div>
       <PostActionBar
         postId={postId}
         inputRef={inputRef}
-        userReaction={user_reaction}
-        setUserReaction={() => {}}
-        updateReactionArray={() => {}}
-        reactionSummary={{
-          like_count: 0,
-          love_count: 0,
-          clap_count: 0,
-          celebrate_count: 0,
-        }}
-        getPost={getPost}
+        userReaction={userReaction}
+        setUserReaction={setUserReaction}
+        updateReactionArray={updateReactionArray}
+        reactionSummary={reactionSummary}
         disableReactionButton={disableReactionButton}
         setDisableReactionButton={setDisableReactionButton}
         setCommentCount={setCommentCount}

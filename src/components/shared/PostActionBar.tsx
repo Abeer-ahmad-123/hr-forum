@@ -34,7 +34,6 @@ const PostActionBar = ({
   setUserReaction,
   updateReactionArray,
   reactionSummary,
-  getPost,
   disableReactionButton,
   setDisableReactionButton,
   setCommentCount,
@@ -55,9 +54,9 @@ const PostActionBar = ({
   const pathName = usePathname()
 
   const { customFetch } = useInterceptor()
-
   const submitReaction = async (value: string) => {
     let response
+    let updatedPosts
     if (tokenInRedux) {
       try {
         if (!userReaction || userReaction === 'none') {
@@ -70,7 +69,7 @@ const PostActionBar = ({
             tokenInRedux,
             refreshTokenInRedux,
           )
-          updateReactionArray(reactionSummary, {
+          updatedPosts = updateReactionArray(reactionSummary, {
             value: value,
             action: 'post',
             previousAction: userReaction,
@@ -85,7 +84,7 @@ const PostActionBar = ({
             tokenInRedux,
             refreshTokenInRedux,
           )
-          updateReactionArray(reactionSummary, {
+          updatedPosts = updateReactionArray(reactionSummary, {
             value: value,
             action: 'update',
             previousAction: userReaction,
@@ -97,14 +96,18 @@ const PostActionBar = ({
             tokenInRedux,
             refreshTokenInRedux,
           )
-          updateReactionArray(reactionSummary, {
+          updatedPosts = updateReactionArray(reactionSummary, {
             value: value === 'none' ? userReaction : value,
             action: 'delete',
             previousAction: userReaction,
           })
         }
         setUserReaction(userReaction === value ? '' : value)
-        getPost()
+        // dispatch(
+        //   setPosts(
+        //     updateStorePostReaction(userReaction === value ? '' : value),
+        //   ),
+        // )
         if (!response.success) {
           throw response.errors[0]
         }

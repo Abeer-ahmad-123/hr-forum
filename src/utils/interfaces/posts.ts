@@ -43,7 +43,6 @@ export interface PostActionBarProps {
     reactionObject: EmojiActionInterface,
   ) => void
   reactionSummary: ReactionSummary
-  getPost: () => void
   disableReactionButton: boolean
   setDisableReactionButton: (arg0: boolean) => void
   setCommentCount: (arg0: number) => void

@@ -34,10 +34,16 @@ import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
 import { posts, setPosts } from '@/store/Slices/postSlice'
+import { ReactionSummary } from '@/utils/interfaces/card'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
-
+  const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
+    like_count: 0,
+    love_count: 0,
+    clap_count: 0,
+    celebrate_count: 0,
+  })
   const [paginationResult, setPaginationResult] = useState()
   const [commentCount, setCommentCount] = useState<number>(0)
   const dispatch = useDispatch()
@@ -354,7 +360,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             </div>
 
             <ReactionDetails
-              reactionSummary={post?.reaction_summary}
+              reactionSummary={reactionSummary}
               total_comments={post.total_comments}
             />
 
@@ -386,9 +392,12 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 paginationResult={paginationResult}
                 bookmark={post?.user_has_bookmarked}
                 user_reaction={post?.user_reaction}
+                reaction_summary={post?.reaction_summary}
                 getPostCommets={getPostCommets}
                 getPost={getPost}
                 setCommentCount={setCommentCount}
+                reactionSummary={reactionSummary}
+                setReactionSummary={setReactionSummary}
               />
             </div>
           </div>

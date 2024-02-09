@@ -33,6 +33,7 @@ const Feeds = ({
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>([])
   const storePosts = useSelector((state: any) => state.posts.posts)
+  const [postToRender, setPostToRender] = useState<Array<PostsInterface>>([])
   const [page, setPage] = useState(2)
   const dispatch = useDispatch()
   const userData = useSelector(
@@ -94,6 +95,7 @@ const Feeds = ({
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
     dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
+
   useEffect(() => {
     if (inView) {
       getPosts()
@@ -110,6 +112,14 @@ const Feeds = ({
     }
   }, [initialPosts])
 
+  useEffect(() => {
+    if (searchParams.search) {
+      updatePosts([...storePosts])
+    } else if (!searchParams.search && storePosts.length) {
+      updatePosts([...storePosts])
+    }
+  }, [storePosts])
+
   return (
     <>
       {path !== '/saved' && (
@@ -118,8 +128,8 @@ const Feeds = ({
         </div>
       )}
       <div className="min-h-[70vh] w-full">
-        {!!storePosts?.length ? (
-          storePosts?.map((post: any, index: number) => {
+        {!!posts?.length ? (
+          posts?.map((post: any, index: number) => {
             return (
               <Card
                 key={index}

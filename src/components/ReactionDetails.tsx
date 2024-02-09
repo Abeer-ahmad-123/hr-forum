@@ -1,13 +1,7 @@
 import { getEmojisAsArray } from '@/utils/reactionDetails'
 
 export interface ReactionDetailsInterface {
-  reactionSummary: {
-    [key: string]: number
-    like_count: number
-    love_count: number
-    clap_count: number
-    celebrate_count: number
-  }
+  reactionSummary: any
   total_comments: number
 }
 
