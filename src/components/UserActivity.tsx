@@ -267,7 +267,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 {profileNav.isReaction ? (
                   <>
                     {!loadingReaction ? (
-                      <UserSpecificReaction posts={reactedPosts} />
+                      <UserSpecificReaction posts={reactedPosts} user={user} />
                     ) : (
                       [1, 2, 3, 4].map((_, i) => (
                         <PostLoadingSkelton key={i} index={i} />

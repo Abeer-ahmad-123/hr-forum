@@ -46,15 +46,7 @@ const UserCommentsFeeds = ({ slug }: UserCommentsFeedsProps) => {
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: true,
-    isReaction: false,
-    isPost: false,
-  })
+
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )

@@ -6,7 +6,7 @@ interface UserFeedPageProps {
   }
 }
 
-function UserFeedPage({ params }: UserFeedPageProps) {
+const UserFeedPage = ({ params }: UserFeedPageProps) => {
   return <UserFeeds slug={params.slug} />
 }
 
