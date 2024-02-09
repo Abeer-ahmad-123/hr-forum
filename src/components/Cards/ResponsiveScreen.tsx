@@ -5,8 +5,8 @@ import Skelton from '../ui/skelton'
 
 const RespScreen = () => {
   return (
-    <div className="hidden max-md:block">
-      <Suspense fallback={<Skelton className="w-[300px h-8 bg-skelton" />}>
+    <div className="hidden max-md:block max-[640px]:mt-3">
+      <Suspense fallback={<Skelton className="h-8 w-[300px] bg-skelton" />}>
         <FeaturesDropDown
           classNameOuter="w-[300px] bg-white"
           classNameInner="w-[300px]"

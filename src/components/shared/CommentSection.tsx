@@ -3,6 +3,8 @@ import CommentOrReply from '@/components/CommentOrReply'
 import { getComment } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -35,6 +37,9 @@ const CommentSection = ({
     (state: LoggedInUser) => state.loggedInUser?.userData?.id,
   )
 
+  const pathName = usePathname()
+  const router = useRouter()
+
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = replies?.pagination?.CurrentPage + 1
@@ -64,12 +69,27 @@ const CommentSection = ({
           },
     })
   }
+
+  const handleImageClick = () => {
+    nProgress.start()
+    const url = `${
+      comment.user_id === userId ? '/profile' : `/profile/${comment.user_id}`
+    }`
+    router.push(url)
+  }
+
+  useEffect(() => {
+    return () => {
+      nProgress.done()
+    }
+  }, [])
+
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
   }, [comment])
 
   return (
-    <div className="mt-4 w-full rounded-lg">
+    <div className="ml-4 mt-4 w-full rounded-lg">
       <div className="flex">
         <div className="flex  flex-col items-center">
           <div className="">
@@ -79,17 +99,23 @@ const CommentSection = ({
                 comment?.author_details?.profile_picture_url ||
                 noProfilePicture.src
               }
-              className="h-8 w-8 rounded-full border border-black"
+              className="h-8 min-h-[32px] w-8 min-w-[32px] cursor-pointer rounded-full border border-black"
               height={8}
               width={8}
+              onClick={handleImageClick}
             />
           </div>
         </div>
         <div className="ml-3 ">
-          <div className="w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 dark:bg-dark-background ">
+          <div
+            className={`w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 ${
+              pathName === '/feeds'
+                ? 'dark:bg-dark-background'
+                : 'dark:bg-slate-800 '
+            } `}>
             <div className="flex flex-row justify-between ">
               <div
-                className="text-left text-accent max-custom-sm:text-[11px]
+                className="text-left text-accent  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
                 {replies.comment?.author_details?.name}
               </div>

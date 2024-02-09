@@ -28,6 +28,7 @@ async function RenderFeeds({
 
   try {
     const { channels } = await getChannels()
+
     channelData = channels
   } catch (error) {
     if (error instanceof Error && error.message) {

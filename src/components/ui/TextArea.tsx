@@ -67,7 +67,7 @@ const TextArea = ({
       className={` ${
         pathName === '/feeds' ||
         (pathName.includes(`${userData.username}`) && 'mb-4')
-      }  flex cursor-pointer items-center gap-2.5 px-4`}>
+      }  mx-4 flex cursor-pointer items-center gap-2.5`}>
       <img
         src={userData.profilePictureURL || noProfilePicture.src}
         className="w-18 h-8 rounded-full border border-solid border-black"

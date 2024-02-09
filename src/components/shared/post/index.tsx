@@ -74,7 +74,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     }
 
     setPost(response?.data?.post)
-    console.log(response?.data?.post)
   }
   const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
@@ -151,9 +150,11 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
         if (res.success) {
           if (res.data) {
             setBookmarkSuccess(true)
-          } else if (res.status === 200 || res.status === 204) {
+          } else if (res.status === 200) {
             setBookmarkSuccess(false)
           }
+        } else if (res.status === 204) {
+          setBookmarkSuccess(false)
         } else {
           throw res.errors[0]
         }

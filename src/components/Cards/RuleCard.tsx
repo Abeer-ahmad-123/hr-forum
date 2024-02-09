@@ -21,7 +21,13 @@ const RulesCard = () => {
           <ul className="text-left">
             {rulesData.map((item, index) => {
               return (
-                <AccordionItem value={item.title} key={index}>
+                <AccordionItem
+                  value={item.title}
+                  key={index}
+                  className={`${
+                    index === rulesData.length - 1 ? 'border-none' : 'border-b'
+                  }
+                `}>
                   <AccordionTrigger>
                     <li>
                       <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent dark:text-gray-400 dark:hover:text-accent">

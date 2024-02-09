@@ -30,10 +30,11 @@ function CardLoading() {
     <div>
       <div
         className={`mt-8 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-        <div className={`flex flex-col ${hidden ? ' pr-4' : ''}`}>
+        <div className={`flex flex-col items-start  ${hidden ? ' pr-4' : ''}`}>
           {token && <ProfileCardSkelton className={'max-md:hidden'} />}
-          <Skelton className="mx-auto mt-2 hidden h-6  w-24 rounded-sm bg-skelton max-md:block" />
-
+          <div className="flex justify-start">
+            <Skelton className="mx-auto mb-2 hidden h-8 w-64 rounded-sm bg-skelton max-md:block" />
+          </div>
           <div
             className={`${
               token ? 'top-[40px]' : 'top-[70px]'

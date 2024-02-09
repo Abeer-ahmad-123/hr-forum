@@ -54,9 +54,16 @@ const FeaturesDropDown = ({
     } else {
       urlSegment = pathname.split('/').pop()
     }
+
     const words = urlSegment!
       .split('-')
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .map((word, index) => {
+        if (index === 0 && word === 'hr') {
+          return word.toUpperCase()
+        } else {
+          return word.charAt(0).toUpperCase() + word.slice(1)
+        }
+      })
       .join(' ')
 
     if (words === 'Feed') {

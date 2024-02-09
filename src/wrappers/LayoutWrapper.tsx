@@ -20,7 +20,6 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import UserNameDialog from './UserNameDialog'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -36,8 +35,6 @@ const LayoutWrapper = ({ children }: any) => {
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
 
-  const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
-
   const styles = darkMode ? 'dark' : ''
 
   const clearAuthentication = () => {
@@ -52,6 +49,7 @@ const LayoutWrapper = ({ children }: any) => {
   const getChannelsLocal = useCallback(async () => {
     try {
       let response: any = await getChannels()
+
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err: unknown) {
@@ -65,7 +63,7 @@ const LayoutWrapper = ({ children }: any) => {
         showErrorAlert(`${err}`)
       }
     }
-  }, [])
+  }, []) // Fix: Add an empty array as the second argument
 
   const exchangeCode = async (code: string) => {
     if (code) {
@@ -122,12 +120,6 @@ const LayoutWrapper = ({ children }: any) => {
     }
   }
 
-  const handleSubmitUserName = (userName: string) => {
-    const googleToken = searchParams.get('googleAccessToken')
-    exchangeGoogleToken(googleToken!, userName)
-    setOpenUserNameDialog(false)
-  }
-
   useEffect(() => {
     const code = searchParams.get('code')
     const googleToken = searchParams.get('googleAccessToken')
@@ -136,7 +128,6 @@ const LayoutWrapper = ({ children }: any) => {
       if (code) {
         exchangeCode(code!)
       } else {
-        setOpenUserNameDialog(true)
       }
     }
   }, [searchParams])
@@ -215,9 +206,6 @@ const LayoutWrapper = ({ children }: any) => {
             </div>
           </div>
         </div>
-        {openUserNameDialog && (
-          <UserNameDialog handleSubmit={handleSubmitUserName} />
-        )}
       </main>
     </body>
   )

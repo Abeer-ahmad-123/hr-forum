@@ -184,7 +184,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
         {/* Confirm Pass */}
         <div className="border-grey-700 flex w-full rounded-lg border border-solid border-[#d3d3d3]">
           <input
-            type={showNewPassword ? 'text' : 'password'}
+            type={showConfirmPassword ? 'text' : 'password'}
             id="confirmPassword"
             value={confirmPassword}
             placeholder="Confirm Password"

@@ -27,14 +27,13 @@ const ChannelPill = ({ channel_id, channels }: any) => {
   }, [])
   return (
     <span
-      className="px-1 text-xs 
-    font-light
+      className="px-1 text-xs font-light
     text-slate-500 dark:text-gray-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] md:text-xs lg:text-sm xl:text-sm">
       Posted in
       <CustomLink className="" href={`/channels/${lowerCaseChannelName}/`}>
         {` `}
         <span
-          className="font-medium underline  hover:text-accent"
+          className="font-medium  text-gray-900 hover:underline dark:text-white"
           onClick={handleLinkClick}>
           {channelObj[channel_id]?.name}
         </span>
