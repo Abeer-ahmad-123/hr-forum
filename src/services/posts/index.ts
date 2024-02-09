@@ -216,6 +216,7 @@ export async function getUserReactedPosts(
       },
     )
     const response = await res.json()
+
     return response
   } catch (err) {
     throw err

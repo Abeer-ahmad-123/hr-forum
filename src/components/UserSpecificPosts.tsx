@@ -9,7 +9,12 @@ import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import ProfilePosts from './ProfilePosts'
 
-const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
+const UserSpecificPosts = ({
+  posts: initialPosts,
+  morePosts,
+  user,
+  userName,
+}: any) => {
   const [posts, setPosts] = useState([...initialPosts])
   const [page, setPage] = useState(2)
   const [ref, inView] = useInView()
@@ -40,7 +45,7 @@ const UserSpecificPosts = ({ posts: initialPosts, morePosts, user }: any) => {
 
   const handleClick = () => {
     nProgress.start()
-    router.push(`/feeds/${userData?.username}/feed`)
+    router.push(`/feeds/${userName + '-' + user.id}/feed`)
   }
 
   useEffect(() => {

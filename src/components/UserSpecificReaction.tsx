@@ -17,17 +17,15 @@ interface ReactionPostsFeedsProps {
   post: PostsInterface
 }
 
-const UserSpecificReaction = ({ posts }: any) => {
+const UserSpecificReaction = ({ posts, user }: any) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
-  //   let morePostsExist = useRef(morePosts)
-
   const router = useRouter()
   const handleClick = () => {
     nProgress.start()
-    router.push(`/feeds/${userData?.username}/feed/reaction`)
+    router.push(`/feeds/${user.username + '-' + user.id}/feed/reaction`)
   }
 
   useEffect(() => {

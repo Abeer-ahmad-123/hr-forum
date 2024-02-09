@@ -111,7 +111,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       const response = await getSpecificUserDetails(userId!)
 
       if (response.success) {
-        setUser(response?.user)
+        setUser(response?.data?.user)
         setLoading(false)
       } else {
         throw response.errors[0]
@@ -244,6 +244,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 posts={posts}
                 user={userId ? user : userDataInStore}
                 morePosts={morePosts.current}
+                userName={posts[0]?.author_details?.username}
               />
             ) : (
               [1, 2, 3, 4].map((_, i) => (
@@ -259,14 +260,14 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                   <PostLoadingSkelton key={i} index={i} />
                 ))
               ) : (
-                <UserSpecificComments comments={comments as []} />
+                <UserSpecificComments comments={comments as []} user={user} />
               )
             ) : (
               <>
                 {profileNav.isReaction ? (
                   <>
                     {!loadingReaction ? (
-                      <UserSpecificReaction posts={reactedPosts} />
+                      <UserSpecificReaction posts={reactedPosts} user={user} />
                     ) : (
                       [1, 2, 3, 4].map((_, i) => (
                         <PostLoadingSkelton key={i} index={i} />

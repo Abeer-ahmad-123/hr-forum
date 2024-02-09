@@ -10,9 +10,17 @@ import ProfileComment from './ProfileComment'
 
 interface UserSpecificCommentsProps {
   comments: []
+  user: {
+    id: string
+    username: string
+    profilePictureURL: string
+  }
 }
 
-const UserSpecificComments = ({ comments }: UserSpecificCommentsProps) => {
+const UserSpecificComments = ({
+  comments,
+  user,
+}: UserSpecificCommentsProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
@@ -20,7 +28,7 @@ const UserSpecificComments = ({ comments }: UserSpecificCommentsProps) => {
   const router = useRouter()
   const handleClick = () => {
     nProgress.start()
-    router.push(`/feeds/${userData?.username}/feed/comment`)
+    router.push(`/feeds/${user?.username + '-' + user?.id}/feed/comment`)
   }
   useEffect(() => {
     return () => {

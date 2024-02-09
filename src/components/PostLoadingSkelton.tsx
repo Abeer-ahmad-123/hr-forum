@@ -9,7 +9,7 @@ const PostLoadingSkelton = ({ index }: PostLoadingSkeltonProps) => {
     <div
       className={`'my-2' w-full ${
         index == 3 ? 'rounded-b-xl' : ''
-      } cursor-pointer bg-white px-5 py-5  shadow-lg dark:bg-slate-800 dark:text-gray-300 max-md:mt-4`}>
+      } cursor-pointer bg-white px-5 py-5 dark:bg-slate-800 dark:text-gray-300 max-md:mt-4`}>
       <div className="flex items-center">
         <Skelton className="h-12 w-12  rounded-full" />
         <div className="ml-4">

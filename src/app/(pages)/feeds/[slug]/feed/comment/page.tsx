@@ -1,9 +1,15 @@
 'use client'
 import UserCommentsFeeds from '@/components/UserCommentsFeeds'
-const UserComments = () => {
+
+interface UserCommentsProps {
+  params: {
+    slug: string
+  }
+}
+const UserComments = ({ params }: UserCommentsProps) => {
   return (
     <div>
-      <UserCommentsFeeds />
+      <UserCommentsFeeds slug={params.slug} />
     </div>
   )
 }
