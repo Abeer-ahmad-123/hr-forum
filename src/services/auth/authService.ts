@@ -77,6 +77,10 @@ export async function logout() {
     throw err
   }
 }
+export const checkUser = () => {
+  return cookies().get('access-token')?.value
+}
+
 export async function setUserToken(data: setTokenCookies) {
   try {
     setUserTokens(data)

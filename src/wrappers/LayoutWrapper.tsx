@@ -3,6 +3,7 @@ import InitialLoading from '@/components/InitialLoading'
 import Navbar from '@/components/Navbar/Navbar'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import {
+  checkUser,
   getRefreshToken,
   googleCodeExchange,
   isTokenExpired,
@@ -91,6 +92,18 @@ const LayoutWrapper = ({ children }: any) => {
       }
     }
   }
+  const handleUserClientLogout = () => {
+    if (!checkUser()) {
+      clearAuthentication()
+    }
+  }
+
+  const handleUserServerLogout = () => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      clearAuthentication()
+    }
+  }
 
   useEffect(() => {
     const code = searchParams.get('code')
@@ -147,6 +160,8 @@ const LayoutWrapper = ({ children }: any) => {
     if (isFirstRun.current) {
       isFirstRun.current = false
       getChannelsLocal()
+      handleUserClientLogout()
+      handleUserServerLogout()
     }
   }, [])
 
