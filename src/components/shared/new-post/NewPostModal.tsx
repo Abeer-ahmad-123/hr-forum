@@ -9,10 +9,10 @@ import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
 
 interface NewPostProps {
-  setPosts: (arg0: Array<PostsInterface>) => void
+  updatePosts: (arg0: Array<PostsInterface>) => void
 }
 
-export default function NewPost({ setPosts }: NewPostProps) {
+export default function NewPost({ updatePosts }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
@@ -33,7 +33,7 @@ export default function NewPost({ setPosts }: NewPostProps) {
           <DialogContent
             className="border bg-white sm:max-w-screen-md"
             route="newpost">
-            <NewPostForm setPosts={setPosts} open={setOpenDilog} />
+            <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
           </DialogContent>
         ) : (
           <SignInDialog setShowSignModal={() => {}} />

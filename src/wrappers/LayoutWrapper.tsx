@@ -92,8 +92,8 @@ const LayoutWrapper = ({ children }: any) => {
       }
     }
   }
-  const handleUserClientLogout = () => {
-    if (!checkUser()) {
+  const handleUserClientLogout = async () => {
+    if (!(await checkUser())) {
       clearAuthentication()
     }
   }

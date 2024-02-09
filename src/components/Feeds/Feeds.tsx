@@ -9,10 +9,11 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
+import { setPosts } from '@/store/Slices/postSlice'
 
 interface FeedProps {
   channelSlug?: string | null
@@ -30,8 +31,10 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, setPosts] = useState<Array<PostsInterface>>([])
+  const [posts, updatePosts] = useState<Array<PostsInterface>>([])
+  const storePosts = useSelector((state: any) => state.posts.posts)
   const [page, setPage] = useState(2)
+  const dispatch = useDispatch()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
@@ -88,7 +91,7 @@ const Feeds = ({
     setPage(page + 1)
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
-    setPosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
+    updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
   }
   useEffect(() => {
     if (inView) {
@@ -98,27 +101,30 @@ const Feeds = ({
 
   useEffect(() => {
     if (searchParams.search) {
-      setPosts([...initialPosts])
+      updatePosts([...initialPosts])
+      dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
-      setPosts([...initialPosts])
+      updatePosts([...initialPosts])
+      dispatch(setPosts([...initialPosts]))
     }
   }, [initialPosts])
+
   return (
     <>
       {path !== '/saved' && (
         <div className="mb-5">
-          <PostBar setPosts={setPosts} />
+          <PostBar updatePosts={updatePosts} />
         </div>
       )}
       <div className="min-h-[70vh] w-full">
-        {!!posts?.length ? (
-          posts?.map((post: any, index: number) => {
+        {!!storePosts?.length ? (
+          storePosts?.map((post: any, index: number) => {
             return (
               <Card
                 key={index}
                 post={post}
                 channels={channels}
-                setPosts={setPosts}
+                updatePosts={updatePosts}
                 posts={posts}
               />
             )
@@ -126,7 +132,7 @@ const Feeds = ({
         ) : (
           <NoPosts />
         )}
-        {!!posts?.length && noMorePosts?.current && (
+        {!!storePosts?.length && noMorePosts?.current && (
           <CircularProgress incommingRef={ref} />
         )}
       </div>

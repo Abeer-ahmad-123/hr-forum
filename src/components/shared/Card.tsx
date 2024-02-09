@@ -31,7 +31,7 @@ import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 
-const Card = ({ post, channels, setPosts, posts, userComment }: any) => {
+const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const {
     id,
     created_at,
@@ -168,7 +168,6 @@ const Card = ({ post, channels, setPosts, posts, userComment }: any) => {
       setOpenDeleteDialog(true)
     }
   }
-
   const handleBookmark = async (event: any) => {
     event.preventDefault()
     event.stopPropagation()
@@ -231,9 +230,8 @@ const Card = ({ post, channels, setPosts, posts, userComment }: any) => {
   useEffect(() => {
     setCommentCount(total_comments)
   }, [total_comments])
-
   return (
-    <div key={id}>
+    <div id={id} key={id}>
       <div
         className={`mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}>
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -256,7 +254,7 @@ const Card = ({ post, channels, setPosts, posts, userComment }: any) => {
               setOpenDeleteDialog={setOpenDeleteDialog}
               postId={id}
               setReported={() => {}}
-              setPosts={setPosts}
+              updatePosts={updatePosts}
               posts={posts}
             />
           </DialogContent>

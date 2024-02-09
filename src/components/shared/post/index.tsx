@@ -22,7 +22,7 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ChannelPill from '../ChannelPill'
 
 import Report from '@/components/Report/Report'
@@ -33,12 +33,14 @@ import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
+import { posts, setPosts } from '@/store/Slices/postSlice'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
 
   const [paginationResult, setPaginationResult] = useState()
   const [commentCount, setCommentCount] = useState<number>(0)
+  const dispatch = useDispatch()
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
@@ -46,6 +48,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
+  const storePosts = useSelector((state: any) => state.posts.posts)
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
@@ -135,7 +138,14 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setOpenDeleteDialog(true)
     }
   }
-
+  const updatePostBookmark = (val: boolean) => {
+    return storePosts.map((post: any) => {
+      if (post.id === Number(postId)) {
+        return { ...post, user_has_bookmarked: val }
+      }
+      return post
+    })
+  }
   const handleBookmark = async (event: any) => {
     event.preventDefault()
     event.stopPropagation()
@@ -151,11 +161,15 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
         if (res.success) {
           if (res.data) {
             setBookmarkSuccess(true)
+            dispatch(setPosts(updatePostBookmark(true)))
+            setBookmarkSuccess(true)
           } else if (res.status === 200) {
             setBookmarkSuccess(false)
+            dispatch(setPosts(updatePostBookmark(false)))
           }
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
+          dispatch(setPosts(updatePostBookmark(false)))
         } else {
           throw res.errors[0]
         }
@@ -183,8 +197,13 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     getChannel()
   }, [])
+
   useEffect(() => {
     setCommentCount(post?.total_comments ?? 0)
+  }, [post])
+
+  useEffect(() => {
+    if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
   }, [post])
 
   return post && post?.author_details?.name && commentResult !== null ? (
@@ -208,8 +227,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             setOpenDeleteDialog={setOpenDeleteDialog}
             postId={post?.id as unknown as string}
             setReported={() => {}}
-            setPosts={() => {}}
-            posts={[]}
+            updatePosts={() => {}}
           />
         </DialogContent>
       </Dialog>
@@ -306,7 +324,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                         </div>
                       ) : (
                         <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800"
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300  dark:hover:text-slate-800"
                           onClick={handleReportClick}>
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -317,7 +335,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300  dark:hover:text-slate-800">
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (

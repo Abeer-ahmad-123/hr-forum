@@ -10,16 +10,22 @@ import { Image as IconImage, Plus } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
+import { setPosts } from '@/store/Slices/postSlice'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
-  setPosts: (arg0: any) => void
+  updatePosts: (arg0: any) => void
 }
 
-export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
+export default function NewPostForm({
+  open,
+  updatePosts,
+}: newPostFormInterface) {
+  const dispatch = useDispatch()
+  const posts = useSelector((state: any) => state.posts.posts)
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',
@@ -140,7 +146,8 @@ export default function NewPostForm({ open, setPosts }: newPostFormInterface) {
           } catch (err) {}
         }
 
-        setPosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
+        updatePosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
+        dispatch(setPosts([result?.data?.post, ...posts]))
         showSuccessAlert('Post has been created successfully')
         setLoading(false)
         open(false)

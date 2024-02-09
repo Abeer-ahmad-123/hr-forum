@@ -3,27 +3,32 @@ import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
+import { setPosts } from '@/store/Slices/postSlice'
 import { showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 interface DeletePostInterface {
   postId: string
   setReported: (arg1: boolean) => void
   setOpenDeleteDialog: (arg0: boolean) => void
-  setPosts: any
-  posts: any
+  updatePosts: any
+  posts?: any
 }
 
 const DeletePost = ({
   postId,
   setReported,
   setOpenDeleteDialog,
-  setPosts,
-  posts,
+  updatePosts,
+  posts = [],
 }: DeletePostInterface) => {
+  const dispatch = useDispatch()
+  const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
+  const storePosts = useSelector((state: any) => state.posts.posts)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const refreshTokenInRedux =
@@ -49,7 +54,10 @@ const DeletePost = ({
         setLoading(false)
         setOpenDeleteDialog(false)
         showSuccessAlert('Post deleted successfully')
-        setPosts(posts.filter((item: any) => item.id !== postId))
+        updatePosts(posts?.filter((item: any) => item.id !== postId))
+        const filteritem = posts.length ? posts : storePosts
+        dispatch(setPosts(filteritem.filter((item: any) => item.id !== postId)))
+        router.back()
       }
     } catch (error) {
       if (error instanceof Error) {
