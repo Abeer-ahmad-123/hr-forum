@@ -61,6 +61,8 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setPopOver(false)
   }
+  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const userId = userDetails?.id
 
@@ -74,9 +76,8 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
     }
 
     setPost(response?.data?.post)
+    setBookmarkSuccess(response?.data?.post?.user_has_bookmarked)
   }
-  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
-  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const commentId = searchParams?.commentId
   const replyId = searchParams?.replyId
@@ -317,7 +318,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                       <div
                         onClick={handleBookmark}
                         className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-gray-300 dark:text-gray-300  dark:hover:text-slate-800">
-                        {bookmarkSuccess || post.user_has_bookmarked ? (
+                        {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (
                           <FaRegBookmark />

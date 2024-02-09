@@ -20,10 +20,15 @@ import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-const UserFeeds = () => {
-  const morePosts = useRef<boolean>(false)
+interface UserFeedsProps {
+  slug: string
+}
+
+const UserFeeds = ({ slug }: UserFeedsProps) => {
+  const morePosts = useState<boolean>(true)
   let noMorePosts = useRef(morePosts)
-  let morePostsExist = useRef(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
@@ -41,13 +46,17 @@ const UserFeeds = () => {
 
   const getPosts = async () => {
     try {
-      const { data } = await getUserSpecificPosts(userData.id, page, {
-        loadReactions: true,
-        loadUser: true,
-      })
+      const { data } = await getUserSpecificPosts(
+        userId ? userId : userData.id,
+        page,
+        {
+          loadReactions: true,
+          loadUser: true,
+        },
+      )
 
       setPage(page + 1)
-      morePostsExist.current =
+      noMorePosts.current =
         data?.pagination?.CurrentPage &&
         data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
 

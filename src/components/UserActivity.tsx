@@ -111,7 +111,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       const response = await getSpecificUserDetails(userId!)
 
       if (response.success) {
-        setUser(response?.user)
+        setUser(response?.data?.user)
         setLoading(false)
       } else {
         throw response.errors[0]
@@ -244,6 +244,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 posts={posts}
                 user={userId ? user : userDataInStore}
                 morePosts={morePosts.current}
+                userName={posts[0]?.author_details?.username}
               />
             ) : (
               [1, 2, 3, 4].map((_, i) => (
