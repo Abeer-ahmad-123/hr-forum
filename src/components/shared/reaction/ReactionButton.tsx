@@ -50,9 +50,6 @@ const ReactionButton = ({
     [onReact], // Removed currentReaction and post
   )
 
-  const isDark = localStorage.getItem('darkMode')
-  const color = isDark ? 'white' : 'black'
-
   const toggleHeartReaction = () => {
     const newReaction =
       currentReaction == '' || currentReaction == 'none' ? 'love' : 'none'
