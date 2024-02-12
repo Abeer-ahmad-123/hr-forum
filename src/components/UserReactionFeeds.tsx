@@ -135,7 +135,7 @@ const UserReactionFeeds = ({ slug }: UserReactionFeedsProps) => {
                         return (
                           <Card
                             key={index}
-                            post={reactionPost.post}
+                            post={reactionPost}
                             channels={channel}
                             updatePosts={updatePost}
                             posts={posts}

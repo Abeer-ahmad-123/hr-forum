@@ -6,8 +6,8 @@ import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
-import { useSelector } from 'react-redux'
 import { GoReport } from 'react-icons/go'
+import { useSelector } from 'react-redux'
 
 interface UserDataBadgeProps {
   postCount: number
@@ -19,7 +19,7 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username}/feed`
+  const routeTo = `/feeds/${userData?.username + '-' + userData?.id}/feed`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()

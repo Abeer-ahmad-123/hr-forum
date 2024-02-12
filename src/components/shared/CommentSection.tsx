@@ -107,7 +107,7 @@ const CommentSection = ({
             />
           </div>
         </div>
-        <div className="ml-3">
+        <div className="mx-3">
           <div
             className={`min-w-[18rem] flex-wrap break-all rounded-2xl bg-slate-100 px-4
             py-2
