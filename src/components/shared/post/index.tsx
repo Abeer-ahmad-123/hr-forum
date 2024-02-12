@@ -15,10 +15,15 @@ import {
 import { getChannels } from '@/services/channel/channel'
 import { getComment, getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
-import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
+import {
+  returnFilteredPosts,
+  showErrorAlert,
+  timeFormatInHours,
+  updatePostBookmark,
+} from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
@@ -29,7 +34,7 @@ import Report from '@/components/Report/Report'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { setPosts } from '@/store/Slices/postSlice'
 import { ReactionSummary } from '@/utils/interfaces/card'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
@@ -54,9 +59,12 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
-  const storePosts = useSelector((state: any) => state.posts.posts)
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
+  const pathname = usePathname()
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
@@ -144,14 +152,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setOpenDeleteDialog(true)
     }
   }
-  const updatePostBookmark = (val: boolean) => {
-    return storePosts.map((post: any) => {
-      if (post.id === Number(postId)) {
-        return { ...post, user_has_bookmarked: val }
-      }
-      return post
-    })
-  }
+
   const handleBookmark = async (event: any) => {
     event.preventDefault()
     event.stopPropagation()
@@ -165,17 +166,15 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
           refreshTokenInRedux,
         )
         if (res.success) {
-          if (res.data) {
-            setBookmarkSuccess(true)
-            dispatch(setPosts(updatePostBookmark(true)))
-            setBookmarkSuccess(true)
-          } else if (res.status === 200) {
-            setBookmarkSuccess(false)
-            dispatch(setPosts(updatePostBookmark(false)))
-          }
+          setBookmarkSuccess(true)
+          dispatch(setPosts(updatePostBookmark(storePosts, postId, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
-          dispatch(setPosts(updatePostBookmark(false)))
+          dispatch(setPosts(updatePostBookmark(storePosts, postId, false)))
+          if (pathname.includes('saved')) {
+            dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
+            router.back()
+          }
         } else {
           throw res.errors[0]
         }
@@ -189,7 +188,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setShowSignModal(true)
     }
   }
-
   useEffect(() => {
     if (commentId || postId) getPostCommets()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -330,7 +328,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                         </div>
                       ) : (
                         <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300  dark:hover:text-slate-800"
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300"
                           onClick={handleReportClick}>
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -341,7 +339,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300  dark:hover:text-slate-800">
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300">
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (
@@ -359,10 +357,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
               {/*  */}
             </div>
 
-            <ReactionDetails
-              reactionSummary={reactionSummary}
-              total_comments={post.total_comments}
-            />
+            <ReactionDetails reactionSummary={reactionSummary} />
 
             <div className="mt-2 text-left text-xl max-custom-sm:text-base ">
               {post?.title}
@@ -383,6 +378,11 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 />
               ) : null}
             </div>
+            <span
+              className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] 
+                      max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+              {commentCount} comments
+            </span>
             <div className="w-full">
               <hr />
 

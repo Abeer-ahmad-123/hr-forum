@@ -14,7 +14,6 @@ const CommentSection = ({
   commentLength,
   setReportedCommentId,
   getPostCommets,
-  setCommentCount,
 }: any) => {
   const [replies, setReplies] = useState({
     comment: {
@@ -90,9 +89,10 @@ const CommentSection = ({
   }, [comment])
 
   return (
-    <div className="ml-4 mt-4 rounded-lg">
-      <div className="flex w-fit">
-        <div className="flex flex-col items-center">
+    <div
+      className={`mt-4 rounded-lg ${pathName === '/feeds' ? 'ml-4' : 'ml-12'}`}>
+      <div className="flex  w-fit">
+        <div className="flex  flex-col items-center">
           <div className="">
             <img
               alt="avatar"
@@ -116,7 +116,7 @@ const CommentSection = ({
                ? 'dark:bg-slate-800'
                : 'dark:bg-dark-background'
            } `}>
-            <div className="flex flex-row justify-between ">
+            <div className="flex flex-row justify-between">
               <div
                 className="text-left text-accent  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
@@ -156,7 +156,6 @@ const CommentSection = ({
                 setReportedCommentId={setReportedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}
-                setCommentCount={setCommentCount}
               />
             </div>
           </div>

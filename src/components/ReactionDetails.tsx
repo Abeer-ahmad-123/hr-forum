@@ -2,13 +2,9 @@ import { getEmojisAsArray } from '@/utils/reactionDetails'
 
 export interface ReactionDetailsInterface {
   reactionSummary: any
-  total_comments: number
 }
 
-const ReactionDetails = ({
-  reactionSummary,
-  total_comments,
-}: ReactionDetailsInterface) => {
+const ReactionDetails = ({ reactionSummary }: ReactionDetailsInterface) => {
   return (
     <div className="flex items-center justify-between ">
       <div className="w-content mt-2.5 flex gap-6">
@@ -21,12 +17,6 @@ const ReactionDetails = ({
           )
         })}
       </div>
-
-      <span
-        className="w-content text-xs text-slate-400 max-custom-sm:text-[11px] 
-                      max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-        {total_comments} comments
-      </span>
     </div>
   )
 }

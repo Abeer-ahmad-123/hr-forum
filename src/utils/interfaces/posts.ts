@@ -45,8 +45,39 @@ export interface PostActionBarProps {
   reactionSummary: ReactionSummary
   disableReactionButton: boolean
   setDisableReactionButton: (arg0: boolean) => void
-  setCommentCount: (arg0: number) => void
   userComment: {
     id: string
+  }
+}
+
+export interface CommentCountStore {
+  posts: {
+    commentCount: {
+      [key: number]: number
+    }
+  }
+}
+
+export interface CommentCount {
+  [key: number]: number
+}
+
+export interface PostReactionBarProps {
+  postId: string
+  reaction_summary: any
+}
+
+export type ReactionCounts = {
+  [key: string]: number
+}
+
+export interface PostsStateStore {
+  posts: PostsInterface[] // Adjust the type according to your actual data structure
+  commentCount: { [postId: string]: number } // Use string as the index type
+}
+
+export interface PostsInterfaceStore {
+  posts: {
+    posts: PostsInterface[]
   }
 }

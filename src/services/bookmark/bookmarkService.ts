@@ -21,6 +21,7 @@ export async function bookmarkPost(
         refreshToken: refreshToken,
       },
     })
+
     if (responseFromAuth.ok) {
       const responseJson = await responseFromAuth.json()
 
@@ -40,6 +41,7 @@ export async function deleteBookmarkPost(
 ) {
   try {
     let deleteBookmarkPostUrl = DELETE_BOOKMARK_POST.replace('postId', postId)
+
     let responseFromAuth = await customFetch(deleteBookmarkPostUrl, {
       method: 'DELETE',
       headers: {
@@ -48,6 +50,7 @@ export async function deleteBookmarkPost(
         refreshToken: refreshToken,
       },
     })
+
     if (responseFromAuth.ok) {
       return { status: responseFromAuth?.status }
     } else {

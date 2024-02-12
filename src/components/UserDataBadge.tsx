@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
 import { useSelector } from 'react-redux'
+import { GoReport } from 'react-icons/go'
 
 interface UserDataBadgeProps {
   postCount: number
@@ -79,7 +80,7 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             className="flex cursor-pointer items-center"
             onClick={handleClick}>
             <span className="pr-2">
-              <AlertOctagon className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
+              <GoReport className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
             {`${commentCount ? commentCount : 0} ${
               commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'

@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 import { setPosts } from '@/store/Slices/postSlice'
+import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
@@ -25,7 +26,7 @@ export default function NewPostForm({
   updatePosts,
 }: newPostFormInterface) {
   const dispatch = useDispatch()
-  const posts = useSelector((state: any) => state.posts.posts)
+  const posts = useSelector((state: PostsInterfaceStore) => state.posts.posts)
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',

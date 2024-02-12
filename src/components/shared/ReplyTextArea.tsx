@@ -168,6 +168,7 @@ function ReplyTextArea({
           inputRef={inputRef}
           placeholder={`Reply to ${author === userData.name ? 'you' : author}`}
           className={'max-sm:w-2/3'}
+          classNameOuter={'mr-4'}
         />
       </div>
 

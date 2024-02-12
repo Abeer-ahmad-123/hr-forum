@@ -11,12 +11,14 @@ import { getUserSpecificPosts } from '@/services/posts'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
@@ -27,6 +29,7 @@ interface UserFeedsProps {
 const UserFeeds = ({ slug }: UserFeedsProps) => {
   const morePosts = useState<boolean>(true)
   let noMorePosts = useRef(morePosts)
+  const dispatch = useDispatch()
 
   const userName = slug.split('-')[0]
   const userId = slug.split('-')[1]
@@ -41,9 +44,11 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
   const routeTo = `/feeds/${userData?.username}/feed`
   const router = useRouter()
   const pathName = usePathname()
-
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [page, setPage] = useState(1)
-  const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
+  const [posts, updatePosts] = useState<PostsInterface[]>([])
 
   const getPosts = async () => {
     try {
@@ -61,7 +66,8 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
         data?.pagination?.CurrentPage &&
         data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
 
-      setPosts([...posts, ...data?.posts])
+      updatePosts([...posts, ...data?.posts])
+      dispatch(setPosts([...posts, ...data?.posts]))
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleFetchFailed(error)
@@ -69,6 +75,9 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
     } finally {
       setLoading(false)
     }
+  }
+  const handleCommentCount = () => {
+    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
   }
 
   const getAllChannels = async () => {
@@ -81,6 +90,9 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
       }
     }
   }
+  useEffect(() => {
+    handleCommentCount()
+  }, [posts])
 
   useEffect(() => {
     getPosts()
@@ -93,70 +105,72 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
     }
   }, [inView])
 
-  {
-    return loading ? (
-      <CardLoading />
-    ) : (
-      <div>
-        <div className="mx-auto flex max-w-screen-xl justify-center">
-          {
-            <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-              {userData && <ProfileCard />}
-              <div
-                className={`${
-                  userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
-                } sticky  max-h-screen`}>
-                {<ChannelCard />}
-              </div>
-              <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[330px]">
-                {' '}
-                {<RulesCard />}
-              </div>
-            </div>
-          }
+  useEffect(() => {
+    updatePosts([...storePosts])
+  }, [storePosts])
 
-          <div className={`w-full max-w-screen-md`}>
-            <div className="flex w-full justify-center">
-              <div className="w-full">
-                <div>
-                  {' '}
-                  <RespScreen />
-                </div>
-                <div
-                  className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
-                  <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${slug}/feed`) && (
-                      <ActivityButtons slug={slug} />
-                    )}
-                    <div>
-                      {!!posts?.length ? (
-                        posts?.map((post: any, index: number) => {
-                          return (
-                            <Card
-                              key={index}
-                              post={post}
-                              channels={channel}
-                              setPosts={setPosts}
-                              posts={posts}
-                            />
-                          )
-                        })
-                      ) : (
-                        <NoPosts />
-                      )}
-                    </div>
-                    {!!posts?.length && noMorePosts?.current && (
-                      <CircularProgress incommingRef={ref} />
+  return loading ? (
+    <CardLoading />
+  ) : (
+    <div>
+      <div className="mx-auto flex max-w-screen-xl justify-center">
+        {
+          <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
+            {userData && <ProfileCard />}
+            <div
+              className={`${
+                userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
+              } sticky  max-h-screen`}>
+              {<ChannelCard />}
+            </div>
+            <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
+              {' '}
+              {<RulesCard />}
+            </div>
+          </div>
+        }
+
+        <div className={`w-full max-w-screen-md`}>
+          <div className="flex w-full justify-center">
+            <div className="w-full">
+              <div>
+                {' '}
+                <RespScreen />
+              </div>
+              <div
+                className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
+                <div className="min-h-[70vh] w-full">
+                  {pathName.includes(`/${slug}/feed`) && (
+                    <ActivityButtons slug={slug} />
+                  )}
+                  <div>
+                    {!!posts?.length ? (
+                      posts?.map((post: any, index: number) => {
+                        return (
+                          <Card
+                            key={index}
+                            post={post}
+                            channels={channel}
+                            updatePosts={updatePosts}
+                            posts={posts}
+                          />
+                        )
+                      })
+                    ) : (
+                      <NoPosts />
                     )}
                   </div>
+                  {!!posts?.length && noMorePosts?.current && (
+                    <CircularProgress incommingRef={ref} />
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default UserFeeds
