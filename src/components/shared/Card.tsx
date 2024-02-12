@@ -280,9 +280,9 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
                 </div>
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row flex-wrap items-center">
                     <p
-                      className="shrink-0 text-sm font-normal leading-none text-gray-900 hover:underline dark:text-white max-custom-sm:text-[11px] 
+                      className="shrink-0 pr-1 text-sm font-normal leading-none text-gray-900 hover:underline dark:text-white max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
