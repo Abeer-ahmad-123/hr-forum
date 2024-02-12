@@ -14,19 +14,9 @@ import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { CommentObject, FeedProps } from '@/utils/interfaces/feeds'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
-interface FeedProps {
-  channelSlug?: string | null
-  initialPosts: PostsInterface[]
-  channels: ChannelByIdInterface[]
-  morePosts?: boolean
-  searchParams: SearchParams
-  path: string
-}
-
-type CommentObject = {
-  [key: string]: number
-}
 const Feeds = ({
   channelSlug,
   initialPosts,
@@ -101,13 +91,7 @@ const Feeds = ({
     dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
   const handleCommentCount = () => {
-    let commentObj: CommentObject = {}
-    if (posts.length) {
-      for (const item of posts) {
-        commentObj[item.id] = item.total_comments
-      }
-    }
-    dispatch(setCommentCountInStore(commentObj))
+    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
   }
   useEffect(() => {
     if (inView) {

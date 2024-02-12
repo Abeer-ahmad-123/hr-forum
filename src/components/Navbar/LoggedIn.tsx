@@ -82,7 +82,7 @@ function LoggedIn() {
           onChange={handleChange}>
           <UserDropdown />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black dark:hover:bg-opacity-30">
+        <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black">
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={handleClosePopover}

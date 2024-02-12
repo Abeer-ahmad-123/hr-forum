@@ -19,6 +19,7 @@ import {
   returnFilteredPosts,
   showErrorAlert,
   timeFormatInHours,
+  updatePostBookmark,
 } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
@@ -166,10 +167,12 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
         )
         if (res.success) {
           setBookmarkSuccess(true)
+          dispatch(setPosts(updatePostBookmark(storePosts, postId, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
-          dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
+          dispatch(setPosts(updatePostBookmark(storePosts, postId, false)))
           if (pathname.includes('saved')) {
+            dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
             router.back()
           }
         } else {
@@ -325,7 +328,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                         </div>
                       ) : (
                         <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300  dark:hover:text-slate-800"
+                          className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300"
                           onClick={handleReportClick}>
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -336,7 +339,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300  dark:hover:text-slate-800">
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300">
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (

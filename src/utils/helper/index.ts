@@ -1,5 +1,6 @@
 import { toast } from 'react-toastify'
 import { PostsInterface } from '../interfaces/posts'
+import { CommentObject } from '../interfaces/feeds'
 const isEmpty = (value: string, name: string) => {
   if (value) return false
   else return `${name} is required*.`
@@ -164,4 +165,24 @@ export const returnFilteredPosts = (
   return storePosts.filter((post: PostsInterface) => {
     return post.id !== id
   })
+}
+
+export const makeCommentNumberKeyValuePair = (posts: any) => {
+  let commentObj: CommentObject = {}
+  if (posts.length) {
+    for (const item of posts) {
+      commentObj[item.id] = item.total_comments
+    }
+  }
+  return commentObj
+}
+
+export const makeCommentNumberKeyValuePairFromSummary = (posts: any) => {
+  let commentObj: any = {}
+  if (posts.length) {
+    for (const item of posts) {
+      commentObj[item.post.id] = item.post.total_comments
+    }
+  }
+  return commentObj
 }
