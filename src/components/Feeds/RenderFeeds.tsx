@@ -176,7 +176,7 @@ async function RenderFeeds({
         {userDetailsCookies && <ProfileCard />}
         <div
           className={`${
-            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
+            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[60px]'
           } sticky  max-h-screen`}>
           <ChannelCard />
         </div>
