@@ -66,7 +66,11 @@ function CardLoading() {
             </div>
           ) : (
             <div className="mb-5">
-              <Skelton className="h-12 w-full rounded-md bg-skelton" />
+              <Skelton
+                className={`${
+                  pathName == '/saved' ? 'h-[200px]' : 'h-12'
+                }  w-full rounded-md bg-skelton`}
+              />
             </div>
           )}
 
