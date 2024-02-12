@@ -109,11 +109,13 @@ const CommentSection = ({
         </div>
         <div className="ml-3 ">
           <div
-            className={`w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 ${
-              pathName === '/feeds' || pathName.includes(slug)
-                ? 'dark:bg-dark-background'
-                : 'dark:bg-slate-800 '
-            } `}>
+            className={`w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2
+            
+           ${
+             pathName.includes('/feeds/feed/')
+               ? 'dark:bg-slate-800'
+               : 'dark:bg-dark-background'
+           } `}>
             <div className="flex flex-row justify-between ">
               <div
                 className="text-left text-accent  dark:text-white max-custom-sm:text-[11px]
