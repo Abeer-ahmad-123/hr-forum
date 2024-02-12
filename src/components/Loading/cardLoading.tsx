@@ -68,7 +68,9 @@ function CardLoading() {
             <div className="mb-5">
               <Skelton
                 className={`${
-                  pathName == '/saved' ? 'h-[200px]' : 'h-12'
+                  pathName == '/saved' || pathName.includes('/channels')
+                    ? 'h-[200px]'
+                    : 'h-12'
                 }  w-full rounded-md bg-skelton`}
               />
             </div>

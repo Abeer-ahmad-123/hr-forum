@@ -40,6 +40,7 @@ const CommentSection = ({
   const pathName = usePathname()
   const router = useRouter()
 
+  const slug = pathName.split('/')[2]
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = replies?.pagination?.CurrentPage + 1
@@ -109,7 +110,7 @@ const CommentSection = ({
         <div className="ml-3 ">
           <div
             className={`w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2 ${
-              pathName === '/feeds'
+              pathName === '/feeds' || pathName.includes(slug)
                 ? 'dark:bg-dark-background'
                 : 'dark:bg-slate-800 '
             } `}>

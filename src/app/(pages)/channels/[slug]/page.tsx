@@ -1,12 +1,16 @@
 import RenderFeeds from '@/components/Feeds/RenderFeeds'
+import CardLoading from '@/components/Loading/cardLoading'
+import { Suspense } from 'react'
 
 const ChannelPage = ({ params, searchParams }: any) => {
   return (
-    <RenderFeeds
-      searchParams={searchParams}
-      channelSlug={params?.slug}
-      path="/channels"
-    />
+    <Suspense fallback={<CardLoading />}>
+      <RenderFeeds
+        searchParams={searchParams}
+        channelSlug={params?.slug}
+        path="/channels"
+      />
+    </Suspense>
   )
 }
 
