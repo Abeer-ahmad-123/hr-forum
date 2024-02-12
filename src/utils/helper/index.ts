@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify'
+import { PostsInterface } from '../interfaces/posts'
 const isEmpty = (value: string, name: string) => {
   if (value) return false
   else return `${name} is required*.`
@@ -144,4 +145,23 @@ export function FormatCreatedAt(created_at: string | number | Date): string {
   return formattedDate
 }
 
-// Example usage:
+export const updatePostBookmark = (
+  posts: PostsInterface[],
+  postId: number,
+  val: boolean,
+) => {
+  return posts.map((post: any) => {
+    if (post.id === Number(postId)) {
+      return { ...post, user_has_bookmarked: val }
+    }
+    return post
+  })
+}
+export const returnFilteredPosts = (
+  storePosts: PostsInterface[],
+  id: number,
+) => {
+  return storePosts.filter((post: PostsInterface) => {
+    return post.id !== id
+  })
+}

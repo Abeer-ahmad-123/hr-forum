@@ -116,21 +116,12 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    if (searchParams.search) {
-      updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
-    } else if (!searchParams.search && initialPosts.length) {
-      updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
-    }
+    updatePosts([...initialPosts])
+    dispatch(setPosts([...initialPosts]))
   }, [initialPosts])
 
   useEffect(() => {
-    if (searchParams.search) {
-      updatePosts([...storePosts])
-    } else if (!searchParams.search && storePosts.length) {
-      updatePosts([...storePosts])
-    }
+    updatePosts([...storePosts])
   }, [storePosts])
 
   useEffect(() => {

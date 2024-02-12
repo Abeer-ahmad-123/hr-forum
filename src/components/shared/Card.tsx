@@ -1,7 +1,12 @@
 'use client'
 import { noProfilePicture } from '@/assets/images'
 import ChannelPill from '@/components/shared/ChannelPill'
-import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
+import {
+  returnFilteredPosts,
+  showErrorAlert,
+  timeFormatInHours,
+  updatePostBookmark,
+} from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon, Trash2 } from 'lucide-react'
@@ -9,7 +14,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 
@@ -30,6 +35,8 @@ import { MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
+import { PostsInterfaceStore } from '@/utils/interfaces/posts'
+import { setPosts } from '@/store/Slices/postSlice'
 
 const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const {
@@ -48,6 +55,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   } = post
   const pathName = usePathname()
   const router = useRouter()
+  const dispatch = useDispatch()
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
@@ -62,6 +70,9 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -134,7 +145,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const handleNavigateProfile = (event: any) => {
     nProgress.start()
     event.preventDefault()
-    event.stopPropagation() // Prevent propagation to card's onClick
+    event.stopPropagation()
     router.push(
       userDetails?.id === user_id ? '/profile' : `/profile/${user_id}`,
     )
@@ -179,13 +190,18 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         )
 
         if (res.success) {
-          if (res.data) {
-            setBookmarkSuccess(true)
-          } else if (res.status === 200) {
-            setBookmarkSuccess(false)
-          }
+          setBookmarkSuccess(true)
+          dispatch(setPosts(updatePostBookmark(storePosts, id, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
+          if (pathName.includes('saved')) {
+            dispatch(setPosts(returnFilteredPosts(storePosts, Number(id))))
+            if (pathName.includes('/saved/feed')) {
+              router.back()
+            }
+          } else {
+            dispatch(setPosts(updatePostBookmark(storePosts, id, false)))
+          }
         } else {
           throw res.errors[0]
         }

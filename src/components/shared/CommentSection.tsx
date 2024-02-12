@@ -88,7 +88,10 @@ const CommentSection = ({
   }, [comment])
 
   return (
-    <div className="ml-12 mt-4 w-full rounded-lg">
+    <div
+      className={`mt-4 w-full rounded-lg ${
+        pathName === '/feeds' ? 'ml-4' : 'ml-12'
+      }`}>
       <div className="flex">
         <div className="flex  flex-col items-center">
           <div className="">

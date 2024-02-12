@@ -15,7 +15,11 @@ import {
 import { getChannels } from '@/services/channel/channel'
 import { getComment, getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
-import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
+import {
+  returnFilteredPosts,
+  showErrorAlert,
+  timeFormatInHours,
+} from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
@@ -27,7 +31,7 @@ import ChannelPill from '../ChannelPill'
 
 import Report from '@/components/Report/Report'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
@@ -59,6 +63,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   )
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
+  const pathname = usePathname()
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
@@ -146,14 +151,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setOpenDeleteDialog(true)
     }
   }
-  const updatePostBookmark = (val: boolean) => {
-    return storePosts.map((post: any) => {
-      if (post.id === Number(postId)) {
-        return { ...post, user_has_bookmarked: val }
-      }
-      return post
-    })
-  }
+
   const handleBookmark = async (event: any) => {
     event.preventDefault()
     event.stopPropagation()
@@ -168,10 +166,12 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
         )
         if (res.success) {
           setBookmarkSuccess(true)
-          dispatch(setPosts(updatePostBookmark(true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
-          dispatch(setPosts(updatePostBookmark(false)))
+          dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
+          if (pathname.includes('saved')) {
+            router.back()
+          }
         } else {
           throw res.errors[0]
         }
@@ -185,7 +185,6 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
       setShowSignModal(true)
     }
   }
-
   useEffect(() => {
     if (commentId || postId) getPostCommets()
     // eslint-disable-next-line react-hooks/exhaustive-deps
