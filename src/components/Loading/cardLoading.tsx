@@ -20,6 +20,7 @@ function CardLoading() {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+  console.log(pathName)
 
   useEffect(() => {
     if (!token) {
@@ -50,7 +51,7 @@ function CardLoading() {
         </div>
 
         <div className="flex w-full max-w-screen-md flex-col">
-          {pathName.includes(`/${userData.username}`) ? (
+          {pathName.includes(`/${userData.username}/`) ? (
             <div className="mb-4 rounded-xl  bg-white py-2 dark:bg-slate-800">
               <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
               <div className="mt-2 flex items-center">
