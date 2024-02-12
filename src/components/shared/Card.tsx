@@ -243,7 +243,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
               getPostCommets={() => {}}
               setReported={setReported}
               setReportedReplyId={() => {}}
-              setReportedCommentId={() => {}}
+              setDeletedCommentId={() => {}}
             />
           </DialogContent>
         </Dialog>

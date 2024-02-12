@@ -223,7 +223,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
             getPostCommets={() => {}}
             setReported={setReported}
             setReportedReplyId={() => {}}
-            setReportedCommentId={() => {}}
+            setDeletedCommentId={() => {}}
           />
         </DialogContent>
       </Dialog>

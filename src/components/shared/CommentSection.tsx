@@ -12,7 +12,7 @@ const CommentSection = ({
   comment,
   refetchComments,
   commentLength,
-  setReportedCommentId,
+  setDeletedCommentId,
   getPostCommets,
   setCommentCount,
 }: any) => {
@@ -153,7 +153,7 @@ const CommentSection = ({
                 commentId={replies?.comment?.id}
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
-                setReportedCommentId={setReportedCommentId}
+                setDeletedCommentId={setDeletedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}
                 setCommentCount={setCommentCount}

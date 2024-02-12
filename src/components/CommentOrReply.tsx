@@ -1,14 +1,14 @@
 'use client'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { postComment, postCommentReply } from '@/services/comments'
+import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
-import { showErrorAlert } from '@/utils/helper'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const CommentOrReply = ({
   reply = false,
@@ -21,7 +21,7 @@ const CommentOrReply = ({
   Id = '',
   inputRef = null,
   author = '',
-  setReportedCommentId,
+  setDeletedCommentId,
   createdDate,
   replies,
   commentLength,
@@ -95,7 +95,7 @@ const CommentOrReply = ({
           commentId={commentId}
           inputRef={inputRef}
           author={author}
-          setReportedCommentId={setReportedCommentId}
+          setDeletedCommentId={setDeletedCommentId}
           createdDate={createdDate}
           replies={replies}
           commentLength={commentLength}

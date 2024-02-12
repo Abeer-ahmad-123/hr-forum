@@ -194,7 +194,7 @@ function Reply({
                       setReportedReplyId={setReportedReplyId}
                       getPostCommets={getPostCommets}
                       setReported={() => {}}
-                      setReportedCommentId={() => {}}
+                      setDeletedCommentId={() => {}}
                     />
                   </DialogContent>
                 </Dialog>

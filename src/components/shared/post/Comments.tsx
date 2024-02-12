@@ -25,9 +25,7 @@ function Comments({
 
   const [comments, setComments] = useState<any>([])
   const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
-  const [reportedCommentId, setReportedCommentId] = useState<string | null>(
-    null,
-  )
+  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
   const nothingToLoadMore = useRef(
     pagination?.TotalPages !== 0 &&
@@ -73,18 +71,20 @@ function Comments({
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div>
           {comments?.length !== 0 &&
-            comments?.map((comment: any, index: number) => {
-              return (
-                <CommentSection
-                  key={index}
-                  comment={comment}
-                  refetchComments={refetchComments}
-                  commentLength={comments.length}
-                  setReportedCommentId={setReportedCommentId}
-                  getPostCommets={getPostCommets}
-                />
-              )
-            })}
+            comments
+              ?.filter((comment: any) => comment.id !== deletedCommentId)
+              ?.map((comment: any, index: number) => {
+                return (
+                  <CommentSection
+                    key={index}
+                    comment={comment}
+                    refetchComments={refetchComments}
+                    commentLength={comments.length}
+                    setDeletedCommentId={setDeletedCommentId}
+                    getPostCommets={getPostCommets}
+                  />
+                )
+              })}
         </div>
 
         {(!!commentId || nothingToLoadMore?.current) && (

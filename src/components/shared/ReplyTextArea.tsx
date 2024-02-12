@@ -11,6 +11,7 @@ import {
 import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useSelector } from 'react-redux'
+import CommentDelete from '../CommentDelete'
 import Report from '../Report/Report'
 import TextArea from '../ui/TextArea'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
@@ -25,7 +26,7 @@ function ReplyTextArea({
   commentId,
   inputRef = null,
   author = '',
-  setReportedCommentId,
+  setDeletedCommentId,
   createdDate,
   replies,
   commentLength,
@@ -38,7 +39,9 @@ function ReplyTextArea({
 
   const [showTextArea, setShowTextArea] = useState(false)
   const [formattedDate, setFormatedDate] = useState('')
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const params = useParams()
+
   const postId = params?.id as string
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -64,6 +67,17 @@ function ReplyTextArea({
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setPopOver(false)
   }
+  const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setPopOver(false)
+
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else {
+      setOpenDeleteDialog(true)
+    }
+  }
 
   const handleButtonClick = () => {
     setPopOver(false)
@@ -73,8 +87,19 @@ function ReplyTextArea({
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])
 
+  console.log(replies)
+
   return (
     <div>
+      <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+        <DialogContent className="bg-white sm:max-w-[500px]">
+          <CommentDelete
+            setOpenDeleteDialog={setOpenDeleteDialog}
+            commentId={replies?.comment?.id}
+          />
+        </DialogContent>
+      </Dialog>
+
       <div className="flex items-center gap-2.5 ">
         <div className="group relative inline-block">
           <span
@@ -116,10 +141,17 @@ function ReplyTextArea({
             </PopoverContent>
           </Popover>
         </div>
-        {author !== userData.name && (
+        {author == userData.name ? (
+          <div
+            onClick={handleDeleteClick}
+            className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+            Delete
+          </div>
+        ) : (
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <button
-              className="pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+              className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
               onClick={handleClick}>
               Report
@@ -130,10 +162,10 @@ function ReplyTextArea({
                 commentId={commentId}
                 reportType="comment"
                 setOpenDialog={setOpenDialog}
-                setReportedReplyId={setReportedCommentId}
+                setReportedReplyId={setDeletedCommentId}
                 getPostCommets={getPostCommets}
                 setReported={() => {}}
-                setReportedCommentId={() => {}}
+                setDeletedCommentId={() => {}}
               />
             </DialogContent>
           </Dialog>
