@@ -116,7 +116,6 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
         <PostReactionBar
           postId={post.id as unknown as string}
           reaction_summary={post.reaction_summary}
-          total_comments={post.total_comments}
         />
       </div>
       <hr className="mx-3" />

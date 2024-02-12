@@ -5,7 +5,7 @@ import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
-import { setPosts } from '@/store/Slices/postSlice'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 
 interface FeedProps {
   channelSlug?: string | null
@@ -22,6 +22,10 @@ interface FeedProps {
   morePosts?: boolean
   searchParams: SearchParams
   path: string
+}
+
+type CommentObject = {
+  [key: string]: number
 }
 const Feeds = ({
   channelSlug,
@@ -32,8 +36,9 @@ const Feeds = ({
   path,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>([])
-  const storePosts = useSelector((state: any) => state.posts.posts)
-  const [postToRender, setPostToRender] = useState<Array<PostsInterface>>([])
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [page, setPage] = useState(2)
   const dispatch = useDispatch()
   const userData = useSelector(
@@ -95,7 +100,15 @@ const Feeds = ({
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
     dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
-
+  const handleCommentCount = () => {
+    let commentObj: CommentObject = {}
+    if (posts.length) {
+      for (const item of posts) {
+        commentObj[item.id] = item.total_comments
+      }
+    }
+    dispatch(setCommentCountInStore(commentObj))
+  }
   useEffect(() => {
     if (inView) {
       getPosts()
@@ -119,6 +132,10 @@ const Feeds = ({
       updatePosts([...storePosts])
     }
   }, [storePosts])
+
+  useEffect(() => {
+    handleCommentCount()
+  }, [posts])
 
   return (
     <>

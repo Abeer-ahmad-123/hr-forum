@@ -15,9 +15,9 @@ const TextArea = ({
   className,
   btnClass,
   isCommentPage = false,
-  shouldFocus = false,
   inputRef = null,
   placeholder = 'Write your comment...',
+  classNameOuter,
 }: any) => {
   const [textAreaValue, setTextAreaValue] = useState('')
   const [open, setIsopen] = useState(false)
@@ -67,7 +67,7 @@ const TextArea = ({
       className={` ${
         pathName === '/feeds' ||
         (pathName.includes(`${userData.username}`) && 'mb-4')
-      }  mx-4 flex cursor-pointer items-center gap-2.5`}>
+      }  ${classNameOuter} flex cursor-pointer items-center gap-1`}>
       <img
         src={userData.profilePictureURL || noProfilePicture.src}
         className="w-18 h-8 rounded-full border border-solid border-black"

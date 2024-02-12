@@ -9,19 +9,17 @@ import { getEmojisAsArray } from '@/utils/reactionDetails'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CustomLink } from './customLink/CustomLink'
+import { useSelector } from 'react-redux'
+import {
+  CommentCount,
+  CommentCountStore,
+  PostReactionBarProps,
+  ReactionCounts,
+} from '@/utils/interfaces/posts'
 
-interface PostReactionBarProps {
-  postId: string
-  reaction_summary: any
-  total_comments: number
-}
-export type ReactionCounts = {
-  [key: string]: number
-}
 const PostReactionBar = ({
   postId,
   reaction_summary,
-  total_comments,
 }: PostReactionBarProps) => {
   const pathName = usePathname()
   const [reactionSummary, setReactionSummary] = useState<string>('')
@@ -29,6 +27,10 @@ const PostReactionBar = ({
   const [emojis, setEmojis] = useState<Array<string>>()
   const [reactionArray, setReactionArray] = useState<[string, number][]>([])
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
+  const [commentCount, setCommentCount] = useState<CommentCount>({})
+  const commentCountInStore = useSelector(
+    (state: CommentCountStore) => state.posts.commentCount,
+  )
 
   const getAllPostData = () => {
     const reactionEntries = Object?.entries(reaction_summary as ReactionCounts)
@@ -104,6 +106,10 @@ const PostReactionBar = ({
     }
   }, [reactionArray])
 
+  useEffect(() => {
+    setCommentCount(commentCountInStore)
+  }, [commentCountInStore])
+
   return (
     <>
       {!(pathName === '/profile') && <hr />}
@@ -157,7 +163,7 @@ const PostReactionBar = ({
           <span
             className="text-xs text-slate-400 max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {total_comments} comments
+            {commentCount && commentCount[Number(postId)]} comments
           </span>
         </CustomLink>
       </div>

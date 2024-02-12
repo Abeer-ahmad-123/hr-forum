@@ -45,7 +45,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     user_has_reported,
     user_id,
     image_url,
-    total_comments,
   } = post
   const pathName = usePathname()
   const router = useRouter()
@@ -63,8 +62,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const [commentCount, setCommentCount] = useState<number>(0)
-
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -227,9 +224,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     setReported(user_has_reported)
   }, [user_has_reported])
 
-  useEffect(() => {
-    setCommentCount(total_comments)
-  }, [total_comments])
   return (
     <div id={id} key={id}>
       <div
@@ -382,11 +376,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
           </div>
         </div>
 
-        <PostReactionBar
-          reaction_summary={reactionSummary}
-          postId={id}
-          total_comments={commentCount}
-        />
+        <PostReactionBar reaction_summary={reactionSummary} postId={id} />
         <hr />
 
         <div className="py-1">
@@ -398,7 +388,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
             reactionSummary={reactionSummary}
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
-            setCommentCount={setCommentCount}
             userComment={userComment}
           />
         </div>

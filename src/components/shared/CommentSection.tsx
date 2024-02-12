@@ -14,7 +14,6 @@ const CommentSection = ({
   commentLength,
   setReportedCommentId,
   getPostCommets,
-  setCommentCount,
 }: any) => {
   const [replies, setReplies] = useState({
     comment: {
@@ -89,7 +88,7 @@ const CommentSection = ({
   }, [comment])
 
   return (
-    <div className="ml-4 mt-4 w-full rounded-lg">
+    <div className="ml-12 mt-4 w-full rounded-lg">
       <div className="flex">
         <div className="flex  flex-col items-center">
           <div className="">
@@ -153,7 +152,6 @@ const CommentSection = ({
                 setReportedCommentId={setReportedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}
-                setCommentCount={setCommentCount}
               />
             </div>
           </div>

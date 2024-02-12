@@ -6,6 +6,7 @@ import { deletePost } from '@/services/posts'
 import { setPosts } from '@/store/Slices/postSlice'
 import { showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -28,7 +29,9 @@ const DeletePost = ({
   const dispatch = useDispatch()
   const router = useRouter()
   const [loading, setLoading] = useState<boolean>(false)
-  const storePosts = useSelector((state: any) => state.posts.posts)
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const refreshTokenInRedux =

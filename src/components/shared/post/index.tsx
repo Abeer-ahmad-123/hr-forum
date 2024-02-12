@@ -18,7 +18,7 @@ import { getPostByPostId } from '@/services/posts'
 import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
@@ -33,7 +33,7 @@ import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
-import { posts, setPosts } from '@/store/Slices/postSlice'
+import { setPosts } from '@/store/Slices/postSlice'
 import { ReactionSummary } from '@/utils/interfaces/card'
 
 function Post({ isDialogPost = false, postId, searchParams }: any) {
@@ -54,7 +54,9 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
 
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
-  const storePosts = useSelector((state: any) => state.posts.posts)
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
@@ -165,14 +167,8 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
           refreshTokenInRedux,
         )
         if (res.success) {
-          if (res.data) {
-            setBookmarkSuccess(true)
-            dispatch(setPosts(updatePostBookmark(true)))
-            setBookmarkSuccess(true)
-          } else if (res.status === 200) {
-            setBookmarkSuccess(false)
-            dispatch(setPosts(updatePostBookmark(false)))
-          }
+          setBookmarkSuccess(true)
+          dispatch(setPosts(updatePostBookmark(true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
           dispatch(setPosts(updatePostBookmark(false)))
@@ -359,10 +355,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
               {/*  */}
             </div>
 
-            <ReactionDetails
-              reactionSummary={reactionSummary}
-              total_comments={post.total_comments}
-            />
+            <ReactionDetails reactionSummary={reactionSummary} />
 
             <div className="mt-2 text-left text-xl max-custom-sm:text-base ">
               {post?.title}
@@ -383,6 +376,11 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 />
               ) : null}
             </div>
+            <span
+              className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] 
+                      max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+              {commentCount} comments
+            </span>
             <div className="w-full">
               <hr />
 

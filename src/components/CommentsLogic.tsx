@@ -6,6 +6,7 @@ import Comments from './shared/post/Comments'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '@/store/Slices/postSlice'
+import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 const CommentsLogic = ({
   postId,
@@ -14,7 +15,6 @@ const CommentsLogic = ({
   user_reaction,
   reaction_summary,
   getPostCommets,
-  setCommentCount,
   reactionSummary,
   setReactionSummary,
 }: any) => {
@@ -22,7 +22,9 @@ const CommentsLogic = ({
   const [disableReactionButton, setDisableReactionButton] =
     useState<boolean>(false)
   const [userReaction, setUserReaction] = useState('')
-  const storePosts = useSelector((state: any) => state.posts.posts)
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const dispatch = useDispatch()
 
   const updateReactionArray = (
@@ -149,7 +151,6 @@ const CommentsLogic = ({
         reactionSummary={reactionSummary}
         disableReactionButton={disableReactionButton}
         setDisableReactionButton={setDisableReactionButton}
-        setCommentCount={setCommentCount}
         userComment={{ id: '' }}
       />
       <Comments
