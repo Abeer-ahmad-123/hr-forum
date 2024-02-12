@@ -1,5 +1,6 @@
-'use client'
 import UserCommentsFeeds from '@/components/UserCommentsFeeds'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 interface UserCommentsProps {
   params: {
@@ -7,11 +8,15 @@ interface UserCommentsProps {
   }
 }
 const UserComments = ({ params }: UserCommentsProps) => {
-  return (
-    <div>
-      <UserCommentsFeeds slug={params.slug} />
-    </div>
-  )
+  const userDetailsCookies = cookies().get('user-details')
+  if (!userDetailsCookies) {
+    redirect('/feeds')
+  } else {
+    return (
+      <div>
+        <UserCommentsFeeds slug={params.slug} />
+      </div>
+    )
+  }
 }
-
 export default UserComments

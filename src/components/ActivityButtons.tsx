@@ -8,7 +8,11 @@ import { useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 
-const ActivityButtons = () => {
+interface ActivityButtonsProps {
+  slug: string
+}
+
+const ActivityButtons = ({ slug }: ActivityButtonsProps) => {
   const [profileNav, setProfileNav] = useState<{
     isComment: boolean
     isReaction: boolean
@@ -21,7 +25,7 @@ const ActivityButtons = () => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username}/feed`
+  const routeTo = `/feeds/${slug}/feed`
   const pathName = usePathname()
 
   const router = useRouter()

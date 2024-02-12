@@ -1,4 +1,6 @@
 import UserFeeds from '@/components/UserFeeds'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 
 interface UserFeedPageProps {
   params: {
@@ -7,7 +9,11 @@ interface UserFeedPageProps {
 }
 
 const UserFeedPage = ({ params }: UserFeedPageProps) => {
-  return <UserFeeds slug={params.slug} />
+  const userDetailsCookies = cookies().get('user-details')
+  if (!userDetailsCookies) {
+    redirect('/feeds')
+  } else {
+    return <UserFeeds slug={params.slug} />
+  }
 }
-
 export default UserFeedPage

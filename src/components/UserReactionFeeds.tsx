@@ -185,8 +185,8 @@ const UserReactionFeeds = ({ slug }: UserReactionFeedsProps) => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userData.username}/feed`) && (
-                      <ActivityButtons />
+                    {pathName.includes(`/${slug}/feed`) && (
+                      <ActivityButtons slug={slug} />
                     )}
                     <div>
                       {posts?.length ? (
