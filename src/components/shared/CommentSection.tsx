@@ -90,9 +90,9 @@ const CommentSection = ({
   }, [comment])
 
   return (
-    <div className="ml-4 mt-4 w-full rounded-lg">
-      <div className="flex">
-        <div className="flex  flex-col items-center">
+    <div className="ml-4 mt-4 rounded-lg">
+      <div className="flex w-fit">
+        <div className="flex flex-col items-center">
           <div className="">
             <img
               alt="avatar"
@@ -107,10 +107,10 @@ const CommentSection = ({
             />
           </div>
         </div>
-        <div className="ml-3 ">
+        <div className="ml-3">
           <div
-            className={`w-fit min-w-[18rem] rounded-2xl bg-slate-100  px-4 py-2
-            
+            className={`min-w-[18rem] flex-wrap break-all rounded-2xl bg-slate-100 px-4
+            py-2
            ${
              pathName.includes('/feeds/feed/')
                ? 'dark:bg-slate-800'
@@ -124,7 +124,7 @@ const CommentSection = ({
               </div>
 
               {comment.user_has_reported && (
-                <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
+                <div className="flex cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
                   <div className="group relative inline-block">
                     <AlertOctagon
                       size={15}

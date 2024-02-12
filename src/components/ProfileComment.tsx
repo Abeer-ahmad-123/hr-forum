@@ -20,7 +20,7 @@ const ProfileComment = ({ comment, index }: any) => {
             {timeFormatInHours(comment.created_at)}
           </p>
         </div>
-        <div className="text-left text-[14px] font-light">
+        <div className="break-all pr-2 text-left text-[14px] font-light">
           {comment.content}
         </div>
       </div>
