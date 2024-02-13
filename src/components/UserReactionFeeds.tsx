@@ -49,9 +49,12 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
 
   const getPosts = async () => {
     try {
-      const { reactions, pagination } = await getUserReactedPosts(userId, {
-        page,
-      })
+      const { reactions, pagination } = await getUserReactedPosts(
+        userId ?? userData.id,
+        {
+          page,
+        },
+      )
 
       setPage(page + 1)
       noMorePosts.current =

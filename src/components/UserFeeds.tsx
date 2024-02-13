@@ -48,14 +48,10 @@ const UserFeeds = ({ slug }: SlugProps) => {
 
   const getPosts = async () => {
     try {
-      const { data } = await getUserSpecificPosts(
-        userId ? userId : userData.id,
-        page,
-        {
-          loadReactions: true,
-          loadUser: true,
-        },
-      )
+      const { data } = await getUserSpecificPosts(userId ?? userData.id, page, {
+        loadReactions: true,
+        loadUser: true,
+      })
 
       setPage(page + 1)
       noMorePosts.current =

@@ -61,7 +61,8 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
 
   let noMorePosts = useRef<boolean>(morePosts)
-  let morePostsExist = useRef(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const getAllChannels = async () => {
     try {
@@ -81,7 +82,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const getComments = async () => {
     try {
       const { reports, pagination } = await getReportedComments(
-        userDataInStore.id,
+        userId ?? userDataInStore.id,
         {
           page,
         },

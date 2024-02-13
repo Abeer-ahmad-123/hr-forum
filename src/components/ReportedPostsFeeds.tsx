@@ -49,14 +49,18 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const [posts, setPosts] = useState<ReportedPostsFeedsProps[]>([])
 
   let noMorePosts = useRef<boolean>(morePosts)
-  let morePostsExist = useRef(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const getPosts = async () => {
     {
       try {
-        const { reports, pagination } = await getReportedPosts(userData.id, {
-          page,
-        })
+        const { reports, pagination } = await getReportedPosts(
+          userId ?? userData.id,
+          {
+            page,
+          },
+        )
 
         setPage(page + 1)
         noMorePosts.current =

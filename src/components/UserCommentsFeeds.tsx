@@ -63,7 +63,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
 
   const getComments = async () => {
     try {
-      const response = await getUserComments(userId, {
+      const response = await getUserComments(userId ?? userData.id, {
         loadUser: true,
         page,
       })

@@ -21,10 +21,6 @@ const UserSpecificComments = ({
   comments,
   user,
 }: UserSpecificCommentsProps) => {
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
-
   const router = useRouter()
   const handleClick = () => {
     nProgress.start()
