@@ -9,7 +9,6 @@ import {
   makeCommentNumberKeyValuePairFromSummary,
   showErrorAlert,
 } from '@/utils/helper'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
 import { Plus, SmilePlus } from 'lucide-react'
@@ -21,38 +20,43 @@ import UserSpecificComments from './UserSpecificComments'
 import UserSpecificPosts from './UserSpecificPosts'
 import UserSpecificReaction from './UserSpecificReaction'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface UserActivityProps {
   userId: string | undefined
 }
+interface ProfileNavType {
+  isComment: boolean
+  isReaction: boolean
+  isPost: boolean
+}
 
 const UserActivity = ({ userId }: UserActivityProps) => {
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
+  const { handleRedirect } = useFetchFailedClient()
+
+  const dispatch = useDispatch()
+
+  const userDataInStore = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
+
+  const [profileNav, setProfileNav] = useState<ProfileNavType>({
     isComment: false,
     isReaction: false,
     isPost: true,
   })
+  const [user, setUser] = useState<any>('')
+  const [comments, setComments] = useState([])
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingReaction, setLoadingReaction] = useState<boolean>(false)
-  const [user, setUser] = useState<any>('')
-  const isFirstUser = useRef(true)
-  const [comments, setComments] = useState([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
   const [reactedPosts, setReactedPosts] = useState<
     UserSpecificPostsInterface[]
   >([])
-  const [ref, inView] = useInView()
-  const dispatch = useDispatch()
-  const morePosts = useRef<boolean>(false)
   const [posts, setUserSpecificPosts] = useState<any>([])
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
   const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
+
+  const morePosts = useRef<boolean>(false)
 
   const getAllUserSpecificPosts = async () => {
     try {
@@ -149,7 +153,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setIsCommentsLoading(false)
@@ -164,7 +168,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       dispatch(setPosts(reactions))
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setLoading(false)
@@ -181,11 +185,6 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       ),
     )
   }
-  useEffect(() => {
-    if (InView) {
-      getPosts()
-    }
-  }, [inView])
 
   useEffect(() => {
     getComments()
