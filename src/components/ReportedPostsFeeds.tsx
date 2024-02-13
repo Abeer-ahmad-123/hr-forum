@@ -31,8 +31,9 @@ interface ReportedPostsFeedsProps {
 }
 
 const ReportedPostsFeeds = () => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
+
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const [loading, setLoading] = useState<boolean>(true)

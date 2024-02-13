@@ -1,30 +1,12 @@
 'use client'
 
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { Plus, SmilePlus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
 
-interface ActivityButtonsProps {
-  slug: string
-}
-
-const ActivityButtons = ({ slug }: ActivityButtonsProps) => {
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: false,
-    isPost: true,
-  })
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+const ActivityButtons = ({ slug }: SlugProps) => {
   const routeTo = `/feeds/${slug}/feed`
   const pathName = usePathname()
 

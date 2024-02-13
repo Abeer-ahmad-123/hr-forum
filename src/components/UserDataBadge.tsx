@@ -1,5 +1,6 @@
 'use client'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 import { AlertOctagon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
@@ -8,13 +9,6 @@ import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
 import { GoReport } from 'react-icons/go'
 import { useSelector } from 'react-redux'
-
-interface UserDataBadgeProps {
-  postCount: number
-  commentCount: number
-  userName: string
-  userId: string
-}
 
 const UserDataBadge = ({
   postCount,

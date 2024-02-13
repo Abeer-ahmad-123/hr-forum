@@ -43,8 +43,8 @@ interface ReportedCommentsFeedsProps {
 }
 
 const ReportedCommentsFeeds = () => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
 
   const [ref, inView] = useInView()
 

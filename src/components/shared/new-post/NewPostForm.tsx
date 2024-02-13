@@ -7,7 +7,7 @@ import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Image as IconImage, Plus } from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ export default function NewPostForm({
   updatePosts,
 }: newPostFormInterface) {
   const dispatch = useDispatch()
+  const router = useRouter()
   const posts = useSelector((state: PostsInterfaceStore) => state.posts.posts)
   const [formValues, setFormValues] = useState({
     title: '',
@@ -146,9 +147,9 @@ export default function NewPostForm({
             }
           } catch (err) {}
         }
-
-        updatePosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
-        dispatch(setPosts([result?.data?.post, ...posts]))
+        // updatePosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
+        // dispatch(setPosts([result?.data?.post, ...posts]))
+        router.refresh()
         showSuccessAlert('Post has been created successfully')
         setLoading(false)
         open(false)

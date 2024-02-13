@@ -1,19 +1,20 @@
+import CardLoading from '@/components/Loading/cardLoading'
 import UserReactionFeeds from '@/components/UserReactionFeeds'
+import { UserParamsProps } from '@/utils/interfaces/userData'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import { Suspense } from 'react'
 
-interface UserReactionProps {
-  params: {
-    slug: string
-  }
-}
-
-const UserReaction = ({ params }: UserReactionProps) => {
+const UserReaction = ({ params }: UserParamsProps) => {
   const userDetailsCookies = cookies().get('user-details')
   if (!userDetailsCookies) {
     redirect('/feeds')
   } else {
-    return <UserReactionFeeds slug={params.slug} />
+    return (
+      <Suspense fallback={<CardLoading />}>
+        <UserReactionFeeds slug={params.slug} />
+      </Suspense>
+    )
   }
 }
 export default UserReaction

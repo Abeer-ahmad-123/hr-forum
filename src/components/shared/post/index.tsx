@@ -41,7 +41,7 @@ import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
 
-function Post({ isDialogPost = false, postId, searchParams }: any) {
+const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -209,6 +209,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
   }, [post])
+  console.log(commentResult)
 
   return post && post?.author_details?.name && commentResult !== null ? (
     <>

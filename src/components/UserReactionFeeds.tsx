@@ -14,6 +14,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 import { setPosts } from '@/store/Slices/postSlice'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -21,13 +22,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-interface UserReactionFeedsProps {
-  slug: string
-}
-
-const UserReactionFeeds = ({ slug }: UserReactionFeedsProps) => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+const UserReactionFeeds = ({ slug }: SlugProps) => {
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
