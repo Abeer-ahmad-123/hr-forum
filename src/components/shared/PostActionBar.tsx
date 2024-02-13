@@ -196,7 +196,7 @@ const PostActionBar = ({
             </Popover>
           </div>
         </div>
-        <div className="mx-10">
+        <div className="">
           {pathName.includes('/comment') && (
             <CommentSection comment={userComment} />
           )}

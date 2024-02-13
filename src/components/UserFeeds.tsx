@@ -11,30 +11,24 @@ import { getUserSpecificPosts } from '@/services/posts'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import {
-  PostsInterface,
-  PostsInterfaceStore,
-  UserSpecificPostsInterface,
-} from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
-interface UserFeedsProps {
-  slug: string
-}
-
-const UserFeeds = ({ slug }: UserFeedsProps) => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+const UserFeeds = ({ slug }: SlugProps) => {
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const dispatch = useDispatch()
 
+  const userName = slug.split('-')[0]
   const userId = slug.split('-')[1]
 
   const [ref, inView] = useInView()
@@ -143,8 +137,8 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
               <div
                 className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/${userData.username}/feed`) && (
-                    <ActivityButtons />
+                  {pathName.includes(`/${slug}/feed`) && (
+                    <ActivityButtons slug={slug} />
                   )}
                   <div>
                     {!!posts?.length ? (

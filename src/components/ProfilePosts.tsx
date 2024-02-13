@@ -69,10 +69,10 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
         <div className="py-4 pr-5">
           <div className="ml-10 flex text-left font-semibold dark:text-white">
             <div className="flex flex-col items-start align-baseline">
-              <div className="flex flex-row items-center">
+              <div className="flex flex-row flex-wrap items-center">
                 <p
                   onClick={handleNavigateProfile}
-                  className=" text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
+                  className="pr-1 text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
                   aria-label="user-name">
                   {post?.author_details?.name == userData?.name
                     ? 'You'

@@ -11,27 +11,20 @@ import { getUserReactedPosts } from '@/services/posts'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import {
-  PostsInterface,
-  PostsInterfaceStore,
-  UserSpecificPostsInterface,
-} from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
+import { setPosts } from '@/store/Slices/postSlice'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-import { setPosts } from '@/store/Slices/postSlice'
 
-interface UserReactionFeedsProps {
-  slug: string
-}
-
-const UserReactionFeeds = ({ slug }: UserReactionFeedsProps) => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+const UserReactionFeeds = ({ slug }: SlugProps) => {
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
@@ -129,11 +122,11 @@ const UserReactionFeeds = ({ slug }: UserReactionFeedsProps) => {
               <div
                 className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/${userData.username}/feed`) && (
-                    <ActivityButtons />
+                  {pathName.includes(`/${slug}/feed`) && (
+                    <ActivityButtons slug={slug} />
                   )}
                   <div>
-                    {!!posts?.length ? (
+                    {posts?.length ? (
                       posts?.map((reactionPost: any, index: number) => {
                         // change it to post once backend issue resolved
                         return (
@@ -150,7 +143,7 @@ const UserReactionFeeds = ({ slug }: UserReactionFeedsProps) => {
                       <NoPosts />
                     )}
                   </div>
-                  {!!posts?.length && noMorePosts?.current && (
+                  {posts?.length && noMorePosts?.current && (
                     <CircularProgress incommingRef={ref} />
                   )}
                 </div>

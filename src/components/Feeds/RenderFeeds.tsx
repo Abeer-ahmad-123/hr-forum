@@ -176,7 +176,7 @@ async function RenderFeeds({
         {userDetailsCookies && <ProfileCard />}
         <div
           className={`${
-            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
+            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[60px]'
           } sticky  max-h-screen`}>
           <ChannelCard />
         </div>
@@ -189,7 +189,7 @@ async function RenderFeeds({
       <div className="w-full max-w-screen-md">
         {(!!channelSlug || path === '/saved') && (
           <div className="max-w-768px mx-auto mt-11">
-            <div className="h-170px relative overflow-hidden rounded-xl">
+            <div className="relative overflow-hidden rounded-xl">
               <div className="absolute inset-0 z-0 bg-black opacity-50"></div>
               <img
                 className="max-w-768px z-10 h-[200px] w-full rounded-t-xl"

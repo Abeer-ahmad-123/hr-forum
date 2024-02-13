@@ -32,16 +32,16 @@ import ChannelPill from '../ChannelPill'
 
 import Report from '@/components/Report/Report'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { setPosts } from '@/store/Slices/postSlice'
+import { ReactionSummary } from '@/utils/interfaces/card'
 import { usePathname, useRouter } from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
-import { setPosts } from '@/store/Slices/postSlice'
-import { ReactionSummary } from '@/utils/interfaces/card'
 
-function Post({ isDialogPost = false, postId, searchParams }: any) {
+const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -209,6 +209,7 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
   useEffect(() => {
     if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
   }, [post])
+  console.log(commentResult)
 
   return post && post?.author_details?.name && commentResult !== null ? (
     <>
@@ -265,10 +266,10 @@ function Post({ isDialogPost = false, postId, searchParams }: any) {
                 </div>
 
                 <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row items-center">
+                  <div className="flex flex-row flex-wrap items-center">
                     <CustomLink href={`/profile/${post?.user_id}`}>
                       <p
-                        className="w-full text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-custom-sm:text-[11px]
+                        className="w-full pr-1 text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                         aria-label="user-name">
                         {post?.author_details?.name === userDetails?.name

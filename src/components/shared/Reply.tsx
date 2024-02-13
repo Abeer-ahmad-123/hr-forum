@@ -13,7 +13,12 @@ import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { ReplyInterface } from '@/utils/interfaces/reply'
 import { AlertOctagon } from 'lucide-react'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Report from '../Report/Report'
@@ -38,6 +43,7 @@ function Reply({
   const [popOver, setPopOver] = useState<boolean>(false)
   const postId = params.id as string
   const router = useRouter()
+  const pathName = usePathname()
 
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
@@ -107,7 +113,12 @@ function Reply({
             </div>
           </div>
           <div className="min-w-sm flex flex-col">
-            <div className="min-w-sml rounded-2xl bg-slate-100  px-4 py-2 dark:bg-slate-800 ">
+            <div
+              className={`min-w-sml rounded-2xl bg-slate-100  px-4 py-2  ${
+                pathName.includes('/feeds/feed/')
+                  ? 'dark:bg-slate-800'
+                  : 'dark:bg-dark-background'
+              } dark:bg-dark-background`}>
               <div className="flex flex-row items-center justify-between">
                 <div className="text-left text-accent dark:text-white">
                   {reply['author_details'].name}
@@ -131,7 +142,7 @@ function Reply({
                 )}
               </div>
 
-              <div className="mt-0 h-full w-full p-2.5 text-left leading-loose text-gray-600 dark:text-white">
+              <div className="mt-0 flex flex-wrap break-all p-2.5 text-left leading-loose text-gray-600 dark:text-white">
                 {reply.content}
               </div>
             </div>

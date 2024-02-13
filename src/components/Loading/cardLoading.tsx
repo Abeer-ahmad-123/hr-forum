@@ -20,6 +20,7 @@ function CardLoading() {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+  const slug = pathName.split('/')[2]
 
   useEffect(() => {
     if (!token) {
@@ -50,7 +51,7 @@ function CardLoading() {
         </div>
 
         <div className="flex w-full max-w-screen-md flex-col">
-          {pathName.includes(`/${userData.username}`) ? (
+          {pathName.includes(`/${slug}/`) ? (
             <div className="mb-4 rounded-xl  bg-white py-2 dark:bg-slate-800">
               <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
               <div className="mt-2 flex items-center">
@@ -65,7 +66,13 @@ function CardLoading() {
             </div>
           ) : (
             <div className="mb-5">
-              <Skelton className="h-12 w-full rounded-md bg-skelton" />
+              <Skelton
+                className={`${
+                  pathName == '/saved' || pathName.includes('/channels')
+                    ? 'h-[200px]'
+                    : 'h-12'
+                }  w-full rounded-md bg-skelton`}
+              />
             </div>
           )}
 

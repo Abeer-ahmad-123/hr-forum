@@ -1,25 +1,21 @@
 'use client'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 import { AlertOctagon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
-import { useSelector } from 'react-redux'
 import { GoReport } from 'react-icons/go'
-
-interface UserDataBadgeProps {
-  postCount: number
-  commentCount: number
-}
+import { useSelector } from 'react-redux'
 
 const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
   const router = useRouter()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username}/feed`
+  const routeTo = `/feeds/${userData?.username + '-' + userData?.id}/feed`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()

@@ -22,8 +22,8 @@ import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const ReportedCommentsFeeds = () => {
-  const morePosts = useRef<boolean>(false)
-  let noMorePosts = useRef(morePosts)
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const router = useRouter()
@@ -141,7 +141,7 @@ const ReportedCommentsFeeds = () => {
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
                     {pathName.includes(`/${userDataInStore.username}/feed`) && (
-                      <ActivityButtons />
+                      <ActivityButtons slug={''} />
                     )}
                     <div>
                       {!!comments?.length ? (
