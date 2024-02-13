@@ -112,7 +112,7 @@ const PostReactionBar = ({
 
   return (
     <>
-      {!(pathName === '/profile') && <hr />}
+      {!pathName.includes('/profile') && <hr />}
       <div className="flex items-center justify-between px-10 py-1">
         <div className="felx gap-1">
           {emojis?.slice(0, countofAll).map((react, index) => (

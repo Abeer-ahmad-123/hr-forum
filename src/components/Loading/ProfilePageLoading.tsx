@@ -1,7 +1,6 @@
 import Skelton from '../ui/skelton'
 
 const ProfilePageLoading = () => {
-  const rightCardToMap = [1, 2]
   return (
     <div>
       <div className="relative h-[500px] w-full">
