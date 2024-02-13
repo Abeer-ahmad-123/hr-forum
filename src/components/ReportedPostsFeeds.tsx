@@ -6,18 +6,21 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getReportedPosts } from '@/services/posts'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useInView } from 'react-intersection-observer'
+
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface ReportedPostsFeedsProps {
   id: number
@@ -29,7 +32,7 @@ interface ReportedPostsFeedsProps {
   post: PostsInterface
 }
 
-const ReportedPostsFeeds = () => {
+const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const [ref, inView] = useInView()
@@ -51,14 +54,14 @@ const ReportedPostsFeeds = () => {
   const getPosts = async () => {
     {
       try {
-        const { reports } = await getReportedPosts(userData.id, {
+        const { reports, pagination } = await getReportedPosts(userData.id, {
           page,
         })
 
         setPage(page + 1)
-        morePostsExist.current =
-          reports?.pagination?.CurrentPage &&
-          reports?.pagination?.CurrentPage !== reports?.pagination?.TotalPages
+        noMorePosts.current =
+          pagination?.CurrentPage &&
+          pagination?.CurrentPage !== pagination?.TotalPages
 
         setPosts((prev: ReportedPostsFeedsProps[]) => [...prev, ...reports])
       } catch (error) {
@@ -125,8 +128,8 @@ const ReportedPostsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userData.username}/feed`) && (
-                      <ActivityButtons slug={''} />
+                    {pathName.includes(`/${slug}/feed`) && (
+                      <ActivityButtons slug={slug} />
                     )}
                     <div>
                       {posts?.length ? (

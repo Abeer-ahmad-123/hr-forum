@@ -22,4 +22,6 @@ export interface SlugProps {
 export interface UserDataBadgeProps {
   postCount: number
   commentCount: number
+  userName: string
+  userId: string
 }

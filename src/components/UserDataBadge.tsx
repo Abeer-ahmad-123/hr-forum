@@ -10,12 +10,17 @@ import { FaRegComment } from 'react-icons/fa6'
 import { GoReport } from 'react-icons/go'
 import { useSelector } from 'react-redux'
 
-const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
+const UserDataBadge = ({
+  postCount,
+  commentCount,
+  userName,
+  userId,
+}: UserDataBadgeProps) => {
   const router = useRouter()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username + '-' + userData?.id}/feed`
+  const routeTo = `/feeds/${userName + '-' + userId}/feed`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()

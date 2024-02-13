@@ -23,7 +23,11 @@ import {
 } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
+import {
+  CommentInterface,
+  PostsInterface,
+  PostsInterfaceStore,
+} from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
@@ -42,7 +46,8 @@ import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
 
 const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
-  const [commentResult, setCommentResult] = useState<Array<object> | null>(null)
+  const [commentResult, setCommentResult] =
+    useState<Array<CommentInterface> | null>(null)
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,

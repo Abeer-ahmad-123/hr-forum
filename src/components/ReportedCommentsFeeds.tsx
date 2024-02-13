@@ -6,25 +6,48 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
+
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
-import { useInView } from 'react-intersection-observer'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { getUserComments } from '@/services/comments'
+import {
+  CommentInterface,
+  UserSpecificPostsInterface,
+} from '@/utils/interfaces/posts'
+
+import { getReportedComments } from '@/services/comments'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-const ReportedCommentsFeeds = () => {
-  const { handleRedirect } = useFetchFailedClient()
+interface ReportedCommentsFeedsProps {
+  id: number
+  created_at: string
+  updated_at: string
+  content: string
+  user_id: number
+  post_Id: number
+  parent_id: number
+  author_details: {
+    username: string
+    name: string
+    profile_picture_url: string
+  }
+  total_replies: number
+  user_has_reported: boolean
+  comment: CommentInterface
+}
 
+const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [ref, inView] = useInView()
   const pathName = usePathname()
+  const { handleRedirect } = useFetchFailedClient()
 
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -32,7 +55,7 @@ const ReportedCommentsFeeds = () => {
 
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState<ReportedCommentsFeedsProps[]>([])
   const [channel, setChannel] = useState<ChannelInterface>()
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
@@ -57,19 +80,19 @@ const ReportedCommentsFeeds = () => {
 
   const getComments = async () => {
     try {
-      const response = await getUserComments(userDataInStore.id, {
-        loadUser: true,
-        page,
-      })
+      const { reports, pagination } = await getReportedComments(
+        userDataInStore.id,
+        {
+          page,
+        },
+      )
 
-      if (response.success) {
-        setPage(page + 1)
-        morePostsExist.current =
-          response.data?.pagination?.CurrentPage &&
-          response.data?.pagination?.CurrentPage !==
-            response.data?.pagination?.TotalPages
-        setComments(response?.data?.comments)
-      }
+      setPage(page + 1)
+      noMorePosts.current =
+        pagination?.CurrentPage &&
+        pagination?.CurrentPage !== pagination?.TotalPages
+
+      setComments((prev: ReportedCommentsFeedsProps[]) => [...prev, ...reports])
     } catch (error) {
       if (error instanceof Error) {
         handleRedirect({ error })
@@ -129,20 +152,20 @@ const ReportedCommentsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userDataInStore.username}/feed`) && (
-                      <ActivityButtons slug={''} />
+                    {pathName.includes(`/${slug}/feed`) && (
+                      <ActivityButtons slug={slug} />
                     )}
                     <div>
                       {!!comments?.length ? (
-                        comments?.map((comment: any, index: number) => {
+                        comments?.map((reported: any, index: number) => {
                           return (
                             <Card
                               key={index}
-                              post={comment.post}
+                              post={reported.comment.post}
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              userComment={comment}
+                              userComment={reported.comment}
                             />
                           )
                         })
