@@ -18,3 +18,8 @@ export interface UserParamsProps {
 export interface SlugProps {
   slug: string
 }
+
+export interface UserDataBadgeProps {
+  postCount: number
+  commentCount: number
+}
