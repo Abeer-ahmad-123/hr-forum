@@ -37,6 +37,7 @@ const PostActionBar = ({
   disableReactionButton,
   setDisableReactionButton,
   userComment,
+  reactionRef,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -54,6 +55,7 @@ const PostActionBar = ({
 
   const { customFetch } = useInterceptor()
   const submitReaction = async (value: string) => {
+    reactionRef.current = true
     let response
     let updatedPosts
     if (tokenInRedux) {

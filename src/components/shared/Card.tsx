@@ -12,7 +12,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon, Trash2 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
@@ -89,6 +89,8 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     useState<boolean>(user_has_bookmarked)
   const [reported, setReported] = useState<boolean>(user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+
+  let reactionRef = useRef<boolean>(false)
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -398,15 +400,14 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         <div className="py-1" key={id}>
           <PostActionBar
             postId={id}
-            userReaction={
-              userReaction === user_reaction ? userReaction : user_reaction
-            }
+            userReaction={reactionRef.current ? userReaction : user_reaction}
             setUserReaction={setUserReaction}
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
             userComment={userComment}
+            reactionRef={reactionRef}
           />
         </div>
       </div>
