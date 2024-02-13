@@ -22,8 +22,8 @@ import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const ReportedCommentsFeeds = () => {
-  const morePosts = useRef<boolean>(false)
-  let noMorePosts = useRef(morePosts)
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const router = useRouter()

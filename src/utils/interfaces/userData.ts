@@ -8,3 +8,13 @@ export interface userData {
   post_count?: number
   comment_count?: number
 }
+
+export interface UserParamsProps {
+  params: {
+    slug: string
+  }
+}
+
+export interface SlugProps {
+  slug: string
+}

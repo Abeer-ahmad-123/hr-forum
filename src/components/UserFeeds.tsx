@@ -15,6 +15,7 @@ import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { makeCommentNumberKeyValuePair } from '@/utils/helper'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -22,13 +23,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-interface UserFeedsProps {
-  slug: string
-}
-
-const UserFeeds = ({ slug }: UserFeedsProps) => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+const UserFeeds = ({ slug }: SlugProps) => {
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const dispatch = useDispatch()
 
   const userName = slug.split('-')[0]

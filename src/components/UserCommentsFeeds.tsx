@@ -14,6 +14,7 @@ import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
@@ -22,13 +23,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-interface UserCommentsFeedsProps {
-  slug: string
-}
-
-const UserCommentsFeeds = ({ slug }: UserCommentsFeedsProps) => {
-  const morePosts = useState<boolean>(true)
-  let noMorePosts = useRef(morePosts)
+const UserCommentsFeeds = ({ slug }: SlugProps) => {
+  const [morePosts] = useState<boolean>(true)
+  let noMorePosts = useRef<boolean>(morePosts)
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const dispatch = useDispatch()
