@@ -30,16 +30,6 @@ const RespProfile = ({ userId }: profileProps) => {
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
 
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: false,
-    isPost: true,
-  })
-
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
@@ -47,9 +37,7 @@ const RespProfile = ({ userId }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const imageInputRef = useRef(null)
-  const [posts, setUserSpecificPosts] = useState<any>([])
   const [user, setUser] = useState<any>('')
-  const morePosts = useRef(false)
   const isFirstUser = useRef(true)
 
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
@@ -337,6 +325,8 @@ const RespProfile = ({ userId }: profileProps) => {
                 commentCount={
                   userId ? user?.comment_count : userDataInStore.comment_count
                 }
+                userName={user.username}
+                userId={user_Id}
               />
             </div>
 

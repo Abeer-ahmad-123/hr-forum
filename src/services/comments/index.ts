@@ -3,6 +3,7 @@ import { API_BASE_URL } from '..'
 const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
 const GET_COMMENT = API_BASE_URL + '/comments/commentId'
 const GET_USER_COMMENTS = API_BASE_URL + '/users/userId/comments'
+const USER_REPORTED_COMMENTS = API_BASE_URL + '/users/userId/reports/comments'
 
 export async function postComment({
   postId,
@@ -186,6 +187,26 @@ export async function getComment(
     const response = await res.json()
     const { data } = response
     return data
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function getReportedComments(
+  userId: string,
+  { page = 1, pageSize = 10 },
+) {
+  try {
+    const formatedRequestUrl = USER_REPORTED_COMMENTS.replace('userId', userId)
+
+    let res = await fetch(
+      `${`${formatedRequestUrl}?page=${page}&pageSize=${pageSize}`}`,
+      {
+        cache: 'no-store',
+      },
+    )
+    const response = await res.json()
+    return response
   } catch (err) {
     throw err
   }

@@ -10,45 +10,55 @@ import { getChannels } from '@/services/channel/channel'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
+import {
+  CommentInterface,
+  UserSpecificPostsInterface,
+} from '@/utils/interfaces/posts'
 import { useInView } from 'react-intersection-observer'
 
-import { getUserComments } from '@/services/comments'
-import { usePathname, useRouter } from 'next/navigation'
+import { getReportedComments } from '@/services/comments'
+import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-const ReportedCommentsFeeds = () => {
-  const morePosts = useRef<boolean>(false)
-  let noMorePosts = useRef(morePosts)
-  const [ref, inView] = useInView()
-  const [channel, setChannel] = useState<ChannelInterface>()
-  const router = useRouter()
+interface ReportedCommentsFeedsProps {
+  id: number
+  created_at: string
+  updated_at: string
+  content: string
+  user_id: number
+  post_Id: number
+  parent_id: number
+  author_details: {
+    username: string
+    name: string
+    profile_picture_url: string
+  }
+  total_replies: number
+  user_has_reported: boolean
+  comment: CommentInterface
+}
 
-  const path = '/channels'
-  const [comments, setComments] = useState([])
+const ReportedCommentsFeeds = () => {
+  const morePosts = useState<boolean>(true)
+  let noMorePosts = useRef(morePosts)
+
+  const [ref, inView] = useInView()
+
+  const [channel, setChannel] = useState<ChannelInterface>()
+
+  const [comments, setComments] = useState<ReportedCommentsFeedsProps[]>([])
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
   const pathName = usePathname()
-  const routeTo = `/feeds/${userData?.username}/feed`
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  let morePostsExist = useRef(morePosts)
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: true,
-    isReaction: false,
-    isPost: false,
-  })
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
@@ -70,19 +80,19 @@ const ReportedCommentsFeeds = () => {
 
   const getComments = async () => {
     try {
-      const response = await getUserComments(userDataInStore.id, {
-        loadUser: true,
-        page,
-      })
+      const { reports, pagination } = await getReportedComments(
+        userDataInStore.id,
+        {
+          page,
+        },
+      )
 
-      if (response.success) {
-        setPage(page + 1)
-        morePostsExist.current =
-          response.data?.pagination?.CurrentPage &&
-          response.data?.pagination?.CurrentPage !==
-            response.data?.pagination?.TotalPages
-        setComments(response?.data?.comments)
-      }
+      setPage(page + 1)
+      noMorePosts.current =
+        pagination?.CurrentPage &&
+        pagination?.CurrentPage !== pagination?.TotalPages
+
+      setComments((prev: ReportedCommentsFeedsProps[]) => [...prev, ...reports])
     } catch (error) {
       if (error instanceof Error) {
         handleFetchFailed(error)
@@ -145,15 +155,15 @@ const ReportedCommentsFeeds = () => {
                     )}
                     <div>
                       {!!comments?.length ? (
-                        comments?.map((comment: any, index: number) => {
+                        comments?.map((reported: any, index: number) => {
                           return (
                             <Card
                               key={index}
-                              post={comment.post}
+                              post={reported.comment.post}
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              userComment={comment}
+                              userComment={reported.comment}
                             />
                           )
                         })

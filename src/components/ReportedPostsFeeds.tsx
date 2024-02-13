@@ -14,7 +14,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useInView } from 'react-intersection-observer'
 
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
@@ -31,14 +31,11 @@ interface ReportedPostsFeedsProps {
 }
 
 const ReportedPostsFeeds = () => {
-  const morePosts = useRef<boolean>(false)
+  const morePosts = useState<boolean>(true)
   let noMorePosts = useRef(morePosts)
-  let initialPosts = []
   const [ref, inView] = useInView()
   const [channel, setChannel] = useState<ChannelInterface>()
   const [loading, setLoading] = useState<boolean>(true)
-  const path = '/channels'
-  const router = useRouter()
 
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
@@ -46,8 +43,6 @@ const ReportedPostsFeeds = () => {
 
   const [page, setPage] = useState(1)
   const [posts, setPosts] = useState<ReportedPostsFeedsProps[]>([])
-  let morePostsExist = useRef(morePosts)
-  const routeTo = `/feeds/${userData?.username}/feed`
   const pathName = usePathname()
   const userDetails = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -56,14 +51,14 @@ const ReportedPostsFeeds = () => {
   const getPosts = async () => {
     {
       try {
-        const { reports } = await getReportedPosts(userData.id, {
+        const { reports, pagination } = await getReportedPosts(userData.id, {
           page,
         })
 
         setPage(page + 1)
-        morePostsExist.current =
-          reports?.pagination?.CurrentPage &&
-          reports?.pagination?.CurrentPage !== reports?.pagination?.TotalPages
+        noMorePosts.current =
+          pagination?.CurrentPage &&
+          pagination?.CurrentPage !== pagination?.TotalPages
 
         setPosts((prev: ReportedPostsFeedsProps[]) => [...prev, ...reports])
       } catch (error) {

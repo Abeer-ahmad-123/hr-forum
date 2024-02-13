@@ -12,14 +12,21 @@ import { useSelector } from 'react-redux'
 interface UserDataBadgeProps {
   postCount: number
   commentCount: number
+  userName: string
+  userId: string
 }
 
-const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
+const UserDataBadge = ({
+  postCount,
+  commentCount,
+  userName,
+  userId,
+}: UserDataBadgeProps) => {
   const router = useRouter()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username + '-' + userData?.id}/feed`
+  const routeTo = `/feeds/${userName + '-' + userId}/feed`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()

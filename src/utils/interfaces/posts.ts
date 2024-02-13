@@ -81,3 +81,27 @@ export interface PostsInterfaceStore {
     posts: PostsInterface[]
   }
 }
+
+export interface CommentInterface {
+  id: number
+  created_at: string
+  updated_at: string
+  content: string
+  user_id: number
+  post_id: number
+  parent_id: null
+  author_details: {
+    username: string
+    name: string
+    profile_picture_url: string
+  }
+  reaction_summary: {
+    like_count: number
+    love_count: number
+    clap_count: number
+    celebrate_count: number
+  }
+  total_replies: number
+  user_has_reported: boolean
+  post: UserSpecificPostsInterface
+}

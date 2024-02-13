@@ -82,8 +82,8 @@ const UserCommentsFeeds = ({ slug }: UserCommentsFeedsProps) => {
         const extractedPosts = response?.data?.comments.map(
           (item: any) => item.post,
         )
-        setComments(extractedPosts)
-        dispatch(setPosts(extractedPosts))
+        setComments((prev: PostsInterface[]) => [...prev, ...extractedPosts])
+        dispatch(setPosts([...comments, ...extractedPosts]))
       }
     } catch (error) {
       if (error instanceof Error) {

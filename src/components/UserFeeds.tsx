@@ -15,7 +15,7 @@ import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { makeCommentNumberKeyValuePair } from '@/utils/helper'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,7 +31,6 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
   let noMorePosts = useRef(morePosts)
   const dispatch = useDispatch()
 
-  const userName = slug.split('-')[0]
   const userId = slug.split('-')[1]
 
   const [ref, inView] = useInView()
@@ -41,8 +40,7 @@ const UserFeeds = ({ slug }: UserFeedsProps) => {
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username}/feed`
-  const router = useRouter()
+
   const pathName = usePathname()
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,

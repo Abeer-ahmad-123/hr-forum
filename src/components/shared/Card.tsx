@@ -60,8 +60,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
-  console.log(post)
-
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
 
