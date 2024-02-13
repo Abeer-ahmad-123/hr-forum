@@ -8,13 +8,16 @@ import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
-import { getReportedComments } from '@/services/comments'
+
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import {
   CommentInterface,
   UserSpecificPostsInterface,
 } from '@/utils/interfaces/posts'
+
+import { getReportedComments } from '@/services/comments'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
@@ -41,11 +44,10 @@ interface ReportedCommentsFeedsProps {
   comment: CommentInterface
 }
 
-const ReportedCommentsFeeds = () => {
-  const { handleRedirect } = useFetchFailedClient()
-
+const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [ref, inView] = useInView()
   const pathName = usePathname()
+  const { handleRedirect } = useFetchFailedClient()
 
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
@@ -150,8 +152,8 @@ const ReportedCommentsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userDataInStore.username}/feed`) && (
-                      <ActivityButtons slug={''} />
+                    {pathName.includes(`/${slug}/feed`) && (
+                      <ActivityButtons slug={slug} />
                     )}
                     <div>
                       {!!comments?.length ? (

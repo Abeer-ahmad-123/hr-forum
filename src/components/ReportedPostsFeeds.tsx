@@ -12,9 +12,12 @@ import { getReportedPosts } from '@/services/posts'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
+import { useInView } from 'react-intersection-observer'
+
+import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
+
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
@@ -29,7 +32,7 @@ interface ReportedPostsFeedsProps {
   post: PostsInterface
 }
 
-const ReportedPostsFeeds = () => {
+const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const [ref, inView] = useInView()
@@ -125,8 +128,8 @@ const ReportedPostsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userData.username}/feed`) && (
-                      <ActivityButtons slug={''} />
+                    {pathName.includes(`/${slug}/feed`) && (
+                      <ActivityButtons slug={slug} />
                     )}
                     <div>
                       {posts?.length ? (
