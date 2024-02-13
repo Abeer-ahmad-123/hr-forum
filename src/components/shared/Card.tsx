@@ -395,10 +395,12 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         <PostReactionBar reaction_summary={reactionSummary} postId={id} />
         <hr />
 
-        <div className="py-1">
+        <div className="py-1" key={id}>
           <PostActionBar
             postId={id}
-            userReaction={userReaction}
+            userReaction={
+              userReaction === user_reaction ? userReaction : user_reaction
+            }
             setUserReaction={setUserReaction}
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
