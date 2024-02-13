@@ -149,7 +149,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
                         <NoPosts />
                       )}
                     </div>
-                    {posts?.length && noMorePosts?.current && (
+                    {!!posts?.length && noMorePosts?.current && (
                       <CircularProgress incommingRef={ref} />
                     )}
                   </div>

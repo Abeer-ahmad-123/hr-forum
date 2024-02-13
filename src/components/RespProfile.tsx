@@ -19,43 +19,38 @@ import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
-
-interface profileProps {
-  userId?: string
-}
+import { profileProps } from '@/utils/interfaces/userData'
 
 const RespProfile = ({ userId }: profileProps) => {
+  const { handleRedirect } = useFetchFailedClient()
+  const { customFetch } = useInterceptor()
+
   const dispatch = useDispatch()
+
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
-
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const { customFetch } = useInterceptor()
-  const { handleRedirect } = useFetchFailedClient()
-
-  const imageInputRef = useRef(null)
-  const [user, setUser] = useState<any>('')
-  const isFirstUser = useRef(true)
-
-  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [image, setImage] = useState<any>(null)
-
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
-  const user_Id = userId || userDataInStore.id
+  const [user, setUser] = useState<any>('')
+  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [image, setImage] = useState<any>(null)
+
+  const isFirstUser = useRef(true)
+  const imageInputRef = useRef(null)
+
+  const userIdLocal = userId || userDataInStore.id
+
   const getUserSpecificDetail = async () => {
     try {
       setLoading(true)
-      const response = await getSpecificUserDetails(
-        userId || userDataInStore.id,
-      )
-
+      const response = await getSpecificUserDetails(userIdLocal)
       if (response.success) {
         setUser(response?.data?.user)
         setLoading(false)
@@ -153,7 +148,6 @@ const RespProfile = ({ userId }: profileProps) => {
       setUser(userDataInStore)
     }
   }
-
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
@@ -326,11 +320,21 @@ const RespProfile = ({ userId }: profileProps) => {
                   userId ? user?.comment_count : userDataInStore.comment_count
                 }
                 userName={user.username}
-                userId={user_Id}
+                userId={userIdLocal}
+                reportedPostCount={
+                  userId
+                    ? user?.reported_post_count
+                    : userDataInStore.reported_post_count
+                }
+                reportedCommentCount={
+                  userId
+                    ? user?.reported_comment_count
+                    : userDataInStore.reported_comment_count
+                }
               />
             </div>
 
-            <UserActivity userId={user_Id} />
+            <UserActivity userId={userIdLocal} />
           </div>
         </section>
       </div>

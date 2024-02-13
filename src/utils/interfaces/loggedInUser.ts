@@ -11,6 +11,8 @@ export interface LoggedInUser {
       backgroundPictureURL: string
       post_count?: number
       comment_count?: number
+      reported_post_count?: number
+      reported_comment_count?: number
     }
     refreshToken: string | null
   }

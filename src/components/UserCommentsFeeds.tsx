@@ -149,7 +149,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
                   )}
 
                   <div>
-                    {!!comments?.length ? (
+                    {comments?.length ? (
                       comments?.map((comment: any, index: number) => {
                         return (
                           <Card
@@ -166,7 +166,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
                       <NoPosts />
                     )}
                   </div>
-                  {comments?.length && noMorePosts?.current && (
+                  {!!comments?.length && noMorePosts?.current && (
                     <CircularProgress incommingRef={ref} />
                   )}
                 </div>

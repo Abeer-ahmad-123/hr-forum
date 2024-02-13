@@ -25,12 +25,14 @@ const ActivityButtons = ({ slug }: SlugProps) => {
 
   const handlePost = () => {
     nProgress.start()
-    router.push(`${routeTo}`)
+    pathName.includes('/reported')
+      ? router.push(`${routeTo}/reported/posts`)
+      : router.push(`${routeTo}`)
   }
   return (
     <div className="mb-4 justify-start rounded-xl bg-white px-10 py-2 dark:bg-slate-800 dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
       <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
-        Activity
+        {pathName.includes('reported') ? 'Reported Content' : 'Activity'}
       </div>
       <div className="flex cursor-pointer items-start justify-start max-md:text-sm">
         <div

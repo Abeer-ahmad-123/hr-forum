@@ -57,8 +57,11 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
       noMorePosts.current =
         pagination?.CurrentPage &&
         pagination?.CurrentPage !== pagination?.TotalPages
-      const extractedPosts = reactions.map((item: any) => item.post)
+      const posts = reactions
+        .map((item: any) => item.post)
+        .filter((post: any) => post !== undefined)
 
+      const extractedPosts = posts.length > 0 ? [posts] : []
       updatePost([...posts, ...extractedPosts])
       dispatch(setPosts([...posts, ...extractedPosts]))
     } catch (error) {
@@ -147,7 +150,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
                       <NoPosts />
                     )}
                   </div>
-                  {posts?.length && noMorePosts?.current && (
+                  {!!posts?.length && noMorePosts?.current && (
                     <CircularProgress incommingRef={ref} />
                   )}
                 </div>

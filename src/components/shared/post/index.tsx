@@ -214,7 +214,6 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   useEffect(() => {
     if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
   }, [post])
-  console.log(commentResult)
 
   return post && post?.author_details?.name && commentResult !== null ? (
     <>

@@ -15,6 +15,8 @@ const UserDataBadge = ({
   commentCount,
   userName,
   userId,
+  reportedPostCount,
+  reportedCommentCount,
 }: UserDataBadgeProps) => {
   const router = useRouter()
   const userData = useSelector(
@@ -49,7 +51,7 @@ const UserDataBadge = ({
             <span className="pr-2">
               <BsPostcard size={18} />
             </span>
-            {`${postCount ? postCount : 0} post published`}
+            {`${postCount ?? 0} ${postCount > 1 ? 'posts' : 'post'} published`}
           </div>
 
           <div
@@ -59,8 +61,8 @@ const UserDataBadge = ({
             <span className="pr-2">
               <FaRegComment size={18} />
             </span>
-            {`${commentCount ? commentCount : 0} ${
-              commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
+            {`${commentCount ?? 0} ${
+              commentCount > 1 ? 'comments' : 'comment'
             } written`}
           </div>
 
@@ -71,8 +73,8 @@ const UserDataBadge = ({
             <span className="pr-2">
               <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
-            {`${commentCount ? commentCount : 0} ${
-              commentCount === 0 || commentCount === 1 ? 'post' : 'posts'
+            {`${reportedPostCount ?? 0} ${
+              reportedPostCount > 1 ? 'posts' : 'post'
             } reported`}
           </div>
 
@@ -83,8 +85,8 @@ const UserDataBadge = ({
             <span className="pr-2">
               <GoReport className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
-            {`${commentCount ? commentCount : 0} ${
-              commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
+            {`${reportedCommentCount ?? 0} ${
+              reportedCommentCount > 1 ? 'comments' : 'comment'
             } reported`}
           </div>
         </div>

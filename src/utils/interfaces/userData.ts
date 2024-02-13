@@ -24,4 +24,10 @@ export interface UserDataBadgeProps {
   commentCount: number
   userName: string
   userId: string
+  reportedPostCount: number
+  reportedCommentCount: number
+}
+
+export interface profileProps {
+  userId?: string
 }
