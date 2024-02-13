@@ -6,20 +6,19 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
+import { getReportedComments } from '@/services/comments'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import {
   CommentInterface,
   UserSpecificPostsInterface,
 } from '@/utils/interfaces/posts'
-import { useInView } from 'react-intersection-observer'
-
-import { getReportedComments } from '@/services/comments'
 import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
@@ -43,33 +42,32 @@ interface ReportedCommentsFeedsProps {
 }
 
 const ReportedCommentsFeeds = () => {
-  const [morePosts] = useState<boolean>(true)
-  let noMorePosts = useRef<boolean>(morePosts)
+  const { handleRedirect } = useFetchFailedClient()
 
   const [ref, inView] = useInView()
-
-  const [channel, setChannel] = useState<ChannelInterface>()
-
-  const [comments, setComments] = useState<ReportedCommentsFeedsProps[]>([])
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
   const pathName = usePathname()
 
-  const [page, setPage] = useState(1)
-  const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  const [isCommentsLoading, setIsCommentsLoading] = useState(true)
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
+
+  const [page, setPage] = useState<number>(1)
+  const [morePosts] = useState<boolean>(true)
+  const [comments, setComments] = useState<ReportedCommentsFeedsProps[]>([])
+  const [channel, setChannel] = useState<ChannelInterface>()
+  const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
+  const [isCommentsLoading, setIsCommentsLoading] = useState(true)
+
+  let noMorePosts = useRef<boolean>(morePosts)
+  let morePostsExist = useRef(morePosts)
 
   const getAllChannels = async () => {
     try {
       const { channels } = await getChannels()
       setChannel(channels)
     } catch (error) {
-      if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+      if (error instanceof Error) {
+        handleRedirect({ error })
       }
     }
   }
@@ -95,7 +93,7 @@ const ReportedCommentsFeeds = () => {
       setComments((prev: ReportedCommentsFeedsProps[]) => [...prev, ...reports])
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setIsCommentsLoading(false)
@@ -126,10 +124,12 @@ const ReportedCommentsFeeds = () => {
         <div className="mx-auto flex max-w-screen-xl justify-center">
           {
             <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-              {userData && <ProfileCard />}
+              {userDataInStore && <ProfileCard />}
               <div
                 className={`${
-                  userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
+                  userDataInStore
+                    ? 'top-[70px] mt-[0px]'
+                    : 'top-[60px] mt-[20px]'
                 } sticky  max-h-screen`}>
                 {<ChannelCard />}
               </div>

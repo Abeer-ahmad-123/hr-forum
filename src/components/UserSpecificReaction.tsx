@@ -1,10 +1,8 @@
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import ProfilePosts from './ProfilePosts'
 
 interface ReactionPostsFeedsProps {
@@ -18,11 +16,8 @@ interface ReactionPostsFeedsProps {
 }
 
 const UserSpecificReaction = ({ posts, user }: any) => {
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
-
   const router = useRouter()
+
   const handleClick = () => {
     nProgress.start()
     router.push(`/feeds/${user.username + '-' + user.id}/feed/reaction`)

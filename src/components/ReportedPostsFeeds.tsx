@@ -6,16 +6,15 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getReportedPosts } from '@/services/posts'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
-import { useInView } from 'react-intersection-observer'
-
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
@@ -31,23 +30,23 @@ interface ReportedPostsFeedsProps {
 }
 
 const ReportedPostsFeeds = () => {
-  const [morePosts] = useState<boolean>(true)
-  let noMorePosts = useRef<boolean>(morePosts)
+  const { handleRedirect } = useFetchFailedClient()
 
   const [ref, inView] = useInView()
-  const [channel, setChannel] = useState<ChannelInterface>()
-  const [loading, setLoading] = useState<boolean>(true)
+  const pathName = usePathname()
 
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState<number>(1)
+  const [morePosts] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [channel, setChannel] = useState<ChannelInterface>()
   const [posts, setPosts] = useState<ReportedPostsFeedsProps[]>([])
-  const pathName = usePathname()
-  const userDetails = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+
+  let noMorePosts = useRef<boolean>(morePosts)
+  let morePostsExist = useRef(morePosts)
 
   const getPosts = async () => {
     {
@@ -64,7 +63,7 @@ const ReportedPostsFeeds = () => {
         setPosts((prev: ReportedPostsFeedsProps[]) => [...prev, ...reports])
       } catch (error) {
         if (error instanceof Error) {
-          handleFetchFailed(error)
+          handleRedirect({ error })
         }
       } finally {
         setLoading(false)
@@ -78,7 +77,7 @@ const ReportedPostsFeeds = () => {
       setChannel(channels)
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     }
   }
@@ -126,7 +125,7 @@ const ReportedPostsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userDetails.username}/feed`) && (
+                    {pathName.includes(`/${userData.username}/feed`) && (
                       <ActivityButtons slug={''} />
                     )}
                     <div>

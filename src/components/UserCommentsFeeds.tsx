@@ -10,7 +10,6 @@ import { getChannels } from '@/services/channel/channel'
 import { getUserComments } from '@/services/comments'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { makeCommentNumberKeyValuePair } from '@/utils/helper'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
@@ -22,17 +21,14 @@ import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const UserCommentsFeeds = ({ slug }: SlugProps) => {
-  const [morePosts] = useState<boolean>(true)
-  let noMorePosts = useRef<boolean>(morePosts)
-  const [ref, inView] = useInView()
-  const [channel, setChannel] = useState<ChannelInterface>()
+  const { handleRedirect } = useFetchFailedClient()
+
   const dispatch = useDispatch()
-
-  const userId = slug.split('-')[1]
-
-  const [comments, setComments] = useState<PostsInterface[]>([])
+  const pathName = usePathname()
+  const [ref, inView] = useInView()
 
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
@@ -40,14 +36,16 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
-  const pathName = usePathname()
 
   const [page, setPage] = useState(1)
-
+  const [morePosts] = useState<boolean>(true)
+  const [channel, setChannel] = useState<ChannelInterface>()
+  const [comments, setComments] = useState<PostsInterface[]>([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+
+  let noMorePosts = useRef<boolean>(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const getAllChannels = async () => {
     try {
@@ -55,7 +53,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
       setChannel(channels)
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     }
   }
@@ -84,7 +82,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setIsCommentsLoading(false)

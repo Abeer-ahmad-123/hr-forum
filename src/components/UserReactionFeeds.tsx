@@ -21,27 +21,31 @@ import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const UserReactionFeeds = ({ slug }: SlugProps) => {
-  const [morePosts] = useState<boolean>(true)
-  let noMorePosts = useRef<boolean>(morePosts)
+  const { handleRedirect } = useFetchFailedClient()
+
+  const [ref, inView] = useInView()
+  const dispatch = useDispatch()
+  const pathName = usePathname()
+
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
-  const userId = slug.split('-')[1]
-
-  const [ref, inView] = useInView()
-  const [channel, setChannel] = useState<ChannelInterface>()
-  const [loading, setLoading] = useState<boolean>(true)
-
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
   const [page, setPage] = useState(1)
+  const [morePosts] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [channel, setChannel] = useState<ChannelInterface>()
   const [posts, updatePost] = useState<PostsInterface[]>([])
-  const dispatch = useDispatch()
-  const pathName = usePathname()
+
+  let noMorePosts = useRef<boolean>(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const getPosts = async () => {
     try {
@@ -59,7 +63,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
       dispatch(setPosts([...posts, ...extractedPosts]))
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setLoading(false)
@@ -72,7 +76,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
       setChannel(channels)
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     }
   }

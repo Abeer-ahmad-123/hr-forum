@@ -6,15 +6,14 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getUserSpecificPosts } from '@/services/posts'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -24,26 +23,28 @@ import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
 const UserFeeds = ({ slug }: SlugProps) => {
-  const [morePosts] = useState<boolean>(true)
-  let noMorePosts = useRef<boolean>(morePosts)
+  const { handleRedirect } = useFetchFailedClient()
+
   const dispatch = useDispatch()
-
-  const userId = slug.split('-')[1]
-
+  const pathName = usePathname()
   const [ref, inView] = useInView()
-  const [channel, setChannel] = useState<ChannelInterface>()
-  const [loading, setLoading] = useState<boolean>(true)
 
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-
-  const pathName = usePathname()
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
+
   const [page, setPage] = useState(1)
+  const [morePosts] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [channel, setChannel] = useState<ChannelInterface>()
   const [posts, updatePosts] = useState<PostsInterface[]>([])
+
+  let noMorePosts = useRef<boolean>(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const getPosts = async () => {
     try {
@@ -65,7 +66,7 @@ const UserFeeds = ({ slug }: SlugProps) => {
       dispatch(setPosts([...posts, ...data?.posts]))
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setLoading(false)
@@ -81,7 +82,7 @@ const UserFeeds = ({ slug }: SlugProps) => {
       setChannel(channels)
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     }
   }
