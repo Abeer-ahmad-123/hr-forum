@@ -86,7 +86,6 @@ function ReplyTextArea({
   useEffect(() => {
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])
-  console.log(replies)
 
   return (
     <div>

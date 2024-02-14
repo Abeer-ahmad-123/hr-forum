@@ -21,6 +21,7 @@ import {
 } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
+import CommentDelete from '../CommentDelete'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
@@ -41,6 +42,7 @@ function Reply({
   const [highlighted, setHighlighted] = useState(false)
   const [openDialog, setOpenDialog] = useState(false)
   const [popOver, setPopOver] = useState<boolean>(false)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const postId = params.id as string
   const router = useRouter()
   const pathName = usePathname()
@@ -48,6 +50,8 @@ function Reply({
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
+
+  console.log(reply)
   const [showSignModal, setShowSignModal] = useState(false)
   useEffect(() => {
     if (
@@ -91,6 +95,19 @@ function Reply({
       setShowSignModal(true)
     } else setOpenDialog(true)
   }
+
+  const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault()
+    event.stopPropagation()
+    setPopOver(false)
+
+    if (!tokenInRedux) {
+      setShowSignModal(true)
+    } else {
+      setOpenDeleteDialog(true)
+    }
+  }
+
   return (
     <>
       <div
@@ -179,31 +196,49 @@ function Reply({
                   </Popover>
                 </div>
 
-                <Dialog open={openDialog} onOpenChange={handleClick}>
-                  <DialogTrigger asChild>
-                    <button
-                      className="pointer text-sm text-gray-400 hover:underline"
-                      onClick={handleClick}>
-                      Report
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent className="bg-white sm:max-w-[500px]">
-                    <Report
-                      commentId={reply.id}
-                      reportType="reply"
-                      setOpenDialog={setOpenDialog}
-                      setReportedReplyId={setReportedReplyId}
-                      getPostCommets={getPostCommets}
-                      setReported={() => {}}
-                      setDeletedCommentId={() => {}}
-                    />
-                  </DialogContent>
-                </Dialog>
+                {(reply.user_id as unknown as string) == userDetails?.id ? (
+                  <div
+                    onClick={handleDeleteClick}
+                    className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+                    Delete
+                  </div>
+                ) : (
+                  <Dialog open={openDialog} onOpenChange={handleClick}>
+                    <DialogTrigger asChild>
+                      <button
+                        className="pointer text-sm text-gray-400 hover:underline"
+                        onClick={handleClick}>
+                        Report
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="bg-white sm:max-w-[500px]">
+                      <Report
+                        commentId={reply.id}
+                        reportType="reply"
+                        setOpenDialog={setOpenDialog}
+                        setReportedReplyId={setReportedReplyId}
+                        getPostCommets={getPostCommets}
+                        setReported={() => {}}
+                        setDeletedCommentId={() => {}}
+                      />
+                    </DialogContent>
+                  </Dialog>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+        <DialogContent className="bg-white sm:max-w-[500px]">
+          <CommentDelete
+            setOpenDeleteDialog={setOpenDeleteDialog}
+            commentId={reply?.id}
+            postId={reply?.post_id as unknown as string}
+          />
+        </DialogContent>
+      </Dialog>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />
       </Dialog>
