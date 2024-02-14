@@ -123,7 +123,11 @@ export default function Login({
 
   return (
     <div
-      className={`container mx-auto flex h-full min-h-[calc(100vh-56px)] ${
+      className={`container mx-auto flex  ${
+        pathname.includes('login')
+          ? 'h-full min-h-[calc(100vh-56px)]'
+          : 'h-[550px]'
+      } ${
         pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
       }  flex-col justify-center space-y-6`}>
       <div

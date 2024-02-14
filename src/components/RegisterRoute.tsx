@@ -1,13 +1,10 @@
 'use client'
-import Signup from '@/components/Register'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import Register from '@/components/Register'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 
 const RegisterRoute = () => {
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const pathName = usePathname()
   const router = useRouter()
 
@@ -23,11 +20,7 @@ const RegisterRoute = () => {
     }
   }, [])
 
-  if (token) {
-    router.replace('/feeds')
-  } else {
-    return <Signup toggleForm={changeRoute} />
-  }
+  return <Register toggleForm={changeRoute} />
 }
 
 export default RegisterRoute

@@ -145,7 +145,11 @@ export default function Register({
 
   return (
     <div
-      className={`container mx-auto flex h-full min-h-[calc(100vh-56px)]
+      className={`container mx-auto flex ${
+        pathname.includes('register')
+          ? 'h-full min-h-[calc(100vh-56px)]'
+          : 'h-[550px]'
+      }
        ${
          isRegisterRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
        } flex-col justify-center space-y-6`}>
