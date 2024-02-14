@@ -8,10 +8,10 @@ import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import GoogleButton from '../shared/GoogleButton/'
-import { SigninForm } from './SigninForm'
+import GoogleButton from '../shared/GoogleButton'
+import { LoginForm } from './LoginForm'
 
-export default function Signin({
+export default function Login({
   toggleForm,
   handleDialogClose = () => {},
   setShowSignModal,
@@ -95,12 +95,12 @@ export default function Signin({
         } else router.refresh()
       }
 
-      if (pathname.includes('/signin')) {
+      if (pathname.includes('/login')) {
         nProgress.start()
         router.push('/feeds')
       }
     } catch (err) {
-      showErrorAlert('Something went wrong while signing in.')
+      showErrorAlert('Something went wrong while logging in.')
     } finally {
       setLoading(false)
       setShowSignModal && setShowSignModal(false)
@@ -123,26 +123,30 @@ export default function Signin({
 
   return (
     <div
-      className={`container mx-auto flex h-[550px] ${
-        pathname === '/signin' ? 'w-[440px]' : ' w-full max-w-[440px]'
+      className={`container mx-auto flex  ${
+        pathname.includes('login')
+          ? 'h-full min-h-[calc(100vh-56px)]'
+          : 'h-[550px]'
+      } ${
+        pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
       }  flex-col justify-center space-y-6`}>
       <div
         className={`${
-          pathname === '/signin' ? 'shadow-2xl' : ''
+          pathname === '/login' ? 'shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={` m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
-            Sign in
+            Login in
           </h1>
           <div>
             <GoogleButton
-              title="Sign In"
+              title="Log In"
               callbackFunction={handleGoogleSignIn}
             />
           </div>
           <p className=" my-3 text-center dark:text-white">OR</p>
-          <SigninForm
+          <LoginForm
             errors={errors}
             loading={loading}
             formValues={formValues}
@@ -155,7 +159,7 @@ export default function Signin({
             <button
               className="text-primary-purple cursor-pointer font-medium hover:underline"
               onClick={toggleForm}>
-              Sign up
+              Register
             </button>
           </div>
         </div>

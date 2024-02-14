@@ -178,13 +178,13 @@ const LayoutWrapper = ({ children }: any) => {
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
-              className={`max-h-auto mx-auto min-h-[100vh] w-full px-10 
+              className={`max-h-auto mx-auto w-full px-10 
               dark:text-white max-md:py-5 max-sm:p-[10px] ${
                 isError
                   ? 'bg-white dark:bg-white'
                   : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
               } ${
-                pathname === '/signup' || pathname === '/signin'
+                pathname === '/register' || pathname === '/login'
                   ? 'flex items-center justify-center'
                   : ''
               }`}>

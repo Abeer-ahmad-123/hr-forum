@@ -1,5 +1,4 @@
 'use client'
-import SignupForm from '@/components/Signup/SignupForm'
 import { googleAuthStart, signIn, signUp } from '@/services/auth/authService'
 import { setUser } from '@/store/Slices/loggedInUserSlice'
 import {
@@ -13,9 +12,10 @@ import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import GoogleButton from '../shared/GoogleButton/'
+import GoogleButton from '../shared/GoogleButton'
+import RegisterForm from '@/components/Register/RegisterForm'
 
-export default function Signup({
+export default function Register({
   toggleForm,
   handleDialogClose = () => {},
 }: any) {
@@ -31,7 +31,7 @@ export default function Signup({
   const [errors, setErrors] = useState(initialValues)
   const [loading, setLoading] = useState<boolean>(false)
   const dispatch = useDispatch()
-  const isSignUpRoute = pathname === '/signup'
+  const isRegisterRoute = pathname === '/register'
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
@@ -109,7 +109,7 @@ export default function Signup({
               router.refresh()
             }
 
-            if (pathname.includes('/signin')) {
+            if (pathname.includes('/login')) {
               nProgress.start()
               router.push('/feeds')
             }
@@ -145,13 +145,17 @@ export default function Signup({
 
   return (
     <div
-      className={`container mx-auto flex h-[550px]
+      className={`container mx-auto flex ${
+        pathname.includes('register')
+          ? 'h-full min-h-[calc(100vh-56px)]'
+          : 'h-[550px]'
+      }
        ${
-         isSignUpRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
+         isRegisterRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
        } flex-col justify-center space-y-6`}>
       <div
         className={`${
-          isSignUpRoute ? 'rounded-md shadow-2xl' : ''
+          isRegisterRoute ? 'rounded-md shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-background lg:max-w-xl`}>
@@ -164,7 +168,7 @@ export default function Signup({
           />
           <p className="mt-4 text-center dark:text-white">OR</p>
 
-          <SignupForm
+          <RegisterForm
             errors={errors}
             loading={loading}
             formValues={formValues}

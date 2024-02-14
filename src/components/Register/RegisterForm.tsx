@@ -1,7 +1,7 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { InputField } from '../shared'
 
-export default function SignupForm({
+export default function RegisterForm({
   formValues,
   handleInputChange,
   errors,

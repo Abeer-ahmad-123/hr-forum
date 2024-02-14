@@ -2,7 +2,7 @@ import InputField from '../shared/InputField'
 import { CustomLink } from '../shared/customLink/CustomLink'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 
-export function SigninForm({
+export function LoginForm({
   formValues,
   errors,
   handleInputChange,
@@ -27,18 +27,18 @@ export function SigninForm({
         placeholder="password"
         onChange={handleInputChange}
       />
-      <CustomLink
+      {/* <CustomLink
         className="text-primary-purple text-xs hover:underline dark:text-white"
         href="#">
         Forget Password?
-      </CustomLink>
+      </CustomLink> */}
       <div className="mt-6">
         <div
           onClick={handleLoginSubmit}
           className={`flex w-full transform cursor-pointer justify-center rounded-xl bg-accent px-4 py-2 tracking-wide text-white transition-colors duration-200 focus:outline-none ${
             loading && 'bg-gray-400'
           }`}>
-          <p>Sign in</p>
+          <p>Log in</p>
           {loading ? (
             <div className="ml-2">
               <CircularProgressIcon color="gray" />
