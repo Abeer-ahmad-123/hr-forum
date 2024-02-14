@@ -2,20 +2,24 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deleteComment } from '@/services/comments'
+import { DecreaseCommentCountInStore } from '@/store/Slices/postSlice'
 import { showSuccessAlert } from '@/utils/helper'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
 interface CommentDeleteProps {
-  setOpenDeleteDialog: (arg0: boolean) => void
   commentId: string
+  postId: string
+  setOpenDeleteDialog: (arg0: boolean) => void
+  setDeletedCommentId?: (arg0: string) => void
 }
 
 const CommentDelete = ({
-  setOpenDeleteDialog,
   commentId,
+  postId,
+  setOpenDeleteDialog,
+  setDeletedCommentId,
 }: CommentDeleteProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const tokenInRedux =
@@ -24,9 +28,9 @@ const CommentDelete = ({
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const { customFetch } = useInterceptor()
+  const disptach = useDispatch()
 
   const handleCancel = () => {
-    console.log(commentId)
     setOpenDeleteDialog(false)
   }
 
@@ -42,6 +46,10 @@ const CommentDelete = ({
 
       if (response.status === 204) {
         setLoading(false)
+        if (setDeletedCommentId) {
+          setDeletedCommentId(commentId)
+          disptach(DecreaseCommentCountInStore(postId))
+        }
         showSuccessAlert('Comment deleted successfully')
         setOpenDeleteDialog(false)
       }

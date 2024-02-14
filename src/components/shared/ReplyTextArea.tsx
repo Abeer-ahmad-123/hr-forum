@@ -86,7 +86,6 @@ function ReplyTextArea({
   useEffect(() => {
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])
-
   console.log(replies)
 
   return (
@@ -96,6 +95,8 @@ function ReplyTextArea({
           <CommentDelete
             setOpenDeleteDialog={setOpenDeleteDialog}
             commentId={replies?.comment?.id}
+            setDeletedCommentId={setDeletedCommentId}
+            postId={replies?.comment?.post_id}
           />
         </DialogContent>
       </Dialog>

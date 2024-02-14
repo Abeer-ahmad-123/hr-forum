@@ -5,7 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
 import { useSelector } from 'react-redux'
@@ -46,6 +46,8 @@ const PostActionBar = ({
     ''
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState([])
+
+  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
   const { handleRedirect } = useFetchFailedClient()
   const [showSignModal, setShowSignModal] = useState(false)
@@ -154,6 +156,16 @@ const PostActionBar = ({
     setPopOver(false)
   }
 
+  useEffect(() => {
+    if (deletedCommentId) {
+      setComment((prevComments: any) => {
+        return prevComments.filter(
+          (comment: any) => comment.id !== deletedCommentId,
+        )
+      })
+    }
+  }, [deletedCommentId])
+
   return (
     <>
       <div className="flex flex-col">
@@ -211,9 +223,15 @@ const PostActionBar = ({
               btnClass="mr-[0px]"
               Id={postId}
               setComments={setComment}
+              postId={postId}
             />
             <div className="mx-10">
-              {comment.length != 0 && <CommentSection comment={comment[0]} />}
+              {comment.length != 0 && (
+                <CommentSection
+                  comment={comment[0]}
+                  setDeletedCommentId={setDeletedCommentId}
+                />
+              )}
             </div>
           </div>
         )}
