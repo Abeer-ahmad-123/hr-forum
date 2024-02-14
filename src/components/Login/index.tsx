@@ -135,15 +135,12 @@ export default function Login({
           pathname === '/login' ? 'shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
-          className={` m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
+          className={`m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Login in
           </h1>
-          <div>
-            <GoogleButton
-              title="Log In"
-              callbackFunction={handleGoogleSignIn}
-            />
+          <div className="cursor-pointer">
+            <GoogleButton title="Log In" onClick={handleGoogleSignIn} />
           </div>
           <p className=" my-3 text-center dark:text-white">OR</p>
           <LoginForm

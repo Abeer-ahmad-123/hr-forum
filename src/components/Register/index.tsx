@@ -162,10 +162,9 @@ export default function Register({
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Sign Up
           </h1>
-          <GoogleButton
-            title={'Sign Up'}
-            callbackFunction={handleGoogleSignUp}
-          />
+          <div className="cursor-pointer">
+            <GoogleButton title={'Sign Up'} onClick={handleGoogleSignUp} />
+          </div>
           <p className="mt-4 text-center dark:text-white">OR</p>
 
           <RegisterForm

@@ -5,7 +5,11 @@ export function middleware(request: NextRequest) {
   const route = request.url.split('/')[3] ?? '/'
   const redirect = NextResponse.redirect(new URL('/feeds', request.url))
 
-  if (!isUserLogin && (route === 'saved' || route === 'profile' || !route)) {
+  if (!isUserLogin && (route === 'saved' || route === 'profile')) {
+    return redirect
+  }
+
+  if (!route) {
     return redirect
   }
 
