@@ -1,6 +1,6 @@
 'use client'
-import Signin from '@/components/Signin'
-import Signup from '@/components/Signup'
+import Signin from '@/components/Login'
+import Signup from '@/components/Register'
 import { DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import React from 'react'
 interface SignInDialogProps {

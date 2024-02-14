@@ -7,12 +7,13 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@/components/ui/Dialog/simpleDialog'
-import Signin from '@/components/Signin'
-import Signup from '@/components/Signup'
+import Signin from '@/components/Login'
+import Signup from '@/components/Register'
 
 export default function SigninNavButton() {
   const [showSignUpForm, setShowSignUpForm] = React.useState(false)
   const [openDialog, setOpenDialog] = React.useState(false)
+
   const toggleForm = () => {
     setShowSignUpForm((current) => !current)
   }
