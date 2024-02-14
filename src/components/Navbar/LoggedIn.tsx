@@ -12,6 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
+import { noProfilePicture } from '@/assets/images'
 
 function LoggedIn() {
   const router = useRouter()
@@ -61,9 +62,7 @@ function LoggedIn() {
         <div className="relative h-8 w-8 overflow-hidden rounded-full">
           <img
             className="h-full w-full rounded-full object-cover"
-            src={
-              profilePictureURL || 'https://ui-avatars.com/api/?name=John+Doe'
-            }
+            src={profilePictureURL || noProfilePicture.src}
             height={25}
             width={25}
             alt="User"
