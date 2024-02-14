@@ -34,7 +34,7 @@ function LoggedIn() {
   const handleLogout = () => {
     logout()
     dispatch(clearUser())
-    if (pathname.includes('saved')) {
+    if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
     } else {
       router.refresh()
