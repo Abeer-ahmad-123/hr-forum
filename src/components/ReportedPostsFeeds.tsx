@@ -49,6 +49,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const [posts, setPosts] = useState<ReportedPostsFeedsProps[]>([])
 
   let noMorePosts = useRef<boolean>(morePosts)
+  let firstRunRef = useRef<boolean>(true)
 
   const userId = slug.split('-')[1]
 
@@ -90,7 +91,10 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   }
 
   useEffect(() => {
-    getPosts()
+    if (firstRunRef.current) {
+      getPosts()
+      firstRunRef.current = false
+    }
     getAllChannels()
   }, [])
 
@@ -100,71 +104,69 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     }
   }, [inView])
 
-  {
-    return loading ? (
-      <CardLoading />
-    ) : (
-      <div>
-        <div className="mx-auto flex max-w-screen-xl justify-center">
-          {
-            <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-              {userData && <ProfileCard />}
-              <div
-                className={`${
-                  userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
-                } sticky  max-h-screen`}>
-                {<ChannelCard />}
-              </div>
-              <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
-                {' '}
-                {<RulesCard />}
-              </div>
+  return loading ? (
+    <CardLoading />
+  ) : (
+    <div>
+      <div className="mx-auto flex max-w-screen-xl justify-center">
+        {
+          <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
+            {userData && <ProfileCard />}
+            <div
+              className={`${
+                userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
+              } sticky  max-h-screen`}>
+              {<ChannelCard />}
             </div>
-          }
+            <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
+              {' '}
+              {<RulesCard />}
+            </div>
+          </div>
+        }
 
-          <div className={`w-full max-w-screen-md`}>
-            <div className="flex w-full justify-center">
-              <div className="w-full">
-                <div>
-                  {' '}
-                  <RespScreen />
-                </div>
-                <div
-                  className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
-                  <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${slug}/feed`) && (
-                      <ActivityButtons slug={slug} />
-                    )}
-                    <div>
-                      {posts?.length ? (
-                        posts?.map((report: any, index: number) => {
-                          // change it to post once backend issue resolved
-                          return (
-                            <Card
-                              key={index}
-                              post={report.post}
-                              channels={channel}
-                              setPosts={setPosts}
-                              posts={posts}
-                            />
-                          )
-                        })
-                      ) : (
-                        <NoPosts />
-                      )}
-                    </div>
-                    {!!posts?.length && noMorePosts?.current && (
-                      <CircularProgress incommingRef={ref} />
+        <div className={`w-full max-w-screen-md`}>
+          <div className="flex w-full justify-center">
+            <div className="w-full">
+              <div>
+                {' '}
+                <RespScreen />
+              </div>
+              <div
+                className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
+                <div className="min-h-[70vh] w-full">
+                  {pathName.includes(`/${slug}/feed`) && (
+                    <ActivityButtons slug={slug} />
+                  )}
+                  <div>
+                    {posts?.length ? (
+                      posts?.map((report: any, index: number) => {
+                        // change it to post once backend issue resolved
+                        return (
+                          <Card
+                            key={index}
+                            post={report.post}
+                            channels={channel}
+                            setPosts={setPosts}
+                            posts={posts}
+                          />
+                        )
+                      })
+                    ) : (
+                      <NoPosts />
                     )}
                   </div>
+                  {!!posts?.length && noMorePosts?.current && (
+                    <CircularProgress incommingRef={ref} />
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default ReportedPostsFeeds
