@@ -25,6 +25,7 @@ const FeaturesDropDown = ({
   const divRef: any = useRef(null)
 
   const pathname = usePathname()
+
   const setCheckFalse = () => {
     setShowMenu(false)
   }
@@ -42,7 +43,7 @@ const FeaturesDropDown = ({
   }
 
   const showDiv = showMenu
-    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] ${classNamefeaturesDropDowm}`
+    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] max-md:w-full ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {
@@ -114,7 +115,9 @@ const FeaturesDropDown = ({
 
   return (
     <div
-      className={`relative flex cursor-pointer justify-center ${classNameOuter}`}
+      className={` ${
+        pathname.includes('/channels') ? 'max-md:mt-[10px]' : ''
+      } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
         className={`${classNameInner} h-8 rounded border border-[#e6e6e6] dark:dark:bg-black`}>
