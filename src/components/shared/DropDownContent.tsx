@@ -1,9 +1,10 @@
 import { navigation } from '@/utils/data'
 import { StoreChannels } from '@/utils/interfaces/channels'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { BsDot } from 'react-icons/bs'
 import { useSelector } from 'react-redux'
 import { CustomLink } from './customLink/CustomLink'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 type NavigationItem = {
   name: string
@@ -16,7 +17,6 @@ const DropDownContent = ({
 }: {
   handleLi: () => void
 }): JSX.Element => {
-  const router = useRouter()
   const pathname = usePathname()
   const channels = useSelector(
     (state: StoreChannels) => state?.channels?.channels,
@@ -59,31 +59,34 @@ const DropDownContent = ({
     return pathname === key
   }
 
+  const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
+
   return (
     <ul className={`bg-white dark:bg-black`}>
       <div className="lg:h-3"></div>
 
       {navigation.map((item: NavigationItem, index: number) => {
-        return (
-          <li
-            className="hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
-            key={index}
-            onClick={handleLi}>
-            <CustomLink
-              href={item?.href}
-              className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ${textStyle(
-                item?.href,
-              )}`}
-              data-testid="navigation-heading">
-              <item.icon
-                className={`h-6 w-6 shrink-0 ${iconStyle(item?.href)}`}
-                aria-hidden="true"
-                data-testid="navigation-icon"
-              />
-              {item.name}
-            </CustomLink>
-          </li>
-        )
+        if ((!token && item.name !== 'Saved') || token)
+          return (
+            <li
+              className="hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+              key={index}
+              onClick={handleLi}>
+              <CustomLink
+                href={item?.href}
+                className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ${textStyle(
+                  item?.href,
+                )}`}
+                data-testid="navigation-heading">
+                <item.icon
+                  className={`h-6 w-6 shrink-0 ${iconStyle(item?.href)}`}
+                  aria-hidden="true"
+                  data-testid="navigation-icon"
+                />
+                {item.name}
+              </CustomLink>
+            </li>
+          )
       })}
 
       <div className="ml-2 border-none px-1 py-1 text-start text-gray-800 dark:text-gray-200">
