@@ -42,7 +42,7 @@ const CommentSection = ({
   const slug = pathName.split('/')[2]
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
-    let index = Math.floor(replies?.comment.replies?.length / 10 + 1)
+    let index = Math.floor(replies?.comment.replies?.length / 10) + 1
     const data = await getComment(comment.id, userId, { nestedPage: index })
 
     setReplies({
