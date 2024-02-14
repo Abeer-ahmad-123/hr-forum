@@ -19,55 +19,39 @@ import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
-
-interface profileProps {
-  userId?: string
-}
+import { profileProps } from '@/utils/interfaces/userData'
+import ProfilePageLoading from './Loading/ProfilePageLoading'
 
 const RespProfile = ({ userId }: profileProps) => {
+  const { handleRedirect } = useFetchFailedClient()
+  const { customFetch } = useInterceptor()
+
   const dispatch = useDispatch()
+
   const userToken = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.token,
   )
-
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: false,
-    isPost: true,
-  })
-
   const refreshToken =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const { customFetch } = useInterceptor()
-  const { handleRedirect } = useFetchFailedClient()
-
-  const imageInputRef = useRef(null)
-  const [posts, setUserSpecificPosts] = useState<any>([])
-  const [user, setUser] = useState<any>('')
-  const morePosts = useRef(false)
-  const isFirstUser = useRef(true)
-
-  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(false)
-  const [image, setImage] = useState<any>(null)
-
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
-  const user_Id = userId || userDataInStore.id
+  const [user, setUser] = useState<any>('')
+  const [dialogOpen, setOpenDialog] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
+  const [image, setImage] = useState<any>(null)
+
+  const isFirstUser = useRef(true)
+  const imageInputRef = useRef(null)
+
+  const userIdLocal = userId || userDataInStore.id
+
   const getUserSpecificDetail = async () => {
     try {
       setLoading(true)
-      const response = await getSpecificUserDetails(
-        userId || userDataInStore.id,
-      )
-
+      const response = await getSpecificUserDetails(userIdLocal)
       if (response.success) {
         setUser(response?.data?.user)
         setLoading(false)
@@ -165,7 +149,6 @@ const RespProfile = ({ userId }: profileProps) => {
       setUser(userDataInStore)
     }
   }
-
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
@@ -173,178 +156,188 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }, [])
 
-  return (
-    <>
-      <div className="profile-page  max-md:block">
-        <section className="relative mt-5 block h-[650px]">
-          {user?.backgroundPictureURL ? (
-            <div
-              className="absolute top-0 h-[60%] w-full bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${user?.backgroundPictureURL})`,
-              }}>
-              {!userId && (
-                <label
-                  htmlFor="changeBackgroundImage"
-                  className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                  <LiaUserEditSolid className="cursor-pointer text-white" />
-                </label>
-              )}
-              <input
-                className="hidden border border-[#d3d3d3]"
-                id="changeBackgroundImage"
-                ref={imageInputRef}
-                type="file"
-                accept="image/*"
-                onChange={onBgImageInputChange}
-              />
-              <span
-                id="blackOverlay"
-                className="absolute left-0 h-full w-full bg-black opacity-50"></span>
-            </div>
-          ) : (
-            <>
-              <BgBanner />
-              {!userId && (
-                <label
-                  htmlFor="changeBackgroundImage"
-                  className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                  <LiaUserEditSolid className="cursor-pointer text-white" />
-                </label>
-              )}
-              <input
-                className="border=[#d3d3d3] hidden border"
-                id="changeBackgroundImage"
-                ref={imageInputRef}
-                type="file"
-                accept="image/*"
-                onChange={onBgImageInputChange}
-              />
-            </>
-          )}
-
+  return user.id ? (
+    <div className="profile-page  max-md:block">
+      <section className="relative mt-5 block h-[650px]">
+        {user?.backgroundPictureURL ? (
           <div
-            className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
-            style={{ transform: 'translateZ(0px)' }}>
-            <svg
-              className="absolute bottom-0 overflow-hidden"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              version="1.1"
-              viewBox="0 0 2560 100"
-              x="0"
-              y="0">
-              <polygon
-                className="text-blueGray-200 fill-current"
-                points="2560 0 2560 100 0 100"></polygon>
-            </svg>
+            className="absolute top-0 h-[60%] w-full bg-cover bg-center"
+            style={{
+              backgroundImage: `url(${user?.backgroundPictureURL})`,
+            }}>
+            {!userId && (
+              <label
+                htmlFor="changeBackgroundImage"
+                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                <LiaUserEditSolid className="cursor-pointer text-white" />
+              </label>
+            )}
+            <input
+              className="hidden border border-[#d3d3d3]"
+              id="changeBackgroundImage"
+              ref={imageInputRef}
+              type="file"
+              accept="image/*"
+              onChange={onBgImageInputChange}
+            />
+            <span
+              id="blackOverlay"
+              className="absolute left-0 h-full w-full bg-black opacity-50"></span>
           </div>
-        </section>
+        ) : (
+          <>
+            <BgBanner />
+            {!userId && (
+              <label
+                htmlFor="changeBackgroundImage"
+                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+                <LiaUserEditSolid className="cursor-pointer text-white" />
+              </label>
+            )}
+            <input
+              className="border=[#d3d3d3] hidden border"
+              id="changeBackgroundImage"
+              ref={imageInputRef}
+              type="file"
+              accept="image/*"
+              onChange={onBgImageInputChange}
+            />
+          </>
+        )}
 
-        <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
-          <div className=" mx-auto ">
-            <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-slate-800">
-              {/* Profile card start */}
-              <div className="px-6">
-                <div className="top-0">
-                  <div className="flex w-full">
-                    <div className="relative flex justify-center md:w-full">
-                      <img
-                        alt="..."
-                        width={96}
-                        height={96}
-                        src={
-                          user?.profilePictureURL
-                            ? user?.profilePictureURL
-                            : noProfilePicture.src
-                        }
-                        className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
-                      />
-                      {!userId && (
-                        <label
-                          htmlFor="changeImage"
-                          className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
-                          <LiaUserEditSolid className="cursor-pointer text-white" />
-                        </label>
-                      )}
-                      <input
-                        key={`${dialogOpen}`}
-                        className="hidden border border-[#d3d3d3]"
-                        id="changeImage"
-                        ref={imageInputRef}
-                        type="file"
-                        accept="image/*"
-                        onChange={handleInputChange}
-                      />
-                      {/* TODO: Uploading an image two times not working!!! */}
-                      <ImageUpload
-                        image={image}
-                        dialogOpen={dialogOpen}
-                        setOpenDialog={setOpenDialog}
-                        saveCroppedImage={saveImage}
-                        disableButton={loading}
-                      />
-                    </div>
-                  </div>
+        <div
+          className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
+          style={{ transform: 'translateZ(0px)' }}>
+          <svg
+            className="absolute bottom-0 overflow-hidden"
+            xmlns="http://www.w3.org/2000/svg"
+            preserveAspectRatio="none"
+            version="1.1"
+            viewBox="0 0 2560 100"
+            x="0"
+            y="0">
+            <polygon
+              className="text-blueGray-200 fill-current"
+              points="2560 0 2560 100 0 100"></polygon>
+          </svg>
+        </div>
+      </section>
 
-                  {!userId && (
-                    <EditProfileButton
-                      userData={{
-                        name: userDataInStore?.name || '',
-                        email: userDataInStore?.email || '',
-                        bio: userDataInStore?.bio || '',
-                      }}
-                      setUserData={setUser}
+      <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
+        <div className=" mx-auto ">
+          <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-slate-800">
+            {/* Profile card start */}
+            <div className="px-6">
+              <div className="top-0">
+                <div className="flex w-full">
+                  <div className="relative flex justify-center md:w-full">
+                    <img
+                      alt="..."
+                      width={96}
+                      height={96}
+                      src={
+                        user?.profilePictureURL
+                          ? user?.profilePictureURL
+                          : noProfilePicture.src
+                      }
+                      className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
                     />
-                  )}
+                    {!userId && (
+                      <label
+                        htmlFor="changeImage"
+                        className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
+                        <LiaUserEditSolid className="cursor-pointer text-white" />
+                      </label>
+                    )}
+                    <input
+                      key={`${dialogOpen}`}
+                      className="hidden border border-[#d3d3d3]"
+                      id="changeImage"
+                      ref={imageInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleInputChange}
+                    />
+                    {/* TODO: Uploading an image two times not working!!! */}
+                    <ImageUpload
+                      image={image}
+                      dialogOpen={dialogOpen}
+                      setOpenDialog={setOpenDialog}
+                      saveCroppedImage={saveImage}
+                      disableButton={loading}
+                    />
+                  </div>
                 </div>
 
-                <div className="flex justify-center gap-[20px] pb-6">
-                  <div className="mt-12 p-6 text-center max-md:text-left">
-                    <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
-                      {user?.name}
-                    </h3>
-                    <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
-                      <div className="flex items-center">
-                        <User
-                          className="mr-1 text-gray-600 dark:text-white"
-                          size={17}
-                        />
-                        <div className="dark:text-white"> {user?.username}</div>
-                      </div>
-                      <div className="flex items-center dark:text-white">
-                        <Mail
-                          className="mr-1 text-gray-600 dark:text-white"
-                          size={17}
-                        />
-                        <div className="">{user?.email}</div>
-                      </div>
+                {!userId && (
+                  <EditProfileButton
+                    userData={{
+                      name: userDataInStore?.name || '',
+                      email: userDataInStore?.email || '',
+                      bio: userDataInStore?.bio || '',
+                    }}
+                    setUserData={setUser}
+                  />
+                )}
+              </div>
+
+              <div className="flex justify-center gap-[20px] pb-6">
+                <div className="mt-12 p-6 text-center max-md:text-left">
+                  <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
+                    {user?.name}
+                  </h3>
+                  <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
+                    <div className="flex items-center">
+                      <User
+                        className="mr-1 text-gray-600 dark:text-white"
+                        size={17}
+                      />
+                      <div className="dark:text-white"> {user?.username}</div>
                     </div>
-                    <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
-                      {user?.bio}
+                    <div className="flex items-center dark:text-white">
+                      <Mail
+                        className="mr-1 text-gray-600 dark:text-white"
+                        size={17}
+                      />
+                      <div className="">{user?.email}</div>
                     </div>
+                  </div>
+                  <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
+                    {user?.bio}
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="mt-[40px] flex flex-col gap-[65px] lg:flex-row">
-            <div className=" w- flex flex-col gap-[1.5rem]">
-              <UserDataBadge
-                postCount={
-                  userId ? user?.post_count : userDataInStore.post_count
-                }
-                commentCount={
-                  userId ? user?.comment_count : userDataInStore.comment_count
-                }
-              />
-            </div>
-
-            <UserActivity userId={user_Id} />
+        </div>
+        <div className="mt-[40px] flex flex-col gap-[65px] lg:flex-row">
+          <div className=" w- flex flex-col gap-[1.5rem]">
+            <UserDataBadge
+              postCount={userId ? user?.post_count : userDataInStore.post_count}
+              commentCount={
+                userId ? user?.comment_count : userDataInStore.comment_count
+              }
+              userName={user.username}
+              userId={userIdLocal}
+              reportedPostCount={
+                userId
+                  ? user?.reported_post_count
+                  : userDataInStore.reported_post_count
+              }
+              reportedCommentCount={
+                userId
+                  ? user?.reported_comment_count
+                  : userDataInStore.reported_comment_count
+              }
+            />
           </div>
-        </section>
-      </div>
-    </>
+
+          <UserActivity userId={userIdLocal} />
+        </div>
+      </section>
+    </div>
+  ) : (
+    <ProfilePageLoading />
   )
 }
 

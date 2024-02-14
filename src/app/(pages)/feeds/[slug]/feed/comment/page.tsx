@@ -1,22 +1,13 @@
+import CardLoading from '@/components/Loading/cardLoading'
 import UserCommentsFeeds from '@/components/UserCommentsFeeds'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { UserParamsProps } from '@/utils/interfaces/userData'
+import { Suspense } from 'react'
 
-interface UserCommentsProps {
-  params: {
-    slug: string
-  }
-}
-const UserComments = ({ params }: UserCommentsProps) => {
-  const userDetailsCookies = cookies().get('user-details')
-  if (!userDetailsCookies) {
-    redirect('/feeds')
-  } else {
-    return (
-      <div>
-        <UserCommentsFeeds slug={params.slug} />
-      </div>
-    )
-  }
+const UserComments = ({ params }: UserParamsProps) => {
+  return (
+    <Suspense fallback={<CardLoading />}>
+      <UserCommentsFeeds slug={params.slug} />
+    </Suspense>
+  )
 }
 export default UserComments

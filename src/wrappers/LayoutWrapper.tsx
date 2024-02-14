@@ -112,7 +112,6 @@ const LayoutWrapper = ({ children }: any) => {
       isFirstOnce.current = true
       if (code) {
         exchangeCode(code!)
-      } else {
       }
     }
   }, [searchParams])

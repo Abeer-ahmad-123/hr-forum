@@ -6,60 +6,71 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
+
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
-import { useInView } from 'react-intersection-observer'
+import {
+  CommentInterface,
+  UserSpecificPostsInterface,
+} from '@/utils/interfaces/posts'
 
-import { getUserComments } from '@/services/comments'
-import { usePathname, useRouter } from 'next/navigation'
+import { getReportedComments } from '@/services/comments'
+import { SlugProps } from '@/utils/interfaces/userData'
+import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 import { useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
 
-const ReportedCommentsFeeds = () => {
-  const morePosts = useRef<boolean>(false)
-  let noMorePosts = useRef(morePosts)
+interface ReportedCommentsFeedsProps {
+  id: number
+  created_at: string
+  updated_at: string
+  content: string
+  user_id: number
+  post_Id: number
+  parent_id: number
+  author_details: {
+    username: string
+    name: string
+    profile_picture_url: string
+  }
+  total_replies: number
+  user_has_reported: boolean
+  comment: CommentInterface
+}
+
+const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [ref, inView] = useInView()
-  const [channel, setChannel] = useState<ChannelInterface>()
-  const router = useRouter()
-
-  const path = '/channels'
-  const [comments, setComments] = useState([])
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
   const pathName = usePathname()
-  const routeTo = `/feeds/${userData?.username}/feed`
+  const { handleRedirect } = useFetchFailedClient()
 
-  const [page, setPage] = useState(1)
-  const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
-  let morePostsExist = useRef(morePosts)
-  const [isCommentsLoading, setIsCommentsLoading] = useState(true)
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: true,
-    isReaction: false,
-    isPost: false,
-  })
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
+
+  const [page, setPage] = useState<number>(1)
+  const [morePosts] = useState<boolean>(true)
+  const [comments, setComments] = useState<ReportedCommentsFeedsProps[]>([])
+  const [channel, setChannel] = useState<ChannelInterface>()
+  const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
+  const [isCommentsLoading, setIsCommentsLoading] = useState(true)
+
+  let noMorePosts = useRef<boolean>(morePosts)
+
+  const userId = slug.split('-')[1]
 
   const getAllChannels = async () => {
     try {
       const { channels } = await getChannels()
       setChannel(channels)
     } catch (error) {
-      if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+      if (error instanceof Error) {
+        handleRedirect({ error })
       }
     }
   }
@@ -70,22 +81,22 @@ const ReportedCommentsFeeds = () => {
 
   const getComments = async () => {
     try {
-      const response = await getUserComments(userDataInStore.id, {
-        loadUser: true,
-        page,
-      })
+      const { reports, pagination } = await getReportedComments(
+        userId ?? userDataInStore.id,
+        {
+          page,
+        },
+      )
 
-      if (response.success) {
-        setPage(page + 1)
-        morePostsExist.current =
-          response.data?.pagination?.CurrentPage &&
-          response.data?.pagination?.CurrentPage !==
-            response.data?.pagination?.TotalPages
-        setComments(response?.data?.comments)
-      }
+      setPage(page + 1)
+      noMorePosts.current =
+        pagination?.CurrentPage &&
+        pagination?.CurrentPage !== pagination?.TotalPages
+
+      setComments((prev: ReportedCommentsFeedsProps[]) => [...prev, ...reports])
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setIsCommentsLoading(false)
@@ -116,14 +127,16 @@ const ReportedCommentsFeeds = () => {
         <div className="mx-auto flex max-w-screen-xl justify-center">
           {
             <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-              {userData && <ProfileCard />}
+              {userDataInStore && <ProfileCard />}
               <div
                 className={`${
-                  userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
+                  userDataInStore
+                    ? 'top-[70px] mt-[0px]'
+                    : 'top-[60px] mt-[20px]'
                 } sticky  max-h-screen`}>
                 {<ChannelCard />}
               </div>
-              <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[330px]">
+              <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
                 {' '}
                 {<RulesCard />}
               </div>
@@ -140,20 +153,20 @@ const ReportedCommentsFeeds = () => {
                 <div
                   className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                   <div className="min-h-[70vh] w-full">
-                    {pathName.includes(`/${userDataInStore.username}/feed`) && (
-                      <ActivityButtons slug={''} />
+                    {pathName.includes(`/${slug}/feed`) && (
+                      <ActivityButtons slug={slug} />
                     )}
                     <div>
                       {!!comments?.length ? (
-                        comments?.map((comment: any, index: number) => {
+                        comments?.map((reported: any, index: number) => {
                           return (
                             <Card
                               key={index}
-                              post={comment.post}
+                              post={reported.comment.post}
                               channels={channel}
                               setPosts={setPosts}
                               posts={posts}
-                              userComment={comment}
+                              userComment={reported.comment}
                             />
                           )
                         })
@@ -161,7 +174,7 @@ const ReportedCommentsFeeds = () => {
                         <NoPosts />
                       )}
                     </div>
-                    {comments?.length && noMorePosts?.current && (
+                    {!!comments?.length && noMorePosts?.current && (
                       <CircularProgress incommingRef={ref} />
                     )}
                   </div>

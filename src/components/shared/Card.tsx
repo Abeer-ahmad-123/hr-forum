@@ -1,15 +1,20 @@
 'use client'
 import { noProfilePicture } from '@/assets/images'
 import ChannelPill from '@/components/shared/ChannelPill'
-import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
+import {
+  returnFilteredPosts,
+  showErrorAlert,
+  timeFormatInHours,
+  updatePostBookmark,
+} from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon, Trash2 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PostActionBar from './PostActionBar'
 import PostReactionBar from './PostReactionBar'
 
@@ -26,6 +31,8 @@ import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
+import { setPosts } from '@/store/Slices/postSlice'
+import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
@@ -45,10 +52,10 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     user_has_reported,
     user_id,
     image_url,
-    total_comments,
   } = post
   const pathName = usePathname()
   const router = useRouter()
+  const dispatch = useDispatch()
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
@@ -63,8 +70,9 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
-  const [commentCount, setCommentCount] = useState<number>(0)
-
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -81,6 +89,8 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     useState<boolean>(user_has_bookmarked)
   const [reported, setReported] = useState<boolean>(user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+
+  let reactionRef = useRef<boolean>(false)
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -137,7 +147,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const handleNavigateProfile = (event: any) => {
     nProgress.start()
     event.preventDefault()
-    event.stopPropagation() // Prevent propagation to card's onClick
+    event.stopPropagation()
     router.push(
       userDetails?.id === user_id ? '/profile' : `/profile/${user_id}`,
     )
@@ -182,13 +192,18 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         )
 
         if (res.success) {
-          if (res.data) {
-            setBookmarkSuccess(true)
-          } else if (res.status === 200) {
-            setBookmarkSuccess(false)
-          }
+          setBookmarkSuccess(true)
+          dispatch(setPosts(updatePostBookmark(storePosts, id, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
+          if (pathName.includes('saved')) {
+            dispatch(setPosts(returnFilteredPosts(storePosts, Number(id))))
+            if (pathName.includes('/saved/feed')) {
+              router.back()
+            }
+          } else {
+            dispatch(setPosts(updatePostBookmark(storePosts, id, false)))
+          }
         } else {
           throw res.errors[0]
         }
@@ -227,9 +242,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     setReported(user_has_reported)
   }, [user_has_reported])
 
-  useEffect(() => {
-    setCommentCount(total_comments)
-  }, [total_comments])
   return (
     <div id={id} key={id}>
       <div
@@ -382,24 +394,20 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
           </div>
         </div>
 
-        <PostReactionBar
-          reaction_summary={reactionSummary}
-          postId={id}
-          total_comments={commentCount}
-        />
+        <PostReactionBar reaction_summary={reactionSummary} postId={id} />
         <hr />
 
-        <div className="py-1">
+        <div className="py-1" key={id}>
           <PostActionBar
             postId={id}
-            userReaction={userReaction}
+            userReaction={reactionRef.current ? userReaction : user_reaction}
             setUserReaction={setUserReaction}
             updateReactionArray={updateReactionArray}
             reactionSummary={reactionSummary}
             disableReactionButton={disableReactionButton}
             setDisableReactionButton={setDisableReactionButton}
-            setCommentCount={setCommentCount}
             userComment={userComment}
+            reactionRef={reactionRef}
           />
         </div>
       </div>

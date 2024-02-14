@@ -6,9 +6,11 @@ import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
+
+import { IncreaseCommentCountInStore } from '@/store/Slices/postSlice'
 
 const CommentOrReply = ({
   reply = false,
@@ -25,7 +27,6 @@ const CommentOrReply = ({
   createdDate,
   replies,
   commentLength,
-  setCommentCount,
 }: any) => {
   const params = useParams()
   const postId = params['id'] || Id
@@ -35,12 +36,13 @@ const CommentOrReply = ({
   )
   const { handleRedirect } = useFetchFailedClient()
 
+  const disptach = useDispatch()
+
   const { customFetch } = useInterceptor()
   const [isLoading, setIsLoading] = useState({
     loading: false,
     status: 'null',
   })
-
   const handleSubmit = async (value: any) => {
     try {
       setIsLoading({ ...isLoading, loading: true })
@@ -61,12 +63,11 @@ const CommentOrReply = ({
           })
       if (result?.success) {
         if (!commentId) {
+          disptach(IncreaseCommentCountInStore(postId))
           setComments((prevComments: Array<Object>) => [
             result?.data?.comment,
             ...prevComments,
           ])
-
-          setCommentCount((prev: number) => prev + 1)
         } else {
           refetchComments()
         }
@@ -112,6 +113,7 @@ const CommentOrReply = ({
           inputRef={inputRef}
           placeholder="Write your comment..."
           getPostCommets={getPostCommets}
+          classNameOuter={'mx-4'}
         />
       )}
     </div>

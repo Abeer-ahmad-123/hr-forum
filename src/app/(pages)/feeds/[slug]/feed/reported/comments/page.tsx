@@ -1,13 +1,13 @@
+import CardLoading from '@/components/Loading/cardLoading'
 import ReportedCommentsFeeds from '@/components/ReportedCommentsFeeds'
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
+import { UserParamsProps } from '@/utils/interfaces/userData'
+import { Suspense } from 'react'
 
-function ReportedComments() {
-  const userDetailsCookies = cookies().get('user-details')
-  if (!userDetailsCookies) {
-    redirect('/feeds')
-  } else {
-    return <ReportedCommentsFeeds />
-  }
+function ReportedComments({ params }: UserParamsProps) {
+  return (
+    <Suspense fallback={<CardLoading />}>
+      <ReportedCommentsFeeds slug={params.slug} />
+    </Suspense>
+  )
 }
 export default ReportedComments

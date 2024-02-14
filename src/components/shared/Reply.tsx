@@ -142,7 +142,7 @@ function Reply({
                 )}
               </div>
 
-              <div className="mt-0 h-full w-full p-2.5 text-left leading-loose text-gray-600 dark:text-white">
+              <div className="mt-0 flex flex-wrap break-all p-2.5 text-left leading-loose text-gray-600 dark:text-white">
                 {reply.content}
               </div>
             </div>
@@ -161,7 +161,8 @@ function Reply({
                   <Popover open={popOver} onOpenChange={setPopOver}>
                     <PopoverTrigger className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
                       <span
-                        className="font-light  max-custom-sm:hidden "
+                        className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                         onClick={setOpenPopOver}>
                         Share
                       </span>

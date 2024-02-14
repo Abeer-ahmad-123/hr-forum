@@ -36,8 +36,8 @@ const PostActionBar = ({
   reactionSummary,
   disableReactionButton,
   setDisableReactionButton,
-  setCommentCount,
   userComment,
+  reactionRef,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -55,6 +55,7 @@ const PostActionBar = ({
 
   const { customFetch } = useInterceptor()
   const submitReaction = async (value: string) => {
+    reactionRef.current = true
     let response
     let updatedPosts
     if (tokenInRedux) {
@@ -197,12 +198,9 @@ const PostActionBar = ({
             </Popover>
           </div>
         </div>
-        <div className="mx-10">
+        <div className="">
           {pathName.includes('/comment') && (
-            <CommentSection
-              comment={userComment}
-              setCommentCount={setCommentCount}
-            />
+            <CommentSection comment={userComment} />
           )}
         </div>
 
@@ -213,15 +211,9 @@ const PostActionBar = ({
               btnClass="mr-[0px]"
               Id={postId}
               setComments={setComment}
-              setCommentCount={setCommentCount}
             />
             <div className="mx-10">
-              {comment.length != 0 && (
-                <CommentSection
-                  comment={comment[0]}
-                  setCommentCount={setCommentCount}
-                />
-              )}
+              {comment.length != 0 && <CommentSection comment={comment[0]} />}
             </div>
           </div>
         )}

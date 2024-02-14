@@ -5,7 +5,7 @@ import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
@@ -13,16 +13,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
-import { setPosts } from '@/store/Slices/postSlice'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { CommentObject, FeedProps } from '@/utils/interfaces/feeds'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
-interface FeedProps {
-  channelSlug?: string | null
-  initialPosts: PostsInterface[]
-  channels: ChannelByIdInterface[]
-  morePosts?: boolean
-  searchParams: SearchParams
-  path: string
-}
 const Feeds = ({
   channelSlug,
   initialPosts,
@@ -32,8 +26,9 @@ const Feeds = ({
   path,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>([])
-  const storePosts = useSelector((state: any) => state.posts.posts)
-  const [postToRender, setPostToRender] = useState<Array<PostsInterface>>([])
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const [page, setPage] = useState(2)
   const dispatch = useDispatch()
   const userData = useSelector(
@@ -95,7 +90,9 @@ const Feeds = ({
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
     dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
-
+  const handleCommentCount = () => {
+    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
+  }
   useEffect(() => {
     if (inView) {
       getPosts()
@@ -103,22 +100,17 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    if (searchParams.search) {
-      updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
-    } else if (!searchParams.search && initialPosts.length) {
-      updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
-    }
+    updatePosts([...initialPosts])
+    dispatch(setPosts([...initialPosts]))
   }, [initialPosts])
 
   useEffect(() => {
-    if (searchParams.search) {
-      updatePosts([...storePosts])
-    } else if (!searchParams.search && storePosts.length) {
-      updatePosts([...storePosts])
-    }
+    updatePosts([...storePosts])
   }, [storePosts])
+
+  useEffect(() => {
+    handleCommentCount()
+  }, [posts])
 
   return (
     <>

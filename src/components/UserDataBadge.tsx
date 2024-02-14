@@ -1,24 +1,28 @@
 'use client'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 import { AlertOctagon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
+import { GoReport } from 'react-icons/go'
 import { useSelector } from 'react-redux'
 
-interface UserDataBadgeProps {
-  postCount: number
-  commentCount: number
-}
-
-const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
+const UserDataBadge = ({
+  postCount,
+  commentCount,
+  userName,
+  userId,
+  reportedPostCount,
+  reportedCommentCount,
+}: UserDataBadgeProps) => {
   const router = useRouter()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  const routeTo = `/feeds/${userData?.username}/feed`
+  const routeTo = `/feeds/${userName + '-' + userId}/feed`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()
@@ -47,7 +51,7 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             <span className="pr-2">
               <BsPostcard size={18} />
             </span>
-            {`${postCount ? postCount : 0} post published`}
+            {`${postCount ?? 0} ${postCount > 1 ? 'posts' : 'post'} published`}
           </div>
 
           <div
@@ -57,8 +61,8 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             <span className="pr-2">
               <FaRegComment size={18} />
             </span>
-            {`${commentCount ? commentCount : 0} ${
-              commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
+            {`${commentCount ?? 0} ${
+              commentCount > 1 ? 'comments' : 'comment'
             } written`}
           </div>
 
@@ -69,8 +73,8 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             <span className="pr-2">
               <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
-            {`${commentCount ? commentCount : 0} ${
-              commentCount === 0 || commentCount === 1 ? 'post' : 'posts'
+            {`${reportedPostCount ?? 0} ${
+              reportedPostCount > 1 ? 'posts' : 'post'
             } reported`}
           </div>
 
@@ -79,10 +83,10 @@ const UserDataBadge = ({ postCount, commentCount }: UserDataBadgeProps) => {
             className="flex cursor-pointer items-center"
             onClick={handleClick}>
             <span className="pr-2">
-              <AlertOctagon className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
+              <GoReport className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
-            {`${commentCount ? commentCount : 0} ${
-              commentCount === 0 || commentCount === 1 ? 'comment' : 'comments'
+            {`${reportedCommentCount ?? 0} ${
+              reportedCommentCount > 1 ? 'comments' : 'comment'
             } reported`}
           </div>
         </div>

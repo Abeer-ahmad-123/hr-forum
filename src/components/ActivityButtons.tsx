@@ -1,30 +1,12 @@
 'use client'
 
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { SlugProps } from '@/utils/interfaces/userData'
 import { Plus, SmilePlus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
 
-interface ActivityButtonsProps {
-  slug: string
-}
-
-const ActivityButtons = ({ slug }: ActivityButtonsProps) => {
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
-    isComment: false,
-    isReaction: false,
-    isPost: true,
-  })
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+const ActivityButtons = ({ slug }: SlugProps) => {
   const routeTo = `/feeds/${slug}/feed`
   const pathName = usePathname()
 
@@ -43,12 +25,14 @@ const ActivityButtons = ({ slug }: ActivityButtonsProps) => {
 
   const handlePost = () => {
     nProgress.start()
-    router.push(`${routeTo}`)
+    pathName.includes('/reported')
+      ? router.push(`${routeTo}/reported/posts`)
+      : router.push(`${routeTo}`)
   }
   return (
     <div className="mb-4 justify-start rounded-xl bg-white px-10 py-2 dark:bg-slate-800 dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
       <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
-        Activity
+        {pathName.includes('reported') ? 'Reported Content' : 'Activity'}
       </div>
       <div className="flex cursor-pointer items-start justify-start max-md:text-sm">
         <div

@@ -4,50 +4,59 @@ import { useEffect, useRef, useState } from 'react'
 import { getUserComments } from '@/services/comments'
 import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
 import { getSpecificUserDetails } from '@/services/user'
-import { showErrorAlert } from '@/utils/helper'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
+import {
+  makeCommentNumberKeyValuePair,
+  makeCommentNumberKeyValuePairFromSummary,
+  showErrorAlert,
+} from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
 import { Plus, SmilePlus } from 'lucide-react'
 import { FaRegComment } from 'react-icons/fa'
 import { InView, useInView } from 'react-intersection-observer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import PostLoadingSkelton from './PostLoadingSkelton'
 import UserSpecificComments from './UserSpecificComments'
 import UserSpecificPosts from './UserSpecificPosts'
 import UserSpecificReaction from './UserSpecificReaction'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 interface UserActivityProps {
   userId: string | undefined
 }
+interface ProfileNavType {
+  isComment: boolean
+  isReaction: boolean
+  isPost: boolean
+}
 
 const UserActivity = ({ userId }: UserActivityProps) => {
-  const [profileNav, setProfileNav] = useState<{
-    isComment: boolean
-    isReaction: boolean
-    isPost: boolean
-  }>({
+  const { handleRedirect } = useFetchFailedClient()
+
+  const dispatch = useDispatch()
+
+  const userDataInStore = useSelector(
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
+  )
+
+  const [profileNav, setProfileNav] = useState<ProfileNavType>({
     isComment: false,
     isReaction: false,
     isPost: true,
   })
+  const [user, setUser] = useState<any>('')
+  const [comments, setComments] = useState([])
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingReaction, setLoadingReaction] = useState<boolean>(false)
-  const [user, setUser] = useState<any>('')
-  const isFirstUser = useRef(true)
-  const [comments, setComments] = useState([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
   const [reactedPosts, setReactedPosts] = useState<
     UserSpecificPostsInterface[]
   >([])
-  const [ref, inView] = useInView()
+  const [posts, setUserSpecificPosts] = useState<any>([])
+  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
 
   const morePosts = useRef<boolean>(false)
-  const [posts, setUserSpecificPosts] = useState<any>([])
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
-  const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
 
   const getAllUserSpecificPosts = async () => {
     try {
@@ -60,6 +69,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       )
       if (response.success) {
         setUserSpecificPosts(response?.data?.posts)
+        dispatch(setPosts(posts))
         morePosts.current =
           response?.data?.pagination?.TotalPages &&
           response?.data?.pagination?.CurrentPage !==
@@ -85,6 +95,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
     })
   }
   const reactionOnClick = () => {
+    handleCommentCountReactedPosts()
     setProfileNav((pre) => {
       return {
         ...pre,
@@ -96,6 +107,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   }
 
   const handlePost = () => {
+    handleCommentCount()
     setProfileNav((pre) => {
       return {
         ...pre,
@@ -141,7 +153,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setIsCommentsLoading(false)
@@ -153,31 +165,36 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       const { reactions } = await getUserReactedPosts(userId!, {})
 
       setReactedPosts([...reactions.slice(0, 3)])
+      dispatch(setPosts(reactions))
     } catch (error) {
       if (error instanceof Error && error.message) {
-        handleFetchFailed(error)
+        handleRedirect({ error })
       }
     } finally {
       setLoading(false)
     }
   }
-  useEffect(() => {
-    if (InView) {
-      getPosts()
-    }
-  }, [inView])
+
+  const handleCommentCount = () => {
+    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
+  }
+  const handleCommentCountReactedPosts = () => {
+    dispatch(
+      setCommentCountInStore(
+        makeCommentNumberKeyValuePairFromSummary(reactedPosts),
+      ),
+    )
+  }
 
   useEffect(() => {
     getComments()
-  }, [])
-
-  useEffect(() => {
     UserSpecificationPosts()
-  }, [])
-
-  useEffect(() => {
     getPosts()
   }, [])
+
+  useEffect(() => {
+    handleCommentCount()
+  }, [posts])
 
   return (
     <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">

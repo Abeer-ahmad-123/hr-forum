@@ -6,7 +6,8 @@ import { deletePost } from '@/services/posts'
 import { setPosts } from '@/store/Slices/postSlice'
 import { showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useRouter } from 'next/navigation'
+import { PostsInterfaceStore } from '@/utils/interfaces/posts'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -27,8 +28,11 @@ const DeletePost = ({
 }: DeletePostInterface) => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const pathname = usePathname()
   const [loading, setLoading] = useState<boolean>(false)
-  const storePosts = useSelector((state: any) => state.posts.posts)
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const refreshTokenInRedux =
@@ -41,6 +45,7 @@ const DeletePost = ({
   const handleCancel = () => {
     setOpenDeleteDialog(false)
   }
+
   const handleDeletePost = async () => {
     setLoading(true)
     try {
@@ -54,10 +59,14 @@ const DeletePost = ({
         setLoading(false)
         setOpenDeleteDialog(false)
         showSuccessAlert('Post deleted successfully')
-        updatePosts(posts?.filter((item: any) => item.id !== postId))
+        updatePosts(posts?.filter((item: any) => item.id !== Number(postId)))
         const filteritem = posts.length ? posts : storePosts
-        dispatch(setPosts(filteritem.filter((item: any) => item.id !== postId)))
-        router.back()
+        dispatch(
+          setPosts(
+            filteritem.filter((item: any) => item.id !== Number(postId)),
+          ),
+        )
+        if (pathname === `/feeds/feed/${postId}`) router.back()
       }
     } catch (error) {
       if (error instanceof Error) {
