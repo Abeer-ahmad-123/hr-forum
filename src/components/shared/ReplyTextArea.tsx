@@ -40,6 +40,7 @@ function ReplyTextArea({
   const [showTextArea, setShowTextArea] = useState(false)
   const [formattedDate, setFormatedDate] = useState('')
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+  const [deletedReplyId, setDeletedReplyId] = useState<string>('')
   const params = useParams()
 
   const postId = params?.id as string
@@ -87,6 +88,12 @@ function ReplyTextArea({
     setFormatedDate(FormatCreatedAt(createdDate))
   }, [])
 
+  useEffect(() => {
+    if (deletedReplyId) {
+      setShowTextArea((pre) => !pre)
+    }
+  }, [deletedReplyId])
+
   return (
     <div>
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
@@ -96,6 +103,7 @@ function ReplyTextArea({
             commentId={replies?.comment?.id}
             setDeletedCommentId={setDeletedCommentId}
             postId={replies?.comment?.post_id}
+            setDeletedReplyId={() => {}}
           />
         </DialogContent>
       </Dialog>
@@ -162,7 +170,7 @@ function ReplyTextArea({
                 commentId={commentId}
                 reportType="comment"
                 setOpenDialog={setOpenDialog}
-                setReportedReplyId={setDeletedCommentId}
+                setReportedReplyId={() => {}}
                 getPostCommets={getPostCommets}
                 setReported={() => {}}
                 setDeletedCommentId={() => {}}
@@ -172,18 +180,20 @@ function ReplyTextArea({
         )}
       </div>
       {replies?.comment?.replies?.length !== 0 &&
-        replies?.comment?.replies?.map((reply: any, index: number) => {
-          return (
-            <Reply
-              reply={reply}
-              commentLength={commentLength}
-              commentId={commentId}
-              key={commentId}
-              setReportedReplyId={() => {}}
-              getPostCommets={getPostCommets}
-            />
-          )
-        })}
+        replies.comment?.replies?.map(
+          (reply: any, index: number) =>
+            reply.id !== deletedReplyId && (
+              <Reply
+                reply={reply}
+                commentLength={commentLength}
+                commentId={commentId}
+                key={commentId}
+                setReportedReplyId={() => {}}
+                setDeletedReplyId={setDeletedReplyId}
+                getPostCommets={getPostCommets}
+              />
+            ),
+        )}
 
       <LoadMoreReplyButton
         getAllReplies={refetchComments}

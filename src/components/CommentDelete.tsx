@@ -13,6 +13,7 @@ interface CommentDeleteProps {
   postId: string
   setOpenDeleteDialog: (arg0: boolean) => void
   setDeletedCommentId?: (arg0: string) => void
+  setDeletedReplyId: (arg0: string) => void
 }
 
 const CommentDelete = ({
@@ -20,6 +21,7 @@ const CommentDelete = ({
   postId,
   setOpenDeleteDialog,
   setDeletedCommentId,
+  setDeletedReplyId,
 }: CommentDeleteProps) => {
   const [loading, setLoading] = useState<boolean>(false)
   const tokenInRedux =
@@ -46,6 +48,11 @@ const CommentDelete = ({
 
       if (response.status === 204) {
         setLoading(false)
+        if (setDeletedReplyId) {
+          setDeletedReplyId(commentId)
+          disptach(DecreaseCommentCountInStore(postId))
+        }
+
         if (setDeletedCommentId) {
           setDeletedCommentId(commentId)
           disptach(DecreaseCommentCountInStore(postId))

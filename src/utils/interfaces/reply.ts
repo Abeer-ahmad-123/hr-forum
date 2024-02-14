@@ -22,4 +22,5 @@ export interface ReplyInterface {
   commentId: string | null
   setReportedReplyId: (id: string) => void
   getPostCommets: () => void
+  setDeletedReplyId: (id: string) => void
 }

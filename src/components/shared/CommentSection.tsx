@@ -55,7 +55,7 @@ const CommentSection = ({
               replies:
                 replies?.pagination?.CurrentPage > 1
                   ? [...replies.comment.replies, ...data.comment.replies]
-                  : [...data.comment.replies],
+                  : [...data?.comment?.replies],
             },
       pagination: data.pagination
         ? data.pagination
@@ -91,7 +91,7 @@ const CommentSection = ({
   return (
     <div
       className={`mt-4 rounded-lg ${pathName === '/feeds' ? 'ml-4' : 'ml-12'}`}>
-      <div className="flex  w-fit">
+      <div className="flex ">
         <div className="flex  flex-col items-center">
           <div className="">
             <img

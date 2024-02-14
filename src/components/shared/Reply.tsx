@@ -31,6 +31,7 @@ function Reply({
   commentLength,
   commentId = null,
   setReportedReplyId,
+  setDeletedReplyId,
   getPostCommets,
 }: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
@@ -236,6 +237,7 @@ function Reply({
             setOpenDeleteDialog={setOpenDeleteDialog}
             commentId={reply?.id}
             postId={reply?.post_id as unknown as string}
+            setDeletedReplyId={setDeletedReplyId}
           />
         </DialogContent>
       </Dialog>
