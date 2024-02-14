@@ -3,10 +3,8 @@ import PostBar from '@/components/shared/new-post/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
-import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,7 +12,7 @@ import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { CommentObject, FeedProps } from '@/utils/interfaces/feeds'
+import { FeedProps } from '@/utils/interfaces/feeds'
 import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
 const Feeds = ({
@@ -112,6 +110,10 @@ const Feeds = ({
     handleCommentCount()
   }, [posts])
 
+  useEffect(() => {
+    noMorePosts.current = morePosts
+  }, [morePosts])
+
   return (
     <>
       {path !== '/saved' && (
@@ -135,7 +137,7 @@ const Feeds = ({
         ) : (
           <NoPosts />
         )}
-        {!!storePosts?.length && noMorePosts?.current && (
+        {!!posts?.length && noMorePosts?.current && (
           <CircularProgress incommingRef={ref} />
         )}
       </div>
