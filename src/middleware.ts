@@ -5,19 +5,15 @@ export function middleware(request: NextRequest) {
   const route = request.url.split('/')[3] ?? '/'
   const redirect = NextResponse.redirect(new URL('/feeds', request.url))
 
-  if (!isUserLogin && route === 'profile') {
+  if (!isUserLogin && (route === 'saved' || route === 'profile' || !route)) {
     return redirect
   }
 
-  if (!route) {
-    return redirect
-  }
-
-  if (!isUserLogin && route === 'saved') {
+  if (isUserLogin && (route === 'login' || route === 'register')) {
     return redirect
   }
 }
 
 export const config = {
-  matcher: ['/', '/profile', '/saved'],
+  matcher: ['/', '/profile', '/saved', '/login', '/register'],
 }
