@@ -52,7 +52,6 @@ function Reply({
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
-  console.log(reply)
   const [showSignModal, setShowSignModal] = useState(false)
   useEffect(() => {
     if (
