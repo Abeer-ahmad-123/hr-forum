@@ -37,8 +37,8 @@ function ReplyTextArea({
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const [popOver, setPopOver] = useState<boolean>(false)
 
-  const [showTextArea, setShowTextArea] = useState(false)
-  const [formattedDate, setFormatedDate] = useState('')
+  const [showTextArea, setShowTextArea] = useState<boolean>(false)
+  const [formattedDate, setFormatedDate] = useState<String>('')
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const [deletedReplyId, setDeletedReplyId] = useState<string>('')
   const params = useParams()
@@ -89,9 +89,7 @@ function ReplyTextArea({
   }, [])
 
   useEffect(() => {
-    if (deletedReplyId) {
-      setShowTextArea((pre) => !pre)
-    }
+    deletedReplyId && setShowTextArea((pre) => !pre)
   }, [deletedReplyId])
 
   return (

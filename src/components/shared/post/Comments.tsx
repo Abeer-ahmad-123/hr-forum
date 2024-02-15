@@ -24,7 +24,7 @@ function Comments({
   const commentId = searchParams.get('commentId')
 
   const [comments, setComments] = useState<any>([])
-  const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
+  const [commentPage, setCommentPage] = useState<number>(commentId ? 1 : 2)
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
   const nothingToLoadMore = useRef(

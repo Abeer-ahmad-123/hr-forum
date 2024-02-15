@@ -76,7 +76,7 @@ function Reply({
   const handleImgClick = () => {
     router.push(
       `${
-        userDetails?.id === (reply?.user_id as unknown as string)
+        userDetails?.id === reply?.user_id.toString()
           ? '/profile'
           : `/profile/${reply?.user_id}`
       }`,
@@ -200,7 +200,7 @@ function Reply({
                   </Popover>
                 </div>
 
-                {(reply.user_id as unknown as string) == userDetails?.id ? (
+                {reply.user_id.toString() == userDetails?.id ? (
                   <div
                     onClick={handleDeleteClick}
                     className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
