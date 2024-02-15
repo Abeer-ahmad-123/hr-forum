@@ -156,7 +156,7 @@ const PostActionBar = ({
     setPopOver(false)
   }
 
-  useEffect(() => {
+  const filteredComments = () => {
     if (deletedCommentId) {
       setComment((prevComments: any) => {
         return prevComments.filter(
@@ -164,6 +164,10 @@ const PostActionBar = ({
         )
       })
     }
+  }
+
+  useEffect(() => {
+    filteredComments()
   }, [deletedCommentId])
 
   return (
