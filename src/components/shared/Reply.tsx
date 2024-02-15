@@ -52,8 +52,7 @@ function Reply({
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
 
-  const [showSignModal, setShowSignModal] = useState(false)
-  useEffect(() => {
+  const highLight = () => {
     if (
       commentLength === 1 &&
       replyIdFromUrl &&
@@ -64,6 +63,11 @@ function Reply({
       setHighlighted(true)
       setTimeout(() => setHighlighted(false), 1000)
     }
+  }
+
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  useEffect(() => {
+    highLight()
   }, [replyIdFromUrl, reply.id])
 
   const convertDate = ConvertDate
