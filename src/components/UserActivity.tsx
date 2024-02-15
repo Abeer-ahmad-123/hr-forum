@@ -58,6 +58,15 @@ const UserActivity = ({ userId }: UserActivityProps) => {
 
   const morePosts = useRef<boolean>(false)
 
+  const activityStyles =
+    'z-10 border-b-2 border-[#571ce0] pb-2 text-accent transition duration-500 ease-in-out dark:text-white'
+
+  const returnStyles = () => {
+    return `${
+      profileNav.isReaction ? activityStyles : 'text-[#a9a9a9]'
+    } hover:text-accent`
+  }
+
   const getAllUserSpecificPosts = async () => {
     try {
       setLoadingPosts(true)
@@ -208,10 +217,8 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             className={`-ml-[3px] flex w-[85px] gap-[8px] py-2 `}>
             <div
               className={`flex gap-2 max-custom-sm:text-xs ${
-                profileNav.isPost
-                  ? 'z-10  border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                  : ' opacity-50'
-              }`}>
+                profileNav.isPost ? activityStyles : 'text-[#a9a9a9]'
+              } hover:text-accent`}>
               <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
               <button> Post</button>
             </div>
@@ -221,10 +228,8 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2`}>
             <div
               className={`flex gap-2 max-custom-sm:text-xs ${
-                profileNav.isComment
-                  ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                  : 'opacity-50'
-              }`}>
+                profileNav.isComment ? activityStyles : 'text-[#a9a9a9]'
+              } hover:text-accent`}>
               <FaRegComment
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
@@ -234,14 +239,13 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             </div>
           </div>
           <div
+            id="isReaction"
             onClick={reactionOnClick}
             className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2 `}>
             <div
               className={`flex gap-2 max-custom-sm:text-xs ${
-                profileNav.isReaction
-                  ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:text-white'
-                  : 'opacity-50'
-              }`}>
+                profileNav.isReaction ? activityStyles : 'text-[#a9a9a9]'
+              } hover:text-accent`}>
               <SmilePlus
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"

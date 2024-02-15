@@ -9,6 +9,7 @@ import {
   isTokenExpired,
   logout,
   setUserToken,
+  googleTokenExchange,
 } from '@/services/auth/authService'
 import { getChannels } from '@/services/channel/channel'
 import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
@@ -148,6 +149,48 @@ const LayoutWrapper = ({ children }: any) => {
   useEffect(() => {
     if (pathname.includes('/error')) setIsError(true)
   }, [pathname])
+
+  const exchangeGoogleToken = async (token: string, username: string) => {
+    if (token) {
+      try {
+        const response = await googleTokenExchange(token, username)
+        dispatch(
+          setUser({
+            ...response,
+            refreshToken: response['refresh-token'],
+          }),
+        )
+
+        const currentUrl = window.location.href
+        const url = new URL(currentUrl)
+
+        url.searchParams.delete('googleAccessToken')
+
+        window.history.replaceState({}, document.title, url.href)
+      } catch (err) {
+        showErrorAlert('Issue in google authentication')
+      }
+    }
+  }
+
+  const handleSubmitUserName = (userName: string) => {
+    const googleToken = searchParams.get('googleAccessToken')
+    exchangeGoogleToken(googleToken!, userName)
+    // setOpenUserNameDialog(false)
+  }
+
+  useEffect(() => {
+    const code = searchParams.get('code')
+    const googleToken = searchParams.get('googleAccessToken')
+    if (!isFirstOnce.current && (code || googleToken)) {
+      isFirstOnce.current = true
+      if (code) {
+        exchangeCode(code!)
+      } else {
+        // setOpenUserNameDialog(true)
+      }
+    }
+  }, [searchParams])
 
   useEffect(() => {
     setLoading(false)

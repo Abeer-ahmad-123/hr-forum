@@ -46,48 +46,58 @@ const UserDataBadge = ({
         <div className="flex flex-col py-3 leading-[50px]">
           <div
             id="post"
-            className="flex cursor-pointer items-center"
+            className="flex cursor-pointer items-center hover:text-accent"
             onClick={handleClick}>
             <span className="pr-2">
               <BsPostcard size={18} />
             </span>
-            {`${postCount ?? 0} ${postCount > 1 ? 'posts' : 'post'} published`}
+            <span className="hover:underline">
+              {`${postCount ?? 0} ${
+                postCount > 1 ? 'posts' : 'post'
+              } published`}
+            </span>
           </div>
 
           <div
             id="comment"
-            className="flex cursor-pointer items-center"
+            className="flex cursor-pointer items-center hover:text-accent"
             onClick={handleClick}>
             <span className="pr-2">
               <FaRegComment size={18} />
             </span>
-            {`${commentCount ?? 0} ${
-              commentCount > 1 ? 'comments' : 'comment'
-            } written`}
+            <span className="hover:underline">
+              {`${commentCount ?? 0} ${
+                commentCount > 1 ? 'comments' : 'comment'
+              } written`}
+            </span>{' '}
           </div>
 
           <div
             id="report-post"
-            className="flex cursor-pointer items-center"
+            className="flex cursor-pointer items-center hover:text-accent"
             onClick={handleClick}>
             <span className="pr-2">
               <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
-            {`${reportedPostCount ?? 0} ${
-              reportedPostCount > 1 ? 'posts' : 'post'
-            } reported`}
+            <span className="hover:underline">
+              {`${reportedPostCount ?? 0} ${
+                reportedPostCount > 1 ? 'posts' : 'post'
+              } reported`}
+            </span>
           </div>
 
           <div
             id="report-comment"
-            className="flex cursor-pointer items-center"
+            className="flex cursor-pointer items-center hover:text-accent"
             onClick={handleClick}>
             <span className="pr-2">
               <GoReport className=" h-4 w-4 cursor-pointer  max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
             </span>
-            {`${reportedCommentCount ?? 0} ${
-              reportedCommentCount > 1 ? 'comments' : 'comment'
-            } reported`}
+            <span className="hover:underline">
+              {`${reportedCommentCount ?? 0} ${
+                reportedCommentCount > 1 ? 'comments' : 'comment'
+              } reported`}
+            </span>
           </div>
         </div>
       </div>
