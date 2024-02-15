@@ -12,7 +12,7 @@ interface CommentDeleteProps {
   commentId: string
   postId: string
   setOpenDeleteDialog: (arg0: boolean) => void
-  setDeletedCommentId?: (arg0: string) => void
+  setDeletedCommentId: (arg0: string) => void
   setDeletedReplyId: (arg0: string) => void
 }
 

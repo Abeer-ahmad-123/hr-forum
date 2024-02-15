@@ -236,7 +236,8 @@ function Reply({
           <CommentDelete
             setOpenDeleteDialog={setOpenDeleteDialog}
             commentId={reply?.id}
-            postId={reply?.post_id as unknown as string}
+            postId={reply?.post_id.toString()}
+            setDeletedCommentId={() => {}}
             setDeletedReplyId={setDeletedReplyId}
           />
         </DialogContent>
