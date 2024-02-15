@@ -4,8 +4,7 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 const PrivacyPolicy = () => {
   return (
     <div
-      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md dark:bg-dark-background-secondary`}
-    >
+      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md dark:bg-dark-background-secondary`}>
       <h1 className="mb-4 text-4xl font-medium"> Privacy Policy</h1>
       <p className="mb-4 text-sm">Effective Aug 8, 2023</p>
 

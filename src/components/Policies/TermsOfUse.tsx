@@ -4,8 +4,7 @@ const montserrat = Montserrat({ subsets: ['latin'] })
 const TermsOfUse = () => {
   return (
     <div
-      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md dark:bg-dark-background-secondary`}
-    >
+      className={`${montserrat.className} mx-auto mt-10 max-w-5xl rounded-lg bg-white p-16 text-left shadow-md dark:bg-dark-background-secondary`}>
       <h2 className="mb-4 text-4xl font-medium">Terms of Use</h2>
       <p className="mb-6 font-light text-gray-600 dark:text-white">
         Welcome to our website. If you continue to browse and use this website,

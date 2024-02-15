@@ -9,7 +9,6 @@ import {
   isTokenExpired,
   logout,
   setUserToken,
-  googleTokenExchange,
 } from '@/services/auth/authService'
 import { getChannels } from '@/services/channel/channel'
 import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
@@ -21,6 +20,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import '@fontsource/poppins'
+import '@fontsource/poppins/300.css'
+import '@fontsource/poppins/400.css'
+import '@fontsource/poppins/500.css'
+import '@fontsource/poppins/600.css'
+import '@fontsource/poppins/700.css'
+import '@fontsource/poppins/900.css'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -150,35 +156,6 @@ const LayoutWrapper = ({ children }: any) => {
     if (pathname.includes('/error')) setIsError(true)
   }, [pathname])
 
-  const exchangeGoogleToken = async (token: string, username: string) => {
-    if (token) {
-      try {
-        const response = await googleTokenExchange(token, username)
-        dispatch(
-          setUser({
-            ...response,
-            refreshToken: response['refresh-token'],
-          }),
-        )
-
-        const currentUrl = window.location.href
-        const url = new URL(currentUrl)
-
-        url.searchParams.delete('googleAccessToken')
-
-        window.history.replaceState({}, document.title, url.href)
-      } catch (err) {
-        showErrorAlert('Issue in google authentication')
-      }
-    }
-  }
-
-  const handleSubmitUserName = (userName: string) => {
-    const googleToken = searchParams.get('googleAccessToken')
-    exchangeGoogleToken(googleToken!, userName)
-    // setOpenUserNameDialog(false)
-  }
-
   useEffect(() => {
     const code = searchParams.get('code')
     const googleToken = searchParams.get('googleAccessToken')
@@ -187,7 +164,6 @@ const LayoutWrapper = ({ children }: any) => {
       if (code) {
         exchangeCode(code!)
       } else {
-        // setOpenUserNameDialog(true)
       }
     }
   }, [searchParams])
