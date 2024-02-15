@@ -116,7 +116,7 @@ const FeaturesDropDown = ({
   return (
     <div
       className={` ${
-        pathname.includes('/channels') ? 'max-md:mt-[10px]' : ''
+        pathname.includes('/channels') && 'max-md:mt-[10px]'
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
