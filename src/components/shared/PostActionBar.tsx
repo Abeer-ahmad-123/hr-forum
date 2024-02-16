@@ -23,7 +23,7 @@ import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostActionBarProps } from '@/utils/interfaces/posts'
+import { PostActionBarProps, PostsInterface } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 
@@ -45,7 +45,7 @@ const PostActionBar = ({
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const [showCommentArea, setShowCommentArea] = useState(false)
-  const [comment, setComment] = useState([])
+  const [comment, setComment] = useState<PostsInterface[]>([])
 
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
@@ -158,9 +158,9 @@ const PostActionBar = ({
 
   const filteredComments = () => {
     if (deletedCommentId) {
-      setComment((prevComments: any) => {
+      setComment((prevComments: PostsInterface[]) => {
         return prevComments.filter(
-          (comment: any) => comment.id !== deletedCommentId,
+          (comment: PostsInterface) => comment.id !== Number(deletedCommentId),
         )
       })
     }

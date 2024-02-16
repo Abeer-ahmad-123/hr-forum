@@ -10,7 +10,10 @@ import {
   showErrorAlert,
 } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { UserSpecificPostsInterface } from '@/utils/interfaces/posts'
+import {
+  PostsInterface,
+  UserSpecificPostsInterface,
+} from '@/utils/interfaces/posts'
 import { Plus, SmilePlus } from 'lucide-react'
 import { FaRegComment } from 'react-icons/fa'
 import { InView, useInView } from 'react-intersection-observer'
@@ -46,7 +49,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
     isPost: true,
   })
   const [user, setUser] = useState<any>('')
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState<PostsInterface[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [loadingReaction, setLoadingReaction] = useState<boolean>(false)
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)

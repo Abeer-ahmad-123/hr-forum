@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
+import { PostsInterface } from '@/utils/interfaces/posts'
 
 function Comments({
   postId,
@@ -23,7 +24,7 @@ function Comments({
 
   const commentId = searchParams.get('commentId')
 
-  const [comments, setComments] = useState<any>([])
+  const [comments, setComments] = useState<PostsInterface[]>([])
   const [commentPage, setCommentPage] = useState<number>(commentId ? 1 : 2)
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
@@ -72,8 +73,11 @@ function Comments({
         <div>
           {comments?.length !== 0 &&
             comments
-              ?.filter((comment: any) => comment.id !== deletedCommentId)
-              ?.map((comment: any, index: number) => {
+              ?.filter(
+                (comment: PostsInterface) =>
+                  comment.id !== Number(deletedCommentId),
+              )
+              ?.map((comment: PostsInterface, index: number) => {
                 return (
                   <CommentSection
                     key={index}

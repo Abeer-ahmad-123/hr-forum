@@ -44,6 +44,8 @@ function Reply({
   const [openDialog, setOpenDialog] = useState(false)
   const [popOver, setPopOver] = useState<boolean>(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
+
   const postId = params.id as string
   const router = useRouter()
   const pathName = usePathname()
@@ -64,11 +66,6 @@ function Reply({
       setTimeout(() => setHighlighted(false), 1000)
     }
   }
-
-  const [showSignModal, setShowSignModal] = useState<boolean>(false)
-  useEffect(() => {
-    highLight()
-  }, [replyIdFromUrl, reply.id])
 
   const convertDate = ConvertDate
 
@@ -111,6 +108,10 @@ function Reply({
       setOpenDeleteDialog(true)
     }
   }
+
+  useEffect(() => {
+    highLight()
+  }, [replyIdFromUrl, reply.id])
 
   return (
     <>
