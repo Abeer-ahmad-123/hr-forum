@@ -164,6 +164,7 @@ const PostActionBar = ({
         )
       })
     }
+    setDeletedCommentId('')
   }
 
   useEffect(() => {

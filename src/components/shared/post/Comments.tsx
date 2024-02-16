@@ -38,6 +38,7 @@ function Comments({
     const commentsResponse = await getPostsComments(postId, userData.id, {
       page: pageNumber || commentPage,
     })
+
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
       commentsResponse?.pagination?.TotalPages
@@ -85,6 +86,7 @@ function Comments({
                     refetchComments={refetchComments}
                     commentLength={comments.length}
                     setDeletedCommentId={setDeletedCommentId}
+                    deletedCommentId={deletedCommentId}
                     getPostCommets={getPostCommets}
                   />
                 )

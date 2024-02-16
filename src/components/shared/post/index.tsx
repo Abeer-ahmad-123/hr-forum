@@ -24,6 +24,8 @@ import {
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import {
+  CommentCount,
+  CommentCountStore,
   CommentInterface,
   PostsInterface,
   PostsInterfaceStore,
@@ -55,13 +57,15 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
     celebrate_count: 0,
   })
   const [paginationResult, setPaginationResult] = useState()
-  const [commentCount, setCommentCount] = useState<number>(0)
+  const [commentCount, setCommentCount] = useState<CommentCount>({})
   const dispatch = useDispatch()
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const [reported, setReported] = useState<boolean>(false)
-
+  const commentCountInStore = useSelector(
+    (state: CommentCountStore) => state.posts.commentCount,
+  )
   const [post, setPost] = useState<PostsInterface>()
   const [channel, setChannel] = useState<ChannelInterface>()
   const storePosts = useSelector(
@@ -208,8 +212,8 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   }, [])
 
   useEffect(() => {
-    setCommentCount(post?.total_comments ?? 0)
-  }, [post])
+    setCommentCount(commentCountInStore)
+  }, [commentCountInStore])
 
   useEffect(() => {
     if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
@@ -386,7 +390,7 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
             <span
               className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-              {commentCount} comments
+              {commentCount[postId]} comments
             </span>
             <div className="w-full">
               <hr />
@@ -398,7 +402,6 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
                 user_reaction={post?.user_reaction}
                 reaction_summary={post?.reaction_summary}
                 getPostCommets={getPostCommets}
-                setCommentCount={setCommentCount}
                 reactionSummary={reactionSummary}
                 setReactionSummary={setReactionSummary}
               />

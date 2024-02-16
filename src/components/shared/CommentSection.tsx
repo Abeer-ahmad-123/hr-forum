@@ -109,7 +109,7 @@ const CommentSection = ({
         </div>
         <div className="mx-3">
           <div
-            className={`min-w-[18rem] flex-wrap break-all rounded-2xl bg-slate-100 px-4
+            className={`w-fit flex-wrap break-all rounded-2xl bg-slate-100 px-4
             py-2
            ${
              pathName.includes('/feeds/feed/')

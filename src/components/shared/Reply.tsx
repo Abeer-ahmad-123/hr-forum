@@ -242,7 +242,9 @@ function Reply({
             commentId={reply?.id}
             postId={reply?.post_id.toString()}
             setDeletedCommentId={() => {}}
+            deletedCommentId=""
             setDeletedReplyId={setDeletedReplyId}
+            deletedReplyId={'deletedReplyId'}
           />
         </DialogContent>
       </Dialog>

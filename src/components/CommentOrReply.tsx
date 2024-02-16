@@ -61,6 +61,7 @@ const CommentOrReply = ({
             token,
             refreshToken,
           })
+
       if (result?.success) {
         if (!commentId) {
           disptach(IncreaseCommentCountInStore(postId))
@@ -69,6 +70,7 @@ const CommentOrReply = ({
             ...prevComments,
           ])
         } else {
+          disptach(IncreaseCommentCountInStore(postId))
           refetchComments()
         }
       } else {
