@@ -13,6 +13,7 @@ const NotFound = () => {
 
   useEffect(() => {
     setNotFoundTrue()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <div className="not-found">

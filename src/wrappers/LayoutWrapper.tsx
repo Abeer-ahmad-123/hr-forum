@@ -70,7 +70,8 @@ const LayoutWrapper = ({ children }: any) => {
         showErrorAlert(`${err}`)
       }
     }
-  }, []) // Fix: Add an empty array as the second argument
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const exchangeCode = async (code: string) => {
     if (code) {
@@ -121,6 +122,7 @@ const LayoutWrapper = ({ children }: any) => {
         exchangeCode(code!)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   const getToken = async () => {
@@ -166,6 +168,7 @@ const LayoutWrapper = ({ children }: any) => {
       } else {
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   useEffect(() => {
@@ -181,6 +184,7 @@ const LayoutWrapper = ({ children }: any) => {
       handleUserClientLogout()
       handleUserServerLogout()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (

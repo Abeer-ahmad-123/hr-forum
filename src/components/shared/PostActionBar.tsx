@@ -169,6 +169,7 @@ const PostActionBar = ({
 
   useEffect(() => {
     filteredComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedCommentId])
 
   return (

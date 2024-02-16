@@ -96,6 +96,7 @@ const PostReactionBar = ({
 
   useEffect(() => {
     if (reaction_summary) getAllPostData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reaction_summary])
 
   useEffect(() => {
@@ -104,10 +105,12 @@ const PostReactionBar = ({
       setEmojis(getEmojis(reactionArray, reactionOptions))
       setReactionSummary(generateReactionSummary())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reactionArray])
 
   useEffect(() => {
     setCommentCount(commentCountInStore)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
 
   return (

@@ -77,6 +77,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
 
   useEffect(() => {
     getAllChannels()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const getComments = async () => {
@@ -105,12 +106,14 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
 
   useEffect(() => {
     getComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (inView) {
       getComments()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   useEffect(() => {

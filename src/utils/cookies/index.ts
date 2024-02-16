@@ -17,3 +17,10 @@ export const setUserTokens = (data: setTokenCookies) => {
   cookies().set('access-token', data.token)
   cookies().set('refresh-token', data['refresh-token'])
 }
+
+export const setModalCookie = () => {
+  cookies().set('modal', 'true')
+}
+export const deleteModalCookie = () => {
+  cookies().delete('modal')
+}

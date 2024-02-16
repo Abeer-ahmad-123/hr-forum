@@ -86,6 +86,7 @@ const CommentSection = ({
 
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comment])
 
   return (

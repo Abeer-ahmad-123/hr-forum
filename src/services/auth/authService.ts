@@ -1,6 +1,8 @@
 'use server'
 import {
+  deleteModalCookie,
   removeUserCookies,
+  setModalCookie,
   setUserCookies,
   setUserTokens,
 } from '@/utils/cookies'
@@ -220,4 +222,11 @@ export async function isTokenExpired() {
   } catch (error) {
     throw error
   }
+}
+export const setModalState = () => {
+  setModalCookie()
+}
+
+export const deleteModalState = () => {
+  deleteModalCookie()
 }

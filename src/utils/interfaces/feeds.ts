@@ -14,3 +14,18 @@ export interface FeedProps {
 export type CommentObject = {
   [key: string]: number
 }
+
+export interface RenderFeedWithLoadingProps {
+  searchParams: SearchParams
+  channelSlug?: string
+  path: string
+}
+
+export interface FeedPageProps {
+  searchParams: SearchParams
+}
+
+export interface SinglePostProps {
+  postId: string
+  searchParams: SearchParams
+}

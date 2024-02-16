@@ -1,7 +1,6 @@
 'use client'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 import ProfileCardSkelton from '../ProfileCardSkelton'
@@ -12,26 +11,15 @@ import RenderFeedLoading from './renderFeedLoading'
 function CardLoading() {
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const renderTimes = 5
-  const [hidden, setHidden] = useState<boolean>(false)
   const pathName = usePathname()
-  const componentsArray = Array.from({ length: renderTimes }, (_, index) => (
-    <RenderFeedLoading key={index} />
-  ))
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+
   const slug = pathName.split('/')[2]
 
-  useEffect(() => {
-    if (!token) {
-      setHidden(true)
-    }
-  }, [token])
   return (
     <div>
       <div
         className={`mt-8 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-        <div className={`flex flex-col items-start  ${hidden ? ' pr-4' : ''}`}>
+        <div className={`flex flex-col items-start  ${!token ? ' pr-4' : ''}`}>
           {token && <ProfileCardSkelton className={'max-md:hidden'} />}
           <div className="flex justify-start">
             <Skelton className="mx-auto mb-2 hidden h-8 w-64 rounded-sm bg-skelton max-md:block" />
@@ -52,7 +40,7 @@ function CardLoading() {
 
         <div className="flex w-full max-w-screen-md flex-col">
           {pathName.includes(`/${slug}/`) ? (
-            <div className="mb-4 rounded-xl  bg-white py-2 dark:bg-slate-800">
+            <div className="mb-4 mt-[10px] rounded-xl bg-white py-2 dark:bg-slate-800">
               <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
               <div className="mt-2 flex items-center">
                 <div className="ml-4">
@@ -65,7 +53,7 @@ function CardLoading() {
               </div>
             </div>
           ) : (
-            <div className="mb-5">
+            <div className="mb-5 mt-[10px]">
               <Skelton
                 className={`${
                   pathName == '/saved' || pathName.includes('/channels')
@@ -76,7 +64,9 @@ function CardLoading() {
             </div>
           )}
 
-          <div> {componentsArray}</div>
+          {Array.from({ length: renderTimes }, (_, index) => (
+            <RenderFeedLoading key={index} />
+          ))}
         </div>
       </div>
     </div>

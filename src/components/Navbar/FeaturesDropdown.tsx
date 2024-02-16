@@ -36,11 +36,14 @@ const FeaturesDropDown = ({
     setShowMenu(!showMenu)
   }
 
-  const handleClickOutside = (event: any) => {
-    if (divRef.current && !divRef.current.contains(event?.target)) {
-      setCheckFalse()
-    }
-  }
+  const handleClickOutside = useCallback(
+    (event: any) => {
+      if (divRef.current && !divRef.current.contains(event.target)) {
+        setCheckFalse()
+      }
+    },
+    [divRef],
+  )
 
   const showDiv = showMenu
     ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] max-md:w-full ${classNamefeaturesDropDowm}`
@@ -76,13 +79,15 @@ const FeaturesDropDown = ({
 
   useEffect(() => {
     if (pathname) setSelectedFromPathName()
-  }, [pathname, setSelectedFromPathName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
     return () => {
       document.removeEventListener('click', handleClickOutside)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleClickOutside])
 
   useEffect(() => {

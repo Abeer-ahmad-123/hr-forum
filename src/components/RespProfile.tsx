@@ -154,6 +154,7 @@ const RespProfile = ({ userId }: profileProps) => {
       isFirstUser.current = false
       UserSpecificationPosts()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return user.id ? (

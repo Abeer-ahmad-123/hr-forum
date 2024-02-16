@@ -111,6 +111,7 @@ function Reply({
 
   useEffect(() => {
     highLight()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replyIdFromUrl, reply.id])
 
   return (

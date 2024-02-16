@@ -92,20 +92,24 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
   useEffect(() => {
     getAllChannels()
     getComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (inView) {
       getComments()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   useEffect(() => {
     handleCommentCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments])
 
   useEffect(() => {
     setComments([...storePosts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storePosts])
 
   useEffect(() => {
@@ -113,6 +117,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
       nProgress.done()
     }
   }, [])
+
   return isCommentsLoading ? (
     <CardLoading />
   ) : (

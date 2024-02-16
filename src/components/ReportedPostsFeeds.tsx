@@ -96,12 +96,14 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
       firstRunRef.current = false
     }
     getAllChannels()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (inView) {
       getPosts()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   return loading ? (

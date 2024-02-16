@@ -1,16 +1,8 @@
-import { RenderFeeds } from '@/components/Feeds'
-import CardLoading from '@/components/Loading/cardLoading'
-import { SearchParams } from '@/utils/interfaces/renderFeeds'
-import { Suspense } from 'react'
+import RenderFeedWithLoading from '@/components/RenderFeedWithLoading'
+import { FeedPageProps } from '@/utils/interfaces/feeds'
 
-const FeedPage: React.FC<{ searchParams: SearchParams }> = ({
-  searchParams,
-}) => {
-  return (
-    <Suspense fallback={<CardLoading />}>
-      <RenderFeeds searchParams={searchParams} path="/feed" />
-    </Suspense>
-  )
+const FeedPage = ({ searchParams }: FeedPageProps) => {
+  return <RenderFeedWithLoading searchParams={searchParams} path="/feed" />
 }
 
 export default FeedPage

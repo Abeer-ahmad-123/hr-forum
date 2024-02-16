@@ -13,7 +13,6 @@ import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
-import { setPosts } from '@/store/Slices/postSlice'
 import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 interface newPostFormInterface {
@@ -182,6 +181,7 @@ export default function NewPostForm({
   }
   useEffect(() => {
     checkChannel()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   return (

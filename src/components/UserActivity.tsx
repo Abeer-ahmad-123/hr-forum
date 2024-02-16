@@ -202,10 +202,12 @@ const UserActivity = ({ userId }: UserActivityProps) => {
     getComments()
     UserSpecificationPosts()
     getPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     handleCommentCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
 
   return (

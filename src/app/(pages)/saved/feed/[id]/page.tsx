@@ -1,15 +1,9 @@
-import Post from '@/components/shared/post'
-import PostSkelton from '@/components/shared/post/PostSkelton'
-import { Suspense } from 'react'
+import SinglePost from '@/components/SinglePost'
 
-const SingleFeed = ({ params, searchParams }: any) => {
+const SingleFeedPage = ({ params, searchParams }: any) => {
   const id = params.id
 
-  return (
-    <Suspense fallback={<PostSkelton />}>
-      <Post postId={id} searchParams={searchParams} />
-    </Suspense>
-  )
+  return <SinglePost postId={id} searchParams={searchParams} />
 }
 
-export default SingleFeed
+export default SingleFeedPage

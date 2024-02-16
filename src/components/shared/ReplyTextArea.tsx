@@ -87,6 +87,7 @@ function ReplyTextArea({
 
   useEffect(() => {
     setFormatedDate(FormatCreatedAt(createdDate))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

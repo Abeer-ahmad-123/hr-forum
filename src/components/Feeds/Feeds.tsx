@@ -95,6 +95,7 @@ const Feeds = ({
     if (inView) {
       getPosts()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   useEffect(() => {
@@ -105,6 +106,7 @@ const Feeds = ({
       updatePosts([...initialPosts])
       dispatch(setPosts([...initialPosts]))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
   useEffect(() => {
@@ -113,10 +115,12 @@ const Feeds = ({
     } else if (!searchParams.search && storePosts.length) {
       updatePosts([...storePosts])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storePosts])
 
   useEffect(() => {
     handleCommentCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
 
   useEffect(() => {

@@ -46,6 +46,7 @@ import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
+import { deleteModalState } from '@/services/auth/authService'
 
 const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const [commentResult, setCommentResult] =
@@ -209,6 +210,8 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
 
   useEffect(() => {
     getChannel()
+    deleteModalState()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {

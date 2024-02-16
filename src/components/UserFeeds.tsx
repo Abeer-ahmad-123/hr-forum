@@ -84,17 +84,20 @@ const UserFeeds = ({ slug }: SlugProps) => {
   }
   useEffect(() => {
     handleCommentCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
 
   useEffect(() => {
     getPosts()
     getAllChannels()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (inView) {
       getPosts()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   useEffect(() => {

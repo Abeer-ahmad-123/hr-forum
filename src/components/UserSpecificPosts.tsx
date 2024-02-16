@@ -1,47 +1,14 @@
-import { getUserSpecificPosts } from '@/services/posts'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
-import { useEffect, useRef, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import ProfilePosts from './ProfilePosts'
 
-const UserSpecificPosts = ({
-  posts: initialPosts,
-  morePosts,
-  user,
-  userName,
-}: any) => {
+const UserSpecificPosts = ({ posts: initialPosts, user, userName }: any) => {
   const [posts, setPosts] = useState([...initialPosts])
-  const [page, setPage] = useState(2)
-  const [ref, inView] = useInView()
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
-
-  let morePostsExist = useRef(morePosts)
 
   const router = useRouter()
-
-  const getPosts = async () => {
-    const { data } = await getUserSpecificPosts(
-      user ? user.id : userData?.id,
-      page,
-      {
-        loadReactions: true,
-      },
-    )
-
-    setPage(page + 1)
-    morePostsExist.current =
-      data?.pagination?.CurrentPage &&
-      data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
-
-    setPosts([...posts, ...data?.posts])
-  }
 
   const handleClick = () => {
     nProgress.start()
@@ -49,10 +16,9 @@ const UserSpecificPosts = ({
   }
 
   useEffect(() => {
-    if (inView) {
-      getPosts()
-    }
-  }, [inView])
+    setPosts([...initialPosts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialPosts])
 
   useEffect(() => {
     return () => {

@@ -37,6 +37,9 @@ import { MoreHorizontal } from 'lucide-react'
 import Report from '../Report/Report'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
+import { setFeedModal } from '@/store/Slices/modal'
+import { setModalCookie } from '@/utils/cookies'
+import { setModalState } from '@/services/auth/authService'
 
 const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const {
@@ -143,6 +146,8 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         ? `/saved/feed/${id}`
         : `/feeds/feed/${id}`,
     )
+
+    setModalState()
   }
   const handleNavigateProfile = (event: any) => {
     nProgress.start()

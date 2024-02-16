@@ -138,6 +138,7 @@ const CommentsLogic = ({
     if (reaction_summary) {
       setReactionSummary(reaction_summary)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reaction_summary])
 
   return (
