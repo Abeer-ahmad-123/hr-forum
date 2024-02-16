@@ -12,7 +12,7 @@ const ChannelCardSkelton = ({ token, className }: ChannelCardSkeltonProps) => {
       // on pupose mt[20px]
       className={`${!className && 'mr-4'} 
        ${token ? 'mt-[20px]' : 'mt-[10px]'} 
-       ${className} mt-[10px] max-h-screen w-[225px] cursor-pointer rounded-[10px] border border-solid border-gray-300  bg-white  px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800`}>
+       ${className} mt-[20px] max-h-screen w-[225px] cursor-pointer rounded-[10px] border border-solid border-gray-300  bg-white  px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800`}>
       <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-5 justify-center rounded-[5px] text-center font-bold" />
 
       <ul className="cursor-pointer list-none text-left">
