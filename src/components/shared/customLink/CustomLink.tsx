@@ -1,8 +1,9 @@
 'use client'
 
+import { PropsWithChildren, useEffect } from 'react'
 import Link from 'next/link'
 import NProgress from 'nprogress'
-import { PropsWithChildren, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import './style.css'
 
 NProgress.configure({ showSpinner: false })
@@ -10,6 +11,12 @@ NProgress.configure({ showSpinner: false })
 export const CustomLink: React.FC<
   PropsWithChildren<{ href: string; className?: string }>
 > = ({ href, className, children }) => {
+  const pathname = usePathname()
+
+  const handleClick = () => {
+    if (pathname !== href) NProgress.start()
+  }
+
   useEffect(() => {
     return () => {
       NProgress.done()
@@ -17,7 +24,7 @@ export const CustomLink: React.FC<
   }, [])
 
   return (
-    <Link href={href} className={className} onClick={() => NProgress.start()}>
+    <Link href={href} className={className} onClick={handleClick}>
       {children}
     </Link>
   )

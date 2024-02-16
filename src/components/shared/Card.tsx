@@ -40,6 +40,7 @@ import DeletePost from './post/DeletePost'
 import { setFeedModal } from '@/store/Slices/modal'
 import { setModalCookie } from '@/utils/cookies'
 import { setModalState } from '@/services/auth/authService'
+import { CustomLink } from './customLink/CustomLink'
 
 const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const {
@@ -379,9 +380,20 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
           </div>
 
           <div className="flex flex-col">
-            <div className="my-3 text-start text-xl font-semibold dark:text-white max-custom-sm:text-base">
-              {title}
-            </div>
+            <CustomLink
+              href={
+                pathName.includes('channels')
+                  ? `${pathName}/feed/${id}`
+                  : pathName.includes('saved')
+                  ? `/saved/feed/${id}`
+                  : `/feeds/feed/${id}`
+              }>
+              {' '}
+              <div className="my-3 text-start text-xl font-semibold dark:text-white max-custom-sm:text-base">
+                <p>{title}</p>
+              </div>
+            </CustomLink>
+
             {!image_url ? (
               <div
                 className="text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"

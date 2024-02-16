@@ -118,7 +118,7 @@ module.exports = {
         'dark-background-secondary': '#1C2536',
         'dark-background-hover': '#1e2b37',
         sky: colors.sky,
-        skelton: '#bbbbbb',
+        skelton: 'rgb(209 213 219)',
       },
       margin: {
         '-6px': '-6px',
