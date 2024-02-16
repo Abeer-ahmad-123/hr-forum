@@ -26,7 +26,7 @@ function CardLoading() {
           </div>
           <div
             className={`${
-              token ? 'top-[40px]' : 'top-[70px]'
+              token ? 'top-[40px]' : 'top-[70px] mt-[10px]'
             } sticky max-h-screen max-md:static`}>
             <ChannelCardSkelton token={token} className={'max-md:hidden'} />
           </div>
