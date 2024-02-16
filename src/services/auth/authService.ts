@@ -156,6 +156,7 @@ export async function googleAuthStart(url: string) {
         'content-type': 'application/json',
       },
     })
+
     const responseJson = await responseFromRefresh.json()
     // setUserCookies(responseJson)
 

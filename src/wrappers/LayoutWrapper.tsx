@@ -20,6 +20,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import '@fontsource/poppins'
+import '@fontsource/poppins/300.css'
+import '@fontsource/poppins/400.css'
+import '@fontsource/poppins/500.css'
+import '@fontsource/poppins/600.css'
+import '@fontsource/poppins/700.css'
+import '@fontsource/poppins/900.css'
 
 const LayoutWrapper = ({ children }: any) => {
   const router = useRouter()
@@ -148,6 +155,18 @@ const LayoutWrapper = ({ children }: any) => {
   useEffect(() => {
     if (pathname.includes('/error')) setIsError(true)
   }, [pathname])
+
+  useEffect(() => {
+    const code = searchParams.get('code')
+    const googleToken = searchParams.get('googleAccessToken')
+    if (!isFirstOnce.current && (code || googleToken)) {
+      isFirstOnce.current = true
+      if (code) {
+        exchangeCode(code!)
+      } else {
+      }
+    }
+  }, [searchParams])
 
   useEffect(() => {
     setLoading(false)

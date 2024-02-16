@@ -70,7 +70,7 @@ const CommentSection = ({
     })
   }
 
-  const handleImageClick = () => {
+  const handleNavigate = () => {
     nProgress.start()
     const url = `${
       comment.user_id === userId ? '/profile' : `/profile/${comment.user_id}`
@@ -103,7 +103,7 @@ const CommentSection = ({
               className="h-8 min-h-[32px] w-8 min-w-[32px] cursor-pointer rounded-full border border-black"
               height={8}
               width={8}
-              onClick={handleImageClick}
+              onClick={handleNavigate}
             />
           </div>
         </div>
@@ -118,7 +118,8 @@ const CommentSection = ({
            } `}>
             <div className="flex flex-row justify-between">
               <div
-                className="text-left text-accent  dark:text-white max-custom-sm:text-[11px]
+                onClick={handleNavigate}
+                className="cursor-pointer text-left text-accent  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
                 {replies.comment?.author_details?.name}
               </div>

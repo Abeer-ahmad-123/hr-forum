@@ -18,26 +18,24 @@ module.exports = {
     },
     extend: {
       keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
+        'accordion-down': {
+          from: { height: '0' },
+          to: { height: 'var(--radix-accordion-content-height)' },
         },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
+        'accordion-up': {
+          from: { height: 'var(--radix-accordion-content-height)' },
+          to: { height: '0' },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        'accordion-down': 'accordion-down 0.2s ease-out',
+        'accordion-up': 'accordion-up 0.2s ease-out',
       },
       screens: {
         'custom-sm': '500px', // Adjust the value as needed
-        'custom-sx': '344px'
+        'custom-sx': '344px',
       },
-      fontFamily: {
-        primary: ['Poppins'],
-      },
+
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -129,6 +127,9 @@ module.exports = {
       boxShadow: {
         cmd: 'rgba(145, 158, 171, 0.2) 0px 0px 2px 0px, rgba(145, 158, 171, 0.12) 0px 12px 24px -4px',
       },
+    },
+    fontFamily: {
+      primary: ['Poppins', 'sans-serif'],
     },
   },
   plugins: [require('tailwindcss-animate')],
