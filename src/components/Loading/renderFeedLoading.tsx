@@ -33,9 +33,7 @@ const RenderFeedLoading = () => {
         </div>
       </div>
 
-      <hr />
-
-      <div className="mx-5 py-1">
+      <div className="mx-5 pb-3 pt-1">
         <div className="flex flex-row  items-center justify-around  ">
           <Skelton className="mx-1 h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />

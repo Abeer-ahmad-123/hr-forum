@@ -24,6 +24,7 @@ import UserSpecificPosts from './UserSpecificPosts'
 import UserSpecificReaction from './UserSpecificReaction'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
+import NoPosts from './Cards/NoMore'
 
 interface UserActivityProps {
   userId: string | undefined
@@ -64,12 +65,6 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   const activityStyles =
     'z-10 border-b-2 border-[#571ce0] pb-2 text-accent transition duration-500 ease-in-out dark:text-white'
 
-  const returnStyles = () => {
-    return `${
-      profileNav.isReaction ? activityStyles : 'text-[#a9a9a9]'
-    } hover:text-accent`
-  }
-
   const getAllUserSpecificPosts = async () => {
     try {
       setLoadingPosts(true)
@@ -107,7 +102,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
     })
   }
   const reactionOnClick = () => {
-    handleCommentCountReactedPosts()
+    //  handleCommentCountReactedPosts()
     setProfileNav((pre) => {
       return {
         ...pre,
@@ -264,8 +259,8 @@ const UserActivity = ({ userId }: UserActivityProps) => {
       </div>
       <div className="mt-2 w-full">
         {profileNav.isPost ? (
-          <>
-            {!loadingPosts ? (
+          !loadingPosts ? (
+            posts.length ? (
               <UserSpecificPosts
                 posts={posts}
                 user={userId ? user : userDataInStore}
@@ -273,39 +268,32 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 userName={posts[0]?.author_details?.username}
               />
             ) : (
-              [1, 2, 3, 4].map((_, i) => (
-                <PostLoadingSkelton key={i} index={i} />
-              ))
-            )}
-          </>
-        ) : (
-          <>
-            {profileNav.isComment ? (
-              isCommentsLoading ? (
-                [1, 2, 3, 4].map((_, i) => (
-                  <PostLoadingSkelton key={i} index={i} />
-                ))
-              ) : (
-                <UserSpecificComments comments={comments as []} user={user} />
-              )
+              <NoPosts />
+            )
+          ) : (
+            [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} index={i} />)
+          )
+        ) : profileNav.isComment ? (
+          !isCommentsLoading ? (
+            comments.length ? (
+              <UserSpecificComments comments={comments} user={user} />
             ) : (
-              <>
-                {profileNav.isReaction ? (
-                  <>
-                    {!loadingReaction ? (
-                      <UserSpecificReaction posts={reactedPosts} user={user} />
-                    ) : (
-                      [1, 2, 3, 4].map((_, i) => (
-                        <PostLoadingSkelton key={i} index={i} />
-                      ))
-                    )}
-                  </>
-                ) : (
-                  <></>
-                )}
-              </>
-            )}
-          </>
+              <NoPosts />
+            )
+          ) : (
+            [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} index={i} />)
+          )
+        ) : (
+          profileNav.isReaction &&
+          (!loadingReaction ? (
+            reactedPosts.length ? (
+              <UserSpecificReaction posts={reactedPosts} user={user} />
+            ) : (
+              <NoPosts />
+            )
+          ) : (
+            [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} index={i} />)
+          ))
         )}
       </div>
     </div>

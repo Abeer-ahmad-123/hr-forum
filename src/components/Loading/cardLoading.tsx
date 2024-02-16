@@ -32,7 +32,7 @@ function CardLoading() {
           </div>
           <div
             className={`sticky ${
-              token ? 'top-[315px] ' : 'top-[335px] mt-[20px]'
+              token ? 'top-[315px]' : 'top-[351px] mt-[20px]'
             }  max-h-screen`}>
             <RulesCardSkelton className={'max-md:hidden'} token={token} />
           </div>

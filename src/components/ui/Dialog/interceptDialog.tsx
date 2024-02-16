@@ -7,6 +7,7 @@ import './style.css'
 
 import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
+import { deleteModalState } from '@/services/auth/authService'
 
 const Dialog = DialogPrimitive.Root
 
@@ -39,6 +40,7 @@ const DialogContent = React.forwardRef<
 
   const close = () => {
     router.back()
+    deleteModalState()
   }
   return (
     <DialogPortal>

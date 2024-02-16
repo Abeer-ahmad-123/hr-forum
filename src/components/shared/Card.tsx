@@ -250,7 +250,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   return (
     <div id={id} key={id}>
       <div
-        className={`mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}>
+        className={`border-grey-300 mx-auto mb-5 max-w-screen-md cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}>
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="bg-white sm:max-w-[500px]">
             <Report

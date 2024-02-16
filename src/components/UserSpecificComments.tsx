@@ -1,15 +1,14 @@
 'use client'
 
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
 import ProfileComment from './ProfileComment'
+import { PostsInterface } from '@/utils/interfaces/posts'
 
 interface UserSpecificCommentsProps {
-  comments: []
+  comments: PostsInterface[]
   user: {
     id: string
     username: string

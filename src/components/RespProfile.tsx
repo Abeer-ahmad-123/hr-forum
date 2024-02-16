@@ -13,7 +13,7 @@ import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
@@ -21,6 +21,7 @@ import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { profileProps } from '@/utils/interfaces/userData'
 import ProfilePageLoading from './Loading/ProfilePageLoading'
+import ProfileActivityLoading from './Loading/ProfileActivityLoading'
 
 const RespProfile = ({ userId }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -332,7 +333,6 @@ const RespProfile = ({ userId }: profileProps) => {
               }
             />
           </div>
-
           <UserActivity userId={userIdLocal} />
         </div>
       </section>
