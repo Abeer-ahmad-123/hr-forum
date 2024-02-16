@@ -11,7 +11,7 @@ function ProfileCardSkelton({ className }: ProfileCardSkeltonProps) {
         className={`dark:bg-skelton-dark relative
          ${
            !className && 'ml-[50px]'
-         } mr-[25px] h-72 w-[200px] cursor-pointer overflow-hidden rounded-[10px] ${className} bg-white shadow-lg dark:bg-slate-800 dark:text-white`}>
+         } mr-[25px] h-72 w-[225px] cursor-pointer overflow-hidden rounded-[10px] ${className} bg-white shadow-lg dark:bg-slate-800 dark:text-white`}>
         <Skelton className="h-[70px] w-full rounded-[5px]" />
 
         <div className="mt-[-20px] flex items-center justify-center">

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Reply } from 'lucide-react'
 
 const LoadMoreReplyButton = ({
@@ -7,6 +6,7 @@ const LoadMoreReplyButton = ({
   commentId,
   getAllReplies,
 }: any) => {
+  const remianingReplies = total_replies - repliesLength
   return (
     <>
       {total_replies > 2 && repliesLength < total_replies && (
@@ -17,7 +17,8 @@ const LoadMoreReplyButton = ({
           <span className="rotate-180">
             <Reply />
           </span>
-          View all {total_replies} replies
+          View
+          {remianingReplies === 1 ? ' 1 reply' : ` ${remianingReplies} replies`}
         </button>
       )}
     </>

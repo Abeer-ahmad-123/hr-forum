@@ -12,7 +12,7 @@ const CommentSection = ({
   comment,
   refetchComments,
   commentLength,
-  setReportedCommentId,
+  setDeletedCommentId,
   getPostCommets,
 }: any) => {
   const [replies, setReplies] = useState({
@@ -42,7 +42,7 @@ const CommentSection = ({
   const slug = pathName.split('/')[2]
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
-    let index = replies?.pagination?.CurrentPage + 1
+    let index = Math.floor(replies?.comment.replies?.length / 10) + 1
     const data = await getComment(comment.id, userId, { nestedPage: index })
 
     setReplies({
@@ -55,7 +55,7 @@ const CommentSection = ({
               replies:
                 replies?.pagination?.CurrentPage > 1
                   ? [...replies.comment.replies, ...data.comment.replies]
-                  : [...data.comment.replies],
+                  : [...data?.comment?.replies],
             },
       pagination: data.pagination
         ? data.pagination
@@ -91,7 +91,7 @@ const CommentSection = ({
   return (
     <div
       className={`mt-4 rounded-lg ${pathName === '/feeds' ? 'ml-4' : 'ml-12'}`}>
-      <div className="flex  w-fit">
+      <div className="flex ">
         <div className="flex  flex-col items-center">
           <div className="">
             <img
@@ -109,7 +109,7 @@ const CommentSection = ({
         </div>
         <div className="mx-3">
           <div
-            className={`min-w-[18rem] flex-wrap break-all rounded-2xl bg-slate-100 px-4
+            className={`w-fit flex-wrap break-all rounded-2xl bg-slate-100 px-4
             py-2
            ${
              pathName.includes('/feeds/feed/')
@@ -154,7 +154,7 @@ const CommentSection = ({
                 commentId={replies?.comment?.id}
                 refetchComments={getAllReplies}
                 author={replies.comment?.author_details?.name}
-                setReportedCommentId={setReportedCommentId}
+                setDeletedCommentId={setDeletedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}
               />

@@ -6,6 +6,7 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getUserComments } from '@/services/comments'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
@@ -21,7 +22,6 @@ import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const UserCommentsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -119,7 +119,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     <div>
       <div className="mx-auto flex max-w-screen-xl justify-center">
         {
-          <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
+          <div className="mr-[5px] mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
             {userData && <ProfileCard />}
             <div
               className={`${

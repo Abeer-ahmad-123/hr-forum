@@ -19,7 +19,7 @@ interface ReportInterface {
   setOpenDialog: (arg0: boolean) => void
   commentId?: string
   setReportedReplyId: (arg1: string) => void
-  setReportedCommentId: (arg1: string) => void
+  setDeletedCommentId: (arg1: string) => void
   getPostCommets: () => void
   setReported: (arg1: boolean) => void
 }
@@ -30,7 +30,7 @@ const Report = ({
   commentId,
   setOpenDialog,
   setReportedReplyId,
-  setReportedCommentId,
+  setDeletedCommentId,
   getPostCommets,
   setReported,
 }: ReportInterface) => {
@@ -75,7 +75,7 @@ const Report = ({
         getPostCommets()
         setReported(true)
         setReportedReplyId(commentId!)
-        setReportedCommentId(commentId!)
+        setDeletedCommentId(commentId!)
       } else if (!response.success) {
         throw response.errors[0]
       }

@@ -26,7 +26,7 @@ const ProfilePageLoading = () => {
 
               {/* email*/}
 
-              <Skelton className="mx-auto h-[25px] w-full max-w-[200px] rounded max-md:m-0"></Skelton>
+              <Skelton className="mx-auto h-[25px] w-full max-w-[225px] rounded max-md:m-0"></Skelton>
               {/*bio*/}
               <Skelton className="mx-auto h-[50px] w-full rounded max-md:m-0"></Skelton>
             </div>

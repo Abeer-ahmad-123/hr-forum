@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation'
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
+import { PostsInterface } from '@/utils/interfaces/posts'
 
 function Comments({
   postId,
@@ -23,11 +24,9 @@ function Comments({
 
   const commentId = searchParams.get('commentId')
 
-  const [comments, setComments] = useState<any>([])
-  const [commentPage, setCommentPage] = useState(commentId ? 1 : 2)
-  const [reportedCommentId, setReportedCommentId] = useState<string | null>(
-    null,
-  )
+  const [comments, setComments] = useState<PostsInterface[]>([])
+  const [commentPage, setCommentPage] = useState<number>(commentId ? 1 : 2)
+  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
   const nothingToLoadMore = useRef(
     pagination?.TotalPages !== 0 &&
@@ -39,6 +38,7 @@ function Comments({
     const commentsResponse = await getPostsComments(postId, userData.id, {
       page: pageNumber || commentPage,
     })
+
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
       commentsResponse?.pagination?.TotalPages
@@ -73,18 +73,24 @@ function Comments({
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div>
           {comments?.length !== 0 &&
-            comments?.map((comment: any, index: number) => {
-              return (
-                <CommentSection
-                  key={index}
-                  comment={comment}
-                  refetchComments={refetchComments}
-                  commentLength={comments.length}
-                  setReportedCommentId={setReportedCommentId}
-                  getPostCommets={getPostCommets}
-                />
+            comments
+              ?.filter(
+                (comment: PostsInterface) =>
+                  comment.id !== Number(deletedCommentId),
               )
-            })}
+              ?.map((comment: PostsInterface, index: number) => {
+                return (
+                  <CommentSection
+                    key={index}
+                    comment={comment}
+                    refetchComments={refetchComments}
+                    commentLength={comments.length}
+                    setDeletedCommentId={setDeletedCommentId}
+                    deletedCommentId={deletedCommentId}
+                    getPostCommets={getPostCommets}
+                  />
+                )
+              })}
         </div>
 
         {(!!commentId || nothingToLoadMore?.current) && (

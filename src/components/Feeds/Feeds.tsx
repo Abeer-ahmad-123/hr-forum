@@ -98,12 +98,21 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    updatePosts([...initialPosts])
-    dispatch(setPosts([...initialPosts]))
+    if (searchParams.search) {
+      updatePosts([...initialPosts])
+      dispatch(setPosts([...initialPosts]))
+    } else if (!searchParams.search && initialPosts.length) {
+      updatePosts([...initialPosts])
+      dispatch(setPosts([...initialPosts]))
+    }
   }, [initialPosts])
 
   useEffect(() => {
-    updatePosts([...storePosts])
+    if (searchParams.search) {
+      updatePosts([...storePosts])
+    } else if (!searchParams.search && storePosts.length) {
+      updatePosts([...storePosts])
+    }
   }, [storePosts])
 
   useEffect(() => {

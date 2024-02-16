@@ -1,18 +1,16 @@
 'use client'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { postComment, postCommentReply } from '@/services/comments'
+import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
-import { showErrorAlert } from '@/utils/helper'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import {
-  IncreaseCommentCountInStore,
-  setCommentCountInStore,
-} from '@/store/Slices/postSlice'
+
+import { IncreaseCommentCountInStore } from '@/store/Slices/postSlice'
 
 const CommentOrReply = ({
   reply = false,
@@ -25,7 +23,7 @@ const CommentOrReply = ({
   Id = '',
   inputRef = null,
   author = '',
-  setReportedCommentId,
+  setDeletedCommentId,
   createdDate,
   replies,
   commentLength,
@@ -63,6 +61,7 @@ const CommentOrReply = ({
             token,
             refreshToken,
           })
+
       if (result?.success) {
         if (!commentId) {
           disptach(IncreaseCommentCountInStore(postId))
@@ -71,6 +70,7 @@ const CommentOrReply = ({
             ...prevComments,
           ])
         } else {
+          disptach(IncreaseCommentCountInStore(postId))
           refetchComments()
         }
       } else {
@@ -98,7 +98,7 @@ const CommentOrReply = ({
           commentId={commentId}
           inputRef={inputRef}
           author={author}
-          setReportedCommentId={setReportedCommentId}
+          setDeletedCommentId={setDeletedCommentId}
           createdDate={createdDate}
           replies={replies}
           commentLength={commentLength}

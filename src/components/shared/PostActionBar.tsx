@@ -5,7 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
 import { useSelector } from 'react-redux'
@@ -23,7 +23,7 @@ import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostActionBarProps } from '@/utils/interfaces/posts'
+import { PostActionBarProps, PostsInterface } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 
@@ -45,7 +45,9 @@ const PostActionBar = ({
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const [showCommentArea, setShowCommentArea] = useState(false)
-  const [comment, setComment] = useState([])
+  const [comment, setComment] = useState<PostsInterface[]>([])
+
+  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
   const { handleRedirect } = useFetchFailedClient()
   const [showSignModal, setShowSignModal] = useState(false)
@@ -154,6 +156,21 @@ const PostActionBar = ({
     setPopOver(false)
   }
 
+  const filteredComments = () => {
+    if (deletedCommentId) {
+      setComment((prevComments: PostsInterface[]) => {
+        return prevComments.filter(
+          (comment: PostsInterface) => comment.id !== Number(deletedCommentId),
+        )
+      })
+    }
+    setDeletedCommentId('')
+  }
+
+  useEffect(() => {
+    filteredComments()
+  }, [deletedCommentId])
+
   return (
     <>
       <div className="flex flex-col">
@@ -166,7 +183,7 @@ const PostActionBar = ({
             setDisableReactionButton={setDisableReactionButton}
           />
 
-          <div className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-300 dark:text-gray-300 dark:hover:bg-dark-background">
+          <div className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
             <button
               onClick={toggleCommentArea}
               className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
@@ -176,7 +193,7 @@ const PostActionBar = ({
           </div>
 
           <div
-            className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-300 dark:hover:bg-dark-background"
+            className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
             onMouseLeave={handleMouseDown}>
             <Popover open={popOver} onOpenChange={setPopOver}>
               <PopoverTrigger className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
@@ -211,9 +228,15 @@ const PostActionBar = ({
               btnClass="mr-[0px]"
               Id={postId}
               setComments={setComment}
+              postId={postId}
             />
             <div className="mx-10">
-              {comment.length != 0 && <CommentSection comment={comment[0]} />}
+              {comment.length != 0 && (
+                <CommentSection
+                  comment={comment[0]}
+                  setDeletedCommentId={setDeletedCommentId}
+                />
+              )}
             </div>
           </div>
         )}

@@ -1,8 +1,10 @@
+import { CustomFetchFunction } from '@/utils/types/customFetch'
 import { API_BASE_URL } from '..'
 
 const GET_POST_COMMENT = API_BASE_URL + '/posts/postId/comments'
 const GET_COMMENT = API_BASE_URL + '/comments/commentId'
 const GET_USER_COMMENTS = API_BASE_URL + '/users/userId/comments'
+const DELETE_COMMENT = API_BASE_URL + '/comments/commentId'
 const USER_REPORTED_COMMENTS = API_BASE_URL + '/users/userId/reports/comments'
 
 export async function postComment({
@@ -187,6 +189,30 @@ export async function getComment(
     const response = await res.json()
     const { data } = response
     return data
+  } catch (err) {
+    throw err
+  }
+}
+
+export async function deleteComment(
+  commentId: string,
+  customFetch: CustomFetchFunction,
+  token: string,
+  refreshToken: string,
+) {
+  try {
+    let reportPostUrl = DELETE_COMMENT.replace('commentId', commentId)
+
+    let res = await customFetch(reportPostUrl, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+        authorization: 'Bearer ' + token,
+        refreshToken: refreshToken,
+      },
+    })
+
+    return res
   } catch (err) {
     throw err
   }

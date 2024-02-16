@@ -8,11 +8,11 @@ import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
 import { getChannels } from '@/services/channel/channel'
 import { getUserReactedPosts } from '@/services/posts'
-import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { setPosts } from '@/store/Slices/postSlice'
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
@@ -21,7 +21,6 @@ import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 
 const UserReactionFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -107,7 +106,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
     <div>
       <div className="mx-auto flex max-w-screen-xl justify-center">
         {
-          <div className="mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
+          <div className="mr-[5px] mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
             {userData && <ProfileCard />}
             <div
               className={`${

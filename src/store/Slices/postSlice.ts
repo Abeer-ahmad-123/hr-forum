@@ -20,10 +20,18 @@ export const posts = createSlice({
       const postId = action.payload
       state.commentCount[postId] = state.commentCount[postId] + 1
     },
+    DecreaseCommentCountInStore: (state, action: PayloadAction<string>) => {
+      const postId = action.payload
+      state.commentCount[postId] = state.commentCount[postId] - 1
+    },
   },
 })
 
-export const { setPosts, setCommentCountInStore, IncreaseCommentCountInStore } =
-  posts.actions
+export const {
+  setPosts,
+  setCommentCountInStore,
+  IncreaseCommentCountInStore,
+  DecreaseCommentCountInStore,
+} = posts.actions
 
 export default posts.reducer
