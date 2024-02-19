@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: 'HR-Forum',
     locale: 'hr-forum',
     images: {
-      url: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
+      url: 'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708327606-Mediamodifier-Design.svg/940ec5d3-fe22-4b23-9a56-7eda257ebbae.svg',
       alt: 'Visit HR-Forum',
       width: 1200,
       height: 630,
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
   twitter: {
     site: 'HR-Forum',
     images: {
-      url: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
+      url: 'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708327606-Mediamodifier-Design.svg/940ec5d3-fe22-4b23-9a56-7eda257ebbae.svg',
       alt: 'Visit HR-Forum',
       width: 1200,
       height: 630,
