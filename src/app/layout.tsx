@@ -4,32 +4,64 @@ import '@/assets/styles/globals.css'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'HR-Forum title',
+  metadataBase: new URL('https://hr-forum.vercel.app'),
+  title: 'HR-Forum: Shaping the Future of HR',
   description:
     'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
+  applicationName: 'HR-Forum',
+  keywords: [
+    'HR Forum',
+    'HR professionals',
+    'Discussions',
+    'Networking',
+    'Expert insights',
+    'Recruitment',
+    'Employee development',
+    'Diversity',
+    'Future of HR',
+    'Professional development',
+    'Human resources',
+    'Talent management',
+    'Workplace culture',
+    'Leadership',
+    'Best practices',
+    'Innovation',
+    'Learning and development',
+    'Career growth',
+    'HR trends',
+    'Community engagement',
+  ],
+  viewport: { width: 'device-width', initialScale: 1 },
+  robots: { index: true, follow: true },
+  icons: ['@/app/favicon.ico'],
+
   openGraph: {
-    images: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
-    title: 'HR-Forum og title',
+    title: 'HR-Forum',
     description:
       'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
-    type: 'website',
-    url: 'https://hr-forum.vercel.app',
-    siteName: 'HR-Forum sitename',
     emails: ['admin@hr-forum.com'],
+    siteName: 'HR-Forum',
     locale: 'hr-forum',
+    images: {
+      url: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
+      alt: 'Visit HR-Forum',
+      width: 1200,
+      height: 630,
+    },
+    url: 'https://hr-forum.vercel.app',
   },
   twitter: {
-    images: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
-    title: 'HR-Forum twitter titile',
+    site: 'HR-Forum',
+    images: {
+      url: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
+      alt: 'Visit HR-Forum',
+      width: 1200,
+      height: 630,
+    },
+    title: 'HR-Forum',
     description:
       'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
     card: 'summary_large_image',
-    site: 'HR-Forum twiter site name',
-  },
-  icons: ['@/app/favicon.co'],
-  metadataBase: new URL('https://hr-forum.vercel.app'),
-  alternates: {
-    canonical: '/feeds',
   },
 }
 
