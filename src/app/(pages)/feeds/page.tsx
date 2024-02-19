@@ -1,6 +1,5 @@
 import RenderFeedWithLoading from '@/components/RenderFeedWithLoading'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
-import { shareMetaData } from '@/utils/share-metadata'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
