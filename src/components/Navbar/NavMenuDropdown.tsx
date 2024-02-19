@@ -13,7 +13,7 @@ export default function NavMenuDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="border-none outline-0">
+        <button name="dropdown button" className="border-none outline-0">
           <DownIcon className="cursor-pointer" />
         </button>
       </DropdownMenuTrigger>

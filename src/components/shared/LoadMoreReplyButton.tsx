@@ -11,6 +11,7 @@ const LoadMoreReplyButton = ({
     <>
       {total_replies > 2 && repliesLength < total_replies && (
         <button
+          name="view button"
           className="mb-3 mt-3 flex w-full items-center gap-2.5 rounded-lg px-2 py-1 text-start text-sm text-gray-500"
           id={commentId}
           onClick={getAllReplies}>

@@ -132,7 +132,12 @@ const PostReactionBar = ({
           <Popover
             open={emojiPopoverVisible}
             onOpenChange={setEmojiPopoverVisible}>
-            <PopoverTrigger asChild>
+            <PopoverTrigger
+              asChild
+              name="reaction summary button"
+              aria-label="reaction summary"
+              aria-labelledby="reactionSummaryLabel"
+              role="button">
               <span
                 className="text-xs text-slate-400 max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"

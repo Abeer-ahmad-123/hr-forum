@@ -96,6 +96,7 @@ function LoggedIn() {
             onClick={handleClosePopover}
             className="cursor-pointer hover:text-white">
             <button
+              name="logout button"
               onClick={handleLogout}
               className={`block px-4 py-2 text-sm  dark:text-white`}>
               Logout

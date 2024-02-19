@@ -84,12 +84,13 @@ const EditPage = ({
         <textarea
           name="bio"
           placeholder="bio"
-          className="w-full rounded-lg border border-[#571ce0] p-4 font-sans font-light ring-1 ring-gray-200"
+          className="font-sans w-full rounded-lg border border-[#571ce0] p-4 font-light ring-1 ring-gray-200"
           value={userDetails?.bio}
           onChange={handleChange}
         />
       </div>
       <button
+        name="update button"
         onClick={handleSubmit}
         className="mb-1 mt-2 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none sm:mr-2">
         Update

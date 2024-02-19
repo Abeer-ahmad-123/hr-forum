@@ -1,5 +1,4 @@
 import Skelton from '@/components/ui/skelton'
-import UpdownButtonSkelton from './UpDownButtonSkelton'
 
 function ReplySkelton() {
   return (

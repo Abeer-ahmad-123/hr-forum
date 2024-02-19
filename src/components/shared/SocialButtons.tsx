@@ -64,7 +64,10 @@ const SocialButtons = ({
         <TwitterIcon size={30} round />
       </TwitterShareButton>
 
-      <button className="rounded-full bg-accent p-1" onClick={copyToClipBoard}>
+      <button
+        name="share button"
+        className="rounded-full bg-accent p-1"
+        onClick={copyToClipBoard}>
         <Link2 color="white" className="-rotate-45" size={20} />
       </button>
     </div>

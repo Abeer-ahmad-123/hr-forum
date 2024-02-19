@@ -100,7 +100,12 @@ const ReactionButton = ({
         onMouseEnter={mouseEnter}
         onMouseLeave={mouseLeft}
         className="group flex basis-1/4 cursor-pointer items-center justify-center rounded-sm  hover:bg-gray-100 dark:hover:bg-dark-background">
-        <PopoverTrigger asChild>
+        <PopoverTrigger
+          asChild
+          name="reaction option button"
+          aria-label="reaction option"
+          aria-labelledby="reactionOptionLabel"
+          role="button">
           <div
             className="dark:text-icon-dark pointer flex items-center justify-center"
             onClick={handleLikeWrapperExtended}>

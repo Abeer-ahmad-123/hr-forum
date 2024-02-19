@@ -332,7 +332,12 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
 
                 <div onMouseLeave={handleMouseDown}>
                   <Popover open={popOver} onOpenChange={setPopOver}>
-                    <PopoverTrigger className="flex">
+                    <PopoverTrigger
+                      className="flex"
+                      name="post options button"
+                      aria-label="post options"
+                      aria-labelledby="postOptionsLabel"
+                      role="button">
                       <span
                         className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
                         onClick={setOpenPopOver}>

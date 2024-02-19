@@ -132,6 +132,7 @@ function ReplyTextArea({
           </div>
         </div>
         <button
+          name="reply button"
           onClick={toggleTextArea}
           className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
@@ -140,7 +141,12 @@ function ReplyTextArea({
 
         <div onMouseLeave={handleMouseDown}>
           <Popover open={popOver} onOpenChange={setPopOver}>
-            <PopoverTrigger className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300">
+            <PopoverTrigger
+              className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300"
+              name="share option button"
+              aria-label="share option"
+              aria-labelledby="shareOptionLabel"
+              role="button">
               <span
                 className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
@@ -169,6 +175,7 @@ function ReplyTextArea({
         ) : (
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <button
+              name="report button"
               className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
               onClick={handleClick}>

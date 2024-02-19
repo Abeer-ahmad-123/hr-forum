@@ -138,12 +138,14 @@ const Report = ({
 
       <div className="flex justify-end gap-2">
         <button
+          name="cancel button"
           onClick={handleCancel}
           className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white ">
           {' '}
           cancel
         </button>
         <button
+          name="submit button"
           onClick={handleSubmit}
           className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-white 
           ${loading ? 'bg-gray-300' : 'bg-accent'}

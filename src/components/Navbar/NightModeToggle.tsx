@@ -12,7 +12,13 @@ const NightModeToggle = () => {
   }
 
   return (
-    <button className="focus:outline-none" onClick={toggleNightMode}>
+    <button
+      role="button"
+      aria-label="toggle night mode"
+      aria-labelledby="nightModeLabel"
+      name="toggle night mode button"
+      className="focus:outline-none"
+      onClick={toggleNightMode}>
       <ReturnIconButton
         condition={darkMode}
         FirstIcon={MoonIcon}

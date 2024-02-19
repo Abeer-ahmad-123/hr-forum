@@ -220,7 +220,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 profileNav.isPost ? activityStyles : 'text-[#a9a9a9]'
               } hover:text-accent`}>
               <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
-              <button> Post</button>
+              <button name="post button"> Post</button>
             </div>
           </div>
           <div
@@ -234,7 +234,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
               />
-              <button> Comment</button>
+              <button name="comment button"> Comment</button>
               <hr />
             </div>
           </div>
@@ -250,7 +250,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
               />
-              <button> Reactions</button>
+              <button name="reaction button"> Reactions</button>
               <hr />
             </div>
           </div>

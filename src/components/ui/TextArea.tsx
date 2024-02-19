@@ -90,6 +90,7 @@ const TextArea = ({
           />
 
           <button
+            name="post comment button"
             onClick={handleClick}
             className={`${btnClass} rounded-lg px-3 text-white dark:bg-dark-background`}
             disabled={isLoading['loading'] || textAreaValue === ''}>

@@ -182,7 +182,12 @@ function Reply({
                 </div>
                 <div onMouseLeave={handleMouseDown}>
                   <Popover open={popOver} onOpenChange={setPopOver}>
-                    <PopoverTrigger className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700">
+                    <PopoverTrigger
+                      className="visited:text-indigo-500 pointer flex items-center py-2 pl-0 text-sm text-gray-400 hover:underline active:text-gray-700"
+                      name="share option button"
+                      aria-label="share option"
+                      aria-labelledby="shareOptionLabel"
+                      role="button">
                       <span
                         className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
@@ -213,6 +218,7 @@ function Reply({
                   <Dialog open={openDialog} onOpenChange={handleClick}>
                     <DialogTrigger asChild>
                       <button
+                        name="reply button"
                         className="pointer text-sm text-gray-400 hover:underline"
                         onClick={handleClick}>
                         Report

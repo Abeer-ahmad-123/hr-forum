@@ -148,6 +148,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
               className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background dark:text-white`}
             />
             <button
+              name="toggle password type"
               onClick={toggleShowOldPassword}
               className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
               {showOldPassword ? (
@@ -170,6 +171,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
             className={`caret-gray w-full resize-none  rounded-l-lg border border-none border-[#d3d3d3] p-2 pl-2 text-left outline-none dark:bg-dark-background dark:text-white `}
           />
           <button
+            name="toggle password type"
             onClick={toggleShowNewPassword}
             className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
             {showNewPassword ? (
@@ -192,6 +194,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
             className={`caret-gray  w-full resize-none rounded-l-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background dark:text-white`}
           />
           <button
+            name="toggle password type"
             onClick={toggleShowConfirmPassword}
             className="rounded-r-lg bg-white px-3 text-white dark:bg-dark-background">
             {showConfirmPassword ? (
@@ -208,12 +211,14 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
 
       <div className="mt-3 flex justify-center gap-2">
         <button
+          name="cancel button"
           onClick={handleCancel}
           className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white dark:text-white ">
           {' '}
           cancel
         </button>
         <button
+          name="save button"
           onClick={handleSubmit}
           className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
         text-white   ${loading ? 'bg-gray-300' : 'bg-accent'}

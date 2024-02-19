@@ -178,6 +178,7 @@ export default function Register({
             <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
               Already have an account?{' '}
               <button
+                name="sign in button"
                 className="text-primary-purple cursor-pointer font-medium hover:underline"
                 onClick={() => {
                   toggleForm()

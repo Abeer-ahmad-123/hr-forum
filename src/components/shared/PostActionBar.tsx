@@ -186,6 +186,7 @@ const PostActionBar = ({
 
           <div className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
             <button
+              name="comment button"
               onClick={toggleCommentArea}
               className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
               <FaRegComment />
@@ -197,7 +198,12 @@ const PostActionBar = ({
             className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
             onMouseLeave={handleMouseDown}>
             <Popover open={popOver} onOpenChange={setPopOver}>
-              <PopoverTrigger className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
+              <PopoverTrigger
+                className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
+                name="share options button"
+                aria-label="share options"
+                aria-labelledby="shareOptionsLabel"
+                role="button">
                 <PiShareFat className="h-6 w-6 font-light" />
                 <span
                   className="font-light  max-custom-sm:hidden "

@@ -21,14 +21,16 @@ const ChannelCard = () => {
       </h1>
       <ul className="ml-[2px] cursor-pointer list-none text-left">
         {channels.map((channel: ChannelInterface, index: number) => (
-          <React.Fragment key={index}>
+          <li
+            className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent dark:text-gray-400 dark:hover:text-accent"
+            key={index}>
             <CustomLink href={`/channels/${channel.slug}`}>
-              <li className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent dark:text-gray-400 dark:hover:text-accent">
+              <div className="flex gap-2.5">
                 <Building2 size={20} />
                 <span>{channel.name}</span>
-              </li>
+              </div>
             </CustomLink>
-          </React.Fragment>
+          </li>
         ))}
       </ul>
     </div>

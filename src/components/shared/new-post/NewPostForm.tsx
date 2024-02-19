@@ -217,7 +217,7 @@ export default function NewPostForm({
               : 'opacity-50 dark:opacity-100'
           }`}>
           <Plus size={20} />
-          <button> Post</button>
+          <button name="post button"> Post</button>
         </div>
         <div
           onClick={imageOnClick}
@@ -227,7 +227,7 @@ export default function NewPostForm({
               : ' opacity-50 dark:opacity-100'
           }`}>
           <IconImage size={20} />
-          <button> Image</button>
+          <button name="image button"> Image</button>
           <hr />
         </div>
 
@@ -292,6 +292,7 @@ export default function NewPostForm({
       <div className="flex items-center justify-between">
         <div />
         <button
+          name="loadding button"
           onClick={createPost}
           disabled={isDisabled}
           className={`w-[100px] rounded-md ${

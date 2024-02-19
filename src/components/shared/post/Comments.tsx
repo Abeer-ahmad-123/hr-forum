@@ -95,6 +95,7 @@ function Comments({
 
         {(!!commentId || nothingToLoadMore?.current) && (
           <button
+            name="view all comments button"
             className="mb-3 mt-3 flex w-full items-center gap-2.5 rounded-lg px-2 py-1 text-start text-sm text-gray-500"
             onClick={handleLoadMore}>
             <span className="rotate-180">

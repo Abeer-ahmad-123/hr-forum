@@ -1,13 +1,5 @@
-import UpdownButton from '../ui/updownButton'
-// import Image from 'next/image'
-// import picture from '@/assets/avatars/img.jpeg'
-// import { MoreHorizontal } from 'lucide-react'
-import { ArrowDown, ArrowUp } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import Skelton from '@/components/ui/skelton'
 import ReplySkelton from './ReplySkelton'
-import { Button } from '@/components/ui/button'
-import UpdownButtonSkelton from './UpDownButtonSkelton'
 
 function CommentSkelton() {
   return (
