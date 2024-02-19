@@ -39,7 +39,7 @@ export const shareMetaData = {
     siteName: 'HR-Forum',
     locale: 'hr-forum',
     images: {
-      url: 'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708327606-Mediamodifier-Design.svg/940ec5d3-fe22-4b23-9a56-7eda257ebbae.svg',
+      url: 'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708329877-Mediamodifier-Design.png/30f7208a-c4bb-4db6-9d4d-2ab74e840ab0.png',
       alt: 'Visit HR-Forum',
       width: 1200,
       height: 630,
@@ -49,7 +49,7 @@ export const shareMetaData = {
   twitter: {
     site: 'HR-Forum',
     images: {
-      url: 'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708327606-Mediamodifier-Design.svg/940ec5d3-fe22-4b23-9a56-7eda257ebbae.svg',
+      url: 'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708329877-Mediamodifier-Design.png/30f7208a-c4bb-4db6-9d4d-2ab74e840ab0.png',
       alt: 'Visit HR-Forum',
       width: 1200,
       height: 630,
