@@ -1,7 +1,7 @@
 export const shareMetaData = {
   metadataBase: new URL('https://hr-forum.vercel.app'),
   description:
-    'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
+    'HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development and more.',
   applicationName: 'HR-Forum',
   keywords: [
     'HR Forum',
@@ -33,7 +33,7 @@ export const shareMetaData = {
   openGraph: {
     title: 'HR-Forum',
     description:
-      'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
+      'HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development and more.',
     emails: ['admin@hr-forum.com'],
     siteName: 'HR-Forum',
     locale: 'hr-forum',
@@ -55,7 +55,7 @@ export const shareMetaData = {
     },
     title: 'HR-Forum',
     description:
-      'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
+      'HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development and more. ',
     card: 'summary_large_image',
   },
 }
