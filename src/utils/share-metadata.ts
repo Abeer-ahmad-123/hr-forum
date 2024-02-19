@@ -25,7 +25,6 @@ export const shareMetaData = {
     'HR trends',
     'Community engagement',
   ],
-  viewport: { width: 'device-width', initialScale: 1 },
   robots: { index: true, follow: true },
   icons: [
     'https://h-forum.s3.us-east-2.amazonaws.com/uploads/1708327881-favicon.ico/c7007038-abb1-45d0-8f09-0d21bd475017.ico',
