@@ -1,5 +1,4 @@
 'use client'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 import { AlertOctagon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -8,7 +7,6 @@ import { useEffect } from 'react'
 import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
 import { GoReport } from 'react-icons/go'
-import { useSelector } from 'react-redux'
 
 const UserDataBadge = ({
   postCount,
@@ -19,16 +17,17 @@ const UserDataBadge = ({
   reportedCommentCount,
 }: UserDataBadgeProps) => {
   const router = useRouter()
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
-  const routeTo = `/feeds/${userName + '-' + userId}/feed`
+
+  const routeTo = `/user-activity/${userName
+    ?.toLowerCase()
+    .replace(/ /g, '-')}-${userId}`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     nProgress.start()
 
-    if (e.currentTarget.id === 'post') router.push(`${routeTo}`)
-    else if (e.currentTarget.id === 'comment') router.push(`${routeTo}/comment`)
+    if (e.currentTarget.id === 'post') router.push(`${routeTo}/posts`)
+    else if (e.currentTarget.id === 'comment')
+      router.push(`${routeTo}/comments`)
     else if (e.currentTarget.id === 'report-post')
       router.push(`${routeTo}/reported/posts`)
     else if (e.currentTarget.id === 'report-comment')

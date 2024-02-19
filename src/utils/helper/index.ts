@@ -186,3 +186,16 @@ export const makeCommentNumberKeyValuePairFromSummary = (posts: any) => {
   }
   return commentObj
 }
+
+export const capitalizeWord = (str: string) => {
+  return str
+    .split('-')
+    .map((word: string) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+export const filterIdFromName = (str: string) => {
+  let parts = str.split('-')
+  parts.pop()
+  return parts.join('-')
+}

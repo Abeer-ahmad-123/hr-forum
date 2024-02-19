@@ -51,7 +51,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   let noMorePosts = useRef<boolean>(morePosts)
   let firstRunRef = useRef<boolean>(true)
 
-  const userId = slug.split('-')[1]
+  const userId = slug.split('-').pop()
 
   const getPosts = async () => {
     {
@@ -67,7 +67,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
         noMorePosts.current =
           pagination?.CurrentPage &&
           pagination?.CurrentPage !== pagination?.TotalPages
-
+        console.log(reports)
         setPosts((prev: ReportedPostsFeedsProps[]) => [...prev, ...reports])
       } catch (error) {
         if (error instanceof Error) {
@@ -137,7 +137,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
               <div
                 className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/${slug}/feed`) && (
+                  {pathName.includes(`/reported/posts`) && (
                     <ActivityButtons slug={slug} />
                   )}
                   <div>

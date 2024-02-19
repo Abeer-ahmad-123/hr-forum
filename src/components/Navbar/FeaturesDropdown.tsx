@@ -69,9 +69,14 @@ const FeaturesDropDown = ({
         }
       })
       .join(' ')
-
-    if (words === 'Feed') {
+    if (words === 'Feeds') {
       setSelected('Home')
+    } else if (
+      words === 'Posts' ||
+      words === 'Comments' ||
+      words === 'Reactions'
+    ) {
+      setSelected('User Activity')
     } else {
       setSelected(words)
     }

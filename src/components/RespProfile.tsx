@@ -319,7 +319,7 @@ const RespProfile = ({ userId }: profileProps) => {
               commentCount={
                 userId ? user?.comment_count : userDataInStore.comment_count
               }
-              userName={user.username}
+              userName={user.name}
               userId={userIdLocal}
               reportedPostCount={
                 userId

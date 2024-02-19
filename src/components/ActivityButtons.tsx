@@ -7,7 +7,7 @@ import nProgress from 'nprogress'
 import { FaRegComment } from 'react-icons/fa'
 
 const ActivityButtons = ({ slug }: SlugProps) => {
-  const routeTo = `/feeds/${slug}/feed`
+  const routeTo = `/user-activity/${slug}`
   const pathName = usePathname()
 
   const router = useRouter()
@@ -16,18 +16,18 @@ const ActivityButtons = ({ slug }: SlugProps) => {
 
     pathName.includes('/reported')
       ? router.push(`${routeTo}/reported/comments`)
-      : router.push(`${routeTo}/comment`)
+      : router.push(`${routeTo}/comments`)
   }
   const reactionOnClick = () => {
     nProgress.start()
-    router.push(`${routeTo}/reaction`)
+    router.push(`${routeTo}/reactions`)
   }
 
   const handlePost = () => {
     nProgress.start()
     pathName.includes('/reported')
       ? router.push(`${routeTo}/reported/posts`)
-      : router.push(`${routeTo}`)
+      : router.push(`${routeTo}/posts`)
   }
   return (
     <div className="mb-4 justify-start rounded-xl bg-white px-10 py-2 dark:bg-slate-800 dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
@@ -40,10 +40,11 @@ const ActivityButtons = ({ slug }: SlugProps) => {
           className={`-ml-[3px] flex w-[80px] gap-[8px] py-2`}>
           <div
             className={`flex gap-2  max-custom-sm:text-xs ${
-              pathName == routeTo || pathName.includes(`${'/reported/posts'}`)
-                ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-                : 'opacity-50'
-            }`}>
+              pathName.includes('posts')
+                ? 'z-10 border-b-2 border-[#571ce0]  pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
+                : ' opacity-50'
+            }
+              `}>
             <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
             <button> Post</button>
           </div>

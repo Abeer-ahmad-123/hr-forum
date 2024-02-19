@@ -2,7 +2,7 @@ import SinglePost from '@/components/SinglePost'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'HR-Forum - Feed',
+  title: 'HR-Forum - Feed - Post',
 }
 
 const SingleFeedpage = ({ params, searchParams }: any) => {

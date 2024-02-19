@@ -45,7 +45,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
 
   let noMorePosts = useRef<boolean>(morePosts)
 
-  const userId = slug.split('-')[1]
+  const userId = slug.split('-').pop()
 
   const getAllChannels = async () => {
     try {
@@ -149,7 +149,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
               <div
                 className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/${slug}/feed`) && (
+                  {pathName.includes(`/${slug}/comments`) && (
                     <ActivityButtons slug={slug} />
                   )}
 

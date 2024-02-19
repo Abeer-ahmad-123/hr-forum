@@ -44,7 +44,7 @@ const UserFeeds = ({ slug }: SlugProps) => {
 
   let noMorePosts = useRef<boolean>(morePosts)
 
-  const userId = slug.split('-')[1]
+  const userId = slug.split('-').pop()
 
   const getPosts = async () => {
     try {
@@ -135,7 +135,7 @@ const UserFeeds = ({ slug }: SlugProps) => {
               <div
                 className={`${'mt-[45px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/${slug}/feed`) && (
+                  {pathName.includes(`/${slug}/posts`) && (
                     <ActivityButtons slug={slug} />
                   )}
                   <div>

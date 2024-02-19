@@ -57,6 +57,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     user_id,
     image_url,
   } = post
+
   const pathName = usePathname()
   const router = useRouter()
   const dispatch = useDispatch()
@@ -147,15 +148,16 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         ? `/saved/feed/${id}`
         : `/feeds/feed/${id}`,
     )
-
-    setModalState()
+    if (!pathName.includes('channel')) setModalState()
   }
   const handleNavigateProfile = (event: any) => {
     nProgress.start()
     event.preventDefault()
     event.stopPropagation()
     router.push(
-      userDetails?.id === user_id ? '/profile' : `/profile/${user_id}`,
+      userDetails?.id === user_id
+        ? '/profile'
+        : `/profile/${user.name?.toLowerCase().replace(/ /g, '-')}-${user_id}`,
     )
   }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
