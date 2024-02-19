@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description:
     'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
   openGraph: {
-    images: '',
+    images: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
     title: 'HR-Forum',
     description:
       'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     locale: 'hr-forum',
   },
   twitter: {
-    images: '',
+    images: 'https://devryx-web-imgs.s3.amazonaws.com/Enxsys+Logo.png',
     title: 'HR-Forum',
     description:
       'Discover our HR Forum: the hub for HR professionals. Engage in discussions, network, and access expert insights on recruitment, employee development, diversity, and more. Join us in shaping the future of HR!',
