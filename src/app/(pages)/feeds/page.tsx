@@ -5,7 +5,6 @@ import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'HR-Forum - Feeds',
-  ...shareMetaData,
 }
 
 const FeedPage = ({ searchParams }: FeedPageProps) => {
