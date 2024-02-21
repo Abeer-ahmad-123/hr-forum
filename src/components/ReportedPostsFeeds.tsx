@@ -11,16 +11,18 @@ import { getChannels } from '@/services/channel/channel'
 import { getReportedPosts } from '@/services/posts'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
+import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { useInView } from 'react-intersection-observer'
 
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
 interface ReportedPostsFeedsProps {
   id: number
@@ -37,16 +39,20 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
 
   const [ref, inView] = useInView()
   const pathName = usePathname()
+  const dispatch = useDispatch()
 
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
+  )
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
   )
 
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
   const [channel, setChannel] = useState<ChannelInterface>()
-  const [posts, setPosts] = useState<ReportedPostsFeedsProps[]>([])
+  const [posts, updatePosts] = useState<PostsInterface[]>([])
 
   let noMorePosts = useRef<boolean>(morePosts)
   let firstRunRef = useRef<boolean>(true)
@@ -67,8 +73,9 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
         noMorePosts.current =
           pagination?.CurrentPage &&
           pagination?.CurrentPage !== pagination?.TotalPages
-        console.log(reports)
-        setPosts((prev: ReportedPostsFeedsProps[]) => [...prev, ...reports])
+        const extractedPosts = reports.map((item: any) => item.post)
+        updatePosts((prev: PostsInterface[]) => [...prev, ...extractedPosts])
+        dispatch(setPosts([...posts, ...extractedPosts]))
       } catch (error) {
         if (error instanceof Error) {
           handleRedirect({ error })
@@ -77,6 +84,10 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
         setLoading(false)
       }
     }
+  }
+
+  const handleCommentCount = () => {
+    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
   }
 
   const getAllChannels = async () => {
@@ -89,6 +100,11 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
       }
     }
   }
+
+  useEffect(() => {
+    handleCommentCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [posts])
 
   useEffect(() => {
     if (firstRunRef.current) {
@@ -106,6 +122,10 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
+  useEffect(() => {
+    updatePosts([...storePosts])
+  }, [storePosts])
+
   return loading ? (
     <CardLoading />
   ) : (
@@ -120,7 +140,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
               } sticky  max-h-screen`}>
               {<ChannelCard />}
             </div>
-            <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
+            <div className="sticky top-[358px] mt-5 max-h-screen max-lg:top-[368px]">
               {' '}
               {<RulesCard />}
             </div>
@@ -142,14 +162,14 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
                   )}
                   <div>
                     {posts?.length ? (
-                      posts?.map((report: any, index: number) => {
+                      posts?.map((post: any, index: number) => {
                         // change it to post once backend issue resolved
                         return (
                           <Card
                             key={index}
-                            post={report.post}
+                            post={post}
                             channels={channel}
-                            setPosts={setPosts}
+                            updatePosts={updatePosts}
                             posts={posts}
                           />
                         )

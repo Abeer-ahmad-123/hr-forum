@@ -41,7 +41,7 @@ const UserDataBadge = ({
   }, [])
   return (
     <>
-      <div className="flex min-h-[168px] min-w-[15rem] flex-col items-center justify-center rounded-[10px] bg-white  px-[5px] pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white">
+      <div className="border-grey-300 flex min-h-[168px] min-w-[15rem] flex-col items-center justify-center rounded-[10px] border border-solid bg-white  px-[5px] pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white">
         <div className="flex flex-col py-3 leading-[50px]">
           <div
             id="post"

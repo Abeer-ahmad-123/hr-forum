@@ -132,7 +132,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
               } sticky  max-h-screen`}>
               {<ChannelCard />}
             </div>
-            <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
+            <div className="sticky top-[358px] mt-5 max-h-screen max-lg:top-[368px]">
               {' '}
               {<RulesCard />}
             </div>

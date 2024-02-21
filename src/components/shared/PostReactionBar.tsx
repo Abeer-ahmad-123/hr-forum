@@ -112,7 +112,6 @@ const PostReactionBar = ({
     setCommentCount(commentCountInStore)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
-
   return (
     <>
       {!pathName.includes('/profile') && <hr />}
@@ -171,7 +170,7 @@ const PostReactionBar = ({
           <span
             className="text-xs text-slate-400 max-custom-sm:text-[11px] 
                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {commentCount && commentCount[Number(postId)]} comments
+            {commentCount && `${commentCount[Number(postId)]} comments`}
           </span>
         </CustomLink>
       </div>

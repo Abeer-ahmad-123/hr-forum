@@ -13,7 +13,8 @@ import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import {
   CommentInterface,
-  UserSpecificPostsInterface,
+  PostsInterface,
+  PostsInterfaceStore,
 } from '@/utils/interfaces/posts'
 
 import { getReportedComments } from '@/services/comments'
@@ -22,42 +23,30 @@ import { usePathname } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-
-interface ReportedCommentsFeedsProps {
-  id: number
-  created_at: string
-  updated_at: string
-  content: string
-  user_id: number
-  post_Id: number
-  parent_id: number
-  author_details: {
-    username: string
-    name: string
-    profile_picture_url: string
-  }
-  total_replies: number
-  user_has_reported: boolean
-  comment: CommentInterface
-}
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
 const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [ref, inView] = useInView()
   const pathName = usePathname()
+  const dispatch = useDispatch()
   const { handleRedirect } = useFetchFailedClient()
 
   const userDataInStore = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
+  const storePosts = useSelector(
+    (state: PostsInterfaceStore) => state.posts.posts,
+  )
+
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
-  const [comments, setComments] = useState<ReportedCommentsFeedsProps[]>([])
+  const [comments, setComments] = useState<PostsInterface[]>([])
   const [channel, setChannel] = useState<ChannelInterface>()
-  const [posts, setPosts] = useState<UserSpecificPostsInterface[]>([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
 
   let noMorePosts = useRef<boolean>(morePosts)
@@ -94,7 +83,9 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
         pagination?.CurrentPage &&
         pagination?.CurrentPage !== pagination?.TotalPages
 
-      setComments((prev: ReportedCommentsFeedsProps[]) => [...prev, ...reports])
+      const extractedPosts = reports.map((item: any) => item.post)
+      setComments((prev: PostsInterface[]) => [...prev, ...extractedPosts])
+      dispatch(setPosts([...comments, ...extractedPosts]))
     } catch (error) {
       if (error instanceof Error) {
         handleRedirect({ error })
@@ -102,6 +93,10 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
     } finally {
       setIsCommentsLoading(false)
     }
+  }
+
+  const handleCommentCount = () => {
+    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(comments)))
   }
 
   useEffect(() => {
@@ -115,6 +110,16 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
+
+  useEffect(() => {
+    handleCommentCount()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comments])
+
+  useEffect(() => {
+    setComments([...storePosts])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [storePosts])
 
   useEffect(() => {
     return () => {
@@ -139,7 +144,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
                 } sticky  max-h-screen`}>
                 {<ChannelCard />}
               </div>
-              <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
+              <div className="sticky top-[358px] mt-5 max-h-screen max-lg:top-[368px]">
                 {' '}
                 {<RulesCard />}
               </div>
@@ -161,15 +166,15 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
                     )}
                     <div>
                       {!!comments?.length ? (
-                        comments?.map((reported: any, index: number) => {
+                        comments?.map((comment: any, index: number) => {
                           return (
                             <Card
                               key={index}
-                              post={reported.comment.post}
+                              post={comment}
                               channels={channel}
-                              setPosts={setPosts}
-                              posts={posts}
-                              userComment={reported.comment}
+                              updatePosts={setComments}
+                              posts={comments}
+                              userComment={comment}
                             />
                           )
                         })

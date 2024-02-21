@@ -1,5 +1,5 @@
 'use client'
-import BgBanner from '@/assets/icons/bgBanner'
+import BgBanner from '@/assets/images/background-banner.svg'
 import { noProfilePicture } from '@/assets/images'
 import ImageUpload from '@/components/ImageUpload'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
@@ -13,7 +13,7 @@ import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail, User } from 'lucide-react'
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
@@ -21,7 +21,6 @@ import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { profileProps } from '@/utils/interfaces/userData'
 import ProfilePageLoading from './Loading/ProfilePageLoading'
-import ProfileActivityLoading from './Loading/ProfileActivityLoading'
 
 const RespProfile = ({ userId }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -161,51 +160,34 @@ const RespProfile = ({ userId }: profileProps) => {
   return user.id ? (
     <div className="profile-page  max-md:block">
       <section className="relative mt-5 block h-[650px]">
-        {user?.backgroundPictureURL ? (
-          <div
-            className="absolute top-0 h-[60%] w-full bg-cover bg-center"
-            style={{
-              backgroundImage: `url(${user?.backgroundPictureURL})`,
-            }}>
-            {!userId && (
-              <label
-                htmlFor="changeBackgroundImage"
-                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                <LiaUserEditSolid className="cursor-pointer text-white" />
-              </label>
-            )}
-            <input
-              className="hidden border border-[#d3d3d3]"
-              id="changeBackgroundImage"
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              onChange={onBgImageInputChange}
-            />
-            <span
-              id="blackOverlay"
-              className="absolute left-0 h-full w-full bg-black opacity-50"></span>
-          </div>
-        ) : (
-          <>
-            <BgBanner />
-            {!userId && (
-              <label
-                htmlFor="changeBackgroundImage"
-                className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-                <LiaUserEditSolid className="cursor-pointer text-white" />
-              </label>
-            )}
-            <input
-              className="border=[#d3d3d3] hidden border"
-              id="changeBackgroundImage"
-              ref={imageInputRef}
-              type="file"
-              accept="image/*"
-              onChange={onBgImageInputChange}
-            />
-          </>
-        )}
+        <div
+          className="absolute top-0 h-[60%] w-full bg-cover bg-center"
+          style={{
+            backgroundImage: `url(${
+              user?.backgroundPictureURL
+                ? user?.backgroundPictureURL
+                : BgBanner.src
+            })`,
+          }}>
+          {!userId && (
+            <label
+              htmlFor="changeBackgroundImage"
+              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+              <LiaUserEditSolid className="cursor-pointer text-white" />
+            </label>
+          )}
+          <input
+            className="hidden border border-[#d3d3d3]"
+            id="changeBackgroundImage"
+            ref={imageInputRef}
+            type="file"
+            accept="image/*"
+            onChange={onBgImageInputChange}
+          />
+          <span
+            id="blackOverlay"
+            className="absolute left-0 h-full w-full bg-black opacity-50"></span>
+        </div>
 
         <div
           className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
@@ -227,7 +209,7 @@ const RespProfile = ({ userId }: profileProps) => {
 
       <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
         <div className=" mx-auto ">
-          <div className="relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg  bg-white shadow-xl dark:bg-slate-800">
+          <div className="border-grey-300 relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg border  border-solid  bg-white shadow-xl dark:bg-slate-800">
             {/* Profile card start */}
             <div className="px-6">
               <div className="top-0">

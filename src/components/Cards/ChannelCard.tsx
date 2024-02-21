@@ -15,7 +15,7 @@ const ChannelCard = () => {
 
   return channels.length ? (
     <div
-      className={`sticky top-[20px] mr-4 mt-[20px] h-auto max-h-screen w-[225px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-md:w-full`}>
+      className={`sticky top-[20px] mr-4 mt-[20px] h-auto max-h-screen w-[225px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-lg:mt-[15px] max-md:w-full`}>
       <h1 className="mb-[0px] mt-[10px] text-start text-[11px] font-semibold">
         Channels
       </h1>

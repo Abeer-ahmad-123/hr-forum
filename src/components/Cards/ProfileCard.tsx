@@ -1,6 +1,6 @@
 'use client'
 
-import BgBanner from '@/assets/icons/bgBanner'
+import BgBanner from '@/assets/images/background-banner.svg'
 import { noProfilePicture } from '@/assets/images'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail } from 'lucide-react'
@@ -18,17 +18,17 @@ const ProfileCard = () => {
 
   return (
     <div className="relative mt-5 h-auto w-[225px] cursor-pointer overflow-hidden rounded-[10px] border border-solid border-gray-300 bg-white shadow-lg dark:bg-slate-800 dark:text-white max-md:mt-4 max-md:w-full">
-      {userDetails?.backgroundPictureURL ? (
-        <img
-          className="h-[70px] w-full object-cover"
-          src={userDetails?.backgroundPictureURL}
-          alt="background"
-          width={200}
-          height={70}
-        />
-      ) : (
-        <BgBanner />
-      )}
+      <img
+        className="h-[70px] w-full object-cover"
+        src={
+          userDetails?.backgroundPictureURL
+            ? userDetails?.backgroundPictureURL
+            : BgBanner.src
+        }
+        alt="background"
+        width={200}
+        height={70}
+      />
       <div className="flex items-center justify-center">
         <img
           src={userDetails?.profilePictureURL || noProfilePicture.src}

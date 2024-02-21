@@ -118,7 +118,7 @@ const UserFeeds = ({ slug }: SlugProps) => {
               } sticky  max-h-screen`}>
               {<ChannelCard />}
             </div>
-            <div className="sticky top-[321px] mt-5 max-h-screen max-lg:top-[340px]">
+            <div className="sticky top-[358px] mt-5 max-h-screen max-lg:top-[368px]">
               {' '}
               {<RulesCard />}
             </div>
@@ -133,7 +133,7 @@ const UserFeeds = ({ slug }: SlugProps) => {
                 <RespScreen />
               </div>
               <div
-                className={`${'mt-[45px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
+                className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
                   {pathName.includes(`/${slug}/posts`) && (
                     <ActivityButtons slug={slug} />

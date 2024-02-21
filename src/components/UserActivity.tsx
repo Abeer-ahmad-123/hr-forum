@@ -206,7 +206,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   }, [posts])
 
   return (
-    <div className="mb-5 flex h-full w-full flex-col items-start rounded-[10px] bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
+    <div className="border-grey-300 mb-5 flex h-full w-full flex-col items-start rounded-[10px] border  border-solid bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
       <div className="ml-10 justify-start">
         <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
           Activity
