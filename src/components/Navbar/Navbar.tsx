@@ -19,9 +19,9 @@ const Navbar = () => {
         <div className="flex items-center">
           <Logo />
           <FeaturesDropDown
-            classNameOuter="max-md:hidden max-lg:w-[225px] w-[270px]"
-            classNameInner="fixed top-[14px] ml-[-26px] max-lg:w-[225px] w-[270px]"
-            classNamefeaturesDropDowm="w-[270px] max-lg:w-[225px] max-md:w-[225px]"
+            classNameOuter="max-md:hidden max-lg:w-[230px] w-[270px]"
+            classNameInner="fixed top-[14px] ml-[-26px] max-lg:w-[230px] w-[270px]"
+            classNamefeaturesDropDowm="w-[270px] max-lg:w-[225px] max-md:w-[230px]"
           />
         </div>
         <div className="flex w-full items-center justify-end max-lg:justify-between">

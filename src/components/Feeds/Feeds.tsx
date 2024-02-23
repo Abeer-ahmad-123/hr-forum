@@ -99,7 +99,7 @@ const Feeds = ({
   }, [inView])
 
   useEffect(() => {
-    if (searchParams.search) {
+    if (searchParams.search || channelSlug) {
       updatePosts([...initialPosts])
       dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
@@ -110,7 +110,7 @@ const Feeds = ({
   }, [initialPosts])
 
   useEffect(() => {
-    if (searchParams.search) {
+    if (searchParams.search || channelSlug) {
       updatePosts([...storePosts])
     } else if (!searchParams.search && storePosts.length) {
       updatePosts([...storePosts])

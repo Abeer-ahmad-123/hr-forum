@@ -136,7 +136,11 @@ const FeaturesDropDown = ({
           onClick={handleChecked}>
           <div className="flex items-center normal-case text-black dark:text-white">
             {getSelectedIcon()}
-            <p>{selected}</p>
+            <p>
+              {selected.length > 16
+                ? `${selected.substring(0, 14)}...`
+                : selected}
+            </p>
           </div>
           <DownArrow className="text-2xl dark:text-white" />
         </div>

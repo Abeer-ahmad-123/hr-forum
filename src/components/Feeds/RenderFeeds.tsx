@@ -28,7 +28,6 @@ async function RenderFeeds({
 
   try {
     const { channels } = await getChannels()
-
     channelData = channels
   } catch (error) {
     if (error instanceof Error && error.message) {
@@ -95,7 +94,7 @@ async function RenderFeeds({
         }
       }
     } else {
-      redirect('/404')
+      redirect('/not-found')
     }
   } else {
     if (Object.keys(searchParams).length && searchParams.search) {
@@ -180,7 +179,7 @@ async function RenderFeeds({
           } sticky  max-h-screen`}>
           <ChannelCard />
         </div>
-        <div className="sticky top-[358px] mt-5 max-h-screen max-lg:top-[368px]">
+        <div className="sticky top-[350px] mt-5 max-h-screen">
           {' '}
           <RulesCard />
         </div>
@@ -195,7 +194,7 @@ async function RenderFeeds({
                 className="max-w-768px z-10 h-[200px] w-full rounded-t-xl"
                 src={
                   channelSlug
-                    ? getImageUrlBySlug(channelSlug)
+                    ? getImageUrlBySlug(channelSlug) || noChannelBanner.src
                     : noChannelBanner.src
                 }
                 alt="banner"
