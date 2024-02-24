@@ -38,7 +38,7 @@ import ChannelPill from '../ChannelPill'
 
 import Report from '@/components/Report/Report'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { setPosts } from '@/store/Slices/postSlice'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { ReactionSummary } from '@/utils/interfaces/card'
 import { usePathname, useRouter } from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
@@ -103,6 +103,12 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
     }
 
     setPost(response?.data?.post)
+
+    dispatch(
+      setCommentCountInStore({
+        [postId]: response?.data?.post?.total_comments,
+      }),
+    )
     setBookmarkSuccess(response?.data?.post?.user_has_bookmarked)
   }
 
