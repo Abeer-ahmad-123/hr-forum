@@ -56,7 +56,7 @@ function CardLoading() {
                 pathName == '/saved' || pathName.includes('/channels')
                   ? 'h-[200px]'
                   : 'h-12'
-              }  w-full rounded-md bg-skelton`}
+              }  mt-[15px] w-full rounded-md bg-skelton`}
             />
           </div>
         )}
