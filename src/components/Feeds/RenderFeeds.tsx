@@ -217,9 +217,7 @@ async function RenderFeeds({
 
             <div
               className={`${
-                path === '/saved'
-                  ? 'mt-[20px]'
-                  : 'mt-[35px] max-lg:mt-[40px] max-md:mt-[20px]'
+                path === '/saved' ? 'mt-[20px]' : 'mt-[40px] max-md:mt-[20px]'
               }  w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}
