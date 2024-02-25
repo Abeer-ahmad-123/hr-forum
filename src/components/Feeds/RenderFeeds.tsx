@@ -179,7 +179,7 @@ async function RenderFeeds({
           } sticky  max-h-screen`}>
           <ChannelCard />
         </div>
-        <div className="sticky top-[350px] mt-5 max-h-screen">
+        <div className="sticky top-[352px] mt-5 max-h-screen">
           {' '}
           <RulesCard />
         </div>
