@@ -159,7 +159,6 @@ function ReplyTextArea({
               <SocialButtons
                 className="flex gap-3"
                 postId={postId}
-                commentId={commentId}
                 handleButtonClick={handleButtonClick}
               />
             </PopoverContent>

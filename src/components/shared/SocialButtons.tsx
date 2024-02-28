@@ -28,13 +28,9 @@ interface SocialButtonsProps {
 const SocialButtons = ({
   className,
   postId,
-  commentId = null,
-  replyId = null,
   handleButtonClick,
 }: SocialButtonsProps) => {
-  const url = `${DOMAIN_URL}/feeds/feed/${postId}${
-    commentId === null ? '' : `?commentId=${commentId}`
-  }${replyId === null ? '' : `&replyId=${replyId}`}`
+  const url = `${DOMAIN_URL}/feeds/feed/${postId}`
 
   const copyToClipBoard = () => {
     navigator.clipboard.writeText(url)

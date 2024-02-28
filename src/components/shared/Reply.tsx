@@ -199,8 +199,6 @@ function Reply({
                       <SocialButtons
                         className="flex gap-3"
                         postId={postId}
-                        commentId={commentId}
-                        replyId={reply.id}
                         handleButtonClick={handleButtonClick}
                       />
                     </PopoverContent>
