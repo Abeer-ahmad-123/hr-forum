@@ -37,6 +37,7 @@ async function RenderFeeds({
   let initialPosts = []
   let morePosts = true
   const userDetailsCookies = cookies().get('user-details')
+  const accessToken = cookies().get('access-token')
   if (channelSlug) {
     if (
       channelData.some(
@@ -171,15 +172,23 @@ async function RenderFeeds({
 
   return (
     <div className="mx-auto flex max-w-screen-xl justify-center">
-      <div className="mr-[5px] mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
+      <div
+        className={`mr-[5px] ${
+          accessToken ? 'mt-[15px] max-lg:mt-[10px]' : 'mt-[15px]'
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userDetailsCookies && <ProfileCard />}
         <div
           className={`${
-            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[70px]'
-          } sticky  max-h-screen`}>
+            userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[70px] '
+          } sticky max-h-screen  max-lg:top-[55px]`}>
           <ChannelCard />
         </div>
-        <div className="sticky top-[352px] mt-5 max-h-screen">
+        <div
+          className={`sticky ${
+            accessToken
+              ? 'top-[330px] mt-[20px]'
+              : 'top-[335px] mt-5 max-lg:top-[328px]'
+          } max-h-screen`}>
           {' '}
           <RulesCard />
         </div>
@@ -210,16 +219,13 @@ async function RenderFeeds({
 
         <div className="flex w-full justify-center">
           <div className="w-full">
-            <div>
-              {' '}
-              <RespScreen />
-            </div>
+            <RespScreen />
 
             <div
               className={`${
                 path === '/saved'
                   ? 'mt-[20px]'
-                  : 'mt-[35px] max-lg:mt-[40px] max-md:mt-[20px]'
+                  : 'mt-[35px] max-lg:mt-[30px] max-md:mt-[20px]'
               }  w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}

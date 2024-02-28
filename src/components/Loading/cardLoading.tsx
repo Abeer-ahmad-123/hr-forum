@@ -17,7 +17,7 @@ function CardLoading() {
 
   return (
     <div
-      className={`mt-8 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
+      className={`mt-4 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
       <div className={`flex flex-col items-start  ${!token ? ' pr-4' : ''}`}>
         {token && <ProfileCardSkelton className={'max-md:hidden'} />}
 
@@ -29,7 +29,7 @@ function CardLoading() {
         </div>
         <div
           className={`sticky ${
-            token ? 'top-[315px]' : 'top-[340px] mt-[20px]'
+            token ? 'top-[315px]' : 'top-[360px] mt-[20px]'
           }  max-h-screen`}>
           <RulesCardSkelton className={'max-md:hidden'} token={token} />
         </div>

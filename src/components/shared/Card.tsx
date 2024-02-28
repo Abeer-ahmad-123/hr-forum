@@ -95,7 +95,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const [reported, setReported] = useState<boolean>(user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
-  let reactionRef = useRef<boolean>(false)
+  const reactionRef = useRef<boolean>(false)
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()

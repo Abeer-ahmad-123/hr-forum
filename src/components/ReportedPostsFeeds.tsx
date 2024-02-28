@@ -24,16 +24,6 @@ import CardLoading from './Loading/cardLoading'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
-interface ReportedPostsFeedsProps {
-  id: number
-  created_at: string
-  user_id: number
-  postId: number
-  reportType: string
-  details: string
-  post: PostsInterface
-}
-
 const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
@@ -47,6 +37,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
@@ -129,59 +120,63 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   return loading ? (
     <CardLoading />
   ) : (
-    <div>
-      <div className="mx-auto flex max-w-screen-xl justify-center">
-        {
-          <div className="mr-[5px] mt-5 flex flex-col max-md:hidden max-sm:hidden lg:block">
-            {userData && <ProfileCard />}
-            <div
-              className={`${
-                userData ? 'top-[70px] mt-[0px]' : 'top-[60px] mt-[20px]'
-              } sticky  max-h-screen`}>
-              {<ChannelCard />}
-            </div>
-            <div className="sticky top-[358px] mt-5 max-h-screen max-lg:top-[368px]">
-              {' '}
-              {<RulesCard />}
-            </div>
-          </div>
-        }
+    <div className="mx-auto flex max-w-screen-xl justify-center">
+      <div
+        className={`mr-[5px] ${
+          token ? 'mt-[15px] max-lg:mt-[10px]' : 'mt-[15px]'
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
+        {userData && <ProfileCard />}
+        <div
+          className={`${
+            userData ? 'top-[70px] mt-[0px]' : 'top-[70px] '
+          } sticky max-h-screen  max-lg:top-[55px]`}>
+          <ChannelCard />
+        </div>
+        <div
+          className={`sticky ${
+            token
+              ? 'top-[330px] mt-[20px]'
+              : 'top-[335px] mt-5 max-lg:top-[328px]'
+          } max-h-screen`}>
+          {' '}
+          <RulesCard />
+        </div>
+      </div>
 
-        <div className={`w-full max-w-screen-md`}>
-          <div className="flex w-full justify-center">
-            <div className="w-full">
-              <div>
-                {' '}
-                <RespScreen />
-              </div>
-              <div
-                className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
-                <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/reported/posts`) && (
-                    <ActivityButtons slug={slug} />
-                  )}
-                  <div>
-                    {posts?.length ? (
-                      posts?.map((post: any, index: number) => {
-                        // change it to post once backend issue resolved
-                        return (
-                          <Card
-                            key={index}
-                            post={post}
-                            channels={channel}
-                            updatePosts={updatePosts}
-                            posts={posts}
-                          />
-                        )
-                      })
-                    ) : (
-                      <NoPosts />
-                    )}
-                  </div>
-                  {!!posts?.length && noMorePosts?.current && (
-                    <CircularProgress incommingRef={ref} />
+      <div className={`w-full max-w-screen-md`}>
+        <div className="flex w-full justify-center">
+          <div className="w-full">
+            <div>
+              {' '}
+              <RespScreen />
+            </div>
+            <div
+              className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
+              <div className="min-h-[70vh] w-full">
+                {pathName.includes(`/reported/posts`) && (
+                  <ActivityButtons slug={slug} />
+                )}
+                <div>
+                  {posts?.length ? (
+                    posts?.map((post: any, index: number) => {
+                      // change it to post once backend issue resolved
+                      return (
+                        <Card
+                          key={index}
+                          post={post}
+                          channels={channel}
+                          updatePosts={updatePosts}
+                          posts={posts}
+                        />
+                      )
+                    })
+                  ) : (
+                    <NoPosts />
                   )}
                 </div>
+                {!!posts?.length && noMorePosts?.current && (
+                  <CircularProgress incommingRef={ref} />
+                )}
               </div>
             </div>
           </div>

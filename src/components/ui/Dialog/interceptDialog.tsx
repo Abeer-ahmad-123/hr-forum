@@ -37,10 +37,14 @@ const DialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   const router = useRouter()
+  const closeRef = React.useRef(true)
 
   const close = () => {
-    router.back()
-    deleteModalState()
+    if (closeRef.current) {
+      router.back()
+      deleteModalState()
+      closeRef.current = false
+    }
   }
   return (
     <DialogPortal>

@@ -57,9 +57,8 @@ const PostActionBar = ({
 
   const { customFetch } = useInterceptor()
   const submitReaction = async (value: string) => {
-    reactionRef.current = true
+    if (pathName === '/feeds') reactionRef.current = true
     let response
-    let updatedPosts
     if (tokenInRedux) {
       try {
         if (!userReaction || userReaction === 'none') {
@@ -72,7 +71,7 @@ const PostActionBar = ({
             tokenInRedux,
             refreshTokenInRedux,
           )
-          updatedPosts = updateReactionArray(reactionSummary, {
+          updateReactionArray(reactionSummary, {
             value: value,
             action: 'post',
             previousAction: userReaction,
@@ -87,7 +86,7 @@ const PostActionBar = ({
             tokenInRedux,
             refreshTokenInRedux,
           )
-          updatedPosts = updateReactionArray(reactionSummary, {
+          updateReactionArray(reactionSummary, {
             value: value,
             action: 'update',
             previousAction: userReaction,
@@ -99,18 +98,14 @@ const PostActionBar = ({
             tokenInRedux,
             refreshTokenInRedux,
           )
-          updatedPosts = updateReactionArray(reactionSummary, {
+          updateReactionArray(reactionSummary, {
             value: value === 'none' ? userReaction : value,
             action: 'delete',
             previousAction: userReaction,
           })
         }
         setUserReaction(userReaction === value ? '' : value)
-        // dispatch(
-        //   setPosts(
-        //     updateStorePostReaction(userReaction === value ? '' : value),
-        //   ),
-        // )
+
         if (!response.success) {
           throw response.errors[0]
         }
