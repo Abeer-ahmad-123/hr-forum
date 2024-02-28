@@ -10,8 +10,9 @@ import { cookies } from 'next/headers'
 import { Suspense } from 'react'
 
 const SinglePostWithDialog = ({ id }: any) => {
+  const modalState = cookies().get('modal')?.value
   return (
-    <Dialog open={true}>
+    <Dialog open={Boolean(modalState)}>
       <DialogContent className="max-w-5xl bg-white ">
         <DialogHeader></DialogHeader>
         <DialogDescription>

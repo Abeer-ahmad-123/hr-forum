@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar/Navbar'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import {
   checkUser,
+  deleteModalState,
   getRefreshToken,
   googleCodeExchange,
   isTokenExpired,
@@ -184,6 +185,7 @@ const LayoutWrapper = ({ children }: any) => {
       handleUserClientLogout()
       handleUserServerLogout()
     }
+    deleteModalState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
