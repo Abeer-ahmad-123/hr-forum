@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { CustomLink } from './customLink/CustomLink'
+import { deleteModalState } from '@/services/auth/authService'
 interface ChannelObject {
   [key: string]: {
     name?: string
@@ -19,6 +20,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
     event.preventDefault()
     event.stopPropagation() // Prevent propagation to card's onClick
     router.push(`${'/channels/' + lowerCaseChannelName}/`)
+    deleteModalState()
   }
   useEffect(() => {
     return () => {

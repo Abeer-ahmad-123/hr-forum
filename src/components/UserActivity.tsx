@@ -185,13 +185,6 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   const handleCommentCount = () => {
     dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
   }
-  const handleCommentCountReactedPosts = () => {
-    dispatch(
-      setCommentCountInStore(
-        makeCommentNumberKeyValuePairFromSummary(reactedPosts),
-      ),
-    )
-  }
 
   useEffect(() => {
     getComments()

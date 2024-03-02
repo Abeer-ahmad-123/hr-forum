@@ -8,7 +8,7 @@ function ProfileCardSkelton({ className }: ProfileCardSkeltonProps) {
   return (
     <>
       <div
-        className={`dark:bg-skelton-dark relative mt-[10px]
+        className={`dark:bg-skelton-dark relative mt-[25px]
          ${
            !className && 'ml-[50px]'
          } mr-[25px] h-72 w-[225px] cursor-pointer overflow-hidden rounded-[10px] ${className} bg-white shadow-lg dark:bg-slate-800 dark:text-white`}>

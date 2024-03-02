@@ -68,8 +68,6 @@ const CommentDelete = ({
       if (error instanceof Error && error.message) {
         handleFetchFailed(error)
       }
-    } finally {
-      setLoading(false)
     }
   }
 

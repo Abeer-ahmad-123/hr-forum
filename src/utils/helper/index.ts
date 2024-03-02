@@ -169,9 +169,9 @@ export const returnFilteredPosts = (
 
 export const makeCommentNumberKeyValuePair = (posts: any) => {
   let commentObj: CommentObject = {}
-  if (posts.length) {
+  if (posts?.length) {
     for (const item of posts) {
-      commentObj[item.id] = item.total_comments
+      commentObj[item?.id] = item?.total_comments
     }
   }
   return commentObj

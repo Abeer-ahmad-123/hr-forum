@@ -1,5 +1,6 @@
 'use client'
 import { noProfilePicture } from '@/assets/images'
+import { deleteModalState } from '@/services/auth/authService'
 import { ProfileImageInterface } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
@@ -20,6 +21,7 @@ function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
       postUserId === userData.id ? '/profile' : `/profile/${postUserId}`
     }`
     router.push(url)
+    deleteModalState()
   }
   useEffect(() => {
     return () => {

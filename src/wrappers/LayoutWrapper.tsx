@@ -174,7 +174,7 @@ const LayoutWrapper = ({ children }: any) => {
 
   useEffect(() => {
     setLoading(false)
-
+    deleteModalState()
     const token = localStorage.getItem('token')
     if (token) {
       getToken()
@@ -185,7 +185,6 @@ const LayoutWrapper = ({ children }: any) => {
       handleUserClientLogout()
       handleUserServerLogout()
     }
-    deleteModalState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

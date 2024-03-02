@@ -25,6 +25,7 @@ import CommentDelete from '../CommentDelete'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
+import { deleteModalState } from '@/services/auth/authService'
 
 function Reply({
   reply,
@@ -78,6 +79,7 @@ function Reply({
           : `/profile/${reply?.user_id}`
       }`,
     )
+    deleteModalState()
   }
 
   const setOpenPopOver = () => {

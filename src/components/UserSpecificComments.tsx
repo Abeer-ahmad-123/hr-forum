@@ -11,6 +11,7 @@ interface UserSpecificCommentsProps {
   comments: PostsInterface[]
   user: {
     id: string
+    name: string
     username: string
     profilePictureURL: string
   }
@@ -23,7 +24,11 @@ const UserSpecificComments = ({
   const router = useRouter()
   const handleClick = () => {
     nProgress.start()
-    router.push(`/feeds/${user?.username + '-' + user?.id}/feed/comment`)
+    router.push(
+      `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
+        user.id
+      }/comments`,
+    )
   }
   useEffect(() => {
     return () => {

@@ -142,17 +142,10 @@ const RespProfile = ({ userId }: profileProps) => {
     }
   }
 
-  const UserSpecificationPosts = async () => {
-    if (userId) {
-      await getUserSpecificDetail()
-    } else {
-      setUser(userDataInStore)
-    }
-  }
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
-      UserSpecificationPosts()
+      getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -297,22 +290,12 @@ const RespProfile = ({ userId }: profileProps) => {
         <div className="mt-[40px] flex flex-col gap-[65px] lg:flex-row">
           <div className=" w- flex flex-col gap-[1.5rem]">
             <UserDataBadge
-              postCount={userId ? user?.post_count : userDataInStore.post_count}
-              commentCount={
-                userId ? user?.comment_count : userDataInStore.comment_count
-              }
+              postCount={user?.post_count}
+              commentCount={user?.comment_count}
               userName={user.name}
               userId={userIdLocal}
-              reportedPostCount={
-                userId
-                  ? user?.reported_post_count
-                  : userDataInStore.reported_post_count
-              }
-              reportedCommentCount={
-                userId
-                  ? user?.reported_comment_count
-                  : userDataInStore.reported_comment_count
-              }
+              reportedPostCount={user?.reported_post_count}
+              reportedCommentCount={user?.reported_comment_count}
             />
           </div>
           <UserActivity userId={userIdLocal} />

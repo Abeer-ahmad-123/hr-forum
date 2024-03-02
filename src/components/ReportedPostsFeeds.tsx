@@ -123,7 +123,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     <div className="mx-auto flex max-w-screen-xl justify-center">
       <div
         className={`mr-[5px] ${
-          token ? 'mt-[15px] max-lg:mt-[10px]' : 'mt-[15px]'
+          token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userData && <ProfileCard />}
         <div
@@ -151,7 +151,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
               <RespScreen />
             </div>
             <div
-              className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/reported/posts`) && (
                   <ActivityButtons slug={slug} />

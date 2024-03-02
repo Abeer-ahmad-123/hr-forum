@@ -25,6 +25,7 @@ import CardLoading from './Loading/cardLoading'
 
 const UserCommentsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
+  const firstRunRef = useRef<boolean>(true)
 
   const dispatch = useDispatch()
   const pathName = usePathname()
@@ -42,7 +43,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
   const [channel, setChannel] = useState<ChannelInterface>()
-  const [comments, setComments] = useState<PostsInterface[]>([])
+  const [comments, setComments] = useState<any>()
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
 
   let noMorePosts = useRef<boolean>(morePosts)
@@ -60,7 +61,13 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     }
   }
   const handleCommentCount = () => {
-    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(comments)))
+    const extractedPosts = comments?.map((item: any) => item.post)
+
+    dispatch(
+      setCommentCountInStore(
+        makeCommentNumberKeyValuePair(extractedPosts ?? []),
+      ),
+    )
   }
 
   const getComments = async () => {
@@ -76,11 +83,12 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
           response.data?.pagination?.CurrentPage &&
           response.data?.pagination?.CurrentPage !==
             response.data?.pagination?.TotalPages
-        const extractedPosts = response?.data?.comments.map(
-          (item: any) => item.post,
-        )
-        setComments((prev: PostsInterface[]) => [...prev, ...extractedPosts])
-        dispatch(setPosts([...comments, ...extractedPosts]))
+
+        setComments((prev: PostsInterface[]) => [
+          ...prev,
+          ...response?.data?.comments,
+        ])
+        dispatch(setPosts([...comments, ...response?.data?.comments]))
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -92,8 +100,11 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
   }
 
   useEffect(() => {
-    getAllChannels()
-    getComments()
+    if (firstRunRef.current) {
+      getAllChannels()
+      getComments()
+      firstRunRef.current = false
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -108,9 +119,8 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     handleCommentCount()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments])
-
   useEffect(() => {
-    setComments([...storePosts])
+    setComments(storePosts.filter((item: any) => item.post !== undefined))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storePosts])
 
@@ -126,7 +136,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     <div className="mx-auto flex max-w-screen-xl justify-center">
       <div
         className={`mr-[5px] ${
-          token ? 'mt-[15px] max-lg:mt-[10px]' : 'mt-[15px]'
+          token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userData && <ProfileCard />}
         <div
@@ -154,7 +164,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
               <RespScreen />
             </div>
             <div
-              className={`${'mt-[40px] max-md:mt-[20px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/${slug}/comments`) && (
                   <ActivityButtons slug={slug} />
@@ -163,16 +173,18 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
                 <div>
                   {comments?.length ? (
                     comments?.map((comment: any, index: number) => {
-                      return (
-                        <Card
-                          key={index}
-                          post={comment}
-                          channels={channel}
-                          updatePosts={setComments}
-                          posts={comments}
-                          userComment={comment}
-                        />
-                      )
+                      if (comment.post !== undefined) {
+                        return (
+                          <Card
+                            key={index}
+                            post={comment.post}
+                            channels={channel}
+                            updatePosts={setComments}
+                            posts={comments}
+                            userComment={comment}
+                          />
+                        )
+                      }
                     })
                   ) : (
                     <NoPosts />

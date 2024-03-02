@@ -49,6 +49,8 @@ export interface PostActionBarProps {
     id: string
   }
   reactionRef?: any
+  updatePosts?: any
+  posts?: any
 }
 
 export interface CommentCountStore {

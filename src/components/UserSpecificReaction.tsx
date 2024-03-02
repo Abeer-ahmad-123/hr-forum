@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import ProfilePosts from './ProfilePosts'
+import { useDispatch } from 'react-redux'
+import { setCommentCountInStore } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePairFromSummary } from '@/utils/helper'
 
 interface ReactionPostsFeedsProps {
   id: number
@@ -17,12 +20,25 @@ interface ReactionPostsFeedsProps {
 
 const UserSpecificReaction = ({ posts, user }: any) => {
   const router = useRouter()
+  const dispatch = useDispatch()
 
   const handleClick = () => {
     nProgress.start()
-    router.push(`/feeds/${user.username + '-' + user.id}/feed/reaction`)
+    router.push(
+      `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
+        user.id
+      }/reactions`,
+    )
   }
 
+  const handleCommentCountReactedPosts = () => {
+    dispatch(
+      setCommentCountInStore(makeCommentNumberKeyValuePairFromSummary(posts)),
+    )
+  }
+  useEffect(() => {
+    handleCommentCountReactedPosts()
+  }, [posts])
   useEffect(() => {
     return () => {
       nProgress.done()

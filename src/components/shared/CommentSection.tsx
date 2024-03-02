@@ -1,5 +1,6 @@
 import { noProfilePicture } from '@/assets/images'
 import CommentOrReply from '@/components/CommentOrReply'
+import { deleteModalState } from '@/services/auth/authService'
 import { getComment } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
@@ -39,7 +40,6 @@ const CommentSection = ({
   const pathName = usePathname()
   const router = useRouter()
 
-  const slug = pathName.split('/')[2]
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = Math.floor(replies?.comment.replies?.length / 10) + 1
@@ -76,6 +76,7 @@ const CommentSection = ({
       comment.user_id === userId ? '/profile' : `/profile/${comment.user_id}`
     }`
     router.push(url)
+    deleteModalState()
   }
 
   useEffect(() => {

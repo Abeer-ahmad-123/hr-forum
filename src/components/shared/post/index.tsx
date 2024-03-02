@@ -46,6 +46,7 @@ import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
+import { deleteModalState } from '@/services/auth/authService'
 
 const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const [commentResult, setCommentResult] =
@@ -284,7 +285,8 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
                   <div className="flex flex-row flex-wrap items-center">
                     <CustomLink href={`/profile/${post?.user_id}`}>
                       <p
-                        className="w-full pr-1 text-sm font-normal leading-none text-gray-900 hover:bg-gray-200  dark:text-gray-300 max-custom-sm:text-[11px]
+                        onClick={deleteModalState}
+                        className="w-full pr-1 text-sm font-normal leading-none text-gray-900  hover:underline dark:text-gray-300 max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                         aria-label="user-name">
                         {post?.author_details?.name === userDetails?.name

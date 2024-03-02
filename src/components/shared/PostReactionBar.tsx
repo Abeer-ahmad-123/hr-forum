@@ -112,6 +112,7 @@ const PostReactionBar = ({
     setCommentCount(commentCountInStore)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
+
   return (
     <>
       {!pathName.includes('/profile') && <hr />}

@@ -17,7 +17,7 @@ const ProfileCard = () => {
   }
 
   return (
-    <div className="relative mt-5 h-auto w-[225px] cursor-pointer overflow-hidden rounded-[10px] border border-solid border-gray-300 bg-white shadow-lg dark:bg-slate-800 dark:text-white max-md:mt-4 max-md:w-full">
+    <div className="relative mt-5 h-auto w-[225px] cursor-pointer overflow-hidden rounded-[10px] border border-solid border-gray-300 bg-white shadow-lg dark:bg-slate-800 dark:text-white max-lg:mt-[25px] max-md:mt-4 max-md:w-full">
       <img
         className="h-[70px] w-full object-cover"
         src={

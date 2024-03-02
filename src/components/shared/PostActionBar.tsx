@@ -38,6 +38,8 @@ const PostActionBar = ({
   setDisableReactionButton,
   userComment,
   reactionRef,
+  updatePosts,
+  posts,
 }: PostActionBarProps) => {
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
@@ -45,8 +47,7 @@ const PostActionBar = ({
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
     ''
   const [showCommentArea, setShowCommentArea] = useState(false)
-  const [comment, setComment] = useState<PostsInterface[]>([])
-
+  const [comment, setComment] = useState<any>([])
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 
   const { handleRedirect } = useFetchFailedClient()
@@ -153,14 +154,26 @@ const PostActionBar = ({
 
   const filteredComments = () => {
     if (deletedCommentId) {
-      setComment((prevComments: PostsInterface[]) => {
-        return prevComments.filter(
-          (comment: PostsInterface) => comment.id !== Number(deletedCommentId),
+      if (typeof comment !== 'object') {
+        setComment((prevComments: PostsInterface[]) => {
+          return prevComments.filter(
+            (comment: PostsInterface) =>
+              comment.id !== Number(deletedCommentId),
+          )
+        })
+      } else {
+        setComment([])
+
+        updatePosts(
+          posts.filter((item: any) => item.id !== Number(deletedCommentId)),
         )
-      })
+      }
+      setDeletedCommentId('')
     }
-    setDeletedCommentId('')
   }
+  useEffect(() => {
+    if (userComment) setComment(userComment)
+  }, [userComment])
 
   useEffect(() => {
     filteredComments()
@@ -217,31 +230,32 @@ const PostActionBar = ({
             </Popover>
           </div>
         </div>
-        <div className="">
-          {pathName.includes('/comment') && (
-            <CommentSection comment={userComment} />
-          )}
-        </div>
-
-        {!id && (
-          <div className={`${!showCommentArea && 'hidden'} `}>
-            <CommentOrReply
-              className="m-2"
-              btnClass="mr-[0px]"
-              Id={postId}
-              setComments={setComment}
-              postId={postId}
-            />
-            <div className="mx-10">
-              {comment.length != 0 && (
-                <CommentSection
-                  comment={comment[0]}
-                  setDeletedCommentId={setDeletedCommentId}
+        {pathName.includes('/comment')
+          ? comment.id && (
+              <CommentSection
+                comment={comment}
+                setDeletedCommentId={setDeletedCommentId}
+              />
+            )
+          : !id && (
+              <div className={`${!showCommentArea && 'hidden'} `}>
+                <CommentOrReply
+                  className="m-2"
+                  btnClass="mr-[0px]"
+                  Id={postId}
+                  setComments={setComment}
+                  postId={postId}
                 />
-              )}
-            </div>
-          </div>
-        )}
+                <div className="mx-10">
+                  {comment.length != 0 && (
+                    <CommentSection
+                      comment={comment[0]}
+                      setDeletedCommentId={setDeletedCommentId}
+                    />
+                  )}
+                </div>
+              </div>
+            )}
       </div>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />

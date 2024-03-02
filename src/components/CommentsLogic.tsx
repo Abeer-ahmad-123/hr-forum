@@ -153,6 +153,8 @@ const CommentsLogic = ({
         disableReactionButton={disableReactionButton}
         setDisableReactionButton={setDisableReactionButton}
         userComment={{ id: '' }}
+        updatePosts={() => {}}
+        posts={[]}
       />
       <Comments
         postId={postId}

@@ -10,7 +10,7 @@ import {
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon, Trash2 } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
@@ -57,6 +57,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   } = post
 
   const pathName = usePathname()
+  const { slug } = useParams()
   const router = useRouter()
   const dispatch = useDispatch()
   const userDetails = useSelector(
@@ -139,11 +140,14 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   }
   const handleNavigateFeed = () => {
     nProgress.start()
+
     router.push(
       pathName.includes('channels')
         ? `${pathName}/feed/${id}`
         : pathName.includes('saved')
         ? `/saved/feed/${id}`
+        : pathName.includes('user-activity')
+        ? `${pathName}/feed/${id}`
         : `/feeds/feed/${id}`,
     )
     if (!pathName.includes('channel')) setModalState()
@@ -157,7 +161,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         ? '/profile'
         : `/profile/${user.name?.toLowerCase().replace(/ /g, '-')}-${user_id}`,
     )
-    setModalState()
   }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setPopOver(false)
@@ -328,59 +331,60 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
                     </div>
                   </div>
                 )}
-
-                <div onMouseLeave={handleMouseDown}>
-                  <Popover open={popOver} onOpenChange={setPopOver}>
-                    <PopoverTrigger
-                      className="flex"
-                      name="post options button"
-                      aria-label="post options"
-                      aria-labelledby="postOptionsLabel"
-                      role="button">
-                      <span
-                        className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
-                        onClick={setOpenPopOver}>
-                        <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
-                      </span>
-                    </PopoverTrigger>
-                    <PopoverContent className="bg-white">
-                      {' '}
-                      {(post.user_id as string) === userDetails.id ? (
-                        <div
-                          className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                          onClick={handleDeleteClick}>
-                          <Trash2 size={17} />
-                          <span className="text-[15px] font-light max-custom-sm:hidden">
-                            {' '}
-                            Delete
-                          </span>
-                        </div>
-                      ) : (
-                        <div
-                          className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                          onClick={handleReportClick}>
-                          <AlertOctagon size={17} />
-                          <span className="text-[15px] font-light max-custom-sm:hidden">
-                            {' '}
-                            Report
-                          </span>
-                        </div>
-                      )}
-                      <div
-                        onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white">
-                        {bookmarkSuccess ? (
-                          <FaBookmark color="blue" />
-                        ) : (
-                          <FaRegBookmark />
-                        )}
-                        <span className="text-[15px] font-light max-custom-sm:hidden ">
-                          Bookmark
+                {!pathName.includes(`user-activity/${slug}/comment`) && (
+                  <div onMouseLeave={handleMouseDown}>
+                    <Popover open={popOver} onOpenChange={setPopOver}>
+                      <PopoverTrigger
+                        className="flex"
+                        name="post options button"
+                        aria-label="post options"
+                        aria-labelledby="postOptionsLabel"
+                        role="button">
+                        <span
+                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
+                          onClick={setOpenPopOver}>
+                          <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                         </span>
-                      </div>
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                      </PopoverTrigger>
+                      <PopoverContent className="bg-white">
+                        {' '}
+                        {(post.user_id as string) === userDetails.id ? (
+                          <div
+                            className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                            onClick={handleDeleteClick}>
+                            <Trash2 size={17} />
+                            <span className="text-[15px] font-light max-custom-sm:hidden">
+                              {' '}
+                              Delete
+                            </span>
+                          </div>
+                        ) : (
+                          <div
+                            className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                            onClick={handleReportClick}>
+                            <AlertOctagon size={17} />
+                            <span className="text-[15px] font-light max-custom-sm:hidden">
+                              {' '}
+                              Report
+                            </span>
+                          </div>
+                        )}
+                        <div
+                          onClick={handleBookmark}
+                          className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white">
+                          {bookmarkSuccess ? (
+                            <FaBookmark color="blue" />
+                          ) : (
+                            <FaRegBookmark />
+                          )}
+                          <span className="text-[15px] font-light max-custom-sm:hidden ">
+                            Bookmark
+                          </span>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -431,6 +435,8 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
             setDisableReactionButton={setDisableReactionButton}
             userComment={userComment}
             reactionRef={reactionRef}
+            updatePosts={updatePosts}
+            posts={posts}
           />
         </div>
       </div>

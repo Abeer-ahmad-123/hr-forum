@@ -174,7 +174,7 @@ async function RenderFeeds({
     <div className="mx-auto flex max-w-screen-xl justify-center">
       <div
         className={`mr-[5px] ${
-          accessToken ? 'mt-[15px] max-lg:mt-[10px]' : 'mt-[15px]'
+          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userDetailsCookies && <ProfileCard />}
         <div

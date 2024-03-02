@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
+import { deleteModalState } from '@/services/auth/authService'
 
 const TextArea = ({
   submitCallback,
@@ -56,6 +57,7 @@ const TextArea = ({
   }
   const handleImgClick = () => {
     router.push('/profile')
+    deleteModalState()
   }
 
   useEffect(() => {
