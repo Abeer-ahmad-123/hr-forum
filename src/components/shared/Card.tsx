@@ -150,7 +150,9 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
         ? `${pathName}/feed/${id}`
         : `/feeds/feed/${id}`,
     )
-    if (!pathName.includes('channel')) setModalState()
+    if (!pathName.includes('channel') || !pathName.includes('user-activity')) {
+      setModalState()
+    }
   }
   const handleNavigateProfile = (event: any) => {
     nProgress.start()

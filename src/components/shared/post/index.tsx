@@ -40,7 +40,12 @@ import Report from '@/components/Report/Report'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { ReactionSummary } from '@/utils/interfaces/card'
-import { usePathname, useRouter } from 'next/navigation'
+import {
+  useParams,
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from 'next/navigation'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
@@ -49,6 +54,10 @@ import ProfileImage from './ProfileImage'
 import { deleteModalState } from '@/services/auth/authService'
 
 const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
+  const { id } = useParams()
+  postId = postId ? postId : Number(id)
+  const paramsSearch = useSearchParams()
+
   const [commentResult, setCommentResult] =
     useState<Array<CommentInterface> | null>(null)
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
@@ -112,8 +121,9 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
     setBookmarkSuccess(response?.data?.post?.user_has_bookmarked)
   }
 
-  const commentId = searchParams?.commentId
-  const replyId = searchParams?.replyId
+  const commentId =
+    searchParams?.commentId ?? Number(paramsSearch.get('commentId'))
+  const replyId = searchParams?.replyId ?? Number(paramsSearch.get('replyId'))
 
   const getPostCommets = async () => {
     if (commentId) {

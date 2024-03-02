@@ -25,6 +25,8 @@ import CardLoading from './Loading/cardLoading'
 const UserReactionFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
+  const firstRunRef = useRef<boolean>(true)
+
   const [ref, inView] = useInView()
   const dispatch = useDispatch()
   const pathName = usePathname()
@@ -61,11 +63,10 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
       noMorePosts.current =
         pagination?.CurrentPage &&
         pagination?.CurrentPage !== pagination?.TotalPages
-      const posts = reactions
+
+      const extractedPosts = reactions
         .map((item: any) => item.post)
         .filter((post: any) => post !== undefined)
-
-      const extractedPosts = posts.length > 0 ? [posts] : []
       updatePost([...posts, ...extractedPosts])
       dispatch(setPosts([...posts, ...extractedPosts]))
     } catch (error) {
@@ -88,8 +89,11 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
     }
   }
   useEffect(() => {
-    getPosts()
-    getAllChannels()
+    if (firstRunRef.current) {
+      getPosts()
+      getAllChannels()
+      firstRunRef.current = false
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -99,7 +103,6 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
-
   useEffect(() => {
     updatePost([...storePosts])
   }, [storePosts])

@@ -163,7 +163,6 @@ const PostActionBar = ({
         })
       } else {
         setComment([])
-
         updatePosts(
           posts.filter((item: any) => item.id !== Number(deletedCommentId)),
         )
