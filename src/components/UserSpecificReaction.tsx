@@ -36,9 +36,12 @@ const UserSpecificReaction = ({ posts, user }: any) => {
       setCommentCountInStore(makeCommentNumberKeyValuePairFromSummary(posts)),
     )
   }
+
   useEffect(() => {
     handleCommentCountReactedPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
+
   useEffect(() => {
     return () => {
       nProgress.done()
