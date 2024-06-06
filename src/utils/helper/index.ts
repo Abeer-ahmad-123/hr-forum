@@ -83,10 +83,43 @@ const timeFormatInHours = (timestamp: Date) => {
       : `${dateMonth} (1 day ago)`
   }
 }
+/**
+ * 
+ * @param userName Takes the string and checks for validations.
+ * 
+ * @description
+ * Current validations:
+ * 
+ *  - Special Character
+ * 
+ *  - max = 32 length.
+ * 
+ *  - min = 1 length.
+ * @returns {boolean} valid 
+ * valid = true, the username is valid.
+ * valid  false, the username is invalid.
+ * 
+ * @returns {string | null} message
+ * message != null, then there is some error and the message represents the error message.
+ */
 const isValidUserName = (userName: string) => {
   const userNameRegex = /^[a-zA-Z0-9]{1,}$/
-  const isValidUserName = userNameRegex.test(userName)
-  return isValidUserName
+  const isValidUserName = userNameRegex.test(userName);
+
+  /**
+   * if there is no special character in username and username has some character entered, then proceed to check 32 length
+   * 
+   */
+  if (isValidUserName) {
+    if (userName.length > 32) {
+      return { valid: false, message: "username should not exceed 32 characters" };
+    }
+    else {
+      return { valid: true, message: null }
+    }
+  }
+  else
+    return { valid: isValidUserName, message: "username cannot have special characters" }
 }
 
 export {

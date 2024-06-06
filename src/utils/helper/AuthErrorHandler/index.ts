@@ -11,11 +11,19 @@ const handleAuthError = (name: any, value: any) => {
   if (isRequired) return { name, message: isRequired }
 
   switch (name) {
-    case 'username':
-      if (!isValidUserName(value)) {
-        return { name, message: 'username cannot have special characters' }
+    case 'name':
+      if ((value as string).length > 64) {
+        return { name, message: "name must not exceed 64 characters" }
       }
-      break
+      break;
+
+    case 'username':
+      const { valid, message } = isValidUserName(value)
+      if (!valid) {
+        return { name, message }
+      }
+      break;
+
     case 'email':
       if (!isValidEmail(value)) {
         return { name, message: 'Please enter a valid email' }

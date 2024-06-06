@@ -13,7 +13,7 @@ import { LoginForm } from './LoginForm'
 
 export default function Login({
   toggleForm,
-  handleDialogClose = () => {},
+  handleDialogClose = () => { },
   setShowSignModal,
 }: any) {
   const dispatch = useDispatch<AppDispatch>()
@@ -65,7 +65,8 @@ export default function Login({
           email,
           password,
         }),
-      )
+      );
+
       if (
         !result?.success &&
         (result?.status === 401 || result?.status === 404)
@@ -113,7 +114,7 @@ export default function Login({
       if (response?.success) {
         router.push(response?.data)
       }
-    } catch (err) {}
+    } catch (err) { }
   }
   useEffect(() => {
     return () => {
@@ -123,21 +124,18 @@ export default function Login({
 
   return (
     <div
-      className={`container mx-auto flex  ${
-        pathname.includes('login')
-          ? 'h-full min-h-[calc(100vh-56px)]'
-          : 'h-[550px]'
-      } ${
-        pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
-      }  flex-col justify-center space-y-6`}>
+      className={`container mx-auto flex  ${pathname.includes('login')
+        ? 'h-full min-h-[calc(100vh-56px)]'
+        : 'h-[550px]'
+        } ${pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
+        }  flex-col justify-center space-y-6`}>
       <div
-        className={`${
-          pathname === '/login' ? 'shadow-2xl' : ''
-        } relative flex flex-col justify-center overflow-hidden`}>
+        className={`${pathname === '/login' ? 'shadow-2xl' : ''
+          } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={`m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
-            Login in
+            Login
           </h1>
           <div className="cursor-pointer">
             <GoogleButton title="Log In" onClick={handleGoogleSignIn} />
@@ -151,12 +149,18 @@ export default function Login({
             handleLoginSubmit={handleLoginSubmit}
           />
           {/* Sign Up Link */}
-          <div className="mt-2 flex justify-center text-center text-xs font-light text-gray-700 dark:text-white">
+          <div className="mt-2 flex justify-center space-x-1 text-center text-xs font-light text-gray-700 dark:text-white">
             <p>Don't have an account? </p>
             <button
               name="register button"
               className="text-primary-purple cursor-pointer font-medium hover:underline"
-              onClick={toggleForm}>
+              onClick={() => {
+                /**
+                 * On form change reset the values of current form.
+                 */
+                setFormValues(initialValues);
+                toggleForm()
+              }}>
               Register
             </button>
           </div>

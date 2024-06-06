@@ -18,11 +18,22 @@ export default function SigninNavButton() {
     setShowSignUpForm((current) => !current)
   }
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false)
+  /**
+   * 
+   * @param value 
+   * default = false in case of successful submission of form.
+   * 
+   * false = close the dialog and reset the form to login form as the button text includes Login so take it to login form.
+   * 
+   * true = open the dialog in its respective form.
+   */
+  const handleCloseDialog = (value = false) => {
+    setOpenDialog(value);
+    if (!value)
+      setShowSignUpForm(false);
   }
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+    <Dialog open={openDialog} onOpenChange={handleCloseDialog}>
       <DialogTrigger
         className={`flex w-[50px] cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-3 py-2 text-white  hover:bg-accent sm:w-[120px]`}>
         <BsPersonFill size={20} />
@@ -38,7 +49,7 @@ export default function SigninNavButton() {
           <Signin
             toggleForm={toggleForm}
             handleDialogClose={handleCloseDialog}
-            setShowSignModal={() => {}}
+            setShowSignModal={() => { }}
           />
         )}
       </DialogContent>
