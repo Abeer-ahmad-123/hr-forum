@@ -122,6 +122,17 @@ export default function Login({
     }
   }, [])
 
+  function submitForm() {
+    /**
+     * On form change reset the values of current form.
+     */
+    setFormValues(initialValues);
+    /**
+     * Reset the form to login form.
+     */
+    toggleForm()
+  }
+
   return (
     <div
       className={`container mx-auto flex  ${pathname.includes('login')
@@ -154,13 +165,7 @@ export default function Login({
             <button
               name="register button"
               className="text-primary-purple cursor-pointer font-medium hover:underline"
-              onClick={() => {
-                /**
-                 * On form change reset the values of current form.
-                 */
-                setFormValues(initialValues);
-                toggleForm()
-              }}>
+              onClick={submitForm}>
               Register
             </button>
           </div>
