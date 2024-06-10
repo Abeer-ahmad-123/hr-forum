@@ -70,7 +70,7 @@ const EditPage = ({
        * If error, then no submission
        */
       if (firstErrorObject) {
-        throw new Error((firstErrorObject as { name: string, message: string }).message)
+        showErrorAlert((firstErrorObject as { name: string, message: string }).message)
       }
       else {
         const response = await updateUserDetails(
