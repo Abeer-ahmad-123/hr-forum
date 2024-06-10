@@ -14,6 +14,7 @@ interface userDataProps {
   email: string
   bio: string
 }
+
 interface EditPageProps {
   userData: userDataProps
   handleCloseDialog: () => void
@@ -36,7 +37,6 @@ const EditPage = ({
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    if (!name) console.warn("Changing state for some undefined key. Please check the input tags for key='name' ")
     setUserDetails({ ...userDetails, [name]: value })
   }
 
@@ -49,8 +49,8 @@ const EditPage = ({
       /**
        * Find the very first error and stop there.
        */
-      Object.keys(userDetails).find((obj: any) => {
-        const errors = handleAuthError(obj, (userDetails as any)[obj]);
+      Object.keys(userDetails).find((obj) => {
+        const errors = handleAuthError(obj, userDetails[obj as keyof userDataProps]);
         if (errors) {
           firstErrorObject = { name: errors.name, message: errors.message }
           return true;
@@ -59,7 +59,7 @@ const EditPage = ({
          * If there are no errors in name, email then check bio
          */
         else {
-          if (obj === 'bio' && ((userDetails as any)[obj] as string).length > 256) {
+          if (obj === 'bio' && (userDetails[obj] as string).length > 256) {
             firstErrorObject = { name: obj, message: "bio must not exceed 256 characters" }
             return true;
           }
