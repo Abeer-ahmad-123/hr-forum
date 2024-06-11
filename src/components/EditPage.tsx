@@ -4,6 +4,7 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert } from '@/utils/helper'
+import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -13,6 +14,7 @@ interface userDataProps {
   email: string
   bio: string
 }
+
 interface EditPageProps {
   userData: userDataProps
   handleCloseDialog: () => void
@@ -25,7 +27,7 @@ const EditPage = ({
   setUpdatedUserData,
 }: EditPageProps) => {
   const dispatch = useDispatch()
-  const [userDetails, setUserDetails] = useState(userData)
+  const [userDetails, setUserDetails] = useState(userData);
   const router = useRouter()
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const refreshToken =
@@ -34,30 +36,69 @@ const EditPage = ({
   const { customFetch } = useInterceptor()
 
   const handleChange = (e: any) => {
-    setUserDetails({ ...userDetails, [e.target.name]: e.target.value })
+    const { name, value } = e.target;
+    setUserDetails({ ...userDetails, [name]: value })
   }
 
   const handleSubmit = async () => {
     try {
-      const response = await updateUserDetails(
-        customFetch,
-        token,
-        refreshToken,
-        userDetails,
-      )
+      /**
+       * Validate input for errors
+       */
+      let firstErrorObject = null;
+      /**
+       * Find the very first error and stop there.
+       */
+      Object.keys(userDetails).find((obj) => {
+        const errors = handleAuthError(obj, userDetails[obj as keyof userDataProps]);
+        if (errors) {
+          firstErrorObject = { name: errors.name, message: errors.message }
+          return true;
+        }
+        /**
+         * If there are no errors in name, email then check bio
+         */
+        else {
+          if (obj === 'bio' && (userDetails[obj] as string).length > 256) {
+            firstErrorObject = { name: obj, message: "bio must not exceed 256 characters" }
+            return true;
+          }
+        }
+      });
 
-      if (response?.success) {
-        dispatch(setUserData({ userData: response?.data }))
-
-        setUpdatedUserData(response?.data)
-      } else {
-        router.push('/feeds')
+      /**
+       * If error, then no submission
+       */
+      if (firstErrorObject) {
+        showErrorAlert((firstErrorObject as { name: string, message: string }).message)
+      }
+      else {
+        const response = await updateUserDetails(
+          customFetch,
+          token,
+          refreshToken,
+          userDetails,
+        )
+        if (response?.success) {
+          dispatch(setUserData({ userData: response?.data }))
+          setUpdatedUserData(response?.data);
+          /**
+           * Close the dialog on successful change
+           */
+          handleCloseDialog()
+        } else {
+          router.push('/feeds')
+        }
       }
     } catch (err) {
       showErrorAlert(`${err}`)
-    } finally {
-      handleCloseDialog()
     }
+    /**
+     * This will close every-time so we don't want to close every-time even on errors.
+     */
+    // finally {
+    //   handleCloseDialog()
+    // }
   }
 
   return (

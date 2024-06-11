@@ -34,12 +34,16 @@ export const useInterceptor = () => {
         )
 
         options.headers = options.headers || {}
-        options.headers.authorization = `Bearer ${newTokens.data.token}`
-
-        return await customFetch(url, options)
+        options.headers.authorization = `Bearer ${newTokens.data.token}`;
+        /**
+         * Added the new Refresh token in options, previously was not there but we were making the new refresh token request so that's why its essential to change the token.
+         */
+        options.headers.refreshToken = newTokens.data['refresh-token'];
+        return await customFetch(url, options);
       } else {
         throw `Session Expired! Please Login Again`
       }
+
     } catch (refreshError) {
       disptach(clearUser())
       logout()
