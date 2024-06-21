@@ -6,7 +6,8 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 
 export const useInterceptor = () => {
-  const disptach = useDispatch()
+  // * Spelling mistakes on disptach to dispatch
+  const dispatch = useDispatch()
   const router = useRouter()
   const pathName = usePathname()
 
@@ -26,7 +27,7 @@ export const useInterceptor = () => {
       })
       if (refreshResponse.ok) {
         const newTokens = await refreshResponse.json()
-        disptach(
+        dispatch(
           setToken({
             token: newTokens.data.token,
             refreshToken: newTokens.data['refresh-token'],
@@ -34,18 +35,17 @@ export const useInterceptor = () => {
         )
 
         options.headers = options.headers || {}
-        options.headers.authorization = `Bearer ${newTokens.data.token}`;
+        options.headers.authorization = `Bearer ${newTokens.data.token}`
         /**
          * Added the new Refresh token in options, previously was not there but we were making the new refresh token request so that's why its essential to change the token.
          */
-        options.headers.refreshToken = newTokens.data['refresh-token'];
-        return await customFetch(url, options);
+        options.headers.refreshToken = newTokens.data['refresh-token']
+        return await customFetch(url, options)
       } else {
         throw `Session Expired! Please Login Again`
       }
-
     } catch (refreshError) {
-      disptach(clearUser())
+      dispatch(clearUser())
       logout()
       if (pathName.includes('saved') || pathName === '/profile') {
         router.push('/feeds')
@@ -65,6 +65,7 @@ export const useInterceptor = () => {
         return fetchRefreshToken(options, customFetch, url)
       }
     }
+
     return response
   }
 

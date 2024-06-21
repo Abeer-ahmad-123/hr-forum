@@ -39,13 +39,13 @@ const ProfileCard = () => {
         />
       </div>
       <CustomLink
-        className="pointer flex justify-center text-center font-medium"
+        className="pointer flex justify-center break-all text-center font-medium"
         href={'/profile'}>
         {' '}
         {userDetails?.name}
       </CustomLink>
-      <p className="ml-[15px] mr-[15px] flex text-center text-[12px] font-light text-gray-400">
-        {userDetails?.bio}
+      <p className="mx-[12px] flex text-center text-[12px] font-light text-gray-400">
+        {userDetails?.bio.slice(0, 50).concat('...')}
       </p>
       <hr className="my-1 border-t border-gray-200" />
       <div className="flex items-center justify-center gap-2.5 px-3">

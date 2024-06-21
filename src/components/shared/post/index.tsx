@@ -52,11 +52,14 @@ import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
 import { deleteModalState } from '@/services/auth/authService'
+import Image from 'next/image'
 
 const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const { id } = useParams()
   postId = postId ? postId : Number(id)
   const paramsSearch = useSearchParams()
+  // * State to show more / less post content.
+  const [showFullPost, setShowFullPost] = useState(false)
 
   const [commentResult, setCommentResult] =
     useState<Array<CommentInterface> | null>(null)
@@ -395,26 +398,49 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
             <div className="mt-2 text-left text-xl max-custom-sm:text-base ">
               {post?.title}
             </div>
-            <div
-              className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px]"
-              dangerouslySetInnerHTML={{ __html: post?.content }}
-            />
+            <>
+              <div
+                className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px]"
+                // dangerouslySetInnerHTML={{ __html: post?.content }}
+                // * Reducing the content size based on show more / less state
+                dangerouslySetInnerHTML={{
+                  __html: `${
+                    post?.content
+                      ? post.content.slice(0, showFullPost ? -1 : 150)
+                      : null
+                  }`,
+                }}
+              />
+              {post?.content && post?.content.length > 150 ? (
+                <button
+                  className="text-gray-500 dark:text-gray-400"
+                  onClick={() => setShowFullPost((prev) => !prev)}>
+                  Show {showFullPost ? 'Less' : 'More'}
+                </button>
+              ) : null}
+            </>
             <div>
               {post?.image_url ? (
+                // <img
+                //   src={post?.image_url}
+                //   style={{ objectFit: 'fill' }}
+                //   alt="Picture of the author"
+                //   className="mb-7"
+                //   width={300}
+                //   height={400}
+                // />
                 <img
                   src={post?.image_url}
-                  style={{ objectFit: 'fill' }}
                   alt="Picture of the author"
-                  className="mb-7"
-                  width={300}
                   height={400}
+                  width={400}
+                  className="mx-auto mb-7 h-full max-h-[400px] object-contain"
                 />
               ) : null}
             </div>
-            <span
-              className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] 
-                      max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-              {commentCount[postId]} comments
+            <span className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+              {commentCount[postId]}{' '}
+              {`comment${commentCount[postId] > 1 ? "'s" : ''}`}
             </span>
             <div className="w-full">
               <hr />

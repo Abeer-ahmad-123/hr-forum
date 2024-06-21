@@ -39,6 +39,7 @@ import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 import { setModalState } from '@/services/auth/authService'
 import { CustomLink } from './customLink/CustomLink'
+import Image from 'next/image'
 
 const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const {
@@ -55,7 +56,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     user_id,
     image_url,
   } = post
-
   const pathName = usePathname()
   const { slug } = useParams()
   const router = useRouter()
@@ -63,7 +63,8 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-
+  // * Show More / Less state for post content
+  const [showFullPost, setShowFullPost] = useState(false)
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
 
@@ -407,17 +408,31 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
             </CustomLink>
 
             {!image_url ? (
-              <div
-                className="text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
+              <>
+                <div
+                  className="break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
+                  dangerouslySetInnerHTML={{
+                    __html: `${
+                      content ? content.slice(0, showFullPost ? -1 : 100) : null
+                    }`,
+                  }}
+                />
+                {content.length > 100 && (
+                  <button
+                    className="text-gray-500 dark:text-gray-400"
+                    onClick={() => setShowFullPost((prev) => !prev)}>
+                    Show {showFullPost ? 'Less' : 'More'}
+                  </button>
+                )}
+              </>
             ) : (
-              <img
+              // * Image consistency for width / height and fill properties
+              <Image
                 src={image_url}
                 alt="post"
                 height={400}
-                width={300}
-                className="w-full max-w-[400px]"
+                width={400}
+                className="mx-auto h-full max-h-[400px] object-contain"
               />
             )}
           </div>

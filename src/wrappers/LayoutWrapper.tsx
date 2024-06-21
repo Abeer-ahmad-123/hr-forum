@@ -190,11 +190,12 @@ const LayoutWrapper = ({ children }: any) => {
 
   return (
     <body
+      // * max width should be 100 view width so that it should now scroll over x-axis
       className={`${styles.trim()} theme-default ${
         darkMode ? 'bg-dark-background' : 'bg-background '
       } ${isError ? 'bg-white' : 'dark:bg-dark-background'} font-primary ${
         !isError && 'dark:bg-slate-700'
-      } 
+      } h-max max-w-[100dvw]
       `}>
       {!loading && !isError && !notFound && <Navbar />}
       <ToastContainer />
@@ -202,7 +203,7 @@ const LayoutWrapper = ({ children }: any) => {
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
-              className={`max-h-auto mx-auto w-full px-10 
+              className={`mx-auto w-full px-10
               dark:text-white max-md:py-5 max-sm:p-[10px] ${
                 isError
                   ? 'bg-white dark:bg-white'

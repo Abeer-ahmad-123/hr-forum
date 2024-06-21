@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 
 const SingleFeedRoute = ({ params }: any) => {
   const { id } = params
-  return <SingleFeedPostWithDialog id={id} />
+  // * Set the modal to open by default
+  return <SingleFeedPostWithDialog id={id} defaultOpen={true} />
 }
 export default SingleFeedRoute

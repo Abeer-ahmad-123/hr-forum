@@ -36,7 +36,8 @@ const CommentSection = ({
   const userId = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData?.id,
   )
-
+  // * State for Show More / Less Comment;
+  const [showFullComment, setShowFullComment] = useState(false)
   const pathName = usePathname()
   const router = useRouter()
 
@@ -118,7 +119,8 @@ const CommentSection = ({
                ? 'dark:bg-slate-800'
                : 'dark:bg-dark-background'
            } `}>
-            <div className="flex flex-row justify-between">
+            {/* * Fixing Alignment */}
+            <div className="flex flex-row items-center justify-between">
               <div
                 onClick={handleNavigate}
                 className="cursor-pointer text-left text-accent  dark:text-white max-custom-sm:text-[11px]
@@ -142,10 +144,21 @@ const CommentSection = ({
                 </div>
               )}
             </div>
-            <div
-              className=" h-full w-fit  pb-1 text-left leading-loose text-gray-600 dark:text-white max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-              {replies?.comment?.content}
+            <div className="h-full w-fit pb-1 text-left leading-loose text-gray-600 dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+              {replies?.comment?.content &&
+              replies?.comment?.content.length > 200
+                ? replies?.comment?.content
+                    .slice(0, showFullComment ? -1 : 200)
+                    .concat(showFullComment ? '' : '...')
+                : replies?.comment?.content ?? null}
+              {replies?.comment?.content &&
+              replies?.comment?.content.length > 200 ? (
+                <button
+                  className="ml-2 text-gray-500 dark:text-gray-400"
+                  onClick={() => setShowFullComment((prev) => !prev)}>
+                  Show {showFullComment ? 'Less' : 'More'}
+                </button>
+              ) : null}
             </div>
           </div>
 

@@ -28,10 +28,14 @@ function LoggedIn() {
 
   const handleNavigateProfile = () => {
     nProgress.start()
+    // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Profile
+    handleClosePopover()
     router.push('/profile')
   }
 
   const handleLogout = () => {
+    // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Logout
+    handleClosePopover()
     logout()
     dispatch(clearUser())
     if (pathname.includes('saved') || pathname === '/profile') {
@@ -84,20 +88,21 @@ function LoggedIn() {
         <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black">
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            onClick={handleClosePopover}
+            onClick={handleNavigateProfile}
             className="cursor-pointer hover:text-white">
             <div
               className={`block px-4 py-2 text-sm dark:text-white`}
-              onClick={handleNavigateProfile}>
+              // onClick={handleNavigateProfile}
+            >
               Profile
             </div>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={handleClosePopover}
+            onClick={handleLogout}
             className="cursor-pointer hover:text-white">
             <button
               name="logout button"
-              onClick={handleLogout}
+              // onClick={handleLogout}
               className={`block px-4 py-2 text-sm  dark:text-white`}>
               Logout
             </button>

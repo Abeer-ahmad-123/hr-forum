@@ -151,7 +151,7 @@ const RespProfile = ({ userId }: profileProps) => {
   }, [])
 
   return user.id ? (
-    <div className="profile-page  max-md:block">
+    <div className="profile-page max-w-[100dvw] max-md:block">
       <section className="relative mt-5 block h-[650px]">
         <div
           className="absolute top-0 h-[60%] w-full bg-cover bg-center"
@@ -258,28 +258,28 @@ const RespProfile = ({ userId }: profileProps) => {
                 )}
               </div>
 
-              <div className="flex justify-center gap-[20px] pb-6">
+              <div className="flex justify-center gap-[20px] break-all pb-6">
                 <div className="mt-12 p-6 text-center max-md:text-left">
                   <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
                     {user?.name}
                   </h3>
-                  <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
-                    <div className="flex items-center">
+                  <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
+                    <div className="flex items-center gap-3">
                       <User
-                        className="mr-1 text-gray-600 dark:text-white"
-                        size={17}
+                        className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-7 md:w-7"
+                        // size={20}
                       />
                       <div className="dark:text-white"> {user?.username}</div>
                     </div>
-                    <div className="flex items-center dark:text-white">
+                    <div className="flex items-center gap-3 dark:text-white">
                       <Mail
-                        className="mr-1 text-gray-600 dark:text-white"
-                        size={17}
+                        className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-6 md:w-6"
+                        // size={20}
                       />
-                      <div className="">{user?.email}</div>
+                      <div className="max-w-[600px]">{user?.email}</div>
                     </div>
                   </div>
-                  <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
+                  <div className="mt-4 flex items-start justify-start gap-3 text-center text-sm font-normal md:items-center md:justify-center lg:mx-auto lg:w-[90%]">
                     {user?.bio}
                   </div>
                 </div>
