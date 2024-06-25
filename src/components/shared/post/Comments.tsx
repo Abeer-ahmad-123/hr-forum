@@ -17,14 +17,14 @@ function Comments({
   getPostCommets,
 }: any) {
   const searchParams = useSearchParams()
-
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
 
   const commentId = searchParams.get('commentId')
-
-  const [comments, setComments] = useState<PostsInterface[]>([])
+  const [comments, setComments] = useState<PostsInterface[]>(
+    initialComments || [],
+  )
   const [commentPage, setCommentPage] = useState<number>(commentId ? 1 : 2)
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
 

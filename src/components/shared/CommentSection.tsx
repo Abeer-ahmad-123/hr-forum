@@ -18,10 +18,10 @@ const CommentSection = ({
 }: any) => {
   const [replies, setReplies] = useState({
     comment: {
-      id: '',
-      replies: [],
-      author_details: { name: '', id: '' },
-      content: '',
+      id: comment.id || '',
+      replies: comment.replies || [],
+      author_details: comment.author_details || { name: '', id: '' },
+      content: comment.content || '',
     },
     pagination: {
       CurrentPage: 0,

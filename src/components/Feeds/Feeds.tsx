@@ -23,7 +23,9 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, updatePosts] = useState<Array<PostsInterface>>([])
+  const [posts, updatePosts] = useState<Array<PostsInterface>>(
+    initialPosts || [],
+  )
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
@@ -93,6 +95,7 @@ const Feeds = ({
   }
   useEffect(() => {
     if (inView) {
+      // debugger
       getPosts()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -126,7 +129,6 @@ const Feeds = ({
   useEffect(() => {
     noMorePosts.current = morePosts
   }, [morePosts])
-
   return (
     <>
       {path !== '/saved' && (

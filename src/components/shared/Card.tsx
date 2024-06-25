@@ -231,6 +231,11 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     }
   }
 
+  function handleShowMoreOrLess(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault()
+    e.stopPropagation()
+    setShowFullPost((prev) => !prev)
+  }
   useEffect(() => {
     if (reaction_summary) {
       setReactionSummary(reaction_summary)
@@ -420,7 +425,7 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
                 {content.length > 100 && (
                   <button
                     className="text-gray-500 dark:text-gray-400"
-                    onClick={() => setShowFullPost((prev) => !prev)}>
+                    onClick={handleShowMoreOrLess}>
                     Show {showFullPost ? 'Less' : 'More'}
                   </button>
                 )}

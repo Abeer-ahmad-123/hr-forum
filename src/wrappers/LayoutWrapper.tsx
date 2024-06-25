@@ -34,6 +34,7 @@ const LayoutWrapper = ({ children }: any) => {
   const { handleRedirect } = useFetchFailedClient()
   const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const notFound = useSelector((state: any) => state.notFound.notFound)
+  const channels = useSelector((state: any) => state.channels.channels)
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
   const pathname = usePathname()
@@ -181,7 +182,7 @@ const LayoutWrapper = ({ children }: any) => {
     }
     if (isFirstRun.current) {
       isFirstRun.current = false
-      getChannelsLocal()
+      if (!channels) getChannelsLocal()
       handleUserClientLogout()
       handleUserServerLogout()
     }
@@ -189,9 +190,9 @@ const LayoutWrapper = ({ children }: any) => {
   }, [])
 
   return (
-    <body
+    <main
       // * max width should be 100 view width so that it should now scroll over x-axis
-      className={`${styles.trim()} theme-default ${
+      className={`${styles.trim()} ${
         darkMode ? 'bg-dark-background' : 'bg-background '
       } ${isError ? 'bg-white' : 'dark:bg-dark-background'} font-primary ${
         !isError && 'dark:bg-slate-700'
@@ -199,7 +200,7 @@ const LayoutWrapper = ({ children }: any) => {
       `}>
       {!loading && !isError && !notFound && <Navbar />}
       <ToastContainer />
-      <main className="pt-[45px] font-primary dark:bg-dark-background">
+      <div className="pt-[45px] font-primary dark:bg-dark-background">
         <div className="grid">
           <div className="flex dark:bg-slate-700 dark:text-white">
             <div
@@ -213,12 +214,16 @@ const LayoutWrapper = ({ children }: any) => {
                   ? 'flex items-center justify-center'
                   : ''
               }`}>
-              {loading ? <InitialLoading /> : children}
+              {typeof window === 'undefined' || !loading ? (
+                children
+              ) : (
+                <InitialLoading />
+              )}
             </div>
           </div>
         </div>
-      </main>
-    </body>
+      </div>
+    </main>
   )
 }
 

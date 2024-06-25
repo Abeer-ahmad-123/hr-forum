@@ -54,7 +54,7 @@ import ProfileImage from './ProfileImage'
 import { deleteModalState } from '@/services/auth/authService'
 import Image from 'next/image'
 
-const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
+const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
   const { id } = useParams()
   postId = postId ? postId : Number(id)
   const paramsSearch = useSearchParams()
@@ -62,15 +62,19 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const [showFullPost, setShowFullPost] = useState(false)
 
   const [commentResult, setCommentResult] =
-    useState<Array<CommentInterface> | null>(null)
+    useState<Array<CommentInterface> | null>(data?.comments.comments)
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
     clap_count: 0,
     celebrate_count: 0,
   })
-  const [paginationResult, setPaginationResult] = useState()
-  const [commentCount, setCommentCount] = useState<CommentCount>({})
+  const [paginationResult, setPaginationResult] = useState(
+    data?.comments?.pagination,
+  )
+  const [commentCount, setCommentCount] = useState<CommentCount>(
+    data ? { [data.post.id]: data?.post?.total_comments } : {},
+  )
   const dispatch = useDispatch()
   const refreshTokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
@@ -79,11 +83,12 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   const commentCountInStore = useSelector(
     (state: CommentCountStore) => state.posts.commentCount,
   )
-  const [post, setPost] = useState<PostsInterface>()
+
   const [channel, setChannel] = useState<ChannelInterface>()
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
+  const [post, setPost] = useState<PostsInterface>(data?.post)
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
   const pathname = usePathname()
@@ -223,12 +228,12 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
   }, [commentId, postId, userDetails])
 
   useEffect(() => {
-    getPost()
+    if (!data) getPost()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [postId, userDetails, reported])
 
   useEffect(() => {
-    getChannel()
+    if (!channel) getChannel()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -444,11 +449,12 @@ const Post = ({ isDialogPost = false, postId, searchParams }: any) => {
             </span>
             <div className="w-full">
               <hr />
-
               <CommentsLogic
                 postId={postId}
-                commentResult={commentResult}
-                paginationResult={paginationResult}
+                commentResult={data?.comments?.comments || commentResult}
+                paginationResult={
+                  data?.comments?.pagination || paginationResult
+                }
                 user_reaction={post?.user_reaction}
                 reaction_summary={post?.reaction_summary}
                 getPostCommets={getPostCommets}
