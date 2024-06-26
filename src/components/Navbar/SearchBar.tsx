@@ -2,15 +2,8 @@
 import SearchIcon from '@/assets/icons/SearchIcon'
 import '@/components/shared/customLink/style.css'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
-// import { useSelector } from 'react-redux'
-
-// NProgress.configure({ showSpinner: false })
-
 const SearchBar = () => {
-  // const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-
   const SearchParams = useSearchParams()
   const [search, setSearch] = useState<string>('')
   const router = useRouter()
@@ -24,9 +17,7 @@ const SearchBar = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       if (search !== SearchParams.get('search')) {
-        // nProgress.start()
         const baseRoute = pathname.includes('channels/') ? pathname : '/feeds'
-
         const queryParams = search ? `?search=${search}` : ''
         router.push(`${baseRoute}${queryParams}`)
         refForInput.current.blur()
@@ -40,9 +31,7 @@ const SearchBar = () => {
 
   useEffect(() => {
     setSearch(SearchParams.get('search') ?? '')
-    return () => {
-      // nProgress.done()
-    }
+    return () => {}
   }, [SearchParams])
 
   return (

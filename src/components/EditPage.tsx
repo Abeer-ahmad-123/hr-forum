@@ -99,12 +99,6 @@ const EditPage = ({
     } catch (err) {
       showErrorAlert(`${err}`)
     }
-    /**
-     * This will close every-time so we don't want to close every-time even on errors.
-     */
-    // finally {
-    //   handleCloseDialog()
-    // }
   }
 
   return (

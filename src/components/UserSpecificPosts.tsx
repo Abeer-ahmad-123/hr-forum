@@ -1,7 +1,6 @@
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import ProfilePosts from './ProfilePosts'
 
@@ -10,7 +9,6 @@ const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
   const router = useRouter()
 
   const handleClick = () => {
-    // nProgress.start()
     router.push(
       `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
         user.id
@@ -22,12 +20,6 @@ const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
     setPosts([...initialPosts])
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
-
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   return (
     <div className="flex flex-col gap-2">

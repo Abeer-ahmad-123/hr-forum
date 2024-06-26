@@ -1,7 +1,6 @@
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import ProfilePosts from './ProfilePosts'
 import { useDispatch } from 'react-redux'
@@ -23,7 +22,6 @@ const UserSpecificReaction = ({ posts, user }: any) => {
   const dispatch = useDispatch()
 
   const handleClick = () => {
-    // nProgress.start()
     router.push(
       `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
         user.id
@@ -41,12 +39,6 @@ const UserSpecificReaction = ({ posts, user }: any) => {
     handleCommentCountReactedPosts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [posts])
-
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   return (
     <div className="flex flex-col gap-2">

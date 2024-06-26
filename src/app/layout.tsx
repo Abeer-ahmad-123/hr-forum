@@ -28,7 +28,6 @@ const getPosts = async () => {
 }
 async function RootLayout({ children }: any) {
   const { channels } = await getChannels()
-  // const { posts } = await getPosts()
   const user = await cookies().get('user-details')?.value
   const token = await cookies().get('refresh-token')?.value
   const refreshToken = await cookies().get('access-token')?.value
@@ -62,16 +61,6 @@ async function RootLayout({ children }: any) {
       refreshToken: refreshToken || null,
     },
   }
-  // const store = initializeStore({
-  //   channels: {
-  //     channels,
-  //     channelsKeyValuePair: arrayToKeyIdNValueData(channels),
-  //   },
-  //   posts: {
-  //     posts,
-  //     commentCount: makeCommentNumberKeyValuePair(posts),
-  //   },
-  // })
 
   return (
     <html lang="en">

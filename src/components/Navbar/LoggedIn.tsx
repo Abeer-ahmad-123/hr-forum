@@ -2,7 +2,6 @@
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { usePathname, useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -27,7 +26,6 @@ function LoggedIn() {
   }
 
   const handleNavigateProfile = () => {
-    // nProgress.start()
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Profile
     handleClosePopover()
     router.push('/profile')
@@ -47,12 +45,6 @@ function LoggedIn() {
   const handleChange = () => {
     setOpenPopover(!openPopover)
   }
-
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   const UserDropdown = () => (
     <div className="relative flex cursor-pointer select-none items-center break-words gap-4 max-w-xs">
@@ -93,10 +85,7 @@ function LoggedIn() {
           <DropdownMenuItem
             onClick={handleNavigateProfile}
             className="cursor-pointer hover:text-white">
-            <div
-              className={`block px-4 py-2 text-sm dark:text-white`}
-              // onClick={handleNavigateProfile}
-            >
+            <div className={`block px-4 py-2 text-sm dark:text-white`}>
               Profile
             </div>
           </DropdownMenuItem>
@@ -105,7 +94,6 @@ function LoggedIn() {
             className="cursor-pointer hover:text-white">
             <button
               name="logout button"
-              // onClick={handleLogout}
               className={`block px-4 py-2 text-sm  dark:text-white`}>
               Logout
             </button>

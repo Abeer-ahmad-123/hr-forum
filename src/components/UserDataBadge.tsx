@@ -2,7 +2,6 @@
 import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 import { AlertOctagon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { BsPostcard } from 'react-icons/bs'
 import { FaRegComment } from 'react-icons/fa6'
@@ -23,8 +22,6 @@ const UserDataBadge = ({
     .replace(/ /g, '-')}-${userId}`
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // nProgress.start()
-
     if (e.currentTarget.id === 'post') router.push(`${routeTo}/posts`)
     else if (e.currentTarget.id === 'comment')
       router.push(`${routeTo}/comments`)
@@ -34,11 +31,6 @@ const UserDataBadge = ({
       router.push(`${routeTo}/reported/comments`)
   }
 
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
   return (
     <>
       <div className="border-grey-300 flex min-h-[168px] min-w-[15rem] flex-col items-center justify-center rounded-[10px] border border-solid bg-white  px-[5px] pb-2 pt-3 text-left shadow-lg dark:bg-slate-800 dark:text-white">

@@ -5,7 +5,6 @@ import { getComment } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -72,19 +71,12 @@ const CommentSection = ({
   }
 
   const handleNavigate = () => {
-    // nProgress.start()
     const url = `${
       comment.user_id === userId ? '/profile' : `/profile/${comment.user_id}`
     }`
     router.push(url)
     deleteModalState()
   }
-
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   useEffect(() => {
     setReplies({ ...replies, comment: comment })

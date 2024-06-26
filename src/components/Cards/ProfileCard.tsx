@@ -39,7 +39,7 @@ const ProfileCard = () => {
         />
       </div>
       <CustomLink
-        className="pointer flex justify-center break-all text-center font-medium"
+        className="pointer px-3 flex justify-center break-all text-center font-medium"
         href={'/profile'}>
         {' '}
         {userDetails?.name}

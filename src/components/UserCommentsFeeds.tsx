@@ -124,12 +124,6 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storePosts])
 
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
-
   return isCommentsLoading ? (
     <CardLoading />
   ) : (

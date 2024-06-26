@@ -1,7 +1,6 @@
 'use client'
-// import InfoIcon from '@/assets/icons/InfoIcon'
-import { Info } from 'lucide-react'
 
+import { Info } from 'lucide-react'
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'

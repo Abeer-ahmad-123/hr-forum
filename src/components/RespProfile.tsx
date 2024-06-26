@@ -265,17 +265,11 @@ const RespProfile = ({ userId }: profileProps) => {
                   </h3>
                   <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
                     <div className="flex items-center gap-3">
-                      <User
-                        className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-7 md:w-7"
-                        // size={20}
-                      />
+                      <User className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-7 md:w-7" />
                       <div className="dark:text-white"> {user?.username}</div>
                     </div>
                     <div className="flex items-center gap-3 dark:text-white">
-                      <Mail
-                        className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-6 md:w-6"
-                        // size={20}
-                      />
+                      <Mail className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-6 md:w-6" />
                       <div className="max-w-[600px]">{user?.email}</div>
                     </div>
                   </div>

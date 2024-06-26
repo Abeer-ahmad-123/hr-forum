@@ -11,7 +11,6 @@ import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon, Trash2 } from 'lucide-react'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
@@ -140,8 +139,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     })
   }
   const handleNavigateFeed = () => {
-    // nProgress.start()
-
     router.push(
       pathName.includes('channels')
         ? `${pathName}/feed/${id}`
@@ -156,7 +153,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
     }
   }
   const handleNavigateProfile = (event: any) => {
-    // nProgress.start()
     event.preventDefault()
     event.stopPropagation()
     router.push(
@@ -245,12 +241,6 @@ const Card = ({ post, channels, updatePosts, posts, userComment }: any) => {
   useEffect(() => {
     setUserReaction(user_reaction)
   }, [user_reaction])
-
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   useEffect(() => {
     setBookmarkSuccess(user_has_bookmarked)

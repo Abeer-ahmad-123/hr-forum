@@ -65,7 +65,7 @@ const persistedReducer = persistReducer(persistConfig, darkModeReducer)
 
 const store = configureStore({
   reducer: {
-    colorMode: persistedReducer,
+    // colorMode: persistedReducer,
     modal: modalSliceReducer,
     dropDown: DropDownReducer,
     loggedInUser: loggedInUserReducer,

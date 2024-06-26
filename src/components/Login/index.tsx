@@ -5,7 +5,6 @@ import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton'
@@ -97,7 +96,6 @@ export default function Login({
       }
 
       if (pathname.includes('/login')) {
-        // nProgress.start()
         router.push('/feeds')
       }
     } catch (err) {
@@ -116,11 +114,6 @@ export default function Login({
       }
     } catch (err) {}
   }
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   function submitForm() {
     /**

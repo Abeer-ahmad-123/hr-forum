@@ -87,13 +87,6 @@ const PostReactionBar = ({
     // * Instead the number of reactions will be displayed
     let result = reactionCount > 0 ? String(reactionCount) : ''
 
-    // let result = ''
-    // if (isExceptOneZero(reaction_summary) && reactionCount > 1) {
-    //   result = `and ${reactionCount - 1} more`
-    // } else if (reactionCount > 1) {
-    //   result = `and ${reactionCount - 1} other${reactionCount > 2 ? 's' : ''}`
-    // }
-
     return result
   }
 
@@ -118,7 +111,8 @@ const PostReactionBar = ({
 
   return (
     <>
-      {!pathName.includes('/profile') && <hr />}
+      {/* IF ONLY THE REACTIONS EXIST THEN ADD EXTRA <HR/> */}
+      {!pathName.includes('/profile') && countofAll ? <hr /> : null}
       <div className="flex items-center justify-between px-10 py-1">
         {/* * Fixed issue with reactions buttons overlapping and using less width. */}
         <div className="flex gap-1">

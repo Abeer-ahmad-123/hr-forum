@@ -102,7 +102,6 @@ const UserActivity = ({ userId }: UserActivityProps) => {
     })
   }
   const reactionOnClick = () => {
-    //  handleCommentCountReactedPosts()
     setProfileNav((pre) => {
       return {
         ...pre,

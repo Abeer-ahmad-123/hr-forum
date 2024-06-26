@@ -3,7 +3,6 @@
 import { SlugProps } from '@/utils/interfaces/userData'
 import { Plus, SmilePlus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { FaRegComment } from 'react-icons/fa'
 
 const ActivityButtons = ({ slug }: SlugProps) => {
@@ -12,19 +11,15 @@ const ActivityButtons = ({ slug }: SlugProps) => {
 
   const router = useRouter()
   const commentOnClick = () => {
-    // nProgress.start()
-
     pathName.includes('/reported')
       ? router.push(`${routeTo}/reported/comments`)
       : router.push(`${routeTo}/comments`)
   }
   const reactionOnClick = () => {
-    // nProgress.start()
     router.push(`${routeTo}/reactions`)
   }
 
   const handlePost = () => {
-    // nProgress.start()
     pathName.includes('/reported')
       ? router.push(`${routeTo}/reported/posts`)
       : router.push(`${routeTo}/posts`)

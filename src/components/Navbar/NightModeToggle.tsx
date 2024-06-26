@@ -5,12 +5,8 @@ import { useTheme } from 'next-themes'
 import { useDispatch, useSelector } from 'react-redux'
 
 const NightModeToggle = () => {
-  // const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   const { theme, setTheme } = useTheme()
-  // const dispatch = useDispatch()
-
   const toggleNightMode = () => {
-    // dispatch(setDarkMode())
     if (theme == 'light' || theme === 'theme-default') {
       setTheme('dark')
     } else if (theme === 'dark') {

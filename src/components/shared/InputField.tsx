@@ -4,15 +4,6 @@ import clsx from 'clsx'
 
 const InputField = ({ label, type, error, ...otherProps }: any) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     if (inputRef.current.name === 'email') {
-  //       inputRef.current.focus()
-  //     } else if (inputRef.current.name === 'name') {
-  //       inputRef.current.focus()
-  //     }
-  //   }
-  // }, [])
 
   return (
     <div className="mb-2">

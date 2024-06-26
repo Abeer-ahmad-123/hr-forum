@@ -4,7 +4,6 @@ import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
-// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import PostReactionBar from './shared/PostReactionBar'
@@ -39,7 +38,6 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
 
   const router = useRouter()
   const handleNavigateProfile = () => {
-    // nProgress.start()
     router.push(
       userData?.id === (userId as unknown as string)
         ? '/profile'
@@ -47,19 +45,12 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
     )
   }
   const handleNavigateFeed = () => {
-    // nProgress.start()
     router.push(
       `/channels/${channelsKeyValuePair[
         post?.channel_id
       ]?.name.toLocaleLowerCase()}/feed/${post?.id}`,
     )
   }
-
-  useEffect(() => {
-    return () => {
-      // nProgress.done()
-    }
-  }, [])
 
   return (
     <>

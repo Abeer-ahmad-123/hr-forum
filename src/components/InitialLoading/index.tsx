@@ -1,7 +1,6 @@
 import './index.css'
 
 const InitialLoading = () => {
-  // const darkMode = useSelector((state: any) => state.colorMode.darkMode)
   return (
     <div className="initial-loading">
       <div className={'dark:body-light body'}>
