@@ -1,23 +1,22 @@
-import { LayoutWrapper } from '@/wrappers/index'
-import StoreProvider from '@/Providers/StoreProvider'
 import '@/assets/styles/globals.css'
-import type { Metadata } from 'next'
-import { shareMetaData } from '@/utils/share-metadata'
-import { Suspense } from 'react'
-import { initializeStore } from '@/store'
+import StoreProvider from '@/Providers/StoreProvider'
 import { getChannels } from '@/services/channel/channel'
-import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { getAllPosts } from '@/services/posts'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
+import { arrayToKeyIdNValueData } from '@/utils/channels'
+import type { ChannelInterface } from '@/utils/interfaces/channels'
+import type { PostsInterface } from '@/utils/interfaces/posts'
+import { shareMetaData } from '@/utils/share-metadata'
+import { LayoutWrapper } from '@/wrappers/index'
+import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
-import InitialLoading from '@/components/InitialLoading'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'HR-Forum: Shaping the Future of HR',
   ...shareMetaData,
 }
 
-const getPosts = async () => {
+const getPosts: () => Promise<PostsInterface> = async () => {
   const { data } = await getAllPosts({
     loadReactions: true,
     loadUser: true,
@@ -26,7 +25,8 @@ const getPosts = async () => {
   })
   return data
 }
-async function RootLayout({ children }: any) {
+
+async function RootLayout({ children }: { children: React.ReactNode }) {
   const { channels } = await getChannels()
   const user = await cookies().get('user-details')?.value
   const token = await cookies().get('refresh-token')?.value
@@ -39,9 +39,6 @@ async function RootLayout({ children }: any) {
     posts: {
       posts: [],
       commentCount: {},
-    },
-    colorMode: {
-      darkMode: false,
     },
     notFound: {
       notFound: false,
@@ -64,7 +61,7 @@ async function RootLayout({ children }: any) {
 
   return (
     <html lang="en">
-      <body className="theme-default dark:bg-dark-background bg-background">
+      <body className="theme-default bg-background dark:bg-dark-background">
         <StoreProvider serverStore={serverState}>
           <Suspense fallback={null}>
             <LayoutWrapper serverState={serverState}>{children}</LayoutWrapper>
