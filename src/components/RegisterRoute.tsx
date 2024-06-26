@@ -1,7 +1,7 @@
 'use client'
 import Register from '@/components/Register'
 import { usePathname, useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 
 const RegisterRoute = () => {
@@ -16,7 +16,7 @@ const RegisterRoute = () => {
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 

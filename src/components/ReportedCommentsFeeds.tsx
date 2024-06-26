@@ -16,7 +16,7 @@ import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { getReportedComments } from '@/services/comments'
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -121,7 +121,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 

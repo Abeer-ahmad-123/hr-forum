@@ -1,7 +1,7 @@
 'use client'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { CustomLink } from './customLink/CustomLink'
 import { deleteModalState } from '@/services/auth/authService'
@@ -16,7 +16,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
 
   const handleLinkClick = (event: any) => {
-    nProgress.start()
+    // nProgress.start()
     event.preventDefault()
     event.stopPropagation() // Prevent propagation to card's onClick
     router.push(`${'/channels/' + lowerCaseChannelName}/`)
@@ -24,7 +24,7 @@ const ChannelPill = ({ channel_id, channels }: any) => {
   }
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
   return (

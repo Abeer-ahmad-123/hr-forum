@@ -8,7 +8,6 @@ import notFoundReducer from '@/store/Slices/not-found'
 import postReducer from '@/store/Slices/postSlice'
 // import { getCookie, removeCookie, setCookie } from '@/utils/helper/cookies'
 import { configureStore } from '@reduxjs/toolkit'
-import { createWrapper } from 'next-redux-wrapper'
 
 import {
   FLUSH,

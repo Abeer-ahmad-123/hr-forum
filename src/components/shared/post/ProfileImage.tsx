@@ -4,7 +4,7 @@ import { deleteModalState } from '@/services/auth/authService'
 import { ProfileImageInterface } from '@/utils/interfaces/card'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -16,7 +16,7 @@ function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
   const router = useRouter()
 
   const handleImageClick = () => {
-    nProgress.start()
+    // nProgress.start()
     const url = `${
       postUserId === userData.id ? '/profile' : `/profile/${postUserId}`
     }`
@@ -25,7 +25,7 @@ function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
   }
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 

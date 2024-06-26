@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 }
 
 const FeedPage = ({ searchParams }: FeedPageProps) => {
+  // @ts-ignore
   return <RenderFeedWithLoading searchParams={searchParams} path="/feed" />
 }
 

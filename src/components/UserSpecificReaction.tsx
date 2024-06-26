@@ -1,7 +1,7 @@
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import ProfilePosts from './ProfilePosts'
 import { useDispatch } from 'react-redux'
@@ -23,7 +23,7 @@ const UserSpecificReaction = ({ posts, user }: any) => {
   const dispatch = useDispatch()
 
   const handleClick = () => {
-    nProgress.start()
+    // nProgress.start()
     router.push(
       `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
         user.id
@@ -44,7 +44,7 @@ const UserSpecificReaction = ({ posts, user }: any) => {
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 

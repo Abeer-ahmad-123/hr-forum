@@ -2,7 +2,7 @@
 
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import ProfileComment from './ProfileComment'
 import { PostsInterface } from '@/utils/interfaces/posts'
@@ -23,7 +23,7 @@ const UserSpecificComments = ({
 }: UserSpecificCommentsProps) => {
   const router = useRouter()
   const handleClick = () => {
-    nProgress.start()
+    // nProgress.start()
     router.push(
       `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
         user.id
@@ -32,7 +32,7 @@ const UserSpecificComments = ({
   }
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 

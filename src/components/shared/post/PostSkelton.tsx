@@ -1,7 +1,7 @@
 import Skelton from '../../ui/skelton'
 import CommentSkelton from '../CommentSkelton'
 
-async function PostSkelton({ isDialogPost = false }) {
+function PostSkelton({ isDialogPost = false }) {
   return (
     <div className="mx-auto my-5 h-screen max-w-5xl rounded-full">
       <div

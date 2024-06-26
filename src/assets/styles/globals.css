@@ -7,6 +7,18 @@
   body {
     height: 100%;
   }
+  :root {
+    --color-primary: #2970ff;
+    --color-secondary: #3a80ff;
+    --color-accent: #571ce0;
+    --color-background: #f7f2fd;
+  }
+  .theme-default {
+    --color-primary: #2970ff;
+    --color-secondary: #3a80ff;
+    --color-accent: #571ce0;
+    --color-background: #f7f2fd;
+  }
 }
 
 .theme-default {

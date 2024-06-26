@@ -1,6 +1,6 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect } from 'react'
 import Login from './Login'
 
@@ -10,14 +10,14 @@ const LoginRoute = () => {
 
   const changeRoute = () => {
     if (pathName === '/login') {
-      nProgress.start()
+      // nProgress.start()
       router.replace('/register')
     }
   }
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 

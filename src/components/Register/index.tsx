@@ -9,7 +9,7 @@ import {
 } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton'
@@ -17,7 +17,7 @@ import RegisterForm from '@/components/Register/RegisterForm'
 
 export default function Register({
   toggleForm,
-  handleDialogClose = () => { },
+  handleDialogClose = () => {},
 }: any) {
   const initialValues: any = {
     name: '',
@@ -65,10 +65,7 @@ export default function Register({
          * Custom error generation for multiple regex expressions.
          */
         const { valid: isUserNameValid } = isValidUserName(formValues.username)
-        if (
-          isUserNameValid &&
-          isValidEmail(formValues.email)
-        ) {
+        if (isUserNameValid && isValidEmail(formValues.email)) {
           setLoading(true)
           let isFieldsValid = handleValidations()
 
@@ -115,7 +112,7 @@ export default function Register({
             }
 
             if (pathname.includes('/login')) {
-              nProgress.start()
+              // nProgress.start()
               router.push('/feeds')
             }
           }
@@ -139,26 +136,29 @@ export default function Register({
       if (response?.success) {
         router.push(response?.data)
       }
-    } catch (err) { }
+    } catch (err) {}
   }
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 
   return (
     <div
-      className={`container mx-auto flex ${pathname.includes('register')
-        ? 'h-full min-h-[calc(100vh-56px)]'
-        : 'h-[550px]'
-        }
-       ${isRegisterRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
-        } flex-col justify-center space-y-6`}>
+      className={`container mx-auto flex ${
+        pathname.includes('register')
+          ? 'h-full min-h-[calc(100vh-56px)]'
+          : 'h-[550px]'
+      }
+       ${
+         isRegisterRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
+       } flex-col justify-center space-y-6`}>
       <div
-        className={`${isRegisterRoute ? 'rounded-md shadow-2xl' : ''
-          } relative flex flex-col justify-center overflow-hidden`}>
+        className={`${
+          isRegisterRoute ? 'rounded-md shadow-2xl' : ''
+        } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-background lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">

@@ -7,6 +7,7 @@ import {
   RiSettings4Fill,
 } from 'react-icons/ri'
 import DropDownContent from '../shared/DropDownContent'
+import { ChannelInterface } from '@/utils/interfaces/channels'
 
 interface FeaturesDropDownInterface {
   classNameOuter: string
@@ -46,7 +47,7 @@ const FeaturesDropDown = ({
   )
 
   const showDiv = showMenu
-    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] max-md:w-full ${classNamefeaturesDropDowm}`
+    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] max-md:w-full z-50 ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {

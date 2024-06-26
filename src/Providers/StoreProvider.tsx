@@ -7,17 +7,18 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 let persistor = persistStore(store)
 
-const StoreProvider = ({ children, serverStore }: any) => {
-  const myStore = initializeStore(serverStore)
+const StoreProvider = ({ children, serverState }: any) => {
+  // const myStore = initializeStore(serverState)
   return (
-    <Provider store={myStore}>
-      {typeof window === 'undefined' ? (
+    <Provider store={store} serverState={serverState}>
+      {/* {typeof window === 'undefined' ? (
         children
       ) : (
         <PersistGate persistor={persistor} loading={<InitialLoading />}>
           {children}
         </PersistGate>
-      )}
+      )} */}
+      {children}
     </Provider>
   )
 }

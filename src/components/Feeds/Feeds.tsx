@@ -14,6 +14,7 @@ import CircularProgress from '../ui/circularProgress'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { FeedProps } from '@/utils/interfaces/feeds'
 import { makeCommentNumberKeyValuePair } from '@/utils/helper'
+import { StoreChannels } from '@/utils/interfaces/channels'
 
 const Feeds = ({
   channelSlug,
@@ -29,6 +30,9 @@ const Feeds = ({
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
+  const channelsInStore = useSelector(
+    (state: StoreChannels) => state?.channels.channels,
+  )
   const [page, setPage] = useState(2)
   const dispatch = useDispatch()
   const userData = useSelector(
@@ -41,7 +45,11 @@ const Feeds = ({
     let _data: any = {}
     if (channelSlug) {
       if (!searchParams.search) {
-        const getChannelId = getChannelIdByChannelName(channelSlug, channels)
+        const getChannelId = getChannelIdByChannelName(
+          channelSlug,
+          // @ts-ignore
+          channelsInStore || channels,
+        )
         const { data } = await getPostsByChannelId({
           id: getChannelId,
           loadReactions: true,

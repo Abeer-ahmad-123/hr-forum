@@ -9,6 +9,7 @@ export function generateMetadata({ params }: any) {
 
 const ChannelPage = ({ params, searchParams }: any) => {
   return (
+    // @ts-ignore
     <RenderFeedWithLoading
       searchParams={searchParams}
       channelSlug={params?.slug}

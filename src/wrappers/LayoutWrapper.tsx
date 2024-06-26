@@ -2,6 +2,7 @@
 import InitialLoading from '@/components/InitialLoading'
 import Navbar from '@/components/Navbar/Navbar'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import {
   checkUser,
   deleteModalState,
@@ -28,23 +29,35 @@ import '@fontsource/poppins/500.css'
 import '@fontsource/poppins/600.css'
 import '@fontsource/poppins/700.css'
 import '@fontsource/poppins/900.css'
+import { StoreChannels } from '@/utils/interfaces/channels'
+import { ThemeProvider } from 'next-themes'
 
-const LayoutWrapper = ({ children }: any) => {
+const LayoutWrapper = ({ children, serverState }: any) => {
   const router = useRouter()
   const { handleRedirect } = useFetchFailedClient()
-  const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-  const notFound = useSelector((state: any) => state.notFound.notFound)
-  const channels = useSelector((state: any) => state.channels.channels)
+  // const darkMode =
+  //   useSelector((state: any) => state.colorMode.darkMode) ||
+  //   serverState.colorMode.darkMode
+  const notFound =
+    useSelector((state: any) => state.notFound.notFound) ||
+    serverState.notFound.notFound
+  const channelsInStore = useSelector(
+    (state: StoreChannels) => state.channels.channels,
+  )
+  const channels =
+    channelsInStore.length > 0
+      ? channelsInStore
+      : serverState.channels?.channels ?? []
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
   const pathname = usePathname()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!serverState ? true : false)
   const [isError, setIsError] = useState<boolean>(false)
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
 
-  const styles = darkMode ? 'dark' : ''
+  // const styles = darkMode ? 'dark' : ''
 
   const clearAuthentication = () => {
     dispatch(clearUser())
@@ -57,6 +70,7 @@ const LayoutWrapper = ({ children }: any) => {
   }
   const getChannelsLocal = useCallback(async () => {
     try {
+      setLoading(true)
       let response: any = await getChannels()
 
       dispatch(setChannels(response.channels))
@@ -71,6 +85,8 @@ const LayoutWrapper = ({ children }: any) => {
       } else {
         showErrorAlert(`${err}`)
       }
+    } finally {
+      setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -124,6 +140,7 @@ const LayoutWrapper = ({ children }: any) => {
         exchangeCode(code!)
       }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
@@ -182,47 +199,65 @@ const LayoutWrapper = ({ children }: any) => {
     }
     if (isFirstRun.current) {
       isFirstRun.current = false
-      if (!channels) getChannelsLocal()
+      if (!channels || !serverState.channels?.channels) getChannelsLocal()
       handleUserClientLogout()
       handleUserServerLogout()
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (serverState.channels?.channels && channelsInStore.length === 0) {
+      dispatch(setChannels(serverState.channels.channels))
+      dispatch(
+        setKeyIdPairData(arrayToKeyIdNValueData(serverState.channels.channels)),
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channelsInStore, serverState])
 
   return (
     <main
       // * max width should be 100 view width so that it should now scroll over x-axis
-      className={`${styles.trim()} ${
-        darkMode ? 'bg-dark-background' : 'bg-background '
-      } ${isError ? 'bg-white' : 'dark:bg-dark-background'} font-primary ${
-        !isError && 'dark:bg-slate-700'
-      } h-max max-w-[100dvw]
+      className={`${
+        isError ? 'bg-white' : 'dark:bg-dark-background'
+      } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
       `}>
-      {!loading && !isError && !notFound && <Navbar />}
-      <ToastContainer />
-      <div className="pt-[45px] font-primary dark:bg-dark-background">
-        <div className="grid">
-          <div className="flex dark:bg-slate-700 dark:text-white">
-            <div
-              className={`mx-auto w-full px-10
+      <ThemeProvider attribute="class" defaultTheme="default-theme">
+        <ProgressBar
+          height="2px"
+          color="#571ce0"
+          options={{ showSpinner: false }}
+          shallowRouting
+        />
+        {!loading && !isError && !notFound && <Navbar />}
+        <ToastContainer />
+        <div className="font-primary dark:bg-dark-background">
+          <div className="grid">
+            <div className="flex dark:bg-slate-700 dark:text-white">
+              <div
+                className={`mx-auto w-full px-10
               dark:text-white max-md:py-5 max-sm:p-[10px] ${
                 isError
                   ? 'bg-white dark:bg-white'
                   : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
               } ${
-                pathname === '/register' || pathname === '/login'
-                  ? 'flex items-center justify-center'
-                  : ''
-              }`}>
-              {typeof window === 'undefined' || !loading ? (
+                  pathname === '/register' || pathname === '/login'
+                    ? 'flex items-center justify-center'
+                    : ''
+                }`}>
+                {/* {typeof window === 'undefined' || !loading ? (
                 children
               ) : (
                 <InitialLoading />
-              )}
+              )} */}
+                {!loading ? children : <InitialLoading />}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </ThemeProvider>
     </main>
   )
 }

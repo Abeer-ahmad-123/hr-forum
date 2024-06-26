@@ -2,7 +2,7 @@
 import { logout } from '@/services/auth/authService'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { usePathname, useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
+// import nProgress from 'nprogress'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -27,7 +27,7 @@ function LoggedIn() {
   }
 
   const handleNavigateProfile = () => {
-    nProgress.start()
+    // nProgress.start()
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Profile
     handleClosePopover()
     router.push('/profile')
@@ -50,14 +50,14 @@ function LoggedIn() {
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 
   const UserDropdown = () => (
-    <div className="relative flex cursor-pointer select-none items-center  gap-4">
+    <div className="relative flex cursor-pointer select-none items-center break-words gap-4 max-w-xs">
       <span className="text-right max-custom-sm:hidden">
-        <span className="block text-sm font-medium text-black dark:text-white ">
+        <span className="inline-block text-sm font-medium text-black dark:text-white break-words">
           {name}
         </span>
         <span className="block text-xs dark:text-white">{username}</span>
@@ -85,7 +85,10 @@ function LoggedIn() {
           onChange={handleChange}>
           <UserDropdown />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="dark:hover:bg-primary-accent left-8 bg-white dark:bg-black">
+        <DropdownMenuContent
+          side="bottom"
+          align="end"
+          className="dark:hover:bg-primary-accent bg-white dark:bg-black">
           <DropdownMenuSeparator />
           <DropdownMenuItem
             onClick={handleNavigateProfile}

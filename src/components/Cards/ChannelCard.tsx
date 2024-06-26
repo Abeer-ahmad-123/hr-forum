@@ -9,12 +9,12 @@ import ChannelCardSkelton from '../ChannelCardSkelton'
 
 const ChannelCard = () => {
   const channels = useSelector(
-    (state: StoreChannels) => state?.channels?.channels,
+    (state: StoreChannels) => state.channels?.channels,
   )
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
-  return channels.length ? (
+  return channels && channels.length > 0 ? (
     <div
       className={`sticky top-[20px] mr-4 mt-[20px] max-h-[240px] w-[225px] overflow-auto rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-lg:mt-[15px] max-md:w-full`}>
       <h1 className="mb-[0px] mt-[10px] text-start text-[11px] font-semibold">
