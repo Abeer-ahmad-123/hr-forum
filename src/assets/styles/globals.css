@@ -33,3 +33,7 @@
     height: 100% !important;
   }
 }
+
+.card-li a{
+  @apply underline cursor-pointer hover:text-blue-600 dark:hover:text-blue-400;
+}
