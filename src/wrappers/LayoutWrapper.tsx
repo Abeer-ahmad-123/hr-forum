@@ -2,12 +2,12 @@
 import InitialLoading from '@/components/InitialLoading'
 import Navbar from '@/components/Navbar/Navbar'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import {
   checkUser,
   deleteModalState,
   getRefreshToken,
   googleCodeExchange,
+  googleTokenExchange,
   isTokenExpired,
   logout,
   setUserToken,
@@ -17,11 +17,10 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { clearUser, setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import type {
+  ChannelInterface,
+  StoreChannels,
+} from '@/utils/interfaces/channels'
 import '@fontsource/poppins'
 import '@fontsource/poppins/300.css'
 import '@fontsource/poppins/400.css'
@@ -29,20 +28,43 @@ import '@fontsource/poppins/500.css'
 import '@fontsource/poppins/600.css'
 import '@fontsource/poppins/700.css'
 import '@fontsource/poppins/900.css'
-import { StoreChannels } from '@/utils/interfaces/channels'
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import { ThemeProvider } from 'next-themes'
-
-const LayoutWrapper = ({ children, serverState }: any) => {
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import UserNameDialog from './UserNameDialog'
+type Props = {
+  children: React.ReactNode
+  serverState: {
+    channels: {
+      channels: ChannelInterface[]
+      channelsKeyValuePair: {}
+    }
+    posts: {
+      posts: never[]
+      commentCount: {}
+    }
+    notFound: {
+      notFound: boolean
+    }
+    loggedInUser: {
+      token: string | null
+      userData: any
+      refreshToken: string | null
+    }
+  }
+}
+const LayoutWrapper = ({ children, serverState }: Props) => {
   const router = useRouter()
   const { handleRedirect } = useFetchFailedClient()
-  // const darkMode =
-  //   useSelector((state: any) => state.colorMode.darkMode) ||
-  //   serverState.colorMode.darkMode
   const notFound =
     useSelector((state: any) => state.notFound.notFound) ||
     serverState.notFound.notFound
   const channelsInStore = useSelector(
-    (state: StoreChannels) => state.channels.channels,
+    (state: StoreChannels) => state.channels.channels
   )
   const channels =
     channelsInStore.length > 0
@@ -56,7 +78,8 @@ const LayoutWrapper = ({ children, serverState }: any) => {
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
-
+  // * A Dialog to set the username on signup / login with Google
+  const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
   // const styles = darkMode ? 'dark' : ''
 
   const clearAuthentication = () => {
@@ -71,8 +94,8 @@ const LayoutWrapper = ({ children, serverState }: any) => {
   const getChannelsLocal = useCallback(async () => {
     try {
       setLoading(true)
-      let response: any = await getChannels()
-
+      // * Added TS type
+      let response = await getChannels()
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err: unknown) {
@@ -99,7 +122,7 @@ const LayoutWrapper = ({ children, serverState }: any) => {
           setUser({
             ...response,
             refreshToken: response['refresh-token'],
-          }),
+          })
         )
 
         const currentUrl = window.location.href
@@ -113,6 +136,8 @@ const LayoutWrapper = ({ children, serverState }: any) => {
         if (err instanceof Error && err.message.includes('fetch failed')) {
           router.push('/error')
         }
+        // * Clearing the SearchParams the simple way.
+        router.replace(pathname)
         showErrorAlert('Issue in google authentication')
         clearAuthentication()
       }
@@ -131,19 +156,6 @@ const LayoutWrapper = ({ children, serverState }: any) => {
     }
   }
 
-  useEffect(() => {
-    const code = searchParams.get('code')
-    const googleToken = searchParams.get('googleAccessToken')
-    if (!isFirstOnce.current && (code || googleToken)) {
-      isFirstOnce.current = true
-      if (code) {
-        exchangeCode(code!)
-      }
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
-
   const getToken = async () => {
     try {
       const res = await isTokenExpired()
@@ -156,7 +168,7 @@ const LayoutWrapper = ({ children, serverState }: any) => {
               setToken({
                 token: tokenResponse?.data?.token,
                 refreshToken: tokenResponse?.data?.['refresh-token'],
-              }),
+              })
             )
             setUserToken(tokenResponse.data)
           } else {
@@ -177,6 +189,37 @@ const LayoutWrapper = ({ children, serverState }: any) => {
     if (pathname.includes('/error')) setIsError(true)
   }, [pathname])
 
+  // * The API for Google AccessToken sign-up
+  const exchangeGoogleToken = async (token: string, username: string) => {
+    if (token) {
+      try {
+        const response = await googleTokenExchange(token, username)
+        dispatch(
+          setUser({
+            ...response,
+            refreshToken: response['refresh-token'],
+          })
+        )
+        handleCloseDialog()
+        // const currentUrl = window.location.href
+        // const url = new URL(currentUrl)
+
+        // url.searchParams.delete('googleAccessToken')
+
+        // window.history.replaceState({}, document.title, url.href)
+      } catch (err: any) {
+        showErrorAlert(err.message ?? 'Issue in google authentication')
+      }
+    }
+  }
+
+  // * Create new user from Google based on username
+  const handleSubmitUserName = (userName: string) => {
+    const googleToken = searchParams.get('googleAccessToken')
+    exchangeGoogleToken(googleToken!, userName)
+    // setOpenUserNameDialog(false)
+  }
+
   useEffect(() => {
     const code = searchParams.get('code')
     const googleToken = searchParams.get('googleAccessToken')
@@ -185,6 +228,8 @@ const LayoutWrapper = ({ children, serverState }: any) => {
       if (code) {
         exchangeCode(code!)
       } else {
+        // * If there is no code Param then that means that the user does not exist and we need to create one so we are opening a username dialog for input and then we create a new user and right after that we login.
+        setOpenUserNameDialog(true)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -211,19 +256,25 @@ const LayoutWrapper = ({ children, serverState }: any) => {
     if (serverState.channels?.channels && channelsInStore.length === 0) {
       dispatch(setChannels(serverState.channels.channels))
       dispatch(
-        setKeyIdPairData(arrayToKeyIdNValueData(serverState.channels.channels)),
+        setKeyIdPairData(arrayToKeyIdNValueData(serverState.channels.channels))
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelsInStore, serverState])
 
+  // * Close the username dialog
+  function handleCloseDialog() {
+    setOpenUserNameDialog(false)
+    router.replace(pathname)
+  }
   return (
     <main
       // * max width should be 100 view width so that it should now scroll over x-axis
       className={`${
         isError ? 'bg-white' : 'dark:bg-dark-background'
       } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
-      `}>
+      `}
+    >
       <ThemeProvider attribute="class" defaultTheme="default-theme">
         <ProgressBar
           height="2px"
@@ -243,16 +294,18 @@ const LayoutWrapper = ({ children, serverState }: any) => {
                   ? 'bg-white dark:bg-white'
                   : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
               } ${
-                  pathname === '/register' || pathname === '/login'
-                    ? 'flex items-center justify-center'
-                    : ''
-                }`}>
-                {/* {typeof window === 'undefined' || !loading ? (
-                children
-              ) : (
-                <InitialLoading />
-              )} */}
+                pathname === '/register' || pathname === '/login'
+                  ? 'flex items-center justify-center'
+                  : ''
+              }`}
+              >
                 {!loading ? children : <InitialLoading />}
+
+                <UserNameDialog
+                  isDialogOpen={openUserNameDialog}
+                  handleSubmit={handleSubmitUserName}
+                  handleCloseDialog={handleCloseDialog}
+                />
               </div>
             </div>
           </div>

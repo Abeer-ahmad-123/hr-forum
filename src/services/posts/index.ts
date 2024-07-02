@@ -1,4 +1,12 @@
-import { CustomFetchFunction } from '@/utils/types/customFetch'
+import {
+  GET_ALL_POSTS_PROPS,
+  Pagination,
+  PostsInterface,
+} from '@/utils/interfaces/posts'
+import {
+  CustomFetchFunction,
+  SuccessAPIResponse,
+} from '@/utils/types/customFetch'
 import { API_BASE_URL } from '..'
 import { DELETE_POST } from './route'
 
@@ -8,15 +16,6 @@ const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
 const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
 const USER_REACTED_POSTS = API_BASE_URL + '/users/userId/reactions'
 const USER_REPORTED_POSTS = API_BASE_URL + '/users/userId/reports/posts'
-
-type GET_ALL_POSTS_PROPS = {
-  loadUser?: boolean
-  loadReactions?: boolean
-  channelID?: number
-  userID?: string
-  pageNumber?: number
-  pageSize?: number
-}
 
 export async function getAllPosts({
   loadUser = false,
@@ -40,7 +39,10 @@ export async function getAllPosts({
     if (!res.ok) {
       throw 'error'
     } else {
-      const data = await res.json()
+      const data: SuccessAPIResponse<{
+        posts: PostsInterface[]
+        pagination: Pagination
+      }> = await res.json()
       return data
     }
   } catch (err) {
