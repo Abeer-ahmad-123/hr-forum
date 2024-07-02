@@ -1,5 +1,5 @@
 import SingleFeedPostWithDialog from '@/components/SinglePostWithDialog'
-import { getComment, getPostsComments } from '@/services/comments'
+import { getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 
 const SingleFeedRoute = async ({ params }: any) => {
   const { id } = params
-  // * Set the modal to open by default
   const getPostComments = async () => {
     let { comments, pagination } = await getPostsComments(id, '', {})
     return { comments, pagination }

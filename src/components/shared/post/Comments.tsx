@@ -1,13 +1,20 @@
 'use client'
 import CommentOrReply from '@/components/CommentOrReply'
 import { getPostsComments } from '@/services/comments'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import type { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import type { CommentInterface, Pagination } from '@/utils/interfaces/posts'
 import { Reply } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
-import { PostsInterface } from '@/utils/interfaces/posts'
+type Props = {
+  postId: string
+  initialComments: CommentInterface[]
+  pagination: Pagination
+  inputRef: any
+  getPostCommets: () => void
+}
 
 function Comments({
   postId,
@@ -15,14 +22,14 @@ function Comments({
   pagination,
   inputRef = null,
   getPostCommets,
-}: any) {
+}: Props) {
   const searchParams = useSearchParams()
   const userData = useSelector(
     (state: LoggedInUser) => state.loggedInUser?.userData,
   )
 
   const commentId = searchParams.get('commentId')
-  const [comments, setComments] = useState<PostsInterface[]>(
+  const [comments, setComments] = useState<CommentInterface[]>(
     initialComments || [],
   )
   const [commentPage, setCommentPage] = useState<number>(commentId ? 1 : 2)
@@ -58,9 +65,10 @@ function Comments({
   const handleLoadMore = () => {
     refetchComments()
   }
-  useEffect(() => {
-    setComments([...initialComments])
-  }, [initialComments])
+  // ! Removing these as the undefined state will cause them to break and why not set the state on declare level..
+  // useEffect(() => {
+  //   setComments([...initialComments])
+  // }, [initialComments])
 
   return (
     <>
@@ -75,10 +83,10 @@ function Comments({
           {comments?.length !== 0 &&
             comments
               ?.filter(
-                (comment: PostsInterface) =>
+                (comment: CommentInterface) =>
                   comment.id !== Number(deletedCommentId),
               )
-              ?.map((comment: PostsInterface, index: number) => {
+              ?.map((comment: CommentInterface, index: number) => {
                 return (
                   <CommentSection
                     key={index}
@@ -97,7 +105,8 @@ function Comments({
           <button
             name="view all comments button"
             className="mb-3 mt-3 flex w-full items-center gap-2.5 rounded-lg px-2 py-1 text-start text-sm text-gray-500"
-            onClick={handleLoadMore}>
+            onClick={handleLoadMore}
+          >
             <span className="rotate-180">
               <Reply />
             </span>
