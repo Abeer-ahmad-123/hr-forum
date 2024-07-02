@@ -1,13 +1,17 @@
 'use client'
 import CommentsLogic from '@/components/CommentsLogic'
 import ReactionDetails from '@/components/ReactionDetails'
+import Report from '@/components/Report/Report'
+import type { SinglePostWithDialogProps } from '@/components/SinglePostWithDialog'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
+import { deleteModalState } from '@/services/auth/authService'
 import {
   bookmarkPost,
   deleteBookmarkPost,
@@ -15,54 +19,57 @@ import {
 import { getChannels } from '@/services/channel/channel'
 import { getComment, getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import {
   returnFilteredPosts,
   showErrorAlert,
   timeFormatInHours,
   updatePostBookmark,
 } from '@/utils/helper'
-import { ChannelInterface } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import {
+import type { ReactionSummary } from '@/utils/interfaces/card'
+import type { ChannelInterface } from '@/utils/interfaces/channels'
+import type { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import type {
   CommentCount,
   CommentCountStore,
   CommentInterface,
   PostsInterface,
   PostsInterfaceStore,
 } from '@/utils/interfaces/posts'
+import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
-import ChannelPill from '../ChannelPill'
-
-import Report from '@/components/Report/Report'
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { ReactionSummary } from '@/utils/interfaces/card'
 import {
+  ReadonlyURLSearchParams,
   useParams,
   usePathname,
   useRouter,
   useSearchParams,
 } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import ChannelPill from '../ChannelPill'
 import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
-import { deleteModalState } from '@/services/auth/authService'
-import Image from 'next/image'
 
-const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
+type Props = Omit<SinglePostWithDialogProps, 'id'> & {
+  postId: string
+  isDialogPost?: boolean
+  searchParams?: { commentId?: string; replyId?: string } | SearchParams
+}
+const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const { id } = useParams()
-  postId = postId ? postId : Number(id)
+  postId = postId ? postId : String(id)
   const paramsSearch = useSearchParams()
   // * State to show more / less post content.
   const [showFullPost, setShowFullPost] = useState(false)
 
-  const [commentResult, setCommentResult] =
-    useState<Array<CommentInterface> | null>(data?.comments.comments)
+  const [commentResult, setCommentResult] = useState<CommentInterface[] | null>(
+    data?.comments?.comments ?? null,
+  )
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -84,10 +91,11 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
     (state: CommentCountStore) => state.posts.commentCount,
   )
 
-  const [channel, setChannel] = useState<ChannelInterface>()
+  const [channels, setChannels] = useState<ChannelInterface[] | []>([])
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
+  // @ts-ignore
   const [post, setPost] = useState<PostsInterface>(data?.post)
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
@@ -111,7 +119,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
   const userId = userDetails?.id
 
   const getPost = async () => {
-    const response = await getPostByPostId(postId, {
+    const response = await getPostByPostId(postId ? String(postId) : '', {
       loadUser: true,
       userId: userId,
     })
@@ -130,18 +138,29 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
   }
 
   const commentId =
-    searchParams?.commentId ?? Number(paramsSearch.get('commentId'))
-  const replyId = searchParams?.replyId ?? Number(paramsSearch.get('replyId'))
+    (searchParams as { commentId: string })?.commentId ??
+    Number(paramsSearch.get('commentId'))
+  const replyId =
+    (searchParams as { replyId: string })?.replyId ??
+    Number(paramsSearch.get('replyId'))
 
-  const getPostCommets = async () => {
+  const getPostComments = async () => {
     if (commentId) {
-      const { comment } = await getComment(commentId, userId, {
-        loadNestedComments: replyId ? true : false,
-        allReplies: replyId ? true : false,
-      })
+      const { comment } = await getComment(
+        commentId ? String(commentId) : '',
+        userId,
+        {
+          loadNestedComments: replyId ? true : false,
+          allReplies: replyId ? true : false,
+        },
+      )
       setCommentResult(comment)
     } else {
-      let { comments, pagination } = await getPostsComments(postId, userId, {})
+      let { comments, pagination } = await getPostsComments(
+        String(postId),
+        userId,
+        {},
+      )
       setCommentResult(comments)
       setPaginationResult(pagination)
     }
@@ -150,7 +169,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
   const getChannel = async () => {
     try {
       const { channels: channelsData } = await getChannels()
-      setChannel(channelsData)
+      setChannels(channelsData)
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleRedirect({ error })
@@ -194,17 +213,21 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(
-          postId,
+          String(postId),
           customFetch,
           tokenInRedux,
           refreshTokenInRedux,
         )
         if (res.success) {
           setBookmarkSuccess(true)
-          dispatch(setPosts(updatePostBookmark(storePosts, postId, true)))
+          dispatch(
+            setPosts(updatePostBookmark(storePosts, Number(postId), true)),
+          )
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
-          dispatch(setPosts(updatePostBookmark(storePosts, postId, false)))
+          dispatch(
+            setPosts(updatePostBookmark(storePosts, Number(postId), false)),
+          )
           if (pathname.includes('saved')) {
             dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
             router.back()
@@ -223,7 +246,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
     }
   }
   useEffect(() => {
-    if (commentId || postId) getPostCommets()
+    if (commentId || postId) getPostComments()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentId, postId, userDetails])
 
@@ -233,7 +256,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
   }, [postId, userDetails, reported])
 
   useEffect(() => {
-    if (!channel) getChannel()
+    if (!channels) getChannel()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -252,7 +275,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
           <Report
             reportType="post"
             setOpenDialog={setOpenDialog}
-            postId={postId}
+            postId={postId ? String(postId) : ''}
             getPostCommets={() => {}}
             setReported={setReported}
             setReportedReplyId={() => {}}
@@ -273,22 +296,26 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
       <div
         className={`mx-auto max-w-5xl  rounded-full ${
           isDialogPost ? 'mb-5' : 'my-5'
-        }`}>
+        }`}
+      >
         <div
           className={`mx-auto mb-5 flex max-w-screen-lg rounded-xl bg-white
       ${
         !isDialogPost &&
         'border border-gray-200  shadow-lg dark:border-gray-700 dark:shadow-xl'
       } 
-      dark:bg-dark-background dark:text-gray-300 `}>
+      dark:bg-dark-background dark:text-gray-300 `}
+        >
           <div
             className={`flex w-full flex-col  pt-0 ${
               isDialogPost ? '' : 'p-10 max-custom-sm:px-2'
-            }`}>
+            }`}
+          >
             <div
               className={`${
                 !isDialogPost ? 'mt-6' : ''
-              } items-left flex flex-row items-center justify-between pt-1`}>
+              } items-left flex flex-row items-center justify-between pt-1`}
+            >
               <div className="flex items-center">
                 <div className="-z-2">
                   <div className="static rounded-full">
@@ -306,15 +333,20 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
                         onClick={deleteModalState}
                         className="w-full pr-1 text-sm font-normal leading-none text-gray-900  hover:underline dark:text-gray-300 max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
-                        aria-label="user-name">
-                        {post?.author_details?.name === userDetails?.name
+                        aria-label="user-name"
+                      >
+                        {/*
+                         * "You" is based on user_id not on username what if i change username the "You" will also be changed.
+                         */}
+                        {userDetails?.id &&
+                        String(post?.user_id) === String(userDetails?.id)
                           ? 'You'
                           : post?.author_details?.name}
                       </p>
                     </CustomLink>
                     <ChannelPill
-                      channel_id={post?.channel_id}
-                      channels={channel}
+                      channel_id={String(post?.channel_id)}
+                      channels={channels}
                     />
                   </div>
 
@@ -348,10 +380,12 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
                       name="more option button"
                       aria-label="more option"
                       aria-labelledby="moreOptionLabel"
-                      role="button">
+                      role="button"
+                    >
                       <span
                         className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
-                        onClick={setOpenPopOver}>
+                        onClick={setOpenPopOver}
+                      >
                         <MoreHorizontal className="h-6 w-6 font-light max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                       </span>
                     </PopoverTrigger>
@@ -360,7 +394,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
                       userDetails.id ? (
                         <div
                           className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                          onClick={handleDeleteClick}>
+                          onClick={handleDeleteClick}
+                        >
                           <Trash2 size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
                             {' '}
@@ -370,7 +405,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
                       ) : (
                         <div
                           className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300"
-                          onClick={handleReportClick}>
+                          onClick={handleReportClick}
+                        >
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
                             {' '}
@@ -380,7 +416,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300">
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300"
+                      >
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (
@@ -405,21 +442,22 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
             </div>
             <>
               <div
-                className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px]"
+                className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px] card-li"
                 // dangerouslySetInnerHTML={{ __html: post?.content }}
                 // * Reducing the content size based on show more / less state
                 dangerouslySetInnerHTML={{
                   __html: `${
                     post?.content
-                      ? post.content.slice(0, showFullPost ? -1 : 150)
+                      ? post.content.slice(0, showFullPost ? -1 : 200)
                       : null
                   }`,
                 }}
               />
-              {post?.content && post?.content.length > 150 ? (
+              {post?.content && post?.content.length > 200 ? (
                 <button
                   className="text-gray-500 dark:text-gray-400"
-                  onClick={() => setShowFullPost((prev) => !prev)}>
+                  onClick={() => setShowFullPost((prev) => !prev)}
+                >
                   Show {showFullPost ? 'Less' : 'More'}
                 </button>
               ) : null}
@@ -444,7 +482,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
               ) : null}
             </div>
             <span className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-              {commentCount[postId]}{' '}
+              {/* @ts-ignore */}
+              {commentCount[postId]} {/* @ts-ignore */}
               {`comment${commentCount[postId] > 1 ? "'s" : ''}`}
             </span>
             <div className="w-full">
@@ -457,7 +496,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: any) => {
                 }
                 user_reaction={post?.user_reaction}
                 reaction_summary={post?.reaction_summary}
-                getPostCommets={getPostCommets}
+                getPostCommets={getPostComments}
                 reactionSummary={reactionSummary}
                 setReactionSummary={setReactionSummary}
               />
