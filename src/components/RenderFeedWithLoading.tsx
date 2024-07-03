@@ -3,13 +3,14 @@ import CardLoading from './Loading/cardLoading'
 import { RenderFeeds } from './Feeds'
 import { RenderFeedWithLoadingProps } from '@/utils/interfaces/feeds'
 
-const RenderFeedWithLoading = ({
+const RenderFeedWithLoading = async ({
   searchParams,
   channelSlug,
   path,
 }: RenderFeedWithLoadingProps) => {
   return (
     <Suspense fallback={<CardLoading />}>
+      {/* @ts-ignore */}
       <RenderFeeds
         searchParams={searchParams}
         channelSlug={channelSlug}

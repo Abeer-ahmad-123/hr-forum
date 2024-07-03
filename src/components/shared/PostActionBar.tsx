@@ -181,7 +181,8 @@ const PostActionBar = ({
 
   return (
     <>
-      <div className="flex flex-col">
+      {/* * Added Gap between the action bar and the comment section */}
+      <div className="flex flex-col gap-3">
         <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
           <ReactionButton
             handleLikeWrapper={handleLikeWrapper}

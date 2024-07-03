@@ -16,7 +16,6 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
-import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
@@ -42,7 +41,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
 
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
-  const [channel, setChannel] = useState<ChannelInterface>()
+  const [channels, setChannels] = useState<ChannelInterface[] | []>([])
   const [comments, setComments] = useState<any>()
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
 
@@ -52,8 +51,8 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
 
   const getAllChannels = async () => {
     try {
-      const { channels } = await getChannels()
-      setChannel(channels)
+      const { channels: data } = await getChannels()
+      setChannels(data)
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleRedirect({ error })
@@ -124,12 +123,6 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storePosts])
 
-  useEffect(() => {
-    return () => {
-      nProgress.done()
-    }
-  }, [])
-
   return isCommentsLoading ? (
     <CardLoading />
   ) : (
@@ -137,12 +130,14 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
       <div
         className={`mr-[5px] ${
           token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}
+      >
         {userData && <ProfileCard />}
         <div
           className={`${
             userData ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}>
+          } sticky max-h-screen  max-lg:top-[55px]`}
+        >
           <ChannelCard />
         </div>
         <div
@@ -150,7 +145,8 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
             token
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}>
+          } max-h-screen`}
+        >
           {' '}
           <RulesCard />
         </div>
@@ -164,7 +160,8 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
               <RespScreen />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}
+            >
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/${slug}/comments`) && (
                   <ActivityButtons slug={slug} />
@@ -178,7 +175,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
                           <Card
                             key={index}
                             post={comment.post}
-                            channels={channel}
+                            channels={channels}
                             updatePosts={setComments}
                             posts={comments}
                             userComment={comment}

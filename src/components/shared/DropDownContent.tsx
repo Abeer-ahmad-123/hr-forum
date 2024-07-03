@@ -1,10 +1,11 @@
 import { navigation } from '@/utils/data'
-import { StoreChannels } from '@/utils/interfaces/channels'
+import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname } from 'next/navigation'
 import { BsDot } from 'react-icons/bs'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { CustomLink } from './customLink/CustomLink'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { useEffect } from 'react'
 
 type NavigationItem = {
   name: string
@@ -21,7 +22,6 @@ const DropDownContent = ({
   const channels = useSelector(
     (state: StoreChannels) => state?.channels?.channels,
   )
-
   const commonPrimaryText: string = 'text-accent'
   const commonDarkModeText: string = 'dark:text-gray-200'
 
@@ -62,14 +62,14 @@ const DropDownContent = ({
   const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
   return (
-    <ul className={`bg-white dark:bg-black`}>
+    <ul className={`bg-white dark:bg-black `}>
       <div className="lg:h-3"></div>
 
       {navigation.map((item: NavigationItem, index: number) => {
         if ((!token && item.name !== 'Saved') || token)
           return (
             <li
-              className="hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+              className=" hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
               key={index}
               onClick={handleLi}>
               <CustomLink

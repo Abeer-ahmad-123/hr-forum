@@ -1,6 +1,6 @@
 'use client'
-import BgBanner from '@/assets/images/background-banner.svg'
 import { noProfilePicture } from '@/assets/images'
+import BgBanner from '@/assets/images/background-banner.svg'
 import ImageUpload from '@/components/ImageUpload'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
@@ -12,15 +12,15 @@ import {
 import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { profileProps } from '@/utils/interfaces/userData'
 import { Mail, User } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import { useDispatch, useSelector } from 'react-redux'
 import EditProfileButton from './EditProfileButton'
+import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
-import { profileProps } from '@/utils/interfaces/userData'
-import ProfilePageLoading from './Loading/ProfilePageLoading'
 
 const RespProfile = ({ userId }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -151,7 +151,7 @@ const RespProfile = ({ userId }: profileProps) => {
   }, [])
 
   return user.id ? (
-    <div className="profile-page  max-md:block">
+    <div className="profile-page max-w-[100dvw] max-md:block">
       <section className="relative mt-5 block h-[650px]">
         <div
           className="absolute top-0 h-[60%] w-full bg-cover bg-center"
@@ -161,11 +161,13 @@ const RespProfile = ({ userId }: profileProps) => {
                 ? user?.backgroundPictureURL
                 : BgBanner.src
             })`,
-          }}>
+          }}
+        >
           {!userId && (
             <label
               htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
+              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2"
+            >
               <LiaUserEditSolid className="cursor-pointer text-white" />
             </label>
           )}
@@ -179,12 +181,14 @@ const RespProfile = ({ userId }: profileProps) => {
           />
           <span
             id="blackOverlay"
-            className="absolute left-0 h-full w-full bg-black opacity-50"></span>
+            className="absolute left-0 h-full w-full bg-black opacity-50"
+          ></span>
         </div>
 
         <div
           className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
-          style={{ transform: 'translateZ(0px)' }}>
+          style={{ transform: 'translateZ(0px)' }}
+        >
           <svg
             className="absolute bottom-0 overflow-hidden"
             xmlns="http://www.w3.org/2000/svg"
@@ -192,10 +196,12 @@ const RespProfile = ({ userId }: profileProps) => {
             version="1.1"
             viewBox="0 0 2560 100"
             x="0"
-            y="0">
+            y="0"
+          >
             <polygon
               className="text-blueGray-200 fill-current"
-              points="2560 0 2560 100 0 100"></polygon>
+              points="2560 0 2560 100 0 100"
+            ></polygon>
           </svg>
         </div>
       </section>
@@ -222,7 +228,8 @@ const RespProfile = ({ userId }: profileProps) => {
                     {!userId && (
                       <label
                         htmlFor="changeImage"
-                        className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
+                        className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2"
+                      >
                         <LiaUserEditSolid className="cursor-pointer text-white" />
                       </label>
                     )}
@@ -258,28 +265,22 @@ const RespProfile = ({ userId }: profileProps) => {
                 )}
               </div>
 
-              <div className="flex justify-center gap-[20px] pb-6">
+              <div className="flex justify-center gap-[20px] break-all pb-6">
                 <div className="mt-12 p-6 text-center max-md:text-left">
                   <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
                     {user?.name}
                   </h3>
-                  <div className="mx-auto flex justify-center gap-4 text-base font-light text-gray-600 max-md:justify-start">
-                    <div className="flex items-center">
-                      <User
-                        className="mr-1 text-gray-600 dark:text-white"
-                        size={17}
-                      />
+                  <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
+                    <div className="flex items-center gap-3">
+                      <User className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-7 md:w-7" />
                       <div className="dark:text-white"> {user?.username}</div>
                     </div>
-                    <div className="flex items-center dark:text-white">
-                      <Mail
-                        className="mr-1 text-gray-600 dark:text-white"
-                        size={17}
-                      />
-                      <div className="">{user?.email}</div>
+                    <div className="flex items-center gap-3 dark:text-white">
+                      <Mail className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-6 md:w-6" />
+                      <div className="max-w-[600px]">{user?.email}</div>
                     </div>
                   </div>
-                  <div className="mt-4 flex gap-3 text-sm font-normal lg:mx-auto lg:w-[90%]">
+                  <div className="mt-4 gap-3 text-center text-sm font-normal lg:mx-auto lg:w-[90%] line-clamp-3">
                     {user?.bio}
                   </div>
                 </div>

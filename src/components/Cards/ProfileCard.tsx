@@ -1,7 +1,7 @@
 'use client'
 
-import BgBanner from '@/assets/images/background-banner.svg'
 import { noProfilePicture } from '@/assets/images'
+import BgBanner from '@/assets/images/background-banner.svg'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail } from 'lucide-react'
 import { useSelector } from 'react-redux'
@@ -39,23 +39,24 @@ const ProfileCard = () => {
         />
       </div>
       <CustomLink
-        className="pointer flex justify-center text-center font-medium"
-        href={'/profile'}>
+        className="pointer px-3 flex justify-center break-all text-center font-medium"
+        href={'/profile'}
+      >
         {' '}
         {userDetails?.name}
       </CustomLink>
-      <p className="ml-[15px] mr-[15px] flex text-center text-[12px] font-light text-gray-400">
-        {userDetails?.bio}
+      <p className="mx-[12px] text-center text-[12px] font-light text-gray-400 line-clamp-3 break-all">
+        {userDetails?.bio ?? ''}
+        {/* {userDetails?.bio.slice(0, 50).concat('...')} */}
       </p>
       <hr className="my-1 border-t border-gray-200" />
       <div className="flex items-center justify-center gap-2.5 px-3">
         <div>
           <Mail size={18} />
         </div>
-        <p
-          className="mb-[10px] mt-[10px] flex text-xs font-light"
-          style={{ wordWrap: 'break-word' }}>
-          {email.length > 17 ? email.slice(0, 17).concat('...') : email}
+        <p className="mb-[10px] mt-[10px] flex text-xs font-light break-all line-clamp-3">
+          {email}
+          {/* {email.length > 64 ? email.slice(0, 64).concat('...') : email} */}
         </p>
       </div>
     </div>

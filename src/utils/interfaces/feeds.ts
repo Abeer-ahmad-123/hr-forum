@@ -28,4 +28,8 @@ export interface FeedPageProps {
 export interface SinglePostProps {
   postId: string
   searchParams: SearchParams
+  data?: {
+    post: any
+    comments: any
+  }
 }

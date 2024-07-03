@@ -185,7 +185,7 @@ export default function NewPostForm({
   }, [pathname])
 
   return (
-    <div className="flex flex-col  space-y-6 rounded-xl bg-white p-2 dark:bg-dark-background">
+    <div className="flex flex-col space-y-6 rounded-xl bg-white p-2 dark:bg-dark-background sm:max-w-[710px]">
       <div className="flex w-full justify-between">
         <h3 className="w-content mb-4 flex-shrink-0 font-medium text-gray-700 dark:text-white md:text-lg lg:text-xl">
           Ask for help from the community...

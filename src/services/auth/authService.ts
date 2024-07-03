@@ -6,6 +6,8 @@ import {
   setUserCookies,
   setUserTokens,
 } from '@/utils/cookies'
+import { setTokenCookies } from '@/utils/interfaces/cookies'
+import { APIResponse, SuccessAPIResponse } from '@/utils/types/customFetch'
 import { cookies } from 'next/headers'
 import {
   AUTH_GET_USER_DETAILS,
@@ -17,8 +19,29 @@ import {
   AUTH_WITH_EMAIL,
   GOOGLE_AUTH_START,
   GOOGLE_EXCHANGE_CODE,
+  GOOGLE_REGISTER,
 } from './routes'
-import { setTokenCookies } from '@/utils/interfaces/cookies'
+
+export interface GoogleCodeExchangeType {
+  token: string
+  'refresh-token': string
+  userData: UserData
+}
+
+export interface UserData {
+  id: number
+  email: string
+  username: string
+  name: string
+  bio: string
+  profilePictureURL: string
+  backgroundPictureURL: string
+  post_count: number
+  comment_count: number
+  date_joined: Date
+  reported_post_count: number
+  reported_comment_count: number
+}
 
 export async function signIn(body: any) {
   try {
@@ -158,8 +181,7 @@ export async function googleAuthStart(url: string) {
         'content-type': 'application/json',
       },
     })
-
-    const responseJson = await responseFromRefresh.json()
+    const responseJson: APIResponse<string> = await responseFromRefresh.json()
     // setUserCookies(responseJson)
 
     return responseJson
@@ -178,7 +200,7 @@ export async function googleRegister(body: any) {
       },
       body,
     })
-    const responseJson = await responseFromRefresh.json()
+    const responseJson: APIResponse = await responseFromRefresh.json()
     // setUserCookies(responseJson)
 
     return responseJson
@@ -199,9 +221,16 @@ export async function googleCodeExchange(token: string) {
         'content-type': 'application/json',
       },
     })
-    const responseJson = await responseFromRefresh.json()
-    setUserCookies(responseJson)
-    return responseJson?.data
+    if (responseFromRefresh.ok) {
+      const responseJson: APIResponse<GoogleCodeExchangeType> =
+        await responseFromRefresh.json()
+      if (responseJson.success) {
+        setUserCookies(responseJson)
+        return responseJson?.data
+      } else {
+        throw new Error(responseJson.errors[0], { cause: responseJson })
+      }
+    } else throw new Error('fetch failed')
   } catch (err) {
     throw err
   }
@@ -229,4 +258,33 @@ export const setModalState = () => {
 
 export const deleteModalState = () => {
   deleteModalCookie()
+}
+
+export async function googleTokenExchange(token: string, username: string) {
+  try {
+    const responseFromRefresh = await fetch(GOOGLE_REGISTER, {
+      method: 'POST',
+      body: JSON.stringify({
+        googleAccessToken: token,
+        username: username,
+      }),
+      cache: 'no-cache',
+      headers: {
+        'content-type': 'application/json',
+      },
+    })
+    const responseJson: APIResponse<{
+      userData: UserData
+      token: string
+      'refresh-token': string
+    }> = await responseFromRefresh.json()
+    if (responseJson.success) {
+      setUserCookies(responseJson)
+      return responseJson?.data
+    } else {
+      throw new Error(responseJson.errors[0], { cause: responseJson })
+    }
+  } catch (err) {
+    throw err
+  }
 }

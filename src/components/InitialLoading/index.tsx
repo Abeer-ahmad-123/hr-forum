@@ -1,12 +1,9 @@
-import { useSelector } from 'react-redux'
 import './index.css'
 
 const InitialLoading = () => {
-  const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-
   return (
     <div className="initial-loading">
-      <div className={`${darkMode ? 'body-light' : ''} body`}>
+      <div className={'dark:body-light body'}>
         <span>
           <span></span>
           <span></span>
@@ -14,9 +11,9 @@ const InitialLoading = () => {
           <span></span>
           <span></span>
         </span>
-        <div className={`${darkMode ? 'base-light' : ''} base`}>
+        <div className={'dark:base-light base'}>
           <span></span>
-          <div className={`${darkMode ? 'face-light' : ''} face`}></div>
+          <div className={'dark:face-light face'}></div>
         </div>
       </div>
       <div className="longfazers">

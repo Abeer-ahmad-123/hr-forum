@@ -4,22 +4,8 @@ import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import PostReactionBar from './shared/PostReactionBar'
-
-interface userData {
-  id: number | string
-  bio: string
-  email: string
-  name: string
-  profilePictureURL: string
-  username: string
-  post_count?: number | undefined
-  comment_count?: number | undefined
-  backgroundPictureURL?: string
-}
 
 interface ProfilePostsProps {
   post: PostsInterface
@@ -39,7 +25,6 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
 
   const router = useRouter()
   const handleNavigateProfile = () => {
-    nProgress.start()
     router.push(
       userData?.id === (userId as unknown as string)
         ? '/profile'
@@ -47,7 +32,6 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
     )
   }
   const handleNavigateFeed = () => {
-    nProgress.start()
     router.push(
       `/channels/${channelsKeyValuePair[
         post?.channel_id
@@ -55,17 +39,12 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
     )
   }
 
-  useEffect(() => {
-    return () => {
-      nProgress.done()
-    }
-  }, [])
-
   return (
     <>
       <div
         className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300"
-        onClick={handleNavigateFeed}>
+        onClick={handleNavigateFeed}
+      >
         <div className="py-4 pr-5">
           <div className="ml-10 flex text-left font-semibold dark:text-white">
             <div className="flex flex-col items-start align-baseline">
@@ -73,12 +52,19 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
                 <p
                   onClick={handleNavigateProfile}
                   className="pr-1 text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
-                  aria-label="user-name">
-                  {post?.author_details?.name == userData?.name
+                  aria-label="user-name"
+                >
+                  {/*
+                   * "You" is based on user_id not on username what if i change username the "You" will also be changed.
+                   */}
+                  {userData.id && String(post?.user_id) === String(userData?.id)
                     ? 'You'
                     : post?.author_details?.name}
                 </p>
-                <ChannelPill channel_id={post.channel_id} channels={channels} />
+                <ChannelPill
+                  channel_id={String(post.channel_id)}
+                  channels={channels}
+                />
               </div>
 
               <p className="text-xs font-light text-slate-500 dark:text-gray-400">
@@ -106,8 +92,8 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
             className="text-left font-light"
             dangerouslySetInnerHTML={{
               __html:
-                post?.content?.length > 150
-                  ? `${post.content.slice(0, 150)}...`
+                post?.content?.length > 200
+                  ? `${post.content.slice(0, 200)}...`
                   : `${post.content}`,
             }}
           />

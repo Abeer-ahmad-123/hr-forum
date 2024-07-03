@@ -1,23 +1,44 @@
+'use client'
 import Post from '@/components/shared/post'
 import PostSkelton from '@/components/shared/post/PostSkelton'
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogHeader,
 } from '@/components/ui/Dialog/interceptDialog'
-import { cookies } from 'next/headers'
+import {
+  CommentInterface,
+  Pagination,
+  PostsInterface,
+} from '@/utils/interfaces/posts'
+import { useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 
-const SinglePostWithDialog = ({ id }: any) => {
-  const modalState = cookies().get('modal')?.value
+export type SinglePostWithDialogProps = {
+  id: string
+  data?: {
+    post: PostsInterface
+    comments: {
+      comments: CommentInterface[]
+      pagination: Pagination
+    }
+  }
+}
+const SinglePostWithDialog = ({ id, data }: SinglePostWithDialogProps) => {
+  // const modalState = cookies().get('modal')?.value
+  const router = useRouter()
+  function handleCloseModal(value: boolean) {
+    if (!value) {
+      router.back()
+    }
+  }
+
   return (
-    <Dialog open={Boolean(modalState)}>
+    <Dialog defaultOpen={true} open={true} onOpenChange={handleCloseModal}>
       <DialogContent className="max-w-5xl bg-white ">
-        <DialogHeader></DialogHeader>
         <DialogDescription>
           <Suspense fallback={<PostSkelton isDialogPost={true} />}>
-            <Post isDialogPost={true} postId={id} />
+            <Post isDialogPost={true} postId={id} data={data} />
           </Suspense>
         </DialogDescription>
       </DialogContent>

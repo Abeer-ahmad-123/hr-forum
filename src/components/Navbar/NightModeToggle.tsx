@@ -1,14 +1,17 @@
 import { MoonIcon, SunIcon } from '@/assets/icons'
 import { ReturnIconButton } from '@/components/shared'
 import { setDarkMode } from '@/store/Slices/colorModeSlice'
+import { useTheme } from 'next-themes'
 import { useDispatch, useSelector } from 'react-redux'
 
 const NightModeToggle = () => {
-  const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-  const dispatch = useDispatch()
-
+  const { theme, setTheme } = useTheme()
   const toggleNightMode = () => {
-    dispatch(setDarkMode())
+    if (theme == 'light' || theme === 'theme-default') {
+      setTheme('dark')
+    } else if (theme === 'dark') {
+      setTheme('light')
+    }
   }
 
   return (
@@ -20,7 +23,7 @@ const NightModeToggle = () => {
       className="focus:outline-none"
       onClick={toggleNightMode}>
       <ReturnIconButton
-        condition={darkMode}
+        condition={theme === 'dark'}
         FirstIcon={MoonIcon}
         SecondIcon={SunIcon}
       />

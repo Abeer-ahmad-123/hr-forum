@@ -6,14 +6,13 @@ import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
+import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getUserReactedPosts } from '@/services/posts'
+import { setPosts } from '@/store/Slices/postSlice'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-
-import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { setPosts } from '@/store/Slices/postSlice'
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -43,7 +42,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
-  const [channel, setChannel] = useState<ChannelInterface>()
+  const [channels, setChannels] = useState<ChannelInterface[] | []>([])
   const [posts, updatePost] = useState<PostsInterface[]>([])
 
   let noMorePosts = useRef<boolean>(morePosts)
@@ -80,8 +79,8 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
 
   const getAllChannels = async () => {
     try {
-      const { channels } = await getChannels()
-      setChannel(channels)
+      const { channels: data } = await getChannels()
+      setChannels(data)
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleRedirect({ error })
@@ -114,12 +113,14 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
       <div
         className={`mr-[5px] ${
           token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}
+      >
         {userData && <ProfileCard />}
         <div
           className={`${
             userData ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}>
+          } sticky max-h-screen  max-lg:top-[55px]`}
+        >
           <ChannelCard />
         </div>
         <div
@@ -127,7 +128,8 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
             token
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}>
+          } max-h-screen`}
+        >
           {' '}
           <RulesCard />
         </div>
@@ -141,7 +143,8 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
               <RespScreen />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}
+            >
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/${slug}/reactions`) && (
                   <ActivityButtons slug={slug} />
@@ -154,7 +157,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
                         <Card
                           key={index}
                           post={reactionPost}
-                          channels={channel}
+                          channels={channels}
                           updatePosts={updatePost}
                           posts={posts}
                         />

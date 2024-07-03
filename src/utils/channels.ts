@@ -1,4 +1,5 @@
 import { sidebarChannels } from './data'
+import { ChannelByIdInterface, ChannelInterface } from './interfaces/channels'
 
 export const getChannelIdByChannelName = (
   channelName = '',
@@ -13,10 +14,14 @@ export const getChannelIdByChannelName = (
   return channelDataWithRespectiveChannelName[0]?.id || null
 }
 
-export const arrayToKeyIdNValueData = (arrayOfChannels: any) => {
+export const arrayToKeyIdNValueData = (
+  arrayOfChannels: ChannelInterface[] | ChannelByIdInterface[],
+) => {
   let obj = {}
-  arrayOfChannels?.forEach((channelData: any) => {
-    obj = Object.assign(obj, { [channelData?.id]: channelData })
-  })
+  arrayOfChannels?.forEach(
+    (channelData: ChannelInterface | ChannelByIdInterface) => {
+      obj = Object.assign(obj, { [channelData?.id]: channelData })
+    },
+  )
   return obj
 }

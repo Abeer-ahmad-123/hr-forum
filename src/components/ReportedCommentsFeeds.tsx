@@ -8,22 +8,19 @@ import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
-
+import { getReportedComments } from '@/services/comments'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-
-import { getReportedComments } from '@/services/comments'
 import { SlugProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
-import nProgress from 'nprogress'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/cardLoading'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
 const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [ref, inView] = useInView()
@@ -32,11 +29,11 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
+    (state: LoggedInUser) => state?.loggedInUser?.userData
   )
 
   const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
+    (state: PostsInterfaceStore) => state.posts.posts
   )
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
@@ -44,7 +41,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
   const [comments, setComments] = useState<PostsInterface[]>([])
-  const [channel, setChannel] = useState<ChannelInterface>()
+  const [channels, setChannels] = useState<ChannelInterface[] | []>([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
 
   let noMorePosts = useRef<boolean>(morePosts)
@@ -54,7 +51,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const getAllChannels = async () => {
     try {
       const { channels } = await getChannels()
-      setChannel(channels)
+      setChannels(channels)
     } catch (error) {
       if (error instanceof Error) {
         handleRedirect({ error })
@@ -73,7 +70,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
         userId ?? userDataInStore.id,
         {
           page,
-        },
+        }
       )
 
       setPage(page + 1)
@@ -121,7 +118,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
 
   useEffect(() => {
     return () => {
-      nProgress.done()
+      // nProgress.done()
     }
   }, [])
 
@@ -133,12 +130,14 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
         <div
           className={`mr-[5px] ${
             token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-          } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
+          } flex flex-col max-md:hidden max-sm:hidden lg:block`}
+        >
           {userDataInStore && <ProfileCard />}
           <div
             className={`${
               userDataInStore ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-            } sticky max-h-screen  max-lg:top-[55px]`}>
+            } sticky max-h-screen  max-lg:top-[55px]`}
+          >
             <ChannelCard />
           </div>
           <div
@@ -146,7 +145,8 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
               token
                 ? 'top-[330px] mt-[20px]'
                 : 'top-[335px] mt-5 max-lg:top-[328px]'
-            } max-h-screen`}>
+            } max-h-screen`}
+          >
             {' '}
             <RulesCard />
           </div>
@@ -160,7 +160,8 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
                 <RespScreen />
               </div>
               <div
-                className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+                className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}
+              >
                 <div className="min-h-[70vh] w-full">
                   {pathName.includes(`/reported/comments`) && (
                     <ActivityButtons slug={slug} />
@@ -172,7 +173,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
                           <Card
                             key={index}
                             post={comment}
-                            channels={channel}
+                            channels={channels}
                             updatePosts={setComments}
                             posts={comments}
                             userComment={comment}

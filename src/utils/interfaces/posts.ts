@@ -108,3 +108,20 @@ export interface CommentInterface {
   user_has_reported: boolean
   post: UserSpecificPostsInterface
 }
+
+export interface Pagination {
+  TotalRecords: number
+  RecordsPerPage: number
+  CurrentPage: number
+  TotalPages: number
+  FirstRecord: number
+  LastRecord: number
+}
+export type GET_ALL_POSTS_PROPS = {
+  loadUser?: boolean
+  loadReactions?: boolean
+  channelID?: number
+  userID?: string
+  pageNumber?: number
+  pageSize?: number
+}
