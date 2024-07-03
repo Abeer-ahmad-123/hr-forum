@@ -1,7 +1,7 @@
 'use client'
 
-import BgBanner from '@/assets/images/background-banner.svg'
 import { noProfilePicture } from '@/assets/images'
+import BgBanner from '@/assets/images/background-banner.svg'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Mail } from 'lucide-react'
 import { useSelector } from 'react-redux'
@@ -40,7 +40,8 @@ const ProfileCard = () => {
       </div>
       <CustomLink
         className="pointer px-3 flex justify-center break-all text-center font-medium"
-        href={'/profile'}>
+        href={'/profile'}
+      >
         {' '}
         {userDetails?.name}
       </CustomLink>
@@ -52,10 +53,9 @@ const ProfileCard = () => {
         <div>
           <Mail size={18} />
         </div>
-        <p
-          className="mb-[10px] mt-[10px] flex text-xs font-light"
-          style={{ wordWrap: 'break-word' }}>
-          {email.length > 17 ? email.slice(0, 17).concat('...') : email}
+        <p className="mb-[10px] mt-[10px] flex text-xs font-light break-all line-clamp-3">
+          {email}
+          {/* {email.length > 64 ? email.slice(0, 64).concat('...') : email} */}
         </p>
       </div>
     </div>
