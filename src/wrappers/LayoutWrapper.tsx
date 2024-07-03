@@ -64,7 +64,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
     useSelector((state: any) => state.notFound.notFound) ||
     serverState.notFound.notFound
   const channelsInStore = useSelector(
-    (state: StoreChannels) => state.channels.channels
+    (state: StoreChannels) => state.channels.channels,
   )
   const channels =
     channelsInStore.length > 0
@@ -122,7 +122,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
           setUser({
             ...response,
             refreshToken: response['refresh-token'],
-          })
+          }),
         )
 
         const currentUrl = window.location.href
@@ -168,7 +168,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
               setToken({
                 token: tokenResponse?.data?.token,
                 refreshToken: tokenResponse?.data?.['refresh-token'],
-              })
+              }),
             )
             setUserToken(tokenResponse.data)
           } else {
@@ -198,7 +198,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
           setUser({
             ...response,
             refreshToken: response['refresh-token'],
-          })
+          }),
         )
         handleCloseDialog()
         // const currentUrl = window.location.href
@@ -256,7 +256,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
     if (serverState.channels?.channels && channelsInStore.length === 0) {
       dispatch(setChannels(serverState.channels.channels))
       dispatch(
-        setKeyIdPairData(arrayToKeyIdNValueData(serverState.channels.channels))
+        setKeyIdPairData(arrayToKeyIdNValueData(serverState.channels.channels)),
       )
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -275,7 +275,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
       } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
       `}
     >
-      <ThemeProvider attribute="class" defaultTheme="default-theme">
+      <ThemeProvider attribute="class" defaultTheme="theme-default">
         <ProgressBar
           height="2px"
           color="#571ce0"
