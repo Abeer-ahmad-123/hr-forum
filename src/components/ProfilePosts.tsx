@@ -89,7 +89,7 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
             </div>
           )}
           <div
-            className="text-left font-light"
+            className="text-left font-light card-li"
             dangerouslySetInnerHTML={{
               __html:
                 post?.content?.length > 200
