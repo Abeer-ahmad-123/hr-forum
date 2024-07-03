@@ -2,6 +2,7 @@
 import FeaturesDropDown from '@/components/Navbar/FeaturesDropdown'
 import NavMenuDropdown from '@/components/Navbar/NavMenuDropdown'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { usePathname } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import LoggedIn from './LoggedIn'
 import Logo from './Logo'
@@ -13,6 +14,7 @@ const Navbar = () => {
   const reduxToken = useSelector(
     (state: LoggedInUser) => state.loggedInUser.token,
   )
+  const pathname = usePathname()
 
   return (
     <div className="sticky top-0 z-50 w-full items-center bg-white px-4 py-2 shadow-sm dark:bg-black">
@@ -31,7 +33,12 @@ const Navbar = () => {
             <NightModeToggle />
 
             <NavMenuDropdown />
-            {reduxToken ? <LoggedIn /> : <SigninNavButton />}
+            {reduxToken ? (
+              <LoggedIn />
+            ) : !pathname.startsWith('/login') &&
+              !pathname.startsWith('/register') ? (
+              <SigninNavButton />
+            ) : null}
           </div>
         </div>
       </div>
