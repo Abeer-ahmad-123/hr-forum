@@ -45,8 +45,9 @@ const ProfileCard = () => {
         {' '}
         {userDetails?.name}
       </CustomLink>
-      <p className="mx-[12px] flex text-center text-[12px] font-light text-gray-400">
-        {userDetails?.bio.slice(0, 50).concat('...')}
+      <p className="mx-[12px] text-center text-[12px] font-light text-gray-400 line-clamp-3 break-all">
+        {userDetails?.bio ?? ''}
+        {/* {userDetails?.bio.slice(0, 50).concat('...')} */}
       </p>
       <hr className="my-1 border-t border-gray-200" />
       <div className="flex items-center justify-center gap-2.5 px-3">
