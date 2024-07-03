@@ -1,9 +1,9 @@
-import React, { Suspense } from 'react'
-import CardLoading from './Loading/cardLoading'
-import { RenderFeeds } from './Feeds'
 import { RenderFeedWithLoadingProps } from '@/utils/interfaces/feeds'
+import { Suspense } from 'react'
+import { RenderFeeds } from './Feeds'
+import CardLoading from './Loading/cardLoading'
 
-const RenderFeedWithLoading = async ({
+const RenderFeedWithLoading = ({
   searchParams,
   channelSlug,
   path,

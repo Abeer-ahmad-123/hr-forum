@@ -4,7 +4,9 @@ import { GET_CHANNELS } from './routes'
 
 export async function getChannels() {
   try {
-    const response: Response = await fetch(GET_CHANNELS)
+    const response: Response = await fetch(GET_CHANNELS, {
+      next: { revalidate: 10 },
+    })
     if (response.ok) {
       const responseJson: APIResponse<{ channels: ChannelInterface[] }> =
         await response.json()

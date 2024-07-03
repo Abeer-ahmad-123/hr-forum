@@ -39,7 +39,6 @@ import type {
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import {
-  ReadonlyURLSearchParams,
   useParams,
   usePathname,
   useRouter,
@@ -95,8 +94,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
-  // @ts-ignore
-  const [post, setPost] = useState<PostsInterface>(data?.post)
+  const [post, setPost] = useState<PostsInterface | null>(data?.post ?? null)
   const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
   const pathname = usePathname()
@@ -179,7 +177,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
-    setPopOver((pre) => !pre)
+    setPopOver(pre => !pre)
   }
 
   const handleReportClick = (event: any) => {
@@ -456,7 +454,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
               {post?.content && post?.content.length > 200 ? (
                 <button
                   className="text-gray-500 dark:text-gray-400"
-                  onClick={() => setShowFullPost((prev) => !prev)}
+                  onClick={() => setShowFullPost(prev => !prev)}
                 >
                   Show {showFullPost ? 'Less' : 'More'}
                 </button>
@@ -482,9 +480,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
               ) : null}
             </div>
             <span className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-              {/* @ts-ignore */}
-              {commentCount[postId]} {/* @ts-ignore */}
-              {`comment${commentCount[postId] > 1 ? "'s" : ''}`}
+              {commentCount[Number(postId)]}
+              {`comment${commentCount[Number(postId)] > 1 ? "'s" : ''}`}
             </span>
             <div className="w-full">
               <hr />

@@ -1,5 +1,8 @@
-import RenderFeedWithLoading from '@/components/RenderFeedWithLoading'
+import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
+import CardLoading from '@/components/Loading/cardLoading'
+import { getGenericPosts } from '@/services/posts'
 import { capitalizeWord } from '@/utils/helper'
+import { Suspense } from 'react'
 
 export function generateMetadata({ params }: any) {
   return {
@@ -7,14 +10,24 @@ export function generateMetadata({ params }: any) {
   }
 }
 
-const ChannelPage = ({ params, searchParams }: any) => {
+const ChannelPage = async ({ params, searchParams }: any) => {
+  const path = '/channels'
+
+  const { channelData, initialPosts, morePosts } = await getGenericPosts({
+    channelSlug: params?.slug ?? '',
+    searchParams,
+    path,
+  })
   return (
-    // @ts-ignore
-    <RenderFeedWithLoading
-      searchParams={searchParams}
-      channelSlug={params?.slug}
-      path="/channels"
-    />
+    <Suspense fallback={<CardLoading />}>
+      <RenderFeedsGeneral
+        searchParams={searchParams}
+        channelSlug={params?.slug}
+        path={path}
+        data={{ channels: channelData, posts: initialPosts }}
+        morePosts={morePosts}
+      />
+    </Suspense>
   )
 }
 
