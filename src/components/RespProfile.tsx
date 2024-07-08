@@ -22,7 +22,7 @@ import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 
-const RespProfile = ({ userId }: profileProps) => {
+const RespProfile = ({ userId, userInCookie }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
 
@@ -38,7 +38,7 @@ const RespProfile = ({ userId }: profileProps) => {
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
-  const [user, setUser] = useState<any>('')
+  const [user, setUser] = useState<any>(userInCookie ?? '')
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
@@ -145,7 +145,7 @@ const RespProfile = ({ userId }: profileProps) => {
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
-      getUserSpecificDetail()
+      if (!user && user !== '') getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -299,7 +299,11 @@ const RespProfile = ({ userId }: profileProps) => {
               reportedCommentCount={user?.reported_comment_count}
             />
           </div>
-          <UserActivity userId={userIdLocal} />
+          <UserActivity
+            userId={
+              userIdLocal || (userInCookie ? String(userInCookie?.id) : '')
+            }
+          />
         </div>
       </section>
     </div>

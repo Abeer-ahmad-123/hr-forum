@@ -25,7 +25,6 @@ export type SinglePostWithDialogProps = {
   }
 }
 const SinglePostWithDialog = ({ id, data }: SinglePostWithDialogProps) => {
-  // const modalState = cookies().get('modal')?.value
   const router = useRouter()
   function handleCloseModal(value: boolean) {
     if (!value) {

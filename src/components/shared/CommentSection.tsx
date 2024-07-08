@@ -105,12 +105,7 @@ const CommentSection = ({
         <div className="mx-3">
           <div
             className={`w-fit flex-wrap break-all rounded-2xl bg-slate-100 px-4
-            py-2
-           ${
-             pathName.includes('/feeds/feed/')
-               ? 'dark:bg-slate-800'
-               : 'dark:bg-dark-background'
-           } `}>
+            py-2 dark:bg-slate-800  `}>
             {/* * Fixing Alignment */}
             <div className="flex flex-row items-center justify-between">
               <div

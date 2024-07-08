@@ -2,7 +2,11 @@
 import PostBar from '@/components/shared/new-post/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { getChannelIdByChannelName } from '@/utils/channels'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
+import { StoreChannels } from '@/utils/interfaces/channels'
+import { FeedProps } from '@/utils/interfaces/feeds'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { useEffect, useRef, useState } from 'react'
@@ -11,10 +15,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { FeedProps } from '@/utils/interfaces/feeds'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
-import { StoreChannels } from '@/utils/interfaces/channels'
 
 const Feeds = ({
   channelSlug,
@@ -150,7 +150,7 @@ const Feeds = ({
               <Card
                 key={index}
                 post={post}
-                channels={channels}
+                channels={channels || channelsInStore}
                 updatePosts={updatePosts}
                 posts={posts}
               />
