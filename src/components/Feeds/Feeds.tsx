@@ -106,7 +106,6 @@ const Feeds = ({
   useEffect(() => {
     if (inView) {
       getPosts()
-      console.log('called in view')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
