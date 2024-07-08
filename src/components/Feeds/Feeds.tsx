@@ -27,9 +27,11 @@ const Feeds = ({
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
   )
+
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
   )
+
   const channelsInStore = useSelector(
     (state: StoreChannels) => state?.channels.channels,
   )
@@ -104,6 +106,7 @@ const Feeds = ({
   useEffect(() => {
     if (inView) {
       getPosts()
+      console.log('called in view')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
@@ -120,6 +123,8 @@ const Feeds = ({
   }, [initialPosts])
 
   useEffect(() => {
+    // ! If we navigate from feeds to /saved, we will see the feeds posts as saved posts so we don't need that => when posts =[] then this happens
+    if (path === '/saved' && storePosts.length > 0) return
     if (searchParams.search || channelSlug) {
       updatePosts([...storePosts])
     } else if (!searchParams.search && storePosts.length) {
