@@ -1,8 +1,10 @@
-import { cookies } from 'next/headers'
-
 const PostLayout = ({ children, modal }: any) => {
-  const modalState = cookies().get('modal')?.value
-  return <div>{modalState ? modal : children}</div>
+  // const modalState = cookies().get('modal')?.value
+  return (
+    <div>
+      {modal} {children}
+    </div>
+  )
 }
 
 export default PostLayout
