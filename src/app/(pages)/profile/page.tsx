@@ -13,7 +13,7 @@ const Profile = () => {
   const user = cookies().get('user-details')?.value ?? null
   return (
     <Suspense fallback={<ProfilePageLoading />}>
-      <RespProfile userInCookie={user ?? undefined} />
+      <RespProfile userInCookie={user ?JSON.parse(user): undefined} />
     </Suspense>
   )
 }
