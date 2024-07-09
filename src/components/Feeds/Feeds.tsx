@@ -112,6 +112,7 @@ const Feeds = ({
 
   useEffect(() => {
     if (searchParams.search || channelSlug) {
+      if (path === '/saved' && storePosts.length > 0) return
       updatePosts([...initialPosts])
       dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
