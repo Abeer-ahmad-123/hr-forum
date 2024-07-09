@@ -38,7 +38,7 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
-  const [user, setUser] = useState<any>(userInCookie ?? '')
+  const [user, setUser] = useState<any>(userId ? '' : userInCookie || '')
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
@@ -145,7 +145,7 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
-      if (!user && user !== '') getUserSpecificDetail()
+      if (!user || user === '') getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -161,13 +161,11 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
                 ? user?.backgroundPictureURL
                 : BgBanner.src
             })`,
-          }}
-        >
+          }}>
           {!userId && (
             <label
               htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2"
-            >
+              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
               <LiaUserEditSolid className="cursor-pointer text-white" />
             </label>
           )}
@@ -181,14 +179,12 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
           />
           <span
             id="blackOverlay"
-            className="absolute left-0 h-full w-full bg-black opacity-50"
-          ></span>
+            className="absolute left-0 h-full w-full bg-black opacity-50"></span>
         </div>
 
         <div
           className="h-70-px pointer-events-none absolute bottom-0 left-0 right-0 top-auto w-full overflow-hidden"
-          style={{ transform: 'translateZ(0px)' }}
-        >
+          style={{ transform: 'translateZ(0px)' }}>
           <svg
             className="absolute bottom-0 overflow-hidden"
             xmlns="http://www.w3.org/2000/svg"
@@ -196,12 +192,10 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
             version="1.1"
             viewBox="0 0 2560 100"
             x="0"
-            y="0"
-          >
+            y="0">
             <polygon
               className="text-blueGray-200 fill-current"
-              points="2560 0 2560 100 0 100"
-            ></polygon>
+              points="2560 0 2560 100 0 100"></polygon>
           </svg>
         </div>
       </section>
@@ -228,8 +222,7 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
                     {!userId && (
                       <label
                         htmlFor="changeImage"
-                        className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2"
-                      >
+                        className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
                         <LiaUserEditSolid className="cursor-pointer text-white" />
                       </label>
                     )}
@@ -280,7 +273,7 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
                       <div className="max-w-[600px]">{user?.email}</div>
                     </div>
                   </div>
-                  <div className="mt-4 gap-3 text-center text-sm font-normal lg:mx-auto lg:w-[90%] line-clamp-3">
+                  <div className="mt-4 line-clamp-3 gap-3 text-center text-sm font-normal lg:mx-auto lg:w-[90%]">
                     {user?.bio}
                   </div>
                 </div>
