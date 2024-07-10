@@ -7,15 +7,16 @@ import {
   CustomFetchFunction,
   SuccessAPIResponse,
 } from '@/utils/types/customFetch'
-import { API_BASE_URL } from '..'
-import { DELETE_POST } from './route'
 
-export const GET_POSTS_BY_CHANNELID = API_BASE_URL + '/channels/channelId/posts'
-export const GET_All_POSTS = API_BASE_URL + '/posts'
-export const GET_POST_BY_ID = API_BASE_URL + '/posts/postId'
-export const USER_SPECIFIC_POSTS = API_BASE_URL + '/users/userId/posts'
-export const USER_REACTED_POSTS = API_BASE_URL + '/users/userId/reactions'
-export const USER_REPORTED_POSTS = API_BASE_URL + '/users/userId/reports/posts'
+import {
+  DELETE_POST,
+  GET_All_POSTS,
+  GET_POST_BY_ID,
+  GET_POSTS_BY_CHANNELID,
+  USER_REACTED_POSTS,
+  USER_REPORTED_POSTS,
+  USER_SPECIFIC_POSTS,
+} from './route'
 
 export async function getAllPosts({
   loadUser = false,
