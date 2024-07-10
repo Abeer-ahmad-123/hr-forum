@@ -145,7 +145,11 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
-      if (!user || user === '') getUserSpecificDetail()
+      /**
+       * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
+       */
+      if (user && user?.id === userIdLocal) return
+      getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
