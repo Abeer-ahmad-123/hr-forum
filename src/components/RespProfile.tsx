@@ -262,22 +262,27 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
                 )}
               </div>
 
-              <div className="flex justify-center gap-[20px] break-all pb-6">
-                <div className="mt-12 p-6 text-center max-md:text-left">
+              <div className="flex justify-start lg:justify-center gap-[20px] break-all pb-6">
+                <div className="mt-12 pt-6 p-3 md:p-6 text-center max-md:text-left w-full">
                   <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
                     {user?.name}
                   </h3>
                   <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
                     <div className="flex items-center gap-3">
-                      <User className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-7 md:w-7" />
-                      <div className="dark:text-white"> {user?.username}</div>
+                      <User className="mr-1 text-gray-600 dark:text-white h-7 w-7" />
+                      <div className="dark:text-white text-sm md:text-base">
+                        {' '}
+                        {user?.username}
+                      </div>
                     </div>
                     <div className="flex items-center gap-3 dark:text-white">
-                      <Mail className="mr-1 h-10 w-10 text-gray-600 dark:text-white md:h-6 md:w-6" />
-                      <div className="max-w-[600px]">{user?.email}</div>
+                      <Mail className="mr-1 text-gray-600 dark:text-white h-7 w-7" />
+                      <div className="max-w-[600px] text-sm md:text-base">
+                        {user?.email}
+                      </div>
                     </div>
                   </div>
-                  <div className="mt-4 line-clamp-3 gap-3 text-center text-sm font-normal lg:mx-auto lg:w-[90%]">
+                  <div className="mt-4 line-clamp-3 gap-3 lg:text-center text-sm font-normal lg:mx-auto lg:w-[90%]">
                     {user?.bio}
                   </div>
                 </div>

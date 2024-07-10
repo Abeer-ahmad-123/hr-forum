@@ -27,7 +27,7 @@ const Navbar = () => {
             classNamefeaturesDropDowm="w-[270px] max-lg:w-[225px] max-md:w-[230px]"
           />
         </div>
-        <div className="flex w-full items-center justify-end flex-wrap lg:flex-nowrap max-lg:justify-between">
+        <div className="flex w-full flex-wrap items-center justify-end max-lg:justify-between md:justify-end lg:flex-nowrap">
           <SearchBar />
           <div className="mx-5 flex items-center justify-end gap-1">
             <NightModeToggle />

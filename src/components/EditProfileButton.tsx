@@ -32,7 +32,7 @@ const EditProfileButton = ({
   }
 
   return (
-    <div className="absolute right-0 top-0 mr-0 flex justify-end pr-[35px] pt-2">
+    <div className="absolute right-0 top-0 mr-0 flex justify-end pr-[25px] pt-2">
       <div className="flex flex-col">
         <button
           name="edit button"
@@ -47,7 +47,7 @@ const EditProfileButton = ({
           name="update password button"
           className="max-md:full mb-1 w-full rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[150px] max-lg:px-2 max-lg:text-[9px]"
           onClick={handleOpenPassDialog}>
-          update password
+          Update password
         </button>
       </div>
 
