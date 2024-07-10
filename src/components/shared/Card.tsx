@@ -266,9 +266,9 @@ const Card = ({
   }, [user_has_reported])
 
   return (
-    <div id={String(id)} key={id}>
+    <div id={String(id)} key={id} className='w-full max-w-[100dvw] p-0 m-0'>
       <div
-        className={`border-grey-300 mx-auto mb-5 md:max-w-screen-md cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300`}
+        className={`border-grey-300 mx-auto mb-5 md:max-w-screen-md cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 w-full`}
       >
         <Dialog open={openDialog} onOpenChange={setOpenDialog}>
           <DialogContent className="bg-white sm:max-w-[500px]">
@@ -417,7 +417,7 @@ const Card = ({
             </div>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col hyphens-auto max-w-full">
             <CustomLink
               href={
                 pathName.includes('channels')
@@ -435,7 +435,7 @@ const Card = ({
             {!image_url ? (
               <>
                 <div
-                  className="break-words whitespace-break-spaces text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px] card-li"
+                  className="!break-words max-w-full !hyphens-auto text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px] card-li"
                   dangerouslySetInnerHTML={{
                     __html: `${
                       content
@@ -454,7 +454,7 @@ const Card = ({
                 />
                 {content.length > 200 && (
                   <button
-                    className="text-gray-500 dark:text-gray-400"
+                    className="text-gray-500 dark:text-gray-400 text-sm lg:text-base"
                     onClick={handleShowMoreOrLess}
                   >
                     Show {showFullPost ? 'Less' : 'More'}
@@ -468,7 +468,7 @@ const Card = ({
                 alt="post"
                 height={500}
                 width={500}
-                className="mx-auto h-full max-h-[500px] object-contain"
+                className="mx-auto h-full max-h-[400px] object-contain"
               />
             )}
           </div>
