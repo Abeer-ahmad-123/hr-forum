@@ -7,7 +7,7 @@ import {
 import { reactionOptions } from '@/utils/data'
 import { getEmojisAsArray } from '@/utils/reactionDetails'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CustomLink } from './customLink/CustomLink'
 import { useSelector } from 'react-redux'
 import {
@@ -109,10 +109,19 @@ const PostReactionBar = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
 
+  /**
+   * Refactor: Post Comments Count var instead of doing commentCount[Number(postId)] everywhere
+   */
+  const postCommentsCount = useMemo(() => {
+    return commentCount[Number(postId)] || null
+  }, [commentCount, postId])
+
   return (
     <>
-      {/* IF ONLY THE REACTIONS EXIST THEN ADD EXTRA <HR/> */}
-      {!pathName.includes('/profile') && countofAll ? <hr /> : null}
+      {/* IF ONLY THE REACTIONS OR THE COMMENTS EXIST THEN ADD EXTRA <HR/> */}
+      {!pathName.includes('/profile') && (countofAll || postCommentsCount) ? (
+        <hr />
+      ) : null}
       <div className="flex items-center justify-between px-10 py-1">
         {/* * Fixed issue with reactions buttons overlapping and using less width. */}
         <div className="flex gap-1">
@@ -167,10 +176,10 @@ const PostReactionBar = ({
               : ` /feeds/feed/${postId}`
           }>
           <span className="text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {commentCount && commentCount[Number(postId)]
-              ? commentCount[Number(postId)] > 1
-                ? `${commentCount[Number(postId)]} comments`
-                : `${commentCount[Number(postId)]} comment`
+            {commentCount && postCommentsCount
+              ? postCommentsCount > 1
+                ? `${postCommentsCount} comments`
+                : `${postCommentsCount} comment`
               : null}
           </span>
         </CustomLink>

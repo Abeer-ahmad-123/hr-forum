@@ -12,7 +12,7 @@ import {
   PostsInterface,
 } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
-import { Suspense } from 'react'
+import { Suspense, useState } from 'react'
 
 export type SinglePostWithDialogProps = {
   id: string
@@ -26,14 +26,16 @@ export type SinglePostWithDialogProps = {
 }
 const SinglePostWithDialog = ({ id, data }: SinglePostWithDialogProps) => {
   const router = useRouter()
+  const [isOpen, setOpen] = useState(true)
   function handleCloseModal(value: boolean) {
+    setOpen(value)
     if (!value) {
       router.back()
     }
   }
 
   return (
-    <Dialog defaultOpen={true} open={true} onOpenChange={handleCloseModal}>
+    <Dialog defaultOpen={isOpen} open={isOpen} onOpenChange={handleCloseModal}>
       <DialogContent className="max-w-5xl bg-white ">
         <DialogDescription>
           <Suspense fallback={<PostSkelton isDialogPost={true} />}>

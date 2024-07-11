@@ -1,6 +1,6 @@
 import './index.css'
 
-const Error = () => {
+const Error = ({ message }: { message?: string | React.ReactNode }) => {
   return (
     <section className="page_404">
       <div className="container bg-white">
@@ -13,7 +13,7 @@ const Error = () => {
 
               <div className="contant_box_404">
                 <h3>Something went wrong.</h3>
-
+                {message ? <p className="text-red/80">{message}</p> : null}
                 <p>Please visit us again after some time.</p>
               </div>
             </div>

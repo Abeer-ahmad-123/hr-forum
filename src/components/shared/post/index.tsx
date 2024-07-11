@@ -446,16 +446,23 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                 dangerouslySetInnerHTML={{
                   __html: `${
                     post?.content
-                      ? post.content.slice(0, showFullPost ? -1 : 200)
+                      ? post.content
+                          .slice(0, showFullPost ? -1 : 400)
+                          .concat(
+                            showFullPost
+                              ? ''
+                              : post?.content.length > 400
+                              ? '<span className="text-gray-500">....</span>'
+                              : '',
+                          )
                       : null
                   }`,
                 }}
               />
-              {post?.content && post?.content.length > 200 ? (
+              {post?.content && post?.content.length > 400 ? (
                 <button
-                  className="text-gray-500 dark:text-gray-400"
-                  onClick={() => setShowFullPost(prev => !prev)}
-                >
+                  className="mb-2 text-gray-500 dark:text-gray-400"
+                  onClick={() => setShowFullPost((prev) => !prev)}>
                   Show {showFullPost ? 'Less' : 'More'}
                 </button>
               ) : null}
@@ -480,8 +487,12 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
               ) : null}
             </div>
             <span className="cursor-pointer text-start text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-              {commentCount[Number(postId)]}
-              {`comment${commentCount[Number(postId)] > 1 ? "'s" : ''}`}
+              {commentCount[Number(postId)] > 0 && (
+                <>
+                  {commentCount[Number(postId)]}
+                  {` comment${commentCount[Number(postId)] > 1 ? 's' : ''}`}
+                </>
+              )}
             </span>
             <div className="w-full">
               <hr />

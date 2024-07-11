@@ -1,8 +1,8 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/cardLoading'
-import { getGenericPosts } from '@/services/posts'
+import { getGenericPosts } from '@/services/posts/server-posts'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {

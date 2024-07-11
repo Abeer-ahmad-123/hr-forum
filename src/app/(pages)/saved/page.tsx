@@ -1,6 +1,6 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/cardLoading'
-import { getGenericPosts } from '@/services/posts'
+import { getGenericPosts } from '@/services/posts/server-posts'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
@@ -21,7 +21,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}
-        path="/saved"
+        path={path}
         data={{ channels: channelData, posts: initialPosts }}
         morePosts={morePosts}
       />
