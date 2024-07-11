@@ -10,7 +10,6 @@ import {
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { cn } from '@/lib/utils'
-import { setModalState } from '@/services/auth/authService'
 import {
   bookmarkPost,
   deleteBookmarkPost,
@@ -32,7 +31,14 @@ import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useParams, usePathname, useRouter } from 'next/navigation'
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import Report from '../Report/Report'
@@ -159,14 +165,11 @@ const Card = ({
       pathName.includes('channels')
         ? `${pathName}/feed/${id}`
         : pathName.includes('saved')
-          ? `/saved/feed/${id}`
-          : pathName.includes('user-activity')
-            ? `${pathName}/feed/${id}`
-            : `/feeds/feed/${id}`,
+        ? `/saved/feed/${id}`
+        : pathName.includes('user-activity')
+        ? `${pathName}/feed/${id}`
+        : `/feeds/feed/${id}`,
     )
-    if (!pathName.includes('channel') || !pathName.includes('user-activity')) {
-      setModalState()
-    }
   }
   const handleNavigateProfile = (event: any) => {
     event.preventDefault()
@@ -266,40 +269,37 @@ const Card = ({
   }, [user_has_reported])
 
   return (
-    <div id={String(id)} key={id} className='w-full max-w-[100dvw] p-0 m-0'>
+    <div id={String(id)} key={id} className="m-0 w-full max-w-[100dvw] p-0">
       <div
-        className={`border-grey-300 mx-auto mb-5 md:max-w-screen-md cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 w-full`}
-      >
-        <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-          <DialogContent className="bg-white sm:max-w-[500px]">
-            <Report
-              reportType="post"
-              setOpenDialog={setOpenDialog}
-              postId={id ? String(id) : ''}
-              getPostCommets={() => {}}
-              setReported={setReported}
-              setReportedReplyId={() => {}}
-              setDeletedCommentId={() => {}}
-            />
-          </DialogContent>
-        </Dialog>
+        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        <Suspense>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
+            <DialogContent className="bg-white sm:max-w-[500px]">
+              <Report
+                reportType="post"
+                setOpenDialog={setOpenDialog}
+                postId={id ? String(id) : ''}
+                getPostCommets={() => {}}
+                setReported={setReported}
+                setReportedReplyId={() => {}}
+                setDeletedCommentId={() => {}}
+              />
+            </DialogContent>
+          </Dialog>
 
-        <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
-          <DialogContent className="bg-white sm:max-w-[500px]">
-            <DeletePost
-              setOpenDeleteDialog={setOpenDeleteDialog}
-              postId={id ? String(id) : ''}
-              setReported={() => {}}
-              updatePosts={updatePosts}
-              posts={posts}
-            />
-          </DialogContent>
-        </Dialog>
-
-        <div
-          className={cn('px-10 py-4 max-custom-sm:px-6 max-[392px]:px-2')}
-          onClick={handleNavigateFeed}
-        >
+          <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
+            <DialogContent className="bg-white sm:max-w-[500px]">
+              <DeletePost
+                setOpenDeleteDialog={setOpenDeleteDialog}
+                postId={id ? String(id) : ''}
+                setReported={() => {}}
+                updatePosts={updatePosts}
+                posts={posts}
+              />
+            </DialogContent>
+          </Dialog>
+        </Suspense>
+        <div className={cn('px-10 py-4 max-custom-sm:px-6 max-[392px]:px-2')}>
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
               <div className="flex items-center">
@@ -321,8 +321,7 @@ const Card = ({
                     <p
                       className="max-w-full shrink-0 break-all pr-1 text-sm font-normal leading-none text-gray-900 hover:underline dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                       aria-label="user-name"
-                      onClick={handleNavigateProfile}
-                    >
+                      onClick={handleNavigateProfile}>
                       {/*
                        * "You" is based on user_id not on username what if i change username the "You" will also be changed.
                        */}
@@ -362,54 +361,51 @@ const Card = ({
                         name="post options button"
                         aria-label="post options"
                         aria-labelledby="postOptionsLabel"
-                        role="button"
-                      >
+                        role="button">
                         <span
                           className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
-                          onClick={setOpenPopOver}
-                        >
+                          onClick={setOpenPopOver}>
                           <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                         </span>
                       </PopoverTrigger>
-                      <PopoverContent className="bg-white">
-                        {' '}
-                        {String(post.user_id) === userDetails?.id ? (
-                          <div
-                            className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                            onClick={handleDeleteClick}
-                          >
-                            <Trash2 size={17} />
-                            <span className="text-[15px] font-light max-custom-sm:hidden">
-                              {' '}
-                              Delete
-                            </span>
-                          </div>
-                        ) : (
-                          <div
-                            className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                            onClick={handleReportClick}
-                          >
-                            <AlertOctagon size={17} />
-                            <span className="text-[15px] font-light max-custom-sm:hidden">
-                              {' '}
-                              Report
-                            </span>
-                          </div>
-                        )}
-                        <div
-                          onClick={handleBookmark}
-                          className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                        >
-                          {bookmarkSuccess ? (
-                            <FaBookmark color="blue" />
+                      <Suspense>
+                        <PopoverContent className="bg-white">
+                          {' '}
+                          {String(post.user_id) === userDetails?.id ? (
+                            <div
+                              className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                              onClick={handleDeleteClick}>
+                              <Trash2 size={17} />
+                              <span className="text-[15px] font-light max-custom-sm:hidden">
+                                {' '}
+                                Delete
+                              </span>
+                            </div>
                           ) : (
-                            <FaRegBookmark />
+                            <div
+                              className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                              onClick={handleReportClick}>
+                              <AlertOctagon size={17} />
+                              <span className="text-[15px] font-light max-custom-sm:hidden">
+                                {' '}
+                                Report
+                              </span>
+                            </div>
                           )}
-                          <span className="text-[15px] font-light max-custom-sm:hidden ">
-                            Bookmark
-                          </span>
-                        </div>
-                      </PopoverContent>
+                          <div
+                            onClick={handleBookmark}
+                            className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white">
+                            {bookmarkSuccess ? (
+                              <FaBookmark color="blue" />
+                            ) : (
+                              <FaRegBookmark />
+                            )}
+                            <span className="text-[15px] font-light max-custom-sm:hidden ">
+                              Bookmark
+                            </span>
+                          </div>
+                        </PopoverContent>
+                      </Suspense>
                     </Popover>
                   </div>
                 )}
@@ -417,16 +413,17 @@ const Card = ({
             </div>
           </div>
 
-          <div className="flex flex-col hyphens-auto max-w-full">
+          <div
+            className="flex max-w-full flex-col hyphens-auto"
+            onClick={handleNavigateFeed}>
             <CustomLink
               href={
                 pathName.includes('channels')
                   ? `${pathName}/feed/${id}`
                   : pathName.includes('saved')
-                    ? `/saved/feed/${id}`
-                    : `/feeds/feed/${id}`
-              }
-            >
+                  ? `/saved/feed/${id}`
+                  : `/feeds/feed/${id}`
+              }>
               {' '}
               <div className="my-3 text-start text-xl font-semibold dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
@@ -435,7 +432,7 @@ const Card = ({
             {!image_url ? (
               <>
                 <div
-                  className="!break-words max-w-full !hyphens-auto text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px] card-li"
+                  className="card-li max-w-full !hyphens-auto !break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
                   dangerouslySetInnerHTML={{
                     __html: `${
                       content
@@ -444,19 +441,18 @@ const Card = ({
                             .concat(
                               showFullPost
                                 ? ''
-                                : content.length > 200
-                                  ? '<span className="text-gray-500">....</span>'
-                                  : '',
+                                : content?.length > 200
+                                ? '<span className="text-gray-500">....</span>'
+                                : '',
                             )
-                        : null
+                        : ''
                     }`,
                   }}
                 />
-                {content.length > 200 && (
+                {content?.length > 200 && (
                   <button
-                    className="text-gray-500 dark:text-gray-400 text-sm lg:text-base"
-                    onClick={handleShowMoreOrLess}
-                  >
+                    className="text-sm text-gray-500 dark:text-gray-400 lg:text-base"
+                    onClick={handleShowMoreOrLess}>
                     Show {showFullPost ? 'Less' : 'More'}
                   </button>
                 )}
@@ -496,9 +492,11 @@ const Card = ({
           />
         </div>
       </div>
-      <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
-        <SignInDialog setShowSignModal={setShowSignModal} />
-      </Dialog>
+      <Suspense>
+        <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
+          <SignInDialog setShowSignModal={setShowSignModal} />
+        </Dialog>
+      </Suspense>
     </div>
   )
 }
