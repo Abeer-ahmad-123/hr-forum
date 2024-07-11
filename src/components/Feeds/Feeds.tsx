@@ -122,16 +122,17 @@ const Feeds = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
-  useEffect(() => {
-    // ! If we navigate from feeds to /saved, we will see the feeds posts as saved posts so we don't need that => when posts =[] then this happens
-    if (path === '/saved' && storePosts.length > 0) return
-    if (searchParams.search || channelSlug) {
-      updatePosts([...storePosts])
-    } else if (!searchParams.search && storePosts.length) {
-      updatePosts([...storePosts])
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storePosts])
+  // ! Was causing the Profile posts to be loaded into redux store and then if we navigate to Feeds then posts show with undefined content
+  // useEffect(() => {
+  //   // ! If we navigate from feeds to /saved, we will see the feeds posts as saved posts so we don't need that => when posts =[] then this happens
+  //   if (path === '/saved' && storePosts.length > 0) return
+  //   if (searchParams.search || channelSlug) {
+  //     updatePosts([...storePosts])
+  //   } else if (!searchParams.search && storePosts.length) {
+  //     updatePosts([...storePosts])
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [storePosts])
 
   useEffect(() => {
     handleCommentCount()
