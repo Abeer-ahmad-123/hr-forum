@@ -29,17 +29,17 @@ export default function NewPost({ updatePosts }: NewPostProps) {
         <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
           <PostBar />
         </div>
-        <DialogContent
-          className="border bg-white sm:max-w-screen-md"
-          route="newpost">
-          <Suspense>
-            {data ? (
+        <Suspense>
+          {data ? (
+            <DialogContent
+              className="border bg-white sm:max-w-screen-md"
+              route="newpost">
               <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
-            ) : (
-              <SignInDialog setShowSignModal={() => {}} />
-            )}
-          </Suspense>
-        </DialogContent>
+            </DialogContent>
+          ) : (
+            <SignInDialog setShowSignModal={() => {}} />
+          )}
+        </Suspense>
       </Dialog>
     </>
   )
