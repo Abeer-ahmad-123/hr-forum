@@ -9,6 +9,7 @@ export function generateMetadata({ params }: any) {
     title: `HR-Forum - ${capitalizeWord(params.slug)}`,
   }
 }
+export const dynamic = 'force-dynamic'
 
 const ChannelPage = async ({ params, searchParams }: any) => {
   const path = '/channels'

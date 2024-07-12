@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 export const metadata: Metadata = {
   title: 'HR-Forum - Feeds',
 }
+export const dynamic = 'force-dynamic'
 
 const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const { channelData, initialPosts, morePosts } = await getGenericPosts({

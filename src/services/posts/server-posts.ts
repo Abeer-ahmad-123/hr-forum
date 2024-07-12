@@ -14,6 +14,7 @@ import { getBookmarkPosts } from '../bookmark/bookmarkService'
 import { getChannels } from '../channel/channel'
 import { getSearchPosts } from '../search'
 import { getAllPosts, getPostsByChannelId } from '.'
+import { revalidatePath } from 'next/cache'
 
 export async function getGenericPosts({
   channelSlug,
@@ -158,6 +159,6 @@ export async function getGenericPosts({
       }
     }
   }
-
+  revalidatePath('page')
   return { channelData, initialPosts, morePosts }
 }
