@@ -8,6 +8,7 @@ import { Suspense } from 'react'
 export const metadata: Metadata = {
   title: 'HR-Forum - Saved',
 }
+export const dynamic = 'force-dynamic'
 
 const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const path = '/saved'
