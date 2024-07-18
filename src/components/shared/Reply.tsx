@@ -26,6 +26,7 @@ import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 import { deleteModalState } from '@/services/auth/authService'
+import { noProfilePicture } from '@/assets/images'
 
 function Reply({
   reply,
@@ -131,7 +132,10 @@ function Reply({
                 alt="profile picture"
                 height={8}
                 width={8}
-                src={reply['author_details'].profile_picture_url}
+                src={
+                  reply['author_details'].profile_picture_url ||
+                  noProfilePicture.src
+                }
                 className="h-8 min-h-[32px] min-w-[32px] rounded-full"
                 onClick={handleImgClick}
               />
