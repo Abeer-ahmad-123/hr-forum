@@ -83,37 +83,42 @@ export default function Register({
                 'username already exists',
             })
           } else {
-            const result = await signIn(
-              JSON.stringify({
-                email: formValues.email,
-                password: formValues.password,
-              }),
-            )
-
-            if (
-              !result?.success &&
-              (result?.status === 401 || result?.status === 404)
-            ) {
-              setErrors({
-                ...errors,
-                password:
-                  result.errors[0].includes('password') && 'Invalid Password',
-                email: result.errors[0].includes('email') && result.errors[0],
-              })
-              return
-            }
-            if (result?.data?.token) {
+            /**
+             * OVERHEAD CODE:
+             * SignUp API is also returning token, refreshToken and userData so why not save and log in user?
+             */
+            // const result = await signIn(
+            //   JSON.stringify({
+            //     email: formValues.email,
+            //     password: formValues.password,
+            //   }),
+            // )
+            // if (
+            //   !result?.success &&
+            //   (result?.status === 401 || result?.status === 404)
+            // ) {
+            //   setErrors({
+            //     ...errors,
+            //     password:
+            //       result.errors[0].includes('password') && 'Invalid Password',
+            //     email: result.errors[0].includes('email') && result.errors[0],
+            //   })
+            //   return
+            // }
+            if (response?.data?.token) {
               dispatch(
                 setUser({
-                  ...result?.data,
-                  refreshToken: result?.data['refresh-token'],
+                  ...response?.data,
+                  refreshToken: response?.data['refresh-token'],
                 }),
               )
-              showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
+              showSuccessAlert('Welcome! ' + response?.data?.userData?.name)
               handleDialogClose()
-              router.refresh()
+              // router.refresh()
+            } else {
+              showSuccessAlert('User Created Please Login!')
+              toggleForm()
             }
-
             if (pathname.includes('/login')) {
               router.push('/feeds')
             }
@@ -150,16 +155,13 @@ export default function Register({
       }
        ${
          isRegisterRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
-       } flex-col justify-center space-y-6`}
-    >
+       } flex-col justify-center space-y-6`}>
       <div
         className={`${
           isRegisterRoute ? 'rounded-md shadow-2xl' : ''
-        } relative flex flex-col justify-center overflow-hidden`}
-      >
+        } relative flex flex-col justify-center overflow-hidden`}>
         <div
-          className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-background lg:max-w-xl`}
-        >
+          className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-background lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
             Sign Up
           </h1>
@@ -183,8 +185,7 @@ export default function Register({
                 className="text-primary-purple cursor-pointer font-medium hover:underline"
                 onClick={() => {
                   toggleForm()
-                }}
-              >
+                }}>
                 {' '}
                 Sign in
               </button>
