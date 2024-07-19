@@ -8,13 +8,13 @@ import {
 import { RenderFeedWithLoadingProps } from '@/utils/interfaces/feeds'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { BookmarkData } from '@/utils/interfaces/renderFeeds'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getBookmarkPosts } from '../bookmark/bookmarkService'
 import { getChannels } from '../channel/channel'
 import { getSearchPosts } from '../search'
 import { getAllPosts, getPostsByChannelId } from '.'
 import { revalidatePath } from 'next/cache'
+import { getUserFromCookie } from '@/utils/cookies'
 
 export async function getGenericPosts({
   channelSlug,
@@ -24,7 +24,7 @@ export async function getGenericPosts({
   let channelData: ChannelInterface[] | ChannelByIdInterface[] = []
   let initialPosts: PostsInterface[] | [] = []
   let morePosts = true
-  const userDetailsCookies = await cookies().get('user-details')
+  const { user: userDetailsCookies } = await getUserFromCookie()
   try {
     const { channels } = await getChannels()
     channelData = channels
@@ -49,12 +49,7 @@ export async function getGenericPosts({
 
           const { data } = await getPostsByChannelId({
             id: getChannelId,
-
-            userID:
-              (userDetailsCookies?.value &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
-
+            userID: userDetailsCookies?.id || undefined,
             loadReactions: true,
             loadUser: true,
           })
@@ -77,10 +72,7 @@ export async function getGenericPosts({
               : undefined
           const { data } = await getSearchPosts({
             search: searchParams.search,
-            userID:
-              (userDetailsCookies &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
             channelID: getChannelId,
           })
 
@@ -101,10 +93,7 @@ export async function getGenericPosts({
       try {
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID:
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-            '',
+          userID: userDetailsCookies?.id || '',
         })
 
         initialPosts = data?.posts as PostsInterface[]
@@ -121,10 +110,7 @@ export async function getGenericPosts({
           const { data } = await getAllPosts({
             loadReactions: true,
             loadUser: true,
-            userID:
-              (userDetailsCookies &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
           })
           initialPosts = data?.posts as PostsInterface[]
           morePosts =
@@ -136,11 +122,7 @@ export async function getGenericPosts({
         }
       } else if (path === '/saved') {
         try {
-          const res = await getBookmarkPosts(
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-              '',
-          )
+          const res = await getBookmarkPosts(userDetailsCookies?.id || '')
 
           initialPosts = res.data.Bookmarks.map((item: BookmarkData) => {
             const { userID, postID, bookmarkedAt, post, ...rest } = item

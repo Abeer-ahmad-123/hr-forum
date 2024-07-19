@@ -1,19 +1,19 @@
 import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
 import RespProfile from '@/components/RespProfile'
 import { Suspense } from 'react'
-
 import { Metadata } from 'next'
-import { cookies } from 'next/headers'
+import { getUserDetailsFromCookie } from '@/utils/cookies'
+import type { UserData } from '@/services/auth/authService'
 
 export const metadata: Metadata = {
   title: 'HR-Forum · Profile',
 }
 
-const Profile = () => {
-  const user = cookies().get('user-details')?.value ?? null
+const Profile = async () => {
+  const user: UserData = await getUserDetailsFromCookie()
   return (
     <Suspense fallback={<ProfilePageLoading />}>
-      <RespProfile userInCookie={user ?JSON.parse(user): undefined} />
+      <RespProfile userInCookie={user || undefined} />
     </Suspense>
   )
 }

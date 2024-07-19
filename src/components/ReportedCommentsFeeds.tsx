@@ -77,8 +77,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
       noMorePosts.current =
         pagination?.CurrentPage &&
         pagination?.CurrentPage !== pagination?.TotalPages
-
-      const extractedPosts = reports.map((item: any) => item.post)
+      const extractedPosts = reports.map((item: any) => item.comment)
       setComments((prev: PostsInterface[]) => [...prev, ...extractedPosts])
       dispatch(setPosts([...comments, ...extractedPosts]))
     } catch (error) {

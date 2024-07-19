@@ -460,6 +460,7 @@ const Card = ({
             ) : (
               // * Image consistency for width / height and fill properties
               <Image
+                quality={100}
                 src={image_url}
                 alt="post"
                 height={500}

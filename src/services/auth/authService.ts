@@ -7,7 +7,7 @@ import {
   setUserTokens,
 } from '@/utils/cookies'
 import { setTokenCookies } from '@/utils/interfaces/cookies'
-import { APIResponse, SuccessAPIResponse } from '@/utils/types/customFetch'
+import { APIResponse } from '@/utils/types/customFetch'
 import { cookies } from 'next/headers'
 import {
   AUTH_GET_USER_DETAILS,
@@ -102,7 +102,7 @@ export async function logout() {
     throw err
   }
 }
-export const checkUser = () => {
+export const checkUser = async () => {
   return cookies().get('access-token')?.value
 }
 
@@ -252,11 +252,11 @@ export async function isTokenExpired() {
     throw error
   }
 }
-export const setModalState = () => {
+export const setModalState = async () => {
   setModalCookie()
 }
 
-export const deleteModalState = () => {
+export const deleteModalState = async () => {
   deleteModalCookie()
 }
 

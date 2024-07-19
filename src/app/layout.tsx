@@ -2,6 +2,7 @@ import '@/assets/styles/globals.css'
 import StoreProvider from '@/Providers/StoreProvider'
 import { getChannels } from '@/services/channel/channel'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
+import { getUserFromCookie } from '@/utils/cookies'
 import { shareMetaData } from '@/utils/share-metadata'
 import { LayoutWrapper } from '@/wrappers/index'
 import type { Metadata } from 'next'
@@ -18,9 +19,8 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
    * ServerSide state of channels.
    */
   const { channels } = await getChannels()
-  const user = await cookies().get('user-details')?.value
-  const token = await cookies().get('refresh-token')?.value
-  const refreshToken = await cookies().get('access-token')?.value
+  const { user, token, refreshToken } = await getUserFromCookie()
+
   /**
    * ServerSide state of redux for initial rendering.
    */
@@ -38,16 +38,7 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
     },
     loggedInUser: {
       token: token || null,
-      userData: user
-        ? JSON.parse(user)
-        : {
-            id: null,
-            email: '',
-            username: '',
-            name: '',
-            bio: '',
-            profilePictureURL: '',
-          },
+      userData: user,
       refreshToken: refreshToken || null,
     },
   }
