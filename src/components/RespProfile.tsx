@@ -21,6 +21,7 @@ import EditProfileButton from './EditProfileButton'
 import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
+import { setUserDetailsInCookie } from '@/utils/cookies'
 
 const RespProfile = ({ userId, userInCookie }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -88,6 +89,13 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
         if (response?.success) {
           showSuccessAlert('Profile picture updated')
           setLoading(false)
+
+          if (userInCookie) {
+            await setUserDetailsInCookie({
+              ...userInCookie,
+              profilePictureURL: response?.data?.url,
+            })
+          }
           setUser({ ...user, profilePictureURL: response?.data?.url })
           dispatch(
             setUserData({
@@ -126,7 +134,12 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
             },
           }),
         )
-
+        if (userInCookie) {
+          await setUserDetailsInCookie({
+            ...userInCookie,
+            backgroundPictureURL: response?.data?.url,
+          })
+        }
         setUser({
           ...user,
           backgroundPictureURL: response?.data?.url,
@@ -153,12 +166,11 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-
   return user.id ? (
     <div className="profile-page max-w-[100dvw] max-md:block">
       <section className="relative mt-5 block h-[650px]">
         <div
-          className="absolute top-0 h-[60%] w-full bg-cover bg-center"
+          className="absolute top-0 h-[60%] w-full overflow-hidden rounded-md bg-cover bg-center"
           style={{
             backgroundImage: `url(${
               user?.backgroundPictureURL
@@ -262,27 +274,27 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
                 )}
               </div>
 
-              <div className="flex justify-start lg:justify-center gap-[20px] break-all pb-6">
-                <div className="mt-12 pt-6 p-3 md:p-6 text-center max-md:text-left w-full">
+              <div className="flex justify-start gap-[20px] break-all pb-6 lg:justify-center">
+                <div className="mt-12 w-full p-3 pt-6 text-center max-md:text-left md:p-6">
                   <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
                     {user?.name}
                   </h3>
                   <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
                     <div className="flex items-center gap-3">
-                      <User className="mr-1 text-gray-600 dark:text-white h-7 w-7" />
-                      <div className="dark:text-white text-sm md:text-base">
+                      <User className="mr-1 h-7 w-7 text-gray-600 dark:text-white" />
+                      <div className="text-sm dark:text-white md:text-base">
                         {' '}
                         {user?.username}
                       </div>
                     </div>
                     <div className="flex items-center gap-3 dark:text-white">
-                      <Mail className="mr-1 text-gray-600 dark:text-white h-7 w-7" />
+                      <Mail className="mr-1 h-7 w-7 text-gray-600 dark:text-white" />
                       <div className="max-w-[600px] text-sm md:text-base">
                         {user?.email}
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 line-clamp-3 gap-3 lg:text-center text-sm font-normal lg:mx-auto lg:w-[90%]">
+                  <div className="mt-4 line-clamp-3 gap-3 text-sm font-normal lg:mx-auto lg:w-[90%] lg:text-center">
                     {user?.bio}
                   </div>
                 </div>

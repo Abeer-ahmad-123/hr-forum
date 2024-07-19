@@ -9,6 +9,7 @@ import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { toPascalCase } from '@/utils/common'
+import { getUserFromCookie } from '@/utils/cookies'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import type { ChannelInterface } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
@@ -16,7 +17,6 @@ import type {
   BookmarkData,
   RenderFeedsInterface,
 } from '@/utils/interfaces/renderFeeds'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import RespScreen from '../Cards/ResponsiveScreen'
 
@@ -37,28 +37,25 @@ async function RenderFeeds({
   }
   let initialPosts: PostsInterface[] | [] = []
   let morePosts = true
-  const userDetailsCookies = cookies().get('user-details')
-  const accessToken = cookies().get('access-token')
+  const { user: userDetailsCookies, token: accessToken } =
+    await getUserFromCookie()
   if (channelSlug) {
     if (
       channelData.some(
-        (channel: ChannelInterface) => channel.slug === channelSlug
+        (channel: ChannelInterface) => channel.slug === channelSlug,
       )
     ) {
       if (!searchParams.search) {
         try {
           const getChannelId = getChannelIdByChannelName(
             channelSlug,
-            channelData
+            channelData,
           )
 
           const { data } = await getPostsByChannelId({
             id: getChannelId,
 
-            userID:
-              (userDetailsCookies?.value &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
 
             loadReactions: true,
             loadUser: true,
@@ -79,10 +76,7 @@ async function RenderFeeds({
               : undefined
           const { data } = await getSearchPosts({
             search: searchParams.search,
-            userID:
-              (userDetailsCookies &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
             channelID: getChannelId,
           })
 
@@ -103,10 +97,7 @@ async function RenderFeeds({
       try {
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID:
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-            '',
+          userID: userDetailsCookies?.id || '',
         })
 
         initialPosts = data?.posts
@@ -123,10 +114,7 @@ async function RenderFeeds({
           const { data } = await getAllPosts({
             loadReactions: true,
             loadUser: true,
-            userID:
-              (userDetailsCookies &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
           })
           initialPosts = data?.posts
           morePosts =
@@ -138,11 +126,7 @@ async function RenderFeeds({
         }
       } else if (path === '/saved') {
         try {
-          const res = await getBookmarkPosts(
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-              ''
-          )
+          const res = await getBookmarkPosts(userDetailsCookies?.id || '')
 
           initialPosts = res.data.Bookmarks.map((item: BookmarkData) => {
             const { userID, postID, bookmarkedAt, post, ...rest } = item
@@ -163,7 +147,7 @@ async function RenderFeeds({
   }
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = channelData.find(
-      (obj: { slug: string }) => obj.slug === slug
+      (obj: { slug: string }) => obj.slug === slug,
     )
 
     if (matchingObject) {
@@ -176,14 +160,12 @@ async function RenderFeeds({
       <div
         className={`mr-[5px] ${
           accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}
-      >
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userDetailsCookies && <ProfileCard />}
         <div
           className={`${
             userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}
-        >
+          } sticky max-h-screen  max-lg:top-[55px]`}>
           <ChannelCard initialChannels={channelData} />
         </div>
         <div
@@ -191,8 +173,7 @@ async function RenderFeeds({
             accessToken
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}
-        >
+          } max-h-screen`}>
           {' '}
           <RulesCard />
         </div>
@@ -230,8 +211,7 @@ async function RenderFeeds({
                 path === '/saved'
                   ? 'mt-[20px]'
                   : 'mt-[35px] max-lg:mt-[30px] max-md:mt-[20px]'
-              }  w-full max-w-screen-md dark:text-white`}
-            >
+              }  w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={initialPosts}
