@@ -171,7 +171,7 @@ function Reply({
                 )}
               </div>
 
-              <div className="mt-0 flex flex-wrap break-all p-2.5 text-left leading-loose text-gray-600 dark:text-white">
+              <div className="mt-0 flex flex-wrap break-all p-0 pb-1 text-left leading-loose text-gray-600 dark:text-white">
                 {reply.content}
               </div>
             </div>

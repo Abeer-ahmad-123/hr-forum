@@ -47,9 +47,9 @@ function LoggedIn() {
   }
 
   const UserDropdown = () => (
-    <div className="relative flex cursor-pointer select-none items-center break-words gap-4 max-w-xs">
+    <div className="relative flex max-w-xs cursor-pointer select-none items-center gap-4 break-words">
       <span className="text-right max-custom-sm:hidden">
-        <span className="inline-block text-sm font-medium text-black dark:text-white break-words">
+        <span className="inline-block break-words text-sm font-medium text-black dark:text-white">
           {name}
         </span>
         <span className="block text-xs dark:text-white">{username}</span>
@@ -64,7 +64,7 @@ function LoggedIn() {
             alt="User"
           />
         </div>
-        <span className="absolute bottom-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-green-500"></span>
+        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500"></span>
       </div>
     </div>
   )
