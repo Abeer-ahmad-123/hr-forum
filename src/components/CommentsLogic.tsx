@@ -142,7 +142,7 @@ const CommentsLogic = ({
   }, [reaction_summary])
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <PostActionBar
         postId={postId}
         inputRef={inputRef}

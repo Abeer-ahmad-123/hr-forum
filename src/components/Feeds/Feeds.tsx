@@ -2,7 +2,11 @@
 import PostBar from '@/components/shared/new-post/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
+import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { getChannelIdByChannelName } from '@/utils/channels'
+import { makeCommentNumberKeyValuePair } from '@/utils/helper'
+import { StoreChannels } from '@/utils/interfaces/channels'
+import { FeedProps } from '@/utils/interfaces/feeds'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
 import { useEffect, useRef, useState } from 'react'
@@ -11,9 +15,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { FeedProps } from '@/utils/interfaces/feeds'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 
 const Feeds = ({
   channelSlug,
@@ -23,9 +24,16 @@ const Feeds = ({
   searchParams,
   path,
 }: FeedProps) => {
-  const [posts, updatePosts] = useState<Array<PostsInterface>>([])
+  const [posts, updatePosts] = useState<Array<PostsInterface>>(
+    initialPosts || [],
+  )
+
   const storePosts = useSelector(
     (state: PostsInterfaceStore) => state.posts.posts,
+  )
+
+  const channelsInStore = useSelector(
+    (state: StoreChannels) => state?.channels.channels,
   )
   const [page, setPage] = useState(2)
   const dispatch = useDispatch()
@@ -39,7 +47,11 @@ const Feeds = ({
     let _data: any = {}
     if (channelSlug) {
       if (!searchParams.search) {
-        const getChannelId = getChannelIdByChannelName(channelSlug, channels)
+        const getChannelId = getChannelIdByChannelName(
+          channelSlug,
+          // @ts-ignore
+          channelsInStore || channels,
+        )
         const { data } = await getPostsByChannelId({
           id: getChannelId,
           loadReactions: true,
@@ -100,6 +112,7 @@ const Feeds = ({
 
   useEffect(() => {
     if (searchParams.search || channelSlug) {
+      if (path === '/saved' && storePosts.length > 0) return
       updatePosts([...initialPosts])
       dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
@@ -109,14 +122,17 @@ const Feeds = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
-  useEffect(() => {
-    if (searchParams.search || channelSlug) {
-      updatePosts([...storePosts])
-    } else if (!searchParams.search && storePosts.length) {
-      updatePosts([...storePosts])
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storePosts])
+  // ! Was causing the Profile posts to be loaded into redux store and then if we navigate to Feeds then posts show with undefined content
+  // useEffect(() => {
+  //   // ! If we navigate from feeds to /saved, we will see the feeds posts as saved posts so we don't need that => when posts =[] then this happens
+  //   if (path === '/saved' && storePosts.length > 0) return
+  //   if (searchParams.search || channelSlug) {
+  //     updatePosts([...storePosts])
+  //   } else if (!searchParams.search && storePosts.length) {
+  //     updatePosts([...storePosts])
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [storePosts])
 
   useEffect(() => {
     handleCommentCount()
@@ -126,7 +142,6 @@ const Feeds = ({
   useEffect(() => {
     noMorePosts.current = morePosts
   }, [morePosts])
-
   return (
     <>
       {path !== '/saved' && (
@@ -141,7 +156,7 @@ const Feeds = ({
               <Card
                 key={index}
                 post={post}
-                channels={channels}
+                channels={channels || channelsInStore}
                 updatePosts={updatePosts}
                 posts={posts}
               />

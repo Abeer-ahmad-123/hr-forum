@@ -15,7 +15,6 @@ export function generateMetadata({ params }: any) {
 const Profile = ({ params }: ProfilePageProps) => {
   const split = params?.id?.split('-') ?? []
   const userId = split[split?.length - 1]
-
   return (
     <Suspense fallback={<ProfilePageLoading />}>
       <RespProfile userId={userId} />

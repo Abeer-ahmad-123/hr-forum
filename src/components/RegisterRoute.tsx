@@ -1,7 +1,6 @@
 'use client'
 import Register from '@/components/Register'
 import { usePathname, useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
 import { useEffect } from 'react'
 
 const RegisterRoute = () => {
@@ -13,12 +12,6 @@ const RegisterRoute = () => {
       router.replace('/login')
     }
   }
-
-  useEffect(() => {
-    return () => {
-      nProgress.done()
-    }
-  }, [])
 
   return <Register toggleForm={changeRoute} />
 }

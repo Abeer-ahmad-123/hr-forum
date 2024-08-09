@@ -1,7 +1,7 @@
-import React, { Suspense } from 'react'
-import CardLoading from './Loading/cardLoading'
-import { RenderFeeds } from './Feeds'
 import { RenderFeedWithLoadingProps } from '@/utils/interfaces/feeds'
+import { Suspense } from 'react'
+import { RenderFeeds } from './Feeds'
+import CardLoading from './Loading/cardLoading'
 
 const RenderFeedWithLoading = ({
   searchParams,
@@ -10,6 +10,7 @@ const RenderFeedWithLoading = ({
 }: RenderFeedWithLoadingProps) => {
   return (
     <Suspense fallback={<CardLoading />}>
+      {/* @ts-ignore */}
       <RenderFeeds
         searchParams={searchParams}
         channelSlug={channelSlug}

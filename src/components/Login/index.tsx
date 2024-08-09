@@ -5,7 +5,6 @@ import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import nProgress from 'nprogress'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton'
@@ -13,7 +12,7 @@ import { LoginForm } from './LoginForm'
 
 export default function Login({
   toggleForm,
-  handleDialogClose = () => { },
+  handleDialogClose = () => {},
   setShowSignModal,
 }: any) {
   const dispatch = useDispatch<AppDispatch>()
@@ -65,7 +64,7 @@ export default function Login({
           email,
           password,
         }),
-      );
+      )
 
       if (
         !result?.success &&
@@ -97,7 +96,6 @@ export default function Login({
       }
 
       if (pathname.includes('/login')) {
-        nProgress.start()
         router.push('/feeds')
       }
     } catch (err) {
@@ -114,19 +112,14 @@ export default function Login({
       if (response?.success) {
         router.push(response?.data)
       }
-    } catch (err) { }
+    } catch (err) {}
   }
-  useEffect(() => {
-    return () => {
-      nProgress.done()
-    }
-  }, [])
 
   function submitForm() {
     /**
      * On form change reset the values of current form.
      */
-    setFormValues(initialValues);
+    setFormValues(initialValues)
     /**
      * Reset the form to login form.
      */
@@ -135,14 +128,17 @@ export default function Login({
 
   return (
     <div
-      className={`container mx-auto flex  ${pathname.includes('login')
-        ? 'h-full min-h-[calc(100vh-56px)]'
-        : 'h-[550px]'
-        } ${pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
-        }  flex-col justify-center space-y-6`}>
+      className={`container mx-auto flex  ${
+        pathname.includes('login')
+          ? 'h-full min-h-[calc(100vh-56px)]'
+          : 'h-[550px]'
+      } ${
+        pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
+      }  flex-col justify-center space-y-6`}>
       <div
-        className={`${pathname === '/login' ? 'shadow-2xl' : ''
-          } relative flex flex-col justify-center overflow-hidden`}>
+        className={`${
+          pathname === '/login' ? 'shadow-2xl' : ''
+        } relative flex flex-col justify-center overflow-hidden`}>
         <div
           className={`m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">

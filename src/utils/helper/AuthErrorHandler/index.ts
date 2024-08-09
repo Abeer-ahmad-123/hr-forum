@@ -13,20 +13,27 @@ const handleAuthError = (name: any, value: any) => {
   switch (name) {
     case 'name':
       if ((value as string).length > 64) {
-        return { name, message: "name must not exceed 64 characters" }
+        return { name, message: 'name must not exceed 64 characters' }
       }
-      break;
+      break
 
     case 'username':
       const { valid, message } = isValidUserName(value)
       if (!valid) {
         return { name, message }
       }
-      break;
+      break
 
     case 'email':
       if (!isValidEmail(value)) {
         return { name, message: 'Please enter a valid email' }
+      }
+      // * Added email 255 character validation
+      if (value.length > 254) {
+        return {
+          name,
+          message: 'Email length exceeds the maximum allowed length.',
+        }
       }
       break
 

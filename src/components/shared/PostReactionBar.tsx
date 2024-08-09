@@ -7,7 +7,7 @@ import {
 import { reactionOptions } from '@/utils/data'
 import { getEmojisAsArray } from '@/utils/reactionDetails'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { CustomLink } from './customLink/CustomLink'
 import { useSelector } from 'react-redux'
 import {
@@ -83,13 +83,9 @@ const PostReactionBar = ({
 
   const generateReactionSummary = () => {
     const reactionCount = addCountOfAll(reactionArray)
-    let result = ''
-
-    if (isExceptOneZero(reaction_summary) && reactionCount > 1) {
-      result = `and ${reactionCount - 1} more`
-    } else if (reactionCount > 1) {
-      result = `and ${reactionCount - 1} other${reactionCount > 2 ? 's' : ''}`
-    }
+    // * Removed and x others on reactions for ambiguity.
+    // * Instead the number of reactions will be displayed
+    let result = reactionCount > 0 ? String(reactionCount) : ''
 
     return result
   }
@@ -113,11 +109,22 @@ const PostReactionBar = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
 
+  /**
+   * Refactor: Post Comments Count var instead of doing commentCount[Number(postId)] everywhere
+   */
+  const postCommentsCount = useMemo(() => {
+    return commentCount[Number(postId)] || null
+  }, [commentCount, postId])
+
   return (
     <>
-      {!pathName.includes('/profile') && <hr />}
+      {/* IF ONLY THE REACTIONS OR THE COMMENTS EXIST THEN ADD EXTRA <HR/> */}
+      {!pathName.includes('/profile') && (countofAll || postCommentsCount) ? (
+        <hr />
+      ) : null}
       <div className="flex items-center justify-between px-10 py-1">
-        <div className="felx gap-1">
+        {/* * Fixed issue with reactions buttons overlapping and using less width. */}
+        <div className="flex gap-1">
           {emojis?.slice(0, countofAll).map((react, index) => (
             <span
               className={`${
@@ -139,8 +146,8 @@ const PostReactionBar = ({
               aria-labelledby="reactionSummaryLabel"
               role="button">
               <span
-                className="text-xs text-slate-400 max-custom-sm:text-[11px] 
-                      max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+                // * Alignment fixes and extra space removal
+                className="flex items-center text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
                 {reactionSummary}
@@ -168,10 +175,12 @@ const PostReactionBar = ({
               ? `${pathName}/feed/${postId}`
               : ` /feeds/feed/${postId}`
           }>
-          <span
-            className="text-xs text-slate-400 max-custom-sm:text-[11px] 
-                      max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {commentCount && `${commentCount[Number(postId)]} comments`}
+          <span className="text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+            {commentCount && postCommentsCount
+              ? postCommentsCount > 1
+                ? `${postCommentsCount} comments`
+                : `${postCommentsCount} comment`
+              : null}
           </span>
         </CustomLink>
       </div>

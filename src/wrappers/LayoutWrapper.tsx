@@ -7,6 +7,7 @@ import {
   deleteModalState,
   getRefreshToken,
   googleCodeExchange,
+  googleTokenExchange,
   isTokenExpired,
   logout,
   setUserToken,
@@ -16,11 +17,10 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { clearUser, setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import type {
+  ChannelInterface,
+  StoreChannels,
+} from '@/utils/interfaces/channels'
 import '@fontsource/poppins'
 import '@fontsource/poppins/300.css'
 import '@fontsource/poppins/400.css'
@@ -28,22 +28,59 @@ import '@fontsource/poppins/500.css'
 import '@fontsource/poppins/600.css'
 import '@fontsource/poppins/700.css'
 import '@fontsource/poppins/900.css'
-
-const LayoutWrapper = ({ children }: any) => {
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
+import { ThemeProvider } from 'next-themes'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import UserNameDialog from './UserNameDialog'
+type Props = {
+  children: React.ReactNode
+  serverState: {
+    channels: {
+      channels: ChannelInterface[]
+      channelsKeyValuePair: {}
+    }
+    posts: {
+      posts: never[]
+      commentCount: {}
+    }
+    notFound: {
+      notFound: boolean
+    }
+    loggedInUser: {
+      token: string | null
+      userData: any
+      refreshToken: string | null
+    }
+  }
+}
+const LayoutWrapper = ({ children, serverState }: Props) => {
   const router = useRouter()
   const { handleRedirect } = useFetchFailedClient()
-  const darkMode = useSelector((state: any) => state.colorMode.darkMode)
-  const notFound = useSelector((state: any) => state.notFound.notFound)
+  const notFound =
+    useSelector((state: any) => state.notFound.notFound) ||
+    serverState.notFound.notFound
+  const channelsInStore = useSelector(
+    (state: StoreChannels) => state.channels.channels,
+  )
+  const channels =
+    channelsInStore.length > 0
+      ? channelsInStore
+      : serverState.channels?.channels ?? []
   const searchParams = useSearchParams()
   const dispatch = useDispatch()
   const pathname = usePathname()
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(!serverState ? true : false)
   const [isError, setIsError] = useState<boolean>(false)
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
-
-  const styles = darkMode ? 'dark' : ''
+  // * A Dialog to set the username on signup / login with Google
+  const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
+  // const styles = darkMode ? 'dark' : ''
 
   const clearAuthentication = () => {
     dispatch(clearUser())
@@ -56,8 +93,9 @@ const LayoutWrapper = ({ children }: any) => {
   }
   const getChannelsLocal = useCallback(async () => {
     try {
-      let response: any = await getChannels()
-
+      setLoading(true)
+      // * Added TS type
+      let response = await getChannels()
       dispatch(setChannels(response.channels))
       dispatch(setKeyIdPairData(arrayToKeyIdNValueData(response.channels)))
     } catch (err: unknown) {
@@ -70,6 +108,8 @@ const LayoutWrapper = ({ children }: any) => {
       } else {
         showErrorAlert(`${err}`)
       }
+    } finally {
+      setLoading(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -96,6 +136,8 @@ const LayoutWrapper = ({ children }: any) => {
         if (err instanceof Error && err.message.includes('fetch failed')) {
           router.push('/error')
         }
+        // * Clearing the SearchParams the simple way.
+        router.replace(pathname)
         showErrorAlert('Issue in google authentication')
         clearAuthentication()
       }
@@ -113,18 +155,6 @@ const LayoutWrapper = ({ children }: any) => {
       clearAuthentication()
     }
   }
-
-  useEffect(() => {
-    const code = searchParams.get('code')
-    const googleToken = searchParams.get('googleAccessToken')
-    if (!isFirstOnce.current && (code || googleToken)) {
-      isFirstOnce.current = true
-      if (code) {
-        exchangeCode(code!)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
 
   const getToken = async () => {
     try {
@@ -159,6 +189,37 @@ const LayoutWrapper = ({ children }: any) => {
     if (pathname.includes('/error')) setIsError(true)
   }, [pathname])
 
+  // * The API for Google AccessToken sign-up
+  const exchangeGoogleToken = async (token: string, username: string) => {
+    if (token) {
+      try {
+        const response = await googleTokenExchange(token, username)
+        dispatch(
+          setUser({
+            ...response,
+            refreshToken: response['refresh-token'],
+          }),
+        )
+        handleCloseDialog()
+        // const currentUrl = window.location.href
+        // const url = new URL(currentUrl)
+
+        // url.searchParams.delete('googleAccessToken')
+
+        // window.history.replaceState({}, document.title, url.href)
+      } catch (err: any) {
+        showErrorAlert(err.message ?? 'Issue in google authentication')
+      }
+    }
+  }
+
+  // * Create new user from Google based on username
+  const handleSubmitUserName = (userName: string) => {
+    const googleToken = searchParams.get('googleAccessToken')
+    exchangeGoogleToken(googleToken!, userName)
+    // setOpenUserNameDialog(false)
+  }
+
   useEffect(() => {
     const code = searchParams.get('code')
     const googleToken = searchParams.get('googleAccessToken')
@@ -167,6 +228,8 @@ const LayoutWrapper = ({ children }: any) => {
       if (code) {
         exchangeCode(code!)
       } else {
+        // * If there is no code Param then that means that the user does not exist and we need to create one so we are opening a username dialog for input and then we create a new user and right after that we login.
+        setOpenUserNameDialog(true)
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -181,28 +244,51 @@ const LayoutWrapper = ({ children }: any) => {
     }
     if (isFirstRun.current) {
       isFirstRun.current = false
-      getChannelsLocal()
+      if (!channels || !serverState.channels?.channels) getChannelsLocal()
       handleUserClientLogout()
       handleUserServerLogout()
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if (serverState.channels?.channels && channelsInStore.length === 0) {
+      dispatch(setChannels(serverState.channels.channels))
+      dispatch(
+        setKeyIdPairData(arrayToKeyIdNValueData(serverState.channels.channels)),
+      )
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [channelsInStore, serverState])
+
+  // * Close the username dialog
+  function handleCloseDialog() {
+    setOpenUserNameDialog(false)
+    router.replace(pathname)
+  }
   return (
-    <body
-      className={`${styles.trim()} theme-default ${
-        darkMode ? 'bg-dark-background' : 'bg-background '
-      } ${isError ? 'bg-white' : 'dark:bg-dark-background'} font-primary ${
-        !isError && 'dark:bg-slate-700'
-      } 
-      `}>
-      {!loading && !isError && !notFound && <Navbar />}
-      <ToastContainer />
-      <main className="pt-[45px] font-primary dark:bg-dark-background">
-        <div className="grid">
-          <div className="flex dark:bg-slate-700 dark:text-white">
-            <div
-              className={`max-h-auto mx-auto w-full px-10 
+    <main
+      // * max width should be 100 view width so that it should now scroll over x-axis
+      className={`${
+        isError ? 'bg-white' : 'dark:bg-dark-background'
+      } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
+      `}
+    >
+      <ThemeProvider attribute="class" defaultTheme="theme-default">
+        <ProgressBar
+          height="2px"
+          color="#571ce0"
+          options={{ showSpinner: false }}
+          shallowRouting
+        />
+        {!loading && !isError && !notFound && <Navbar />}
+        <ToastContainer />
+        <div className="font-primary dark:bg-dark-background">
+          <div className="grid">
+            <div className="flex dark:bg-slate-700 dark:text-white">
+              <div
+                className={`mx-auto w-full px-10
               dark:text-white max-md:py-5 max-sm:p-[10px] ${
                 isError
                   ? 'bg-white dark:bg-white'
@@ -211,13 +297,21 @@ const LayoutWrapper = ({ children }: any) => {
                 pathname === '/register' || pathname === '/login'
                   ? 'flex items-center justify-center'
                   : ''
-              }`}>
-              {loading ? <InitialLoading /> : children}
+              }`}
+              >
+                {!loading ? children : <InitialLoading />}
+
+                <UserNameDialog
+                  isDialogOpen={openUserNameDialog}
+                  handleSubmit={handleSubmitUserName}
+                  handleCloseDialog={handleCloseDialog}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </main>
-    </body>
+      </ThemeProvider>
+    </main>
   )
 }
 

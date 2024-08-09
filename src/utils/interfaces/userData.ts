@@ -1,3 +1,5 @@
+import { UserData } from './cookies'
+
 export interface userData {
   id: number
   bio: string
@@ -30,4 +32,5 @@ export interface UserDataBadgeProps {
 
 export interface profileProps {
   userId?: string
+  userInCookie?: UserData
 }

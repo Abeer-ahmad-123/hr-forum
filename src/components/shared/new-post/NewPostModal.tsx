@@ -3,7 +3,7 @@ import { PlusButton } from '@/components/shared'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
@@ -29,15 +29,17 @@ export default function NewPost({ updatePosts }: NewPostProps) {
         <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
           <PostBar />
         </div>
-        {data ? (
-          <DialogContent
-            className="border bg-white sm:max-w-screen-md"
-            route="newpost">
-            <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
-          </DialogContent>
-        ) : (
-          <SignInDialog setShowSignModal={() => {}} />
-        )}
+        <Suspense>
+          {data ? (
+            <DialogContent
+              className="border bg-white sm:max-w-screen-md"
+              route="newpost">
+              <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
+            </DialogContent>
+          ) : (
+            <SignInDialog setShowSignModal={() => {}} />
+          )}
+        </Suspense>
       </Dialog>
     </>
   )

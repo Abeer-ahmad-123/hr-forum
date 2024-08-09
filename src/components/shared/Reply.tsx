@@ -26,6 +26,7 @@ import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
 import { deleteModalState } from '@/services/auth/authService'
+import { noProfilePicture } from '@/assets/images'
 
 function Reply({
   reply,
@@ -131,7 +132,10 @@ function Reply({
                 alt="profile picture"
                 height={8}
                 width={8}
-                src={reply['author_details'].profile_picture_url}
+                src={
+                  reply['author_details'].profile_picture_url ||
+                  noProfilePicture.src
+                }
                 className="h-8 min-h-[32px] min-w-[32px] rounded-full"
                 onClick={handleImgClick}
               />
@@ -167,7 +171,7 @@ function Reply({
                 )}
               </div>
 
-              <div className="mt-0 flex flex-wrap break-all p-2.5 text-left leading-loose text-gray-600 dark:text-white">
+              <div className="mt-0 flex flex-wrap break-all p-0 pb-1 text-left leading-loose text-gray-600 dark:text-white">
                 {reply.content}
               </div>
             </div>
@@ -207,7 +211,7 @@ function Reply({
                   </Popover>
                 </div>
 
-                {reply.user_id.toString() == userDetails?.id ? (
+                {reply.user_id.toString() == userDetails.id ? (
                   <div
                     onClick={handleDeleteClick}
                     className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]

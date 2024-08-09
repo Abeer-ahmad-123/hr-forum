@@ -9,13 +9,14 @@ import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
 import { toPascalCase } from '@/utils/common'
+import { getUserFromCookie } from '@/utils/cookies'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
-import { ChannelInterface } from '@/utils/interfaces/channels'
-import {
+import type { ChannelInterface } from '@/utils/interfaces/channels'
+import type { PostsInterface } from '@/utils/interfaces/posts'
+import type {
   BookmarkData,
   RenderFeedsInterface,
 } from '@/utils/interfaces/renderFeeds'
-import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import RespScreen from '../Cards/ResponsiveScreen'
 
@@ -34,10 +35,10 @@ async function RenderFeeds({
       handleFetchFailed(error)
     }
   }
-  let initialPosts = []
+  let initialPosts: PostsInterface[] | [] = []
   let morePosts = true
-  const userDetailsCookies = cookies().get('user-details')
-  const accessToken = cookies().get('access-token')
+  const { user: userDetailsCookies, token: accessToken } =
+    await getUserFromCookie()
   if (channelSlug) {
     if (
       channelData.some(
@@ -54,10 +55,7 @@ async function RenderFeeds({
           const { data } = await getPostsByChannelId({
             id: getChannelId,
 
-            userID:
-              (userDetailsCookies?.value &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
 
             loadReactions: true,
             loadUser: true,
@@ -78,10 +76,7 @@ async function RenderFeeds({
               : undefined
           const { data } = await getSearchPosts({
             search: searchParams.search,
-            userID:
-              (userDetailsCookies &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
             channelID: getChannelId,
           })
 
@@ -102,10 +97,7 @@ async function RenderFeeds({
       try {
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID:
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-            '',
+          userID: userDetailsCookies?.id || '',
         })
 
         initialPosts = data?.posts
@@ -122,10 +114,7 @@ async function RenderFeeds({
           const { data } = await getAllPosts({
             loadReactions: true,
             loadUser: true,
-            userID:
-              (userDetailsCookies &&
-                JSON.parse(userDetailsCookies?.value!)?.id) ??
-              undefined,
+            userID: userDetailsCookies?.id || undefined,
           })
           initialPosts = data?.posts
           morePosts =
@@ -137,11 +126,7 @@ async function RenderFeeds({
         }
       } else if (path === '/saved') {
         try {
-          const res = await getBookmarkPosts(
-            (userDetailsCookies &&
-              JSON.parse(userDetailsCookies?.value!)?.id) ??
-              '',
-          )
+          const res = await getBookmarkPosts(userDetailsCookies?.id || '')
 
           initialPosts = res.data.Bookmarks.map((item: BookmarkData) => {
             const { userID, postID, bookmarkedAt, post, ...rest } = item
@@ -181,7 +166,7 @@ async function RenderFeeds({
           className={`${
             userDetailsCookies ? 'top-[70px] mt-[0px]' : 'top-[70px] '
           } sticky max-h-screen  max-lg:top-[55px]`}>
-          <ChannelCard />
+          <ChannelCard initialChannels={channelData} />
         </div>
         <div
           className={`sticky ${

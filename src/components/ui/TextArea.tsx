@@ -83,12 +83,12 @@ const TextArea = ({
         <div className="border-grey-700 flex w-full rounded-lg border border-solid dark:bg-dark-background">
           <textarea
             ref={inputRef}
-            rows={1}
+            rows={2}
             placeholder={placeholder}
             value={textAreaValue}
             onChange={handleTextAreaChange}
-            className={`caret-gray mr-4 w-full resize-none rounded-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]`}
+            // * Removed extra spaces
+            className={`caret-gray max-custom-sm:text-[11px]max-[392px]:text-[10px] mr-4 w-full resize-none rounded-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background max-custom-sx:text-[8px]`}
           />
 
           <button
