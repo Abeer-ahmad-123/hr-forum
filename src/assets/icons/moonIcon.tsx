@@ -7,7 +7,9 @@ const MoonIcon = ({ className, props }: any) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
-      className={`h-6 w-6 ${className}`}
+      height={5}
+      width={5}
+      className={`${className}`}
     >
       <path
         fillRule="evenodd"

@@ -1,8 +1,8 @@
-const ReturnIconButton = ({ condition, FirstIcon, SecondIcon, style }: any) => {
+const ReturnIconButton = ({ condition, FirstIcon, SecondIcon, style, }: any) => {
   return condition ? (
     <FirstIcon className="text-white" {...style} data-testid="first-icon" />
   ) : (
-    <SecondIcon className="text-accent" {...style} data-testid="second-icon" />
+    <SecondIcon className="text-[#141B34]" {...style} data-testid="second-icon" />
   )
 }
 

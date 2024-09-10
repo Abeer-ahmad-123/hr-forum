@@ -3,6 +3,7 @@ import SearchIcon from '@/assets/icons/SearchIcon'
 import '@/components/shared/customLink/style.css'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+
 const SearchBar = () => {
   const SearchParams = useSearchParams()
   const [search, setSearch] = useState<string>('')
@@ -11,7 +12,7 @@ const SearchBar = () => {
   const pathname = usePathname()
 
   const styles =
-    'dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-400 border-gray-200 bg-gray-100 hover:border-blue-500'
+    'dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-400 border-gray-200 hover:border-blue-500'
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -29,27 +30,35 @@ const SearchBar = () => {
     setSearch(e.target.value)
   }
 
+  const handleIconClick = () => {
+    refForInput.current.focus()
+  }
+
   useEffect(() => {
     setSearch(SearchParams.get('search') ?? '')
-    return () => {}
+    return () => { }
   }, [SearchParams])
 
   return (
     <form
-      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-none border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out focus-within:lg:max-w-[690px] focus:lg:max-w-[690px] focus-within:max-w-[490px] focus:max-w-[490px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
+      className='bg-bg-tertiary relative flex max-w-[420px] flex-1 items-center space-x-2 rounded-full h-10 w-10 md:h-11 md:w-11 border border-none py-1 pl-3 outline-none focus-within:w-full focus:w-full dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] dark:border-gray-600 dark:hover:border-gray-400 border-gray-200 bg-gray-100 hover:border-blue-500 transition-all duration-700 ease-in-out'
+    >
       <input
         ref={refForInput}
         onKeyDown={handleKeyDown}
         onChange={handleSearch}
         value={search}
         type="text"
-        className="ml-4 w-full border border-none border-[#d3d3d3] bg-transparent font-light text-black outline-none hover:border-none dark:text-white "
+        className="max-md:w-0 ml-4 pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out"
         placeholder="Search Forum"
       />
-      <label className="absolute left-[-6px]">
-        <div className="pointer-events-none flex items-center rounded-full bg-transparent">
-          <div className={`mr-2 flex h-7 rounded-lg`}>
-            <div className="flex items-center justify-center">
+      <label className="absolute left-[-6px] max-sm:left-[-3px]">
+        <div
+          className="pointer-events-auto flex items-center rounded-full bg-transparent cursor-pointer"
+          onClick={handleIconClick} // Add click handler here
+        >
+          <div className={`mr-5 flex h-7 rounded-lg`}>
+            <div className="flex items-center justify-center transition-all duration-700 ease-in-out">
               <SearchIcon />
             </div>
           </div>
