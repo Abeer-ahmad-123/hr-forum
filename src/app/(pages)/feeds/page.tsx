@@ -16,7 +16,6 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
     searchParams,
     path: '/feed',
   })
-
   return (
     <Suspense fallback={<CardLoading />}>
       <RenderFeedsGeneral

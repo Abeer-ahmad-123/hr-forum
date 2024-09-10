@@ -79,6 +79,7 @@ const Card = ({
 
   const pathName = usePathname()
   const { slug } = useParams()
+  const isFirstRef = useRef<boolean>(true)
   const router = useRouter()
   const dispatch = useDispatch()
   const userDetails = useSelector(
@@ -115,8 +116,11 @@ const Card = ({
     useState<boolean>(user_has_bookmarked)
   const [reported, setReported] = useState<boolean>(user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
-
+  const [isHydrated, setIsHydrated] = useState(false)
   const reactionRef = useRef<boolean>(false)
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -268,6 +272,10 @@ const Card = ({
     setReported(user_has_reported)
   }, [user_has_reported])
 
+  useEffect(() => {
+    isFirstRef.current === false
+  }, [])
+
   return (
     <div id={String(id)} key={id} className="m-0 w-full max-w-[100dvw] p-0">
       <div
@@ -322,9 +330,6 @@ const Card = ({
                       className="max-w-full shrink-0 break-all pr-1 text-sm font-normal leading-none text-gray-900 hover:underline dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
-                      {/*
-                       * "You" is based on user_id not on username what if i change username the "You" will also be changed.
-                       */}
                       {String(userDetails.id) === String(user_id)
                         ? 'You'
                         : user?.name}
@@ -370,7 +375,6 @@ const Card = ({
                       </PopoverTrigger>
                       <Suspense>
                         <PopoverContent className="bg-white">
-                          {' '}
                           {String(post.user_id) === userDetails?.id ? (
                             <div
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
@@ -429,50 +433,53 @@ const Card = ({
                 <p>{title}</p>
               </div>
             </CustomLink>
-            {!image_url ? (
-              <>
-                <div
-                  className="card-li max-w-full !hyphens-auto !break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
-                  dangerouslySetInnerHTML={{
-                    __html: `${
-                      content
-                        ? content
-                            .slice(0, showFullPost ? -1 : 200)
-                            .concat(
-                              showFullPost
-                                ? ''
-                                : content?.length > 200
-                                ? '<span className="text-gray-500">....</span>'
-                                : '',
-                            )
-                        : ''
-                    }`,
-                  }}
+            {isHydrated &&
+              (!image_url ? (
+                <>
+                  <div
+                    className="card-li max-w-full !hyphens-auto !break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
+                    dangerouslySetInnerHTML={{
+                      __html: `${
+                        content
+                          ? content
+                              .slice(0, showFullPost ? -1 : 200)
+                              .concat(
+                                showFullPost
+                                  ? ''
+                                  : content?.length > 200
+                                  ? '<span className="text-gray-500">....</span>'
+                                  : '',
+                              )
+                          : ''
+                      }`,
+                    }}
+                  />
+                  {content?.length > 200 && (
+                    <button
+                      className="text-sm text-gray-500 dark:text-gray-400 lg:text-base"
+                      onClick={handleShowMoreOrLess}>
+                      Show {showFullPost ? 'Less' : 'More'}
+                    </button>
+                  )}
+                </>
+              ) : (
+                // * Image consistency for width / height and fill properties
+                <Image
+                  quality={100}
+                  src={image_url}
+                  alt="post"
+                  height={500}
+                  width={500}
+                  className="mx-auto h-full max-h-[400px] object-contain"
                 />
-                {content?.length > 200 && (
-                  <button
-                    className="text-sm text-gray-500 dark:text-gray-400 lg:text-base"
-                    onClick={handleShowMoreOrLess}>
-                    Show {showFullPost ? 'Less' : 'More'}
-                  </button>
-                )}
-              </>
-            ) : (
-              // * Image consistency for width / height and fill properties
-              <Image
-                quality={100}
-                src={image_url}
-                alt="post"
-                height={500}
-                width={500}
-                className="mx-auto h-full max-h-[400px] object-contain"
-              />
-            )}
+              ))}
           </div>
         </div>
 
         <PostReactionBar
-          reaction_summary={reactionSummary}
+          reaction_summary={
+            isFirstRef.current ? reaction_summary : reactionSummary
+          }
           postId={id ? String(id) : ''}
         />
         <hr />

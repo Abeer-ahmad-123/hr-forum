@@ -1,3 +1,4 @@
+'use client'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { AiFillHome, AiOutlineUserAdd } from 'react-icons/ai'
@@ -7,7 +8,6 @@ import {
   RiSettings4Fill,
 } from 'react-icons/ri'
 import DropDownContent from '../shared/DropDownContent'
-import { ChannelInterface } from '@/utils/interfaces/channels'
 
 interface FeaturesDropDownInterface {
   classNameOuter: string
@@ -22,6 +22,7 @@ const FeaturesDropDown = ({
 }: FeaturesDropDownInterface) => {
   const [selected, setSelected] = useState('Home')
   const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   const divRef: any = useRef(null)
 
@@ -83,27 +84,6 @@ const FeaturesDropDown = ({
     }
   }, [pathname])
 
-  useEffect(() => {
-    if (pathname) setSelectedFromPathName()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname])
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside)
-    return () => {
-      document.removeEventListener('click', handleClickOutside)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [handleClickOutside])
-
-  useEffect(() => {
-    setCheckFalse()
-    document.addEventListener('scroll', setCheckFalse)
-    return () => {
-      document.removeEventListener('scroll', setCheckFalse)
-    }
-  }, [])
-
   const getSelectedIcon = () => {
     const styles = 'mr-2 h-5 w-5 text-accent'
     if (selected === 'Home' || 'Feeds') {
@@ -123,6 +103,31 @@ const FeaturesDropDown = ({
       )
     }
   }
+
+  useEffect(() => {
+    if (pathname) setSelectedFromPathName()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside)
+    return () => {
+      document.removeEventListener('click', handleClickOutside)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handleClickOutside])
+
+  useEffect(() => {
+    setCheckFalse()
+    document.addEventListener('scroll', setCheckFalse)
+    return () => {
+      document.removeEventListener('scroll', setCheckFalse)
+    }
+  }, [])
 
   return (
     <div
@@ -145,9 +150,11 @@ const FeaturesDropDown = ({
           </div>
           <DownArrow className="text-2xl dark:text-white" />
         </div>
-        <div className={`${showDiv} `}>
-          <DropDownContent handleLi={handleLi} />
-        </div>
+        {isHydrated && (
+          <div className={`${showDiv} `}>
+            <DropDownContent handleLi={handleLi} />
+          </div>
+        )}
       </div>
     </div>
   )

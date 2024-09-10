@@ -1,6 +1,6 @@
 'use client'
 import NoPosts from '@/components/Cards/NoMore'
-import RespScreen from '@/components/Cards/ResponsiveScreen'
+import FeaturesDropDownWithSuspense from '@/components/Cards/FeaturesDropDownWithSuspense'
 import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
@@ -130,14 +130,12 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
       <div
         className={`mr-[5px] ${
           token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}
-      >
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userData && <ProfileCard />}
         <div
           className={`${
             userData ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}
-        >
+          } sticky max-h-screen  max-lg:top-[55px]`}>
           <ChannelCard />
         </div>
         <div
@@ -145,8 +143,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
             token
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}
-        >
+          } max-h-screen`}>
           {' '}
           <RulesCard />
         </div>
@@ -157,11 +154,10 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
           <div className="w-full">
             <div>
               {' '}
-              <RespScreen />
+              <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}
-            >
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/${slug}/comments`) && (
                   <ActivityButtons slug={slug} />

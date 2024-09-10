@@ -11,7 +11,7 @@ import type {
 } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
-import RespScreen from '../Cards/ResponsiveScreen'
+import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -20,7 +20,7 @@ type Props = RenderFeedsInterface & {
   }
   morePosts: boolean
 }
-async function RenderFeedsGeneral({
+export default async function RenderFeedsGeneral({
   channelSlug = '',
   searchParams,
   path,
@@ -28,6 +28,7 @@ async function RenderFeedsGeneral({
   morePosts,
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
+
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = (data.channels as ChannelInterface[]).find(
       (obj: { slug: string }) => obj.slug === slug,
@@ -86,7 +87,7 @@ async function RenderFeedsGeneral({
 
         <div className="flex w-full justify-center">
           <div className="w-full">
-            <RespScreen />
+            <FeaturesDropDownWithSuspense />
 
             <div
               className={`${
@@ -109,4 +110,3 @@ async function RenderFeedsGeneral({
     </div>
   )
 }
-export default RenderFeedsGeneral
