@@ -1,6 +1,5 @@
 import clsx from 'clsx'
-import { Heart } from 'lucide-react'
-
+import HeartIcon from '@/assets/icons/heartIcon'
 const ReactionEmoji = ({
   emojiCharacter,
   reactionName,
@@ -18,17 +17,13 @@ const ReactionEmoji = ({
     <div
       onClick={onEmojiClick}
       className={clsx(
-        'flex cursor-pointer items-center rounded-lg border-none px-3',
+        'flex cursor-pointer items-center gap-[8px] rounded-lg border-none',
         styles,
       )}
       id={reactionName}
       aria-label={`select ${reactionName} emoji`}>
       <span className="text-xl text-black dark:text-gray-300" id={reactionName}>
-        {emojiCharacter === '♡' ? (
-          <Heart strokeWidth={1} className="text-black dark:text-white" />
-        ) : (
-          emojiCharacter
-        )}
+        {emojiCharacter === '♡' ? <HeartIcon /> : emojiCharacter}
       </span>
     </div>
   )

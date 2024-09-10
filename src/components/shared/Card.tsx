@@ -47,6 +47,7 @@ import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
+import PostImage from '@/assets/images/Post.svg'
 
 type CardProps = {
   post: PostsInterface
@@ -66,7 +67,7 @@ const Card = ({
     id,
     created_at,
     title,
-    content,
+    // content,
     channel_id,
     author_details: user,
     reaction_summary,
@@ -88,7 +89,10 @@ const Card = ({
   const [showFullPost, setShowFullPost] = useState(false)
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
+  const content =
+    '  Lorem ipsum dolor sit amet, consectetur adipisicing elit.Explicabo ex consequuntur reiciendis, corporis vero ipsa ullam dolorem exercitationem libero maxime in sint rerum cum ipsam velit culpa quibusdam provident a natus corrupti impedit totam quisquam. Mollitia obcaecati quia quis! Consequatur possimus a voluptatem ut quidem dicta tenetur natus iusto harum impedit   exercitationem laboriosam minima nam enim maxime, voluptate fugit architecto sit! Perferendis beatae quidem, eum quos eius qui optio obcaecati quisquam itaque ipsam! Corporis possimus  culpa eius porro saepe rerum nam consequatur ab quia blanditiis labore magni, ipsa eveniet laudantium! Facere sint, optio  maxime tempora tenetur facilis explicabo perferendis unde  adipisci in cum porro incidunt voluptatum. Omnis excepturi expedita neque, veritatis sequi harum tenetur, hic magni quaerat'
 
+  const displayedContent = showFullPost ? content : content.slice(0, 200)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
@@ -271,7 +275,7 @@ const Card = ({
   return (
     <div id={String(id)} key={id} className="m-0 w-full max-w-[100dvw] p-0">
       <div
-        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-[20px] border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -299,16 +303,16 @@ const Card = ({
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div className={cn('px-10 py-4 max-custom-sm:px-6 max-[392px]:px-2')}>
+        <div className=" flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
-              <div className="flex items-center">
+              <div className="flex items-center gap-[12px]">
                 <div className="-z-2">
                   <div className="static rounded-xl">
                     <img
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
-                      width={32}
-                      height={32}
+                      width={48}
+                      height={48}
                       src={user?.profile_picture_url || noProfilePicture.src}
                       alt="user-picture"
                       onClick={handleNavigateProfile}
@@ -316,10 +320,10 @@ const Card = ({
                   </div>
                 </div>
 
-                <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row flex-wrap items-center">
+                <div className=" flex flex-col items-start align-baseline">
+                  <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
-                      className="max-w-full shrink-0 break-all pr-1 text-sm font-normal leading-none text-gray-900 hover:underline dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+                      className="max-w-full shrink-0 break-all text-[16px]  font-[800]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {/*
@@ -414,7 +418,7 @@ const Card = ({
           </div>
 
           <div
-            className="flex max-w-full flex-col hyphens-auto"
+            className="flex max-w-full flex-col gap-[20px] hyphens-auto"
             onClick={handleNavigateFeed}>
             <CustomLink
               href={
@@ -425,73 +429,69 @@ const Card = ({
                   : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className="my-3 text-start text-xl font-semibold dark:text-white max-custom-sm:text-base">
+              <div className="my-3 text-start text-[16px] text-xl font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
-            {!image_url ? (
+
+            {
               <>
-                <div
-                  className="card-li max-w-full !hyphens-auto !break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
-                  dangerouslySetInnerHTML={{
-                    __html: `${
-                      content
-                        ? content
-                            .slice(0, showFullPost ? -1 : 200)
-                            .concat(
-                              showFullPost
-                                ? ''
-                                : content?.length > 200
-                                ? '<span className="text-gray-500">....</span>'
-                                : '',
-                            )
-                        : ''
-                    }`,
-                  }}
+                <div className="card-li max-w-full !hyphens-auto !break-words text-start text-[16px] text-base font-[400] text-gray-700 dark:text-gray-300 ">
+                  <p className="inline">
+                    {displayedContent}
+                    {!showFullPost && content.length > 200 && (
+                      <span className="text-gray-500">
+                        ...
+                        <button
+                          className="ml-1 text-[12px] text-black underline dark:text-gray-400 lg:text-base"
+                          onClick={() => setShowFullPost(true)}>
+                          Read More
+                        </button>
+                      </span>
+                    )}
+                    {showFullPost && (
+                      <button
+                        className="ml-1 text-[12px] text-black underline dark:text-gray-400 lg:text-base"
+                        onClick={() => setShowFullPost(false)}>
+                        Read Less
+                      </button>
+                    )}
+                  </p>
+                </div>
+                {/* // * Image consistency for width / height and fill properties */}
+                <Image
+                  quality={100}
+                  src={PostImage}
+                  alt="post"
+                  height={500}
+                  width={500}
+                  className=" h-full max-h-[270px] w-full rounded-[20px] object-contain "
                 />
-                {content?.length > 200 && (
-                  <button
-                    className="text-sm text-gray-500 dark:text-gray-400 lg:text-base"
-                    onClick={handleShowMoreOrLess}>
-                    Show {showFullPost ? 'Less' : 'More'}
-                  </button>
-                )}
               </>
-            ) : (
-              // * Image consistency for width / height and fill properties
-              <Image
-                quality={100}
-                src={image_url}
-                alt="post"
-                height={500}
-                width={500}
-                className="mx-auto h-full max-h-[400px] object-contain"
-              />
-            )}
+            }
+          </div>
+          <div className=" flex   " key={id}>
+            <PostActionBar
+              postId={String(id)}
+              userReaction={reactionRef.current ? userReaction : user_reaction}
+              setUserReaction={setUserReaction}
+              updateReactionArray={updateReactionArray}
+              reactionSummary={reactionSummary}
+              disableReactionButton={disableReactionButton}
+              setDisableReactionButton={setDisableReactionButton}
+              userComment={userComment}
+              reactionRef={reactionRef}
+              updatePosts={updatePosts}
+              posts={posts}
+            />
           </div>
         </div>
 
-        <PostReactionBar
+        {/* <PostReactionBar
           reaction_summary={reactionSummary}
           postId={id ? String(id) : ''}
         />
-        <hr />
-
-        <div className="py-1" key={id}>
-          <PostActionBar
-            postId={String(id)}
-            userReaction={reactionRef.current ? userReaction : user_reaction}
-            setUserReaction={setUserReaction}
-            updateReactionArray={updateReactionArray}
-            reactionSummary={reactionSummary}
-            disableReactionButton={disableReactionButton}
-            setDisableReactionButton={setDisableReactionButton}
-            userComment={userComment}
-            reactionRef={reactionRef}
-            updatePosts={updatePosts}
-            posts={posts}
-          />
-        </div>
+        <hr /> */}
       </div>
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>

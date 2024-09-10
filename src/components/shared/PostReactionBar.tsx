@@ -119,9 +119,9 @@ const PostReactionBar = ({
   return (
     <>
       {/* IF ONLY THE REACTIONS OR THE COMMENTS EXIST THEN ADD EXTRA <HR/> */}
-      {!pathName.includes('/profile') && (countofAll || postCommentsCount) ? (
+      {/* {!pathName.includes('/profile') && (countofAll || postCommentsCount) ? (
         <hr />
-      ) : null}
+      ) : null} */}
       <div className="flex items-center justify-between px-10 py-1">
         {/* * Fixed issue with reactions buttons overlapping and using less width. */}
         <div className="flex gap-1">

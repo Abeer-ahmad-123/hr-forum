@@ -59,67 +59,72 @@ const timeFormatInDateMonth = (d: Date) => {
   const day = date.getDate()
   return `${monthName} ${day}`
 }
-
 const timeFormatInHours = (timestamp: Date) => {
   const currentDate = new Date()
   const date = new Date(timestamp)
-  const dateMonth = timeFormatInDateMonth(timestamp)
+  const dateMonth = timeFormatInDateMonth(timestamp) // Assuming this returns a formatted date string.
 
   const timeDifferenceInMilliseconds = currentDate.getTime() - date.getTime()
-
+  const minutesAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60))
   const hoursAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60 * 60))
+  const daysAgo = Math.floor(hoursAgo / 24)
+  const weeksAgo = Math.floor(daysAgo / 7)
+  const monthsAgo = Math.floor(daysAgo / 30)
 
   if (hoursAgo < 1) {
-    const minutesAgo = Math.floor(timeDifferenceInMilliseconds / (1000 * 60))
-    return minutesAgo > 1
-      ? `${dateMonth} (${minutesAgo} mints ago)`
-      : ` ${dateMonth} (1 mint ago)`
+    return minutesAgo > 1 ? `${minutesAgo} minutes ago)` : `1m ago`
   } else if (hoursAgo < 24) {
-    return `${hoursAgo} hours ago`
+    return hoursAgo > 1 ? `${hoursAgo} hours ago)` : `1 hour ago`
+  } else if (daysAgo < 7) {
+    return daysAgo > 1 ? `${daysAgo} days ago)` : `1 day ago`
+  } else if (daysAgo < 30) {
+    return weeksAgo > 1 ? `${weeksAgo} weeks ago` : `1 week ago`
   } else {
-    const daysAgo = Math.floor(hoursAgo / 24)
-    return daysAgo > 1
-      ? `${dateMonth} (${daysAgo} days ago)`
-      : `${dateMonth} (1 day ago)`
+    return monthsAgo > 1 ? `${monthsAgo} months ago` : `1 month ago`
   }
 }
+
 /**
- * 
+ *
  * @param userName Takes the string and checks for validations.
- * 
+ *
  * @description
  * Current validations:
- * 
+ *
  *  - Special Character
- * 
+ *
  *  - max = 32 length.
- * 
+ *
  *  - min = 1 length.
- * @returns {boolean} valid 
+ * @returns {boolean} valid
  * valid = true, the username is valid.
  * valid  false, the username is invalid.
- * 
+ *
  * @returns {string | null} message
  * message != null, then there is some error and the message represents the error message.
  */
 const isValidUserName = (userName: string) => {
   const userNameRegex = /^[a-zA-Z0-9]{1,}$/
-  const isValidUserName = userNameRegex.test(userName);
+  const isValidUserName = userNameRegex.test(userName)
 
   /**
    * if there is no special character in username and username has some character entered, then proceed to check 32 length
-   * 
+   *
    */
   if (isValidUserName) {
     if (userName.length > 32) {
-      return { valid: false, message: "username should not exceed 32 characters" };
-    }
-    else {
+      return {
+        valid: false,
+        message: 'username should not exceed 32 characters',
+      }
+    } else {
       return { valid: true, message: null }
     }
-  }
-  else
-    return { valid: isValidUserName, message: "username cannot have special characters" }
+  } else
+    return {
+      valid: isValidUserName,
+      message: 'username cannot have special characters',
+    }
 }
 
 export {
