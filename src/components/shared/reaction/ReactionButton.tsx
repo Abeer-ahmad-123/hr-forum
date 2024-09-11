@@ -8,8 +8,15 @@ import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Heart } from 'lucide-react'
+import HeartIcon from '@/assets/icons/heartIcon'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import {
+  CommentCount,
+  CommentCountStore,
+  PostReactionBarProps,
+  ReactionCounts,
+} from '@/utils/interfaces/posts'
 import { ReactionEmoji } from '.'
 
 const ReactionButton = ({
@@ -20,10 +27,19 @@ const ReactionButton = ({
   handleLikeWrapper,
   disableReactionButton,
   setDisableReactionButton,
+  reaction_summary,
 }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
   const [currentReaction, updateCurrentReaction] = useState('')
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
+  const [countofAll, setCountofAll] = useState<number>(0)
+  const [reactionArray, setReactionArray] = useState<[string, number][]>([])
+  const getAllPostData = () => {
+    const reactionEntries = Object?.entries(reaction_summary as ReactionCounts)
+
+    const sortedReactions = reactionEntries.sort((a, b) => b[1] - a[1])
+    setReactionArray(sortedReactions)
+  }
   const [currentReactionEmoji, setCurrentReactionEmoji] = useState({
     name: '',
     emoji: '',
@@ -107,18 +123,14 @@ const ReactionButton = ({
           aria-labelledby="reactionOptionLabel"
           role="button">
           <div
-            className="dark:text-icon-dark pointer flex items-center justify-center"
+            className="dark:text-icon-dark pointer flex  items-center justify-center gap-[8px]"
             onClick={handleLikeWrapperExtended}>
             <div className="flex flex-col items-center">
               <ReactionEmoji
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={
                   currentReactionEmoji?.emoji || (
-                    <Heart
-                      strokeWidth={1}
-                      // color={color}
-                      className="text-black dark:text-white"
-                    />
+                    <HeartIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
                   )
                 }
                 isReactionSelected={false}
@@ -129,7 +141,9 @@ const ReactionButton = ({
                 {post?.totalReactionCount}
               </span>
             </div>
-            <div className="font-light max-custom-sm:hidden">Like</div>
+            <div className="text-[12px] font-light text-[#666666] md:text-[16px]">
+              Like
+            </div>
           </div>
         </PopoverTrigger>
         <PopoverContent className="-mt-2 border-0 shadow-none">

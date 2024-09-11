@@ -5,13 +5,15 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { FaRegComment } from 'react-icons/fa'
 import { PiShareFat } from 'react-icons/pi'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
+import CommentIcon from '@/assets/icons/CommentIcon'
+import ShareIcon from '@/assets/icons/shareIcon'
 
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import {
@@ -26,6 +28,14 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps, PostsInterface } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './new-post/SignInDialog'
+import BookMark from '@/assets/icons/bookMarkIcon'
+import {
+  CommentCount,
+  CommentCountStore,
+  PostReactionBarProps,
+  ReactionCounts,
+} from '@/utils/interfaces/posts'
+import { CustomLink } from './customLink/CustomLink'
 
 const PostActionBar = ({
   postId,
@@ -53,6 +63,17 @@ const PostActionBar = ({
   const { handleRedirect } = useFetchFailedClient()
   const [showSignModal, setShowSignModal] = useState(false)
   const [popOver, setPopOver] = useState(false)
+  const [commentCount, setCommentCount] = useState<CommentCount>({})
+  const commentCountInStore = useSelector(
+    (state: CommentCountStore) => state.posts.commentCount,
+  )
+  useEffect(() => {
+    setCommentCount(commentCountInStore)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [commentCountInStore])
+  const postCommentsCount = useMemo(() => {
+    return commentCount[Number(postId)] || null
+  }, [commentCount, postId])
   const { id } = useParams()
   const pathName = usePathname()
 
@@ -182,54 +203,89 @@ const PostActionBar = ({
   return (
     <>
       {/* * Added Gap between the action bar and the comment section */}
-      <div className="flex flex-col gap-3">
-        <div className="flex w-full justify-between px-[2%] py-1 max-md:flex-row max-md:gap-[2%]">
-          <ReactionButton
-            handleLikeWrapper={handleLikeWrapper}
-            userReaction={userReaction}
-            onReact={submitReaction}
-            disableReactionButton={disableReactionButton}
-            setDisableReactionButton={setDisableReactionButton}
-          />
+      <div className="flex w-full flex-col gap-3">
+        <div className="flex w-full items-center justify-between  ">
+          <div className="flex gap-[28px]">
+            <ReactionButton
+              handleLikeWrapper={handleLikeWrapper}
+              userReaction={userReaction}
+              onReact={submitReaction}
+              disableReactionButton={disableReactionButton}
+              setDisableReactionButton={setDisableReactionButton}
+            />
 
-          <div className="flex basis-1/4 items-center justify-center rounded-sm hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
-            <button
-              name="comment button"
-              onClick={toggleCommentArea}
-              className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black">
-              <FaRegComment />
-              <span className="font-light max-custom-sm:hidden">Comment</span>
-            </button>
+            <div className="flex w-full items-center  justify-center rounded-sm  hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
+              <button
+                name="comment button"
+                onClick={toggleCommentArea}
+                className="text-icon-light dark:text-icon-dark flex cursor-pointer  items-center gap-[8px]  font-black">
+                <CommentIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                <CustomLink
+                  href={
+                    pathName.includes('channels')
+                      ? `${pathName}/feed/${postId}`
+                      : `/feeds/feed/${postId}`
+                  }
+                  className="flex items-center">
+                  {commentCount && postCommentsCount ? (
+                    <span className="flex items-center justify-center gap-[8px]  text-[12px] font-light  text-black md:text-[16px]">
+                      {postCommentsCount > 1 ? (
+                        <>
+                          <span className="font-[900]">
+                            {postCommentsCount}
+                          </span>
+                          <span className="text-[12px] font-light text-[#666666] md:text-[16px]">
+                            Comments
+                          </span>
+                        </>
+                      ) : (
+                        `${postCommentsCount} Comment`
+                      )}
+                    </span>
+                  ) : (
+                    <span className="text-[12px] font-light text-[#666666] md:text-[16px]">
+                      Comment
+                    </span>
+                  )}
+                </CustomLink>
+              </button>
+            </div>
+
+            <div
+              className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
+              onMouseLeave={handleMouseDown}>
+              <Popover open={popOver} onOpenChange={setPopOver}>
+                <PopoverTrigger
+                  className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center gap-[8px]  font-black"
+                  name="share options button"
+                  aria-label="share options"
+                  aria-labelledby="shareOptionsLabel"
+                  role="button">
+                  <ShareIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                  <span
+                    className="text-[12px] font-light text-[#666666] md:text-[16px]"
+                    onClick={setOpenPopOver}>
+                    Share
+                  </span>
+                </PopoverTrigger>
+
+                <PopoverContent className="cursor-pointer bg-white">
+                  <SocialButtons
+                    className="flex gap-3"
+                    postId={postId}
+                    handleButtonClick={handleButtonClick}
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
           </div>
 
-          <div
-            className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
-            onMouseLeave={handleMouseDown}>
-            <Popover open={popOver} onOpenChange={setPopOver}>
-              <PopoverTrigger
-                className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
-                name="share options button"
-                aria-label="share options"
-                aria-labelledby="shareOptionsLabel"
-                role="button">
-                <PiShareFat className="h-6 w-6 font-light" />
-                <span
-                  className="font-light  max-custom-sm:hidden "
-                  onClick={setOpenPopOver}>
-                  Share
-                </span>
-              </PopoverTrigger>
-
-              <PopoverContent className="cursor-pointer bg-white">
-                <SocialButtons
-                  className="flex gap-3"
-                  postId={postId}
-                  handleButtonClick={handleButtonClick}
-                />
-              </PopoverContent>
-            </Popover>
+          <div className="flex items-center justify-center gap-[8px]">
+            <BookMark className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+            <p className="text-[12px] text-[#666666] md:text-[16px]">Save</p>
           </div>
         </div>
+
         {pathName.includes('/comment')
           ? comment.id && (
               <CommentSection
