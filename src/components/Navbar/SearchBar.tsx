@@ -55,7 +55,7 @@ const SearchBar = () => {
           onClick={handleIconClick}
         >
           <div className={`mr-5 flex h-7 rounded-lg`}>
-            <div className="md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
+            <div className="pl-0 sm:pl-[3px] md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
               <SearchIcon className='fill-current text-black md:text-color-grey' />
             </div>
           </div>

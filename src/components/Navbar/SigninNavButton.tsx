@@ -35,7 +35,7 @@ export default function SigninNavButton() {
   return (
     <Dialog open={openDialog} onOpenChange={handleCloseDialog}>
       <DialogTrigger
-        className={`flex w-[89px] h-10 sm:h-11  cursor-pointer font-[800] items-center justify-center gap-2 rounded-full bg-bg-green px-3 py-2 text-black  hover:bg-bg-green sm:w-[136px]`}>
+        className={`flex w-[89px] h-10 sm:h-11  cursor-pointer font-[800] items-center justify-center gap-2 rounded-full bg-bg-green px-3 py-2 text-black  hover:bg-bg-green md:w-[136px]`}>
 
         <span>Login</span>
       </DialogTrigger>
