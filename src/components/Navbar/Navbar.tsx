@@ -9,14 +9,12 @@ import Logo from './Logo'
 import NightModeToggle from './NightModeToggle'
 import SearchBar from './SearchBar'
 import SigninNavButton from './SigninNavButton'
-import { useState } from 'react'
 
 const Navbar = () => {
   const reduxToken = useSelector(
     (state: LoggedInUser) => state.loggedInUser.token,
   )
   const pathname = usePathname()
-  const [isFocused, setIsFocused] = useState(false);
 
 
   return (

@@ -11,9 +11,6 @@ const SearchBar = () => {
   const refForInput: any = useRef()
   const pathname = usePathname()
 
-  const styles =
-    'dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-400 border-gray-200 hover:border-blue-500'
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault()
