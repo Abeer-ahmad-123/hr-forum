@@ -49,7 +49,7 @@ const SearchBar = () => {
         onChange={handleSearch}
         value={search}
         type="text"
-        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out"
+        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out placeholder:text-base placeholder:font-medium placeholder-opacity-60"
         placeholder="Search Forum"
       />
       <label className="absolute left-[-6px] max-sm:left-[-3px]">
