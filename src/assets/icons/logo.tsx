@@ -1,10 +1,15 @@
 import React from "react";
+interface LogoIconProps {
+  className: string;
+}
 
-function LogoIcon() {
+function LogoIcon({ className }: LogoIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={'h-9 w-9 sm:h-10 sm:w-10'}
+      className={className}
+      width="36"
+      height="36"
       fill="none"
       viewBox="0 0 36 36"
     >

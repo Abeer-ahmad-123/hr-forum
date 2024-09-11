@@ -123,6 +123,7 @@ module.exports = {
         'dark-primary': '#111927',
         'dark-background-secondary': '#1C2536',
         'dark-background-hover': '#1e2b37',
+        'bg-dark-grey': 'var(--bg-dark-grey)',
         sky: colors.sky,
         skelton: 'rgb(209 213 219)',
       },

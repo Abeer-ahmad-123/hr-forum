@@ -41,7 +41,7 @@ const SearchBar = () => {
 
   return (
     <form
-      className='bg-bg-tertiary relative flex max-w-[420px] flex-1 items-center space-x-2 rounded-full h-10 w-10 md:h-11 md:w-11 border border-none py-1 pl-3 outline-none focus-within:w-full focus:w-full dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] dark:border-gray-600 dark:hover:border-gray-400 border-gray-200 bg-gray-100 hover:border-blue-500 transition-all duration-700 ease-in-out'
+      className='relative flex max-w-[420px] flex-1 items-center space-x-2 rounded-full h-10 w-10 transition-all duration-700 ease-in-out md:h-11 md:w-11 border border-none py-1 pl-3 outline-none focus-within:w-full focus:w-full dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] dark:border-gray-600 dark:hover:border-gray-400 border-gray-200 bg-bg-tertiary hover:border-blue-500'
     >
       <input
         ref={refForInput}
@@ -49,16 +49,16 @@ const SearchBar = () => {
         onChange={handleSearch}
         value={search}
         type="text"
-        className="max-md:w-0 ml-4 pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out"
+        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out"
         placeholder="Search Forum"
       />
       <label className="absolute left-[-6px] max-sm:left-[-3px]">
         <div
           className="pointer-events-auto flex items-center rounded-full bg-transparent cursor-pointer"
-          onClick={handleIconClick} // Add click handler here
+          onClick={handleIconClick}
         >
           <div className={`mr-5 flex h-7 rounded-lg`}>
-            <div className="flex items-center justify-center transition-all duration-700 ease-in-out">
+            <div className="md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
               <SearchIcon />
             </div>
           </div>

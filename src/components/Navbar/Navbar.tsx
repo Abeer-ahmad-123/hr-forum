@@ -30,8 +30,9 @@ const Navbar = () => {
             classNamefeaturesDropDowm="w-[270px] max-lg:w-[225px] max-md:w-[230px]"
           /> */}
         </div>
-        <div className="flex md:w-full gap-5 max-md:gap-[12px] items-center justify-end md:justify-end lg:flex-nowrap transition-all ease-in-out duration-700">
-          <div className="flex md:w-full max-w-[420px] text-end max-sm:justify-end transition-all ease-in-out  duration-700">
+        <div className="flex sm:w-full gap-5 max-md:gap-[12px] items-center justify-end md:justify-end lg:flex-nowrap transition-all ease-in-out duration-700">
+          {/* //REmove this bg-bg-tertiary */}
+          <div className="flex md:w-full max-w-[420px] text-end max-sm:justify-end transition-all ease-in-out duration-700">
             <SearchBar />
           </div>
 
