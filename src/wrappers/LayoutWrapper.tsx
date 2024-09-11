@@ -273,8 +273,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
       className={`${
         isError ? 'bg-white' : 'dark:bg-dark-background'
       } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
-      `}
-    >
+      `}>
       <ThemeProvider attribute="class" defaultTheme="theme-default">
         <ProgressBar
           height="2px"
@@ -294,11 +293,10 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
                   ? 'bg-white dark:bg-white'
                   : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
               } ${
-                pathname === '/register' || pathname === '/login'
-                  ? 'flex items-center justify-center'
-                  : ''
-              }`}
-              >
+                  pathname === '/register' || pathname === '/login'
+                    ? 'flex items-center justify-center'
+                    : ''
+                }`}>
                 {!loading ? children : <InitialLoading />}
 
                 <UserNameDialog

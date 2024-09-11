@@ -1,4 +1,5 @@
 import { EmojiActionInterface, ReactionSummary } from './card'
+import { CommentObject } from './feeds'
 
 export interface PostsInterface {
   id: number
@@ -68,6 +69,7 @@ export interface CommentCount {
 export interface PostReactionBarProps {
   postId: string
   reaction_summary: any
+  totalComments?: number
 }
 
 export type ReactionCounts = {

@@ -147,6 +147,7 @@ const Feeds = ({
                 channels={channels || channelsInStore}
                 updatePosts={updatePosts}
                 posts={posts}
+                userComment={null}
               />
             )
           })

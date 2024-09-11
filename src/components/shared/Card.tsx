@@ -47,6 +47,8 @@ import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
+import { CommentObject } from '@/utils/interfaces/feeds'
+import CardContent from './CardContent'
 
 type CardProps = {
   post: PostsInterface
@@ -75,8 +77,8 @@ const Card = ({
     user_has_reported,
     user_id,
     image_url,
+    total_comments,
   } = post
-
   const pathName = usePathname()
   const { slug } = useParams()
   const isFirstRef = useRef<boolean>(true)
@@ -85,8 +87,6 @@ const Card = ({
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  // * Show More / Less state for post content
-  const [showFullPost, setShowFullPost] = useState(false)
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
 
@@ -250,10 +250,6 @@ const Card = ({
     }
   }
 
-  function handleShowMoreOrLess(e: React.MouseEvent<HTMLButtonElement>) {
-    e.stopPropagation()
-    setShowFullPost((prev) => !prev)
-  }
   useEffect(() => {
     if (reaction_summary) {
       setReactionSummary(reaction_summary)
@@ -273,7 +269,7 @@ const Card = ({
   }, [user_has_reported])
 
   useEffect(() => {
-    isFirstRef.current === false
+    isFirstRef.current = false
   }, [])
 
   return (
@@ -433,50 +429,44 @@ const Card = ({
                 <p>{title}</p>
               </div>
             </CustomLink>
-            {isHydrated &&
-              (!image_url ? (
+            {!image_url ? (
+              content ? (
                 <>
-                  <div
-                    className="card-li max-w-full !hyphens-auto !break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
-                    dangerouslySetInnerHTML={{
-                      __html: `${
-                        content
-                          ? content
-                              .slice(0, showFullPost ? -1 : 200)
-                              .concat(
-                                showFullPost
-                                  ? ''
-                                  : content?.length > 200
-                                  ? '<span className="text-gray-500">....</span>'
-                                  : '',
-                              )
-                          : ''
-                      }`,
-                    }}
-                  />
+                  <CardContent content={content} />
                   {content?.length > 200 && (
-                    <button
-                      className="text-sm text-gray-500 dark:text-gray-400 lg:text-base"
-                      onClick={handleShowMoreOrLess}>
-                      Show {showFullPost ? 'Less' : 'More'}
-                    </button>
+                    <CustomLink
+                      href={
+                        pathName.includes('channels')
+                          ? `${pathName}/feed/${id}`
+                          : pathName.includes('saved')
+                          ? `/saved/feed/${id}`
+                          : `/feeds/feed/${id}`
+                      }>
+                      <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
+                        Show More
+                      </button>
+                    </CustomLink>
                   )}
                 </>
               ) : (
-                // * Image consistency for width / height and fill properties
-                <Image
-                  quality={100}
-                  src={image_url}
-                  alt="post"
-                  height={500}
-                  width={500}
-                  className="mx-auto h-full max-h-[400px] object-contain"
-                />
-              ))}
+                <></>
+              )
+            ) : (
+              // * Image consistency for width / height and fill properties
+              <Image
+                quality={100}
+                src={image_url}
+                alt="post"
+                height={500}
+                width={500}
+                className="mx-auto h-full max-h-[400px] object-contain"
+              />
+            )}
           </div>
         </div>
 
         <PostReactionBar
+          totalComments={total_comments}
           reaction_summary={
             isFirstRef.current ? reaction_summary : reactionSummary
           }

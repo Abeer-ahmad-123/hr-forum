@@ -7,7 +7,7 @@ import {
 import { reactionOptions } from '@/utils/data'
 import { getEmojisAsArray } from '@/utils/reactionDetails'
 import { usePathname } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { CustomLink } from './customLink/CustomLink'
 import { useSelector } from 'react-redux'
 import {
@@ -20,6 +20,7 @@ import {
 const PostReactionBar = ({
   postId,
   reaction_summary,
+  totalComments,
 }: PostReactionBarProps) => {
   const pathName = usePathname()
   const [reactionSummary, setReactionSummary] = useState<string>('')
@@ -31,13 +32,7 @@ const PostReactionBar = ({
   const commentCountInStore = useSelector(
     (state: CommentCountStore) => state.posts.commentCount,
   )
-
-  const getAllPostData = () => {
-    const reactionEntries = Object?.entries(reaction_summary as ReactionCounts)
-
-    const sortedReactions = reactionEntries.sort((a, b) => b[1] - a[1])
-    setReactionArray(sortedReactions)
-  }
+  const isFirstRef = useRef(true)
 
   const getEmojis = (
     countArray: [string, number][],
@@ -66,22 +61,8 @@ const PostReactionBar = ({
   const mouseLeave = () => {
     setEmojiPopoverVisible(false)
   }
-  const isExceptOneZero = (obj: ReactionCounts) => {
-    let nonZeroCount = 0
 
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key) && obj[key] !== 0) {
-        nonZeroCount++
-        if (nonZeroCount > 1) {
-          return false
-        }
-      }
-    }
-
-    return true
-  }
-
-  const generateReactionSummary = () => {
+  const generateReactionSummary = (reactionArray: any) => {
     const reactionCount = addCountOfAll(reactionArray)
     // * Removed and x others on reactions for ambiguity.
     // * Instead the number of reactions will be displayed
@@ -89,9 +70,51 @@ const PostReactionBar = ({
 
     return result
   }
+  const getAllPostData = () => {
+    const reactionEntries = Object.entries(reaction_summary as ReactionCounts)
+    return reactionEntries.sort((a, b) => b[1] - a[1])
+  }
+
+  /**
+   *Post Comments Count var instead of doing commentCount[Number(postId)] everywhere
+   */
+  const postCommentsCount = useMemo(() => {
+    return commentCount[Number(postId)] || null
+  }, [commentCount, postId])
+
+  const processReactionData = () => {
+    const reactionArray = reaction_summary ? getAllPostData() : []
+
+    const countOfAll = reactionArray.length ? addCountOfAll(reactionArray) : 0
+
+    const emojis = reactionArray.length
+      ? getEmojis(reactionArray, reactionOptions)
+      : []
+    const reactionSummary = reactionArray.length
+      ? generateReactionSummary(reactionArray)
+      : {}
+
+    return { countOfAll, emojis, reactionSummary }
+  }
+
+  const emojiVarToUse = isFirstRef.current
+    ? processReactionData()?.emojis
+    : emojis
+
+  const countOfAllVarToUse = isFirstRef.current
+    ? processReactionData()?.countOfAll
+    : countofAll
+
+  const commentCountToUse = isFirstRef.current
+    ? totalComments
+    : postCommentsCount
+
+  const reactionSummaryToUse = isFirstRef.current
+    ? (processReactionData()?.reactionSummary as number)
+    : reactionSummary
 
   useEffect(() => {
-    if (reaction_summary) getAllPostData()
+    if (reaction_summary) setReactionArray(getAllPostData())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reaction_summary])
 
@@ -99,7 +122,7 @@ const PostReactionBar = ({
     if (reactionArray.length) {
       setCountofAll(addCountOfAll(reactionArray))
       setEmojis(getEmojis(reactionArray, reactionOptions))
-      setReactionSummary(generateReactionSummary())
+      setReactionSummary(generateReactionSummary(reactionArray))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reactionArray])
@@ -109,23 +132,21 @@ const PostReactionBar = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
 
-  /**
-   * Refactor: Post Comments Count var instead of doing commentCount[Number(postId)] everywhere
-   */
-  const postCommentsCount = useMemo(() => {
-    return commentCount[Number(postId)] || null
-  }, [commentCount, postId])
+  useEffect(() => {
+    isFirstRef.current = false
+  }, [])
 
   return (
     <>
       {/* IF ONLY THE REACTIONS OR THE COMMENTS EXIST THEN ADD EXTRA <HR/> */}
-      {!pathName.includes('/profile') && (countofAll || postCommentsCount) ? (
+      {!pathName.includes('/profile') &&
+      (countOfAllVarToUse || commentCountToUse) ? (
         <hr />
       ) : null}
       <div className="flex items-center justify-between px-10 py-1">
         {/* * Fixed issue with reactions buttons overlapping and using less width. */}
         <div className="flex gap-1">
-          {emojis?.slice(0, countofAll).map((react, index) => (
+          {emojiVarToUse?.map((react, index) => (
             <span
               className={`${
                 index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
@@ -146,11 +167,10 @@ const PostReactionBar = ({
               aria-labelledby="reactionSummaryLabel"
               role="button">
               <span
-                // * Alignment fixes and extra space removal
                 className="flex items-center text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                 onMouseEnter={mouseEnter}
                 onMouseLeave={mouseLeave}>
-                {reactionSummary}
+                {reactionSummaryToUse}
               </span>
             </PopoverTrigger>
             <PopoverContent className="bg-white">
@@ -176,10 +196,10 @@ const PostReactionBar = ({
               : ` /feeds/feed/${postId}`
           }>
           <span className="text-xs text-slate-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {commentCount && postCommentsCount
-              ? postCommentsCount > 1
-                ? `${postCommentsCount} comments`
-                : `${postCommentsCount} comment`
+            {commentCountToUse
+              ? commentCountToUse > 1
+                ? `${commentCountToUse} comments`
+                : `${commentCountToUse} comment`
               : null}
           </span>
         </CustomLink>
