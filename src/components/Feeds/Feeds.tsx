@@ -42,7 +42,7 @@ const Feeds = ({
   )
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
-
+  const [addPost, setAddPost] = useState<boolean>(false)
   const getPosts = async () => {
     let _data: any = {}
     if (channelSlug) {
@@ -142,30 +142,43 @@ const Feeds = ({
   useEffect(() => {
     noMorePosts.current = morePosts
   }, [morePosts])
+  useEffect(() => {
+    console.log('addPost', addPost)
+  }, [addPost])
   return (
     <>
       {path !== '/saved' && (
         <div className="mb-5">
-          <PostBar updatePosts={updatePosts} />
+          <PostBar
+            updatePosts={updatePosts}
+            setAddPost={setAddPost}
+            addPost={addPost}
+          />
         </div>
       )}
+
       <div className="min-h-[70vh] w-full">
-        {!!posts?.length ? (
-          posts?.map((post: any, index: number) => {
-            return (
-              <Card
-                key={index}
-                post={post}
-                channels={channels || channelsInStore}
-                updatePosts={updatePosts}
-                posts={posts}
-              />
-            )
-          })
-        ) : (
-          <NoPosts />
+        {!addPost && (
+          <>
+            {!!posts?.length ? (
+              posts?.map((post: any, index: number) => {
+                return (
+                  <Card
+                    key={index}
+                    post={post}
+                    channels={channels || channelsInStore}
+                    updatePosts={updatePosts}
+                    posts={posts}
+                  />
+                )
+              })
+            ) : (
+              <NoPosts />
+            )}
+          </>
         )}
-        {!!posts?.length && noMorePosts?.current && (
+
+        {!!posts?.length && !addPost && addPost && noMorePosts?.current && (
           <CircularProgress incommingRef={ref} />
         )}
       </div>

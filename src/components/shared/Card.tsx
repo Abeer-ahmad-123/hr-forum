@@ -369,7 +369,8 @@ const Card = ({
                         <span
                           className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
                           onClick={setOpenPopOver}>
-                          <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
+                          {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
+                          <AlertOctagon size={17} />
                         </span>
                       </PopoverTrigger>
                       <Suspense>
@@ -429,7 +430,7 @@ const Card = ({
                   : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className="my-3 text-start text-[16px] text-xl font-[800] dark:text-white max-custom-sm:text-base">
+              <div className=" text-start text-[16px]  font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
@@ -443,7 +444,7 @@ const Card = ({
                       <span className="text-gray-500">
                         ...
                         <button
-                          className="ml-1 text-[12px] text-black underline dark:text-gray-400 lg:text-base"
+                          className="ml-1 text-[10px] text-black underline dark:text-gray-400 lg:text-base"
                           onClick={() => setShowFullPost(true)}>
                           Read More
                         </button>
@@ -451,7 +452,7 @@ const Card = ({
                     )}
                     {showFullPost && (
                       <button
-                        className="ml-1 text-[12px] text-black underline dark:text-gray-400 lg:text-base"
+                        className="ml-1 text-[10px] text-black underline dark:text-gray-400 lg:text-base"
                         onClick={() => setShowFullPost(false)}>
                         Read Less
                       </button>
@@ -465,7 +466,7 @@ const Card = ({
                   alt="post"
                   height={500}
                   width={500}
-                  className=" h-full max-h-[270px] w-full rounded-[20px] object-contain "
+                  className=" h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
                 />
               </>
             }

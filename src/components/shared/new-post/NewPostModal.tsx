@@ -1,5 +1,4 @@
 'use client'
-import { PlusButton } from '@/components/shared'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
@@ -7,12 +6,22 @@ import { Suspense, useState } from 'react'
 import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
+import { noProfilePicture } from '@/assets/images'
 
 interface NewPostProps {
+  addPost: boolean
   updatePosts: (arg0: Array<PostsInterface>) => void
+  setAddPost: (arg0: boolean) => void
 }
-
-export default function NewPost({ updatePosts }: NewPostProps) {
+interface startNewPostProps {
+  addPost: boolean
+  setAddPost: (arg0: boolean) => void
+}
+export default function NewPost({
+  updatePosts,
+  setAddPost,
+  addPost,
+}: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
@@ -27,16 +36,23 @@ export default function NewPost({ updatePosts }: NewPostProps) {
     <>
       <Dialog open={openDilog} onOpenChange={handleClosedialog}>
         <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
-          <PostBar />
+          {!addPost && <PostBar setAddPost={setAddPost} addPost={addPost} />}
         </div>
         <Suspense>
           {data ? (
-            <DialogContent
-              className="border bg-white sm:max-w-screen-md"
-              route="newpost">
-              <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
-            </DialogContent>
+            addPost ? (
+              <NewPostForm
+                updatePosts={updatePosts}
+                open={setOpenDilog}
+                setAddPost={setAddPost}
+              />
+            ) : null
           ) : (
+            // <DialogContent
+            //   className="border bg-white sm:max-w-screen-md"
+            //   route="newpost">
+            //   <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
+            // </DialogContent>
             <SignInDialog setShowSignModal={() => {}} />
           )}
         </Suspense>
@@ -45,15 +61,38 @@ export default function NewPost({ updatePosts }: NewPostProps) {
   )
 }
 
-const PostBar = () => {
+export const PostBar = ({
+  addPost,
+  setAddPost,
+}: startNewPostProps): startNewPostProps => {
+  const user = useSelector((state: any) => state.loggedInUser.userData)
+  const { profilePictureURL } = user
+
+  const handleStart = () => {
+    setAddPost((prev) => !prev)
+  }
+
   return (
-    <div className="border-grey-300 flex w-full cursor-pointer items-center justify-center rounded-xl border border-solid bg-white dark:bg-slate-800 dark:text-white">
-      <div
-        id="search"
-        className="text-grey-400 block w-full rounded-bl-xl rounded-tl-xl bg-white py-3 pl-4 pr-3 text-left text-sm text-gray-400 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 dark:bg-slate-800 dark:text-white sm:leading-6">
-        Add a new thread
+    <div className="border-grey-300 flex w-full cursor-pointer flex-wrap items-center justify-end gap-[16px] rounded-xl border border-solid bg-white px-[24px] py-[20px] dark:bg-slate-800 dark:text-white md:flex-nowrap md:justify-center">
+      <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
+        <img
+          className="h-full w-full rounded-full border-[2px] border-bg-green object-cover"
+          src={profilePictureURL || noProfilePicture.src}
+          height={44}
+          width={44}
+          alt="User"
+        />
       </div>
-      <PlusButton />
+      <input
+        type="text"
+        placeholder="What's on your mind?"
+        className="h-[64px] flex-1 border-b border-gray-300 bg-white text-sm text-gray-400 focus:border-b focus:border-blue-500 focus:outline-none dark:bg-slate-800 dark:text-white"
+      />
+      <button
+        onClick={handleStart}
+        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[28px] py-[8px]">
+        Start new thread
+      </button>
     </div>
   )
 }

@@ -204,7 +204,7 @@ const PostActionBar = ({
     <>
       {/* * Added Gap between the action bar and the comment section */}
       <div className="flex w-full flex-col gap-3">
-        <div className="flex w-full items-center justify-between  ">
+        <div className="flex w-full items-center justify-between ">
           <div className="flex gap-[28px]">
             <ReactionButton
               handleLikeWrapper={handleLikeWrapper}
@@ -219,7 +219,7 @@ const PostActionBar = ({
                 name="comment button"
                 onClick={toggleCommentArea}
                 className="text-icon-light dark:text-icon-dark flex cursor-pointer  items-center gap-[8px]  font-black">
-                <CommentIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                <CommentIcon className="h-[16px] w-[16px] md:h-[20px] md:w-[20px]" />
                 <CustomLink
                   href={
                     pathName.includes('channels')

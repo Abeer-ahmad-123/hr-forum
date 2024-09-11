@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname } from 'next/navigation'
+import VectorChannelIcon from '@/assets/icons/VectorChannelIcon'
 
 const Dropdown = ({ handleDropDownValue, value }: any) => {
   const channels = useSelector(
@@ -26,15 +27,18 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
   }, [value])
 
   return (
-    <div className="relative mr-4 w-1/2 text-right max-[490px]:w-full max-[490px]:text-start">
+    <div className="relative mr-4 w-1/2  max-[490px]:w-full max-[490px]:text-start">
       <div className="items-left">
         <DropdownMenu>
           <DropdownMenuTrigger
             className={`inline-flex ${
               channelSlugRoute ? 'pointer-events-none' : 'cursor-pointer'
-            } items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
-            <div className="flex items-center justify-center">
-              <span className="max-sm:text-xs md:text-sm">{buttonValue}</span>{' '}
+            }  h-[48px] w-[177px] items-center justify-center gap-[8px] rounded-[20px]  bg-bg-tertiary px-[16px] py-[12px] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
+            <div className=" flex items-center justify-center gap-[8px]">
+              <VectorChannelIcon />
+              <span className="max-sm:text-xs md:text-sm">
+                {buttonValue}
+              </span>{' '}
               {!channelSlugRoute && (
                 <DownIcon className="ml-2 h-5 cursor-pointer max-sm:w-3 md:w-5" />
               )}
