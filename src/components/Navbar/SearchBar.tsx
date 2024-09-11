@@ -11,9 +11,6 @@ const SearchBar = () => {
   const refForInput: any = useRef()
   const pathname = usePathname()
 
-  const styles =
-    'dark:border-gray-600 dark:bg-gray-700 dark:hover:border-gray-400 border-gray-200 hover:border-blue-500'
-
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault()
@@ -49,7 +46,7 @@ const SearchBar = () => {
         onChange={handleSearch}
         value={search}
         type="text"
-        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out"
+        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out placeholder:text-base placeholder:font-medium placeholder-opacity-60"
         placeholder="Search Forum"
       />
       <label className="absolute left-[-6px] max-sm:left-[-3px]">
@@ -58,8 +55,8 @@ const SearchBar = () => {
           onClick={handleIconClick}
         >
           <div className={`mr-5 flex h-7 rounded-lg`}>
-            <div className="md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
-              <SearchIcon />
+            <div className="pl-0 sm:pl-[3px] md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
+              <SearchIcon className='fill-current text-black md:text-color-grey' />
             </div>
           </div>
         </div>

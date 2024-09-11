@@ -9,18 +9,16 @@ import Logo from './Logo'
 import NightModeToggle from './NightModeToggle'
 import SearchBar from './SearchBar'
 import SigninNavButton from './SigninNavButton'
-import { useState } from 'react'
 
 const Navbar = () => {
   const reduxToken = useSelector(
     (state: LoggedInUser) => state.loggedInUser.token,
   )
   const pathname = usePathname()
-  const [isFocused, setIsFocused] = useState(false);
 
 
   return (
-    <div className="fixed top-0 z-50 max-md:h-[72px] h-[100px] w-full items-center justify-center bg-white shadow-sm dark:bg-black border-b-[1px] border-bg-tertiary">
+    <div className="fixed top-0 z-50 max-md:h-[76px] h-[100px] w-full items-center justify-center bg-white shadow-sm dark:bg-black border-b-[1px] border-bg-tertiary">
       <div className="flex w-full items-center justify-between  px-6 py-4 md:px-14 md:py-7 max-[430px]:px-4">
         <div className="flex items-center">
           <Logo />

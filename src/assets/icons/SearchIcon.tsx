@@ -1,9 +1,15 @@
-const SearchIcon = () => {
+import React from 'react'
+
+interface SearchIconProps {
+  className?: string;
+  color?: string;
+}
+
+const SearchIcon = ({ className, color }: SearchIconProps) => {
   return (
     <svg
       stroke="currentColor"
-      fill={'grey'}
-      className={`ml-1.5 sm:ml-2 md:ml-1.5`}
+      className={`ml-1.5 sm:ml-2 md:ml-1.5 ${className}`}
       strokeWidth="0"
       viewBox="0 0 24 24"
       height="18px"
