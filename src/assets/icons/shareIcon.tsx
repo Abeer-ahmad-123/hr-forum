@@ -1,4 +1,7 @@
-function Icon({ className }: { className: string }) {
+interface IconProps {
+  className: string
+}
+function Icon({ className }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
