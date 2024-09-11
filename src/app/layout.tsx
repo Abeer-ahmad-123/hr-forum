@@ -45,7 +45,7 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <body className="theme-default bg-background dark:bg-dark-background">
+      <body className="theme-default bg-bg-secondary dark:bg-dark-background">
         <StoreProvider serverStore={serverState}>
           {/*
            * `Suspense` for no client side switching due to useSearchParams used in `LayoutWrapper`

@@ -1,6 +1,5 @@
 'use client'
 import { rulesData } from '@/utils/data'
-import { ShieldPlus } from 'lucide-react'
 
 import {
   Accordion,
@@ -11,40 +10,42 @@ import {
 
 const RulesCard = () => {
   return (
-    <div className="h-auto w-[225px] rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-[10px] shadow-lg dark:bg-slate-800 dark:text-white">
-      <h2 className="mb-[10px] pt-5 text-start text-[11px] font-semibold">
-        Forum Rules
-      </h2>
-
-      <Accordion type="single" collapsible>
-        <ul className="text-left">
-          {rulesData.map((item, index) => {
-            return (
-              <li key={index}>
-                <AccordionItem
-                  value={item.title}
-                  key={index}
-                  className={`${
-                    index === rulesData.length - 1 ? 'border-none' : 'border-b'
-                  }
-                `}>
-                  <AccordionTrigger>
-                    <div className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent dark:text-gray-400 dark:hover:text-accent">
-                      <ShieldPlus size={20} />
-                      <span>{item.title}</span>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <div className="text-[12px] font-normal text-gray-500 dark:text-gray-400">
-                      {item.description}
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </li>
-            )
-          })}
-        </ul>
-      </Accordion>
+    <div className='flex flex-col justify-between w-[391px] h-screen max-h-[882px] bg-white pt-7 pl-3'>
+      <div className="h-auto w-[331px] rounded-[10px] bg-white px-[10px] pb-[10px] dark:bg-slate-800 dark:text-white">
+        <h2 className="font-[800] text-lg">
+          Forum rules to abide by
+        </h2>
+        <Accordion type="single" collapsible>
+          <ul className="text-left mt-3">
+            {rulesData.map((item, index) => {
+              return (
+                <li key={index}>
+                  <AccordionItem
+                    value={item.title}
+                    key={index}
+                    className={`${
+                      index === rulesData.length - 1 ? 'border-none' : 'border-b'
+                    }
+                  `}>
+                    <AccordionTrigger>
+                      <div className="my-[10px] flex gap-2.5 text-base font-medium hover:text-accent dark:text-gray-400 dark:hover:text-accent">
+                        <div>{index+1}.</div>
+                        <span>{item.title}</span>
+                      </div>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      <div className="text-[14px] ml-6 font-normal text-text-grey dark:text-gray-400">
+                        {item.description}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                </li>
+              )
+            })}
+          </ul>
+        </Accordion>
+      </div>
+      <div className='pl-[135px] text-color-grey text-[12px] pb-5'>© 2024 HRTalkers. All rights reserved.</div>
     </div>
   )
 }
