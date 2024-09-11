@@ -36,7 +36,7 @@ const ChannelPill = ({ channel_id, channels }: Props) => {
   }
   return (
     <span
-      className="	flex items-center justify-center gap-[12px] text-xs font-light
+      className="flex items-center justify-center gap-[12px] text-xs font-light
     text-slate-500 dark:text-gray-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] md:text-xs lg:text-sm xl:text-sm">
       <VectorRight />
       <Link

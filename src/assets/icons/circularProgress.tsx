@@ -1,5 +1,3 @@
-import React from 'react'
-
 const CircularProgressIcon = ({ width = '20px', color = 'currentFill' }) => {
   return (
     <svg
