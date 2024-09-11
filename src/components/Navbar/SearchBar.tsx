@@ -59,7 +59,7 @@ const SearchBar = () => {
         >
           <div className={`mr-5 flex h-7 rounded-lg`}>
             <div className="md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
-              <SearchIcon />
+              <SearchIcon className='fill-current text-black md:text-color-grey' />
             </div>
           </div>
         </div>
