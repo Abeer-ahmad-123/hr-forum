@@ -23,7 +23,7 @@ const ReactionEmoji = ({
       id={reactionName}
       aria-label={`select ${reactionName} emoji`}>
       <span className="text-xl text-black dark:text-gray-300" id={reactionName}>
-        {emojiCharacter === '♡' ? <HeartIcon /> : emojiCharacter}
+        {emojiCharacter === '♡' ? <HeartIcon className="" /> : emojiCharacter}
       </span>
     </div>
   )
