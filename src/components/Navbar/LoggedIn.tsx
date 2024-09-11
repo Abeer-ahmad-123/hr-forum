@@ -47,15 +47,9 @@ function LoggedIn() {
   }
 
   const UserDropdown = () => (
-    <div className="relative flex max-w-xs cursor-pointer select-none items-center gap-4 break-words">
-      <span className="text-right max-custom-sm:hidden">
-        <span className="inline-block break-words text-sm font-medium text-black dark:text-white">
-          {name}
-        </span>
-        <span className="block text-xs dark:text-white">{username}</span>
-      </span>
+    <div className="relative flex justify-center max-w-xs cursor-pointer select-none items-center gap-4 break-words">
       <div className="relative">
-        <div className="relative h-8 w-8 overflow-hidden rounded-full">
+        <div className="relative h-10 w-10 md:h-11 md:w-11 overflow-hidden rounded-full border-[2px] border-bg-green">
           <img
             className="h-full w-full rounded-full object-cover"
             src={profilePictureURL || noProfilePicture.src}
@@ -64,13 +58,12 @@ function LoggedIn() {
             alt="User"
           />
         </div>
-        <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-white bg-green-500"></span>
       </div>
     </div>
   )
 
   return (
-    <div>
+    <div className='flex justify-center items-center'>
       <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
         <DropdownMenuTrigger
           className="border-none outline-0"
