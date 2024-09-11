@@ -4,6 +4,7 @@ import Post from './shared/post'
 import PostSkelton from './shared/post/PostSkelton'
 
 const SinglePost = ({ postId, searchParams, data }: SinglePostProps) => {
+  console.log(data)
   return (
     <Suspense fallback={<PostSkelton />}>
       <Post postId={String(postId)} searchParams={searchParams} data={data} />

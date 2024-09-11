@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setPosts } from '@/store/Slices/postSlice'
 import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 
-const CommentsLogic = ({
+const UserInteraction = ({
   postId,
   commentResult,
   paginationResult,
@@ -167,4 +167,4 @@ const CommentsLogic = ({
   )
 }
 
-export default CommentsLogic
+export default UserInteraction
