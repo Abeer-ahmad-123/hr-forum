@@ -270,9 +270,8 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
   return (
     <main
       // * max width should be 100 view width so that it should now scroll over x-axis
-      className={`${
-        isError ? 'bg-white' : 'dark:bg-dark-background'
-      } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
+      className={`${isError ? 'bg-white' : 'dark:bg-dark-background'
+        } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
       `}
     >
       <ThemeProvider attribute="class" defaultTheme="theme-default">
@@ -289,17 +288,15 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
             <div className="flex dark:bg-slate-700 dark:text-white">
               <div
                 className={`mx-auto w-full px-10
-              dark:text-white max-md:py-5 max-sm:p-[10px] ${
-                isError
-                  ? 'bg-white dark:bg-white'
-                  : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
-              } ${
-                pathname === '/register' || pathname === '/login'
-                  ? 'flex items-center justify-center'
-                  : ''
-              }`}
+              dark:text-white max-md:py-5 max-sm:p-[10px] ${isError
+                    ? 'bg-white dark:bg-white'
+                    : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
+                  } ${pathname === '/register' || pathname === '/login'
+                    ? 'flex items-center justify-center'
+                    : ''
+                  }`}
               >
-                {!loading ? children : <InitialLoading />}
+                {!loading ? <div className='mt-[86px]'> {children}</div> : <InitialLoading />}
 
                 <UserNameDialog
                   isDialogOpen={openUserNameDialog}

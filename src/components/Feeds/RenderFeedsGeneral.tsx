@@ -12,6 +12,8 @@ import type {
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import RespScreen from '../Cards/ResponsiveScreen'
+import MainMenu from '../Cards/MainMenu'
+import Logout from '../Cards/Logout'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -43,12 +45,23 @@ async function RenderFeedsGeneral({
         className={`mr-[5px] ${
           accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
-        {user && <ProfileCard />}
         <div
-          className={`${
-            user ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}>
-          <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
+          className={`${user ? 'top-[70px] mt-[10px]' : 'top-[70px] '
+            } sticky max-h-[882px] h-screen  max-lg:top-[55px]`}>
+          <div className='px-10 flex flex-col justify-between w-[322px] bg-white h-[85%] max-h-[882px] py-7'>
+            <div>
+              {user && <ProfileCard />}
+              <div className=''>
+                <div className={` ${!user && 'pt-7'} pb-6`}>
+                  <MainMenu />
+                </div>
+                <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
+              </div>
+            </div>
+            <div className='ml-10'>
+              <Logout />
+            </div>
+          </div>
         </div>
         <div
           className={`sticky ${
@@ -57,7 +70,7 @@ async function RenderFeedsGeneral({
               : 'top-[335px] mt-5 max-lg:top-[328px]'
           } max-h-screen`}>
           {' '}
-          <RulesCard />
+
         </div>
       </div>
 
@@ -106,6 +119,8 @@ async function RenderFeedsGeneral({
           </div>
         </div>
       </div>
+
+      <RulesCard />
     </div>
   )
 }

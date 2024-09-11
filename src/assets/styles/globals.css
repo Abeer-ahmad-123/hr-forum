@@ -19,6 +19,8 @@
     --bg-tertiary: #eeeeee;
     --color-grey: #838b98;
     --bg-dark-grey: #141B34;
+    --bg-black: #09090b;
+    --light-grey: #e4e4e7;
   }
   .theme-default {
     --color-primary: #2970ff;
@@ -32,6 +34,8 @@
     --bg-tertiary: #eeeeee;
     --color-grey: #838b98;
     --bg-dark-grey: #141B34;
+    --bg-black: #09090b;
+    --light-grey: #e4e4e7;
   }
 }
 
@@ -47,6 +51,8 @@
   --bg-tertiary: #eeeeee;
   --color-grey: #838b98;
   --bg-dark-grey: #141B34;
+  --bg-black: #09090b;
+  --light-grey: #e4e4e7;
 }
 @media (max-width: 520px) {
   .avatarEditor {
