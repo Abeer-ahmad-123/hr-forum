@@ -79,6 +79,7 @@ const Card = ({
     image_url,
     total_comments,
   } = post
+
   const pathName = usePathname()
   const { slug } = useParams()
   const isFirstRef = useRef<boolean>(true)
@@ -116,11 +117,12 @@ const Card = ({
     useState<boolean>(user_has_bookmarked)
   const [reported, setReported] = useState<boolean>(user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
-  const [isHydrated, setIsHydrated] = useState(false)
+
   const reactionRef = useRef<boolean>(false)
-  useEffect(() => {
-    setIsHydrated(true)
-  }, [])
+
+  const reactionSummaryToUse = isFirstRef.current
+    ? reaction_summary
+    : reactionSummary
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -431,7 +433,7 @@ const Card = ({
             </CustomLink>
             {!image_url ? (
               content ? (
-                <>
+                <div>
                   <CardContent content={content} />
                   {content?.length > 200 && (
                     <CustomLink
@@ -447,7 +449,7 @@ const Card = ({
                       </button>
                     </CustomLink>
                   )}
-                </>
+                </div>
               ) : (
                 <></>
               )
@@ -467,9 +469,7 @@ const Card = ({
 
         <PostReactionBar
           totalComments={total_comments}
-          reaction_summary={
-            isFirstRef.current ? reaction_summary : reactionSummary
-          }
+          reaction_summary={reactionSummaryToUse}
           postId={id ? String(id) : ''}
         />
         <hr />

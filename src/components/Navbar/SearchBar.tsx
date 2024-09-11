@@ -3,6 +3,7 @@ import SearchIcon from '@/assets/icons/SearchIcon'
 import '@/components/shared/customLink/style.css'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from 'react'
+
 const SearchBar = () => {
   const SearchParams = useSearchParams()
   const [search, setSearch] = useState<string>('')
@@ -36,7 +37,7 @@ const SearchBar = () => {
 
   return (
     <form
-      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-none border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out focus-within:lg:max-w-[690px] focus:lg:max-w-[690px] focus-within:max-w-[490px] focus:max-w-[490px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] ${styles}`}>
+      className={`relative flex w-full max-w-[160px] flex-1 items-center space-x-2 rounded-full border border-none border-gray-200 py-1 pl-3 outline-none transition-all duration-700 ease-in-out focus-within:max-w-[490px] focus:max-w-[490px] dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] focus-within:lg:max-w-[690px] focus:lg:max-w-[690px] ${styles}`}>
       <input
         ref={refForInput}
         onKeyDown={handleKeyDown}

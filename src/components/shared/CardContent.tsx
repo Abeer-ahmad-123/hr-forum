@@ -1,6 +1,6 @@
 const CardContent = ({ content }: any) => {
   return (
-    <div
+    <span
       suppressHydrationWarning={true}
       className="card-li max-w-full !hyphens-auto !break-words text-start text-base text-gray-700 dark:text-gray-300 max-custom-sm:text-[13px]"
       dangerouslySetInnerHTML={{
