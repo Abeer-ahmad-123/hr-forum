@@ -14,6 +14,7 @@ import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import RespScreen from '../Cards/ResponsiveScreen'
 import MainMenu from '../Cards/MainMenu'
 import Logout from '../Cards/Logout'
+import MenuCard from '../Cards/MenuCard'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -52,14 +53,15 @@ async function RenderFeedsGeneral({
           <div className='relative px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
             <div>
               {user && <ProfileCard />}
-              <div className=''>
+              {/* <div className=''>
                 <div className={` ${!user && 'pt-7'} pb-6`}>
                   <MainMenu />
                 </div>
                 <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
-              </div>
+              </div> */}
+              <MenuCard data={data} />
             </div>
-            <div className='w-[254px] absolute top-[80%] ml-10'>
+            <div className='w-[254px] absolute top-[80%] px-4 ml-10 hover:bg-bg-tertiary cursor-pointer rounded-md group'>
               <Logout />
             </div>
           </div>

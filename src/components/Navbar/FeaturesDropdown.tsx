@@ -8,6 +8,7 @@ import {
 } from 'react-icons/ri'
 import DropDownContent from '../shared/DropDownContent'
 import { ChannelInterface } from '@/utils/interfaces/channels'
+import HomeIcon from '@/assets/icons/home'
 
 interface FeaturesDropDownInterface {
   classNameOuter: string
@@ -105,9 +106,9 @@ const FeaturesDropDown = ({
   }, [])
 
   const getSelectedIcon = () => {
-    const styles = 'mr-2 h-5 w-5 text-accent'
+    const styles = 'mr-3 h-5 w-5 text-accent'
     if (selected === 'Home' || 'Feeds') {
-      return <AiFillHome className={styles} />
+      return <HomeIcon className={styles} />
     } else if (selected === 'Settings') {
       return <RiSettings4Fill className={styles} />
     } else if (selected === 'Saved') {
@@ -131,11 +132,11 @@ const FeaturesDropDown = ({
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} h-8 rounded border border-[#e6e6e6] dark:dark:bg-black`}>
+        className={`${classNameInner} h-12 items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:dark:bg-black`}>
         <div
-          className="mt-[3px] flex justify-between px-[0.75rem] py-0"
+          className="mt-[3px] flex justify-between px-4 py-0"
           onClick={handleChecked}>
-          <div className="flex items-center normal-case text-black dark:text-white">
+          <div className="flex items-center normal-case text-black dark:text-white pr-3">
             {getSelectedIcon()}
             <p>
               {selected.length > 16
