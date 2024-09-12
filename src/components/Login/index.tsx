@@ -128,33 +128,44 @@ export default function Login({
 
   return (
     <div
-      className={`container mx-auto flex  ${
+      className={`container flex px-[24px] py-[32px] ${
         pathname.includes('login')
-          ? 'h-full min-h-[calc(100vh-56px)]'
-          : 'h-[550px]'
+          ? 'h-[542px] w-[551px]'
+          : 'h-[542px] w-[501px] '
       } ${
-        pathname === '/login' ? 'w-[440px]' : ' w-full max-w-[440px]'
-      }  flex-col justify-center space-y-6`}>
+        pathname === '/login' ? 'w-[551px]' : ' w-full max-w-[432px]'
+      }  flex-col  `}>
       <div
         className={`${
           pathname === '/login' ? 'shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
-          className={`m-auto w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
-          <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
-            Login
+          className={` w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
+          <h1 className="mb-2 text-center text-[20px] font-semibold dark:text-white">
+            Login into your account
           </h1>
-          <div className="cursor-pointer">
-            <GoogleButton title="Log In" onClick={handleGoogleSignIn} />
+          <p className="text-[14px] text-[#71717A]">
+            Enter your email and password to access your account
+          </p>
+          <div className="mb-6 mt-10 rounded-xl border border-[#E4E4E7] p-6">
+            <LoginForm
+              errors={errors}
+              loading={loading}
+              formValues={formValues}
+              handleInputChange={handleInputChange}
+              handleLoginSubmit={handleLoginSubmit}
+            />
+            <div className="mb-3 mt-6 flex items-center justify-center">
+              <div className="border-[#F4F4F5]-300 flex-grow border-t"></div>
+              <span className="mx-3 text-[12px] text-[#71717A]">OR</span>
+              <div className="border-[#F4F4F5]-300 flex-grow border-t"></div>
+            </div>
+
+            <div className="cursor-pointer">
+              <GoogleButton title="Continue" onClick={handleGoogleSignIn} />
+            </div>
           </div>
-          <p className=" my-3 text-center dark:text-white">OR</p>
-          <LoginForm
-            errors={errors}
-            loading={loading}
-            formValues={formValues}
-            handleInputChange={handleInputChange}
-            handleLoginSubmit={handleLoginSubmit}
-          />
+
           {/* Sign Up Link */}
           <div className="mt-2 flex justify-center space-x-1 text-center text-xs font-light text-gray-700 dark:text-white">
             <p>Don't have an account? </p>
@@ -162,7 +173,7 @@ export default function Login({
               name="register button"
               className="text-primary-purple cursor-pointer font-medium hover:underline"
               onClick={submitForm}>
-              Register
+              Create new account
             </button>
           </div>
         </div>

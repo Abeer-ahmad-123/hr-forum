@@ -282,6 +282,7 @@ export default function NewPostForm({
                     <p className="text-xs text-bg-green dark:text-white ">
                       Upload Image
                       <span className="text-black dark:text-white">
+                        {' '}
                         or drag n drop here it
                       </span>
                     </p>
