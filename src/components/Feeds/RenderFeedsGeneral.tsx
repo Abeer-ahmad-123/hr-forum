@@ -47,8 +47,9 @@ async function RenderFeedsGeneral({
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         <div
           className={`${user ? 'top-[70px] mt-[10px]' : 'top-[70px] '
-            } sticky max-h-[882px] h-screen max-lg:top-[55px]`}>
-          <div className='px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
+            } sticky top-[104px]  max-h-[882px] h-screen max-lg:top-[55px]`}>
+              
+          <div className='relative px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
             <div>
               {user && <ProfileCard />}
               <div className=''>
@@ -58,7 +59,7 @@ async function RenderFeedsGeneral({
                 <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
               </div>
             </div>
-            <div className='ml-10'>
+            <div className='w-[254px] absolute top-[80%] ml-10'>
               <Logout />
             </div>
           </div>
