@@ -6,8 +6,6 @@ import {
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { FaRegComment } from 'react-icons/fa'
-import { PiShareFat } from 'react-icons/pi'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'

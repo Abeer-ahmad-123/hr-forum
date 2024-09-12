@@ -70,25 +70,28 @@ const TextArea = ({
       className={` ${
         pathName === '/feeds' ||
         (pathName.includes(`${userData.username}`) && 'mb-4')
-      }  ${classNameOuter} flex cursor-pointer items-center gap-1`}>
-      <img
+      }  ${classNameOuter} flex w-full cursor-pointer items-center gap-1 `}>
+      {/* <img
         src={userData.profilePictureURL || noProfilePicture.src}
         className="w-18 h-8 rounded-full border border-solid border-black"
         alt="avatar"
         width={32}
         height={32}
         onClick={handleImgClick}
-      />
-      <div className={`flex ${className} `} style={textareaStyle}>
-        <div className="border-grey-700 flex w-full rounded-lg border border-solid dark:bg-dark-background">
+      /> */}
+      <div
+        className={`flex ${className} items-center  rounded-[20px] bg-bg-tertiary`}
+        style={textareaStyle}>
+        <div className="flex h-[44px] w-full  rounded-[20px] dark:bg-dark-background">
           <textarea
             ref={inputRef}
             rows={2}
             placeholder={placeholder}
             value={textAreaValue}
             onChange={handleTextAreaChange}
+            style={{ placeContent: 'center' }}
             // * Removed extra spaces
-            className={`caret-gray max-custom-sm:text-[11px]max-[392px]:text-[10px] mr-4 w-full resize-none rounded-lg border-none p-2 pl-2 text-left outline-none dark:bg-dark-background max-custom-sx:text-[8px]`}
+            className={`caret-gray h-full w-full resize-none items-center  rounded-lg border-none bg-bg-tertiary p-2 pl-2 text-left text-[12px] outline-none dark:bg-dark-background max-custom-sx:text-[8px]`}
           />
 
           <button

@@ -180,8 +180,9 @@ export default function NewPostForm({
       }
     }
   }
+
   const handleBack = () => {
-    setAddPost((prev) => !prev)
+    setAddPost(false)
   }
   useEffect(() => {
     checkChannel()

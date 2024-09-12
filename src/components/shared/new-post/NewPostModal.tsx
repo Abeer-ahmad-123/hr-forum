@@ -64,12 +64,12 @@ export default function NewPost({
 export const PostBar = ({
   addPost,
   setAddPost,
-}: startNewPostProps): startNewPostProps => {
+}: startNewPostProps): JSX.Element => {
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { profilePictureURL } = user
 
   const handleStart = () => {
-    setAddPost((prev) => !prev)
+    setAddPost(true)
   }
 
   return (
