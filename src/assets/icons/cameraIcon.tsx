@@ -1,7 +1,6 @@
 import { cn } from '@/lib/utils'
-interface IconProps {
-  className: string
-}
+import { IconProps } from "@/utils/interfaces/icons"
+
 const CameraIcon = ({ className }: IconProps) => {
   return (
     <svg

@@ -1,6 +1,5 @@
-interface IconProps {
-  className: string
-}
+import { IconProps } from "@/utils/interfaces/icons"
+
 function Icon({ className }: IconProps) {
   return (
     <svg

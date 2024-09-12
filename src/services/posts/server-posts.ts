@@ -86,7 +86,7 @@ export async function getGenericPosts({
         }
       }
     } else {
-      redirect('/not-found')
+      redirect('/feeds')
     }
   } else {
     if (Object.keys(searchParams).length && searchParams.search) {

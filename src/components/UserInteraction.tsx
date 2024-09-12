@@ -155,6 +155,10 @@ const UserInteraction = ({
         userComment={{ id: '' }}
         updatePosts={() => {}}
         posts={[]}
+        //adjust the values 
+        totalComments={0}
+        handleBookmark={()=>{}}
+        bookmarkSuccess={false}
       />
       <Comments
         postId={postId}

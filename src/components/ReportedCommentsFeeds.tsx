@@ -127,7 +127,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
     ) : (
       <div className="mx-auto flex max-w-screen-xl justify-center">
         <div
-          className={`mr-[5px] ${
+          className={`mr-[15px] ${
             token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
           } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
           {userDataInStore && <ProfileCard />}

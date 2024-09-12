@@ -90,7 +90,7 @@ async function RenderFeeds({
         }
       }
     } else {
-      redirect('/not-found')
+      // redirect('/not-found')
     }
   } else {
     if (Object.keys(searchParams).length && searchParams.search) {

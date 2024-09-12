@@ -1,5 +1,4 @@
 import { EmojiActionInterface, ReactionSummary } from './card'
-import { CommentObject } from './feeds'
 
 export interface PostsInterface {
   id: number
@@ -52,6 +51,9 @@ export interface PostActionBarProps {
   reactionRef?: any
   updatePosts?: any
   posts?: any
+  totalComments: number
+  handleBookmark?: (arg0: React.MouseEvent<HTMLDivElement>) => void
+  bookmarkSuccess?: boolean
 }
 
 export interface CommentCountStore {

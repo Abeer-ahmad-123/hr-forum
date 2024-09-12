@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/popover'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
-import { cn } from '@/lib/utils'
 import {
   bookmarkPost,
   deleteBookmarkPost,
@@ -43,12 +42,10 @@ import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import Report from '../Report/Report'
 import PostActionBar from './PostActionBar'
-import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
-import PostImage from '@/assets/images/Post.svg'
 
 type CardProps = {
   post: PostsInterface
@@ -212,7 +209,7 @@ const Card = ({
       setOpenDeleteDialog(true)
     }
   }
-  const handleBookmark = async (event: any) => {
+  const handleBookmark = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
     if (tokenInRedux) {
@@ -277,7 +274,7 @@ const Card = ({
   return (
     <div id={String(id)} key={id} className="m-0 w-full max-w-[759px] p-0">
       <div
-        className={`mx-auto mb-5 min-h-[547px] w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        className="mx-auto mb-5 w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md">
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -472,13 +469,16 @@ const Card = ({
               userReaction={reactionRef.current ? userReaction : user_reaction}
               setUserReaction={setUserReaction}
               updateReactionArray={updateReactionArray}
-              reactionSummary={reactionSummary}
+              reactionSummary={reactionSummaryToUse}
               disableReactionButton={disableReactionButton}
               setDisableReactionButton={setDisableReactionButton}
               userComment={userComment}
               reactionRef={reactionRef}
               updatePosts={updatePosts}
               posts={posts}
+              totalComments={total_comments}
+              handleBookmark={handleBookmark}
+              bookmarkSuccess={bookmarkSuccess}
             />
           </div>
         </div>

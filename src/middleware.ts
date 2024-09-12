@@ -4,7 +4,6 @@ export function middleware(request: NextRequest) {
   const isUserLogin = request.cookies.get('user-details')
   const route = request.url.split('/')[3] ?? '/'
   const redirect = NextResponse.redirect(new URL('/feeds', request.url))
-
   const pathname = request.nextUrl.pathname
   const requestHeaders = new Headers(request.headers)
   if (!pathname.includes('static')) {
