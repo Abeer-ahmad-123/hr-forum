@@ -33,10 +33,10 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
           <DropdownMenuTrigger
             className={`inline-flex ${
               channelSlugRoute ? 'pointer-events-none' : 'cursor-pointer'
-            }  h-[48px] w-[177px] items-center justify-center gap-[8px] rounded-[20px]  bg-bg-tertiary px-[16px] py-[12px] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
+            }  h-[48px] w-[160px] items-center justify-center gap-[8px] rounded-[20px]  bg-bg-tertiary px-[10px] py-[12px] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
             <div className=" flex items-center justify-center gap-[8px]">
               <VectorChannelIcon />
-              <span className="max-sm:text-xs md:text-sm">
+              <span className="font-semibold max-sm:text-xs md:text-sm">
                 {buttonValue}
               </span>{' '}
               {!channelSlugRoute && (

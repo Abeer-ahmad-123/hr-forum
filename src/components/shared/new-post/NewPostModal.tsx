@@ -73,7 +73,7 @@ export const PostBar = ({
   }
 
   return (
-    <div className="border-grey-300 flex w-full cursor-pointer flex-wrap items-center justify-end gap-[16px] rounded-xl border border-solid bg-white px-[24px] py-[20px] dark:bg-slate-800 dark:text-white md:flex-nowrap md:justify-center">
+    <div className="border-grey-300 flex min-h-[106px] w-full max-w-[759px] cursor-pointer flex-wrap items-center justify-end gap-[16px] rounded-xl border border-solid bg-white px-[24px] py-[20px] dark:bg-slate-800 dark:text-white md:flex-nowrap md:justify-center">
       <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
         <img
           className="h-full w-full rounded-full border-[2px] border-bg-green object-cover"
@@ -90,7 +90,7 @@ export const PostBar = ({
       />
       <button
         onClick={handleStart}
-        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[28px] py-[8px]">
+        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[28px] py-[8px] font-normal">
         Start new thread
       </button>
     </div>

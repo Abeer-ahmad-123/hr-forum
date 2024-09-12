@@ -135,7 +135,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      primary: ['Poppins', 'sans-serif'],
+      primary: ['Averin', 'sans-serif'],
     },
   },
   plugins: [require('tailwindcss-animate')],

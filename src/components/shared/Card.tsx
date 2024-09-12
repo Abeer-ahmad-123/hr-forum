@@ -273,9 +273,9 @@ const Card = ({
   }, [user_has_reported])
 
   return (
-    <div id={String(id)} key={id} className="m-0 w-full max-w-[100dvw] p-0">
+    <div id={String(id)} key={id} className="m-0 w-full max-w-[759px] p-0">
       <div
-        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-[20px] border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        className={`mx-auto mb-5 min-h-[547px] w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -303,7 +303,7 @@ const Card = ({
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div className=" flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
+        <div className="flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
               <div className="flex items-center gap-[12px]">
@@ -320,7 +320,7 @@ const Card = ({
                   </div>
                 </div>
 
-                <div className=" flex flex-col items-start align-baseline">
+                <div className="flex flex-col items-start align-baseline">
                   <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
                       className="max-w-full shrink-0 break-all text-[16px]  font-[800]  leading-none text-gray-900 hover:underline dark:text-white   "
@@ -388,7 +388,7 @@ const Card = ({
                             </div>
                           ) : (
                             <div
-                              className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                              className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleReportClick}>
                               <AlertOctagon size={17} />
                               <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -419,7 +419,7 @@ const Card = ({
           </div>
 
           <div
-            className="flex max-w-full flex-col gap-[20px] hyphens-auto"
+            className="flex max-w-full flex-col gap-[5px] hyphens-auto"
             onClick={handleNavigateFeed}>
             <CustomLink
               href={
@@ -430,7 +430,7 @@ const Card = ({
                   : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className=" text-start text-[16px]  font-[800] dark:text-white max-custom-sm:text-base">
+              <div className="text-start text-[16px]  font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
@@ -459,18 +459,20 @@ const Card = ({
                     )}
                   </p>
                 </div>
+
                 {/* // * Image consistency for width / height and fill properties */}
-                <Image
-                  quality={100}
-                  src={PostImage}
-                  alt="post"
-                  height={500}
-                  width={500}
-                  className=" h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
-                />
               </>
             }
           </div>
+
+          <Image
+            quality={100}
+            src={PostImage}
+            alt="post"
+            height={500}
+            width={500}
+            className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
+          />
           <div className=" flex   " key={id}>
             <PostActionBar
               postId={String(id)}

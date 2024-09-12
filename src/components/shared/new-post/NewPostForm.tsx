@@ -190,11 +190,11 @@ export default function NewPostForm({
   }, [pathname])
 
   return (
-    <div className="flex flex-col gap-[20px] rounded-xl bg-white p-2  px-[24px] pb-[20px] pt-[28px] dark:bg-dark-background sm:max-w-[710px]">
-      <div className="flex flex-col justify-between gap-[20px]">
+    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-dark-background">
+      <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}
-          className="flex h-[40px] w-[108px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary px-[16px] py-[8px] text-[12px] text-[#5f5f5f5f] ">
+          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[16px] py-[8px] text-[12px] opacity-60  ">
           <ArrowLeft /> Go back
         </button>
         <h3 className="font-primary text-[18px] font-[800]  text-[#09090B] dark:text-white ">
@@ -202,7 +202,7 @@ export default function NewPostForm({
         </h3>
       </div>
 
-      <div className=" m-0 flex flex-col-reverse items-start justify-start gap-[20px] ">
+      <div className=" m-0 flex flex-col-reverse items-start justify-start gap-[18px] ">
         <div className="flex h-[88px] w-full flex-col gap-[8px]">
           <p className="text-sm font-extrabold">Title</p>
           <input
@@ -230,7 +230,9 @@ export default function NewPostForm({
               ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm transition duration-500 ease-in-out'
               : 'h-[32px] w-[60px] text-center font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
-          <button name="post button">Text</button>
+          <button name="post button " className="font-medium">
+            Text
+          </button>
         </div>
         <div
           onClick={imageOnClick}
@@ -239,7 +241,9 @@ export default function NewPostForm({
               ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm  transition duration-500 ease-in-out'
               : ' h-[32px] w-[60px]  font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
-          <button name="image button">Image</button>
+          <button name="image button" className="font-medium">
+            Image
+          </button>
           <hr />
         </div>
 
@@ -272,7 +276,7 @@ export default function NewPostForm({
                 />
               ) : (
                 <>
-                  <div className=" flex flex-col items-center justify-center">
+                  <div className="flex flex-col items-center justify-center">
                     <ImageIcon className="h-[18px] w-[18px]  dark:text-white" />
                     <p className="text-xs text-bg-green dark:text-white ">
                       Upload Image
@@ -315,7 +319,7 @@ export default function NewPostForm({
           name="loadding button"
           onClick={createPost}
           disabled={isDisabled}
-          className={`w-[133px] cursor-not-allowed rounded-[100px] px-[20px] py-[8px] ${
+          className={`h-[41px] w-[119px] cursor-not-allowed rounded-[100px] px-[15px] py-[8px] ${
             isDisabled
               ? 'bg-stone-200'
               : 'cursor-pointer bg-bg-green text-black'

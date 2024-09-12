@@ -157,7 +157,7 @@ const Feeds = ({
         </div>
       )}
 
-      <div className="min-h-[70vh] w-full">
+      <div className="min-h-[70vh] w-full max-w-[759px]">
         {!addPost && (
           <>
             {!!posts?.length ? (
