@@ -57,7 +57,7 @@ const DropDownContent = ({
   const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
   return (
-    <ul className={`bg-white dark:bg-black mx-5`}>
+    <ul className={`bg-white dark:bg-black mx-5 rounded-2xl border pt-3`}>
       <div className="lg:h-3"></div>
 
       {navigation.map((item: NavigationItem, index: number) => {
@@ -69,8 +69,7 @@ const DropDownContent = ({
               className='px-4'
             >
               <li
-                className=" active:bg-bg-tertiary hover:bg-bg-tertiary rounded-md dark:text-gray-200 dark:hover:bg-gray-700"
-
+                className="mt-1 active:bg-bg-tertiary hover:bg-bg-tertiary rounded-md dark:text-gray-200 dark:hover:bg-gray-700"
                 onClick={handleLi}>
                 <CustomLink
                   href={item?.href}

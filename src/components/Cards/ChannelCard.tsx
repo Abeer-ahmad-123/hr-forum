@@ -21,12 +21,12 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
 
   return channels && channels.length > 0 ? (
     <div
-      className={`w-64 bg-white`}
+      className={`w-64 bg-white dark:bg-slate-800 dark:text-gray-400`}
     >
-      <div className="font-[800] text-lg text-bg-black mb-3">
+      <div className="font-[800] text-lg text-bg-black mb-3 dark:bg-slate-800 dark:text-white">
       Explore variety of channels
       </div>
-      <ul className="">
+      <ul className="dark:bg-slate-800 dark:text-gray-400">
         {channels.map((channel: ChannelInterface, index: number) => (
           <li
             className="text-base	"

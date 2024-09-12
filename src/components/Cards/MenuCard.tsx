@@ -15,8 +15,8 @@ interface MenuCardProps {
 async function MenuCard({ data }: MenuCardProps) {
   const { user } = await getUserFromCookie()
   return (
-    <div className=''>
-      <div className={` ${!user && 'pt-7'} pb-6`}>
+    <div className='dark:bg-slate-800 dark:text-gray-400'>
+      <div className={`dark:bg-slate-800 dark:text-gray-400 ${!user && 'pt-7'} pb-6`}>
         <MainMenu />
       </div>
       <ChannelCard initialChannels={data.channels as ChannelInterface[]} />

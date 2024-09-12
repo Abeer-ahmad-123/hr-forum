@@ -1,14 +1,14 @@
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AiFillHome, AiOutlineUserAdd } from 'react-icons/ai'
+import { AiOutlineUserAdd } from 'react-icons/ai'
 import { BsDot, BsFillBookmarksFill } from 'react-icons/bs'
 import {
-  RiArrowDropDownLine as DownArrow,
   RiSettings4Fill,
 } from 'react-icons/ri'
 import DropDownContent from '../shared/DropDownContent'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import HomeIcon from '@/assets/icons/home'
+import ArrowDown from '@/assets/icons/arrowDown'
 
 interface FeaturesDropDownInterface {
   classNameOuter: string
@@ -48,7 +48,7 @@ const FeaturesDropDown = ({
   )
 
   const showDiv = showMenu
-    ? `ml-[-1px] block border-b border-l border-r border-[#e6e6e6] max-md:w-full ${classNamefeaturesDropDowm}`
+    ? `ml-[-1px] block max-md:w-full ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {
@@ -132,19 +132,19 @@ const FeaturesDropDown = ({
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} h-12 items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:dark:bg-black`}>
+        className={`${classNameInner} max-h-[42px] items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:dark:bg-black`}>
         <div
-          className="mt-[3px] flex justify-between px-4 py-0"
+          className="mt-[3px] flex justify-between px-4 py-2"
           onClick={handleChecked}>
           <div className="flex items-center normal-case text-black dark:text-white pr-3">
             {getSelectedIcon()}
-            <p>
+            <p className='font-extrabold text-base'>
               {selected.length > 16
                 ? `${selected.substring(0, 14)}...`
                 : selected}
             </p>
           </div>
-          <DownArrow className="text-2xl dark:text-white" />
+          <ArrowDown className="text-2xl dark:text-white" />
         </div>
         <div className={`${showDiv} `}>
           <DropDownContent handleLi={handleLi} />
