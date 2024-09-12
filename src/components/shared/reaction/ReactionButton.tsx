@@ -130,7 +130,7 @@ const ReactionButton = ({
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={
                   currentReactionEmoji?.emoji || (
-                    <HeartIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                    <HeartIcon className="mb-[2px] h-[16px] w-[16px] md:h-[20px] md:w-[20px]" />
                   )
                 }
                 isReactionSelected={false}
@@ -141,9 +141,7 @@ const ReactionButton = ({
                 {post?.totalReactionCount}
               </span>
             </div>
-            <div className="text-[12px] font-light text-[#666666] md:text-[16px]">
-              Like
-            </div>
+            <div className="text-sm font-light text-[#666666]">Like</div>
           </div>
         </PopoverTrigger>
         <PopoverContent className="-mt-2 border-0 shadow-none">

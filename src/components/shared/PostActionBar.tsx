@@ -6,8 +6,6 @@ import {
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
-import { FaRegComment } from 'react-icons/fa'
-import { PiShareFat } from 'react-icons/pi'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
@@ -204,7 +202,7 @@ const PostActionBar = ({
     <>
       {/* * Added Gap between the action bar and the comment section */}
       <div className="flex w-full flex-col gap-3">
-        <div className="flex w-full items-center justify-between  ">
+        <div className="flex w-full items-center justify-between ">
           <div className="flex gap-[28px]">
             <ReactionButton
               handleLikeWrapper={handleLikeWrapper}
@@ -219,7 +217,7 @@ const PostActionBar = ({
                 name="comment button"
                 onClick={toggleCommentArea}
                 className="text-icon-light dark:text-icon-dark flex cursor-pointer  items-center gap-[8px]  font-black">
-                <CommentIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                <CommentIcon className="h-[16px] w-[16px] md:h-[20px] md:w-[20px]" />
                 <CustomLink
                   href={
                     pathName.includes('channels')
@@ -228,13 +226,13 @@ const PostActionBar = ({
                   }
                   className="flex items-center">
                   {commentCount && postCommentsCount ? (
-                    <span className="flex items-center justify-center gap-[8px]  text-[12px] font-light  text-black md:text-[16px]">
+                    <span className="flex items-center justify-center gap-[8px]  text-sm  font-light  text-black ">
                       {postCommentsCount > 1 ? (
                         <>
                           <span className="font-[900]">
                             {postCommentsCount}
                           </span>
-                          <span className="text-[12px] font-light text-[#666666] md:text-[16px]">
+                          <span className="text-sm font-light text-[#666666]">
                             Comments
                           </span>
                         </>
@@ -243,7 +241,7 @@ const PostActionBar = ({
                       )}
                     </span>
                   ) : (
-                    <span className="text-[12px] font-light text-[#666666] md:text-[16px]">
+                    <span className="text-sm font-light text-[#666666] ">
                       Comment
                     </span>
                   )}
@@ -261,9 +259,9 @@ const PostActionBar = ({
                   aria-label="share options"
                   aria-labelledby="shareOptionsLabel"
                   role="button">
-                  <ShareIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                  <ShareIcon className="mt-[1px] h-[16px] w-[16px] md:h-[18px] md:w-[18px]" />
                   <span
-                    className="text-[12px] font-light text-[#666666] md:text-[16px]"
+                    className="text-sm font-light text-[#666666]"
                     onClick={setOpenPopOver}>
                     Share
                   </span>
@@ -281,8 +279,8 @@ const PostActionBar = ({
           </div>
 
           <div className="flex items-center justify-center gap-[8px]">
-            <BookMark className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
-            <p className="text-[12px] text-[#666666] md:text-[16px]">Save</p>
+            <BookMark className="h-[16px] w-[16px] md:h-[18px] md:w-[18px]" />
+            <p className="text-sm text-[#666666]">Save</p>
           </div>
         </div>
 
