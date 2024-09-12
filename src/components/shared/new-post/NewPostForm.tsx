@@ -190,12 +190,13 @@ export default function NewPostForm({
   }, [pathname])
 
   return (
-    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-dark-background">
+    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-dark-background dark:bg-slate-800">
       <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}
-          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[16px] py-[8px] text-[12px] opacity-60  ">
-          <ArrowLeft /> Go back
+          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[16px] py-[8px] text-[12px] opacity-60 dark:text-white  ">
+          <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
+          <span className="tetx-black dark:text-white">Go back</span>
         </button>
         <h3 className="font-primary text-[18px] font-[800]  text-[#09090B] dark:text-white ">
           Ask for help from the community
@@ -222,12 +223,12 @@ export default function NewPostForm({
         />
       </div>
 
-      <div className="m-0 flex  h-[42px] w-[142px] items-center justify-start gap-[8px] rounded-[6px] bg-[#F1F5F9] p-[5px]">
+      <div className="m-0 flex  h-[42px] w-[142px] items-center justify-start gap-[8px] rounded-[6px] bg-[#F1F5F9] p-[5px] dark:bg-dark-background">
         <div
           onClick={handlePost}
           className={`m-0 flex w-[60px] items-center justify-center   dark:text-white ${
             !postImage
-              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm transition duration-500 ease-in-out'
+              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm transition duration-500 ease-in-out dark:bg-slate-800'
               : 'h-[32px] w-[60px] text-center font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
           <button name="post button " className="font-medium">
@@ -236,9 +237,9 @@ export default function NewPostForm({
         </div>
         <div
           onClick={imageOnClick}
-          className={`m-0 flex w-[60px] items-center justify-center dark:text-white ${
+          className={`m-0 flex w-[60px] items-center justify-center  dark:text-white ${
             postImage
-              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm  transition duration-500 ease-in-out'
+              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px]  font-primary text-sm transition duration-500 ease-in-out  dark:bg-slate-800 '
               : ' h-[32px] w-[60px]  font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
           <button name="image button" className="font-medium">
@@ -251,7 +252,7 @@ export default function NewPostForm({
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          className="hidden border border-[#d3d3d3]"
+          className="hidden border border-[#d3d3d3] "
           id="imageInput"
         />
       </div>
@@ -259,7 +260,7 @@ export default function NewPostForm({
       {postImage ? (
         <>
           <div
-            className={`mx-auto flex h-[184px] w-[684px] items-center justify-center rounded-[20px] bg-bg-tertiary ${
+            className={`mx-auto flex h-[184px] w-[684px] items-center justify-center rounded-[20px] bg-bg-tertiary dark:bg-dark-background  ${
               postImage ? 'w-full max-w-[702px] border-dotted' : ''
             }`}>
             <label
@@ -280,8 +281,7 @@ export default function NewPostForm({
                     <ImageIcon className="h-[18px] w-[18px]  dark:text-white" />
                     <p className="text-xs text-bg-green dark:text-white ">
                       Upload Image
-                      <span className="text-black">
-                        {' '}
+                      <span className="text-black dark:text-white">
                         or drag n drop here it
                       </span>
                     </p>
@@ -294,7 +294,7 @@ export default function NewPostForm({
             </label>
 
             <input
-              className="hidden border border-[#d3d3d3]"
+              className="hidden border border-[#d3d3d3] "
               id="changeBackgroundImage"
               type="file"
               accept="image/*"
@@ -322,8 +322,8 @@ export default function NewPostForm({
           className={`h-[41px] w-[119px] cursor-not-allowed rounded-[100px] px-[15px] py-[8px] ${
             isDisabled
               ? 'bg-stone-200'
-              : 'cursor-pointer bg-bg-green text-black'
-          } p-2 text-white transition duration-200`}>
+              : 'cursor-pointer bg-bg-green text-black '
+          } p-2 text-white transition duration-200 dark:text-black  `}>
           {loading ? 'Loading...' : 'Create Post'}
         </button>
       </div>

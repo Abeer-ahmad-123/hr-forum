@@ -52,9 +52,10 @@ import PostImage from '@/assets/images/Post.svg'
 type CardProps = {
   post: PostsInterface
   channels: ChannelByIdInterface[] | ChannelInterface[]
-  posts: PostsInterface[]
+  posts?: PostsInterface[]
   userComment?: any
-  updatePosts: Dispatch<SetStateAction<PostsInterface[]>>
+  updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
+  className?: string
 }
 const Card = ({
   post,
@@ -62,6 +63,7 @@ const Card = ({
   updatePosts,
   posts,
   userComment,
+  className,
 }: CardProps) => {
   const {
     id,
@@ -273,9 +275,16 @@ const Card = ({
   }, [user_has_reported])
 
   return (
-    <div id={String(id)} key={id} className="m-0 w-full max-w-[759px] p-0">
+    <div
+      id={String(id)}
+      key={id}
+      className={className ? className : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={`mx-auto mb-5 min-h-[547px] w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        className={
+          className
+            ? 'mb-5 h-full  w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 '
+            : `mx-auto mb-5 min-h-[547px]  w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`
+        }>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -303,7 +312,12 @@ const Card = ({
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div className="flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
+        <div
+          className={
+            className
+              ? 'flex flex-col gap-[20px]'
+              : 'flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] '
+          }>
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
               <div className="flex items-center gap-[12px]">
@@ -473,21 +487,25 @@ const Card = ({
             width={500}
             className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
           />
-          <div className=" flex   " key={id}>
-            <PostActionBar
-              postId={String(id)}
-              userReaction={reactionRef.current ? userReaction : user_reaction}
-              setUserReaction={setUserReaction}
-              updateReactionArray={updateReactionArray}
-              reactionSummary={reactionSummary}
-              disableReactionButton={disableReactionButton}
-              setDisableReactionButton={setDisableReactionButton}
-              userComment={userComment}
-              reactionRef={reactionRef}
-              updatePosts={updatePosts}
-              posts={posts}
-            />
-          </div>
+          {!className && (
+            <div className="flex" key={id}>
+              <PostActionBar
+                postId={String(id)}
+                userReaction={
+                  reactionRef.current ? userReaction : user_reaction
+                }
+                setUserReaction={setUserReaction}
+                updateReactionArray={updateReactionArray}
+                reactionSummary={reactionSummary}
+                disableReactionButton={disableReactionButton}
+                setDisableReactionButton={setDisableReactionButton}
+                userComment={userComment}
+                reactionRef={reactionRef}
+                updatePosts={updatePosts}
+                posts={posts}
+              />
+            </div>
+          )}
         </div>
 
         {/* <PostReactionBar

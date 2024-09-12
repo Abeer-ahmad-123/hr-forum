@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Icon({ className }: any) {
   return (
     <svg
@@ -10,7 +8,7 @@ function Icon({ className }: any) {
       className={className}
       viewBox="0 0 18 18">
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

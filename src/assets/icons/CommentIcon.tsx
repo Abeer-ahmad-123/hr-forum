@@ -1,4 +1,3 @@
-import React from 'react'
 interface iconProp {
   className: string
 }
@@ -12,7 +11,7 @@ function Icon({ className }: iconProp) {
       fill="none"
       viewBox="0 0 20 20">
       <path
-        stroke="#000"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.75"

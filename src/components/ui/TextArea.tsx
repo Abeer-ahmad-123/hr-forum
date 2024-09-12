@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import SignInDialog from '../shared/new-post/SignInDialog'
 import { deleteModalState } from '@/services/auth/authService'
+import StartIcon from '@/assets/icons/sentIcon'
 
 const TextArea = ({
   submitCallback,
@@ -80,31 +81,31 @@ const TextArea = ({
         onClick={handleImgClick}
       /> */}
       <div
-        className={`flex ${className} items-center  rounded-[20px] bg-bg-tertiary`}
+        className={`m-[0px] flex h-[44px] ${className} items-center  rounded-[20px] bg-bg-tertiary px-[20px] py-[8px] dark:bg-dark-background `}
         style={textareaStyle}>
-        <div className="flex h-[44px] w-full  rounded-[20px] dark:bg-dark-background">
+        <div className="flex h-[44px] w-full  rounded-[20px] dark:bg-dark-background ">
           <textarea
             ref={inputRef}
             rows={2}
             placeholder={placeholder}
             value={textAreaValue}
             onChange={handleTextAreaChange}
-            style={{ placeContent: 'center' }}
             // * Removed extra spaces
-            className={`caret-gray h-full w-full resize-none items-center  rounded-lg border-none bg-bg-tertiary p-2 pl-2 text-left text-[12px] outline-none dark:bg-dark-background max-custom-sx:text-[8px]`}
+            className={`caret-gray h-full  w-full resize-none place-content-center items-center    border-none bg-bg-tertiary  text-left text-[12px] outline-none dark:bg-dark-background max-custom-sx:text-[8px]`}
           />
 
           <button
             name="post comment button"
             onClick={handleClick}
-            className={`${btnClass} rounded-lg px-3 text-white dark:bg-dark-background`}
+            className={`${btnClass} rounded-lg px-3 text-white dark:bg-dark-background  `}
             disabled={isLoading['loading'] || textAreaValue === ''}>
-            <SendHorizonal
-              size={25}
+            <StartIcon
+              className="text-black dark:text-white "
               color={
-                isLoading['loading'] || textAreaValue === ''
-                  ? 'lightgrey'
-                  : '#571ce0'
+                ''
+                // isLoading['loading'] || textAreaValue === ''
+                //   ? 'lightgrey'
+                //   : '#571ce0'
               }
             />{' '}
           </button>

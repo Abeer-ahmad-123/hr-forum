@@ -118,8 +118,8 @@ function ReplyTextArea({
         </DialogContent>
       </Dialog>
 
-      <div className="flex items-center gap-2.5 ">
-        <div className="group relative inline-block">
+      <div className="flex h-[19px] items-center gap-2.5 ">
+        {/* <div className="group relative inline-block">
           <span
             className="pointer ml-2 text-left text-xs text-gray-400 hover:underline max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
@@ -130,26 +130,26 @@ function ReplyTextArea({
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
             {formattedDate}
           </div>
-        </div>
+        </div> */}
         <button
           name="reply button"
           onClick={toggleTextArea}
-          className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+          className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
           Reply
         </button>
 
         <div onMouseLeave={handleMouseDown}>
           <Popover open={popOver} onOpenChange={setPopOver}>
             <PopoverTrigger
-              className="flex items-center space-x-2 py-2 text-sm text-gray-400 hover:underline dark:text-gray-300"
+              className="flex items-center space-x-2 py-2 text-black opacity-60 hover:underline dark:text-gray-300"
               name="share option button"
               aria-label="share option"
               aria-labelledby="shareOptionLabel"
               role="button">
               <span
-                className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+                className="opacity-60hover:underline cursor-pointer text-sm font-medium text-black dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                 onClick={setOpenPopOver}>
                 Share
               </span>
@@ -167,16 +167,16 @@ function ReplyTextArea({
         {author == userData.name ? (
           <div
             onClick={handleDeleteClick}
-            className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+            className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
             Delete
           </div>
         ) : (
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <button
               name="report button"
-              className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+              className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
               onClick={handleClick}>
               Report
             </button>
