@@ -4,6 +4,7 @@ import {
   ChannelInterface,
 } from '@/utils/interfaces/channels'
 import Link from 'next/link'
+import VectorRight from '@/assets/icons/vectorRight'
 interface ChannelObject {
   [key: string]: {
     name?: string
@@ -19,12 +20,13 @@ const ChannelPill = ({ channel_id, channels }: Props) => {
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
   return (
     <span
-      className="text-xs font-light
+      className="flex items-center justify-center gap-[12px] text-xs font-light
     text-slate-500 dark:text-gray-400 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] md:text-xs lg:text-sm xl:text-sm">
-      Posted in
-      <Link className="" href={`/channels/${lowerCaseChannelName}/`}>
-        {` `}
-        <span className="font-medium  text-gray-900 hover:underline dark:text-white">
+      <VectorRight />
+      <Link
+        className="d-flex items-center justify-center"
+        href={`/channels/${lowerCaseChannelName}/`}>
+        <span className="text-[16px] font-[800] text-color-blue hover:underline dark:text-white">
           {channelObj[channel_id]?.name}
         </span>
       </Link>

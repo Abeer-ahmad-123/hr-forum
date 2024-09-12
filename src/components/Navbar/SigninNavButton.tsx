@@ -35,9 +35,9 @@ export default function SigninNavButton() {
   return (
     <Dialog open={openDialog} onOpenChange={handleCloseDialog}>
       <DialogTrigger
-        className={`flex w-[50px] cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-3 py-2 text-white  hover:bg-accent sm:w-[120px]`}>
-        <BsPersonFill size={20} />
-        <span className="hidden  sm:inline-block">Login</span>
+        className={`flex w-[89px] h-10 sm:h-11  cursor-pointer font-[800] items-center justify-center gap-2 rounded-full bg-bg-green px-3 py-2 text-black  hover:bg-bg-green md:w-[136px]`}>
+
+        <span>Login</span>
       </DialogTrigger>
       <DialogContent className="bg-white sm:max-w-[500px]">
         {showSignUpForm ? (

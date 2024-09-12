@@ -139,18 +139,16 @@ const PostReactionBar = ({
   return (
     <>
       {/* IF ONLY THE REACTIONS OR THE COMMENTS EXIST THEN ADD EXTRA <HR/> */}
-      {!pathName.includes('/profile') &&
-      (countOfAllVarToUse || commentCountToUse) ? (
+      {/* {!pathName.includes('/profile') && (countofAll || postCommentsCount) ? (
         <hr />
-      ) : null}
+      ) : null} */}
       <div className="flex items-center justify-between px-10 py-1">
         {/* * Fixed issue with reactions buttons overlapping and using less width. */}
         <div className="flex gap-1">
           {emojiVarToUse?.map((react, index) => (
             <span
-              className={`${
-                index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
-              } rounded-full bg-white p-1 text-xs dark:bg-slate-800`}
+              className={`${index === 0 ? 'sticky z-[1]' : 'ml-[-8px]'
+                } rounded-full bg-white p-1 text-xs dark:bg-slate-800`}
               key={index}
               onMouseEnter={mouseEnter}
               onMouseLeave={mouseLeave}>

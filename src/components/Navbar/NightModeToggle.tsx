@@ -25,6 +25,7 @@ const NightModeToggle = () => {
         condition={theme === 'dark'}
         FirstIcon={MoonIcon}
         SecondIcon={SunIcon}
+        className='h-[18px] w-[18px] md:h-5 md:w-5'
       />
     </button>
   )

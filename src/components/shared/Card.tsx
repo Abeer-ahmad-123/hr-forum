@@ -47,8 +47,8 @@ import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
-import { CommentObject } from '@/utils/interfaces/feeds'
 import CardContent from './CardContent'
+import PostImage from '@/assets/images/Post.svg'
 
 type CardProps = {
   post: PostsInterface
@@ -91,6 +91,7 @@ const Card = ({
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
 
+  const displayedContent = showFullPost ? content : content.slice(0, 200)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
@@ -171,10 +172,10 @@ const Card = ({
       pathName.includes('channels')
         ? `${pathName}/feed/${id}`
         : pathName.includes('saved')
-        ? `/saved/feed/${id}`
-        : pathName.includes('user-activity')
-        ? `${pathName}/feed/${id}`
-        : `/feeds/feed/${id}`,
+          ? `/saved/feed/${id}`
+          : pathName.includes('user-activity')
+            ? `${pathName}/feed/${id}`
+            : `/feeds/feed/${id}`,
     )
   }
   const handleNavigateProfile = (event: any) => {
@@ -277,7 +278,7 @@ const Card = ({
   return (
     <div id={String(id)} key={id} className="m-0 w-full max-w-[100dvw] p-0">
       <div
-        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-xl border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-[20px] border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -285,10 +286,10 @@ const Card = ({
                 reportType="post"
                 setOpenDialog={setOpenDialog}
                 postId={id ? String(id) : ''}
-                getPostCommets={() => {}}
+                getPostCommets={() => { }}
                 setReported={setReported}
-                setReportedReplyId={() => {}}
-                setDeletedCommentId={() => {}}
+                setReportedReplyId={() => { }}
+                setDeletedCommentId={() => { }}
               />
             </DialogContent>
           </Dialog>
@@ -298,23 +299,23 @@ const Card = ({
               <DeletePost
                 setOpenDeleteDialog={setOpenDeleteDialog}
                 postId={id ? String(id) : ''}
-                setReported={() => {}}
+                setReported={() => { }}
                 updatePosts={updatePosts}
                 posts={posts}
               />
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div className={cn('px-10 py-4 max-custom-sm:px-6 max-[392px]:px-2')}>
+        <div className=" flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
-              <div className="flex items-center">
+              <div className="flex items-center gap-[12px]">
                 <div className="-z-2">
                   <div className="static rounded-xl">
                     <img
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
-                      width={32}
-                      height={32}
+                      width={48}
+                      height={48}
                       src={user?.profile_picture_url || noProfilePicture.src}
                       alt="user-picture"
                       onClick={handleNavigateProfile}
@@ -322,10 +323,10 @@ const Card = ({
                   </div>
                 </div>
 
-                <div className="ml-2 flex flex-col items-start align-baseline">
-                  <div className="flex flex-row flex-wrap items-center">
+                <div className=" flex flex-col items-start align-baseline">
+                  <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
-                      className="max-w-full shrink-0 break-all pr-1 text-sm font-normal leading-none text-gray-900 hover:underline dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+                      className="max-w-full shrink-0 break-all text-[16px]  font-[800]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {String(userDetails.id) === String(user_id)
@@ -416,44 +417,43 @@ const Card = ({
           </div>
 
           <div
-            className="flex max-w-full flex-col hyphens-auto"
+            className="flex max-w-full flex-col gap-[20px] hyphens-auto"
             onClick={handleNavigateFeed}>
             <CustomLink
               href={
                 pathName.includes('channels')
                   ? `${pathName}/feed/${id}`
                   : pathName.includes('saved')
-                  ? `/saved/feed/${id}`
-                  : `/feeds/feed/${id}`
+                    ? `/saved/feed/${id}`
+                    : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className="my-3 text-start text-xl font-semibold dark:text-white max-custom-sm:text-base">
+              <div className="my-3 text-start text-[16px] text-xl font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
-            {!image_url ? (
-              content ? (
-                <div>
-                  <CardContent content={content} />
-                  {content?.length > 200 && (
-                    <CustomLink
-                      href={
-                        pathName.includes('channels')
-                          ? `${pathName}/feed/${id}`
-                          : pathName.includes('saved')
+            {content && (
+              <div>
+                <CardContent content={content} />
+                {content?.length > 200 && (
+                  <CustomLink
+                    href={
+                      pathName.includes('channels')
+                        ? `${pathName}/feed/${id}`
+                        : pathName.includes('saved')
                           ? `/saved/feed/${id}`
                           : `/feeds/feed/${id}`
-                      }>
-                      <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
-                        Show More
-                      </button>
-                    </CustomLink>
-                  )}
-                </div>
-              ) : (
-                <></>
-              )
-            ) : (
+                    }>
+                    <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
+                      Show More
+                    </button>
+                  </CustomLink>
+                )}
+              </div>
+            )
+            }
+
+            {image_url &&
               // * Image consistency for width / height and fill properties
               <Image
                 quality={100}
@@ -461,41 +461,41 @@ const Card = ({
                 alt="post"
                 height={500}
                 width={500}
-                className="mx-auto h-full max-h-[400px] object-contain"
+                className="h-full max-h-[270px] w-full rounded-[20px] object-contain"
               />
-            )}
+            }
+
+          </div>
+          <div className="flex" key={id}>
+            <PostActionBar
+              postId={String(id)}
+              userReaction={reactionRef.current ? userReaction : user_reaction}
+              setUserReaction={setUserReaction}
+              updateReactionArray={updateReactionArray}
+              reactionSummary={reactionSummary}
+              disableReactionButton={disableReactionButton}
+              setDisableReactionButton={setDisableReactionButton}
+              userComment={userComment}
+              reactionRef={reactionRef}
+              updatePosts={updatePosts}
+              posts={posts}
+            />
           </div>
         </div>
 
-        <PostReactionBar
-          totalComments={total_comments}
-          reaction_summary={reactionSummaryToUse}
+        {/* <PostReactionBar
+          reaction_summary={reactionSummary}
           postId={id ? String(id) : ''}
         />
-        <hr />
-
-        <div className="py-1" key={id}>
-          <PostActionBar
-            postId={String(id)}
-            userReaction={reactionRef.current ? userReaction : user_reaction}
-            setUserReaction={setUserReaction}
-            updateReactionArray={updateReactionArray}
-            reactionSummary={reactionSummary}
-            disableReactionButton={disableReactionButton}
-            setDisableReactionButton={setDisableReactionButton}
-            userComment={userComment}
-            reactionRef={reactionRef}
-            updatePosts={updatePosts}
-            posts={posts}
-          />
-        </div>
-      </div>
+        <hr /> */
+        }
+      </div >
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
           <SignInDialog setShowSignModal={setShowSignModal} />
         </Dialog>
       </Suspense>
-    </div>
+    </div >
   )
 }
 

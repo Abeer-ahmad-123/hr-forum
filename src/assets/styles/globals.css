@@ -12,12 +12,26 @@
     --color-secondary: #3a80ff;
     --color-accent: #571ce0;
     --color-background: #f7f2fd;
+    --bg-primary: #ffffff;
+    --bg-green: #14ccab;
+    --color-blue: #0087d5;
+    --bg-secondary: #fafafa;
+    --bg-tertiary: #eeeeee;
+    --color-grey: #838b98;
+    --bg-dark-grey: #141B34;
   }
   .theme-default {
     --color-primary: #2970ff;
     --color-secondary: #3a80ff;
     --color-accent: #571ce0;
     --color-background: #f7f2fd;
+    --bg-green: #14ccab;
+    --color-blue: #0087d5;
+    --bg-secondary: #fafafa;
+    --bg-primary: #ffffff;
+    --bg-tertiary: #eeeeee;
+    --color-grey: #838b98;
+    --bg-dark-grey: #141B34;
   }
 }
 
@@ -26,6 +40,13 @@
   --color-secondary: #3a80ff;
   --color-accent: #571ce0;
   --color-background: #f7f2fd;
+  --bg-green: #14ccab;
+  --color-blue: #0087d5;
+  --bg-secondary: #fafafa;
+  --bg-primary: #ffffff;
+  --bg-tertiary: #eeeeee;
+  --color-grey: #838b98;
+  --bg-dark-grey: #141B34;
 }
 @media (max-width: 520px) {
   .avatarEditor {
