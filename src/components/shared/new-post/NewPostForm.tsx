@@ -6,33 +6,34 @@ import {
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Image as IconImage, Plus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { CiImageOn as ImageIcon } from 'react-icons/ci'
 import { useDispatch, useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 import { PostsInterfaceStore } from '@/utils/interfaces/posts'
+import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
+import ImageIcon from '@/assets/icons/ImageIcon'
+import './style.css'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
   updatePosts: (arg0: any) => void
+  setAddPost: (arg0: boolean) => void
 }
 
 export default function NewPostForm({
   open,
   updatePosts,
+  setAddPost,
 }: newPostFormInterface) {
-  const dispatch = useDispatch()
   const router = useRouter()
-  const posts = useSelector((state: PostsInterfaceStore) => state.posts.posts)
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',
     channelId: '',
   })
-  const [buttonValue, setButtonValue] = useState('Select a Channel')
+  const [buttonValue, setButtonValue] = useState('HR-General')
   const channels = useSelector(
     (state: StoreChannels) => state.channels.channels,
   )
@@ -179,28 +180,41 @@ export default function NewPostForm({
       }
     }
   }
+
+  const handleBack = () => {
+    setAddPost(false)
+  }
   useEffect(() => {
     checkChannel()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   return (
-    <div className="flex flex-col space-y-6 rounded-xl bg-white p-2 dark:bg-dark-background sm:max-w-[710px]">
-      <div className="flex w-full justify-between">
-        <h3 className="w-content mb-4 flex-shrink-0 font-medium text-gray-700 dark:text-white md:text-lg lg:text-xl">
-          Ask for help from the community...
+    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-dark-background">
+      <div className="flex flex-col justify-between gap-[18px]">
+        <button
+          onClick={handleBack}
+          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[16px] py-[8px] text-[12px] opacity-60  ">
+          <ArrowLeft /> Go back
+        </button>
+        <h3 className="font-primary text-[18px] font-[800]  text-[#09090B] dark:text-white ">
+          Ask for help from the community
         </h3>
       </div>
 
-      <div className="flex justify-between max-[490px]:flex-col">
-        <input
-          className="mb-3 rounded-lg border border-[#d3d3d3] p-1.5 placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
-          type="text"
-          placeholder="Add a title"
-          name="title"
-          onChange={handleFormChange}
-          value={formValues.title}
-        />
+      <div className=" m-0 flex flex-col-reverse items-start justify-start gap-[18px] ">
+        <div className="flex h-[88px] w-full flex-col gap-[8px]">
+          <p className="text-sm font-extrabold">Title</p>
+          <input
+            className="title-input flex h-[56px] rounded-[20px] border-bg-tertiary  px-[20px]  py-[8px] font-primary text-base  placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
+            type="text"
+            placeholder="Title goes here *"
+            name="title"
+            onChange={handleFormChange}
+            value={formValues.title}
+          />
+        </div>
+
         <Dropdown
           value={buttonValue}
           onSelect={handleFormChange}
@@ -208,26 +222,28 @@ export default function NewPostForm({
         />
       </div>
 
-      <div className="flex items-start justify-start">
+      <div className="m-0 flex  h-[42px] w-[142px] items-center justify-start gap-[8px] rounded-[6px] bg-[#F1F5F9] p-[5px]">
         <div
           onClick={handlePost}
-          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 dark:text-white ${
+          className={`m-0 flex w-[60px] items-center justify-center   dark:text-white ${
             !postImage
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-              : 'opacity-50 dark:opacity-100'
+              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm transition duration-500 ease-in-out'
+              : 'h-[32px] w-[60px] text-center font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
-          <Plus size={20} />
-          <button name="post button"> Post</button>
+          <button name="post button " className="font-medium">
+            Text
+          </button>
         </div>
         <div
           onClick={imageOnClick}
-          className={`ml-2 flex w-[100px] items-center gap-[8px] p-2 dark:text-white ${
+          className={`m-0 flex w-[60px] items-center justify-center dark:text-white ${
             postImage
-              ? 'z-10 border-b-2 border-[#571ce0] text-[#571ce0] transition duration-500 ease-in-out'
-              : ' opacity-50 dark:opacity-100'
+              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm  transition duration-500 ease-in-out'
+              : ' h-[32px] w-[60px]  font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
-          <IconImage size={20} />
-          <button name="image button"> Image</button>
+          <button name="image button" className="font-medium">
+            Image
+          </button>
           <hr />
         </div>
 
@@ -239,12 +255,11 @@ export default function NewPostForm({
           id="imageInput"
         />
       </div>
-      <p className="!mb-[-5px] !mt-[-2px] ml-2 h-[2px] bg-[#eaecf0]"></p>
 
       {postImage ? (
         <>
           <div
-            className={`mx-auto flex h-[343px] w-[400px] items-center justify-center rounded-lg border-[3px] border-gray-200 ${
+            className={`mx-auto flex h-[184px] w-[684px] items-center justify-center rounded-[20px] bg-bg-tertiary ${
               postImage ? 'w-full max-w-[702px] border-dotted' : ''
             }`}>
             <label
@@ -261,10 +276,19 @@ export default function NewPostForm({
                 />
               ) : (
                 <>
-                  <ImageIcon className="h-[250px] w-[250px] text-gray-500  dark:text-white" />
-                  <p className='md:text-sm" dark:text-white max-sm:text-xs'>
-                    Browser Image to Upload
-                  </p>
+                  <div className="flex flex-col items-center justify-center">
+                    <ImageIcon className="h-[18px] w-[18px]  dark:text-white" />
+                    <p className="text-xs text-bg-green dark:text-white ">
+                      Upload Image
+                      <span className="text-black">
+                        {' '}
+                        or drag n drop here it
+                      </span>
+                    </p>
+                    <p className="text-xs text-gray-300 dark:text-white ">
+                      JPEG, PNG,JPG up to 5mb
+                    </p>
+                  </div>
                 </>
               )}
             </label>
@@ -295,10 +319,12 @@ export default function NewPostForm({
           name="loadding button"
           onClick={createPost}
           disabled={isDisabled}
-          className={`w-[100px] rounded-md ${
-            isDisabled ? 'bg-stone-200' : 'bg-accent'
+          className={`h-[41px] w-[119px] cursor-not-allowed rounded-[100px] px-[15px] py-[8px] ${
+            isDisabled
+              ? 'bg-stone-200'
+              : 'cursor-pointer bg-bg-green text-black'
           } p-2 text-white transition duration-200`}>
-          {loading ? 'Loading...' : 'Create'}
+          {loading ? 'Loading...' : 'Create Post'}
         </button>
       </div>
     </div>

@@ -1,12 +1,9 @@
-'use client'
-import { deleteModalState } from '@/services/auth/authService'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import {
   ChannelByIdInterface,
   ChannelInterface,
 } from '@/utils/interfaces/channels'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import VectorRight from '@/assets/icons/vectorRight'
 interface ChannelObject {
   [key: string]: {
@@ -19,21 +16,8 @@ type Props = {
 }
 
 const ChannelPill = ({ channel_id, channels }: Props) => {
-  const router = useRouter()
   const channelObj: ChannelObject = arrayToKeyIdNValueData(channels)
   const lowerCaseChannelName = channelObj[channel_id]?.name?.toLowerCase()
-
-  // ! Was causing navigation issues on post.
-  /**
-   *
-   * @deprecated Use `<Link>` instead
-   */
-  const handleLinkClick = (event: any) => {
-    event.preventDefault()
-    event.stopPropagation() // Prevent propagation to card's onClick
-    router.push(`${'/channels/' + lowerCaseChannelName}/`)
-    deleteModalState()
-  }
   return (
     <span
       className="flex items-center justify-center gap-[12px] text-xs font-light

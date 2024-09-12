@@ -18,51 +18,23 @@ import { clearUser, setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
 import type {
-  ChannelInterface,
   StoreChannels,
 } from '@/utils/interfaces/channels'
-import '@fontsource/poppins'
-import '@fontsource/poppins/300.css'
-import '@fontsource/poppins/400.css'
-import '@fontsource/poppins/500.css'
-import '@fontsource/poppins/600.css'
-import '@fontsource/poppins/700.css'
-import '@fontsource/poppins/900.css'
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import { ThemeProvider } from 'next-themes'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import UserNameDialog from './UserNameDialog'
-type Props = {
-  children: React.ReactNode
-  serverState: {
-    channels: {
-      channels: ChannelInterface[]
-      channelsKeyValuePair: {}
-    }
-    posts: {
-      posts: never[]
-      commentCount: {}
-    }
-    notFound: {
-      notFound: boolean
-    }
-    loggedInUser: {
-      token: string | null
-      userData: any
-      refreshToken: string | null
-    }
-  }
-}
-const LayoutWrapper = ({ children, serverState }: Props) => {
+import { LayoutWrapperProps } from '@/utils/types/layoutWrapper'
+import 'react-toastify/dist/ReactToastify.css'
+
+
+const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
   const router = useRouter()
   const { handleRedirect } = useFetchFailedClient()
-  const notFound =
-    useSelector((state: any) => state.notFound.notFound) ||
-    serverState.notFound.notFound
+
   const channelsInStore = useSelector(
     (state: StoreChannels) => state.channels.channels,
   )
@@ -74,20 +46,19 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
   const dispatch = useDispatch()
   const pathname = usePathname()
   const [loading, setLoading] = useState(!serverState ? true : false)
-  const [isError, setIsError] = useState<boolean>(false)
 
   const isFirstRun = useRef(true)
   const isFirstOnce = useRef(false)
   // * A Dialog to set the username on signup / login with Google
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
-  // const styles = darkMode ? 'dark' : ''
 
   const clearAuthentication = () => {
     dispatch(clearUser())
     logout()
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
-    } else {
+    } 
+    else{
       router.refresh()
     }
   }
@@ -144,14 +115,15 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
     }
   }
   const handleUserClientLogout = async () => {
-    if (!(await checkUser())) {
+    const token = localStorage.getItem('token')
+    if (!(await checkUser()) && token) {
       clearAuthentication()
     }
   }
 
-  const handleUserServerLogout = () => {
+  const handleUserServerLogout = async() => {
     const token = localStorage.getItem('token')
-    if (!token) {
+    if (!token && (await checkUser())) {
       clearAuthentication()
     }
   }
@@ -185,9 +157,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
       }
     }
   }
-  useEffect(() => {
-    if (pathname.includes('/error')) setIsError(true)
-  }, [pathname])
+
 
   // * The API for Google AccessToken sign-up
   const exchangeGoogleToken = async (token: string, username: string) => {
@@ -201,12 +171,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
           }),
         )
         handleCloseDialog()
-        // const currentUrl = window.location.href
-        // const url = new URL(currentUrl)
-
-        // url.searchParams.delete('googleAccessToken')
-
-        // window.history.replaceState({}, document.title, url.href)
+     
       } catch (err: any) {
         showErrorAlert(err.message ?? 'Issue in google authentication')
       }
@@ -267,39 +232,29 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
     setOpenUserNameDialog(false)
     router.replace(pathname)
   }
+  const isError = pathname==="/error"
+
   return (
     <main
-      // * max width should be 100 view width so that it should now scroll over x-axis
-      className={`${
-        isError ? 'bg-white' : 'dark:bg-dark-background'
-      } font-primary ${!isError && 'dark:bg-slate-700'} h-max max-w-[100dvw]
-      `}
+      className="font-primary h-max max-w-[100dvw]"
     >
       <ThemeProvider attribute="class" defaultTheme="theme-default">
         <ProgressBar
           height="2px"
-          color="#571ce0"
+          color="var(--bg-green)"
           options={{ showSpinner: false }}
           shallowRouting
         />
-        {!loading && !isError && !notFound && <Navbar />}
+        {!loading && !isError && <Navbar />}
         <ToastContainer />
-        <div className="font-primary dark:bg-dark-background">
-          <div className="grid">
-            <div className="flex dark:bg-slate-700 dark:text-white">
               <div
-                className={`mx-auto w-full px-10
-              dark:text-white max-md:py-5 max-sm:p-[10px] ${
-                isError
-                  ? 'bg-white dark:bg-white'
-                  : 'transition-all duration-700 ease-in-out dark:bg-dark-background'
-              } ${
-                pathname === '/register' || pathname === '/login'
-                  ? 'flex items-center justify-center'
-                  : ''
-              }`}
+                className={`w-full max-md:py-5 max-sm:p-[10px] transition-all duration-700 ease-in-out 
+                  ${pathname === '/register' || pathname === '/login'
+                    ? 'flex items-center justify-center'
+                    : ''
+                  }`}
               >
-                {!loading ? children : <InitialLoading />}
+                {!loading ? <div className={isError ? 'mt-0':'mt-[86px]'}> {children}</div> : <InitialLoading />}
 
                 <UserNameDialog
                   isDialogOpen={openUserNameDialog}
@@ -307,9 +262,6 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
                   handleCloseDialog={handleCloseDialog}
                 />
               </div>
-            </div>
-          </div>
-        </div>
       </ThemeProvider>
     </main>
   )

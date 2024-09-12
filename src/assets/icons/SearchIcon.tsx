@@ -1,11 +1,7 @@
-import React from 'react'
+import { IconProps } from "@/utils/interfaces/icons"
 
-interface SearchIconProps {
-  className?: string;
-  color?: string;
-}
 
-const SearchIcon = ({ className, color }: SearchIconProps) => {
+const SearchIcon = ({ className }: IconProps) => {
   return (
     <svg
       stroke="currentColor"

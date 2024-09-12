@@ -11,7 +11,9 @@ import type {
 } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
-import RespScreen from '../Cards/ResponsiveScreen'
+import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
+import MainMenu from '../Cards/MainMenu'
+import Logout from '../Cards/Logout'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -20,7 +22,7 @@ type Props = RenderFeedsInterface & {
   }
   morePosts: boolean
 }
-async function RenderFeedsGeneral({
+export default async function RenderFeedsGeneral({
   channelSlug = '',
   searchParams,
   path,
@@ -28,6 +30,7 @@ async function RenderFeedsGeneral({
   morePosts,
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
+
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = (data.channels as ChannelInterface[]).find(
       (obj: { slug: string }) => obj.slug === slug,
@@ -38,17 +41,29 @@ async function RenderFeedsGeneral({
     }
   }
   return (
-    <div className="mx-auto flex max-w-screen-xl justify-center">
+    <div className="flex justify-center">
       <div
-        className={`mr-[5px] ${
-          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
+        className={`mr-5 flex-1  ${
+          accessToken ? 'mt-[5px] max-lg:mt-[5px]' : 'mt-[5px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
-        {user && <ProfileCard />}
         <div
-          className={`${
-            user ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}>
-          <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
+          className={`${user ? 'top-[70px] mt-[10px]' : 'top-[70px] '
+            } sticky top-[104px]  max-h-[882px] h-screen max-lg:top-[55px]`}>
+              
+          <div className='relative px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
+            <div>
+              {user && <ProfileCard />}
+              <div className=''>
+                <div className={` ${!user && 'pt-7'} pb-6`}>
+                  <MainMenu />
+                </div>
+                <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
+              </div>
+            </div>
+            <div className='w-[254px] absolute top-[80%] ml-10'>
+              <Logout />
+            </div>
+          </div>
         </div>
         <div
           className={`sticky ${
@@ -57,7 +72,7 @@ async function RenderFeedsGeneral({
               : 'top-[335px] mt-5 max-lg:top-[328px]'
           } max-h-screen`}>
           {' '}
-          <RulesCard />
+
         </div>
       </div>
 
@@ -86,7 +101,7 @@ async function RenderFeedsGeneral({
 
         <div className="flex w-full justify-center">
           <div className="w-full">
-            <RespScreen />
+            <FeaturesDropDownWithSuspense />
 
             <div
               className={`${
@@ -106,7 +121,11 @@ async function RenderFeedsGeneral({
           </div>
         </div>
       </div>
+
+
+      <div className='ml-5 flex-1 mt-[15px] hidden md:inline-block'>
+        <RulesCard />
+      </div>
     </div>
   )
 }
-export default RenderFeedsGeneral

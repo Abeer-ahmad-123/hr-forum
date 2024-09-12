@@ -115,7 +115,7 @@ const CommentOrReply = ({
           inputRef={inputRef}
           placeholder="Write your comment..."
           getPostCommets={getPostCommets}
-          classNameOuter={'mx-4'}
+          classNameOuter={''}
         />
       )}
     </div>

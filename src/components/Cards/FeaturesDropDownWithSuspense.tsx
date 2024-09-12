@@ -1,9 +1,8 @@
-'use client'
 import { Suspense } from 'react'
 import FeaturesDropDown from '../Navbar/FeaturesDropdown'
 import Skelton from '../ui/skelton'
 
-const RespScreen = () => {
+const FeaturesDropDownWithSuspense = () => {
   return (
     <div className="max-md: hidden w-full max-md:block max-[640px]:mt-3">
       <Suspense fallback={<Skelton className="h-8 w-[300px] bg-skelton" />}>
@@ -16,4 +15,4 @@ const RespScreen = () => {
     </div>
   )
 }
-export default RespScreen
+export default FeaturesDropDownWithSuspense

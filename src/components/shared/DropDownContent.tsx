@@ -1,11 +1,10 @@
 import { navigation } from '@/utils/data'
-import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
+import { StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname } from 'next/navigation'
 import { BsDot } from 'react-icons/bs'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { CustomLink } from './customLink/CustomLink'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useEffect } from 'react'
 
 type NavigationItem = {
   name: string

@@ -18,7 +18,7 @@ import type {
   RenderFeedsInterface,
 } from '@/utils/interfaces/renderFeeds'
 import { redirect } from 'next/navigation'
-import RespScreen from '../Cards/ResponsiveScreen'
+import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
 
 async function RenderFeeds({
   channelSlug = '',
@@ -90,7 +90,7 @@ async function RenderFeeds({
         }
       }
     } else {
-      redirect('/not-found')
+      // redirect('/not-found')
     }
   } else {
     if (Object.keys(searchParams).length && searchParams.search) {
@@ -201,7 +201,7 @@ async function RenderFeeds({
 
         <div className="flex w-full justify-center">
           <div className="w-full">
-            <RespScreen />
+            <FeaturesDropDownWithSuspense />
 
             <div
               className={`${path === '/saved'

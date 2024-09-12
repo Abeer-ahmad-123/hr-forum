@@ -5,7 +5,7 @@ import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import PostReactionBar from './shared/PostReactionBar'
+// import PostReactionBar from './shared/PostReactionBar'
 
 interface ProfilePostsProps {
   post: PostsInterface
@@ -99,10 +99,10 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
           />
         </div>
 
-        <PostReactionBar
+        {/* <PostReactionBar
           postId={post.id as unknown as string}
           reaction_summary={post.reaction_summary}
-        />
+        /> */}
       </div>
       <hr className="mx-3" />
     </>

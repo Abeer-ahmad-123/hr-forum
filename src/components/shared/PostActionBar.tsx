@@ -5,9 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useMemo, useState } from 'react'
-import { FaRegComment } from 'react-icons/fa'
-import { PiShareFat } from 'react-icons/pi'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
@@ -32,10 +30,10 @@ import BookMark from '@/assets/icons/bookMarkIcon'
 import {
   CommentCount,
   CommentCountStore,
-  PostReactionBarProps,
-  ReactionCounts,
+
 } from '@/utils/interfaces/posts'
 import { CustomLink } from './customLink/CustomLink'
+import { ReactionSummary } from '@/utils/interfaces/card'
 
 const PostActionBar = ({
   postId,
@@ -50,7 +48,10 @@ const PostActionBar = ({
   reactionRef,
   updatePosts,
   posts,
+  totalComments,
+  handleBookmark, bookmarkSuccess,
 }: PostActionBarProps) => {
+
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const refreshTokenInRedux =
@@ -64,16 +65,30 @@ const PostActionBar = ({
   const [showSignModal, setShowSignModal] = useState(false)
   const [popOver, setPopOver] = useState(false)
   const [commentCount, setCommentCount] = useState<CommentCount>({})
+  const [reactionCount, setReactionCount] = useState<number>(0)
+  const isFirstRef = useRef<boolean>(true)
   const commentCountInStore = useSelector(
     (state: CommentCountStore) => state.posts.commentCount,
   )
+
+
+  const calculateTotalReactions = (reactions: ReactionSummary) => {
+    return reactions.like_count + reactions.love_count + reactions.clap_count + reactions.celebrate_count;
+  }
+
+  const reactionCountToUse = isFirstRef.current ? calculateTotalReactions(reactionSummary) : reactionCount
+
   useEffect(() => {
     setCommentCount(commentCountInStore)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [commentCountInStore])
+
   const postCommentsCount = useMemo(() => {
     return commentCount[Number(postId)] || null
   }, [commentCount, postId])
+
+  const commentCountToUse = isFirstRef.current ? totalComments : postCommentsCount
+
   const { id } = useParams()
   const pathName = usePathname()
 
@@ -200,18 +215,26 @@ const PostActionBar = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deletedCommentId])
 
+  useEffect(() => {
+    if (reactionSummary) {
+      setReactionCount(calculateTotalReactions(reactionSummary))
+    }
+  }, [reactionSummary])
+
+  useEffect(() => { isFirstRef.current = false }, [])
   return (
     <>
       {/* * Added Gap between the action bar and the comment section */}
       <div className="flex w-full flex-col gap-3">
-        <div className="flex w-full items-center justify-between  ">
+        <div className="flex w-full items-center justify-between ">
           <div className="flex gap-[28px]">
             <ReactionButton
-              handleLikeWrapper={handleLikeWrapper}
-              userReaction={userReaction}
               onReact={submitReaction}
+              userReaction={userReaction}
+              handleLikeWrapper={handleLikeWrapper}
               disableReactionButton={disableReactionButton}
               setDisableReactionButton={setDisableReactionButton}
+              reactionCountToUse={reactionCountToUse}
             />
 
             <div className="flex w-full items-center  justify-center rounded-sm  hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
@@ -219,7 +242,7 @@ const PostActionBar = ({
                 name="comment button"
                 onClick={toggleCommentArea}
                 className="text-icon-light dark:text-icon-dark flex cursor-pointer  items-center gap-[8px]  font-black">
-                <CommentIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                <CommentIcon className="h-[16px] w-[16px] md:h-[20px] md:w-[20px]" />
                 <CustomLink
                   href={
                     pathName.includes('channels')
@@ -227,29 +250,30 @@ const PostActionBar = ({
                       : `/feeds/feed/${postId}`
                   }
                   className="flex items-center">
-                  {commentCount && postCommentsCount ? (
+                  {commentCountToUse && commentCountToUse ? (
                     <span className="flex items-center justify-center gap-[8px]  text-[12px] font-light  text-black md:text-[16px]">
-                      {postCommentsCount > 1 ? (
+                      {commentCountToUse > 1 ? (
                         <>
                           <span className="font-[900]">
-                            {postCommentsCount}
+                            {commentCountToUse}
                           </span>
-                          <span className="text-[12px] font-light text-[#666666] md:text-[16px]">
+                          <span className="text-sm font-light text-[#666666]">
                             Comments
                           </span>
                         </>
                       ) : (
-                        `${postCommentsCount} Comment`
+                        `${commentCountToUse} Comment`
                       )}
                     </span>
                   ) : (
-                    <span className="text-[12px] font-light text-[#666666] md:text-[16px]">
+                    <span className="text-sm font-light text-[#666666] ">
                       Comment
                     </span>
-                  )}
-                </CustomLink>
-              </button>
-            </div>
+                  )
+                  }
+                </CustomLink >
+              </button >
+            </div >
 
             <div
               className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
@@ -261,9 +285,9 @@ const PostActionBar = ({
                   aria-label="share options"
                   aria-labelledby="shareOptionsLabel"
                   role="button">
-                  <ShareIcon className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+                  <ShareIcon className="mt-[1px] h-[16px] w-[16px] md:h-[18px] md:w-[18px]" />
                   <span
-                    className="text-[12px] font-light text-[#666666] md:text-[16px]"
+                    className="text-sm font-light text-[#666666]"
                     onClick={setOpenPopOver}>
                     Share
                   </span>
@@ -278,22 +302,23 @@ const PostActionBar = ({
                 </PopoverContent>
               </Popover>
             </div>
-          </div>
+          </div >
 
-          <div className="flex items-center justify-center gap-[8px]">
-            <BookMark className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" />
+          <div className="flex items-center justify-center gap-[8px]" onClick={handleBookmark}>
+            <BookMark className="h-[16px] w-[16px] md:h-[21px] md:w-[20px]" fill={bookmarkSuccess ? "black" : "none"} />
             <p className="text-[12px] text-[#666666] md:text-[16px]">Save</p>
           </div>
         </div>
 
-        {pathName.includes('/comment')
-          ? comment.id && (
+        {
+          pathName.includes('/comment')
+            ? comment.id && (
               <CommentSection
                 comment={comment}
                 setDeletedCommentId={setDeletedCommentId}
               />
             )
-          : !id && (
+            : !id && (
               <div className={`${!showCommentArea && 'hidden'} `}>
                 <CommentOrReply
                   className="m-2"
@@ -311,8 +336,9 @@ const PostActionBar = ({
                   )}
                 </div>
               </div>
-            )}
-      </div>
+            )
+        }
+      </div >
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />
       </Dialog>

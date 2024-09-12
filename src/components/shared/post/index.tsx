@@ -1,5 +1,4 @@
 'use client'
-import CommentsLogic from '@/components/CommentsLogic'
 import ReactionDetails from '@/components/ReactionDetails'
 import Report from '@/components/Report/Report'
 import type { SinglePostWithDialogProps } from '@/components/SinglePostWithDialog'
@@ -44,7 +43,7 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import ChannelPill from '../ChannelPill'
@@ -53,6 +52,7 @@ import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import ProfileImage from './ProfileImage'
+import UserInteraction from '@/components/UserInteraction'
 
 type Props = Omit<SinglePostWithDialogProps, 'id'> & {
   postId: string
@@ -63,6 +63,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const { id } = useParams()
   postId = postId ? postId : String(id)
   const paramsSearch = useSearchParams()
+  const isFirstRef = useRef(true)
   // * State to show more / less post content.
   const [showFullPost, setShowFullPost] = useState(false)
 
@@ -177,7 +178,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
     e.stopPropagation()
-    setPopOver(pre => !pre)
+    setPopOver((pre) => !pre)
   }
 
   const handleReportClick = (event: any) => {
@@ -254,7 +255,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   }, [postId, userDetails, reported])
 
   useEffect(() => {
-    if (!channels) getChannel()
+    if (!channels.length) getChannel()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -265,6 +266,10 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   useEffect(() => {
     if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
   }, [post])
+
+  const reactionSummaryToUse = isFirstRef.current
+    ? data?.post?.reaction_summary
+    : reactionSummary
 
   return post && post?.author_details?.name && commentResult !== null ? (
     <>
@@ -294,26 +299,22 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
       <div
         className={`mx-auto max-w-5xl  rounded-full ${
           isDialogPost ? 'mb-5' : 'my-5'
-        }`}
-      >
+        }`}>
         <div
           className={`mx-auto mb-5 flex max-w-screen-lg rounded-xl bg-white
       ${
         !isDialogPost &&
         'border border-gray-200  shadow-lg dark:border-gray-700 dark:shadow-xl'
       } 
-      dark:bg-dark-background dark:text-gray-300 `}
-        >
+      dark:bg-dark-background dark:text-gray-300 `}>
           <div
             className={`flex w-full flex-col  pt-0 ${
               isDialogPost ? '' : 'p-10 max-custom-sm:px-2'
-            }`}
-          >
+            }`}>
             <div
               className={`${
                 !isDialogPost ? 'mt-6' : ''
-              } items-left flex flex-row items-center justify-between pt-1`}
-            >
+              } items-left flex flex-row items-center justify-between pt-1`}>
               <div className="flex items-center">
                 <div className="-z-2">
                   <div className="static rounded-full">
@@ -331,8 +332,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                         onClick={deleteModalState}
                         className="w-full pr-1 text-sm font-normal leading-none text-gray-900  hover:underline dark:text-gray-300 max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]"
-                        aria-label="user-name"
-                      >
+                        aria-label="user-name">
                         {/*
                          * "You" is based on user_id not on username what if i change username the "You" will also be changed.
                          */}
@@ -378,12 +378,10 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                       name="more option button"
                       aria-label="more option"
                       aria-labelledby="moreOptionLabel"
-                      role="button"
-                    >
+                      role="button">
                       <span
                         className="text-icon-light  dark:text-icon-dark flex cursor-pointer items-center space-x-2  px-[9px] font-black"
-                        onClick={setOpenPopOver}
-                      >
+                        onClick={setOpenPopOver}>
                         <MoreHorizontal className="h-6 w-6 font-light max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
                       </span>
                     </PopoverTrigger>
@@ -392,8 +390,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                       userDetails.id ? (
                         <div
                           className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
-                          onClick={handleDeleteClick}
-                        >
+                          onClick={handleDeleteClick}>
                           <Trash2 size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
                             {' '}
@@ -403,8 +400,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                       ) : (
                         <div
                           className=" dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300"
-                          onClick={handleReportClick}
-                        >
+                          onClick={handleReportClick}>
                           <AlertOctagon size={17} />
                           <span className="text-[15px] font-light max-custom-sm:hidden">
                             {' '}
@@ -414,8 +410,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                       )}
                       <div
                         onClick={handleBookmark}
-                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300"
-                      >
+                        className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-gray-300">
                         {bookmarkSuccess ? (
                           <FaBookmark color="blue" />
                         ) : (
@@ -433,16 +428,14 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
               {/*  */}
             </div>
 
-            <ReactionDetails reactionSummary={reactionSummary} />
+            <ReactionDetails reactionSummary={reactionSummaryToUse} />
 
             <div className="mt-2 text-left text-xl max-custom-sm:text-base ">
               {post?.title}
             </div>
             <>
               <div
-                className="mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px] card-li"
-                // dangerouslySetInnerHTML={{ __html: post?.content }}
-                // * Reducing the content size based on show more / less state
+                className="card-li mt-0 h-full w-full p-7 pl-0 pt-3 text-left text-base leading-loose text-gray-600 dark:text-white max-custom-sm:text-[13px]"
                 dangerouslySetInnerHTML={{
                   __html: `${
                     post?.content
@@ -469,14 +462,6 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             </>
             <div>
               {post?.image_url ? (
-                // <img
-                //   src={post?.image_url}
-                //   style={{ objectFit: 'fill' }}
-                //   alt="Picture of the author"
-                //   className="mb-7"
-                //   width={300}
-                //   height={400}
-                // />
                 <img
                   src={post?.image_url}
                   alt="Picture of the author"
@@ -496,7 +481,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             </span>
             <div className="w-full">
               <hr />
-              <CommentsLogic
+
+              <UserInteraction
                 postId={postId}
                 commentResult={data?.comments?.comments || commentResult}
                 paginationResult={

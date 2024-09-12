@@ -126,44 +126,29 @@ export const reportData = [
 
 export const rulesData = [
   {
-    title: 'Vel elit, ut ut.',
+    title: 'Stay professional.',
     description:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisquam, voluptatibus.',
   },
   {
-    title: 'Cras nec purus et.',
+    title: 'Be concise and to the point.',
     description:
       'In hac habitasse platea dictumst. Vivamus vel felis eu ligula consequat tincidunt. Quisquam, voluptatibus.',
   },
   {
-    title: 'Fusce auctor odio.',
+    title: 'Do not use slangs or hate speach.',
     description:
       'Fusce auctor odio ac neque varius, vitae efficitur justo suscipit. Quisquam, voluptatibus.',
   },
   {
-    title: 'Suspendisse non',
+    title: 'Stay away from commenting about religion and other beliefs.',
     description:
       'Suspendisse non ligula nec urna fermentum consectetur. Quisquam, voluptatibus.',
   },
   {
-    title: 'Sed euismod',
+    title: 'Be empathetic towards others while adding comments.',
     description:
       'Sed euismod neque non metus fermentum, a bibendum lacus ultricies. Quisquam, voluptatibus.',
-  },
-  {
-    title: 'Cras nec purus.',
-    description:
-      'Cras nec purus ac odio feugiat posuere. Quisquam, voluptatibus.',
-  },
-  {
-    title: 'Fusce auctor.',
-    description:
-      'Fusce auctor justo vel massa fermentum, vel cursus metus blandit. Quisquam, voluptatibus.',
-  },
-  {
-    title: 'Suspendisse.',
-    description:
-      'Suspendisse potenti. Nulla facilisi. Duis vehicula, eros vitae posuere. Quisquam, voluptatibus.',
   },
 ]
 export const navigation = [

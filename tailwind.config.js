@@ -124,6 +124,9 @@ module.exports = {
         'dark-background-secondary': '#1C2536',
         'dark-background-hover': '#1e2b37',
         'bg-dark-grey': 'var(--bg-dark-grey)',
+        'bg-black': 'var(--bg-black)',
+        'light-grey': 'var(--light-grey)',
+        'text-grey': 'var(--text-grey)',
         sky: colors.sky,
         skelton: 'rgb(209 213 219)',
       },
@@ -136,7 +139,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      primary: ['Poppins', 'sans-serif'],
+      primary: ["Avenir", "sans-serif"],
     },
   },
   plugins: [require('tailwindcss-animate')],
