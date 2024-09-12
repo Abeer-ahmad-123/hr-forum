@@ -1,8 +1,6 @@
 'use client'
-import { noProfilePicture } from '@/assets/images'
 import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { SendHorizonal } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -63,7 +61,6 @@ const TextArea = ({
 
   useEffect(() => {
     resetStatus()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading])
 
   return (
@@ -72,14 +69,6 @@ const TextArea = ({
         pathName === '/feeds' ||
         (pathName.includes(`${userData.username}`) && 'mb-4')
       }  ${classNameOuter} flex w-full cursor-pointer items-center gap-1 `}>
-      {/* <img
-        src={userData.profilePictureURL || noProfilePicture.src}
-        className="w-18 h-8 rounded-full border border-solid border-black"
-        alt="avatar"
-        width={32}
-        height={32}
-        onClick={handleImgClick}
-      /> */}
       <div
         className={`m-[0px] flex h-[44px] ${className} items-center  rounded-[20px] bg-bg-tertiary px-[20px] py-[8px] dark:bg-dark-background `}
         style={textareaStyle}>
@@ -90,7 +79,6 @@ const TextArea = ({
             placeholder={placeholder}
             value={textAreaValue}
             onChange={handleTextAreaChange}
-            // * Removed extra spaces
             className={`caret-gray h-full  w-full resize-none place-content-center items-center    border-none bg-bg-tertiary  text-left text-[12px] outline-none dark:bg-dark-background max-custom-sx:text-[8px]`}
           />
 
@@ -99,15 +87,7 @@ const TextArea = ({
             onClick={handleClick}
             className={`${btnClass} rounded-lg px-3 text-white dark:bg-dark-background  `}
             disabled={isLoading['loading'] || textAreaValue === ''}>
-            <StartIcon
-              className="text-black dark:text-white "
-              color={
-                ''
-                // isLoading['loading'] || textAreaValue === ''
-                //   ? 'lightgrey'
-                //   : '#571ce0'
-              }
-            />{' '}
+            <StartIcon className="text-black dark:text-white " />{' '}
           </button>
         </div>
       </div>

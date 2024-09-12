@@ -1,17 +1,10 @@
 'use client'
 import CommentsLogic from '@/components/CommentsLogic'
-import ReactionDetails from '@/components/ReactionDetails'
 import Report from '@/components/Report/Report'
 import type { SinglePostWithDialogProps } from '@/components/SinglePostWithDialog'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
-import { deleteModalState } from '@/services/auth/authService'
 import {
   bookmarkPost,
   deleteBookmarkPost,
@@ -23,7 +16,6 @@ import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import {
   returnFilteredPosts,
   showErrorAlert,
-  timeFormatInHours,
   updatePostBookmark,
 } from '@/utils/helper'
 import type { ReactionSummary } from '@/utils/interfaces/card'
@@ -37,7 +29,6 @@ import type {
   PostsInterfaceStore,
 } from '@/utils/interfaces/posts'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
-import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import {
   useParams,
   usePathname,
@@ -45,14 +36,10 @@ import {
   useSearchParams,
 } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
-import ChannelPill from '../ChannelPill'
-import { CustomLink } from '../customLink/CustomLink'
 import SignInDialog from '../new-post/SignInDialog'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
-import ProfileImage from './ProfileImage'
 import Card from '../Card'
 
 type Props = Omit<SinglePostWithDialogProps, 'id'> & {

@@ -119,18 +119,6 @@ function ReplyTextArea({
       </Dialog>
 
       <div className="flex h-[19px] items-center gap-2.5 ">
-        {/* <div className="group relative inline-block">
-          <span
-            className="pointer ml-2 text-left text-xs text-gray-400 hover:underline max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {ConvertDate(replies?.comment?.created_at)}
-          </span>
-          <div
-            className="absolute bottom-full left-[79px] hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]  max-custom-sm:text-[11px]
-                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-            {formattedDate}
-          </div>
-        </div> */}
         <button
           name="reply button"
           onClick={toggleTextArea}

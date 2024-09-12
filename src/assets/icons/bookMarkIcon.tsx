@@ -1,4 +1,6 @@
-function Icon({ className }: any) {
+import { iconProp } from '@/utils/types/new-ui-types'
+
+function Icon({ className }: iconProp) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

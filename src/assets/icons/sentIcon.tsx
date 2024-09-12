@@ -1,8 +1,6 @@
-interface iconProp {
-  className: string
-  color: string
-}
-function Icon({ className, color }: iconProp) {
+import { iconProp } from '@/utils/types/new-ui-types'
+
+function Icon({ className }: iconProp) {
   return (
     <svg
       className={className}
