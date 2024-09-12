@@ -48,7 +48,7 @@ const FeaturesDropDown = ({
   )
 
   const showDiv = showMenu
-    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] max-md:w-full z-50 ${classNamefeaturesDropDowm}`
+    ? `ml-[-1px] block border-b border-l border-r border-[#e6e6e6] max-md:w-full ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {

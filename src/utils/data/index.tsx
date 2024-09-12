@@ -1,4 +1,6 @@
 import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
+import Icon from '@/assets/icons/heartIcon'
+import HomeIcon from '@/assets/icons/home'
 import { AiFillHome } from 'react-icons/ai'
 import { BsFillBookmarksFill } from 'react-icons/bs'
 export const colors = ['indigo', 'blue', 'coral', 'mint', 'sunset', 'mauve']
@@ -152,7 +154,7 @@ export const rulesData = [
   },
 ]
 export const navigation = [
-  { name: 'Home', href: '/feeds', icon: AiFillHome },
+  { name: 'Home', href: '/feeds', icon: HomeIcon },
 
-  { name: 'Saved', href: '/saved', icon: BsFillBookmarksFill },
+  { name: 'Saved', href: '/saved', icon: Icon },
 ]
