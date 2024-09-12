@@ -287,7 +287,7 @@ const LayoutWrapper = ({ children, serverState }: Props) => {
           <div className="grid">
             <div className="flex dark:bg-slate-700 dark:text-white">
               <div
-                className={`mx-auto w-full px-10
+                className={`w-full
               dark:text-white max-md:py-5 max-sm:p-[10px] ${isError
                     ? 'bg-white dark:bg-white'
                     : 'transition-all duration-700 ease-in-out dark:bg-dark-background'

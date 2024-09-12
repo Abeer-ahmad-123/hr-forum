@@ -18,7 +18,6 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
   const channels = initialChannels || channelsInStore
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  console.log(channels)
 
   return channels && channels.length > 0 ? (
     <div
@@ -34,7 +33,7 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
             key={index}
           >
             <CustomLink href={`/channels/${channel.slug}`}>
-              <div className="flex gap-3 my-[10px]">
+              <div className="flex gap-3 py-[10px]">
                {channel.slug == "hr-general" ?  <HrGeneral /> : <SmileIcon />}
                 <span>{channel.name}</span>
               </div>

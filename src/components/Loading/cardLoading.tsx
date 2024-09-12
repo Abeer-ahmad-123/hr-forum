@@ -31,7 +31,7 @@ function CardLoading() {
           className={`sticky ${
             token ? 'top-[315px]' : 'top-[360px] mt-[20px]'
           }  max-h-screen`}>
-          <RulesCardSkelton className={'max-md:hidden'} token={token} />
+          
         </div>
       </div>
 
@@ -65,6 +65,8 @@ function CardLoading() {
           <RenderFeedLoading key={index} />
         ))}
       </div>
+
+      <RulesCardSkelton className={'max-md:hidden'} token={token} />
     </div>
   )
 }

@@ -40,15 +40,15 @@ async function RenderFeedsGeneral({
     }
   }
   return (
-    <div className="mx-auto flex justify-center">
+    <div className="flex justify-center">
       <div
-        className={`mr-[5px] ${
+        className={`mr-5 flex-1  ${
           accessToken ? 'mt-[5px] max-lg:mt-[5px]' : 'mt-[5px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         <div
           className={`${user ? 'top-[70px] mt-[10px]' : 'top-[70px] '
-            } sticky max-h-[882px] h-screen  max-lg:top-[55px]`}>
-          <div className='px-10 flex flex-col justify-between w-[322px] bg-white h-screen max-h-[882px] py-7'>
+            } sticky max-h-[882px] h-screen max-lg:top-[55px]`}>
+          <div className='px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
             <div>
               {user && <ProfileCard />}
               <div className=''>
@@ -121,7 +121,7 @@ async function RenderFeedsGeneral({
       </div>
 
 
-      <div className='mt-[15px] hidden md:inline-block'>
+      <div className='ml-5 flex-1 mt-[15px] hidden md:inline-block'>
         <RulesCard />
       </div>
     </div>
