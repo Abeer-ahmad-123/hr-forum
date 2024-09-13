@@ -1,11 +1,17 @@
-const EyeClosedIcon = () => {
+import { IconProp } from '@/utils/types/icons'
+
+
+const EyeClosedIcon = ({ className }: IconProp) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
+      className={
+        className +
+        'component-iconify MuiBox-root css-1t9pz9x iconify iconify--solar'
+      }
       height="1em"
       aria-hidden="true"
-      className="component-iconify MuiBox-root css-1t9pz9x iconify iconify--solar"
       viewBox="0 0 24 24">
       <path
         fill="currentColor"
