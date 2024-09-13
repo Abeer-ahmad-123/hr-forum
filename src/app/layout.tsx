@@ -6,13 +6,23 @@ import { getUserFromCookie } from '@/utils/cookies'
 import { shareMetaData } from '@/utils/share-metadata'
 import { LayoutWrapper } from '@/wrappers/index'
 import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
+import localFont from 'next/font/local'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'HR-Forum: Shaping the Future of HR',
   ...shareMetaData,
 }
+
+const avenirBold = localFont({
+  src: '../assets/fonts/AvenirNextLTPro-Bold.otf',
+  variable: '--font-avenir-bold',
+  weight: '100 900',
+})
+const avenirRegular = localFont({
+  src: '../assets/fonts/AvenirNextLTPro-Regular.otf',
+  variable: '--font-avenir-regular',
+})
 
 async function RootLayout({ children }: { children: React.ReactNode }) {
   /**
@@ -45,7 +55,8 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <body className="theme-default bg-background dark:bg-dark-background">
+      <body
+        className={`theme-default bg-background dark:bg-dark-background ${avenirRegular.variable} ${avenirBold.variable}`}>
         <StoreProvider serverStore={serverState}>
           {/*
            * `Suspense` for no client side switching due to useSearchParams used in `LayoutWrapper`

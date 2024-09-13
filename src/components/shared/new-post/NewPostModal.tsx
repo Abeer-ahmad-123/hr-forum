@@ -41,18 +41,9 @@ export default function NewPost({
         <Suspense>
           {data ? (
             addPost ? (
-              <NewPostForm
-                updatePosts={updatePosts}
-                open={setOpenDilog}
-                setAddPost={setAddPost}
-              />
+              <NewPostForm open={setOpenDilog} setAddPost={setAddPost} />
             ) : null
           ) : (
-            // <DialogContent
-            //   className="border bg-white sm:max-w-screen-md"
-            //   route="newpost">
-            //   <NewPostForm updatePosts={updatePosts} open={setOpenDilog} />
-            // </DialogContent>
             <SignInDialog setShowSignModal={() => {}} />
           )}
         </Suspense>
@@ -90,7 +81,7 @@ export const PostBar = ({
       />
       <button
         onClick={handleStart}
-        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[28px] py-[8px] font-normal">
+        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[28px] py-[8px] font-[550]">
         Start new thread
       </button>
     </div>

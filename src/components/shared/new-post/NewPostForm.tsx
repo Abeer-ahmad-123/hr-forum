@@ -8,7 +8,7 @@ import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
@@ -17,13 +17,11 @@ import './style.css'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
-  updatePosts: (arg0: any) => void
   setAddPost: (arg0: boolean) => void
 }
 
 export default function NewPostForm({
   open,
-  updatePosts,
   setAddPost,
 }: newPostFormInterface) {
   const router = useRouter()
@@ -269,7 +267,7 @@ export default function NewPostForm({
                 <img
                   src={typeof selectedImage === 'string' ? selectedImage : ''}
                   alt="Upload Image"
-                  className=" mx-auto h-[343px] w-[400px] rounded-md border-0 object-contain"
+                  className="mx-auto h-[343px] w-[400px] rounded-md border-0 object-contain"
                   id="uploadedImage"
                   height={350}
                   width={400}
@@ -319,11 +317,8 @@ export default function NewPostForm({
           name="loadding button"
           onClick={createPost}
           disabled={isDisabled}
-          className={`h-[41px] w-[119px] cursor-not-allowed rounded-[100px] px-[15px] py-[8px] ${
-            isDisabled
-              ? 'bg-stone-200'
-              : 'cursor-pointer bg-bg-green text-black '
-          } p-2 text-black transition duration-200 dark:text-white  `}>
+          className="h-[41px] w-[119px] cursor-pointer rounded-[100px] bg-bg-green p-2 px-[15px] py-[8px] text-black transition
+           duration-200 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:text-gray-400 dark:text-white">
           {loading ? 'Loading...' : 'Create Post'}
         </button>
       </div>

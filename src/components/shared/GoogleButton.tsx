@@ -1,4 +1,4 @@
-import googleIcon from '@/assets/google.jpeg'
+import googleIcon from '@/assets/images/google.jpeg'
 const GoogleButton = ({ onClick, title }: any) => {
   return (
     <div
