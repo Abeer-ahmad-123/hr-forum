@@ -33,7 +33,7 @@ const ProfileCard = () => {
           {userDetails?.name}
         </div>
         <div className="flex items-center justify-center gap-[5px] px-3">
-          <p className="mb-[10px] mt-[10px] line-clamp-3 flex break-all text-xs font-normal">
+          <p className="mb-[10px] mt-[8px] line-clamp-3 flex break-all text-xs font-normal">
             {email}
           </p>
         </div>

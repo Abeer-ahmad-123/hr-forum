@@ -29,7 +29,7 @@ const RulesCard = () => {
                   `}>
                     <AccordionTrigger>
                       <div className="my-[10px] flex gap-2.5 text-base font-medium dark:text-gray-400">
-                        <div className='text-white'>{index+1}.</div>
+                        <div className='dark:text-white'>{index+1}.</div>
                         <span className='text-left'>{item.title}</span>
                       </div>
                     </AccordionTrigger>
