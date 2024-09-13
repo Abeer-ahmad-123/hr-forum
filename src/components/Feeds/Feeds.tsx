@@ -23,9 +23,8 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
-  user
+  user,
 }: FeedProps) => {
-
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
   )
@@ -34,9 +33,6 @@ const Feeds = ({
     (state: PostsInterfaceStore) => state.posts.posts,
   )
 
-  const channelsInStore = useSelector(
-    (state: StoreChannels) => state?.channels.channels,
-  )
   const [page, setPage] = useState(2)
   const dispatch = useDispatch()
   const userData = useSelector(
@@ -45,15 +41,12 @@ const Feeds = ({
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
   const [addPost, setAddPost] = useState<boolean>(false)
+
   const getPosts = async () => {
     let _data: any = {}
     if (channelSlug) {
       if (!searchParams.search) {
-        const getChannelId = getChannelIdByChannelName(
-          channelSlug,
-          // @ts-ignore
-          channelsInStore || channels,
-        )
+        const getChannelId = getChannelIdByChannelName(channelSlug, channels)
         const { data } = await getPostsByChannelId({
           id: getChannelId,
           loadReactions: true,
@@ -137,33 +130,27 @@ const Feeds = ({
     <>
       {path !== '/saved' && user && (
         <div className="mb-5">
-          <PostBar
-            setAddPost={setAddPost}
-            addPost={addPost}
-          />
+          <PostBar setAddPost={setAddPost} addPost={addPost} />
         </div>
       )}
 
       <div className="min-h-[70vh] w-full max-w-[759px]">
-        {!addPost && (
-          <>
-            {!!posts?.length ? (
-              posts?.map((post: any, index: number) => {
-                return (
-                  <Card
-                    key={index}
-                    post={post}
-                    channels={channels || channelsInStore}
-                    updatePosts={updatePosts}
-                    posts={posts}
-                  />
-                )
-              })
-            ) : (
-              <NoPosts />
-            )}
-          </>
-        )}
+        {!addPost &&
+          (!!posts?.length ? (
+            posts?.map((post: any, index: number) => {
+              return (
+                <Card
+                  key={index}
+                  post={post}
+                  channels={channels}
+                  updatePosts={updatePosts}
+                  posts={posts}
+                />
+              )
+            })
+          ) : (
+            <NoPosts />
+          ))}
 
         {!!posts?.length && !addPost && addPost && noMorePosts?.current && (
           <CircularProgress incommingRef={ref} />

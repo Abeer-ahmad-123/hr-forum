@@ -1,42 +1,38 @@
-'use client'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { usePathname } from 'next/navigation'
-import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 import ProfileCardSkelton from '../ProfileCardSkelton'
 import RulesCardSkelton from '../RuleCardSkelton'
 import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
+import { headers } from 'next/headers'
+import { getUserFromCookie } from '@/utils/cookies'
 
-function CardLoading() {
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+const CardLoading = async () => {
+  const { user } = await getUserFromCookie()
   const renderTimes = 5
-  const pathName = usePathname()
+  const pathName = headers().get('x-pathname')
 
-  const slug = pathName.split('/')[2]
+  const slug = pathName?.split('/')[2]
 
   return (
     <div
       className={`mt-4 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-      <div className={`flex flex-col items-start  ${!token ? ' pr-4' : ''}`}>
-        {token && <ProfileCardSkelton className={'max-md:hidden'} />}
+      <div className={`flex flex-col items-start  ${!user?.id ? ' pr-4' : ''}`}>
+        {user?.id && <ProfileCardSkelton className={'max-md:hidden'} />}
 
         <div
           className={`${
-            token ? 'top-[40px]' : 'top-[70px] mt-[10px]'
+            user?.id ? 'top-[40px]' : 'top-[70px] mt-[10px]'
           } sticky max-h-screen max-md:static`}>
-          <ChannelCardSkelton token={token} className={'max-md:hidden'} />
+          <ChannelCardSkelton className={'max-md:hidden'} />
         </div>
         <div
           className={`sticky ${
-            token ? 'top-[315px]' : 'top-[360px] mt-[20px]'
-          }  max-h-screen`}>
-          
-        </div>
+            user?.id ? 'top-[315px]' : 'top-[360px] mt-[20px]'
+          }  max-h-screen`}></div>
       </div>
 
       <div className="flex w-full max-w-screen-md flex-col">
-        {pathName.includes(`/${slug}/`) ? (
+        {pathName?.includes(`/${slug}/`) ? (
           <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-slate-800">
             <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
             <div className="mt-2 flex items-center">
@@ -53,7 +49,7 @@ function CardLoading() {
           <div className="mb-5 mt-[10px]">
             <Skelton
               className={`${
-                pathName == '/saved' || pathName.includes('/channels')
+                pathName == '/saved' || pathName?.includes('/channels')
                   ? 'h-[200px]'
                   : 'h-12'
               }  mt-[15px] w-full rounded-md bg-skelton`}
@@ -66,7 +62,7 @@ function CardLoading() {
         ))}
       </div>
 
-      <RulesCardSkelton className={'max-md:hidden'} token={token} />
+      <RulesCardSkelton className={'max-md:hidden'} user={user?.id} />
     </div>
   )
 }

@@ -1,3 +1,4 @@
+'use client'
 import { InputField } from '@/components/shared'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { showErrorAlert } from '@/utils/helper'
@@ -40,8 +41,7 @@ const UserNameDialog = ({
         />
         <button
           onClick={handleSubmitUserName}
-          className="mb1 rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none sm:mr-2"
-        >
+          className="mb1 rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none sm:mr-2">
           Submit
         </button>
       </DialogContent>

@@ -2,18 +2,17 @@ import React from 'react'
 import Skelton from './ui/skelton'
 
 interface RulesCardSkeltonProps {
-  token?: string
+  user?: number
   className?: string
 }
 
-const RulesCardSkelton = ({ token, className }: RulesCardSkeltonProps) => {
+const RulesCardSkelton = ({ user, className }: RulesCardSkeltonProps) => {
   return (
     <div
-      className={`${!className && 'mr-4'} ${token ? 'mt-[20px]' : ''
-        } ${className} mr-4 h-screen max-h-[882px] w-[392px] mt-5 bg-white  px-[10px] pb-2 pt-3 dark:bg-slate-800`}>
-
-
-        <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-11 justify-center rounded-[5px] text-center font-bold" />
+      className={`${!className && 'mr-4'} ${
+        user ? 'mt-[20px]' : ''
+      } ${className} mr-4 mt-5 h-screen max-h-[882px] w-[392px] bg-white  px-[10px] pb-2 pt-3 dark:bg-slate-800`}>
+      <Skelton className="mx-[15px] mb-[20px] mt-[10px] flex h-11 justify-center rounded-[5px] text-center font-bold" />
 
       <ul className="cursor-pointer list-none text-left">
         <li>

@@ -11,10 +11,9 @@ import type {
 } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
-import FeaturesDropDownWithSuspense from "../Cards/FeaturesDropDownWithSuspense"
+import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
 import Logout from '../Cards/Logout'
 import MenuCard from '../Cards/MenuCard'
-
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -32,7 +31,6 @@ export default async function RenderFeedsGeneral({
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
 
-
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = (data.channels as ChannelInterface[]).find(
       (obj: { slug: string }) => obj.slug === slug,
@@ -42,32 +40,34 @@ export default async function RenderFeedsGeneral({
       return matchingObject.ImageURL
     }
   }
+
   return (
     <div className="flex justify-center">
       <div
-        className={`mr-5 flex-1  ${accessToken ? 'mt-[5px] max-lg:mt-[5px]' : 'mt-[5px]'
-          } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
+        className={`mr-5 flex-1  ${
+          accessToken ? 'mt-[5px] max-lg:mt-[5px]' : 'mt-[5px]'
+        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         <div
-          className={`${user ? 'mt-[10px]' : ''
-            } sticky top-[101px]  max-h-[882px] h-screen max-lg:top-[55px]`}>
-
-          <div className='dark:bg-slate-800 dark:text-white relative px-10 flex flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7'>
+          className={`${
+            user?.id ? 'mt-[10px]' : ''
+          } sticky top-[101px]  h-screen max-h-[882px] max-lg:top-[55px]`}>
+          <div className="relative flex h-screen max-h-[882px] flex-col items-end justify-between bg-white px-10 py-7 dark:bg-slate-800 dark:text-white">
             <div>
-              {user && <ProfileCard />}
+              {user?.id && <ProfileCard />}
               <MenuCard data={data} path={path} />
             </div>
-            <div className='w-[254px] absolute top-[80%] px-4 ml-10 hover:bg-bg-tertiary cursor-pointer rounded-md group'>
+            <div className="group absolute top-[80%] ml-10 w-[254px] cursor-pointer rounded-md px-4 hover:bg-bg-tertiary">
               <Logout />
             </div>
           </div>
         </div>
         <div
-          className={`sticky ${accessToken
+          className={`sticky ${
+            accessToken
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
-            } max-h-screen`}>
+          } max-h-screen`}>
           {' '}
-
         </div>
       </div>
 
@@ -98,10 +98,11 @@ export default async function RenderFeedsGeneral({
           <div className="w-full">
             <FeaturesDropDownWithSuspense />
             <div
-              className={`${path === '/saved'
+              className={`${
+                path === '/saved'
                   ? 'mt-[20px]'
                   : 'mt-[35px] max-lg:mt-[30px] max-md:mt-[20px]'
-                }  w-full max-w-screen-md dark:text-white`}>
+              }  w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={data.posts}
@@ -115,7 +116,7 @@ export default async function RenderFeedsGeneral({
           </div>
         </div>
       </div>
-      <div className='ml-5 flex-1 mt-[15px] hidden md:inline-block'>
+      <div className="ml-5 mt-[15px] hidden flex-1 md:inline-block">
         <RulesCard />
       </div>
     </div>

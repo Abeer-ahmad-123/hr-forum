@@ -60,7 +60,7 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
       <body className={`theme-default bg-bg-secondary ${isError ? "bg-white" : "dark:bg-dark-background dark:text-white"} ${avenirRegular.variable} ${avenirBold.variable} `}>
         <StoreProvider serverStore={serverState}>
           <Suspense fallback={null}>
-            <LayoutWrapper serverState={serverState}>{children}</LayoutWrapper>
+            <LayoutWrapper serverState={serverState} pathname={pathname}>{children}</LayoutWrapper>
           </Suspense>
         </StoreProvider>
       </body>

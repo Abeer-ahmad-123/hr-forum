@@ -1,4 +1,4 @@
-import CardLoading from '@/components/Loading/cardLoading'
+import CardLoading from '@/components/Loading/CardLoading'
 import ReportedPostsFeeds from '@/components/ReportedPostsFeeds'
 import { capitalizeWord, filterIdFromName } from '@/utils/helper'
 import { UserParamsProps } from '@/utils/interfaces/userData'

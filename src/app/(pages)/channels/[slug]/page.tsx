@@ -1,5 +1,5 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
-import CardLoading from '@/components/Loading/cardLoading'
+import CardLoading from '@/components/Loading/CardLoading'
 import { getGenericPosts } from '@/services/posts/server-posts'
 import { capitalizeWord } from '@/utils/helper'
 import { Suspense } from 'react'

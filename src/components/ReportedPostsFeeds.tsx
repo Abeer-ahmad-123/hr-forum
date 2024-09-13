@@ -20,7 +20,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
-import CardLoading from './Loading/cardLoading'
+import CardLoading from './Loading/CardLoading'
 
 const ReportedPostsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()

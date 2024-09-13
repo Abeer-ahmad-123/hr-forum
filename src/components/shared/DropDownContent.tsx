@@ -1,3 +1,4 @@
+'use client'
 import { navigation } from '@/utils/data'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname } from 'next/navigation'
@@ -49,7 +50,6 @@ const DropDownContent = ({
       : `text-gray-800 hover:bg-gray-100 ${commonDarkModeText} dark:hover:bg-gray-700`
   }
 
-
   const checkEqual = (key: string): boolean => {
     return pathname === key
   }
@@ -57,19 +57,15 @@ const DropDownContent = ({
   const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
   return (
-    <ul className={`bg-white dark:bg-black mx-5 rounded-2xl border pt-3`}>
+    <ul className={`mx-5 rounded-2xl border bg-white pt-3 dark:bg-black`}>
       <div className="lg:h-3"></div>
 
       {navigation.map((item: NavigationItem, index: number) => {
         if ((!token && item.name !== 'Saved') || token)
           return (
-
-            <div
-              key={index}
-              className='px-4'
-            >
+            <div key={index} className="px-4">
               <li
-                className="mt-1 active:bg-bg-tertiary hover:bg-bg-tertiary rounded-md dark:text-gray-200 dark:hover:bg-gray-700"
+                className="mt-1 rounded-md hover:bg-bg-tertiary active:bg-bg-tertiary dark:text-gray-200 dark:hover:bg-gray-700"
                 onClick={handleLi}>
                 <CustomLink
                   href={item?.href}
@@ -89,27 +85,22 @@ const DropDownContent = ({
           )
       })}
 
-      <div className="pl-2 font-[800] text-base text-bg-black mb-3">
+      <div className="mb-3 pl-2 text-base font-[800] text-bg-black">
         Explore variety of channels
       </div>
 
       {channels?.map((item: any, index: number) => (
         <li
-          className="text-base border-none"
+          className="border-none text-base"
           key={index}
           onClick={handleLi}
           data-testid="side-channels">
           <CustomLink
             href={`${'/channels/' + item?.slug}`}
-            className={`${sidebarLinkStyle(
-              `/channels/${item?.name}`,
-            )}`}>
-
-            <div className="flex gap-3 py-[10px] hover:bg-bg-tertiary hover:font-[800] rounded-md">
-
-              {item?.slug == "hr-general" ? <HrGeneral /> : <SmileIcon />}
+            className={`${sidebarLinkStyle(`/channels/${item?.name}`)}`}>
+            <div className="flex gap-3 rounded-md py-[10px] hover:bg-bg-tertiary hover:font-[800]">
+              {item?.slug == 'hr-general' ? <HrGeneral /> : <SmileIcon />}
               <span>{item?.name}</span>
-
             </div>
           </CustomLink>
         </li>
