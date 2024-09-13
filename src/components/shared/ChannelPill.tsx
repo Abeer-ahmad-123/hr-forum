@@ -42,7 +42,7 @@ const ChannelPill = ({ channel_id, channels }: Props) => {
       <Link
         className="d-flex items-center justify-center"
         href={`/channels/${lowerCaseChannelName}/`}>
-        <span className="text-[16px] font-[800] text-color-blue hover:underline dark:text-white">
+        <span className="text-[16px] font-[550] text-color-blue hover:underline dark:text-white">
           {channelObj[channel_id]?.name}
         </span>
       </Link>

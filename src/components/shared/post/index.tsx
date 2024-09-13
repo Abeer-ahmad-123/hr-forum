@@ -34,10 +34,12 @@ import {
   usePathname,
   useRouter,
   useSearchParams,
+  redirect,
 } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import SignInDialog from '../new-post/SignInDialog'
+import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
 import Card from '../Card'
@@ -231,6 +233,9 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
       setShowSignModal(true)
     }
   }
+  const handleBack = () => {
+    router.back()
+  }
   useEffect(() => {
     if (commentId || postId) getPostComments()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -291,9 +296,16 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
       } 
       dark:bg-dark-background dark:text-gray-300 `}>
           <div
-            className={`flex w-full flex-col  pt-0 ${
+            className={`flex w-full flex-col gap-5  pt-0 ${
               isDialogPost ? '' : 'px-[24px] pb-[20px] pt-[28px]'
             }`}>
+            <button
+              onClick={handleBack}
+              className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[15px] py-[8px] text-[12px] opacity-60 dark:text-white  ">
+              <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
+              <span className="tetx-black dark:text-white">Go back</span>
+            </button>
+
             <div className="w-full ">
               <Card
                 key={1}

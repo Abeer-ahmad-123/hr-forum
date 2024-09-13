@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
-import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
 import ImageIcon from '@/assets/icons/ImageIcon'
 import './style.css'
@@ -198,14 +197,14 @@ export default function NewPostForm({
           <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
           <span className="tetx-black dark:text-white">Go back</span>
         </button>
-        <h3 className="font-primary text-[18px] font-[800]  text-[#09090B] dark:text-white ">
+        <h3 className="font-primary text-[18px] font-[550]  text-[#09090B] dark:text-white ">
           Ask for help from the community
         </h3>
       </div>
 
       <div className=" m-0 flex flex-col-reverse items-start justify-start gap-[18px] ">
         <div className="flex h-[88px] w-full flex-col gap-[8px]">
-          <p className="text-sm font-extrabold">Title</p>
+          <p className="pl-3 text-sm font-[550]">Title</p>
           <input
             className="title-input flex h-[56px] rounded-[20px] border-bg-tertiary  px-[20px]  py-[8px] font-primary text-base  placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
             type="text"
@@ -324,7 +323,7 @@ export default function NewPostForm({
             isDisabled
               ? 'bg-stone-200'
               : 'cursor-pointer bg-bg-green text-black '
-          } p-2 text-white transition duration-200 dark:text-black  `}>
+          } p-2 text-black transition duration-200 dark:text-white  `}>
           {loading ? 'Loading...' : 'Create Post'}
         </button>
       </div>

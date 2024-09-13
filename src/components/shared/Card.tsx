@@ -337,7 +337,7 @@ const Card = ({
                 <div className="flex flex-col items-start align-baseline">
                   <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
-                      className="max-w-full shrink-0 break-all text-[16px]  font-[800]  leading-none text-gray-900 hover:underline dark:text-white   "
+                      className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {/*
