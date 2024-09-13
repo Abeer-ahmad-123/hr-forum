@@ -1,5 +1,5 @@
 'use client'
-import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
+import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { Suspense, useState } from 'react'
@@ -10,7 +10,6 @@ import { noProfilePicture } from '@/assets/images'
 
 interface NewPostProps {
   addPost: boolean
-  updatePosts: (arg0: Array<PostsInterface>) => void
   setAddPost: (arg0: boolean) => void
 }
 interface startNewPostProps {
@@ -18,7 +17,6 @@ interface startNewPostProps {
   setAddPost: (arg0: boolean) => void
 }
 export default function NewPost({
-  updatePosts,
   setAddPost,
   addPost,
 }: NewPostProps) {
@@ -53,7 +51,6 @@ export default function NewPost({
 }
 
 export const PostBar = ({
-  addPost,
   setAddPost,
 }: startNewPostProps): JSX.Element => {
   const user = useSelector((state: any) => state.loggedInUser.userData)

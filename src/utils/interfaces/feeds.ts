@@ -9,6 +9,7 @@ export interface FeedProps {
   morePosts?: boolean
   searchParams: SearchParams
   path: string
+  user:number
 }
 
 export type CommentObject = {

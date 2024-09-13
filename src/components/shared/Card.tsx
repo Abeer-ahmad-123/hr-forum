@@ -279,11 +279,11 @@ const Card = ({
       key={id}
       className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={
-          hideComments
-            ? 'mb-5 h-full  w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 '
-            : `mx-auto mb-5 min-h-[547px]  w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`
-        }>
+        className={ `w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 
+          ${hideComments
+            ? 'mb-5 h-full '
+            : `mx-auto mb-5 md:max-w-screen-md`}
+        `}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -439,7 +439,7 @@ const Card = ({
                     : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className="text-start text-[16px]  font-[800] dark:text-white max-custom-sm:text-base">
+              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
@@ -472,7 +472,7 @@ const Card = ({
                 alt="post"
                 height={500}
                 width={500}
-  className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
+                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
               />
             }
 

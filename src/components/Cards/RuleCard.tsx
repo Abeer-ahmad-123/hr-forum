@@ -23,12 +23,12 @@ const RulesCard = () => {
                   <AccordionItem
                     value={item.title}
                     key={index}
-                    className={`${
+                    className={` ${
                       index === rulesData.length - 1 ? 'border-none' : 'border-b'
                     }
                   `}>
                     <AccordionTrigger>
-                      <div className="my-[10px] flex gap-2.5 text-base font-medium hover:text-accent dark:text-gray-400 dark:hover:text-accent">
+                      <div className="my-[10px] flex gap-2.5 text-base font-[460] hover:text-accent dark:text-gray-400 dark:hover:text-accent">
                         <div>{index+1}.</div>
                         <span className='text-left'>{item.title}</span>
                       </div>

@@ -31,6 +31,7 @@ export default async function RenderFeedsGeneral({
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
 
+
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = (data.channels as ChannelInterface[]).find(
       (obj: { slug: string }) => obj.slug === slug,
@@ -116,6 +117,7 @@ export default async function RenderFeedsGeneral({
                 morePosts={morePosts}
                 searchParams={searchParams}
                 path={path}
+                user={user?.id}
               />
             </div>
           </div>

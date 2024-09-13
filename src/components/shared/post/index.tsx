@@ -1,5 +1,4 @@
 'use client'
-import ReactionDetails from '@/components/ReactionDetails'
 import CommentsLogic from '@/components/CommentsLogic'
 import Report from '@/components/Report/Report'
 import type { SinglePostWithDialogProps } from '@/components/SinglePostWithDialog'
