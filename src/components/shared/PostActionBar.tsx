@@ -297,7 +297,7 @@ const PostActionBar = ({
                   aria-label="share options"
                   aria-labelledby="shareOptionsLabel"
                   role="button">
-                  <ShareIcon className="w-[16px]text-black mt-[1px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
+                  <ShareIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
                   <span
                     className="hidden text-sm font-light text-[#666666] dark:text-white md:block"
                     onClick={setOpenPopOver}>
@@ -320,7 +320,7 @@ const PostActionBar = ({
             className="flex items-center justify-center gap-[8px]"
             onClick={handleBookmark}>
             <BookMark
-              className="h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]"
+              className="mb-1 h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]"
               fill={bookmarkSuccess ? 'black' : 'none'}
             />
             <p className="hidden text-sm text-[#666666] dark:text-white md:block">
