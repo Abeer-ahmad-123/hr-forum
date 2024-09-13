@@ -10,7 +10,7 @@ import {
 
 const RulesCard = () => {
   return (
-    <div className='dark:bg-slate-800 dark:text-white flex flex-col justify-between min-w-[391px] w-full h-screen max-h-[882px] bg-white pt-7 pl-3'>
+    <div className='dark:bg-slate-800 dark:text-white flex flex-col justify-between w-full h-screen max-h-[882px] bg-white pt-7 pl-3'>
       <div className="h-auto w-[331px] rounded-[10px] bg-white px-[10px] pb-[10px] dark:bg-slate-800 dark:text-white">
         <h2 className="font-[800] text-lg">
           Forum rules to abide by
@@ -43,6 +43,7 @@ const RulesCard = () => {
               )
             })}
           </ul>
+          <hr style={{color: '#e5e7eb'}} />
         </Accordion>
       </div>
       <div className='pl-[135px] text-color-grey text-[12px] pb-5'>© 2024 HRTalkers. All rights reserved.</div>

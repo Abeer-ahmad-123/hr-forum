@@ -50,7 +50,7 @@ async function RenderFeedsGeneral({
           className={`${user ? 'mt-[10px]' : ''
             } sticky top-[101px]  max-h-[882px] h-screen max-lg:top-[55px]`}>
 
-          <div className='dark:bg-slate-800 dark:text-white relative px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
+          <div className='dark:bg-slate-800 dark:text-white relative px-10 flex flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7'>
             <div>
               {user && <ProfileCard />}
               <MenuCard data={data} path={path} />
