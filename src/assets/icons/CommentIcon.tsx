@@ -1,7 +1,6 @@
-interface iconProp {
-  className: string
-}
-function Icon({ className }: iconProp) {
+import { IconProps } from "@/utils/interfaces/icons"
+
+function Icon({ className }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +10,7 @@ function Icon({ className }: iconProp) {
       fill="none"
       viewBox="0 0 20 20">
       <path
-        stroke="#000"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.75"

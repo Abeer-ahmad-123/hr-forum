@@ -23,7 +23,9 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
+  user
 }: FeedProps) => {
+
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
   )
@@ -130,15 +132,12 @@ const Feeds = ({
   useEffect(() => {
     noMorePosts.current = morePosts
   }, [morePosts])
-  useEffect(() => {
-    console.log('addPost', addPost)
-  }, [addPost])
+
   return (
     <>
-      {path !== '/saved' && (
+      {path !== '/saved' && user && (
         <div className="mb-5">
           <PostBar
-            updatePosts={updatePosts}
             setAddPost={setAddPost}
             addPost={addPost}
           />

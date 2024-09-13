@@ -18,13 +18,13 @@ const ProfileCard = () => {
 
   return (
     <CustomLink href="/profile">
-      <div className="flex items-center justify-start bg-bg-primary border-b pb-6 mb-6 border-b-light-grey">
+      <div className="dark:bg-slate-800 dark:text-white flex items-center justify-start bg-bg-primary border-b pb-6 mb-6 border-b-light-grey">
           <img
             src={userDetails?.profilePictureURL || noProfilePicture.src}
             alt="profile"
             className="h-15 w-15 rounded-full border-2 border-solid border-bg-green"
-            width={50}
-            height={50}
+            width={60}
+            height={60}
           />
 
         <div className='flex flex-col'>
@@ -33,7 +33,7 @@ const ProfileCard = () => {
           {userDetails?.name}
         </div>
         <div className="flex items-center justify-center gap-[5px] px-3">
-          <p className="mb-[10px] mt-[10px] line-clamp-3 flex break-all text-xs font-normal">
+          <p className="mb-[10px] mt-[8px] line-clamp-3 flex break-all text-xs font-normal">
             {email}
           </p>
         </div>

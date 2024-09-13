@@ -35,7 +35,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
               channelSlugRoute ? 'pointer-events-none' : 'cursor-pointer'
             }  h-[48px] w-[160px] items-center justify-center gap-[8px] rounded-[20px]  bg-bg-tertiary px-[10px] py-[12px] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
             <div className=" flex items-center justify-center gap-[8px]">
-              <VectorChannelIcon />
+              <VectorChannelIcon className="text-black dark:text-white" />
               <span className="font-semibold max-sm:text-xs md:text-sm">
                 {buttonValue}
               </span>{' '}

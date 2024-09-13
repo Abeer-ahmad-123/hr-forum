@@ -153,11 +153,11 @@ export const ConvertDate = (date: string) => {
   // Return the result
 
   if (daysAgo > 0) {
-    return daysAgo === 1 ? '1 day ago' : `${daysAgo} d ago`
+    return daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`
   } else if (hoursAgo > 0) {
-    return hoursAgo === 1 ? '1 hour ago' : `${hoursAgo} h ago`
+    return hoursAgo === 1 ? '1 hour ago' : `${hoursAgo} hours ago`
   } else if (minutesAgo > 0) {
-    return minutesAgo === 1 ? '1 minute ago' : `${minutesAgo} min ago`
+    return minutesAgo === 1 ? '1 minute ago' : `${minutesAgo} mins ago`
   } else {
     return 'just now'
   }

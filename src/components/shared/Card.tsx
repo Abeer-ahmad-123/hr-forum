@@ -50,9 +50,10 @@ import CardContent from './CardContent'
 type CardProps = {
   post: PostsInterface
   channels: ChannelByIdInterface[] | ChannelInterface[]
-  posts: PostsInterface[]
+  posts?: PostsInterface[]
   userComment?: any
-  updatePosts: Dispatch<SetStateAction<PostsInterface[]>>
+  updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
+  hideComments?: string
 }
 const Card = ({
   post,
@@ -60,6 +61,7 @@ const Card = ({
   updatePosts,
   posts,
   userComment,
+  hideComments,
 }: CardProps) => {
   const {
     id,
@@ -272,9 +274,16 @@ const Card = ({
   }, [])
 
   return (
-    <div id={String(id)} key={id} className="m-0 w-full max-w-[759px] p-0">
+    <div
+      id={String(id)}
+      key={id}
+      className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className="mx-auto mb-5 w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md">
+        className={ `w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 
+          ${hideComments
+            ? 'mb-5 h-full '
+            : `mx-auto mb-5 md:max-w-screen-md`}
+        `}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -302,7 +311,12 @@ const Card = ({
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div className="flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
+        <div
+          className={
+            hideComments
+              ? 'flex flex-col gap-[20px]'
+              : 'flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] '
+          }>
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
               <div className="flex items-center gap-[12px]">
@@ -322,7 +336,7 @@ const Card = ({
                 <div className="flex flex-col items-start align-baseline">
                   <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
-                      className="max-w-full shrink-0 break-all text-[16px]  font-[800]  leading-none text-gray-900 hover:underline dark:text-white   "
+                      className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {String(userDetails.id) === String(user_id)
@@ -425,7 +439,7 @@ const Card = ({
                     : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className="text-start text-[16px]  font-[800] dark:text-white max-custom-sm:text-base">
+              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
@@ -458,12 +472,12 @@ const Card = ({
                 alt="post"
                 height={500}
                 width={500}
-                className="h-full max-h-[270px] w-full rounded-[20px] object-contain"
+                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
               />
             }
 
           </div>
-          <div className="flex" key={id}>
+          {!hideComments && <div className="flex" key={id}>
             <PostActionBar
               postId={String(id)}
               userReaction={reactionRef.current ? userReaction : user_reaction}
@@ -480,7 +494,7 @@ const Card = ({
               handleBookmark={handleBookmark}
               bookmarkSuccess={bookmarkSuccess}
             />
-          </div>
+          </div>}
         </div>
 
 
