@@ -11,9 +11,10 @@ import type {
 } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
-import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
-import MainMenu from '../Cards/MainMenu'
+import FeaturesDropDownWithSuspense from "../Cards/FeaturesDropDownWithSuspense"
 import Logout from '../Cards/Logout'
+import MenuCard from '../Cards/MenuCard'
+
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -44,34 +45,27 @@ export default async function RenderFeedsGeneral({
   return (
     <div className="flex justify-center">
       <div
-        className={`mr-5 flex-1  ${
-          accessToken ? 'mt-[5px] max-lg:mt-[5px]' : 'mt-[5px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
+        className={`mr-5 flex-1  ${accessToken ? 'mt-[5px] max-lg:mt-[5px]' : 'mt-[5px]'
+          } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         <div
-          className={`${user ? 'top-[70px] mt-[10px]' : 'top-[70px] '
-            } sticky top-[104px]  max-h-[882px] h-screen max-lg:top-[55px]`}>
-              
-          <div className='relative px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
+          className={`${user ? 'mt-[10px]' : ''
+            } sticky top-[101px]  max-h-[882px] h-screen max-lg:top-[55px]`}>
+
+          <div className='dark:bg-slate-800 dark:text-white relative px-10 flex flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7'>
             <div>
               {user && <ProfileCard />}
-              <div className=''>
-                <div className={` ${!user && 'pt-7'} pb-6`}>
-                  <MainMenu />
-                </div>
-                <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
-              </div>
+              <MenuCard data={data} path={path} />
             </div>
-            <div className='w-[254px] absolute top-[80%] ml-10'>
+            <div className='w-[254px] absolute top-[80%] px-4 ml-10 hover:bg-bg-tertiary cursor-pointer rounded-md group'>
               <Logout />
             </div>
           </div>
         </div>
         <div
-          className={`sticky ${
-            accessToken
+          className={`sticky ${accessToken
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}>
+            } max-h-screen`}>
           {' '}
 
         </div>
@@ -103,13 +97,11 @@ export default async function RenderFeedsGeneral({
         <div className="flex w-full justify-center">
           <div className="w-full">
             <FeaturesDropDownWithSuspense />
-
             <div
-              className={`${
-                path === '/saved'
+              className={`${path === '/saved'
                   ? 'mt-[20px]'
                   : 'mt-[35px] max-lg:mt-[30px] max-md:mt-[20px]'
-              }  w-full max-w-screen-md dark:text-white`}>
+                }  w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={data.posts}
@@ -123,8 +115,6 @@ export default async function RenderFeedsGeneral({
           </div>
         </div>
       </div>
-
-
       <div className='ml-5 flex-1 mt-[15px] hidden md:inline-block'>
         <RulesCard />
       </div>

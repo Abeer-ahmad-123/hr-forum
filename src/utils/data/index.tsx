@@ -1,6 +1,7 @@
 import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
-import { AiFillHome } from 'react-icons/ai'
-import { BsFillBookmarksFill } from 'react-icons/bs'
+import Icon from '@/assets/icons/heartIcon'
+import HomeIcon from '@/assets/icons/home'
+
 export const colors = ['indigo', 'blue', 'coral', 'mint', 'sunset', 'mauve']
 
 export const menuItems = [
@@ -19,6 +20,14 @@ export const menuItems = [
     icon: <TermsOfServiceIcon />,
     label: 'Terms of Use',
   },
+]
+
+export const navigationItems = [
+  { title: 'Home', href: '/feeds', icon: <HomeIcon /> },
+
+  { title: 'Saved', href: '/saved', icon: <Icon strokeWidth='1.5' /> },
+
+  { title: 'Popular', href: '/popular', icon: <Icon strokeWidth='1.5' /> },
 ]
 
 export const reactionOptions = [
@@ -152,7 +161,7 @@ export const rulesData = [
   },
 ]
 export const navigation = [
-  { name: 'Home', href: '/feeds', icon: AiFillHome },
+  { name: 'Home', href: '/feeds', icon: HomeIcon },
 
-  { name: 'Saved', href: '/saved', icon: BsFillBookmarksFill },
+  { name: 'Saved', href: '/saved', icon: Icon },
 ]
