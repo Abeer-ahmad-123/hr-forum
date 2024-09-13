@@ -128,26 +128,20 @@ export default function Login({
 
   return (
     <div
-      className={`container flex px-[24px] py-[32px] ${
-        pathname.includes('login')
-          ? 'h-[542px] w-[551px]'
-          : 'h-[542px] w-[501px] '
-      } ${
-        pathname === '/login' ? 'w-[551px]' : ' w-full max-w-[432px]'
-      }  flex-col  `}>
+      className={`container flex  h-full max-h-[518px] w-full max-w-[348px] flex-col p-0 md:max-h-[542px] md:max-w-[551px]  `}>
       <div
         className={`${
           pathname === '/login' ? 'shadow-2xl' : ''
         } relative flex flex-col justify-center overflow-hidden`}>
         <div
-          className={` w-full rounded-md bg-white p-4 shadow-md  dark:bg-[#0e1320] lg:max-w-xl`}>
-          <h1 className="mb-2 text-center text-[20px] font-semibold dark:text-white">
+          className={`flex  w-full flex-col items-center justify-center rounded-md bg-white   dark:bg-[#0e1320] `}>
+          <h1 className="mb-2 mt-1  text-center text-[20px]  font-medium dark:text-white md:mt-[12px]">
             Login into your account
           </h1>
-          <p className="text-[14px] text-[#71717A]">
+          <p className="text-center text-[14px] text-[#71717A]">
             Enter your email and password to access your account
           </p>
-          <div className="mb-6 mt-10 rounded-xl border border-[#E4E4E7] p-6">
+          <div className="mb-6 mt-6  w-full max-w-[348px] rounded-xl border border-[#E4E4E7] p-4 md:mt-10 md:min-w-[432px] md:p-6">
             <LoginForm
               errors={errors}
               loading={loading}
@@ -168,7 +162,7 @@ export default function Login({
 
           {/* Sign Up Link */}
           <div className="mt-2 flex justify-center space-x-1 text-center text-xs font-light text-gray-700 dark:text-white">
-            <p>Don't have an account? </p>
+            <p>Doesn't have an account? </p>
             <button
               name="register button"
               className="text-primary-purple cursor-pointer font-medium hover:underline"

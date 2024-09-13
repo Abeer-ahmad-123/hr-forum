@@ -11,7 +11,7 @@ const GoogleButton = ({ onClick, title }: any) => {
         height={8}
         width={8}
       />
-      <p className="text-[14px]  text-black dark:text-white">
+      <p className="text-[14px] font-[550]  text-black dark:text-white">
         {title} with Google
       </p>
     </div>
