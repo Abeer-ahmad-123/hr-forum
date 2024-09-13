@@ -128,13 +128,21 @@ export default function Login({
 
   return (
     <div
-      className={`container flex  h-full max-h-[518px] w-full max-w-[348px] flex-col p-0 md:max-h-[542px] md:max-w-[551px]  `}>
+      className={`container flex  h-full max-h-[518px] w-full max-w-[348px] flex-col p-0 md:max-h-[600px] md:max-w-[551px]  `}>
       <div
         className={`${
-          pathname === '/login' ? 'shadow-2xl' : ''
-        } relative flex flex-col justify-center overflow-hidden`}>
+          pathname === '/login'
+            ? 'h-full max-h-[518px] w-full max-w-[348px] flex-col  md:max-h-[600px] md:max-w-[551px] '
+            : ''
+        } relative flex flex-col justify-center `}>
         <div
-          className={`flex  w-full flex-col items-center justify-center rounded-md bg-white   dark:bg-[#0e1320] `}>
+          className={`
+            ${
+              pathname === '/login'
+                ? 'h-full w-full p-[20px] md:h-[600px] md:w-[551px]'
+                : ''
+            }
+            flex  w-full flex-col items-center justify-center rounded-md bg-white   dark:bg-[#0e1320] `}>
           <h1 className="mb-2 mt-1  text-center text-[20px]  font-medium dark:text-white md:mt-[12px]">
             Login into your account
           </h1>

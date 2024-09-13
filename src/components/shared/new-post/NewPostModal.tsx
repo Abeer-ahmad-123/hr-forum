@@ -16,10 +16,7 @@ interface startNewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
 }
-export default function NewPost({
-  setAddPost,
-  addPost,
-}: NewPostProps) {
+export default function NewPost({ setAddPost, addPost }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
@@ -50,9 +47,7 @@ export default function NewPost({
   )
 }
 
-export const PostBar = ({
-  setAddPost,
-}: startNewPostProps): JSX.Element => {
+export const PostBar = ({ setAddPost }: startNewPostProps): JSX.Element => {
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { profilePictureURL } = user
 
@@ -78,7 +73,7 @@ export const PostBar = ({
       />
       <button
         onClick={handleStart}
-        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[28px] py-[8px] font-[550]">
+        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[24px] py-[8px] font-[550]">
         Start new thread
       </button>
     </div>

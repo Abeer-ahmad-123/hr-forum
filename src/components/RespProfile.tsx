@@ -22,6 +22,7 @@ import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
+import ProfileBg from '@/assets/images/ProfileBg.svg'
 
 const RespProfile = ({ userId, userInCookie }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
