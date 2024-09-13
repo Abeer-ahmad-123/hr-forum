@@ -142,14 +142,14 @@ export default function Login({
                 ? 'h-full w-full p-[20px] md:h-[600px] md:w-[551px]'
                 : ''
             }
-            flex  w-full flex-col items-center justify-center rounded-md bg-white   dark:bg-[#0e1320] `}>
+            flex  w-full flex-col items-center justify-center rounded-md bg-white   dark:bg-bg-primary-dark `}>
           <h1 className="mb-2 mt-1  text-center text-[20px]  font-medium dark:text-white md:mt-[12px]">
             Login into your account
           </h1>
           <p className="text-center text-[14px] text-[#71717A]">
             Enter your email and password to access your account
           </p>
-          <div className="mb-6 mt-6  w-full max-w-[348px] rounded-xl border border-[#E4E4E7] p-4 md:mt-10 md:min-w-[432px] md:p-6">
+          <div className="mb-6 mt-6  w-full max-w-[348px] rounded-xl border border-[#E4E4E7] p-4 dark:border-bg-tertiary-dark md:mt-10 md:min-w-[432px] md:p-6">
             <LoginForm
               errors={errors}
               loading={loading}
@@ -158,9 +158,9 @@ export default function Login({
               handleLoginSubmit={handleLoginSubmit}
             />
             <div className="mb-3 mt-6 flex items-center justify-center">
-              <div className="border-[#F4F4F5]-300 flex-grow border-t"></div>
+              <div className="border-[#F4F4F5]-300 flex-grow border-t dark:border-bg-tertiary-dark"></div>
               <span className="mx-3 text-[12px] text-[#71717A]">OR</span>
-              <div className="border-[#F4F4F5]-300 flex-grow border-t"></div>
+              <div className="border-[#F4F4F5]-300 flex-grow border-t dark:border-bg-tertiary-dark"></div>
             </div>
 
             <div className="cursor-pointer">

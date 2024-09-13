@@ -263,7 +263,7 @@ const PostActionBar = ({
                           <span className="font-[900] dark:text-white">
                             {postCommentsCount}
                           </span>
-                          <span className="hidden text-sm font-light text-[#666666] dark:text-white md:block">
+                          <span className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
                             Comments
                           </span>
                         </>
@@ -272,14 +272,14 @@ const PostActionBar = ({
                           <span className="font-[900] text-black dark:text-white">
                             {commentCountToUse}
                           </span>
-                          <span className="hidden text-sm text-[#666666] md:block">
+                          <span className="hidden text-sm text-[#666666] dark:text-white custom-mid-sm:block ">
                             Comment
                           </span>
                         </>
                       )}
                     </span>
                   ) : (
-                    <span className="hidden text-sm font-light text-[#666666] dark:text-white md:block">
+                    <span className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
                       Comment
                     </span>
                   )}
@@ -299,7 +299,7 @@ const PostActionBar = ({
                   role="button">
                   <ShareIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
                   <span
-                    className="hidden text-sm font-light text-[#666666] dark:text-white md:block"
+                    className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block "
                     onClick={setOpenPopOver}>
                     Share
                   </span>
@@ -323,7 +323,7 @@ const PostActionBar = ({
               className="mb-1 h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]"
               fill={bookmarkSuccess ? 'black' : 'none'}
             />
-            <p className="hidden text-sm text-[#666666] dark:text-white md:block">
+            <p className="hidden text-sm text-[#666666] dark:text-white custom-mid-sm:block ">
               Save
             </p>
           </div>

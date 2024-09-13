@@ -121,11 +121,11 @@ const ReactionButton = ({
                 isReactionOnLike={true}
               />
               {/* Add a small number under the heart emoji */}
-              <span className="text-xs font-[900] text-black md:text-base">
+              <span className="text-xs font-[900] text-black dark:text-white md:text-base">
                 {reactionCountToUse}
               </span>
             </div>
-            <div className="hidden  text-sm font-light text-[#666666] dark:text-white md:block">
+            <div className="hidden  text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
               Like
             </div>
           </div>

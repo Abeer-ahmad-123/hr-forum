@@ -297,12 +297,9 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
           isDialogPost ? 'mb-5' : 'my-5'
         }`}>
         <div
-          className={`mx-auto mb-5 flex max-w-[759px] rounded-[16px] bg-white 
-      ${
-        !isDialogPost &&
-        'border border-gray-200  shadow-lg dark:border-gray-700 dark:shadow-xl'
-      } 
-      dark:bg-dark-background dark:text-gray-300 `}>
+          className={`mx-auto mb-5 flex max-w-[759px] rounded-[16px] bg-bg-primary 
+      ${!isDialogPost && 'shadow-lg dark:border-gray-700 dark:shadow-xl'} 
+      dark:bg-bg-primary-dark dark:text-gray-300 `}>
           <div
             // className={`flex w-full flex-col  pt-0 ${
             //   isDialogPost ? '' : 'p-10 max-custom-sm:px-2'
@@ -452,8 +449,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             }`}>
             <button
               onClick={handleBack}
-              className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[15px] py-[8px] text-[12px] opacity-60 dark:text-white  ">
-              <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
+              className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary px-[15px]  py-[8px] text-[12px] opacity-60 dark:bg-bg-tertiary-dark dark:text-white  ">
+              <ArrowLeft className="text-black opacity-60 dark:text-bg-tertiary dark:opacity-40" />{' '}
               <span className="tetx-black dark:text-white">Go back</span>
             </button>
 

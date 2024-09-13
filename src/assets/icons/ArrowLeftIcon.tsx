@@ -8,7 +8,7 @@ function Icon({ className }: { className: string }) {
       fill="none"
       viewBox="0 0 18 18">
       <g
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         opacity="0.6">

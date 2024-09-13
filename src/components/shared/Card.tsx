@@ -279,7 +279,7 @@ const Card = ({
       key={id}
       className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={`w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 
+        className={`w-full cursor-pointer rounded-[20px] bg-bg-primary dark:bg-bg-primary-dark dark:text-gray-300 
           ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
         `}>
         <Suspense>
