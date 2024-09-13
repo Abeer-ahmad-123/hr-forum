@@ -6,22 +6,22 @@ import { ChannelByIdInterface, ChannelInterface } from '@/utils/interfaces/chann
 import { PostsInterface } from '@/utils/interfaces/posts'
 
 interface MenuCardProps {
-  data: {
+  data?: {
     channels: ChannelInterface[] | ChannelByIdInterface[]
-    posts: PostsInterface[]
+    posts: PostsInterface[] | []
   },
   path: string
+  token: string | null
 }
 
-async function MenuCard({ data, path }: MenuCardProps) {
-  const { user } = await getUserFromCookie()
+function MenuCard({ data, path, token }: MenuCardProps) {
 
   return (
     <div className='dark:bg-slate-800 dark:text-gray-400'>
-      <div className={`dark:bg-slate-800 dark:text-gray-400 ${!user && 'pt-7'} pb-6`}>
-        <MainMenu path={path} />
+      <div className={`dark:bg-slate-800 dark:text-gray-400 ${!token && 'pt-7'} pb-6`}>
+        <MainMenu path={path} token={token} />
       </div>
-      <ChannelCard initialChannels={data.channels as ChannelInterface[]} />
+      <ChannelCard initialChannels={data?.channels as ChannelInterface[]} />
     </div>
   )
 }
