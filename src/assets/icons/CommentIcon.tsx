@@ -1,6 +1,5 @@
-interface iconProp {
-  className: string
-}
+import { iconProp } from '@/utils/types/new-ui-types'
+
 function Icon({ className }: iconProp) {
   return (
     <svg
@@ -11,7 +10,7 @@ function Icon({ className }: iconProp) {
       fill="none"
       viewBox="0 0 20 20">
       <path
-        stroke="#000"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.75"

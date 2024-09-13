@@ -10,7 +10,7 @@ function Icon({ className, fill = "none" }: IconProps) {
       className={className}
       viewBox="0 0 18 18">
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

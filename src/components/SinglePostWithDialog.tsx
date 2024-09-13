@@ -36,7 +36,7 @@ const SinglePostWithDialog = ({ id, data }: SinglePostWithDialogProps) => {
 
   return (
     <Dialog defaultOpen={isOpen} open={isOpen} onOpenChange={handleCloseModal}>
-      <DialogContent className="max-w-5xl bg-white ">
+      <DialogContent className="w-full max-w-[759px] bg-white ">
         <DialogDescription>
           <Suspense fallback={<PostSkelton isDialogPost={true} />}>
             <Post isDialogPost={true} postId={id} data={data} />
