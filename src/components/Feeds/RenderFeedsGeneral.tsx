@@ -53,7 +53,7 @@ async function RenderFeedsGeneral({
           <div className='dark:bg-slate-800 dark:text-white relative px-10 flex flex-col items-end justify-between min-w-[322px] w-full bg-white h-screen max-h-[882px] py-7'>
             <div>
               {user && <ProfileCard />}
-              <MenuCard data={data} />
+              <MenuCard data={data} path={path} />
             </div>
             <div className='w-[254px] absolute top-[80%] px-4 ml-10 hover:bg-bg-tertiary cursor-pointer rounded-md group'>
               <Logout />

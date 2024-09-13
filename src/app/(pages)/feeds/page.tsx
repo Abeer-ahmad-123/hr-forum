@@ -22,7 +22,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}
-        path="/feed"
+        path="/feeds"
         morePosts={morePosts}
         data={{ channels: channelData, posts: initialPosts }}
       />

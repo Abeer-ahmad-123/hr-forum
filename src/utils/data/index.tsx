@@ -23,6 +23,14 @@ export const menuItems = [
   },
 ]
 
+export const navigationItems = [
+  { title: 'Home', href: '/feeds', icon: <HomeIcon /> },
+
+  { title: 'Saved', href: '/saved', icon: <Icon strokeWidth='1.5' /> },
+
+  { title: 'Popular', href: '/popular', icon: <Icon strokeWidth='1.5' /> },
+]
+
 export const reactionOptions = [
   { name: 'none', emoji: '♡' },
   { name: 'love', emoji: '❤️' },

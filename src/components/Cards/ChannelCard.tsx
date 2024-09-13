@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 import HrGeneral from '@/assets/icons/hrGeneral'
 import SmileIcon from '@/assets/icons/smileIcon'
+import { usePathname } from 'next/navigation'
 
 type ChannelCardProps = {
   initialChannels?: ChannelInterface[]
@@ -18,6 +19,7 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
   const channels = initialChannels || channelsInStore
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const path = usePathname()
 
   return channels && channels.length > 0 ? (
     <div
@@ -33,7 +35,7 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
             key={index}
           >
             <CustomLink href={`/channels/${channel.slug}`}>
-              <div className="flex gap-3 py-[10px] hover:bg-bg-tertiary hover:font-[800] rounded-md">
+              <div className={`flex gap-3 py-[10px] hover:bg-bg-tertiary ${path == `/channels/${channel.slug}` ? 'bg-bg-tertiary font-[800]': ''} hover:font-[800] rounded-md`}>
                {channel.slug == "hr-general" ?  <HrGeneral /> : <SmileIcon />}
                 <span>{channel.name}</span>
               </div>
