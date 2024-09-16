@@ -2,7 +2,6 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import ProfilePosts from './ProfilePosts'
 import { Card } from './shared'
 
 const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {

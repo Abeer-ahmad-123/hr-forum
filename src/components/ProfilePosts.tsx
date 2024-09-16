@@ -43,8 +43,7 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
     <>
       <div
         className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300"
-        onClick={handleNavigateFeed}
-      >
+        onClick={handleNavigateFeed}>
         <div className="py-4 pr-5">
           <div className="ml-10 flex text-left font-semibold dark:text-white">
             <div className="flex flex-col items-start align-baseline">
@@ -52,8 +51,7 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
                 <p
                   onClick={handleNavigateProfile}
                   className="pr-1 text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
-                  aria-label="user-name"
-                >
+                  aria-label="user-name">
                   {/*
                    * "You" is based on user_id not on username what if i change username the "You" will also be changed.
                    */}
@@ -89,7 +87,7 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
             </div>
           )}
           <div
-            className="text-left font-light card-li"
+            className="card-li text-left font-light"
             dangerouslySetInnerHTML={{
               __html:
                 post?.content?.length > 200
