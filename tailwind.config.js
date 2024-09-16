@@ -34,6 +34,7 @@ module.exports = {
       screens: {
         'custom-sm': '500px', // Adjust the value as needed
         'custom-mid-sm': '410px',
+        'custom-mid-lg': '801px',
         'custom-sx': '344px',
       },
 

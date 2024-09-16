@@ -36,12 +36,15 @@ const ActivityButtons = ({ slug }: SlugProps) => {
           <div
             className={`flex gap-2  max-custom-sm:text-xs ${
               pathName.includes('posts')
-                ? 'z-10 border-b-2 border-[#571ce0]  pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
+                ? '  pb-2  text-black transition duration-500 ease-in-out dark:text-white'
                 : ' opacity-50'
             }
               `}>
             <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
-            <button name="post button"> Post</button>
+            <button name="post button text-black dark:text-whites ">
+              {' '}
+              Post
+            </button>
           </div>
         </div>
         <div

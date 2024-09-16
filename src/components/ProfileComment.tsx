@@ -1,30 +1,43 @@
-import { timeFormatInHours } from '@/utils/helper'
+import { ConvertDate, timeFormatInHours } from '@/utils/helper'
+import { noProfilePicture } from '@/assets/images'
 
 const ProfileComment = ({ comment, index }: any) => {
   return (
     <div className={`${index == 0 ? 'mt-0' : 'mt-2'} mb-4`}>
       <div className={`${index == 0 ? 'mt-0' : 'mt-2'} mb-4`}>
         <div className="mb-2 flex flex-col items-start align-baseline">
-          <div className="flex flex-row items-center">
+          <div className="flex flex-row items-center gap-2">
+            <img
+              alt="avatar"
+              src={
+                comment?.author_details?.profile_picture_url ||
+                noProfilePicture.src
+              }
+              className="h-full max-h-[40px] w-full max-w-[40px] cursor-pointer rounded-full  "
+              height={8}
+              width={8}
+            />
             <p
-              className="text-sm font-normal leading-none text-gray-900 dark:text-gray-300 max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
+              className="text-base font-semibold leading-none text-black dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
               aria-label="user-name"
               onClick={() => {}}>
               {comment.author_details.name}
             </p>
             <p className="pl-1 text-xs font-light text-slate-500 dark:text-gray-400">
-              commented on a post
+              <div className="flex items-center justify-center gap-2 ">
+                <div className="dot h-[5px] w-[5px] rounded-full bg-black opacity-60 dark:bg-white"></div>
+                <div className="text-xs opacity-60">
+                  {ConvertDate(comment.created_at)}
+                </div>
+              </div>
             </p>
           </div>
-          <p className="justify-start text-[0.70rem] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
-            {timeFormatInHours(comment.created_at)}
-          </p>
         </div>
-        <div className="break-all pr-2 text-left text-[14px] font-light">
+        <div className="break-all pl-10 text-left text-[14px] font-light">
           {comment.content}
         </div>
       </div>
-      <hr className="mx-3" />
+      <hr className="bg-[#202020] opacity-60" />
     </div>
   )
 }

@@ -63,7 +63,7 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   const morePosts = useRef<boolean>(false)
 
   const activityStyles =
-    'z-10 border-b-2 border-[#571ce0] pb-2 text-accent transition duration-500 ease-in-out dark:text-white'
+    'dark:text-white text-black bg-white dark:bg-black dark:text-white'
 
   const getAllUserSpecificPosts = async () => {
     try {
@@ -198,51 +198,55 @@ const UserActivity = ({ userId }: UserActivityProps) => {
   }, [posts])
 
   return (
-    <div className="border-grey-300 mb-5 flex h-full w-full flex-col items-start rounded-[10px] border  border-solid bg-white pt-6 dark:bg-slate-800 dark:text-gray-300">
-      <div className="ml-10 justify-start">
+    <div className="flex h-full w-full max-w-[759px] flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7">
+      <div className="flex w-full flex-col justify-start gap-[20px]">
         <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
           Activity
         </div>
-        <div className="mb-1 flex cursor-pointer items-start justify-start max-md:text-sm">
+        <div className="flex h-[42px] w-full  cursor-pointer items-center justify-start rounded-[6px] bg-bg-tertiary p-[5px] dark:bg-bg-tertiary-dark ">
           <div
             onClick={handlePost}
-            className={`-ml-[3px] flex w-[85px] gap-[8px] py-2 `}>
+            className={`flex cursor-pointer  rounded-[3px] px-[16px] py-[6px]
+              ${profileNav.isPost ? activityStyles : 'text-white'}
+            `}>
             <div
-              className={`flex gap-2 max-custom-sm:text-xs ${
-                profileNav.isPost ? activityStyles : 'text-[#a9a9a9]'
-              } hover:text-accent`}>
-              <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
-              <button name="post button"> Post</button>
+              className={`flex gap-2 font-semibold text-black  hover:text-black dark:text-white dark:hover:text-white  max-custom-sm:text-xs`}>
+              <button name="post button text-white"> Post</button>
             </div>
           </div>
           <div
             onClick={commentOnClick}
-            className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2`}>
+            className={`flex cursor-pointer rounded-[3px]  px-[16px] py-[6px]
+              ${profileNav.isComment ? activityStyles : 'text-white'} 
+            `}>
             <div
-              className={`flex gap-2 max-custom-sm:text-xs ${
-                profileNav.isComment ? activityStyles : 'text-[#a9a9a9]'
-              } hover:text-accent`}>
+              className={`dark:text-whitemax-custom-sm:text-xs flex items-center  gap-2 font-semibold  text-black hover:text-black dark:text-white dark:hover:text-white `}>
               <FaRegComment
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
               />
-              <button name="comment button"> Comment</button>
+              <button name="comment button">
+                <span className="hidden custom-mid-sm:block">Comment</span>{' '}
+              </button>
               <hr />
             </div>
           </div>
           <div
             id="isReaction"
             onClick={reactionOnClick}
-            className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] p-2 `}>
+            className={`flex cursor-pointer rounded-[3px] px-[16px] py-[6px] 
+              ${profileNav.isReaction ? activityStyles : ''}
+            `}>
             <div
-              className={`flex gap-2 max-custom-sm:text-xs ${
-                profileNav.isReaction ? activityStyles : 'text-[#a9a9a9]'
-              } hover:text-accent`}>
+              className={`flex gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white  max-custom-sm:text-xs`}>
               <SmilePlus
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
               />
-              <button name="reaction button"> Reactions</button>
+              <button name="reaction button ">
+                {' '}
+                <span className="hidden custom-mid-sm:block">Reactions</span>
+              </button>
               <hr />
             </div>
           </div>

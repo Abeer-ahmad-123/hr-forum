@@ -48,8 +48,8 @@ import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
 
 type CardProps = {
-  post: PostsInterface
-  channels: ChannelByIdInterface[] | ChannelInterface[]
+  post?: PostsInterface
+  channels?: ChannelByIdInterface[] | ChannelInterface[]
   posts?: PostsInterface[]
   userComment?: any
   updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
