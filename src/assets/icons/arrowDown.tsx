@@ -13,7 +13,7 @@ function ArrowDown({ className }: ArrowDownProps) {
       className={className}
     >
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
