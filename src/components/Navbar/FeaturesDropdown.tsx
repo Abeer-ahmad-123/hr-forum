@@ -86,7 +86,7 @@ const FeaturesDropDown = ({
   }, [pathname])
 
   const getSelectedIcon = () => {
-    const styles = 'mr-3 h-5 w-5 text-accent'
+    const styles = 'mr-3 h-5 w-5 dark:text-bg-bg-tertiary'
     if (selected === 'Home' || 'Feeds') {
       return <HomeIcon className={styles} />
     } else if (selected === 'Settings') {
@@ -137,7 +137,7 @@ const FeaturesDropDown = ({
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} max-h-[42px] items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:dark:bg-black`}>
+        className={`${classNameInner} max-h-[42px] items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:border-none dark:bg-dark-grey`}>
         <div
           className="mt-[3px] flex justify-between px-4 py-2"
           onClick={handleChecked}>
