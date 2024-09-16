@@ -68,6 +68,7 @@ export const PostBar = ({ setAddPost }: startNewPostProps): JSX.Element => {
           />
         </div>
         <input
+          onFocus={handleStart}
           type="text"
           placeholder="What's on your mind?"
           className="border-[#202020]-300 h-[64px] flex-1 border-b bg-bg-primary text-sm text-gray-400 focus:border-b  focus:outline-none dark:bg-bg-primary-dark dark:text-white"

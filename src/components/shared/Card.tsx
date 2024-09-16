@@ -355,7 +355,7 @@ const Card = ({
               </div>
 
               <div className="flex items-center gap-0.5">
-                {reported && (
+                {/* {reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block text-black dark:text-white">
                       <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
@@ -364,7 +364,7 @@ const Card = ({
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
                 {!pathName.includes(`user-activity/${slug}/comment`) && (
                   <div onMouseLeave={handleMouseDown}>
                     <Popover open={popOver} onOpenChange={setPopOver}>
@@ -375,10 +375,13 @@ const Card = ({
                         aria-labelledby="postOptionsLabel"
                         role="button">
                         <span
-                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
-                          onClick={setOpenPopOver}>
+                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 "
+                          onClick={handleReportClick}>
                           {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
-                          <AlertOctagon size={17} />
+                          <AlertOctagon
+                            size={17}
+                            className={reported ? 'text-red' : ''}
+                          />
                         </span>
                       </PopoverTrigger>
                       <Suspense>
