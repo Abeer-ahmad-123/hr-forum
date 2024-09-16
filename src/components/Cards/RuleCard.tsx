@@ -27,10 +27,7 @@ const RulesCard = () => {
                     <AccordionItem
                       value={item.title}
                       key={index}
-                      className={`${
-                        index === rulesData.length - 1 ? 'border-none' : 'border-b'
-                      } dark:border-none
-                    `}>
+                      className='border-b dark:border-none'>
                       <AccordionTrigger>
                         <div className="my-[10px] flex gap-2.5 text-base font-medium dark:text-bg-tertiary">
                           <div className='dark:text-white'>{index+1}.</div>
@@ -47,7 +44,6 @@ const RulesCard = () => {
                 )
               })}
             </ul>
-            <hr className='dark:hidden' style={{color: '#e5e7eb'}} />
           </Accordion>
         </div>
         <div className='pl-[135px] text-color-grey text-[12px] pb-5'>© 2024 HRTalkers. All rights reserved.</div>
