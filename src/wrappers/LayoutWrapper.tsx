@@ -259,7 +259,7 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
             }`}
         >
           {!loading ? <div className={isError ? 'mt-0' : 'mt-[86px]'}>
-            <div className='flex flex-row'>
+            <div className='flex flex-row pt-4'>
 
               <LeftSidebar pathname={pathname} token={token} />
 

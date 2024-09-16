@@ -6,8 +6,8 @@ interface RightSideBarProps {
 
 function RightSideBar({ pathname }: RightSideBarProps) {
   return (
-    <div className={`${pathname === '/profile' ? 'hidden' : 'block'} `}>
-      <div className={`hidden md:inline-block basis-1/4 ml-5 flex-1 mt-[15px]`}>
+    <div className={`${pathname === '/profile' ? 'hidden' : 'block'} mt-0`}>
+      <div className={`hidden md:inline-block basis-1/4 ml-5 flex-1`}>
         <RulesCard />
       </div>
     </div>

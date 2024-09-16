@@ -1,14 +1,12 @@
 'use client'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AiOutlineUserAdd } from 'react-icons/ai'
-import { BsDot, BsFillBookmarksFill } from 'react-icons/bs'
-import {
-  RiSettings4Fill,
-} from 'react-icons/ri'
 import DropDownContent from '../shared/DropDownContent'
 import HomeIcon from '@/assets/icons/home'
 import ArrowDown from '@/assets/icons/arrowDown'
+import Icon from '@/assets/icons/heartIcon'
+import HrGeneral from '@/assets/icons/hrGeneral'
+import SmileIcon from '@/assets/icons/smileIcon'
 
 interface FeaturesDropDownInterface {
   classNameOuter: string
@@ -85,22 +83,18 @@ const FeaturesDropDown = ({
     }
   }, [pathname])
 
-  const getSelectedIcon = () => {
+  const getSelectedIcon = () => { 
     const styles = 'mr-3 h-5 w-5 dark:text-bg-bg-tertiary'
-    if (selected === 'Home' || 'Feeds') {
+    if (selected === 'Home' || selected ===  'Feeds') {
       return <HomeIcon className={styles} />
-    } else if (selected === 'Settings') {
-      return <RiSettings4Fill className={styles} />
     } else if (selected === 'Saved') {
-      return <BsFillBookmarksFill className={styles} />
-    } else if (selected === 'Channels') {
-      return <AiOutlineUserAdd className={styles} />
-    } else {
+      return <Icon className={styles} strokeWidth='1.5' />
+    } else if (selected === 'HR General') {
+      return <HrGeneral className={`ml-0 ${styles}`} />
+    }
+    else {
       return (
-        <BsDot
-          className="mr-2 h-5 w-5 rounded-md border border-primary bg-gray-200"
-          fill={'black'}
-        />
+        <SmileIcon className={`ml-0 ${styles}`} />
       )
     }
   }
@@ -142,7 +136,7 @@ const FeaturesDropDown = ({
           className="mt-[3px] flex justify-between px-4 py-2"
           onClick={handleChecked}>
           <div className="flex items-center normal-case text-black dark:text-white pr-3">
-            {getSelectedIcon()}
+            <div className='text-left ml-0'>{getSelectedIcon()}</div>
             <p className='font-extrabold text-base'>
               {selected.length > 16
                 ? `${selected.substring(0, 14)}...`

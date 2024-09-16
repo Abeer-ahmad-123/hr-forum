@@ -35,7 +35,7 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
             key={index}
           >
             <CustomLink href={`/channels/${channel.slug}`}>
-              <div className={`flex gap-3 py-[10px] hover:bg-bg-tertiary dark:hover:bg-bg-tertiary-dark dark:text-bg-tertiary ${path == `/channels/${channel.slug}` ? 'bg-bg-tertiary dark:bg-bg-tertiary-dark dark:text-bg-tertiary font-[800]': ''} hover:font-[800] rounded-md`}>
+              <div className={`flex gap-3 my-[5px] py-2 hover:bg-bg-tertiary dark:hover:bg-bg-tertiary-dark dark:text-bg-tertiary ${path == `/channels/${channel.slug}` ? 'bg-bg-tertiary dark:bg-bg-tertiary-dark dark:text-bg-tertiary font-[800]': ''} hover:font-[800] rounded-md`}>
                {channel.slug == "hr-general" ?  <HrGeneral /> : <SmileIcon />}
                 <span>{channel.name}</span>
               </div>

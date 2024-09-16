@@ -64,7 +64,7 @@ const DropDownContent = ({
               className='px-4'
             >
               <li
-                className="mt-1 dark:active:bg-bg-primary-dark dark:hover:bg-bg-primary-dark hover:bg-bg-tertiary rounded-md"
+                className={`mt-1 dark:active:bg-bg-primary-dark dark:hover:bg-bg-primary-dark hover:bg-bg-tertiary rounded-md`}
                 onClick={handleLi}>
                 <CustomLink
                   href={item?.href}
@@ -91,17 +91,17 @@ const DropDownContent = ({
       <div className='mb-4 mt-3'>
         {channels?.map((item: any, index: number) => (
           <li
-            className="text-base border-none"
+            className="text-base border-none "
             key={index}
             onClick={handleLi}
             data-testid="side-channels">
             <CustomLink
               href={`${'/channels/' + item?.slug}`}
               className={`${sidebarLinkStyle(
-                `/channels/${item?.name}`,
+                `/channels/${item?.name} `,
               )}`}
               >
-              <div className="flex gap-3 py-[10px] mx-4 dark:hover:bg-bg-primary-dark hover:bg-bg-tertiary hover:font-[800] rounded-md">
+              <div className={`my-1 flex gap-3 py-[8px] mx-4 dark:hover:bg-bg-primary-dark  ${pathname === `/channels/${item.slug}` ? 'bg-bg-primary-dark font-[800]':''}  hover:bg-bg-tertiary hover:font-[800] rounded-md`}>
                 {item?.slug == "hr-general" ? <HrGeneral /> : <SmileIcon />}
                 <span>{item?.name}</span>
               </div>

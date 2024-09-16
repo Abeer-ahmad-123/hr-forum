@@ -1,5 +1,7 @@
-
-function HrGeneral() {
+interface HrGeneralProps {
+  className?: string;
+}
+function HrGeneral({ className = 'ml-4' }: HrGeneralProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,7 +9,7 @@ function HrGeneral() {
       height="20"
       fill="none"
       viewBox="0 0 20 20"
-      className="ml-4"
+      className={className}
     >
       <path
         stroke="currentColor"
