@@ -33,6 +33,7 @@ module.exports = {
       },
       screens: {
         'custom-sm': '500px', // Adjust the value as needed
+        'custom-mid-sm': '410px',
         'custom-sx': '344px',
       },
 
@@ -116,11 +117,14 @@ module.exports = {
         'color-blue': 'var(--color-blue)',
         'bg-green': 'var(--bg-green)',
         'bg-primary': 'var(--bg-primary)',
+        'bg-primary-dark': 'var(--bg-primary-dark)',
         'bg-secondary': 'var(--bg-secondary)',
         'bg-tertiary': 'var(--bg-tertiary)',
+        'bg-tertiary-dark': 'var(--bg-tertiary-dark)',
         'color-grey': 'var(--color-grey)',
         'dark-background': '#0E1320',
         'dark-primary': '#111927',
+        'bg-secondary-dark': 'var(--bg-secondary-dark)',
         'dark-background-secondary': '#1C2536',
         'dark-background-hover': '#1e2b37',
         'bg-dark-grey': 'var(--bg-dark-grey)',
@@ -139,7 +143,7 @@ module.exports = {
       },
     },
     fontFamily: {
-      primary: ["Avenir", "sans-serif"],
+      primary: ['Avenir', 'sans-serif'],
     },
   },
   plugins: [require('tailwindcss-animate')],

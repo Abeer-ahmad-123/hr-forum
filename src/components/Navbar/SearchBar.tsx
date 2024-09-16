@@ -38,7 +38,7 @@ const SearchBar = () => {
 
   return (
     <form
-      className='relative flex max-w-[420px] flex-1 items-center space-x-2 rounded-full h-10 w-10 transition-all duration-700 ease-in-out md:h-11 md:w-11 border border-none py-1 pl-3 outline-none focus-within:w-full focus:w-full dark:bg-dark-background dark:hover:bg-dark-background max-sm:max-w-[160px] dark:border-gray-600 dark:hover:border-gray-400 border-gray-200 bg-bg-tertiary hover:border-blue-500'
+      className='relative flex max-w-[420px] flex-1 items-center space-x-2 rounded-full h-10 w-10 transition-all duration-700 ease-in-out md:h-11 md:w-11 border border-none py-1 pl-3 outline-none focus-within:w-full focus:w-full dark:bg-bg-tertiary-dark dark:hover:bg-bg-tertiary-dark max-sm:max-w-[160px] dark:border-gray-600 dark:hover:border-gray-400 border-gray-200 bg-bg-tertiary hover:border-blue-500'
     >
       <input
         ref={refForInput}
@@ -46,7 +46,7 @@ const SearchBar = () => {
         onChange={handleSearch}
         value={search}
         type="text"
-        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-dark-primary transition-all duration-700 ease-in-out placeholder:text-base placeholder:font-medium placeholder-opacity-60"
+        className="max-md:w-0 ml-4 pl-3 md:ml-8 md:pl-2 focus:max-sm:w-full sm:w-full border border-none bg-transparent font-light rounded-r-full text-black outline-none dark:text-white dark:bg-bg-tertiary-dark transition-all duration-700 ease-in-out placeholder:text-base placeholder:font-medium placeholder-opacity-60"
         placeholder="Search Forum"
       />
       <label className="absolute left-[-6px] max-sm:left-[-3px]">
@@ -56,7 +56,7 @@ const SearchBar = () => {
         >
           <div className={`mr-5 flex h-7 rounded-lg`}>
             <div className="pl-0 sm:pl-[3px] md:ml-[10px] flex items-center justify-center transition-all duration-700 ease-in-out">
-              <SearchIcon className='fill-current text-black md:text-color-grey' />
+              <SearchIcon className='fill-current text-black md:text-color-grey dark:md:text-color-grey dark:text-white' />
             </div>
           </div>
         </div>
