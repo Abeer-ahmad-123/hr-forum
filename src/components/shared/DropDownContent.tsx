@@ -73,7 +73,7 @@ const DropDownContent = ({
                   )}`}
                   data-testid="navigation-heading">
                   <item.icon
-                    className={`h-6 w-6 shrink-0 ${iconStyle(item?.href)}`}
+                    className={`h-5 w-5 shrink-0 ${iconStyle(item?.href)}`}
                     aria-hidden="true"
                     data-testid="navigation-icon"
                   />
