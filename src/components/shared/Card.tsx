@@ -170,10 +170,10 @@ const Card = ({
       pathName.includes('channels')
         ? `${pathName}/feed/${id}`
         : pathName.includes('saved')
-          ? `/saved/feed/${id}`
-          : pathName.includes('user-activity')
-            ? `${pathName}/feed/${id}`
-            : `/feeds/feed/${id}`,
+        ? `/saved/feed/${id}`
+        : pathName.includes('user-activity')
+        ? `${pathName}/feed/${id}`
+        : `/feeds/feed/${id}`,
     )
   }
   const handleNavigateProfile = (event: any) => {
@@ -279,10 +279,8 @@ const Card = ({
       key={id}
       className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={ `w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 
-          ${hideComments
-            ? 'mb-5 h-full '
-            : `mx-auto mb-5 md:max-w-screen-md`}
+        className={`w-full cursor-pointer rounded-[20px] bg-bg-primary dark:bg-bg-primary-dark dark:text-gray-300 
+          ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
         `}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -291,10 +289,10 @@ const Card = ({
                 reportType="post"
                 setOpenDialog={setOpenDialog}
                 postId={id ? String(id) : ''}
-                getPostCommets={() => { }}
+                getPostCommets={() => {}}
                 setReported={setReported}
-                setReportedReplyId={() => { }}
-                setDeletedCommentId={() => { }}
+                setReportedReplyId={() => {}}
+                setDeletedCommentId={() => {}}
               />
             </DialogContent>
           </Dialog>
@@ -304,7 +302,7 @@ const Card = ({
               <DeletePost
                 setOpenDeleteDialog={setOpenDeleteDialog}
                 postId={id ? String(id) : ''}
-                setReported={() => { }}
+                setReported={() => {}}
                 updatePosts={updatePosts}
                 posts={posts}
               />
@@ -357,7 +355,7 @@ const Card = ({
               </div>
 
               <div className="flex items-center gap-0.5">
-                {reported && (
+                {/* {reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block text-black dark:text-white">
                       <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
@@ -366,7 +364,7 @@ const Card = ({
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
                 {!pathName.includes(`user-activity/${slug}/comment`) && (
                   <div onMouseLeave={handleMouseDown}>
                     <Popover open={popOver} onOpenChange={setPopOver}>
@@ -377,10 +375,13 @@ const Card = ({
                         aria-labelledby="postOptionsLabel"
                         role="button">
                         <span
-                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
-                          onClick={setOpenPopOver}>
+                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 "
+                          onClick={handleReportClick}>
                           {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
-                          <AlertOctagon size={17} />
+                          <AlertOctagon
+                            size={17}
+                            className={reported ? 'text-red' : ''}
+                          />
                         </span>
                       </PopoverTrigger>
                       <Suspense>
@@ -435,8 +436,8 @@ const Card = ({
                 pathName.includes('channels')
                   ? `${pathName}/feed/${id}`
                   : pathName.includes('saved')
-                    ? `/saved/feed/${id}`
-                    : `/feeds/feed/${id}`
+                  ? `/saved/feed/${id}`
+                  : `/feeds/feed/${id}`
               }>
               {' '}
               <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
@@ -452,8 +453,8 @@ const Card = ({
                       pathName.includes('channels')
                         ? `${pathName}/feed/${id}`
                         : pathName.includes('saved')
-                          ? `/saved/feed/${id}`
-                          : `/feeds/feed/${id}`
+                        ? `/saved/feed/${id}`
+                        : `/feeds/feed/${id}`
                     }>
                     <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
                       Show More
@@ -461,10 +462,9 @@ const Card = ({
                   </CustomLink>
                 )}
               </div>
-            )
-            }
+            )}
 
-            {image_url &&
+            {image_url && (
               // * Image consistency for width / height and fill properties
               <Image
                 quality={100}
@@ -472,39 +472,40 @@ const Card = ({
                 alt="post"
                 height={500}
                 width={500}
-                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
+                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover"
               />
-            }
-
+            )}
           </div>
-          {!hideComments && <div className="flex" key={id}>
-            <PostActionBar
-              postId={String(id)}
-              userReaction={reactionRef.current ? userReaction : user_reaction}
-              setUserReaction={setUserReaction}
-              updateReactionArray={updateReactionArray}
-              reactionSummary={reactionSummaryToUse}
-              disableReactionButton={disableReactionButton}
-              setDisableReactionButton={setDisableReactionButton}
-              userComment={userComment}
-              reactionRef={reactionRef}
-              updatePosts={updatePosts}
-              posts={posts}
-              totalComments={total_comments}
-              handleBookmark={handleBookmark}
-              bookmarkSuccess={bookmarkSuccess}
-            />
-          </div>}
+          {!hideComments && (
+            <div className="flex" key={id}>
+              <PostActionBar
+                postId={String(id)}
+                userReaction={
+                  reactionRef.current ? userReaction : user_reaction
+                }
+                setUserReaction={setUserReaction}
+                updateReactionArray={updateReactionArray}
+                reactionSummary={reactionSummaryToUse}
+                disableReactionButton={disableReactionButton}
+                setDisableReactionButton={setDisableReactionButton}
+                userComment={userComment}
+                reactionRef={reactionRef}
+                updatePosts={updatePosts}
+                posts={posts}
+                totalComments={total_comments}
+                handleBookmark={handleBookmark}
+                bookmarkSuccess={bookmarkSuccess}
+              />
+            </div>
+          )}
         </div>
-
-
-      </div >
+      </div>
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
           <SignInDialog setShowSignModal={setShowSignModal} />
         </Dialog>
       </Suspense>
-    </div >
+    </div>
   )
 }
 
