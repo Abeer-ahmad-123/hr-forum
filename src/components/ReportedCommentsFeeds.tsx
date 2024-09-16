@@ -126,7 +126,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
       <CardLoading />
     ) : (
       <div className="mx-auto flex max-w-screen-xl justify-center">
-        <div
+        {/* <div
           className={`mr-[15px] ${
             token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
           } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
@@ -146,7 +146,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
             {' '}
             <RulesCard />
           </div>
-        </div>
+        </div> */}
 
         <div className={`w-full max-w-screen-md`}>
           <div className="flex w-full justify-center">

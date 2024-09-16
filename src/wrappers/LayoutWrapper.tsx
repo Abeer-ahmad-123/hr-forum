@@ -31,6 +31,7 @@ import { LayoutWrapperProps } from '@/utils/types/layoutWrapper'
 import 'react-toastify/dist/ReactToastify.css'
 import LeftSidebar from './LeftSidebar'
 import RightSideBar from './RightSideBar'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 
 const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
@@ -235,7 +236,8 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
     router.replace(pathname)
   }
   const isError = pathname === "/error"
-  const token = localStorage.getItem('token')
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+
   return (
     <main
       className="font-primary h-max max-w-[100dvw]"

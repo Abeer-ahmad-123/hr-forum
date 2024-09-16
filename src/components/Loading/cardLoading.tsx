@@ -2,7 +2,6 @@
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import ChannelCardSkelton from '../ChannelCardSkelton'
 import ProfileCardSkelton from '../ProfileCardSkelton'
 import RulesCardSkelton from '../RuleCardSkelton'
 import Skelton from '../ui/skelton'
@@ -18,22 +17,6 @@ function CardLoading() {
   return (
     <div
       className={`mt-4 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-      <div className={`flex flex-col items-start  ${!token ? ' pr-4' : ''}`}>
-        {token && <ProfileCardSkelton className={'max-md:hidden'} />}
-
-        <div
-          className={`${
-            token ? 'top-[40px]' : 'top-[70px] mt-[10px]'
-          } sticky max-h-screen max-md:static`}>
-          <ChannelCardSkelton token={token} className={'max-md:hidden'} />
-        </div>
-        <div
-          className={`sticky ${
-            token ? 'top-[315px]' : 'top-[360px] mt-[20px]'
-          }  max-h-screen`}>
-          
-        </div>
-      </div>
 
       <div className="flex w-full max-w-screen-md flex-col">
         {pathName.includes(`/${slug}/`) ? (
@@ -66,7 +49,7 @@ function CardLoading() {
         ))}
       </div>
 
-      <RulesCardSkelton className={'max-md:hidden'} token={token} />
+      {/* <RulesCardSkelton className={'max-md:hidden'} token={token} /> */}
     </div>
   )
 }

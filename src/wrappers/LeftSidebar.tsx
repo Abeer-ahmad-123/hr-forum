@@ -14,7 +14,7 @@ function LeftSidebar({ token, pathname }: LeftSideBarProps) {
         {token && <ProfileCard />}
         <MenuCard path={pathname} token={token} />
       </div>
-      <div className='w-[254px] absolute top-[80%] px-4 ml-10 hover:bg-bg-tertiary cursor-pointer rounded-md group'>
+      <div className='w-[254px] absolute top-[80%] px-4 hover:bg-bg-tertiary cursor-pointer rounded-md group'>
         <Logout />
       </div>
     </div>

@@ -17,8 +17,8 @@ const ProfileCard = () => {
   }
 
   return (
-    <CustomLink href="/profile">
-      <div className="dark:bg-slate-800 dark:text-white flex items-center justify-start bg-bg-primary border-b pb-6 mb-6 border-b-light-grey">
+    userDetails?  <CustomLink href="/profile">
+     <div className="dark:bg-slate-800 dark:text-white flex items-center justify-start bg-bg-primary border-b pb-6 mb-6 border-b-light-grey">
           <img
             src={userDetails?.profilePictureURL || noProfilePicture.src}
             alt="profile"
@@ -39,7 +39,7 @@ const ProfileCard = () => {
         </div>
         </div>
       </div>
-    </CustomLink>
+    </CustomLink> : <div>Helllooooo</div>
   )
 }
 export default ProfileCard
