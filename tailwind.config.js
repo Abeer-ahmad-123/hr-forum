@@ -130,6 +130,7 @@ module.exports = {
         'bg-dark-grey': 'var(--bg-dark-grey)',
         'bg-black': 'var(--bg-black)',
         'light-grey': 'var(--light-grey)',
+        'dark-grey': 'var(--dark-grey)',
         'text-grey': 'var(--text-grey)',
         sky: colors.sky,
         skelton: 'rgb(209 213 219)',

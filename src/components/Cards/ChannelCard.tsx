@@ -23,19 +23,19 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
 
   return channels && channels.length > 0 ? (
     <div
-      className="w-64 bg-white dark:bg-slate-800 dark:text-gray-400"
+      className="w-64 bg-white dark:bg-bg-primary-dark dark:text-gray-400"
     >
-      <div className="font-[800] text-lg text-bg-black mb-3 dark:bg-slate-800 dark:text-white">
+      <div className="font-[800] text-lg text-bg-black mb-3 dark:bg-bg-primary-dark dark:text-bg-tertiary">
       Explore variety of channels
       </div>
-      <ul className="dark:bg-slate-800 dark:text-gray-400">
+      <ul className="dark:bg-bg-primary-dark dark:text-bg-tertiary">
         {channels.map((channel: ChannelInterface, index: number) => (
           <li
             className="text-base	"
             key={index}
           >
             <CustomLink href={`/channels/${channel.slug}`}>
-              <div className={`flex gap-3 py-[10px] hover:bg-bg-tertiary ${path == `/channels/${channel.slug}` ? 'bg-bg-tertiary font-[800]': ''} hover:font-[800] rounded-md`}>
+              <div className={`flex gap-3 py-[10px] hover:bg-bg-tertiary dark:hover:bg-bg-tertiary-dark dark:text-bg-tertiary ${path == `/channels/${channel.slug}` ? 'bg-bg-tertiary dark:bg-bg-tertiary-dark dark:text-bg-tertiary font-[800]': ''} hover:font-[800] rounded-md`}>
                {channel.slug == "hr-general" ?  <HrGeneral /> : <SmileIcon />}
                 <span>{channel.name}</span>
               </div>

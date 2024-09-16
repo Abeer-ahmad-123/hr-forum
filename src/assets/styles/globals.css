@@ -26,6 +26,7 @@
     --bg-dark-grey: #141b34;
     --bg-black: #09090b;
     --light-grey: #e4e4e7;
+    --dark-grey: #202020;
   }
   .theme-default {
     --color-primary: #2970ff;
@@ -46,6 +47,7 @@
     --bg-black: #09090b;
     --light-grey: #e4e4e7;
     --text-grey: #0f172a;
+    --dark-grey: #202020;
   }
 }
 
