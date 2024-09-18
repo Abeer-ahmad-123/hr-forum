@@ -52,9 +52,7 @@ const DropDownContent = ({
   const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
 
   return (
-    <ul className={`bg-white dark:bg-bg-tertiary-dark mx-5 rounded-2xl border pt-3  z-50 relative`}>
-      <div className="lg:h-3"></div>
-
+    <ul className={`bg-white dark:bg-bg-tertiary-dark rounded-2xl border pt-3 z-50 relative`}>
       {navigation.map((item: NavigationItem, index: number) => {
         if ((!token && item.name !== 'Saved') || token)
           return (
@@ -101,7 +99,7 @@ const DropDownContent = ({
                 `/channels/${item?.name} `,
               )}`}
               >
-              <div className={`my-1 flex gap-3 py-[8px] mx-4 dark:hover:bg-bg-primary-dark  ${pathname === `/channels/${item.slug}` ? 'bg-bg-primary-dark font-[800]':''}  hover:bg-bg-tertiary hover:font-[800] rounded-md`}>
+              <div className={`my-1 flex gap-3 py-[8px] mx-4 dark:hover:bg-bg-primary-dark  ${pathname === `/channels/${item.slug}` ? 'bg-bg-tertiary dark:bg-bg-primary-dark font-[800]':''}  hover:bg-bg-tertiary hover:font-[800] rounded-md`}>
                 {item?.slug == "hr-general" ? <HrGeneral /> : <SmileIcon />}
                 <span>{item?.name}</span>
               </div>

@@ -9,7 +9,7 @@ import { rulesData } from '@/utils/data'
 
 function CustomAccordion() {
   return (
-    <div className='dark:bg-bg-primary-dark rounded-2xl dark:text-white inline-block md:hidden my-4 w-full'>
+    <div className='dark:bg-bg-primary-dark rounded-2xl dark:text-white inline-block md:hidden my-4 w-full h-12'>
       <Accordion className='dark:bg-bg-primary-dark dark:text-white rounded-2xl bg-white' type="single" collapsible>
         <AccordionItem value="forumRules">
           <AccordionTrigger className='font-[800] text-sm px-4 py-3 '>

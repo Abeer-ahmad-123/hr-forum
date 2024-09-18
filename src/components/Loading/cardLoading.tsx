@@ -34,13 +34,11 @@ function CardLoading() {
           </div>
         ) : (
           <div className="mb-5 mt-[10px]">
-            <Skelton
-              className={`${
-                pathName == '/saved' || pathName.includes('/channels')
-                  ? 'h-[200px]'
-                  : 'h-12'
-              }  mt-[15px] w-full rounded-md bg-skelton`}
-            />
+         {
+         pathName == '/saved' || pathName.includes('/feeds') ?   <Skelton
+              className={`h-12 mt-[15px] w-full rounded-md bg-skelton`}
+            /> : <BannerCardLoading />
+}
           </div>
         )}
 
@@ -55,3 +53,25 @@ function CardLoading() {
 }
 
 export default CardLoading
+
+
+function BannerCardLoading() {
+  return (
+    <div className='bg-bg-primary rounded-xl'>
+      <Skelton className='h-[200px] mt-[15px] w-full rounded-md bg-skelton' />
+
+      <div className='flex my-5 pb-4 px-4'>
+
+      <div className='flex text-black h-11 w-11 bg-bg-tertiary rounded-full items-center justify-center mr-3 dark:bg-dark-grey'>
+      </div>
+
+          <div className='flex justify-between flex-1'>
+            <Skelton className='h-11  w-28 rounded-md bg-skelton' />
+            <Skelton className='h-11 w-24 rounded-2xl bg-skelton' />
+          </div>
+
+      </div>
+
+    </div>
+  )
+}
