@@ -1,20 +1,24 @@
+'use client'
 import Logout from '@/components/Cards/Logout'
 import MenuCard from '@/components/Cards/MenuCard'
 import ProfileCard from '@/components/Cards/ProfileCard'
 import { useRouter, usePathname } from 'next/navigation'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { logout } from '@/services/auth/authService'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 
+function LeftSidebar() {
 
-interface LeftSideBarProps {
-  token: string | null
-  pathname: string
-}
-function LeftSidebar({ token, pathname }: LeftSideBarProps) {
- 
   const router = useRouter()
   const dispatch = useDispatch()
+  const pathname = usePathname()
+  const [token, setToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setToken(token)
+  }, [])
 
   const handleLogout = () => {
     logout()

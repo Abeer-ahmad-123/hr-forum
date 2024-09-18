@@ -261,13 +261,13 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
           {!loading ? <div className={isError ? 'mt-0' : 'mt-[86px]'}>
             <div className='flex flex-row pt-4'>
 
-              <LeftSidebar pathname={pathname} token={token} />
+              <LeftSidebar />
 
               <div className={`md:basis-1/2 ${pathname === '/profile' ? 'flex-1' : ''}  md:w-full`}>
                 {children}
               </div>
 
-              <RightSideBar pathname={pathname}/>
+              <RightSideBar />
 
             </div>
           </div>
