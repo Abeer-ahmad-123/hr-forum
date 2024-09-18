@@ -11,7 +11,7 @@ function MenuCard({ path, token }: MenuCardProps) {
 
   return (
     <div className='dark:bg-bg-primary-dark dark:text-gray-400'>
-      <div className={`dark:bg-bg-primary-dark dark:text-gray-400 ${!token && 'pt-7'} pb-6`}>
+      <div className={`dark:bg-bg-primary-dark dark:text-gray-400 pb-6`}>
         <MainMenu path={path} token={token} />
       </div>
       <ChannelCard />

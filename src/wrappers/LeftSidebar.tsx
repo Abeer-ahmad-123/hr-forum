@@ -31,7 +31,7 @@ function LeftSidebar() {
   }
 
   return (
-    <div className='w-full mr-8 basis-1/4 dark:bg-bg-primary-dark dark:text-white relative px-10 flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7 hidden md:inline-block'>
+    <div className='mr-5 w-full basis-1/4 max-w-[322px] dark:bg-bg-primary-dark dark:text-white relative pl-10 pr-7 flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7 hidden md:inline-block'>
       <div>
         {token && <ProfileCard />}
         <MenuCard path={pathname} token={token} />

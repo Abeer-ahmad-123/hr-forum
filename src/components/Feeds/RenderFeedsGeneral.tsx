@@ -26,7 +26,7 @@ export default async function RenderFeedsGeneral({
   const { user, token: accessToken } = await getUserFromCookie()
 
   return (
-      <div className="w-full max-w-screen-md">
+      <div className="w-full max-w-[759px]">
         <div className="flex w-full justify-center">
           <div className="w-full">
             <FeaturesDropDownWithSuspense />

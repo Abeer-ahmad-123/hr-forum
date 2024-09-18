@@ -35,7 +35,7 @@ function ChannelsBanner({ channelSlug, path, channels, setAddPost,
           <div className="max-w-[768px] mx-auto">
             <div className="relative overflow-hidden rounded-xl pt-2">
               <img
-                className="max-w-768px z-10 h-[190px] w-full rounded-t-xl "
+                className="max-w-768 px z-10 h-[190px] w-full"
                 src={
                   false
                     ? getImageUrlBySlug(channelSlug) || noChannelBanner.src

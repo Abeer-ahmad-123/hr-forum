@@ -2,6 +2,7 @@
 import { usePathname } from 'next/navigation'
 import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
+import { useEffect, useState } from 'react'
 
 function CardLoading() {
   const renderTimes = 5
@@ -50,6 +51,17 @@ function CardLoading() {
 export default CardLoading
 
 function BannerCardLoading() {
+
+  const [token, setToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setToken(token);
+  }, [])
+
+  if (!token)
+    return
+
   return (
     <div className='h-[266px] bg-bg-primary rounded-xl dark:bg-bg-primary-dark px-2'>
       <Skelton className='h-[190px] mt-[15px] w-full rounded-md' />
@@ -59,7 +71,7 @@ function BannerCardLoading() {
         <Skelton className='flex text-black h-11 w-11 bg-bg-tertiary rounded-full items-center justify-center mr-3 dark:bg-dark-grey' />
 
         <div className='flex justify-between flex-1'>
-          <Skelton className='h-11  w-28 rounded-md' />
+          <Skelton className='h-11 w-28 rounded-md' />
           <Skelton className='h-11 w-24 rounded-2xl' />
         </div>
 
