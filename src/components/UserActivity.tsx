@@ -210,8 +210,10 @@ const UserActivity = ({ userId }: UserActivityProps) => {
               ${profileNav.isPost ? activityStyles : 'text-white'}
             `}>
             <div
-              className={`flex gap-2 font-semibold text-black  hover:text-black dark:text-white dark:hover:text-white  max-custom-sm:text-xs`}>
-              <button name="post button text-white"> Post</button>
+              className={`flex gap-2  text-black  hover:text-black dark:text-white dark:hover:text-white `}>
+              <button name="post button" className="text-sm font-medium">
+                Post
+              </button>
             </div>
           </div>
           <div
@@ -220,13 +222,13 @@ const UserActivity = ({ userId }: UserActivityProps) => {
               ${profileNav.isComment ? activityStyles : 'text-white'} 
             `}>
             <div
-              className={`dark:text-whitemax-custom-sm:text-xs flex items-center  gap-2 font-semibold  text-black hover:text-black dark:text-white dark:hover:text-white `}>
-              <FaRegComment
+              className={`flex items-center gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white max-custom-sm:text-xs `}>
+              {/* <FaRegComment
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
-              />
+              /> */}
               <button name="comment button">
-                <span className="hidden custom-mid-sm:block">Comment</span>{' '}
+                <span className="text-sm font-medium">Comment</span>{' '}
               </button>
               <hr />
             </div>
@@ -239,13 +241,13 @@ const UserActivity = ({ userId }: UserActivityProps) => {
             `}>
             <div
               className={`flex gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white  max-custom-sm:text-xs`}>
-              <SmilePlus
+              {/* <SmilePlus
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
-              />
+              /> */}
               <button name="reaction button ">
                 {' '}
-                <span className="hidden custom-mid-sm:block">Reactions</span>
+                <span className="text-sm font-medium">Reactions</span>
               </button>
               <hr />
             </div>

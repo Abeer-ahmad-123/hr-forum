@@ -54,7 +54,7 @@ const EditProfileButton = ({
       </div>
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
+        <DialogContent className="max-h-[520px] max-w-[581px]">
           <EditPage
             setUpdatedUserData={setUserData}
             userData={userData}
@@ -64,7 +64,7 @@ const EditProfileButton = ({
       </Dialog>
 
       <Dialog open={openPasswordDialog} onOpenChange={setOpenPasswordDialog}>
-        <DialogContent>
+        <DialogContent className="max-h-[462px] max-w-[581px] p-6">
           <ChangePassword setOpenPasswordDialog={setOpenPasswordDialog} />
         </DialogContent>
       </Dialog>

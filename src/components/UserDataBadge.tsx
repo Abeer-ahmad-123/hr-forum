@@ -26,7 +26,11 @@ const UserDataBadge = ({
     <>
       <div
         className={
-          `${width < 768 && !showDropDown ? 'mt-[16px] h-[56px]' : 'h-full '}` +
+          `${
+            width < 768 && !showDropDown
+              ? 'mt-[16px] h-[56px]'
+              : 'mt-[16px] h-full '
+          }` +
           `flex  max-h-[304px]  w-full flex-col gap-5  rounded-[16px] bg-bg-primary p-4 text-left dark:bg-bg-primary-dark dark:text-white custom-mid-lg:mt-0 custom-mid-lg:min-w-[326px] custom-mid-lg:max-w-[326px]  custom-mid-lg:px-6  custom-mid-lg:pb-[20px] custom-mid-lg:pt-7`
         }>
         <div className="flex  items-center justify-between">

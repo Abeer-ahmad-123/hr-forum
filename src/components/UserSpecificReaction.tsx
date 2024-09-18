@@ -18,6 +18,9 @@ interface ReactionPostsFeedsProps {
 }
 
 const UserSpecificReaction = ({ posts, user }: any) => {
+  console.log('posts in profile reaction', posts.post)
+  console.log('posts allll', posts)
+  console.log('user  in profile reaction', user)
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -43,7 +46,7 @@ const UserSpecificReaction = ({ posts, user }: any) => {
   return (
     <div className="flex flex-col gap-2">
       {posts?.map((post: ReactionPostsFeedsProps, i: number) => (
-        <Card key={post.id} post={post} posts={posts} />
+        <Card key={post.userId} post={post.post} posts={posts} />
       ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">

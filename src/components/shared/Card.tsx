@@ -48,7 +48,7 @@ import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
 
 type CardProps = {
-  post?: PostsInterface
+  post: PostsInterface
   channels?: ChannelByIdInterface[] | ChannelInterface[]
   posts?: PostsInterface[]
   userComment?: any
@@ -63,22 +63,6 @@ const Card = ({
   userComment,
   hideComments,
 }: CardProps) => {
-  const {
-    id,
-    created_at,
-    title,
-    content,
-    channel_id,
-    author_details: user,
-    reaction_summary,
-    user_reaction,
-    user_has_bookmarked,
-    user_has_reported,
-    user_id,
-    image_url,
-    total_comments,
-  } = post
-
   const pathName = usePathname()
   const { slug } = useParams()
   const isFirstRef = useRef<boolean>(true)
@@ -112,15 +96,18 @@ const Card = ({
 
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [bookmarkSuccess, setBookmarkSuccess] =
-    useState<boolean>(user_has_bookmarked)
-  const [reported, setReported] = useState<boolean>(user_has_reported)
+
+  console.log('post in card ', post)
+  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(
+    post?.user_has_bookmarked,
+  )
+  const [reported, setReported] = useState<boolean>(post?.user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const reactionRef = useRef<boolean>(false)
 
   const reactionSummaryToUse = isFirstRef.current
-    ? reaction_summary
+    ? post?.reaction_summary
     : reactionSummary
 
   const setOpenPopOver = (e: any) => {
@@ -168,21 +155,23 @@ const Card = ({
   const handleNavigateFeed = () => {
     router.push(
       pathName.includes('channels')
-        ? `${pathName}/feed/${id}`
+        ? `${pathName}/feed/${post?.id}`
         : pathName.includes('saved')
-        ? `/saved/feed/${id}`
+        ? `/saved/feed/${post?.id}`
         : pathName.includes('user-activity')
-        ? `${pathName}/feed/${id}`
-        : `/feeds/feed/${id}`,
+        ? `${pathName}/feed/${post?.id}`
+        : `/feeds/feed/${post?.id}`,
     )
   }
   const handleNavigateProfile = (event: any) => {
     event.preventDefault()
     event.stopPropagation()
     router.push(
-      userDetails?.id === String(user_id)
+      userDetails?.id === String(post?.user_id)
         ? '/profile'
-        : `/profile/${user.name?.toLowerCase().replace(/ /g, '-')}-${user_id}`,
+        : `/profile/${post?.author_details?.name
+            ?.toLowerCase()
+            .replace(/ /g, '-')}-${post?.user_id}`,
     )
   }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -218,7 +207,7 @@ const Card = ({
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(
-          id ? String(id) : '',
+          post?.id ? String(post?.id) : '',
           customFetch,
           tokenInRedux,
           refreshTokenInRedux,
@@ -226,16 +215,18 @@ const Card = ({
 
         if (res.success) {
           setBookmarkSuccess(true)
-          dispatch(setPosts(updatePostBookmark(storePosts, id, true)))
+          dispatch(setPosts(updatePostBookmark(storePosts, post?.id, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
           if (pathName.includes('saved')) {
-            dispatch(setPosts(returnFilteredPosts(storePosts, Number(id))))
+            dispatch(
+              setPosts(returnFilteredPosts(storePosts, Number(post?.id))),
+            )
             if (pathName.includes('/saved/feed')) {
               router.back()
             }
           } else {
-            dispatch(setPosts(updatePostBookmark(storePosts, id, false)))
+            dispatch(setPosts(updatePostBookmark(storePosts, post?.id, false)))
           }
         } else {
           throw res.errors[0]
@@ -252,43 +243,49 @@ const Card = ({
   }
 
   useEffect(() => {
-    if (reaction_summary) {
-      setReactionSummary(reaction_summary)
+    if (post?.reaction_summary) {
+      setReactionSummary(post?.reaction_summary)
     }
-  }, [reaction_summary])
+  }, [post?.reaction_summary])
 
   useEffect(() => {
-    setUserReaction(user_reaction)
-  }, [user_reaction])
+    setUserReaction(post?.user_reaction)
+  }, [post?.user_reaction])
 
   useEffect(() => {
-    setBookmarkSuccess(user_has_bookmarked)
-  }, [user_has_bookmarked])
+    setBookmarkSuccess(post?.user_has_bookmarked)
+  }, [post?.user_has_bookmarked])
 
   useEffect(() => {
-    setReported(user_has_reported)
-  }, [user_has_reported])
+    setReported(post?.user_has_reported)
+  }, [post?.user_has_reported])
 
   useEffect(() => {
     isFirstRef.current = false
   }, [])
+  console.log('updatePosts', updatePosts)
 
   return (
     <div
-      id={String(id)}
-      key={id}
+      id={String(post?.id)}
+      key={post?.id}
       className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={`w-full cursor-pointer rounded-[20px] bg-bg-primary dark:bg-bg-primary-dark dark:text-gray-300 
+        className={
+          updatePosts
+            ? `bg-bg-primary `
+            : `bg-[#FAFAFA] ` +
+              `w-full cursor-pointer rounded-[20px]  dark:bg-bg-tertiary-dark dark:text-gray-300 
           ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
-        `}>
+        `
+        }>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
               <Report
                 reportType="post"
                 setOpenDialog={setOpenDialog}
-                postId={id ? String(id) : ''}
+                postId={post?.id ? String(post?.id) : ''}
                 getPostCommets={() => {}}
                 setReported={setReported}
                 setReportedReplyId={() => {}}
@@ -301,7 +298,7 @@ const Card = ({
             <DialogContent className="bg-white sm:max-w-[500px]">
               <DeletePost
                 setOpenDeleteDialog={setOpenDeleteDialog}
-                postId={id ? String(id) : ''}
+                postId={post?.id ? String(post?.id) : ''}
                 setReported={() => {}}
                 updatePosts={updatePosts}
                 posts={posts}
@@ -324,7 +321,10 @@ const Card = ({
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
                       width={48}
                       height={48}
-                      src={user?.profile_picture_url || noProfilePicture.src}
+                      src={
+                        post?.author_details?.profile_picture_url ||
+                        noProfilePicture.src
+                      }
                       alt="user-picture"
                       onClick={handleNavigateProfile}
                     />
@@ -337,19 +337,21 @@ const Card = ({
                       className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
-                      {String(userDetails.id) === String(user_id)
+                      {String(userDetails.id) === String(post?.user_id)
                         ? 'You'
-                        : user?.name}
+                        : post?.author_details?.name}
                     </p>
 
-                    <ChannelPill
-                      channel_id={String(channel_id)}
-                      channels={channels}
-                    />
+                    {channels && (
+                      <ChannelPill
+                        channel_id={String(post?.channel_id)}
+                        channels={channels}
+                      />
+                    )}
                   </div>
 
                   <p className="justify-start text-[0.70rem] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
-                    {timeFormatInHours(created_at as unknown as Date)}
+                    {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
               </div>
@@ -386,7 +388,7 @@ const Card = ({
                       </PopoverTrigger>
                       <Suspense>
                         <PopoverContent className="bg-white">
-                          {String(post.user_id) === userDetails?.id ? (
+                          {String(post?.user_id) === userDetails?.id ? (
                             <div
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleDeleteClick}>
@@ -434,27 +436,27 @@ const Card = ({
             <CustomLink
               href={
                 pathName.includes('channels')
-                  ? `${pathName}/feed/${id}`
+                  ? `${pathName}/feed/${post?.id}`
                   : pathName.includes('saved')
-                  ? `/saved/feed/${id}`
-                  : `/feeds/feed/${id}`
+                  ? `/saved/feed/${post?.id}`
+                  : `/feeds/feed/${post?.id}`
               }>
               {' '}
               <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
-                <p>{title}</p>
+                <p>{post?.title}</p>
               </div>
             </CustomLink>
-            {content && (
+            {post?.content && (
               <div>
-                <CardContent content={content} />
-                {content?.length > 200 && (
+                <CardContent content={post?.content} />
+                {post?.content?.length > 200 && (
                   <CustomLink
                     href={
                       pathName.includes('channels')
-                        ? `${pathName}/feed/${id}`
+                        ? `${pathName}/feed/${post?.id}`
                         : pathName.includes('saved')
-                        ? `/saved/feed/${id}`
-                        : `/feeds/feed/${id}`
+                        ? `/saved/feed/${post?.id}`
+                        : `/feeds/feed/${post?.id}`
                     }>
                     <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
                       Show More
@@ -464,11 +466,11 @@ const Card = ({
               </div>
             )}
 
-            {image_url && (
+            {post?.image_url && (
               // * Image consistency for width / height and fill properties
               <Image
                 quality={100}
-                src={image_url}
+                src={post?.image_url}
                 alt="post"
                 height={500}
                 width={500}
@@ -477,11 +479,11 @@ const Card = ({
             )}
           </div>
           {!hideComments && (
-            <div className="flex" key={id}>
+            <div className="flex" key={post?.id}>
               <PostActionBar
-                postId={String(id)}
+                postId={String(post?.id)}
                 userReaction={
-                  reactionRef.current ? userReaction : user_reaction
+                  reactionRef.current ? userReaction : post?.user_reaction
                 }
                 setUserReaction={setUserReaction}
                 updateReactionArray={updateReactionArray}
@@ -492,7 +494,7 @@ const Card = ({
                 reactionRef={reactionRef}
                 updatePosts={updatePosts}
                 posts={posts}
-                totalComments={total_comments}
+                totalComments={post?.total_comments}
                 handleBookmark={handleBookmark}
                 bookmarkSuccess={bookmarkSuccess}
               />

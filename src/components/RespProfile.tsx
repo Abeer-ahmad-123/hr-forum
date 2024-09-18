@@ -183,7 +183,7 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
           {!userId && (
             <label
               htmlFor="changeBackgroundImage"
-              className="absolute bottom-2 right-4 z-40   flex h-[30px] w-[152px] items-center justify-center gap-2 rounded-[20px] bg-bg-tertiary px-5 py-2 text-[10px] dark:bg-bg-primary-dark">
+              className="absolute bottom-2 right-4 z-40 flex   h-[30px] w-[152px] cursor-pointer items-center justify-center gap-2 rounded-[20px] bg-bg-tertiary px-5 py-2 text-[10px] dark:bg-bg-primary-dark">
               <EditProfileIcon className="text-black dark:text-white " />
               <span className="opacity-60">Update cover photo</span>
             </label>
