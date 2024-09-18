@@ -258,8 +258,8 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
               : ''
             }`}
         >
-          {!loading ? <div className={isError ? 'mt-0' : 'mt-[86px]'}>
-            <div className='flex flex-row pt-4'>
+          {!loading ? <div className={isError ? 'mt-0' : 'mt-[101px]'}>
+            <div className='flex flex-row'>
 
               <LeftSidebar />
 

@@ -32,9 +32,9 @@ export default async function RenderFeedsGeneral({
             <FeaturesDropDownWithSuspense />
             <div
               className={`${path === '/saved'
-                  ? 'mt-[20px]'
-                  : 'mt-[35px] max-lg:mt-[30px] max-md:mt-[20px]'
-                }  w-full max-w-screen-md dark:text-white`}>
+                  ? ''
+                  : 'max-lg:mt-[30px] max-md:mt-[20px]'
+                } mt-[20px] w-full max-w-screen-md dark:text-white`}>
               <Feeds
                 channelSlug={channelSlug}
                 initialPosts={data.posts}

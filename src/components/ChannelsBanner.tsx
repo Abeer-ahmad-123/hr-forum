@@ -32,7 +32,7 @@ function ChannelsBanner({ channelSlug, path, channels, setAddPost,
     <div>
       {(!!channelSlug || path === '/saved') && (
         <div className='bg-bg-primary dark:bg-bg-primary-dark h-[266px] rounded-2xl px-2 max-w-[759px]'>
-          <div className="max-w-768px mx-auto mt-11">
+          <div className="max-w-[768px] mx-auto">
             <div className="relative overflow-hidden rounded-xl pt-2">
               <img
                 className="max-w-768px z-10 h-[190px] w-full rounded-t-xl "
