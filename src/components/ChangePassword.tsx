@@ -187,7 +187,24 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
               )}
             </button>
           </div>
-          {errors.password && <ErrorText text={errors['password']} />}
+          {errors.password && (
+            <>
+              <div className="mt-2 flex items-center gap-2">
+                <div className="h-[16px] w-[16px] rounded-full border border-bg-tertiary-dark"></div>
+                <p className="text-sm text-red">1 letter</p>
+              </div>
+              <div className="mt-2 flex items-center gap-2">
+                <div className="h-[16px] w-[16px] rounded-full border border-bg-tertiary-dark"></div>
+                <p className="text-sm text-red">
+                  1 number or special character (example: # ? ! &)
+                </p>
+              </div>
+              <div className="mt-2 flex items-center gap-2">
+                <div className="h-[16px] w-[16px] rounded-full border border-bg-tertiary-dark"></div>
+                <p className="text-sm text-red">10 characters</p>
+              </div>
+            </>
+          )}
         </div>
 
         <div>

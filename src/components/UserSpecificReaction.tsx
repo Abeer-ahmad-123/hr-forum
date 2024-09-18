@@ -18,9 +18,6 @@ interface ReactionPostsFeedsProps {
 }
 
 const UserSpecificReaction = ({ posts, user }: any) => {
-  console.log('posts in profile reaction', posts.post)
-  console.log('posts allll', posts)
-  console.log('user  in profile reaction', user)
   const router = useRouter()
   const dispatch = useDispatch()
 

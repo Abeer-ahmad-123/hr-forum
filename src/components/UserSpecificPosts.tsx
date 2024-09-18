@@ -8,8 +8,6 @@ const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
   const [posts, setPosts] = useState([...initialPosts])
   const router = useRouter()
 
-  console.log('=======>>>>>>>>posts', posts)
-
   const handleClick = () => {
     router.push(
       `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${

@@ -142,12 +142,12 @@ const EditPage = ({
           onChange={handleChange}
         />
       </div>
-      <div className="flex items-center justify-end">
+      <div className="flex items-center justify-end gap-3">
         <button
           name="cancel button"
           onClick={handleCloseDialog}
           disabled={!isContentChanged}
-          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md border border-[#F4F4F5] bg-bg-primary px-4 py-2 text-sm   font-semibold  text-black  outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 dark:border-[#202020] dark:text-white sm:mr-2">
+          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md border border-[#F4F4F5] bg-bg-primary px-4 py-2 text-sm font-semibold text-black outline-none     transition-all  duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 dark:border-[#202020] dark:bg-bg-primary-dark dark:text-white sm:mr-2">
           Cancel
         </button>
         <button

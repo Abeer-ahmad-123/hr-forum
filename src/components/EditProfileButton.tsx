@@ -42,14 +42,14 @@ const EditProfileButton = ({
           className="flex  h-[40px] w-[154px] items-center justify-center gap-2 rounded-[20px] bg-bg-green px-4 py-2 text-xs"
           onClick={handleOpenPassDialog}>
           <PasswprdProfileIcon className="text-black dark:text-white" />
-          <span className="text-black">Update password</span>
+          <span className="font-medium text-black">Update password</span>
         </button>
         <button
           name="edit button"
           className="flex  h-[40px] w-[119px] items-center justify-center gap-2 rounded-[20px] bg-[#53BCFF] px-4 py-2 text-xs"
           onClick={handleOpenDialog}>
           <EditProfileIcon className="text-black dark:text-white" />
-          <span className="text-black">Edit Profile</span>
+          <span className="font-medium text-black">Edit Profile</span>
         </button>
       </div>
 

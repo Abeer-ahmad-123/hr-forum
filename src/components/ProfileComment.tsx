@@ -27,7 +27,7 @@ const ProfileComment = ({ comment, index }: any) => {
               <div className="flex items-center justify-center gap-2 ">
                 <div className="dot h-[5px] w-[5px] rounded-full bg-black opacity-60 dark:bg-white"></div>
                 <div className="text-xs opacity-60">
-                  {ConvertDate(comment.created_at)}
+                  {timeFormatInHours(comment.created_at)}
                 </div>
               </div>
             </p>

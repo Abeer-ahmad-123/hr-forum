@@ -96,8 +96,6 @@ const Card = ({
 
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-
-  console.log('post in card ', post)
   const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(
     post?.user_has_bookmarked,
   )
@@ -263,7 +261,6 @@ const Card = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
-  console.log('updatePosts', updatePosts)
 
   return (
     <div
@@ -273,8 +270,8 @@ const Card = ({
       <div
         className={
           updatePosts
-            ? `bg-bg-primary `
-            : `bg-[#FAFAFA] ` +
+            ? `bg-bg-primary  dark:bg-bg-tertiary-dark `
+            : `bg-[#FAFAFA]  dark:bg-bg-tertiary-dark ` +
               `w-full cursor-pointer rounded-[20px]  dark:bg-bg-tertiary-dark dark:text-gray-300 
           ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
         `

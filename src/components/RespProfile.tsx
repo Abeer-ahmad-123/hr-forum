@@ -1,7 +1,7 @@
 'use client'
 import { noProfilePicture } from '@/assets/images'
 import BgBanner from '@/assets/images/background-banner.svg'
-import EditProfileIcon from '@/assets/icons/editProfileIcon'
+import EditProfileIcon from '@/assets/icons/editProfilePic'
 import ImageUpload from '@/components/ImageUpload'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
