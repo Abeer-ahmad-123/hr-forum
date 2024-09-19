@@ -31,7 +31,7 @@ const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
           // channels={post?.channel_id}
         />
       ))}
-      <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
+      <div className="flex cursor-pointer justify-center py-3 dark:bg-bg-tertiary-dark dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">
           <span onClick={handleClick}>Show more posts</span>
           <div className="origin-center transform transition-transform group-hover:scale-x-150">

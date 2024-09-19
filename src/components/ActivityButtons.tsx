@@ -25,7 +25,7 @@ const ActivityButtons = ({ slug }: SlugProps) => {
       : router.push(`${routeTo}/posts`)
   }
   return (
-    <div className="border-grey-300 mb-4 justify-start rounded-lg border border-solid bg-white px-10 py-2 dark:bg-slate-800 dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
+    <div className="border-grey-300 mb-4 justify-start rounded-lg border border-solid bg-white px-10 py-2 dark:bg-bg-tertiary-dark dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
       <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
         {pathName.includes('reported') ? 'Reported Content' : 'Activity'}
       </div>

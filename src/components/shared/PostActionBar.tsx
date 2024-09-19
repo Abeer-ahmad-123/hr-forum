@@ -317,7 +317,7 @@ const PostActionBar = ({
           </div>
 
           <div
-            className="flex items-center justify-center gap-[8px]"
+            className="flex cursor-pointer items-center justify-center gap-[8px]"
             onClick={handleBookmark}>
             <BookMark
               className="mb-1 h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]"
