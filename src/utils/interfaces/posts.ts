@@ -51,6 +51,9 @@ export interface PostActionBarProps {
   reactionRef?: any
   updatePosts?: any
   posts?: any
+  totalComments: number
+  handleBookmark?: (arg0: React.MouseEvent<HTMLDivElement>) => void
+  bookmarkSuccess?: boolean
 }
 
 export interface CommentCountStore {
@@ -68,6 +71,7 @@ export interface CommentCount {
 export interface PostReactionBarProps {
   postId: string
   reaction_summary: any
+  totalComments?: number
 }
 
 export type ReactionCounts = {

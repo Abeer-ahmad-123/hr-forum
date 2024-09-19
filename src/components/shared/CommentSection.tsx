@@ -5,6 +5,7 @@ import { getComment } from '@/services/comments'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
@@ -21,6 +22,7 @@ const CommentSection = ({
       replies: comment.replies || [],
       author_details: comment.author_details || { name: '', id: '' },
       content: comment.content || '',
+      created_at: comment.create_at || '',
     },
     pagination: {
       CurrentPage: 0,
@@ -84,9 +86,8 @@ const CommentSection = ({
   }, [comment])
 
   return (
-    <div
-      className={`mt-4 rounded-lg ${pathName === '/feeds' ? 'ml-4' : 'ml-12'}`}>
-      <div className="flex ">
+    <div className={`rounded-lg ${pathName === '/feeds' ? '' : ''}`}>
+      <div className="flex">
         <div className="flex  flex-col items-center">
           <div className="">
             <img
@@ -95,24 +96,31 @@ const CommentSection = ({
                 comment?.author_details?.profile_picture_url ||
                 noProfilePicture.src
               }
-              className="h-8 min-h-[32px] w-8 min-w-[32px] cursor-pointer rounded-full border border-black"
+              className="h-full max-h-[40px] w-full max-w-[40px] cursor-pointer rounded-full  "
               height={8}
               width={8}
               onClick={handleNavigate}
             />
           </div>
         </div>
-        <div className="mx-3">
+        <div className="mx-[10px]">
           <div
-            className={`w-fit flex-wrap break-all rounded-2xl bg-slate-100 px-4
-            py-2 dark:bg-slate-800  `}>
+            className={`w-fit flex-wrap break-all dark:bg-dark-background
+               `}>
             {/* * Fixing Alignment */}
             <div className="flex flex-row items-center justify-between">
               <div
                 onClick={handleNavigate}
-                className="cursor-pointer text-left text-accent  dark:text-white max-custom-sm:text-[11px]
+                className="flex h-[40px] cursor-pointer items-center gap-2 text-left font-[500] text-black  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
                 {replies.comment?.author_details?.name}
+
+                <div className="flex items-center justify-center gap-2 ">
+                  <div className="dot h-[5px] w-[5px] rounded-full bg-black opacity-60 dark:bg-white"></div>
+                  <div className="text-xs opacity-60">
+                    {ConvertDate(replies?.comment?.created_at)}
+                  </div>
+                </div>
               </div>
 
               {comment.user_has_reported && (
@@ -131,7 +139,7 @@ const CommentSection = ({
                 </div>
               )}
             </div>
-            <div className="h-full w-fit pb-1 text-left leading-loose text-gray-600 dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+            <div className="h-full w-fit pb-3 text-left text-sm leading-loose text-black opacity-80 dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
               {replies?.comment?.content &&
               replies?.comment?.content.length > 200
                 ? replies?.comment?.content

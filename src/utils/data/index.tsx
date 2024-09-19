@@ -1,8 +1,7 @@
 import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
 import Icon from '@/assets/icons/heartIcon'
 import HomeIcon from '@/assets/icons/home'
-import { AiFillHome } from 'react-icons/ai'
-import { BsFillBookmarksFill } from 'react-icons/bs'
+
 export const colors = ['indigo', 'blue', 'coral', 'mint', 'sunset', 'mauve']
 
 export const menuItems = [

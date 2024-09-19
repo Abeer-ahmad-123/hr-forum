@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/popover'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
-import { cn } from '@/lib/utils'
 import {
   bookmarkPost,
   deleteBookmarkPost,
@@ -43,18 +42,18 @@ import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import Report from '../Report/Report'
 import PostActionBar from './PostActionBar'
-import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
-import PostImage from '@/assets/images/Post.svg'
+import CardContent from './CardContent'
 
 type CardProps = {
   post: PostsInterface
   channels: ChannelByIdInterface[] | ChannelInterface[]
-  posts: PostsInterface[]
+  posts?: PostsInterface[]
   userComment?: any
-  updatePosts: Dispatch<SetStateAction<PostsInterface[]>>
+  updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
+  hideComments?: string
 }
 const Card = ({
   post,
@@ -62,12 +61,13 @@ const Card = ({
   updatePosts,
   posts,
   userComment,
+  hideComments,
 }: CardProps) => {
   const {
     id,
     created_at,
     title,
-    // content,
+    content,
     channel_id,
     author_details: user,
     reaction_summary,
@@ -76,23 +76,20 @@ const Card = ({
     user_has_reported,
     user_id,
     image_url,
+    total_comments,
   } = post
 
   const pathName = usePathname()
   const { slug } = useParams()
+  const isFirstRef = useRef<boolean>(true)
   const router = useRouter()
   const dispatch = useDispatch()
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  // * Show More / Less state for post content
-  const [showFullPost, setShowFullPost] = useState(false)
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
-  const content =
-    '  Lorem ipsum dolor sit amet, consectetur adipisicing elit.Explicabo ex consequuntur reiciendis, corporis vero ipsa ullam dolorem exercitationem libero maxime in sint rerum cum ipsam velit culpa quibusdam provident a natus corrupti impedit totam quisquam. Mollitia obcaecati quia quis! Consequatur possimus a voluptatem ut quidem dicta tenetur natus iusto harum impedit   exercitationem laboriosam minima nam enim maxime, voluptate fugit architecto sit! Perferendis beatae quidem, eum quos eius qui optio obcaecati quisquam itaque ipsam! Corporis possimus  culpa eius porro saepe rerum nam consequatur ab quia blanditiis labore magni, ipsa eveniet laudantium! Facere sint, optio  maxime tempora tenetur facilis explicabo perferendis unde  adipisci in cum porro incidunt voluptatum. Omnis excepturi expedita neque, veritatis sequi harum tenetur, hic magni quaerat'
 
-  const displayedContent = showFullPost ? content : content.slice(0, 200)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
@@ -121,6 +118,10 @@ const Card = ({
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const reactionRef = useRef<boolean>(false)
+
+  const reactionSummaryToUse = isFirstRef.current
+    ? reaction_summary
+    : reactionSummary
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -169,10 +170,10 @@ const Card = ({
       pathName.includes('channels')
         ? `${pathName}/feed/${id}`
         : pathName.includes('saved')
-        ? `/saved/feed/${id}`
-        : pathName.includes('user-activity')
-        ? `${pathName}/feed/${id}`
-        : `/feeds/feed/${id}`,
+          ? `/saved/feed/${id}`
+          : pathName.includes('user-activity')
+            ? `${pathName}/feed/${id}`
+            : `/feeds/feed/${id}`,
     )
   }
   const handleNavigateProfile = (event: any) => {
@@ -210,7 +211,7 @@ const Card = ({
       setOpenDeleteDialog(true)
     }
   }
-  const handleBookmark = async (event: any) => {
+  const handleBookmark = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
     if (tokenInRedux) {
@@ -250,10 +251,6 @@ const Card = ({
     }
   }
 
-  function handleShowMoreOrLess(e: React.MouseEvent<HTMLButtonElement>) {
-    e.stopPropagation()
-    setShowFullPost((prev) => !prev)
-  }
   useEffect(() => {
     if (reaction_summary) {
       setReactionSummary(reaction_summary)
@@ -272,10 +269,21 @@ const Card = ({
     setReported(user_has_reported)
   }, [user_has_reported])
 
+  useEffect(() => {
+    isFirstRef.current = false
+  }, [])
+
   return (
-    <div id={String(id)} key={id} className="m-0 w-full max-w-[100dvw] p-0">
+    <div
+      id={String(id)}
+      key={id}
+      className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={`border-grey-300 mx-auto mb-5 w-full cursor-pointer rounded-[20px] border border-solid bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`}>
+        className={ `w-full cursor-pointer rounded-[20px] bg-white dark:bg-slate-800 dark:text-gray-300 
+          ${hideComments
+            ? 'mb-5 h-full '
+            : `mx-auto mb-5 md:max-w-screen-md`}
+        `}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -283,10 +291,10 @@ const Card = ({
                 reportType="post"
                 setOpenDialog={setOpenDialog}
                 postId={id ? String(id) : ''}
-                getPostCommets={() => {}}
+                getPostCommets={() => { }}
                 setReported={setReported}
-                setReportedReplyId={() => {}}
-                setDeletedCommentId={() => {}}
+                setReportedReplyId={() => { }}
+                setDeletedCommentId={() => { }}
               />
             </DialogContent>
           </Dialog>
@@ -296,14 +304,19 @@ const Card = ({
               <DeletePost
                 setOpenDeleteDialog={setOpenDeleteDialog}
                 postId={id ? String(id) : ''}
-                setReported={() => {}}
+                setReported={() => { }}
                 updatePosts={updatePosts}
                 posts={posts}
               />
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div className=" flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] ">
+        <div
+          className={
+            hideComments
+              ? 'flex flex-col gap-[20px]'
+              : 'flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] '
+          }>
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
               <div className="flex items-center gap-[12px]">
@@ -320,15 +333,12 @@ const Card = ({
                   </div>
                 </div>
 
-                <div className=" flex flex-col items-start align-baseline">
+                <div className="flex flex-col items-start align-baseline">
                   <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
-                      className="max-w-full shrink-0 break-all text-[16px]  font-[800]  leading-none text-gray-900 hover:underline dark:text-white   "
+                      className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
-                      {/*
-                       * "You" is based on user_id not on username what if i change username the "You" will also be changed.
-                       */}
                       {String(userDetails.id) === String(user_id)
                         ? 'You'
                         : user?.name}
@@ -369,12 +379,12 @@ const Card = ({
                         <span
                           className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
                           onClick={setOpenPopOver}>
-                          <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" />
+                          {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
+                          <AlertOctagon size={17} />
                         </span>
                       </PopoverTrigger>
                       <Suspense>
                         <PopoverContent className="bg-white">
-                          {' '}
                           {String(post.user_id) === userDetails?.id ? (
                             <div
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
@@ -387,7 +397,7 @@ const Card = ({
                             </div>
                           ) : (
                             <div
-                              className=" dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                              className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleReportClick}>
                               <AlertOctagon size={17} />
                               <span className="text-[15px] font-light max-custom-sm:hidden">
@@ -418,87 +428,83 @@ const Card = ({
           </div>
 
           <div
-            className="flex max-w-full flex-col gap-[20px] hyphens-auto"
+            className="flex max-w-full flex-col gap-[5px] hyphens-auto"
             onClick={handleNavigateFeed}>
             <CustomLink
               href={
                 pathName.includes('channels')
                   ? `${pathName}/feed/${id}`
                   : pathName.includes('saved')
-                  ? `/saved/feed/${id}`
-                  : `/feeds/feed/${id}`
+                    ? `/saved/feed/${id}`
+                    : `/feeds/feed/${id}`
               }>
               {' '}
-              <div className="my-3 text-start text-[16px] text-xl font-[800] dark:text-white max-custom-sm:text-base">
+              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{title}</p>
               </div>
             </CustomLink>
-
-            {
-              <>
-                <div className="card-li max-w-full !hyphens-auto !break-words text-start text-[16px] text-base font-[400] text-gray-700 dark:text-gray-300 ">
-                  <p className="inline">
-                    {displayedContent}
-                    {!showFullPost && content.length > 200 && (
-                      <span className="text-gray-500">
-                        ...
-                        <button
-                          className="ml-1 text-[12px] text-black underline dark:text-gray-400 lg:text-base"
-                          onClick={() => setShowFullPost(true)}>
-                          Read More
-                        </button>
-                      </span>
-                    )}
-                    {showFullPost && (
-                      <button
-                        className="ml-1 text-[12px] text-black underline dark:text-gray-400 lg:text-base"
-                        onClick={() => setShowFullPost(false)}>
-                        Read Less
-                      </button>
-                    )}
-                  </p>
-                </div>
-                {/* // * Image consistency for width / height and fill properties */}
-                <Image
-                  quality={100}
-                  src={PostImage}
-                  alt="post"
-                  height={500}
-                  width={500}
-                  className=" h-full max-h-[270px] w-full rounded-[20px] object-contain "
-                />
-              </>
+            {content && (
+              <div>
+                <CardContent content={content} />
+                {content?.length > 200 && (
+                  <CustomLink
+                    href={
+                      pathName.includes('channels')
+                        ? `${pathName}/feed/${id}`
+                        : pathName.includes('saved')
+                          ? `/saved/feed/${id}`
+                          : `/feeds/feed/${id}`
+                    }>
+                    <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
+                      Show More
+                    </button>
+                  </CustomLink>
+                )}
+              </div>
+            )
             }
+
+            {image_url &&
+              // * Image consistency for width / height and fill properties
+              <Image
+                quality={100}
+                src={image_url}
+                alt="post"
+                height={500}
+                width={500}
+                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
+              />
+            }
+
           </div>
-          <div className=" flex   " key={id}>
+          {!hideComments && <div className="flex" key={id}>
             <PostActionBar
               postId={String(id)}
               userReaction={reactionRef.current ? userReaction : user_reaction}
               setUserReaction={setUserReaction}
               updateReactionArray={updateReactionArray}
-              reactionSummary={reactionSummary}
+              reactionSummary={reactionSummaryToUse}
               disableReactionButton={disableReactionButton}
               setDisableReactionButton={setDisableReactionButton}
               userComment={userComment}
               reactionRef={reactionRef}
               updatePosts={updatePosts}
               posts={posts}
+              totalComments={total_comments}
+              handleBookmark={handleBookmark}
+              bookmarkSuccess={bookmarkSuccess}
             />
-          </div>
+          </div>}
         </div>
 
-        {/* <PostReactionBar
-          reaction_summary={reactionSummary}
-          postId={id ? String(id) : ''}
-        />
-        <hr /> */}
-      </div>
+
+      </div >
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
           <SignInDialog setShowSignModal={setShowSignModal} />
         </Dialog>
       </Suspense>
-    </div>
+    </div >
   )
 }
 

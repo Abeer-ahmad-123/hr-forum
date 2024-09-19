@@ -1,16 +1,16 @@
-import React from 'react'
+import { IconProps } from "@/utils/interfaces/icons"
 
-function Icon({ className }: any) {
+function Icon({ className, fill = "none" }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="20"
       height="20"
-      fill="none"
+      fill={fill}
       className={className}
-      viewBox="0 0 20 20">
+      viewBox="0 0 18 18">
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

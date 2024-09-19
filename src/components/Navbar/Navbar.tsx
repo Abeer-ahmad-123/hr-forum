@@ -9,18 +9,16 @@ import Logo from './Logo'
 import NightModeToggle from './NightModeToggle'
 import SearchBar from './SearchBar'
 import SigninNavButton from './SigninNavButton'
-import { useState } from 'react'
 
 const Navbar = () => {
   const reduxToken = useSelector(
     (state: LoggedInUser) => state.loggedInUser.token,
   )
   const pathname = usePathname()
-  const [isFocused, setIsFocused] = useState(false);
 
 
   return (
-    <div className="fixed top-0 z-50 max-md:h-[72px] h-[100px] w-full items-center justify-center bg-white shadow-sm dark:bg-black border-b-[1px] border-bg-tertiary">
+    <div className="fixed top-0 z-50 max-md:h-[72px] h-[100px] w-full items-center justify-center bg-white shadow-sm dark:bg-bg-primary-dark border-b-[1px] border-bg-tertiary dark:border-bg-tertiary-dark">
       <div className="flex w-full max-w-[1550px] m-auto items-center justify-between  px-6 py-4 md:px-14 md:py-7 max-[430px]:px-4">
         <div className="flex items-center">
           <Logo />
@@ -32,7 +30,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center justify-end gap-[10px] max-md:gap-[6px]">
-            <div className='dark:bg-slate-800 flex justify-center items-center text-center rounded-full bg-bg-tertiary border h-10 w-10 md:h-11 md:w-11'>
+            <div className='dark:bg-bg-tertiary-dark flex justify-center items-center text-center rounded-full bg-bg-tertiary border dark:border-none h-10 w-10 md:h-11 md:w-11'>
               <NightModeToggle />
             </div>
             <NavMenuDropdown />

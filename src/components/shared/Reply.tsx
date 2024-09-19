@@ -122,12 +122,12 @@ function Reply({
       <div
         ref={replyRef}
         id={`reply-${reply.id}`}
-        className={`mt-4 rounded-lg ${
-          highlighted ? 'animate-pulse border-2 border-primary' : ''
+        className={` ${
+          highlighted ? ' animate-pulse border-2 border-primary' : ''
         }`}>
-        <div className="flex gap-2.5">
+        <div className="mt-[20px] flex gap-2.5">
           <div className="flex  flex-col items-center">
-            <div className="cursor-pointer rounded-full border border-black ">
+            <div className="cursor-pointer rounded-full ">
               <img
                 alt="profile picture"
                 height={8}
@@ -136,22 +136,29 @@ function Reply({
                   reply['author_details'].profile_picture_url ||
                   noProfilePicture.src
                 }
-                className="h-8 min-h-[32px] min-w-[32px] rounded-full"
+                className="h-full max-h-[40px] w-full max-w-[40px] cursor-pointer rounded-full  "
                 onClick={handleImgClick}
               />
             </div>
           </div>
-          <div className="min-w-sm flex flex-col">
+          <div className="min-w-sm  flex flex-col">
             <div
-              className={`min-w-sml rounded-2xl bg-slate-100  px-4 py-2  ${
-                pathName.includes('/feeds/feed/')
-                  ? 'dark:bg-slate-800'
-                  : 'dark:bg-dark-background'
+              className={`min-w-sml rounded-2xl   ${
+                pathName.includes('/feeds/feed/') ? '' : ''
               } dark:bg-dark-background`}>
               <div className="flex flex-row items-center justify-between">
-                <div className="text-left text-accent dark:text-white">
+                <div
+                  className="flex h-[40px] cursor-pointer items-center gap-2 text-left font-[500] text-black  dark:text-white max-custom-sm:text-[11px]
+                       max-[392px]:text-[10px] max-custom-sx:text-[8px]">
                   {reply['author_details'].name}
+                  <div className="flex items-center justify-center gap-2 ">
+                    <div className="dot h-[5px] w-[5px] rounded-full bg-black opacity-60"></div>
+                    <div className="text-xs opacity-60">
+                      {convertDate(reply.created_at)}
+                    </div>
+                  </div>
                 </div>
+
                 {reply?.user_has_reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
                     {/*  */}
@@ -178,14 +185,6 @@ function Reply({
 
             <div className="flex items-center justify-between pr-5">
               <div className="flex items-center gap-2.5">
-                <div className="group relative inline-block shrink-0">
-                  <span className="pointer ml-2  pt-4 text-left text-xs text-gray-400 hover:underline">
-                    {convertDate(reply.created_at)}
-                  </span>
-                  <div className="absolute bottom-full left-[79px] hidden shrink-0 -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 p-2 text-sm text-gray-200 group-hover:block max-md:left-[100px]">
-                    {formattedDate}
-                  </div>
-                </div>
                 <div onMouseLeave={handleMouseDown}>
                   <Popover open={popOver} onOpenChange={setPopOver}>
                     <PopoverTrigger

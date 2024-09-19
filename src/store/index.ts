@@ -4,7 +4,6 @@ import DropDownReducer from '@/store/Slices/dropDownSlice'
 import loadingIndicatorReducer from '@/store/Slices/loadingIndicator'
 import loggedInUserReducer from '@/store/Slices/loggedInUserSlice'
 import modalSliceReducer from '@/store/Slices/modal'
-import notFoundReducer from '@/store/Slices/not-found'
 import postReducer from '@/store/Slices/postSlice'
 // import { getCookie, removeCookie, setCookie } from '@/utils/helper/cookies'
 import { configureStore } from '@reduxjs/toolkit'
@@ -72,7 +71,6 @@ const store = configureStore({
     loadingIndicator: loadingIndicatorReducer,
     channels: channelsReducer,
     posts: postReducer,
-    notFound: notFoundReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -99,7 +97,6 @@ export const initializeStore = (preloadedState = {}) => {
       loadingIndicator: loadingIndicatorReducer,
       channels: channelsReducer,
       posts: postReducer,
-      notFound: notFoundReducer,
     },
     preloadedState,
   })

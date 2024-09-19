@@ -1,6 +1,6 @@
 'use client'
 import NoPosts from '@/components/Cards/NoMore'
-import RespScreen from '@/components/Cards/ResponsiveScreen'
+import FeaturesDropDownWithSuspense from '@/components/Cards/FeaturesDropDownWithSuspense'
 import ChannelCard from '@/components/SideCards/ChannelCard'
 import ProfileCard from '@/components/SideCards/ProfileCard'
 import RulesCard from '@/components/SideCards/RuleCard'
@@ -29,11 +29,11 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData
+    (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
 
   const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts
+    (state: PostsInterfaceStore) => state.posts.posts,
   )
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
@@ -70,7 +70,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
         userId ?? userDataInStore.id,
         {
           page,
-        }
+        },
       )
 
       setPage(page + 1)
@@ -126,17 +126,15 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
       <CardLoading />
     ) : (
       <div className="mx-auto flex max-w-screen-xl justify-center">
-        <div
+        {/* <div
           className={`mr-[15px] ${
             token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-          } flex flex-col max-md:hidden max-sm:hidden lg:block`}
-        >
+          } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
           {userDataInStore && <ProfileCard />}
           <div
             className={`${
               userDataInStore ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-            } sticky max-h-screen  max-lg:top-[55px]`}
-          >
+            } sticky max-h-screen  max-lg:top-[55px]`}>
             <ChannelCard />
           </div>
           <div
@@ -144,23 +142,21 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
               token
                 ? 'top-[330px] mt-[20px]'
                 : 'top-[335px] mt-5 max-lg:top-[328px]'
-            } max-h-screen`}
-          >
+            } max-h-screen`}>
             {' '}
             <RulesCard />
           </div>
-        </div>
+        </div> */}
 
         <div className={`w-full max-w-screen-md`}>
           <div className="flex w-full justify-center">
             <div className="w-full">
               <div>
                 {' '}
-                <RespScreen />
+                <FeaturesDropDownWithSuspense />
               </div>
               <div
-                className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}
-              >
+                className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
                 <div className="min-h-[70vh] w-full">
                   {pathName.includes(`/reported/comments`) && (
                     <ActivityButtons slug={slug} />

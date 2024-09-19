@@ -18,7 +18,7 @@ const ProfileCard = () => {
 
   return (
     <CustomLink href="/profile">
-      <div className="dark:bg-slate-800 dark:text-white flex items-center justify-start bg-bg-primary border-b pb-6 mb-6 border-b-light-grey">
+     <div className="dark:bg-bg-primary-dark dark:text-white flex items-center justify-start bg-bg-primary border-b pb-6 mb-6 border-b-light-grey dark:border-b-dark-grey">
           <img
             src={userDetails?.profilePictureURL || noProfilePicture.src}
             alt="profile"

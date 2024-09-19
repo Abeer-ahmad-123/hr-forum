@@ -79,7 +79,7 @@ function Comments({
         getPostCommets={getPostCommets}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
-        <div>
+        <div className="flex flex-col gap-[20px]">
           {comments?.length !== 0 &&
             comments
               ?.filter(
@@ -105,8 +105,7 @@ function Comments({
           <button
             name="view all comments button"
             className="mb-3 mt-3 flex w-full items-center gap-2.5 rounded-lg px-2 py-1 text-start text-sm text-gray-500"
-            onClick={handleLoadMore}
-          >
+            onClick={handleLoadMore}>
             <span className="rotate-180">
               <Reply />
             </span>

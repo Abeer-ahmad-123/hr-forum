@@ -23,7 +23,9 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
+  user
 }: FeedProps) => {
+
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
   )
@@ -42,7 +44,7 @@ const Feeds = ({
   )
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
-
+  const [addPost, setAddPost] = useState<boolean>(false)
   const getPosts = async () => {
     let _data: any = {}
     if (channelSlug) {
@@ -122,18 +124,6 @@ const Feeds = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
-  // ! Was causing the Profile posts to be loaded into redux store and then if we navigate to Feeds then posts show with undefined content
-  // useEffect(() => {
-  //   // ! If we navigate from feeds to /saved, we will see the feeds posts as saved posts so we don't need that => when posts =[] then this happens
-  //   if (path === '/saved' && storePosts.length > 0) return
-  //   if (searchParams.search || channelSlug) {
-  //     updatePosts([...storePosts])
-  //   } else if (!searchParams.search && storePosts.length) {
-  //     updatePosts([...storePosts])
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [storePosts])
-
   useEffect(() => {
     handleCommentCount()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,30 +132,42 @@ const Feeds = ({
   useEffect(() => {
     noMorePosts.current = morePosts
   }, [morePosts])
+
   return (
     <>
-      {path !== '/saved' && (
+      {path !== '/saved' && user && (
         <div className="mb-5">
-          <PostBar updatePosts={updatePosts} />
+          <PostBar
+            setAddPost={setAddPost}
+            addPost={addPost}
+            path={path}
+            channels={channels}
+          />
         </div>
       )}
-      <div className="min-h-[70vh] w-full">
-        {!!posts?.length ? (
-          posts?.map((post: any, index: number) => {
-            return (
-              <Card
-                key={index}
-                post={post}
-                channels={channels || channelsInStore}
-                updatePosts={updatePosts}
-                posts={posts}
-              />
-            )
-          })
-        ) : (
-          <NoPosts />
+
+      <div className="min-h-[70vh] w-full max-w-[759px]">
+        {!addPost && (
+          <>
+            {!!posts?.length ? (
+              posts?.map((post: any, index: number) => {
+                return (
+                  <Card
+                    key={index}
+                    post={post}
+                    channels={channels || channelsInStore}
+                    updatePosts={updatePosts}
+                    posts={posts}
+                  />
+                )
+              })
+            ) : (
+              <NoPosts />
+            )}
+          </>
         )}
-        {!!posts?.length && noMorePosts?.current && (
+
+        {!!posts?.length && !addPost && addPost && noMorePosts?.current && (
           <CircularProgress incommingRef={ref} />
         )}
       </div>
