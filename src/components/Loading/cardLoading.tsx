@@ -13,12 +13,11 @@ function CardLoading() {
   return (
     <div
       className={`mt-4 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-
       <div className="flex w-full max-w-screen-md flex-col">
         {pathName.includes(`/${slug}/`) ? (
           <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-slate-800">
             <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
-            <div className="mt-2 flex items-center">
+            <div className="mt-2 flex items-center ">
               <div className="ml-4">
                 <div className="flex flex-row gap-x-2">
                   <Skelton className="h-8 w-24 rounded-sm bg-skelton" />
@@ -30,11 +29,13 @@ function CardLoading() {
           </div>
         ) : (
           <div className="mb-5">
-         {
-         pathName == '/saved' || pathName.includes('/feeds') ?   <Skelton
-              className={`h-12 mt-[15px] w-full rounded-md bg-skelton`}
-            /> : <BannerCardLoading />
-}
+            {pathName == '/saved' || pathName.includes('/feeds') ? (
+              <Skelton
+                className={`h-104 mt-[15px] w-full rounded-md bg-skelton`}
+              />
+            ) : (
+              <BannerCardLoading />
+            )}
           </div>
         )}
 
@@ -51,32 +52,27 @@ function CardLoading() {
 export default CardLoading
 
 function BannerCardLoading() {
-
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setToken(token);
+    const token = localStorage.getItem('token')
+    setToken(token)
   }, [])
 
-  if (!token)
-    return
+  if (!token) return
 
   return (
-    <div className='h-[266px] bg-bg-primary rounded-xl dark:bg-bg-primary-dark px-2'>
-      <Skelton className='h-[190px] mt-[15px] w-full rounded-md' />
+    <div className="h-[266px] rounded-xl bg-bg-primary px-2 dark:bg-bg-primary-dark">
+      <Skelton className="mt-[15px] h-[190px] w-full rounded-md" />
 
-      <div className='flex items-center justify-center px-5 pt-3'>
+      <div className="flex items-center justify-center px-5 pt-3">
+        <Skelton className="mr-3 flex h-11 w-11 items-center justify-center rounded-full bg-bg-tertiary text-black dark:bg-dark-grey" />
 
-        <Skelton className='flex text-black h-11 w-11 bg-bg-tertiary rounded-full items-center justify-center mr-3 dark:bg-dark-grey' />
-
-        <div className='flex justify-between flex-1'>
-          <Skelton className='h-11 w-28 rounded-md' />
-          <Skelton className='h-11 w-24 rounded-2xl' />
+        <div className="flex flex-1 justify-between">
+          <Skelton className="h-11 w-28 rounded-md" />
+          <Skelton className="h-11 w-24 rounded-2xl" />
         </div>
-
       </div>
-
     </div>
   )
 }
