@@ -2,17 +2,9 @@
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import DropDownContent from '../shared/DropDownContent'
-import HomeIcon from '@/assets/icons/home'
 import ArrowDown from '@/assets/icons/arrowDown'
-import Icon from '@/assets/icons/heartIcon'
-import HrGeneral from '@/assets/icons/hrGeneral'
-import SmileIcon from '@/assets/icons/smileIcon'
-
-interface FeaturesDropDownInterface {
-  classNameOuter: string
-  classNameInner: string
-  classNamefeaturesDropDowm: string
-}
+import { FeaturesDropDownInterface } from '@/utils/interfaces/dropdown'
+import { getSelectedIcon } from '@/utils/functions'
 
 const FeaturesDropDown = ({
   classNameOuter,
@@ -83,21 +75,7 @@ const FeaturesDropDown = ({
     }
   }, [pathname])
 
-  const getSelectedIcon = () => { 
-    const styles = 'mr-3 h-5 w-5 dark:text-bg-bg-tertiary'
-    if (selected === 'Home' || selected ===  'Feeds') {
-      return <HomeIcon className={styles} />
-    } else if (selected === 'Saved') {
-      return <Icon className={styles} strokeWidth='1.5' />
-    } else if (selected === 'HR General') {
-      return <HrGeneral className={`ml-0 ${styles}`} />
-    }
-    else {
-      return (
-        <SmileIcon className={`ml-0 ${styles}`} />
-      )
-    }
-  }
+  
 
   useEffect(() => {
     if (pathname) setSelectedFromPathName()
@@ -136,7 +114,7 @@ const FeaturesDropDown = ({
           className="flex justify-between px-4"
           onClick={handleChecked}>
           <div className="flex items-center normal-case text-black dark:text-white pr-3">
-            <div className='text-left ml-0'>{getSelectedIcon()}</div>
+            <div className='text-left ml-0'>{getSelectedIcon(selected)}</div>
             <p className='font-extrabold text-base'>
               {selected.length > 16
                 ? `${selected.substring(0, 14)}...`
