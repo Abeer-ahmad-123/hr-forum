@@ -69,10 +69,10 @@ const PostActionBar = ({
 
   const calculateTotalReactions = (reactions: ReactionSummary) => {
     return (
-      reactions.like_count +
-      reactions.love_count +
-      reactions.clap_count +
-      reactions.celebrate_count
+      reactions?.like_count +
+      reactions?.love_count +
+      reactions?.clap_count +
+      reactions?.celebrate_count
     )
   }
 
