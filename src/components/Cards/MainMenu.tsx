@@ -1,5 +1,4 @@
 
-import { getUserFromCookie } from '@/utils/cookies';
 import { navigationItems } from '@/utils/data';
 import Link from 'next/link';
 
@@ -9,7 +8,6 @@ interface MainMenuProps{
 }
 
 function MainMenu({path, token}: MainMenuProps) {
-  // const { user } = await getUserFromCookie();
 
   const filteredMenuItems = token
     ? navigationItems.filter((item) => item.title !== 'Popular')

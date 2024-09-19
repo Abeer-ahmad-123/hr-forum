@@ -47,7 +47,7 @@ const FeaturesDropDown = ({
   )
 
   const showDiv = showMenu
-    ? `ml-[-1px] block max-md:w-full ${classNamefeaturesDropDowm}`
+    ? `mt-1 ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {
@@ -131,9 +131,9 @@ const FeaturesDropDown = ({
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} max-h-[42px] items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:border-none dark:bg-dark-grey`}>
+        className={`${classNameInner} h-12 items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:border-none dark:bg-dark-grey`}>
         <div
-          className="mt-[3px] flex justify-between px-4 py-2"
+          className="flex justify-between px-4"
           onClick={handleChecked}>
           <div className="flex items-center normal-case text-black dark:text-white pr-3">
             <div className='text-left ml-0'>{getSelectedIcon()}</div>
@@ -146,7 +146,7 @@ const FeaturesDropDown = ({
           <ArrowDown className="text-2xl dark:text-white" />
         </div>
         {isHydrated && (
-          <div className={`${showDiv} `}>
+          <div className={`${showDiv} absolute top-full left-0 w-full`}>
             <DropDownContent handleLi={handleLi} />
           </div>
         )}

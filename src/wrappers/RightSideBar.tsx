@@ -1,13 +1,13 @@
 import RulesCard from '@/components/Cards/RuleCard'
-import React from 'react'
-interface RightSideBarProps {
-  pathname: string
-}
+import { usePathname } from 'next/navigation'
 
-function RightSideBar({ pathname }: RightSideBarProps) {
+function RightSideBar() {
+
+  const pathname = usePathname()
+
   return (
-    <div className={`${pathname === '/profile' ? 'hidden' : 'block'} mt-0`}>
-      <div className={`hidden md:inline-block basis-1/4 ml-5 flex-1`}>
+    <div className={`${pathname === '/profile' ? 'hidden' : 'block'} mt-0  bg-bg-primary ml-5 pr-6 dark:bg-bg-primary-dark`}>
+      <div className={`hidden md:inline-block flex-1`}>
         <RulesCard />
       </div>
     </div>

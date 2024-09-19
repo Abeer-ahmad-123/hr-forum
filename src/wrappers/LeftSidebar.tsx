@@ -1,20 +1,24 @@
+'use client'
 import Logout from '@/components/Cards/Logout'
 import MenuCard from '@/components/Cards/MenuCard'
 import ProfileCard from '@/components/Cards/ProfileCard'
 import { useRouter, usePathname } from 'next/navigation'
 import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { logout } from '@/services/auth/authService'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
 
+function LeftSidebar() {
 
-interface LeftSideBarProps {
-  token: string | null
-  pathname: string
-}
-function LeftSidebar({ token, pathname }: LeftSideBarProps) {
- 
   const router = useRouter()
   const dispatch = useDispatch()
+  const pathname = usePathname()
+  const [token, setToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    setToken(token)
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -27,7 +31,7 @@ function LeftSidebar({ token, pathname }: LeftSideBarProps) {
   }
 
   return (
-    <div className='w-full mr-8 basis-1/4 dark:bg-bg-primary-dark dark:text-white relative px-10 flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7 hidden md:inline-block'>
+    <div className='mr-5 w-full basis-1/4 max-w-[322px] dark:bg-bg-primary-dark dark:text-white relative pl-10 pr-7 flex-col items-end justify-between bg-white h-screen max-h-[882px] py-7 hidden md:inline-block'>
       <div>
         {token && <ProfileCard />}
         <MenuCard path={pathname} token={token} />
