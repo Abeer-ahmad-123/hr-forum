@@ -136,7 +136,12 @@ const Feeds = ({
     <>
       {path !== '/saved' && user && (
         <div className="mb-5">
-          <PostBar setAddPost={setAddPost} addPost={addPost} />
+          <PostBar
+            setAddPost={setAddPost}
+            addPost={addPost}
+            path={path}
+            channels={channels}
+          />
         </div>
       )}
 

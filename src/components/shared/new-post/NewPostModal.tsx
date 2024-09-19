@@ -1,24 +1,36 @@
 'use client'
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface } from '@/utils/interfaces/posts'
 import { Suspense, useState } from 'react'
 import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
 import SignInDialog from './SignInDialog'
 import { noProfilePicture } from '@/assets/images'
+import { usePathname } from 'next/navigation'
+import ChannelsBanner from '@/components/ChannelsBanner'
+import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 
 interface NewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
+  path: string
+  channels: ChannelByIdInterface[]
 }
 interface startNewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
+  path: string
+  channels: ChannelByIdInterface[]
 }
-export default function NewPost({ setAddPost, addPost }: NewPostProps) {
+export default function NewPost({
+  setAddPost,
+  addPost,
+  path,
+  channels
+}: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
+  
 
   const handleOpenDialog = () => {
     setOpenDilog(true)
@@ -31,7 +43,7 @@ export default function NewPost({ setAddPost, addPost }: NewPostProps) {
     <>
       <Dialog open={openDilog} onOpenChange={handleClosedialog}>
         <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
-          {!addPost && <PostBar setAddPost={setAddPost} addPost={addPost} />}
+          {!addPost && <PostBar setAddPost={setAddPost} addPost={addPost} path={path} channels={channels} />}
         </div>
         <Suspense>
           {data ? (
@@ -47,13 +59,25 @@ export default function NewPost({ setAddPost, addPost }: NewPostProps) {
   )
 }
 
-export const PostBar = ({ setAddPost }: startNewPostProps): JSX.Element => {
+export const PostBar = ({
+  setAddPost,
+  path,
+  channels
+}: startNewPostProps): JSX.Element => {
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { profilePictureURL } = user
-
+  const pathname = usePathname()
   const handleStart = () => {
     setAddPost(true)
   }
+
+  if (pathname.includes('/channels'))
+    return <ChannelsBanner
+      channelSlug={pathname.split('/')[2]}
+      path={path}
+      setAddPost={setAddPost}
+      channels={channels}
+    />
 
   return (
     <div className="flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-col items-end justify-end  gap-[16px] rounded-xl  bg-bg-primary  px-[24px] py-[19px]  dark:bg-bg-primary-dark dark:text-white md:flex-row md:items-center  md:justify-between ">

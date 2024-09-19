@@ -18,6 +18,7 @@
     --bg-primary: #ffffff;
     --bg-primary-dark: #121212;
     --bg-secondary: #fafafa;
+    --bg-secondary-dark: #0a0a0a;
     --bg-tertiary: #eeeeee;
     --bg-tertiary-dark: #282828;
 
@@ -25,6 +26,7 @@
     --bg-dark-grey: #141b34;
     --bg-black: #09090b;
     --light-grey: #e4e4e7;
+    --dark-grey: #202020;
   }
   .theme-default {
     --color-primary: #2970ff;
@@ -36,7 +38,8 @@
     --bg-secondary: #fafafa;
     --bg-primary: #ffffff;
     --bg-primary-dark: #121212;
-
+    --bg-secondary-dark: #0a0a0a;
+    
     --bg-tertiary: #eeeeee;
     --bg-tertiary-dark: #282828;
     --color-grey: #838b98;
@@ -44,8 +47,11 @@
     --bg-black: #09090b;
     --light-grey: #e4e4e7;
     --text-grey: #0f172a;
+    --dark-grey: #202020;
   }
 }
+
+
 .avatarEditor {
   width: 100% !important;
   height: 100% !important;

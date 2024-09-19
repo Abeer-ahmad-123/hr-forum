@@ -27,6 +27,9 @@ import { ToastContainer } from 'react-toastify'
 import UserNameDialog from './UserNameDialog'
 import { LayoutWrapperProps } from '@/utils/types/layoutWrapper'
 import 'react-toastify/dist/ReactToastify.css'
+import LeftSidebar from './LeftSidebar'
+import RightSideBar from './RightSideBar'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
   const router = useRouter()
@@ -226,7 +229,8 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
     setOpenUserNameDialog(false)
     router.replace(pathname)
   }
-  const isError = pathname === '/error'
+  const isError = pathname === "/error"
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   return (
     <main className="h-max max-w-[100dvw] font-primary">
@@ -240,17 +244,26 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
         {!loading && !isError && <Navbar />}
         <ToastContainer />
         <div
-          className={`w-full transition-all duration-700 ease-in-out max-md:py-5 max-sm:p-[10px] 
-                  ${
-                    pathname === '/register' || pathname === '/login'
-                      ? 'flex h-[100vh]  items-center  justify-center'
-                      : ''
-                  }`}>
-          {!loading ? (
-            <div className={isError ? 'mt-0' : 'mt-[86px]'}> {children}</div>
-          ) : (
-            <InitialLoading />
-          )}
+          className={`w-full max-w-[1512px] max-md:py-5 max-sm:p-[10px] transition-all duration-700 ease-in-out 
+                  ${pathname === '/register' || pathname === '/login'
+              ? 'flex items-center justify-center'
+              : ''
+            }`}
+        >
+          {!loading ? <div className={isError ? 'mt-0' : 'mt-[101px]'}>
+            <div className='flex flex-row w-full'>
+
+              <LeftSidebar />
+
+              <div className={`md:basis-1/2 ${pathname === '/profile' ? 'flex-1' : ''}  md:w-full`}>
+                {children}
+              </div>
+
+              <RightSideBar />
+
+            </div>
+          </div>
+            : <InitialLoading />}
 
           <UserNameDialog
             isDialogOpen={openUserNameDialog}

@@ -1,5 +1,7 @@
-
-function SmileIcon() {
+interface SmileIconProps{
+  className?: string;
+}
+function SmileIcon({ className='ml-4' }: SmileIconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -7,17 +9,17 @@ function SmileIcon() {
       height="20"
       fill="none"
       viewBox="0 0 20 20"
-      className="ml-4"
+      className={className}
     >
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
         d="M10 18.333a8.333 8.333 0 100-16.667 8.333 8.333 0 000 16.667zM8.333 9.166l-1.25-1.25m0 0l-1.25-1.25m1.25 1.25l-1.25 1.25m1.25-1.25l1.25-1.25m5.834 2.5l-1.25-1.25m0 0l-1.25-1.25m1.25 1.25l-1.25 1.25m1.25-1.25l1.25-1.25"
       ></path>
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="1.5"
