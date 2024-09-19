@@ -9,7 +9,7 @@ const Logo = () => {
       <CustomLink href="/feeds" className='flex justify-center items-center gap-[10px]'>
         <LogoIcon className='h-10 w-10 md:h-9 md:w-9 ' />
         <span className="hidden md:inline-block">
-          <TextIcon />
+          <TextIcon className='text-black dark:text-white' />
         </span>
       </CustomLink>
     </div>

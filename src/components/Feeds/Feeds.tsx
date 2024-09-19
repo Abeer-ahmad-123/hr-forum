@@ -140,6 +140,8 @@ const Feeds = ({
           <PostBar
             setAddPost={setAddPost}
             addPost={addPost}
+            path={path}
+            channels={channels}
           />
         </div>
       )}

@@ -31,6 +31,7 @@ import { LayoutWrapperProps } from '@/utils/types/layoutWrapper'
 import 'react-toastify/dist/ReactToastify.css'
 import LeftSidebar from './LeftSidebar'
 import RightSideBar from './RightSideBar'
+import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 
 
 const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
@@ -235,7 +236,8 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
     router.replace(pathname)
   }
   const isError = pathname === "/error"
-  const token = localStorage.getItem('token')
+  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+
   return (
     <main
       className="font-primary h-max max-w-[100dvw]"
@@ -250,22 +252,22 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
         {!loading && !isError && <Navbar />}
         <ToastContainer />
         <div
-          className={`w-full m-auto max-w-[1550px]  max-md:py-5 max-sm:p-[10px] transition-all duration-700 ease-in-out 
+          className={`w-full max-w-[1512px] max-md:py-5 max-sm:p-[10px] transition-all duration-700 ease-in-out 
                   ${pathname === '/register' || pathname === '/login'
               ? 'flex items-center justify-center'
               : ''
             }`}
         >
-          {!loading ? <div className={isError ? 'mt-0' : 'mt-[86px]'}>
-            <div className='flex flex-row'>
+          {!loading ? <div className={isError ? 'mt-0' : 'mt-[101px]'}>
+            <div className='flex flex-row w-full'>
 
-              <LeftSidebar pathname={pathname} token={token} />
+              <LeftSidebar />
 
               <div className={`md:basis-1/2 ${pathname === '/profile' ? 'flex-1' : ''}  md:w-full`}>
                 {children}
               </div>
 
-              <RightSideBar pathname={pathname}/>
+              <RightSideBar />
 
             </div>
           </div>
