@@ -57,8 +57,8 @@ function ImageUpload({
               color={[255, 255, 255, 0.6]} // RGBA
               scale={parseFloat(scale)}
               rotate={0}
-              width={450}
-              height={450}
+              width={100}
+              height={100}
             />
             <div className="a-c">
               <div>
@@ -93,14 +93,14 @@ function ImageUpload({
           <button
             name="cancel button"
             onClick={closeDialog}
-            className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-accent focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+            className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100  focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
             Cancel
           </button>
           <div
             onClick={save}
             className={`dark:bg-accent-600 hover:bg-accent-800 mb-2 me-2 flex flex rounded-lg   ${
-              disableButton ? 'bg-gray-400' : 'bg-accent'
-            }  px-5 py-2.5 text-sm font-medium text-white focus:outline-none`}>
+              disableButton ? 'bg-gray-400' : 'bg-bg-green'
+            }  px-5 py-2.5 text-sm font-medium text-black focus:outline-none`}>
             <button name="save button">Save</button>
             {disableButton ? (
               <div className="ml-2">

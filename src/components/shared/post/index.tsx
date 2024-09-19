@@ -459,7 +459,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                 key={1}
                 post={post}
                 channels={channels}
-                hideComments="w-full "
+                hideComments="w-full"
               />
             </div>
             {/* <ReactionDetails reactionSummary={reactionSummary} /> */}
