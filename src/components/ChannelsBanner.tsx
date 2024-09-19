@@ -1,18 +1,14 @@
-import React from 'react'
+'use client'
 import HrGeneral from '@/assets/icons/hrGeneral';
 import SmileIcon from '@/assets/icons/smileIcon';
 import { noChannelBanner } from '@/assets/images';
+import useChannels from '@/hooks/channels';
 import { toPascalCase } from '@/utils/common'
+import { ChannelBannerProps, } from '@/utils/interfaces/channels';
 
-interface ChannelBannerProps {
-  channelSlug: string;
-  path: string;
-  channels: any
-  setAddPost: (arg0: boolean) => void
-}
-
-function ChannelsBanner({ channelSlug, path, channels, setAddPost,
-}: ChannelBannerProps) {
+const ChannelsBanner: React.FC<ChannelBannerProps> = ({ channelSlug, path, setAddPost,
+}) => {
+  const channels  = useChannels()
 
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = channels.find(
@@ -28,6 +24,10 @@ function ChannelsBanner({ channelSlug, path, channels, setAddPost,
     setAddPost(true)
   }
 
+  const channelNameFormat = (channelName: string) =>{
+    return toPascalCase(channelName?.replaceAll('-', ' '))
+  }
+
   return (
     <div>
       {(!!channelSlug || path === '/saved') && (
@@ -37,7 +37,7 @@ function ChannelsBanner({ channelSlug, path, channels, setAddPost,
               <img
                 className="max-w-768 px z-10 h-[190px] w-full"
                 src={
-                  false
+                  channelSlug
                     ? getImageUrlBySlug(channelSlug) || noChannelBanner.src
                     : noChannelBanner.src
                 }
@@ -51,7 +51,7 @@ function ChannelsBanner({ channelSlug, path, channels, setAddPost,
             </div >
             <div className='flex flex-1 justify-between items-center'>
               <div className='text-black font-[800] text-xl dark:text-bg-tertiary'>{channelSlug
-                ? toPascalCase(channelSlug?.toString()?.replaceAll('-', ' '))
+                ? channelNameFormat(channelSlug)
                 : 'Saved Posts'}</div>
               <div className='text-black w-[119px] bg-bg-green h-full rounded-full text-center content-center font-medium text-sm cursor-pointer' onClick={handleCreatePost}>Create Post</div>
             </div>

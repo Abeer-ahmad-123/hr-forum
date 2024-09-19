@@ -8,25 +8,22 @@ import SignInDialog from './SignInDialog'
 import { noProfilePicture } from '@/assets/images'
 import { usePathname } from 'next/navigation'
 import ChannelsBanner from '@/components/ChannelsBanner'
-import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 
 interface NewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
-  channels: ChannelByIdInterface[]
 }
 interface startNewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
-  channels: ChannelByIdInterface[]
+
 }
 export default function NewPost({
   setAddPost,
   addPost,
   path,
-  channels
 }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
@@ -43,7 +40,7 @@ export default function NewPost({
     <>
       <Dialog open={openDilog} onOpenChange={handleClosedialog}>
         <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
-          {!addPost && <PostBar setAddPost={setAddPost} addPost={addPost} path={path} channels={channels} />}
+          {!addPost && <PostBar setAddPost={setAddPost} addPost={addPost} path={path} />}
         </div>
         <Suspense>
           {data ? (
@@ -62,7 +59,6 @@ export default function NewPost({
 export const PostBar = ({
   setAddPost,
   path,
-  channels
 }: startNewPostProps): JSX.Element => {
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { profilePictureURL } = user
@@ -76,7 +72,6 @@ export const PostBar = ({
       channelSlug={pathname.split('/')[2]}
       path={path}
       setAddPost={setAddPost}
-      channels={channels}
     />
 
   return (

@@ -140,7 +140,6 @@ const Feeds = ({
             setAddPost={setAddPost}
             addPost={addPost}
             path={path}
-            channels={channels}
           />
         </div>
       )}

@@ -1,36 +1,16 @@
 'use client'
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
-import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useSelector } from 'react-redux'
+import { ChannelInterface } from '@/utils/interfaces/channels'
 import ChannelCardSkelton from '../ChannelCardSkelton'
 import HrGeneral from '@/assets/icons/hrGeneral'
 import SmileIcon from '@/assets/icons/smileIcon'
 import { usePathname } from 'next/navigation'
-import { getChannels } from '@/services/channel/channel'
-import { useEffect, useState } from 'react'
+import useChannels from '@/hooks/channels'
 
 const ChannelCard = () => {
 
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   const path = usePathname()
-  const [channels, setChannels] = useState<ChannelInterface[]>([])
-
-  const getLocalChannles = async () => {
-    try {
-      const response = await getChannels()
-      
-      if (response.channels.length > 0) 
-        setChannels(response.channels)
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  useEffect(() => {
-    getLocalChannles()
-  }, [])
+  const channels  = useChannels()
 
   return channels && channels.length > 0 ? (
     <div
