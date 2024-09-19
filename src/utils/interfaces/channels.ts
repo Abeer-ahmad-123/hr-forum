@@ -3,9 +3,9 @@ export interface ChannelInterface {
   id: number
   name: string
   slug: string
-  color?: string
-  code?: string
-  href?: string
+  color: string
+  code: string
+  href: string
   ImageURL: string
 }
 export interface StoreChannels {

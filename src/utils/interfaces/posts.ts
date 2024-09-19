@@ -2,18 +2,18 @@ import { EmojiActionInterface, ReactionSummary } from './card'
 
 export interface PostsInterface {
   id: number
-  created_at: string
-  updated_at: string
-  title: string
-  content: string
-  slug: string
-  user_id: number
+  created_at?: string
+  updated_at?: string
+  title?: string
+  content?: string
+  slug?: string
+  user_id?: number
   image_url?: string
-  channel_id: number
-  author_details: {
-    username: string
-    name: string
-    profile_picture_url: string
+  channel_id?: number
+  author_details?: {
+    username?: string
+    name?: string
+    profile_picture_url?: string
   }
   reaction_summary: {
     like_count: number

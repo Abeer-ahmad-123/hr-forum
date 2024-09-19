@@ -33,7 +33,7 @@ const UserSpecificComments = ({
     <>
       {comments.slice(0, 3).map((comment, index) => {
         return (
-          <div className="ml-10" key={index}>
+          <div key={index}>
             {<ProfileComment comment={comment} index={index} />}
           </div>
         )

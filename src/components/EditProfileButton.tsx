@@ -2,6 +2,9 @@
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { useState } from 'react'
 import ChangePassword from './ChangePassword'
+import PasswprdProfileIcon from '@/assets/icons/passwordProfileIcon'
+import EditProfileIcon from '@/assets/icons/editProfileIcon'
+
 import EditPage from './EditPage'
 
 interface userDataProps {
@@ -32,27 +35,26 @@ const EditProfileButton = ({
   }
 
   return (
-    <div className="absolute right-0 top-0 mr-0 flex justify-end pr-[25px] pt-2">
-      <div className="flex flex-col">
-        <button
-          name="edit button"
-          className="max-md:full mb-1 w-full self-end rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[150px] 
-          max-lg:px-2
-          max-lg:text-[9px]"
-          onClick={handleOpenDialog}>
-          Edit
-        </button>
-
+    <div className="absolute  sm:right-0 sm:top-0 sm:mr-0 sm:flex sm:justify-end">
+      <div className="ml-4 flex -translate-y-4 gap-4 sm:ml-0 sm:-translate-y-0 sm:pt-4">
         <button
           name="update password button"
-          className="max-md:full mb-1 w-full rounded bg-accent px-12 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none max-lg:w-[150px] max-lg:px-2 max-lg:text-[9px]"
+          className="flex  h-[40px] w-[154px] items-center justify-center gap-2 rounded-[20px] bg-bg-green px-4 py-2 text-xs"
           onClick={handleOpenPassDialog}>
-          Update password
+          <PasswprdProfileIcon className="text-black dark:text-white" />
+          <span className="font-medium text-black">Update password</span>
+        </button>
+        <button
+          name="edit button"
+          className="flex  h-[40px] w-[119px] items-center justify-center gap-2 rounded-[20px] bg-[#53BCFF] px-4 py-2 text-xs"
+          onClick={handleOpenDialog}>
+          <EditProfileIcon className="text-black dark:text-white" />
+          <span className="font-medium text-black">Edit Profile</span>
         </button>
       </div>
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-        <DialogContent>
+        <DialogContent className="max-h-[520px] max-w-[581px]">
           <EditPage
             setUpdatedUserData={setUserData}
             userData={userData}
@@ -62,7 +64,7 @@ const EditProfileButton = ({
       </Dialog>
 
       <Dialog open={openPasswordDialog} onOpenChange={setOpenPasswordDialog}>
-        <DialogContent>
+        <DialogContent className="max-h-[462px] max-w-[581px] p-6">
           <ChangePassword setOpenPasswordDialog={setOpenPasswordDialog} />
         </DialogContent>
       </Dialog>

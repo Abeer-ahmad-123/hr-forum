@@ -17,9 +17,7 @@ import { setChannels, setKeyIdPairData } from '@/store/Slices/channelsSlice'
 import { clearUser, setToken, setUser } from '@/store/Slices/loggedInUserSlice'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { showErrorAlert } from '@/utils/helper'
-import type {
-  StoreChannels,
-} from '@/utils/interfaces/channels'
+import type { StoreChannels } from '@/utils/interfaces/channels'
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar'
 import { ThemeProvider } from 'next-themes'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -32,7 +30,6 @@ import 'react-toastify/dist/ReactToastify.css'
 import LeftSidebar from './LeftSidebar'
 import RightSideBar from './RightSideBar'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-
 
 const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
   const router = useRouter()
@@ -60,8 +57,7 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
     logout()
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
-    } 
-    else{
+    } else {
       router.refresh()
     }
   }
@@ -124,7 +120,7 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
     }
   }
 
-  const handleUserServerLogout = async() => {
+  const handleUserServerLogout = async () => {
     const token = localStorage.getItem('token')
     if (!token && (await checkUser())) {
       clearAuthentication()
@@ -161,7 +157,6 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
     }
   }
 
-
   // * The API for Google AccessToken sign-up
   const exchangeGoogleToken = async (token: string, username: string) => {
     if (token) {
@@ -174,7 +169,6 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
           }),
         )
         handleCloseDialog()
-     
       } catch (err: any) {
         showErrorAlert(err.message ?? 'Issue in google authentication')
       }
@@ -239,9 +233,7 @@ const LayoutWrapper = ({ children, serverState }: LayoutWrapperProps) => {
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   return (
-    <main
-      className="font-primary h-max max-w-[100dvw]"
-    >
+    <main className="h-max max-w-[100dvw] font-primary">
       <ThemeProvider attribute="class" defaultTheme="theme-default">
         <ProgressBar
           height="2px"

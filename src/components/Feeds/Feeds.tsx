@@ -23,9 +23,8 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
-  user
+  user,
 }: FeedProps) => {
-
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
   )
@@ -146,7 +145,7 @@ const Feeds = ({
         </div>
       )}
 
-      <div className="min-h-[70vh] w-full max-w-[759px]">
+      <div className=" min-h-[70vh] w-full max-w-[759px] ">
         {!addPost && (
           <>
             {!!posts?.length ? (

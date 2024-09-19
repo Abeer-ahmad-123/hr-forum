@@ -51,6 +51,11 @@
   }
 }
 
+
+.avatarEditor {
+  width: 100% !important;
+  height: 100% !important;
+}
 @media (max-width: 520px) {
   .avatarEditor {
     width: 100% !important;

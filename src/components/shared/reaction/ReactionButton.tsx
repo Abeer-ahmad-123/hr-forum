@@ -18,9 +18,8 @@ const ReactionButton = ({
   handleLikeWrapper,
   disableReactionButton,
   setDisableReactionButton,
-  reactionCountToUse
+  reactionCountToUse,
 }: any) => {
-
   const { isLargeScreen } = useScreenSize(1024)
   const [currentReaction, updateCurrentReaction] = useState('')
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
@@ -67,8 +66,7 @@ const ReactionButton = ({
   }
 
   const mouseEnter = () => {
-    if (tokenInRedux && !disableReactionButton)
-      setEmojiPopoverVisible(true)
+    if (tokenInRedux && !disableReactionButton) setEmojiPopoverVisible(true)
   }
 
   const mouseLeft = () => {
@@ -123,11 +121,11 @@ const ReactionButton = ({
                 isReactionOnLike={true}
               />
               {/* Add a small number under the heart emoji */}
-              <span className="text-base text-black font-[900]">
+              <span className="text-xs font-[900] text-black dark:text-white md:text-base">
                 {reactionCountToUse}
               </span>
             </div>
-            <div className="text-sm font-light text-[#666666] dark:text-white">
+            <div className="hidden  text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
               Like
             </div>
           </div>

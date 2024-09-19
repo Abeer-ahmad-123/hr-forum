@@ -1,11 +1,14 @@
-import { IconProps } from "@/utils/interfaces/icons"
-
-
-const EyeClosedIcon = ({ className }: IconProps) => {
+import { IconProps } from '@/utils/interfaces/icons'
+interface iconprop {
+  className: string
+  onClick: () => void
+}
+const EyeClosedIcon = ({ className, onClick }: iconprop) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
+      onClick={onClick}
       className={
         className +
         'component-iconify MuiBox-root css-1t9pz9x iconify iconify--solar'
