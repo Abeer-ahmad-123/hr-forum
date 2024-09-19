@@ -19,12 +19,11 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 z-50 max-md:h-[72px] h-[100px] w-full items-center justify-center bg-white shadow-sm dark:bg-bg-primary-dark border-b-[1px] border-bg-tertiary dark:border-bg-tertiary-dark">
-      <div className="flex w-full max-w-[1550px] m-auto items-center justify-between  px-6 py-4 md:px-14 md:py-7 max-[430px]:px-4">
+      <div className="flex w-full max-w-[1512px] m-auto items-center justify-between  px-6 py-4 md:px-14 md:py-7 max-[430px]:px-4">
         <div className="flex items-center">
           <Logo />
         </div>
         <div className="flex sm:w-full gap-5 max-md:gap-[12px] items-center justify-end md:justify-end lg:flex-nowrap transition-all ease-in-out duration-700">
-          {/* //REmove this bg-bg-tertiary */}
           <div className="flex md:w-full max-w-[420px] text-end max-sm:justify-end transition-all ease-in-out duration-700">
             <SearchBar />
           </div>
