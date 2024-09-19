@@ -1,5 +1,5 @@
 import LogoutIcon from '@/assets/icons/logout'
-function Logout() {
+const Logout = () => {
   
   return (
     <div

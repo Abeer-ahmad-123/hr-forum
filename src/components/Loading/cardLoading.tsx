@@ -4,7 +4,7 @@ import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
 import { useEffect, useState } from 'react'
 
-function CardLoading() {
+const CardLoading = () => {
   const renderTimes = 5
   const pathName = usePathname()
 
@@ -50,7 +50,7 @@ function CardLoading() {
 
 export default CardLoading
 
-function BannerCardLoading() {
+const BannerCardLoading = () => {
 
   const [token, setToken] = useState<string | null>(null)
 

@@ -1,13 +1,9 @@
 
 import { navigationItems } from '@/utils/data';
+import { MenuCardInterface } from '@/utils/interfaces/card';
 import Link from 'next/link';
 
-interface MainMenuProps{
-  path: string;
-  user: string | null;
-}
-
-function MainMenu({path, user}: MainMenuProps) {
+const MainMenu: React.FC<MenuCardInterface> = ({ path, user }) => {
 
   const filteredMenuItems = user
     ? navigationItems.filter((item) => item.title !== 'Popular')
