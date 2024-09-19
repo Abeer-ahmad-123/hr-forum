@@ -1,8 +1,6 @@
-interface MoonIconProps {
-  className: string;
-  props: object;
-}
-function MoonIcon({ className, props }: MoonIconProps) {
+import { IconProps } from "@/utils/interfaces/icons";
+
+const MoonIcon: React.FC<IconProps> = ({ className, props }) => {
   return (
     <svg
       {...props}
@@ -24,4 +22,3 @@ function MoonIcon({ className, props }: MoonIconProps) {
 }
 
 export default MoonIcon;
-
