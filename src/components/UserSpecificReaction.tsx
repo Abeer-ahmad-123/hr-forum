@@ -2,10 +2,10 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import ProfilePosts from './ProfilePosts'
 import { useDispatch } from 'react-redux'
 import { setCommentCountInStore } from '@/store/Slices/postSlice'
 import { makeCommentNumberKeyValuePairFromSummary } from '@/utils/helper'
+import { Card } from './shared'
 
 interface ReactionPostsFeedsProps {
   id: number
@@ -43,7 +43,7 @@ const UserSpecificReaction = ({ posts, user }: any) => {
   return (
     <div className="flex flex-col gap-2">
       {posts?.map((post: ReactionPostsFeedsProps, i: number) => (
-        <ProfilePosts key={i} userId={post.userId} post={post.post} />
+        <Card key={post.userId} post={post.post} posts={posts} />
       ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">

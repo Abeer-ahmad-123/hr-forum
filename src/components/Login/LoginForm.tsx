@@ -41,12 +41,12 @@ export function LoginForm({
         {showPassword ? (
           <PasswordEyeIcon
             onClick={handleShowPassowrd}
-            className=" ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700"
+            className="ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700"
           />
         ) : (
           <EyeClosedIcon
             onClick={handleShowPassowrd}
-            className=" ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700"
+            className="ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700"
           />
         )}
       </div>
