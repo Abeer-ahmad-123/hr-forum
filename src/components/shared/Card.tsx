@@ -270,9 +270,11 @@ const Card = ({
       <div
         className={
           updatePosts
-            ? `bg-bg-primary  dark:bg-bg-tertiary-dark `
-            : `bg-[#FAFAFA]  dark:bg-bg-tertiary-dark ` +
-              `w-full cursor-pointer rounded-[20px]  dark:bg-bg-tertiary-dark dark:text-gray-300 
+            ? `rounded-2xl  bg-bg-primary dark:bg-bg-primary-dark `
+            : hideComments
+            ? ``
+            : `rounded-2xl  bg-[#FAFAFA] dark:bg-bg-tertiary-dark ` +
+              `w-full cursor-pointer   dark:text-gray-300 
           ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
         `
         }>
@@ -307,7 +309,7 @@ const Card = ({
           className={
             hideComments
               ? 'flex flex-col gap-[20px]'
-              : 'flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] '
+              : 'flex flex-col gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
           }>
           <div className="flex flex-row justify-between">
             <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
