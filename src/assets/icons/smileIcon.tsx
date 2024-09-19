@@ -1,7 +1,6 @@
-interface SmileIconProps{
-  className?: string;
-}
-function SmileIcon({ className='ml-4' }: SmileIconProps) {
+import { IconProps } from "@/utils/interfaces/icons";
+
+const SmileIcon: React.FC<IconProps> = ({ className = 'ml-4' }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
