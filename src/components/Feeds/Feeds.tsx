@@ -23,6 +23,7 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
+  user,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
@@ -122,18 +123,6 @@ const Feeds = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
-  // ! Was causing the Profile posts to be loaded into redux store and then if we navigate to Feeds then posts show with undefined content
-  // useEffect(() => {
-  //   // ! If we navigate from feeds to /saved, we will see the feeds posts as saved posts so we don't need that => when posts =[] then this happens
-  //   if (path === '/saved' && storePosts.length > 0) return
-  //   if (searchParams.search || channelSlug) {
-  //     updatePosts([...storePosts])
-  //   } else if (!searchParams.search && storePosts.length) {
-  //     updatePosts([...storePosts])
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [storePosts])
-
   useEffect(() => {
     handleCommentCount()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -142,22 +131,16 @@ const Feeds = ({
   useEffect(() => {
     noMorePosts.current = morePosts
   }, [morePosts])
-  useEffect(() => {
-    console.log('addPost', addPost)
-  }, [addPost])
+
   return (
     <>
-      {path !== '/saved' && (
+      {path !== '/saved' && user && (
         <div className="mb-5">
-          <PostBar
-            updatePosts={updatePosts}
-            setAddPost={setAddPost}
-            addPost={addPost}
-          />
+          <PostBar setAddPost={setAddPost} addPost={addPost} />
         </div>
       )}
 
-      <div className="min-h-[70vh] w-full max-w-[759px]">
+      <div className=" min-h-[70vh] w-full max-w-[759px] ">
         {!addPost && (
           <>
             {!!posts?.length ? (

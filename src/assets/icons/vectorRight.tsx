@@ -1,13 +1,14 @@
-function Icon() {
+function Icon({ className }: { className: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="7"
       height="11"
+      className={className}
       fill="none"
       viewBox="0 0 7 11">
       <path
-        stroke="#141B34"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"

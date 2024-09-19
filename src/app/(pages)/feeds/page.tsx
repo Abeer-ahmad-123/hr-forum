@@ -16,13 +16,12 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
     searchParams,
     path: '/feed',
   })
-
   return (
     <Suspense fallback={<CardLoading />}>
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}
-        path="/feed"
+        path="/feeds"
         morePosts={morePosts}
         data={{ channels: channelData, posts: initialPosts }}
       />

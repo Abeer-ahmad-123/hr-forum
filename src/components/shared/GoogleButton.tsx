@@ -1,5 +1,7 @@
-import googleIcon from '@/assets/google.jpeg'
-const GoogleButton = ({ onClick, title }: any) => {
+import googleIcon from '@/assets/images/google.jpeg'
+import { GoogleIconProps } from '@/utils/interfaces/icons'
+
+const GoogleButton = ({ onClick, title }: GoogleIconProps) => {
   return (
     <div
       onClick={onClick}

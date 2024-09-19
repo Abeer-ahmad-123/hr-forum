@@ -1,5 +1,4 @@
 // src/components/icons/DeleteIcon.js
-import React from 'react'
 
 const DeleteIcon = () => {
   return (

@@ -2,9 +2,11 @@
 import { CustomLink } from '@/components/shared/customLink/CustomLink'
 import { ChannelInterface, StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Building2 } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import ChannelCardSkelton from '../ChannelCardSkelton'
+import HrGeneral from '@/assets/icons/hrGeneral'
+import SmileIcon from '@/assets/icons/smileIcon'
+import { usePathname } from 'next/navigation'
 
 type ChannelCardProps = {
   initialChannels?: ChannelInterface[]
@@ -17,23 +19,24 @@ const ChannelCard = ({ initialChannels }: ChannelCardProps) => {
   const channels = initialChannels || channelsInStore
 
   const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  const path = usePathname()
 
   return channels && channels.length > 0 ? (
     <div
-      className={`sticky top-[20px] mr-4 mt-[20px] max-h-[240px] w-[225px] overflow-auto rounded-[10px] border border-solid border-gray-300 bg-white px-[10px] pb-2 pt-3 shadow-lg dark:bg-slate-800 dark:text-white max-lg:mt-[15px] max-md:w-full`}
+      className="w-64 bg-white dark:bg-slate-800 dark:text-gray-400"
     >
-      <h1 className="mb-[0px] mt-[10px] text-start text-[11px] font-semibold">
-        Channels
-      </h1>
-      <ul className="ml-[2px] cursor-pointer list-none text-left">
+      <div className="font-[800] text-lg text-bg-black mb-3 dark:bg-slate-800 dark:text-white">
+      Explore variety of channels
+      </div>
+      <ul className="dark:bg-slate-800 dark:text-gray-400">
         {channels.map((channel: ChannelInterface, index: number) => (
           <li
-            className="my-[10px] flex gap-2.5 text-[12px] font-medium text-gray-500 hover:text-accent dark:text-gray-400 dark:hover:text-accent"
+            className="text-base	"
             key={index}
           >
             <CustomLink href={`/channels/${channel.slug}`}>
-              <div className="flex gap-2.5">
-                <Building2 size={20} />
+              <div className={`flex gap-3 py-[10px] hover:bg-bg-tertiary ${path == `/channels/${channel.slug}` ? 'bg-bg-tertiary font-[800]': ''} hover:font-[800] rounded-md`}>
+               {channel.slug == "hr-general" ?  <HrGeneral /> : <SmileIcon />}
                 <span>{channel.name}</span>
               </div>
             </CustomLink>

@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
-import React from 'react'
+import { IconProps } from "@/utils/interfaces/icons"
 
-const CameraIcon = ({ className }: any) => {
+const CameraIcon = ({ className }: IconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

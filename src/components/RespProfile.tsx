@@ -1,6 +1,7 @@
 'use client'
 import { noProfilePicture } from '@/assets/images'
 import BgBanner from '@/assets/images/background-banner.svg'
+import EditProfileIcon from '@/assets/icons/editProfilePic'
 import ImageUpload from '@/components/ImageUpload'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
@@ -22,6 +23,7 @@ import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
+import ProfileBg from '@/assets/images/ProfileBg.svg'
 
 const RespProfile = ({ userId, userInCookie }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -167,10 +169,10 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return user.id ? (
-    <div className="profile-page max-w-[100dvw] max-md:block">
+    <div className="profile-page max-w-[1105px] max-md:block">
       <section className="relative mt-5 block h-[650px]">
         <div
-          className="absolute top-0 h-[60%] w-full overflow-hidden rounded-md bg-cover bg-center"
+          className="absolute top-0 h-full max-h-[241px] w-full overflow-hidden rounded-2xl bg-cover bg-center"
           style={{
             backgroundImage: `url(${
               user?.backgroundPictureURL
@@ -181,12 +183,13 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
           {!userId && (
             <label
               htmlFor="changeBackgroundImage"
-              className="absolute right-4 top-2 z-40  w-fit rounded-full bg-gray-600 p-2 max-md:left-5 max-md:top-2">
-              <LiaUserEditSolid className="cursor-pointer text-white" />
+              className="absolute bottom-2 right-4 z-40 flex   h-[30px] w-[152px] cursor-pointer items-center justify-center gap-2 rounded-[20px] bg-bg-tertiary px-5 py-2 text-[10px] dark:bg-bg-primary-dark">
+              <EditProfileIcon className="text-black dark:text-white " />
+              <span className="opacity-60">Update cover photo</span>
             </label>
           )}
           <input
-            className="hidden border border-[#d3d3d3]"
+            className="hidden"
             id="changeBackgroundImage"
             ref={imageInputRef}
             type="file"
@@ -216,41 +219,68 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
         </div>
       </section>
 
-      <section className="bg-blueGray-200 relative mx-auto w-4/5 max-md:w-full">
-        <div className=" mx-auto ">
-          <div className="border-grey-300 relative -mt-[404px] mb-6 flex w-full min-w-0 flex-col break-words rounded-lg border  border-solid  bg-white shadow-xl dark:bg-slate-800">
+      <section className="relative  h-[98px] max-w-[1105px]">
+        <div className="">
+          <div className="relative -mt-[407px] mb-6 flex w-full min-w-0 flex-col">
             {/* Profile card start */}
-            <div className="px-6">
+            <div className="flex h-[98px]">
               <div className="top-0">
-                <div className="flex w-full">
-                  <div className="relative flex justify-center md:w-full">
-                    <img
-                      alt="..."
-                      width={96}
-                      height={96}
-                      src={
-                        user?.profilePictureURL
-                          ? user?.profilePictureURL
-                          : noProfilePicture.src
-                      }
-                      className="-m-12 max-w-[150px] overflow-hidden rounded-full align-middle shadow-xl max-md:-ml-4 lg:order-2 lg:w-3/12"
-                    />
-                    {!userId && (
-                      <label
-                        htmlFor="changeImage"
-                        className="absolute bottom-[-40px] rounded-full  bg-gray-600 p-2">
-                        <LiaUserEditSolid className="cursor-pointer text-white" />
-                      </label>
-                    )}
-                    <input
-                      key={`${dialogOpen}`}
-                      className="hidden border border-[#d3d3d3]"
-                      id="changeImage"
-                      ref={imageInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleInputChange}
-                    />
+                <div className="flex">
+                  <div className="relative flex  w-full">
+                    <div className="flex flex-row items-start justify-between">
+                      <img
+                        alt="..."
+                        width={98}
+                        height={98}
+                        src={
+                          user?.profilePictureURL
+                            ? user?.profilePictureURL
+                            : noProfilePicture.src
+                        }
+                        className="ml-[70px] h-[98px] w-[98px] -translate-y-9 rounded-full border  border-bg-green align-middle  max-md:ml-4 "
+                      />
+                      {!userId && (
+                        <label
+                          htmlFor="changeImage"
+                          className="absolute bottom-12 left-[140px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark max-md:left-[97px]">
+                          <EditProfileIcon className="h-3 w-3 cursor-pointer text-black dark:text-white" />
+                        </label>
+                      )}
+                      <input
+                        key={`${dialogOpen}`}
+                        className="hidden border border-[#d3d3d3]"
+                        id="changeImage"
+                        ref={imageInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleInputChange}
+                      />
+                      <div className="flex gap-[20px] break-all pb-6 lg:justify-center">
+                        <div className=" w-full p-4  text-start ">
+                          <h3 className="text-blueGray-700 text-xl font-semibold uppercase leading-normal dark:text-white">
+                            {user?.name}
+                          </h3>
+                          <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
+                            {/* <div className="flex items-center gap-3">
+                              <User className="mr-1 h-7 w-7 text-gray-600 dark:text-white" />
+                              <div className="text-sm dark:text-white md:text-base">
+                                {' '}
+                                {user?.username}
+                              </div>
+                            </div> */}
+                            <div className="flex items-center gap-3 dark:text-white">
+                              <div className="max-w-[600px] text-xs opacity-60">
+                                {user?.email}
+                              </div>
+                            </div>
+                          </div>
+                          {/* <div className="mt-4 line-clamp-3 gap-3 text-sm font-normal lg:mx-auto lg:w-[90%] lg:text-center">
+                            {user?.bio}
+                          </div> */}
+                        </div>
+                      </div>
+                    </div>
+
                     {/* TODO: Uploading an image two times not working!!! */}
                     <ImageUpload
                       image={image}
@@ -273,37 +303,11 @@ const RespProfile = ({ userId, userInCookie }: profileProps) => {
                   />
                 )}
               </div>
-
-              <div className="flex justify-start gap-[20px] break-all pb-6 lg:justify-center">
-                <div className="mt-12 w-full p-3 pt-6 text-center max-md:text-left md:p-6">
-                  <h3 className="text-blueGray-700 text-2xl font-semibold uppercase leading-normal dark:text-white">
-                    {user?.name}
-                  </h3>
-                  <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
-                    <div className="flex items-center gap-3">
-                      <User className="mr-1 h-7 w-7 text-gray-600 dark:text-white" />
-                      <div className="text-sm dark:text-white md:text-base">
-                        {' '}
-                        {user?.username}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 dark:text-white">
-                      <Mail className="mr-1 h-7 w-7 text-gray-600 dark:text-white" />
-                      <div className="max-w-[600px] text-sm md:text-base">
-                        {user?.email}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="mt-4 line-clamp-3 gap-3 text-sm font-normal lg:mx-auto lg:w-[90%] lg:text-center">
-                    {user?.bio}
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-        <div className="mt-[40px] flex flex-col gap-[65px] lg:flex-row">
-          <div className=" w- flex flex-col gap-[1.5rem]">
+        <div className="mt-4 flex flex-col justify-end gap-[20px] custom-mid-lg:flex-row-reverse">
+          <div className="flex flex-col gap-[20px]">
             <UserDataBadge
               postCount={user?.post_count}
               commentCount={user?.comment_count}

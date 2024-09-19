@@ -1,5 +1,3 @@
-import React from 'react'
-
 const DownIcon = ({ className = '', props }: any) => {
   return (
     <svg

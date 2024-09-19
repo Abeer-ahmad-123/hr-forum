@@ -105,7 +105,7 @@ const CommentSection = ({
         </div>
         <div className="mx-[10px]">
           <div
-            className={`w-fit flex-wrap break-all dark:bg-dark-background
+            className={`w-fit flex-wrap break-all dark:bg-bg-primary-dark
                `}>
             {/* * Fixing Alignment */}
             <div className="flex flex-row items-center justify-between">

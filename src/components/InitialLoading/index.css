@@ -11,7 +11,7 @@
   left: 45%;
   top: 58%;
   margin-left: -30px;
-  color: #571ce0;
+  color: var(--bg-green);
 }
 
 .initial-loading .body {
@@ -220,7 +220,7 @@
   position: absolute;
   height: 2px;
   width: 20%;
-  background: #571ce0;
+  background: var(--bg-green);
 }
 
 .initial-loading .longfazers span:nth-child(1) {

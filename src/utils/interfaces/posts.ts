@@ -2,18 +2,18 @@ import { EmojiActionInterface, ReactionSummary } from './card'
 
 export interface PostsInterface {
   id: number
-  created_at: string
-  updated_at: string
-  title: string
-  content: string
-  slug: string
-  user_id: number
+  created_at?: string
+  updated_at?: string
+  title?: string
+  content?: string
+  slug?: string
+  user_id?: number
   image_url?: string
-  channel_id: number
-  author_details: {
-    username: string
-    name: string
-    profile_picture_url: string
+  channel_id?: number
+  author_details?: {
+    username?: string
+    name?: string
+    profile_picture_url?: string
   }
   reaction_summary: {
     like_count: number
@@ -51,6 +51,9 @@ export interface PostActionBarProps {
   reactionRef?: any
   updatePosts?: any
   posts?: any
+  totalComments: number
+  handleBookmark?: (arg0: React.MouseEvent<HTMLDivElement>) => void
+  bookmarkSuccess?: boolean
 }
 
 export interface CommentCountStore {
@@ -68,6 +71,7 @@ export interface CommentCount {
 export interface PostReactionBarProps {
   postId: string
   reaction_summary: any
+  totalComments?: number
 }
 
 export type ReactionCounts = {

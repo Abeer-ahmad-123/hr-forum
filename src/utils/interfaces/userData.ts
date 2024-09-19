@@ -28,6 +28,7 @@ export interface UserDataBadgeProps {
   userId: string
   reportedPostCount: number
   reportedCommentCount: number
+  showDropDown?: boolean
 }
 
 export interface profileProps {

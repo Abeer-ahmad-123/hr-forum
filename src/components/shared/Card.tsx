@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/popover'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
-import { cn } from '@/lib/utils'
 import {
   bookmarkPost,
   deleteBookmarkPost,
@@ -43,19 +42,18 @@ import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import { useDispatch, useSelector } from 'react-redux'
 import Report from '../Report/Report'
 import PostActionBar from './PostActionBar'
-import PostReactionBar from './PostReactionBar'
 import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './new-post/SignInDialog'
 import DeletePost from './post/DeletePost'
-import PostImage from '@/assets/images/Post.svg'
+import CardContent from './CardContent'
 
 type CardProps = {
   post: PostsInterface
-  channels: ChannelByIdInterface[] | ChannelInterface[]
+  channels?: ChannelByIdInterface[] | ChannelInterface[]
   posts?: PostsInterface[]
   userComment?: any
   updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
-  className?: string
+  hideComments?: string
 }
 const Card = ({
   post,
@@ -63,38 +61,19 @@ const Card = ({
   updatePosts,
   posts,
   userComment,
-  className,
+  hideComments,
 }: CardProps) => {
-  const {
-    id,
-    created_at,
-    title,
-    // content,
-    channel_id,
-    author_details: user,
-    reaction_summary,
-    user_reaction,
-    user_has_bookmarked,
-    user_has_reported,
-    user_id,
-    image_url,
-  } = post
-
   const pathName = usePathname()
   const { slug } = useParams()
+  const isFirstRef = useRef<boolean>(true)
   const router = useRouter()
   const dispatch = useDispatch()
   const userDetails = useSelector(
     (state: LoggedInUser) => state.loggedInUser.userData,
   )
-  // * Show More / Less state for post content
-  const [showFullPost, setShowFullPost] = useState(false)
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
-  const content =
-    '  Lorem ipsum dolor sit amet, consectetur adipisicing elit.Explicabo ex consequuntur reiciendis, corporis vero ipsa ullam dolorem exercitationem libero maxime in sint rerum cum ipsam velit culpa quibusdam provident a natus corrupti impedit totam quisquam. Mollitia obcaecati quia quis! Consequatur possimus a voluptatem ut quidem dicta tenetur natus iusto harum impedit   exercitationem laboriosam minima nam enim maxime, voluptate fugit architecto sit! Perferendis beatae quidem, eum quos eius qui optio obcaecati quisquam itaque ipsam! Corporis possimus  culpa eius porro saepe rerum nam consequatur ab quia blanditiis labore magni, ipsa eveniet laudantium! Facere sint, optio  maxime tempora tenetur facilis explicabo perferendis unde  adipisci in cum porro incidunt voluptatum. Omnis excepturi expedita neque, veritatis sequi harum tenetur, hic magni quaerat'
 
-  const displayedContent = showFullPost ? content : content.slice(0, 200)
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
@@ -117,12 +96,17 @@ const Card = ({
 
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [bookmarkSuccess, setBookmarkSuccess] =
-    useState<boolean>(user_has_bookmarked)
-  const [reported, setReported] = useState<boolean>(user_has_reported)
+  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(
+    post?.user_has_bookmarked,
+  )
+  const [reported, setReported] = useState<boolean>(post?.user_has_reported)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
   const reactionRef = useRef<boolean>(false)
+
+  const reactionSummaryToUse = isFirstRef.current
+    ? post?.reaction_summary
+    : reactionSummary
 
   const setOpenPopOver = (e: any) => {
     e.preventDefault()
@@ -169,21 +153,23 @@ const Card = ({
   const handleNavigateFeed = () => {
     router.push(
       pathName.includes('channels')
-        ? `${pathName}/feed/${id}`
+        ? `${pathName}/feed/${post?.id}`
         : pathName.includes('saved')
-        ? `/saved/feed/${id}`
+        ? `/saved/feed/${post?.id}`
         : pathName.includes('user-activity')
-        ? `${pathName}/feed/${id}`
-        : `/feeds/feed/${id}`,
+        ? `${pathName}/feed/${post?.id}`
+        : `/feeds/feed/${post?.id}`,
     )
   }
   const handleNavigateProfile = (event: any) => {
     event.preventDefault()
     event.stopPropagation()
     router.push(
-      userDetails?.id === String(user_id)
+      userDetails?.id === String(post?.user_id)
         ? '/profile'
-        : `/profile/${user.name?.toLowerCase().replace(/ /g, '-')}-${user_id}`,
+        : `/profile/${post?.author_details?.name
+            ?.toLowerCase()
+            .replace(/ /g, '-')}-${post?.user_id}`,
     )
   }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -212,14 +198,14 @@ const Card = ({
       setOpenDeleteDialog(true)
     }
   }
-  const handleBookmark = async (event: any) => {
+  const handleBookmark = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
     if (tokenInRedux) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(
-          id ? String(id) : '',
+          post?.id ? String(post?.id) : '',
           customFetch,
           tokenInRedux,
           refreshTokenInRedux,
@@ -227,16 +213,18 @@ const Card = ({
 
         if (res.success) {
           setBookmarkSuccess(true)
-          dispatch(setPosts(updatePostBookmark(storePosts, id, true)))
+          dispatch(setPosts(updatePostBookmark(storePosts, post?.id, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
           if (pathName.includes('saved')) {
-            dispatch(setPosts(returnFilteredPosts(storePosts, Number(id))))
+            dispatch(
+              setPosts(returnFilteredPosts(storePosts, Number(post?.id))),
+            )
             if (pathName.includes('/saved/feed')) {
               router.back()
             }
           } else {
-            dispatch(setPosts(updatePostBookmark(storePosts, id, false)))
+            dispatch(setPosts(updatePostBookmark(storePosts, post?.id, false)))
           }
         } else {
           throw res.errors[0]
@@ -252,38 +240,41 @@ const Card = ({
     }
   }
 
-  function handleShowMoreOrLess(e: React.MouseEvent<HTMLButtonElement>) {
-    e.stopPropagation()
-    setShowFullPost((prev) => !prev)
-  }
   useEffect(() => {
-    if (reaction_summary) {
-      setReactionSummary(reaction_summary)
+    if (post?.reaction_summary) {
+      setReactionSummary(post?.reaction_summary)
     }
-  }, [reaction_summary])
+  }, [post?.reaction_summary])
 
   useEffect(() => {
-    setUserReaction(user_reaction)
-  }, [user_reaction])
+    setUserReaction(post?.user_reaction)
+  }, [post?.user_reaction])
 
   useEffect(() => {
-    setBookmarkSuccess(user_has_bookmarked)
-  }, [user_has_bookmarked])
+    setBookmarkSuccess(post?.user_has_bookmarked)
+  }, [post?.user_has_bookmarked])
 
   useEffect(() => {
-    setReported(user_has_reported)
-  }, [user_has_reported])
+    setReported(post?.user_has_reported)
+  }, [post?.user_has_reported])
+
+  useEffect(() => {
+    isFirstRef.current = false
+  }, [])
 
   return (
     <div
-      id={String(id)}
-      key={id}
-      className={className ? className : 'm-0 w-full max-w-[759px] p-0'}>
+      id={String(post?.id)}
+      key={post?.id}
+      className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
         className={
-          className
-            ? 'mb-5 h-full  w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 '
-            : `mx-auto mb-5 min-h-[547px]  w-full  cursor-pointer rounded-[20px]  bg-white  dark:bg-slate-800 dark:text-gray-300 md:max-w-screen-md`
+          updatePosts
+            ? `bg-bg-primary  dark:bg-bg-tertiary-dark `
+            : `bg-[#FAFAFA]  dark:bg-bg-tertiary-dark ` +
+              `w-full cursor-pointer rounded-[20px]  dark:bg-bg-tertiary-dark dark:text-gray-300 
+          ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
+        `
         }>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -291,7 +282,7 @@ const Card = ({
               <Report
                 reportType="post"
                 setOpenDialog={setOpenDialog}
-                postId={id ? String(id) : ''}
+                postId={post?.id ? String(post?.id) : ''}
                 getPostCommets={() => {}}
                 setReported={setReported}
                 setReportedReplyId={() => {}}
@@ -304,7 +295,7 @@ const Card = ({
             <DialogContent className="bg-white sm:max-w-[500px]">
               <DeletePost
                 setOpenDeleteDialog={setOpenDeleteDialog}
-                postId={id ? String(id) : ''}
+                postId={post?.id ? String(post?.id) : ''}
                 setReported={() => {}}
                 updatePosts={updatePosts}
                 posts={posts}
@@ -314,7 +305,7 @@ const Card = ({
         </Suspense>
         <div
           className={
-            className
+            hideComments
               ? 'flex flex-col gap-[20px]'
               : 'flex flex-col gap-[20px] px-[24px] pb-[20px] pt-[28px] '
           }>
@@ -327,7 +318,10 @@ const Card = ({
                       className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
                       width={48}
                       height={48}
-                      src={user?.profile_picture_url || noProfilePicture.src}
+                      src={
+                        post?.author_details?.profile_picture_url ||
+                        noProfilePicture.src
+                      }
                       alt="user-picture"
                       onClick={handleNavigateProfile}
                     />
@@ -340,28 +334,27 @@ const Card = ({
                       className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
-                      {/*
-                       * "You" is based on user_id not on username what if i change username the "You" will also be changed.
-                       */}
-                      {String(userDetails.id) === String(user_id)
+                      {String(userDetails.id) === String(post?.user_id)
                         ? 'You'
-                        : user?.name}
+                        : post?.author_details?.name}
                     </p>
 
-                    <ChannelPill
-                      channel_id={String(channel_id)}
-                      channels={channels}
-                    />
+                    {channels && (
+                      <ChannelPill
+                        channel_id={String(post?.channel_id)}
+                        channels={channels}
+                      />
+                    )}
                   </div>
 
                   <p className="justify-start text-[0.70rem] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
-                    {timeFormatInHours(created_at as unknown as Date)}
+                    {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-0.5">
-                {reported && (
+                {/* {reported && (
                   <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
                     <div className="group relative inline-block text-black dark:text-white">
                       <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
@@ -370,7 +363,7 @@ const Card = ({
                       </div>
                     </div>
                   </div>
-                )}
+                )} */}
                 {!pathName.includes(`user-activity/${slug}/comment`) && (
                   <div onMouseLeave={handleMouseDown}>
                     <Popover open={popOver} onOpenChange={setPopOver}>
@@ -381,16 +374,18 @@ const Card = ({
                         aria-labelledby="postOptionsLabel"
                         role="button">
                         <span
-                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0"
-                          onClick={setOpenPopOver}>
+                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 "
+                          onClick={handleReportClick}>
                           {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
-                          <AlertOctagon size={17} />
+                          <AlertOctagon
+                            size={17}
+                            className={reported ? 'text-red' : ''}
+                          />
                         </span>
                       </PopoverTrigger>
                       <Suspense>
                         <PopoverContent className="bg-white">
-                          {' '}
-                          {String(post.user_id) === userDetails?.id ? (
+                          {String(post?.user_id) === userDetails?.id ? (
                             <div
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleDeleteClick}>
@@ -438,81 +433,71 @@ const Card = ({
             <CustomLink
               href={
                 pathName.includes('channels')
-                  ? `${pathName}/feed/${id}`
+                  ? `${pathName}/feed/${post?.id}`
                   : pathName.includes('saved')
-                  ? `/saved/feed/${id}`
-                  : `/feeds/feed/${id}`
+                  ? `/saved/feed/${post?.id}`
+                  : `/feeds/feed/${post?.id}`
               }>
               {' '}
-              <div className="text-start text-[16px]  font-[800] dark:text-white max-custom-sm:text-base">
-                <p>{title}</p>
+              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
+                <p>{post?.title}</p>
               </div>
             </CustomLink>
+            {post?.content && (
+              <div>
+                <CardContent content={post?.content} />
+                {post?.content?.length > 200 && (
+                  <CustomLink
+                    href={
+                      pathName.includes('channels')
+                        ? `${pathName}/feed/${post?.id}`
+                        : pathName.includes('saved')
+                        ? `/saved/feed/${post?.id}`
+                        : `/feeds/feed/${post?.id}`
+                    }>
+                    <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
+                      Show More
+                    </button>
+                  </CustomLink>
+                )}
+              </div>
+            )}
 
-            {
-              <>
-                <div className="card-li max-w-full !hyphens-auto !break-words text-start text-[16px] text-base font-[400] text-gray-700 dark:text-gray-300 ">
-                  <p className="inline">
-                    {displayedContent}
-                    {!showFullPost && content.length > 200 && (
-                      <span className="text-gray-500">
-                        ...
-                        <button
-                          className="ml-1 text-[10px] text-black underline dark:text-gray-400 lg:text-base"
-                          onClick={() => setShowFullPost(true)}>
-                          Read More
-                        </button>
-                      </span>
-                    )}
-                    {showFullPost && (
-                      <button
-                        className="ml-1 text-[10px] text-black underline dark:text-gray-400 lg:text-base"
-                        onClick={() => setShowFullPost(false)}>
-                        Read Less
-                      </button>
-                    )}
-                  </p>
-                </div>
-
-                {/* // * Image consistency for width / height and fill properties */}
-              </>
-            }
+            {post?.image_url && (
+              // * Image consistency for width / height and fill properties
+              <Image
+                quality={100}
+                src={post?.image_url}
+                alt="post"
+                height={500}
+                width={500}
+                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover"
+              />
+            )}
           </div>
-
-          <Image
-            quality={100}
-            src={PostImage}
-            alt="post"
-            height={500}
-            width={500}
-            className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover md:object-contain"
-          />
-          {!className && (
-            <div className="flex" key={id}>
+          {!hideComments && (
+            <div className="flex" key={post?.id}>
               <PostActionBar
-                postId={String(id)}
+                postId={String(post?.id)}
                 userReaction={
-                  reactionRef.current ? userReaction : user_reaction
+                  reactionRef.current ? userReaction : post?.user_reaction
                 }
                 setUserReaction={setUserReaction}
                 updateReactionArray={updateReactionArray}
-                reactionSummary={reactionSummary}
+                reactionSummary={reactionSummaryToUse}
                 disableReactionButton={disableReactionButton}
                 setDisableReactionButton={setDisableReactionButton}
                 userComment={userComment}
                 reactionRef={reactionRef}
                 updatePosts={updatePosts}
                 posts={posts}
+                totalComments={post?.total_comments}
+                handleBookmark={handleBookmark}
+                bookmarkSuccess={bookmarkSuccess}
               />
             </div>
           )}
         </div>
-
-        {/* <PostReactionBar
-          reaction_summary={reactionSummary}
-          postId={id ? String(id) : ''}
-        />
-        <hr /> */}
       </div>
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>

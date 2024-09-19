@@ -7,43 +7,27 @@ import {
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Heart } from 'lucide-react'
 import HeartIcon from '@/assets/icons/heartIcon'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import {
-  CommentCount,
-  CommentCountStore,
-  PostReactionBarProps,
-  ReactionCounts,
-} from '@/utils/interfaces/posts'
 import { ReactionEmoji } from '.'
 
 const ReactionButton = ({
   onReact,
-  post,
   userReaction,
-  loading,
   handleLikeWrapper,
   disableReactionButton,
   setDisableReactionButton,
-  reaction_summary,
+  reactionCountToUse,
 }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
   const [currentReaction, updateCurrentReaction] = useState('')
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
-  const [countofAll, setCountofAll] = useState<number>(0)
-  const [reactionArray, setReactionArray] = useState<[string, number][]>([])
-  const getAllPostData = () => {
-    const reactionEntries = Object?.entries(reaction_summary as ReactionCounts)
-
-    const sortedReactions = reactionEntries.sort((a, b) => b[1] - a[1])
-    setReactionArray(sortedReactions)
-  }
   const [currentReactionEmoji, setCurrentReactionEmoji] = useState({
     name: '',
     emoji: '',
   })
+
   const tokenInRedux =
     useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
@@ -74,7 +58,7 @@ const ReactionButton = ({
   }
 
   const handleReactionEmoji = () => {
-    if (tokenInRedux && !disableReactionButton && !loading && isLargeScreen) {
+    if (tokenInRedux && !disableReactionButton && isLargeScreen) {
       setDisableReactionButton(true)
       toggleHeartReaction()
       setEmojiPopoverVisible(false)
@@ -82,20 +66,20 @@ const ReactionButton = ({
   }
 
   const mouseEnter = () => {
-    if (tokenInRedux && !disableReactionButton)
-      !loading && setEmojiPopoverVisible(true)
+    if (tokenInRedux && !disableReactionButton) setEmojiPopoverVisible(true)
   }
 
   const mouseLeft = () => {
-    if (tokenInRedux) !loading && setEmojiPopoverVisible(false)
+    if (tokenInRedux) setEmojiPopoverVisible(false)
   }
 
   const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!loading && !disableReactionButton) {
+    if (!disableReactionButton) {
       setDisableReactionButton(true)
       selectReaction(e.target.id)
     }
   }
+
   useEffect(() => {
     if (currentReaction) {
       setCurrentReactionEmoji(
@@ -123,9 +107,9 @@ const ReactionButton = ({
           aria-labelledby="reactionOptionLabel"
           role="button">
           <div
-            className="dark:text-icon-dark pointer flex  items-center justify-center gap-[8px]"
+            className="dark:text-icon-dark pointer flex  items-center justify-center gap-2"
             onClick={handleLikeWrapperExtended}>
-            <div className="flex flex-col items-center">
+            <div className="flex items-center gap-2">
               <ReactionEmoji
                 reactionName={currentReactionEmoji?.name || 'none'}
                 emojiCharacter={
@@ -137,11 +121,11 @@ const ReactionButton = ({
                 isReactionOnLike={true}
               />
               {/* Add a small number under the heart emoji */}
-              <span className=" text-xs text-black">
-                {post?.totalReactionCount}
+              <span className="text-xs font-[900] text-black dark:text-white md:text-base">
+                {reactionCountToUse}
               </span>
             </div>
-            <div className="text-sm font-light text-[#666666] dark:text-white">
+            <div className="hidden  text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
               Like
             </div>
           </div>

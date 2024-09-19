@@ -1,5 +1,3 @@
-import React from 'react'
-
 const MoonIcon = ({ className, props }: any) => {
   return (
     <svg
@@ -7,7 +5,7 @@ const MoonIcon = ({ className, props }: any) => {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
       fill="currentColor"
-      className={`h-6 w-6 ${className}`}
+      className={`${className}`}
     >
       <path
         fillRule="evenodd"

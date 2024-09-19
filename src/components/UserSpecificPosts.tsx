@@ -2,7 +2,7 @@ import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import ProfilePosts from './ProfilePosts'
+import { Card } from './shared'
 
 const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
   const [posts, setPosts] = useState([...initialPosts])
@@ -23,8 +23,13 @@ const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
 
   return (
     <div className="flex flex-col gap-2">
-      {posts.slice(0, 3)?.map((post: PostsInterface, i: number) => (
-        <ProfilePosts key={i} userId={user} post={post} />
+      {posts.slice(0, 2)?.map((post: PostsInterface, i: number) => (
+        <Card
+          key={post.id}
+          post={post}
+          posts={posts}
+          // channels={post?.channel_id}
+        />
       ))}
       <div className=" flex cursor-pointer justify-center py-3 dark:bg-slate-800 dark:text-gray-300 max-md:text-sm">
         <div className="group flex justify-center">

@@ -1,13 +1,14 @@
+'use client'
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { AiFillHome, AiOutlineUserAdd } from 'react-icons/ai'
+import { AiOutlineUserAdd } from 'react-icons/ai'
 import { BsDot, BsFillBookmarksFill } from 'react-icons/bs'
 import {
-  RiArrowDropDownLine as DownArrow,
   RiSettings4Fill,
 } from 'react-icons/ri'
 import DropDownContent from '../shared/DropDownContent'
-import { ChannelInterface } from '@/utils/interfaces/channels'
+import HomeIcon from '@/assets/icons/home'
+import ArrowDown from '@/assets/icons/arrowDown'
 
 interface FeaturesDropDownInterface {
   classNameOuter: string
@@ -22,6 +23,7 @@ const FeaturesDropDown = ({
 }: FeaturesDropDownInterface) => {
   const [selected, setSelected] = useState('Home')
   const [showMenu, setShowMenu] = useState<boolean>(false)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   const divRef: any = useRef(null)
 
@@ -47,7 +49,7 @@ const FeaturesDropDown = ({
   )
 
   const showDiv = showMenu
-    ? `ml-[-1px] block  border-b border-l border-r border-[#e6e6e6] max-md:w-full z-50 ${classNamefeaturesDropDowm}`
+    ? `ml-[-1px] block max-md:w-full ${classNamefeaturesDropDowm}`
     : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {
@@ -83,10 +85,34 @@ const FeaturesDropDown = ({
     }
   }, [pathname])
 
+  const getSelectedIcon = () => {
+    const styles = 'mr-3 h-5 w-5 text-accent'
+    if (selected === 'Home' || 'Feeds') {
+      return <HomeIcon className={styles} />
+    } else if (selected === 'Settings') {
+      return <RiSettings4Fill className={styles} />
+    } else if (selected === 'Saved') {
+      return <BsFillBookmarksFill className={styles} />
+    } else if (selected === 'Channels') {
+      return <AiOutlineUserAdd className={styles} />
+    } else {
+      return (
+        <BsDot
+          className="mr-2 h-5 w-5 rounded-md border border-primary bg-gray-200"
+          fill={'black'}
+        />
+      )
+    }
+  }
+
   useEffect(() => {
     if (pathname) setSelectedFromPathName()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
+
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside)
@@ -104,26 +130,6 @@ const FeaturesDropDown = ({
     }
   }, [])
 
-  const getSelectedIcon = () => {
-    const styles = 'mr-2 h-5 w-5 text-accent'
-    if (selected === 'Home' || 'Feeds') {
-      return <AiFillHome className={styles} />
-    } else if (selected === 'Settings') {
-      return <RiSettings4Fill className={styles} />
-    } else if (selected === 'Saved') {
-      return <BsFillBookmarksFill className={styles} />
-    } else if (selected === 'Channels') {
-      return <AiOutlineUserAdd className={styles} />
-    } else {
-      return (
-        <BsDot
-          className="mr-2 h-5 w-5 rounded-md border border-primary bg-gray-200"
-          fill={'black'}
-        />
-      )
-    }
-  }
-
   return (
     <div
       className={` ${
@@ -131,23 +137,25 @@ const FeaturesDropDown = ({
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} h-8 rounded border border-[#e6e6e6] dark:dark:bg-black`}>
+        className={`${classNameInner} max-h-[42px] items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:dark:bg-black`}>
         <div
-          className="mt-[3px] flex justify-between px-[0.75rem] py-0"
+          className="mt-[3px] flex justify-between px-4 py-2"
           onClick={handleChecked}>
-          <div className="flex items-center normal-case text-black dark:text-white">
+          <div className="flex items-center normal-case text-black dark:text-white pr-3">
             {getSelectedIcon()}
-            <p>
+            <p className='font-extrabold text-base'>
               {selected.length > 16
                 ? `${selected.substring(0, 14)}...`
                 : selected}
             </p>
           </div>
-          <DownArrow className="text-2xl dark:text-white" />
+          <ArrowDown className="text-2xl dark:text-white" />
         </div>
-        <div className={`${showDiv} `}>
-          <DropDownContent handleLi={handleLi} />
-        </div>
+        {isHydrated && (
+          <div className={`${showDiv} `}>
+            <DropDownContent handleLi={handleLi} />
+          </div>
+        )}
       </div>
     </div>
   )

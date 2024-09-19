@@ -6,7 +6,8 @@ import { getUserFromCookie } from '@/utils/cookies'
 import { shareMetaData } from '@/utils/share-metadata'
 import { LayoutWrapper } from '@/wrappers/index'
 import type { Metadata } from 'next'
-import { cookies } from 'next/headers'
+import localFont from 'next/font/local'
+import { headers } from 'next/headers'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
@@ -14,12 +15,25 @@ export const metadata: Metadata = {
   ...shareMetaData,
 }
 
+const avenirBold = localFont({
+  src: '../assets/fonts/AvenirNextLTPro-Bold.otf',
+  variable: '--font-avenir-bold',
+  weight: '100 900',
+})
+const avenirRegular = localFont({
+  src: '../assets/fonts/AvenirNextLTPro-Regular.otf',
+  variable: '--font-avenir-regular',
+})
+
 async function RootLayout({ children }: { children: React.ReactNode }) {
   /**
    * ServerSide state of channels.
    */
   const { channels } = await getChannels()
   const { user, token, refreshToken } = await getUserFromCookie()
+  const pathname = headers().get("x-next-pathname")
+
+  const isError = pathname ==="/error";
 
   /**
    * ServerSide state of redux for initial rendering.
@@ -33,9 +47,7 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
       posts: [],
       commentCount: {},
     },
-    notFound: {
-      notFound: false,
-    },
+   
     loggedInUser: {
       token: token || null,
       userData: user,
@@ -45,11 +57,8 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <html lang="en">
-      <body className="theme-default bg-background dark:bg-dark-background">
+      <body className={`theme-default bg-bg-secondary ${isError ? "bg-white" : "dark:bg-dark-background dark:text-white"} ${avenirRegular.variable} ${avenirBold.variable} `}>
         <StoreProvider serverStore={serverState}>
-          {/*
-           * `Suspense` for no client side switching due to useSearchParams used in `LayoutWrapper`
-           */}
           <Suspense fallback={null}>
             <LayoutWrapper serverState={serverState}>{children}</LayoutWrapper>
           </Suspense>
