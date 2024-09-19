@@ -1,8 +1,6 @@
-interface TextIconProps {
-  className: string
-}
+import { IconProps } from "@/utils/interfaces/icons";
 
-function TextIcon({ className }: TextIconProps) {
+const TextIcon: React.FC<IconProps> = ({ className }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
