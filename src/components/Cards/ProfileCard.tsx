@@ -11,6 +11,7 @@ const ProfileCard = () => {
   const userDetails = useSelector(
     (state: LoggedInUser) => state?.loggedInUser?.userData,
   )
+
   const email = userDetails?.email || 'webeloper@gmail.com'
   if (!userDetails.id) {
     return <></>

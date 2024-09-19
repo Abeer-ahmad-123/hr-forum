@@ -1,9 +1,6 @@
 import RulesCard from '@/components/Cards/RuleCard'
-import { usePathname } from 'next/navigation'
 
 function RightSideBar() {
-
-  const pathname = usePathname()
 
   return (
     <div className='hidden md:block'>

@@ -4,12 +4,12 @@ import Link from 'next/link';
 
 interface MainMenuProps{
   path: string;
-  token: string | null;
+  user: string | null;
 }
 
-function MainMenu({path, token}: MainMenuProps) {
+function MainMenu({path, user}: MainMenuProps) {
 
-  const filteredMenuItems = token
+  const filteredMenuItems = user
     ? navigationItems.filter((item) => item.title !== 'Popular')
     : navigationItems.filter((item) => item.title !== 'Saved');
 
