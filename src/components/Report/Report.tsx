@@ -110,7 +110,7 @@ const Report = ({
                 type="radio"
                 id={text.reason}
                 name="example"
-                className="h-4 w-4 cursor-pointer border border-[#d3d3d3] accent-[#571ce0]"
+                className="h-4 w-4 cursor-pointer border border-[#d3d3d3] accent-bg-green"
                 value={selectedItem}
                 checked={selectedItem === text.reason}
               />
@@ -139,17 +139,17 @@ const Report = ({
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-[#F4F4F5] text-white  transition ">
           {' '}
-          cancel
+          Cancel
         </button>
         <button
           name="submit button"
           onClick={handleSubmit}
-          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-white 
-          ${loading ? 'bg-gray-300' : 'bg-accent'}
-          ${!selectedItem ? 'bg-gray-300' : 'bg-accent'}`}>
-          submit{' '}
+          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-sm font-semibold text-black 
+          ${loading ? 'bg-bg-green opacity-60' : 'bg-bg-green'}
+          ${!selectedItem ? 'bg-bg-green opacity-60' : 'bg-bg-green'}`}>
+          Submit{' '}
           {loading ? (
             <div className="ml-2">
               <CircularProgressIcon color="gray" />

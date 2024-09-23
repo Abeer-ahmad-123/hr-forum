@@ -15,7 +15,7 @@ function CardLoading() {
       className={`mt-4 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
       <div className="flex w-full max-w-screen-md flex-col">
         {pathName.includes(`/${slug}/`) ? (
-          <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-slate-800">
+          <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-bg-primary-dark">
             <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
             <div className="mt-2 flex items-center ">
               <div className="ml-4">

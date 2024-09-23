@@ -297,7 +297,7 @@ const PostActionBar = ({
                   aria-label="share options"
                   aria-labelledby="shareOptionsLabel"
                   role="button">
-                  <ShareIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
+                  <ShareIcon className="w-[16px]text-black h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
                   <span
                     className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block "
                     onClick={setOpenPopOver}>
@@ -305,9 +305,9 @@ const PostActionBar = ({
                   </span>
                 </PopoverTrigger>
 
-                <PopoverContent className="cursor-pointer bg-white">
+                <PopoverContent className="cursor-pointer rounded-[20px] bg-white p-2 shadow-[#00000059]">
                   <SocialButtons
-                    className="flex gap-3"
+                    className="flex gap-2 rounded-[20px]"
                     postId={postId}
                     handleButtonClick={handleButtonClick}
                   />
@@ -324,7 +324,7 @@ const PostActionBar = ({
                 bookmarkSuccess
                   ? 'fill-black dark:fill-white'
                   : '' +
-                    'mb-1 h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]'
+                    'mb-[2px] h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]'
               }
               fill={bookmarkSuccess ? 'black' : 'none'}
             />

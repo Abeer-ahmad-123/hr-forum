@@ -26,11 +26,10 @@ export default function NewPost({
   setAddPost,
   addPost,
   path,
-  channels
+  channels,
 }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
   const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
-  
 
   const handleOpenDialog = () => {
     setOpenDilog(true)
@@ -43,7 +42,14 @@ export default function NewPost({
     <>
       <Dialog open={openDilog} onOpenChange={handleClosedialog}>
         <div className="w-full max-w-screen-md" onClick={handleOpenDialog}>
-          {!addPost && <PostBar setAddPost={setAddPost} addPost={addPost} path={path} channels={channels} />}
+          {!addPost && (
+            <PostBar
+              setAddPost={setAddPost}
+              addPost={addPost}
+              path={path}
+              channels={channels}
+            />
+          )}
         </div>
         <Suspense>
           {data ? (
@@ -62,7 +68,7 @@ export default function NewPost({
 export const PostBar = ({
   setAddPost,
   path,
-  channels
+  channels,
 }: startNewPostProps): JSX.Element => {
   const user = useSelector((state: any) => state.loggedInUser.userData)
   const { profilePictureURL } = user
@@ -72,15 +78,17 @@ export const PostBar = ({
   }
 
   if (pathname.includes('/channels'))
-    return <ChannelsBanner
-      channelSlug={pathname.split('/')[2]}
-      path={path}
-      setAddPost={setAddPost}
-      channels={channels}
-    />
+    return (
+      <ChannelsBanner
+        channelSlug={pathname.split('/')[2]}
+        path={path}
+        setAddPost={setAddPost}
+        channels={channels}
+      />
+    )
 
   return (
-    <div className="flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-col items-end justify-end  gap-[16px] rounded-xl  bg-bg-primary  px-[24px] py-[19px]  dark:bg-bg-primary-dark dark:text-white md:flex-row md:items-center  md:justify-between ">
+    <div className="flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-col items-end justify-end  gap-[16px] rounded-xl  border  border-[#ECF0F5] bg-bg-primary  px-[24px] py-[19px] dark:border-[#202020] dark:bg-bg-primary-dark  dark:text-white md:flex-row md:items-center md:justify-between ">
       <div className="flex w-full items-center gap-4">
         <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
           <img

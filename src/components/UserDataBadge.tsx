@@ -14,6 +14,13 @@ const UserDataBadge = ({
 }: UserDataBadgeProps) => {
   const [showDropDown, setShowDropDown] = useState(false)
 
+  const handleOpenOverview = () => {
+    if (setShowDropDown) {
+      setShowDropDown((prev) => !prev)
+    } else {
+      return null
+    }
+  }
   const routeTo = `/user-activity/${userName
     ?.toLowerCase()
     .replace(/ /g, '-')}-${userId}`
@@ -22,6 +29,7 @@ const UserDataBadge = ({
   useEffect(() => {
     width = window.screen.width
   }, [width])
+
   return (
     <>
       <div
@@ -33,7 +41,11 @@ const UserDataBadge = ({
           }` +
           `flex  max-h-[304px]  w-full flex-col gap-5  rounded-[16px] bg-bg-primary p-4 text-left dark:bg-bg-primary-dark dark:text-white custom-mid-lg:mt-0 custom-mid-lg:min-w-[326px] custom-mid-lg:max-w-[326px]  custom-mid-lg:px-6  custom-mid-lg:pb-[20px] custom-mid-lg:pt-7`
         }>
-        <div className="flex  items-center justify-between">
+        <div
+          className="flex  items-center justify-between
+        
+        "
+          onClick={handleOpenOverview}>
           <h1 className="text-sm text-black dark:text-white custom-mid-sm:text-lg">
             Overview
           </h1>

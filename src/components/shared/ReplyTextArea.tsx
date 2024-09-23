@@ -143,9 +143,9 @@ function ReplyTextArea({
               </span>
             </PopoverTrigger>
 
-            <PopoverContent className="bg-white">
+            <PopoverContent className="rounded-[20px] bg-white p-2 shadow-[#00000059]">
               <SocialButtons
-                className="flex gap-3"
+                className="flex gap-2 rounded-[20px]"
                 postId={postId}
                 handleButtonClick={handleButtonClick}
               />
@@ -202,7 +202,7 @@ function ReplyTextArea({
         total_replies={replies?.comment?.total_replies}
         repliesLength={replies?.comment?.replies?.length}
       />
-      <div className={` ${!showTextArea && 'hidden'} `}>
+      <div className={` ${!showTextArea && ' hidden'} mt-[10px] `}>
         <TextArea
           submitCallback={submitCallback}
           setIsLoading={setIsLoading}
