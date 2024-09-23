@@ -105,7 +105,7 @@ function ReplyTextArea({
   return (
     <div>
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
-        <DialogContent className="bg-white sm:max-w-[500px]">
+        <DialogContent className="bg-white sm:max-w-[472px]">
           <CommentDelete
             setOpenDeleteDialog={setOpenDeleteDialog}
             commentId={replies?.comment?.id}
