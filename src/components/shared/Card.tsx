@@ -272,7 +272,7 @@ const Card = ({
       accessToken: getTokens()?.accessToken,
       refreshToken: getTokens()?.refreshToken,
     })
-  }, [])
+  }, [getTokens()?.accessToken])
 
   return (
     <div

@@ -17,14 +17,10 @@ import './style.css'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 
 interface newPostFormInterface {
-  open: (arg0: boolean) => void
   setAddPost: (arg0: boolean) => void
 }
 
-export default function NewPostForm({
-  open,
-  setAddPost,
-}: newPostFormInterface) {
+export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   const router = useRouter()
   const [formValues, setFormValues] = useState({
     title: '',
@@ -50,9 +46,9 @@ export default function NewPostForm({
   // const refreshToken = useSelector(
   //   (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
   // )
-  const accessToken = getTokens().accessToken
-  const refreshToken = getTokens().refreshToken
-  const userData = getUserData().user
+  const accessToken = getTokens()?.accessToken
+  const refreshToken = getTokens()?.refreshToken
+  const userData = getUserData()
 
   const pathname = usePathname()
   const { customFetch } = useInterceptor()
@@ -155,7 +151,6 @@ export default function NewPostForm({
         router.refresh()
         showSuccessAlert('Post has been created successfully')
         setLoading(false)
-        open(false)
       } else {
         showErrorAlert(result.errors[0])
         setLoading(false)
@@ -163,7 +158,6 @@ export default function NewPostForm({
     } catch (err) {
       showErrorAlert('Something went wrong while creating post.')
       setLoading(false)
-      open(false)
     }
   }
 

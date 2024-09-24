@@ -1,6 +1,7 @@
 import { ChannelByIdInterface } from './channels'
 import { PostsInterface } from './posts'
 import { SearchParams } from './renderFeeds'
+import { userData } from './userData'
 
 export interface FeedProps {
   channelSlug?: string | null
@@ -9,7 +10,7 @@ export interface FeedProps {
   morePosts?: boolean
   searchParams: SearchParams
   path: string
-  userId: number
+  user: userData
 }
 
 export type CommentObject = {

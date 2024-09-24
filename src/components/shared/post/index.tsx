@@ -97,7 +97,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   // const userData = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser?.userData,
   // )
-  const userData = getUserData().user
+  const userData = getUserData()
   const { handleRedirect } = useFetchFailedClient()
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)

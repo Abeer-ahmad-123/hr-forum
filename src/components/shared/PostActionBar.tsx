@@ -54,6 +54,7 @@ const PostActionBar = ({
     accessToken: '',
     refreshToken: '',
   })
+  console.log(tokens)
   // const tokenInRedux =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   // const refreshToken =
@@ -235,14 +236,13 @@ const PostActionBar = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
-
   useEffect(() => {
     setTokens({
       ...tokens,
       accessToken: getTokens()?.accessToken,
       refreshToken: getTokens()?.refreshToken,
     })
-  }, [])
+  }, [getTokens()?.accessToken])
 
   return (
     <>
@@ -266,12 +266,12 @@ const PostActionBar = ({
                 onClick={toggleCommentArea}
                 className="text-icon-light dark:text-icon-dark flex cursor-pointer  items-center gap-[8px]  font-black">
                 <CommentIcon className="h-[16px] w-[16px] text-black dark:text-white md:h-[20px] md:w-[20px] " />
-                <CustomLink
-                  href={
-                    pathName.includes('channels')
-                      ? `${pathName}/feed/${postId}`
-                      : `/feeds/feed/${postId}`
-                  }
+                <div
+                  // href={
+                  //   pathName.includes('channels')
+                  //     ? `${pathName}/feed/${postId}`
+                  //     : `/feeds/feed/${postId}`
+                  // }
                   className="flex items-center">
                   {commentCountToUse && commentCountToUse ? (
                     <span className="flex items-center justify-center gap-[8px]  text-[12px] font-light  text-black md:text-[16px]">
@@ -300,7 +300,7 @@ const PostActionBar = ({
                       Comment
                     </span>
                   )}
-                </CustomLink>
+                </div>
               </button>
             </div>
 

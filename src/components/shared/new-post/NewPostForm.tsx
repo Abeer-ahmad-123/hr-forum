@@ -46,9 +46,9 @@ export default function NewPostForm({
   // const userData = useSelector(
   //   (state: LoggedInUser) => state?.loggedInUser?.userData,
   // )
-  const accessToken = getTokens().accessToken
-  const refreshToken = getTokens().refreshToken
-  const userData = getUserData().user
+  const accessToken = getTokens()?.accessToken
+  const refreshToken = getTokens()?.refreshToken
+  const userData = getUserData()
   const pathname = usePathname()
   // const refreshToken = useSelector(
   //   (state: LoggedInUser) => state?.loggedInUser?.refreshToken,

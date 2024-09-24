@@ -1,10 +1,10 @@
 import { noProfilePicture } from '@/assets/images'
-import { getUserFromCookie } from '@/utils/cookies'
 import { PostBarProps } from '@/utils/interfaces/newPost'
 
-const PostBar = async ({ setAddPost }: PostBarProps): Promise<JSX.Element> => {
-  const { user } = await getUserFromCookie()
-
+const PostBar = async ({
+  setAddPost,
+  user,
+}: PostBarProps): Promise<JSX.Element> => {
   const handleStart = () => {
     setAddPost(true)
   }

@@ -36,8 +36,8 @@ const DeletePost = ({
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
   //   ''
 
-  const accessToken = getTokens().accessToken
-  const refreshToken = getTokens().refreshToken
+  const accessToken = getTokens()?.accessToken
+  const refreshToken = getTokens()?.refreshToken
 
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()

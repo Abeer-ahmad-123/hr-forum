@@ -27,8 +27,8 @@ const CommentDelete = ({
 }: CommentDeleteProps) => {
   const [loading, setLoading] = useState<boolean>(false)
 
-  const tokenInRedux = getTokens().accessToken
-  const refreshTokenInRedux = getTokens().refreshToken
+  const tokenInRedux = getTokens()?.accessToken
+  const refreshTokenInRedux = getTokens()?.refreshToken
 
   const { customFetch } = useInterceptor()
   // const disptach = useDispatch()

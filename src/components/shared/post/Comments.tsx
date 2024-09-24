@@ -28,7 +28,7 @@ function Comments({
   // const userData = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser?.userData,
   // )
-  const userData = getUserData().user
+  const userData = getUserData()
 
   const commentId = searchParams.get('commentId')
   const [comments, setComments] = useState<CommentInterface[]>(

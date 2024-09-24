@@ -10,7 +10,7 @@ function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
   // const userData = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser?.userData,
   // )
-  const userData = getUserData().user
+  const userData = getUserData()
 
   const router = useRouter()
 

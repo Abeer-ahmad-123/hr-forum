@@ -1,15 +1,12 @@
 'use client'
 import { googleAuthStart, signIn } from '@/services/auth/authService'
-import { AppDispatch } from '@/store'
-import { setUser } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChangeEvent, useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { ChangeEvent, useState } from 'react'
 import GoogleButton from '../shared/GoogleButton'
 import { LoginForm } from './LoginForm'
-import { setUserData } from '@/utils/local-stroage'
+import { setValueToLocalStoage } from '@/utils/local-stroage'
 
 export default function Login({
   toggleForm,
@@ -66,7 +63,6 @@ export default function Login({
           password,
         }),
       )
-
       if (
         !result?.success &&
         (result?.status === 401 || result?.status === 404)
@@ -80,7 +76,9 @@ export default function Login({
         return
       }
       if (result?.data?.token) {
-        setUserData(result?.data)
+        setValueToLocalStoage('userData', result?.data?.userData)
+        setValueToLocalStoage('token', result?.data?.token)
+        setValueToLocalStoage('refreshToken', result?.data['refresh-token'])
         // dispatch(
         //   setUser({
         //     ...result?.data,

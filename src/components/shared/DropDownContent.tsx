@@ -23,13 +23,7 @@ const DropDownContent = ({
   //   (state: StoreChannels) => state?.channels?.channels,
   // )
   const channels = ['']
-  const accessToken = getTokens().accessToken
-  const commonPrimaryText: string = 'text-bold bg-bg-tertiary'
-  const commonDarkModeText: string = 'dark:text-gray-200'
-
-  const checkEqual = (key: string): boolean => {
-    return pathname === key
-  }
+  const accessToken = getTokens()?.accessToken
 
   return (
     <ul

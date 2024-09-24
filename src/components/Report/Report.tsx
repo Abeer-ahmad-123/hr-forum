@@ -39,8 +39,8 @@ const Report = ({
   // const refreshToken =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
   //   ''
-  const accessToken = getTokens().accessToken
-  const refreshToken = getTokens().refreshToken
+  const accessToken = getTokens()?.accessToken
+  const refreshToken = getTokens()?.refreshToken
 
   const { handleRedirect } = useFetchFailedClient()
 

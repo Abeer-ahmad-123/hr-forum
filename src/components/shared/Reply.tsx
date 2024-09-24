@@ -37,8 +37,8 @@ function Reply({
   getPostCommets,
 }: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
-  const accessToken = getTokens().accessToken
-  const userData = getUserData().user
+  const accessToken = getTokens()?.accessToken
+  const userData = getUserData()
   const searchParams = useSearchParams()
   const params = useParams()
   const replyIdFromUrl = searchParams?.get('replyId')

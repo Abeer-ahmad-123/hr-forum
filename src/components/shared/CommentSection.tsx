@@ -36,7 +36,7 @@ const CommentSection = ({
   // const userId = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser?.userData?.id,
   // )
-  const userId = getUserData()?.user?.id
+  const userId = getUserData()?.id
   // * State for Show More / Less Comment;
   const [showFullComment, setShowFullComment] = useState(false)
   const pathName = usePathname()

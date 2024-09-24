@@ -4,7 +4,7 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { getTokens, setUserData } from '@/utils/local-stroage'
+import { getTokens, setValueToLocalStoage } from '@/utils/local-stroage'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 interface userDataProps {
@@ -30,8 +30,8 @@ const EditPage = ({
 
   const [userDetails, setUserDetails] = useState(userData)
 
-  const token = getTokens().accessToken
-  const refreshToken = getTokens().refreshToken
+  const token = getTokens()?.accessToken
+  const refreshToken = getTokens()?.refreshToken
 
   const originalData = useMemo(() => {
     return JSON.stringify(userData)
@@ -94,7 +94,7 @@ const EditPage = ({
         if (!response?.success) return router.push('/feeds')
 
         // dispatch(setUserData({ userData: response?.data }))
-        setUserData({ user: response?.data })
+        setValueToLocalStoage('userData', response?.data)
         setUpdatedUserData(response?.data)
         /**
          * Close the dialog on successful change

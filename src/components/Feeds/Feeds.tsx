@@ -1,5 +1,4 @@
 'use client'
-import NewPost from '@/components/shared/NewPost/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
 import { getChannelIdByChannelName } from '@/utils/channels'
@@ -10,7 +9,8 @@ import { useInView } from 'react-intersection-observer'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
-import { PostBar } from '../shared/new-post/NewPostModal'
+import PostBar from '../shared/NewPost/Postbar'
+import NewPostForm from '../shared/NewPost/NewPostForm'
 
 const Feeds = ({
   channelSlug,
@@ -19,7 +19,7 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
-  userId,
+  user,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
@@ -58,7 +58,7 @@ const Feeds = ({
 
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID: userId?.toString(),
+          userID: user?.id?.toString(),
           channelID: getChannelId,
         })
 
@@ -71,14 +71,14 @@ const Feeds = ({
             loadReactions: true,
             loadUser: true,
             pageNumber: page,
-            userID: userId?.toString(),
+            userID: user?.id?.toString(),
           })
           _data = data
         }
       } else {
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID: userId?.toString(),
+          userID: user?.id?.toString(),
         })
 
         _data = data
@@ -125,16 +125,15 @@ const Feeds = ({
 
   return (
     <>
-      {path !== '/saved' && userId && (
-        <div className="mb-5">
-          <PostBar
-            setAddPost={setAddPost}
-            addPost={addPost}
-            path={path}
-            channels={channels}
-          />
-        </div>
-      )}
+      {path !== '/saved' &&
+        user?.id &&
+        (addPost ? (
+          <NewPostForm setAddPost={setAddPost} />
+        ) : (
+          <div className="mb-5">
+            <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
+          </div>
+        ))}
 
       <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col gap-5">
         {!addPost && (

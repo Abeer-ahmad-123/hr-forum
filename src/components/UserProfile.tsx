@@ -21,6 +21,7 @@ import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
 import ProfileBg from '@/assets/images/ProfileBg.svg'
+import { setValueToLocalStoage } from '@/utils/local-stroage'
 
 const UserProfile = ({
   userId,
@@ -101,6 +102,7 @@ const UserProfile = ({
             })
           }
           setUser({ ...user, profilePictureURL: response?.data?.url })
+          setValueToLocalStoage('userData', response?.data)
           // dispatch(
           //   setUserData({
           //     userData: {

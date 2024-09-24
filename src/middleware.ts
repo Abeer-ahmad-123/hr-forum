@@ -6,6 +6,7 @@ export function middleware(request: NextRequest) {
   const redirect = NextResponse.redirect(new URL('/feeds', request.url))
   const pathname = request.nextUrl.pathname
   const requestHeaders = new Headers(request.headers)
+
   if (!pathname.includes('static')) {
     requestHeaders.set('x-next-pathname', pathname)
   }
@@ -27,8 +28,4 @@ export function middleware(request: NextRequest) {
       headers: requestHeaders,
     },
   })
-}
-
-export const config = {
-  matcher: ['/', '/profile', '/saved', '/login', '/register', '/error'],
 }

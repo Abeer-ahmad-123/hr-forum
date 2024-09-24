@@ -59,7 +59,7 @@ const TextArea = ({
   }, [isLoading])
 
   useEffect(() => {
-    setUserData(getUserData().user)
+    setUserData(getUserData())
   }, [])
 
   return (

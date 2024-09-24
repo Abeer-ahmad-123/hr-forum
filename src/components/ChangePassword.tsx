@@ -34,8 +34,8 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
   }
   const [errors, setErrors] = useState<any>(initialValues)
 
-  const token = getTokens().refreshToken
-  const refreshToken = getTokens().refreshToken
+  const token = getTokens()?.accessToken
+  const refreshToken = getTokens()?.refreshToken
 
   const { customFetch } = useInterceptor()
 

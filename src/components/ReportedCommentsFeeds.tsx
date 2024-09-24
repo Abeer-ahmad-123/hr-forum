@@ -121,7 +121,6 @@ const ReportedCommentsFeeds = ({
       // nProgress.done()
     }
   }, [])
-  const user = getUserData()?.user
 
   return isCommentsLoading ? (
     <CardLoading />

@@ -40,7 +40,7 @@ export default async function RenderFeedsGeneral({
               morePosts={morePosts}
               searchParams={searchParams}
               path={path}
-              userId={user?.id}
+              user={user}
             />
           </div>
         </div>

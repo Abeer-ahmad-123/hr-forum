@@ -53,7 +53,7 @@ function ReplyTextArea({
   // const userData = useSelector(
   //   (state: LoggedInUser) => state?.loggedInUser?.userData,
   // )
-  const userData = getUserData().user
+  const userData = getUserData()
 
   const toggleTextArea = () => {
     setShowTextArea((pre) => !pre)
