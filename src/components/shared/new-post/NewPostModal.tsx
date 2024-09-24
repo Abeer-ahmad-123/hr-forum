@@ -1,7 +1,7 @@
 'use client'
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { Suspense, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 // import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
 import { noProfilePicture } from '@/assets/images'
@@ -10,6 +10,7 @@ import ChannelsBanner from '@/components/ChannelsBanner'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 import SignInDialog from '../NewPost/SignInDialog'
+import { userData } from '@/utils/interfaces/userData'
 
 interface NewPostProps {
   addPost: boolean
@@ -75,11 +76,14 @@ export const PostBar = ({
   // const user = useSelector((state: any) => state.loggedInUser.userData)
   // const { profilePictureURL } = user
   const pathname = usePathname()
-  const userData = getUserData().user
+  const [userDetails, setUserDetails] = useState<userData>()
+
   const handleStart = () => {
     setAddPost(true)
   }
-
+  useEffect(() => {
+    setUserDetails(getUserData()?.user)
+  }, [])
   if (pathname.includes('/channels'))
     return (
       <ChannelsBanner
@@ -95,7 +99,7 @@ export const PostBar = ({
         <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
           <img
             className="h-full w-full rounded-full border-[2px] border-bg-green object-cover"
-            src={userData?.profilePictureURL ?? noProfilePicture.src}
+            src={userDetails?.profilePictureURL ?? noProfilePicture.src}
             height={44}
             width={44}
             alt="User"

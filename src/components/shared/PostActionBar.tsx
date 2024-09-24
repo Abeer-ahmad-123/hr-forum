@@ -242,7 +242,7 @@ const PostActionBar = ({
       accessToken: getTokens()?.accessToken,
       refreshToken: getTokens()?.refreshToken,
     })
-  }, [getTokens()?.accessToken])
+  }, [])
 
   return (
     <>

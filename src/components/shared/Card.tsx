@@ -38,7 +38,7 @@ import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './NewPost/SignInDialog'
 import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
-import { getTokens, getUserData } from '@/utils/local-stroage'
+import { getTokens } from '@/utils/local-stroage'
 
 type CardProps = {
   post: PostsInterface
@@ -70,7 +70,9 @@ const Card = ({
     accessToken: '',
     refreshToken: '',
   })
-  const userDetails = getUserData()?.user
+  const userDetails = { name: '', id: 0 }
+
+  // const userDetails = getUserData()?.user
   // const dispatch = useDispatch()
   // const userDetails = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser.userData,
@@ -270,7 +272,7 @@ const Card = ({
       accessToken: getTokens()?.accessToken,
       refreshToken: getTokens()?.refreshToken,
     })
-  }, [getTokens()?.accessToken])
+  }, [])
 
   return (
     <div

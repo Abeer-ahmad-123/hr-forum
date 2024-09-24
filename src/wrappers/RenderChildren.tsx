@@ -23,7 +23,7 @@ const RenderChildren = async ({
                 `}>
       <div className={isError ? 'mt-0' : 'mt-[101px]'}>
         <div className="flex w-full flex-row">
-          <LeftSidebar token={token} user={user} />
+          {/* <LeftSidebar token={token} user={user} /> */}
 
           <div
             className={`md:basis-1/2 ${
@@ -32,7 +32,7 @@ const RenderChildren = async ({
             {children}
           </div>
 
-          <RightSideBar isProfilePage={isProfilePage} />
+          {/* <RightSideBar isProfilePage={isProfilePage} /> */}
         </div>
       </div>
     </div>
