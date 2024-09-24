@@ -14,7 +14,7 @@ const RenderChildren = async ({
   const { token, user } = await getUserFromCookie()
   return (
     <div
-      className={`first-letter w-full transition-all duration-700 ease-in-out max-md:py-5 max-sm:p-[10px] 
+      className={`m-auto max-w-[1512px] transition-all duration-700 ease-in-out max-md:py-5 max-sm:p-[10px] 
                     ${
                       isRegisterPage || isLoginPage
                         ? 'flex items-center justify-center'

@@ -18,14 +18,13 @@ const LeftSidebar = ({ token, user }: any) => {
       router.refresh()
     }
   }
-
   return (
     <div className="relative mr-5 hidden h-screen max-h-[882px] w-full max-w-[322px] basis-1/4 flex-col items-end justify-between bg-white py-7 pl-10 pr-7 dark:bg-bg-primary-dark dark:text-white md:inline-block">
       <div>
-        {token && <ProfileCard user={user} />}
-        <MenuCard path={pathname} token={token} />
+        {user?.id && <ProfileCard />}
+        <MenuCard path={pathname} user={user?.id} />
       </div>
-      {token && (
+      {user?.id && (
         <div
           className="group absolute top-[80%] w-[254px] cursor-pointer rounded-md px-4 hover:bg-bg-tertiary hover:font-[800] dark:text-bg-tertiary dark:hover:bg-bg-tertiary-dark"
           onClick={handleLogout}>

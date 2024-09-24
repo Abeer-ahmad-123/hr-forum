@@ -23,3 +23,10 @@ export interface ChannelByIdInterface {
   href: string
   slug: string
 }
+
+export interface ChannelBannerProps {
+  channelSlug: string
+  path: string
+  setAddPost: (arg0: boolean) => void
+  channels?: ChannelByIdInterface
+}

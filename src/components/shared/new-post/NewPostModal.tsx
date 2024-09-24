@@ -15,13 +15,13 @@ interface NewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
-  channels: ChannelByIdInterface[]
+  channels?: ChannelByIdInterface
 }
 interface startNewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
-  channels: ChannelByIdInterface[]
+  channels?: ChannelByIdInterface
 }
 export default function NewPost({
   setAddPost,
@@ -91,7 +91,7 @@ export const PostBar = ({
     )
 
   return (
-    <div className="flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-col items-end justify-end  gap-[16px] rounded-xl  bg-bg-primary  px-[24px] py-[19px]  dark:bg-bg-primary-dark dark:text-white md:flex-row md:items-center  md:justify-between ">
+    <div className="flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-col items-end justify-end  gap-[16px] rounded-xl  border  border-[#ECF0F5] bg-bg-primary  px-[24px] py-[19px] dark:border-[#202020] dark:bg-bg-primary-dark  dark:text-white md:flex-row md:items-center md:justify-between ">
       <div className="flex w-full items-center gap-4">
         <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
           <img

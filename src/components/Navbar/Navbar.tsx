@@ -16,12 +16,11 @@ const Navbar = async ({ pathname }: NavbarProps) => {
 
   return (
     <div className="fixed top-0 z-50 h-[100px] w-full items-center justify-center border-b-[1px] border-bg-tertiary bg-white shadow-sm dark:border-bg-tertiary-dark dark:bg-bg-primary-dark max-md:h-[72px]">
-      <div className="m-auto flex w-full max-w-[1550px] items-center justify-between  px-6 py-4 max-[430px]:px-4 md:px-14 md:py-7">
+      <div className="m-auto flex w-full max-w-[1512px] items-center justify-between  px-6 py-4 max-[430px]:px-4 md:px-14 md:py-7">
         <div className="flex items-center">
           <Logo />
         </div>
         <div className="flex items-center justify-end gap-5 transition-all duration-700 ease-in-out max-md:gap-[12px] sm:w-full md:justify-end lg:flex-nowrap">
-          {/* //REmove this bg-bg-tertiary */}
           <div className="flex max-w-[420px] text-end transition-all duration-700 ease-in-out max-sm:justify-end md:w-full">
             <SearchBar />
           </div>

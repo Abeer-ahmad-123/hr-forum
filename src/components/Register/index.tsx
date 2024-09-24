@@ -136,49 +136,42 @@ export default function Register({
       setLoading(false)
     }
   }
-
-  const handleGoogleSignUp = async () => {
-    try {
-      const response = await googleAuthStart(pathname)
-      if (response?.success) {
-        router.push(response?.data)
-      }
-    } catch (err) {}
-  }
-
   return (
     <div
-      className={`container mx-auto flex ${
+      className={`container flex ${
         pathname.includes('register')
           ? 'h-full min-h-[calc(100vh-56px)]'
-          : 'h-[550px]'
+          : 'h-[694px]'
       }
        ${
-         isRegisterRoute ? 'w-[440px] ' : 'w-full max-w-[440px]'
-       } flex-col justify-center space-y-6`}>
+         isRegisterRoute ? 'w-[511px] ' : 'w-full max-w-[511px]'
+       } flex-col justify-start p-0`}>
       <div
         className={`${
           isRegisterRoute ? 'rounded-md shadow-2xl' : ''
-        } relative flex flex-col justify-center overflow-hidden`}>
+        } relative flex flex-col items-center justify-start overflow-hidden`}>
         <div
-          className={` m-auto w-full rounded-md bg-white p-4 shadow-md dark:bg-dark-background lg:max-w-xl`}>
-          <h1 className="mb-2 text-center text-3xl font-semibold dark:text-white">
-            Sign Up
+          className={`flex w-full flex-col items-center rounded-md bg-white shadow-md dark:bg-bg-primary-dark lg:max-w-xl`}>
+          <h1 className="mb-2 text-center text-xl font-semibold dark:text-white">
+            Create your account
           </h1>
-          <div className="cursor-pointer">
-            <GoogleButton title={'Sign Up'} onClick={handleGoogleSignUp} />
-          </div>
-          <p className="mt-4 text-center dark:text-white">OR</p>
+          <p className="text-center text-[14px] text-[#71717A]">
+            Enter your email and password to create your account
+          </p>
 
-          <RegisterForm
-            errors={errors}
-            loading={loading}
-            formValues={formValues}
-            handleInputChange={handleInputChange}
-            handleSignupSubmit={handleSignupSubmit}
-          />
+          <p className="mt-4 text-center dark:text-white">OR</p>
+          <div className="mt-4 w-full max-w-[348px] rounded-xl border border-[#E4E4E7] p-4 dark:border-bg-tertiary-dark md:min-w-[432px] md:p-6">
+            <RegisterForm
+              errors={errors}
+              loading={loading}
+              formValues={formValues}
+              handleInputChange={handleInputChange}
+              handleSignupSubmit={handleSignupSubmit}
+            />
+          </div>
+
           <>
-            <p className="mt-2 text-center text-xs font-light text-gray-700 dark:text-white">
+            <p className="mt-6 text-center text-xs font-light text-gray-700 dark:text-white">
               Already have an account?{' '}
               <button
                 name="sign in button"

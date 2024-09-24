@@ -4,14 +4,14 @@ import ChannelCard from './ChannelCard'
 
 interface MenuCardProps {
   path: string
-  token: string | null
+  user: string | null
 }
 
-const MenuCard = ({ path, token }: MenuCardProps) => {
+function MenuCard({ path, user }: MenuCardProps) {
   return (
     <div className="dark:bg-bg-primary-dark dark:text-gray-400">
       <div className={`pb-6 dark:bg-bg-primary-dark dark:text-gray-400`}>
-        <MainMenu path={path} token={token} />
+        <MainMenu path={path} user={user} />
       </div>
       <ChannelCard />
     </div>

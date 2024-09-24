@@ -14,10 +14,10 @@ const CardLoading = () => {
     <div
       className={`mt-4 flex justify-center max-md:mt-5  max-md:block max-md:w-full`}>
       <div className="flex w-full max-w-screen-md flex-col">
-        {pathName?.includes(`/${slug}/`) ? (
-          <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-slate-800">
+        {pathName.includes(`/${slug}/`) ? (
+          <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-bg-primary-dark">
             <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
-            <div className="mt-2 flex items-center">
+            <div className="mt-2 flex items-center ">
               <div className="ml-4">
                 <div className="flex flex-row gap-x-2">
                   <Skelton className="h-8 w-24 rounded-sm bg-skelton" />
@@ -31,7 +31,7 @@ const CardLoading = () => {
           <div className="mb-5">
             {pathName == '/saved' || pathName.includes('/feeds') ? (
               <Skelton
-                className={`mt-[15px] h-12 w-full rounded-md bg-skelton`}
+                className={`h-104 mt-[15px] w-full rounded-md bg-skelton`}
               />
             ) : (
               <BannerCardLoading />

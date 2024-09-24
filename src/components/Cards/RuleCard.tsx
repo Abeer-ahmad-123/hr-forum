@@ -6,6 +6,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { usePathname } from 'next/navigation'
 
 interface RulesCardProps {
   isProfilePage: boolean

@@ -191,7 +191,7 @@ export default function NewPostForm({
   }, [pathname])
 
   return (
-    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark ">
+    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px] rounded-xl bg-white  px-[16px] py-[16px] dark:bg-bg-primary-dark custom-sm:px-[24px] custom-sm:pb-[20px] custom-sm:pt-[28px] ">
       <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}

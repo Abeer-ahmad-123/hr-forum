@@ -1,4 +1,4 @@
-import { IconProps } from "@/utils/interfaces/icons"
+import { IconProps } from '@/utils/interfaces/icons'
 
 function Icon({ className, strokeWidth = '2' }: IconProps) {
   return (

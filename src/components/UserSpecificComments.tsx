@@ -38,12 +38,9 @@ const UserSpecificComments = ({
           </div>
         )
       })}
-      <div className="flex cursor-pointer justify-center py-3 max-md:text-sm">
+      <div className="flex cursor-pointer justify-center rounded-[6px] border border-[#F4F4F5] py-2 dark:border-[#202020]  dark:text-white max-md:text-sm">
         <div className="group flex justify-center">
-          <span onClick={handleClick}>Show all comments</span>
-          <div className="origin-center transform transition-transform group-hover:scale-x-150">
-            <ArrowRight size={16} className="ml-1 inline-block" />
-          </div>
+          <span onClick={handleClick}>Show All Comments</span>
         </div>
       </div>
     </>

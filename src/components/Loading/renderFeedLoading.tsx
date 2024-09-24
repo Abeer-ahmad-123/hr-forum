@@ -2,7 +2,7 @@ import Skelton from '@/components/ui/skelton'
 
 const RenderFeedLoading = () => {
   return (
-    <div className="mx-auto mb-5 h-fit w-full max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-slate-800 dark:text-gray-300">
+    <div className="mx-auto mb-5 h-fit w-full max-w-screen-md cursor-pointer rounded-xl bg-white shadow-lg dark:bg-bg-primary-dark dark:text-gray-300">
       <div className="px-4 py-4">
         <div className="flex items-center justify-between max-md:block">
           <div className="flex items-center">
@@ -33,12 +33,13 @@ const RenderFeedLoading = () => {
         </div>
       </div>
 
-      <div className="mx-5 pb-3 pt-1">
+      <div className="mx-5 flex items-center justify-between pb-3 pt-1">
         <div className="flex flex-row  items-center justify-around  ">
           <Skelton className="mx-1 h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
           <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
         </div>
+        <Skelton className="mx-1  h-7 w-24 rounded-md bg-skelton" />
       </div>
     </div>
   )
