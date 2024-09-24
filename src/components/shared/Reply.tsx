@@ -145,7 +145,7 @@ function Reply({
             <div
               className={`min-w-sml rounded-2xl   ${
                 pathName.includes('/feeds/feed/') ? '' : ''
-              } dark:bg-dark-background`}>
+              } dark:bg-bg-primary-dark`}>
               <div className="flex flex-row items-center justify-between">
                 <div
                   className="flex h-[40px] cursor-pointer items-center gap-2 text-left font-[500] text-black  dark:text-white max-custom-sm:text-[11px]
@@ -200,9 +200,9 @@ function Reply({
                         Share
                       </span>
                     </PopoverTrigger>
-                    <PopoverContent className="bg-white">
+                    <PopoverContent className="rounded-[20px] bg-white p-2 shadow-[#00000059]">
                       <SocialButtons
-                        className="flex gap-3"
+                        className="flex gap-2 rounded-[20px]"
                         postId={postId}
                         handleButtonClick={handleButtonClick}
                       />
@@ -246,7 +246,7 @@ function Reply({
         </div>
       </div>
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
-        <DialogContent className="bg-white sm:max-w-[500px]">
+        <DialogContent className="bg-white sm:max-w-[472px]">
           <CommentDelete
             setOpenDeleteDialog={setOpenDeleteDialog}
             commentId={reply?.id}

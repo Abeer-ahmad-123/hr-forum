@@ -72,23 +72,24 @@ const CommentDelete = ({
   }
 
   return (
-    <div className="rounded-lg bg-white p-4 dark:bg-dark-background dark:text-white">
-      <div className="text-sx mb-4 text-center font-medium">
-        Are you sure you want to delete the comment?
+    <div className="rounded-lg bg-white  dark:bg-bg-primary-dark dark:text-white">
+      <div className="item-start mb-5 flex flex-col gap-4">
+        <p className="text-lg font-semibold"> Delete this comment</p>
+        <p className="text-sm">Do you wish to delete this comment.</p>
       </div>
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-end gap-2">
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white dark:text-white ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-[#F4F4F5] font-medium text-black transition  dark:text-white ">
           {' '}
-          cancel
+          Cancel
         </button>
         <button
           name="delete button"
           onClick={handleDeleteComment}
-          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
-        text-white   ${loading ? 'bg-gray-300' : 'bg-accent'}
+          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md  font-medium
+        text-black   ${loading ? 'bg-[#FC6B6B]-300 ' : 'bg-[#FC6B6B]'}
           `}>
           Delete{' '}
           {loading ? (
