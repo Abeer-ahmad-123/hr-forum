@@ -8,16 +8,20 @@ import SignInDialog from './SignInDialog'
 import { noProfilePicture } from '@/assets/images'
 import { usePathname } from 'next/navigation'
 import ChannelsBanner from '@/components/ChannelsBanner'
+import { ChannelByIdInterface } from '@/utils/interfaces/channels'
 
 interface NewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
+  channels?: ChannelByIdInterface
 }
 interface startNewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
+  channels?: ChannelByIdInterface
+
 
 }
 export default function NewPost({
