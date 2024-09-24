@@ -45,12 +45,9 @@ const UserSpecificReaction = ({ posts, user }: any) => {
       {posts?.map((post: ReactionPostsFeedsProps, i: number) => (
         <Card key={post.userId} post={post.post} posts={posts} />
       ))}
-      <div className=" flex cursor-pointer justify-center py-3 dark:bg-bg-tertiary-dark dark:text-gray-300 max-md:text-sm">
+      <div className="flex cursor-pointer justify-center rounded-[6px] border border-[#F4F4F5] py-2 dark:border-[#202020]  dark:text-white max-md:text-sm">
         <div className="group flex justify-center">
-          <span onClick={handleClick}>Show more posts</span>
-          <div className="origin-center transform transition-transform group-hover:scale-x-150">
-            <ArrowRight size={16} className="ml-1 inline-block" />
-          </div>
+          <span onClick={handleClick}>Show All Reactions</span>
         </div>
       </div>
     </div>

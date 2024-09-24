@@ -1,27 +1,21 @@
-// import {
-//   FacebookIcon,
-//   FacebookShareButton,
-//   LinkedinIcon,
-//   LinkedinShareButton,
-//   RedditIcon,
-//   RedditShareButton,
-//   TelegramIcon,
-//   TelegramShareButton,
-//   TwitterIcon,
-//   TwitterShareButton,
-//   WhatsappIcon,
-//   WhatsappShareButton,
-// } from 'react-share'
+import {
+  FacebookShareButton,
+  LinkedinShareButton,
+  RedditShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+} from 'react-share'
 import TwitterIcon from '@/assets/icons/TwitterIcon'
 import FacebookIcon from '@/assets/icons/FacebookIcon'
 import RedditIcon from '@/assets/icons/RedditIcon'
 import WhatsappIcon from '@/assets/icons/WhatsappIcon'
-import TelegramIcon from '@/assets/icons/TelegramIcon'
+import CopyText from '@/assets/icons/TelegramIcon'
 import LinkedinIcon from '@/assets/icons/LinkedInIcon'
 
 import { DOMAIN_URL } from '@/services'
 import { showSuccessAlert } from '@/utils/helper'
-import { Link2 } from 'lucide-react'
 
 interface SocialButtonsProps {
   className: string
@@ -46,32 +40,26 @@ const SocialButtons = ({
 
   return (
     <div className={`${className}`}>
-      {/* <FacebookShareButton url={url}>
-        <FacebookIcon size={30} round />
-      </FacebookShareButton> */}
-      {/* <RedditShareButton url={url}>
-        <RedditIcon size={30} round />
-      </RedditShareButton> */}
-      {/* <LinkedinShareButton url={url}>
-        <LinkedinIcon size={30} round />
-      </LinkedinShareButton> */}
-      {/* <WhatsappShareButton url={url}>
-        <WhatsappIcon size={30} round />
-      </WhatsappShareButton> */}
-      {/* <TelegramShareButton url={url}>
-        <TelegramIcon size={30} round />
-      </TelegramShareButton> */}
+      <FacebookShareButton url={url}>
+        <FacebookIcon />
+      </FacebookShareButton>
+      <RedditShareButton url={url}>
+        <RedditIcon />
+      </RedditShareButton>
+      <LinkedinShareButton url={url}>
+        <LinkedinIcon />
+      </LinkedinShareButton>
+      <WhatsappShareButton url={url}>
+        <WhatsappIcon />
+      </WhatsappShareButton>
 
-      {/* <TwitterShareButton url={url}> */}
-      <TwitterIcon />
-      <FacebookIcon />
-      <RedditIcon />
-      <WhatsappIcon />
+      <TwitterShareButton url={url}>
+        <TwitterIcon />
+      </TwitterShareButton>
+
       <button name="share button" onClick={copyToClipBoard}>
-        <TelegramIcon />
+        <CopyText />
       </button>
-      <LinkedinIcon />
-      {/* </TwitterShareButton> */}
     </div>
   )
 }

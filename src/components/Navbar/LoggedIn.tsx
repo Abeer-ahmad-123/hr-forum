@@ -65,7 +65,7 @@ function LoggedIn() {
   )
 
   return (
-    <div className="flex  items-center justify-center">
+    <div className="flex items-center justify-center">
       <DropdownMenu open={openPopover} onOpenChange={setOpenPopover}>
         <DropdownMenuTrigger
           className="border-none outline-0"
@@ -75,11 +75,10 @@ function LoggedIn() {
         <DropdownMenuContent
           side="bottom"
           align="end"
-          className="dark:hover:bg-primary-accent border border-[#E4E4E7] bg-white dark:bg-black">
-          <DropdownMenuSeparator />
+          className="dark:hover:bg-primary-accent w-[224px] border border-[#E4E4E7] bg-white p-0 dark:bg-black">
           <DropdownMenuItem
             onClick={handleNavigateProfile}
-            className="cursor-pointer hover:text-white">
+            className="m-0 h-[42px] cursor-pointer px-3 py-3 hover:text-white">
             <div className={`flex gap-2 text-sm dark:text-white`}>
               <UserIcon />
               Profile
@@ -88,7 +87,7 @@ function LoggedIn() {
           <hr className=" h-[1px] w-full bg-[#E4E4E7] " />
           <DropdownMenuItem
             onClick={handleLogout}
-            className="cursor-pointer hover:text-white">
+            className="h-[42px] cursor-pointer border border-t-0  border-[#E4E4E7] px-3 py-3 hover:text-white">
             <button
               name="logout button"
               className={`flex w-full gap-2 text-sm  dark:text-white`}>
