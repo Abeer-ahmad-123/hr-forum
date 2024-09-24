@@ -1,6 +1,5 @@
 export interface RenderChildrenProps {
   isError: boolean
-  isRegisterPage: boolean
-  isLoginPage: boolean
+  pathname: string | null
   children: React.ReactNode
 }

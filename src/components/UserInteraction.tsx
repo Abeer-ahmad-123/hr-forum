@@ -4,9 +4,6 @@ import PostActionBar from '@/components/shared/PostActionBar'
 import { useEffect, useRef, useState } from 'react'
 import Comments from './shared/post/Comments'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
-import { useDispatch, useSelector } from 'react-redux'
-import { setPosts } from '@/store/Slices/postSlice'
-import { PostsInterfaceStore } from '@/utils/interfaces/posts'
 
 const UserInteraction = ({
   postId,
@@ -22,10 +19,10 @@ const UserInteraction = ({
   const [disableReactionButton, setDisableReactionButton] =
     useState<boolean>(false)
   const [userReaction, setUserReaction] = useState('')
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
-  const dispatch = useDispatch()
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
+  // const dispatch = useDispatch()
 
   const updateReactionArray = (
     reactionArray: ReactionSummary,
@@ -58,26 +55,26 @@ const UserInteraction = ({
       [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
     })
 
-    dispatch(
-      setPosts(
-        storePosts.map((post: any) => {
-          if (post.id === Number(postId)) {
-            return {
-              ...post,
-              reaction_summary: {
-                ...post.reaction_summary,
-                [increment]:
-                  reactionSummary[increment as keyof ReactionSummary] + 1,
-                [decrement]:
-                  reactionSummary[decrement as keyof ReactionSummary] - 1,
-              },
-              user_reaction: value,
-            }
-          }
-          return post
-        }),
-      ),
-    )
+    // dispatch(
+    //   setPosts(
+    //     storePosts.map((post: any) => {
+    //       if (post.id === Number(postId)) {
+    //         return {
+    //           ...post,
+    //           reaction_summary: {
+    //             ...post.reaction_summary,
+    //             [increment]:
+    //               reactionSummary[increment as keyof ReactionSummary] + 1,
+    //             [decrement]:
+    //               reactionSummary[decrement as keyof ReactionSummary] - 1,
+    //           },
+    //           user_reaction: value,
+    //         }
+    //       }
+    //       return post
+    //     }),
+    //   ),
+    // )
   }
 
   const incrementReactionCount = (increment: string, value: string) => {
@@ -85,24 +82,24 @@ const UserInteraction = ({
       ...reactionSummary,
       [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
     })
-    dispatch(
-      setPosts(
-        storePosts.map((post: any) => {
-          if (post.id === Number(postId)) {
-            return {
-              ...post,
-              reaction_summary: {
-                ...post.reaction_summary,
-                [increment]:
-                  reactionSummary[increment as keyof ReactionSummary] + 1,
-              },
-              user_reaction: value,
-            }
-          }
-          return post
-        }),
-      ),
-    )
+    // dispatch(
+    //   setPosts(
+    //     storePosts.map((post: any) => {
+    //       if (post.id === Number(postId)) {
+    //         return {
+    //           ...post,
+    //           reaction_summary: {
+    //             ...post.reaction_summary,
+    //             [increment]:
+    //               reactionSummary[increment as keyof ReactionSummary] + 1,
+    //           },
+    //           user_reaction: value,
+    //         }
+    //       }
+    //       return post
+    //     }),
+    //   ),
+    // )
   }
   const deleteReaction = (decrement: string, value: string) => {
     setReactionSummary({
@@ -110,24 +107,24 @@ const UserInteraction = ({
       [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
     })
 
-    dispatch(
-      setPosts(
-        storePosts.map((post: any) => {
-          if (post.id === Number(postId)) {
-            return {
-              ...post,
-              reaction_summary: {
-                ...post.reaction_summary,
-                [decrement]:
-                  reactionSummary[decrement as keyof ReactionSummary] - 1,
-              },
-              user_reaction: value,
-            }
-          }
-          return post
-        }),
-      ),
-    )
+    // dispatch(
+    //   setPosts(
+    //     storePosts.map((post: any) => {
+    //       if (post.id === Number(postId)) {
+    //         return {
+    //           ...post,
+    //           reaction_summary: {
+    //             ...post.reaction_summary,
+    //             [decrement]:
+    //               reactionSummary[decrement as keyof ReactionSummary] - 1,
+    //           },
+    //           user_reaction: value,
+    //         }
+    //       }
+    //       return post
+    //     }),
+    //   ),
+    // )
   }
 
   useEffect(() => {
@@ -155,10 +152,12 @@ const UserInteraction = ({
         userComment={{ id: '' }}
         updatePosts={() => {}}
         posts={[]}
-        //adjust the values 
+        //adjust the values
         totalComments={0}
-        handleBookmark={()=>{}}
+        handleBookmark={() => {}}
         bookmarkSuccess={false}
+        accessToken=""
+        refreshToken=""
       />
       <Comments
         postId={postId}

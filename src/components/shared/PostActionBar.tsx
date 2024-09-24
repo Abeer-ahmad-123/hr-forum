@@ -25,15 +25,13 @@ import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps, PostsInterface } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
-import SignInDialog from './new-post/SignInDialog'
+import SignInDialog from './NewPost/SignInDialog'
 import BookMark from '@/assets/icons/bookMarkIcon'
-import {
-  CommentCount,
-  CommentCountStore,
-
-} from '@/utils/interfaces/posts'
+import { CommentCount, CommentCountStore } from '@/utils/interfaces/posts'
 import { CustomLink } from './customLink/CustomLink'
 import { ReactionSummary } from '@/utils/interfaces/card'
+import { getTokens } from '@/utils/local-stroage'
+import { Tokens } from './Card'
 
 const PostActionBar = ({
   postId,
@@ -49,14 +47,18 @@ const PostActionBar = ({
   updatePosts,
   posts,
   totalComments,
-  handleBookmark, bookmarkSuccess,
+  handleBookmark,
+  bookmarkSuccess,
 }: PostActionBarProps) => {
-
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const refreshToken =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
   const [showCommentArea, setShowCommentArea] = useState(false)
   const [comment, setComment] = useState<any>([])
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
@@ -67,27 +69,36 @@ const PostActionBar = ({
   const [commentCount, setCommentCount] = useState<CommentCount>({})
   const [reactionCount, setReactionCount] = useState<number>(0)
   const isFirstRef = useRef<boolean>(true)
-  const commentCountInStore = useSelector(
-    (state: CommentCountStore) => state.posts.commentCount,
-  )
 
+  // const commentCountInStore = useSelector(
+  //   (state: CommentCountStore) => state.posts.commentCount,
+  // )
 
   const calculateTotalReactions = (reactions: ReactionSummary) => {
-    return reactions.like_count + reactions.love_count + reactions.clap_count + reactions.celebrate_count;
+    return (
+      reactions.like_count +
+      reactions.love_count +
+      reactions.clap_count +
+      reactions.celebrate_count
+    )
   }
 
-  const reactionCountToUse = isFirstRef.current ? calculateTotalReactions(reactionSummary) : reactionCount
+  const reactionCountToUse = isFirstRef.current
+    ? calculateTotalReactions(reactionSummary)
+    : reactionCount
 
-  useEffect(() => {
-    setCommentCount(commentCountInStore)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commentCountInStore])
+  // useEffect(() => {
+  //   setCommentCount(commentCountInStore)
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [commentCountInStore])
 
   const postCommentsCount = useMemo(() => {
     return commentCount[Number(postId)] || null
   }, [commentCount, postId])
 
-  const commentCountToUse = isFirstRef.current ? totalComments : postCommentsCount
+  const commentCountToUse = isFirstRef.current
+    ? totalComments
+    : postCommentsCount
 
   const { id } = useParams()
   const pathName = usePathname()
@@ -96,7 +107,7 @@ const PostActionBar = ({
   const submitReaction = async (value: string) => {
     if (pathName === '/feeds') reactionRef.current = true
     let response
-    if (tokenInRedux) {
+    if (tokens?.accessToken) {
       try {
         if (!userReaction || userReaction === 'none') {
           response = await postReactions(
@@ -105,8 +116,8 @@ const PostActionBar = ({
             },
             postId,
             customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
+            tokens?.accessToken,
+            tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
             value: value,
@@ -120,8 +131,8 @@ const PostActionBar = ({
             },
             postId,
             customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
+            tokens?.accessToken,
+            tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
             value: value,
@@ -132,8 +143,8 @@ const PostActionBar = ({
           response = await deleteReactions(
             postId,
             customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
+            tokens?.accessToken,
+            tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
             value: value === 'none' ? userReaction : value,
@@ -161,14 +172,14 @@ const PostActionBar = ({
   }
 
   const toggleCommentArea = () => {
-    if (tokenInRedux) {
+    if (tokens?.accessToken) {
       id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
     } else {
       setShowSignModal(true)
     }
   }
   const handleLikeWrapper = () => {
-    if (!tokenInRedux) {
+    if (!tokens?.accessToken) {
       setShowSignModal(true)
       return true
     } else {
@@ -221,7 +232,18 @@ const PostActionBar = ({
     }
   }, [reactionSummary])
 
-  useEffect(() => { isFirstRef.current = false }, [])
+  useEffect(() => {
+    isFirstRef.current = false
+  }, [])
+
+  useEffect(() => {
+    setTokens({
+      ...tokens,
+      accessToken: getTokens()?.accessToken,
+      refreshToken: getTokens()?.refreshToken,
+    })
+  }, [getTokens()?.accessToken])
+
   return (
     <>
       {/* * Added Gap between the action bar and the comment section */}
@@ -235,6 +257,7 @@ const PostActionBar = ({
               disableReactionButton={disableReactionButton}
               setDisableReactionButton={setDisableReactionButton}
               reactionCountToUse={reactionCountToUse}
+              accessToken={tokens?.accessToken}
             />
 
             <div className="flex w-full items-center  justify-center rounded-sm  hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
@@ -257,23 +280,29 @@ const PostActionBar = ({
                           <span className="font-[900] dark:text-white">
                             {postCommentsCount}
                           </span>
-                          <span className="text-sm font-light text-[#666666] dark:text-white">
+                          <span className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
                             Comments
                           </span>
                         </>
                       ) : (
-                        `${commentCountToUse} Comment`
+                        <>
+                          <span className="font-[900] text-black dark:text-white">
+                            {commentCountToUse}
+                          </span>
+                          <span className="hidden text-sm text-[#666666] dark:text-white custom-mid-sm:block ">
+                            Comment
+                          </span>
+                        </>
                       )}
                     </span>
                   ) : (
-                    <span className="text-sm font-light text-[#666666] dark:text-white">
+                    <span className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
                       Comment
                     </span>
-                  )
-                  }
-                </CustomLink >
-              </button >
-            </div >
+                  )}
+                </CustomLink>
+              </button>
+            </div>
 
             <div
               className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
@@ -285,9 +314,9 @@ const PostActionBar = ({
                   aria-label="share options"
                   aria-labelledby="shareOptionsLabel"
                   role="button">
-                  <ShareIcon className="w-[16px]text-black mt-[1px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
+                  <ShareIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
                   <span
-                    className="text-sm font-light text-[#666666] dark:text-white"
+                    className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block "
                     onClick={setOpenPopOver}>
                     Share
                   </span>
@@ -302,23 +331,29 @@ const PostActionBar = ({
                 </PopoverContent>
               </Popover>
             </div>
-          </div >
+          </div>
 
-          <div className="flex items-center justify-center gap-[8px]" onClick={handleBookmark}>
-            <BookMark className="h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]" fill={bookmarkSuccess ? "black" : "none"} />
-            <p className="text-sm text-[#666666] dark:text-white">Save</p>
+          <div
+            className="flex cursor-pointer items-center justify-center gap-[8px]"
+            onClick={handleBookmark}>
+            <BookMark
+              className="mb-1 h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]"
+              fill={bookmarkSuccess ? 'black' : 'none'}
+            />
+            <p className="hidden text-sm text-[#666666] dark:text-white custom-mid-sm:block ">
+              Save
+            </p>
           </div>
         </div>
 
-        {
-          pathName.includes('/comment')
-            ? comment.id && (
+        {pathName.includes('/comment')
+          ? comment.id && (
               <CommentSection
                 comment={comment}
                 setDeletedCommentId={setDeletedCommentId}
               />
             )
-            : !id && (
+          : !id && (
               <div className={`${!showCommentArea && 'hidden'} `}>
                 <CommentOrReply
                   className="m-2"
@@ -326,6 +361,8 @@ const PostActionBar = ({
                   Id={postId}
                   setComments={setComment}
                   postId={postId}
+                  refreshToken={tokens?.refreshToken}
+                  accessToken={tokens?.accessToken}
                 />
                 <div className="mt-[20px]">
                   {comment.length != 0 && (
@@ -336,9 +373,8 @@ const PostActionBar = ({
                   )}
                 </div>
               </div>
-            )
-        }
-      </div >
+            )}
+      </div>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />
       </Dialog>

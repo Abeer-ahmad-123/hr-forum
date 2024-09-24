@@ -9,35 +9,32 @@ import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getUserComments } from '@/services/comments'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-import { SlugProps } from '@/utils/interfaces/userData'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { ReportedProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/CardLoading'
+import { getUserData } from '@/utils/local-stroage'
 
-const UserCommentsFeeds = ({ slug }: SlugProps) => {
+const UserCommentsFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const firstRunRef = useRef<boolean>(true)
 
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const pathName = usePathname()
   const [ref, inView] = useInView()
 
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+  // )
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
 
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
@@ -62,11 +59,11 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
   const handleCommentCount = () => {
     const extractedPosts = comments?.map((item: any) => item.post)
 
-    dispatch(
-      setCommentCountInStore(
-        makeCommentNumberKeyValuePair(extractedPosts ?? []),
-      ),
-    )
+    // dispatch(
+    //   setCommentCountInStore(
+    //     makeCommentNumberKeyValuePair(extractedPosts ?? []),
+    //   ),
+    // )
   }
 
   const getComments = async () => {
@@ -87,7 +84,7 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
           ...prev,
           ...response?.data?.comments,
         ])
-        dispatch(setPosts([...comments, ...response?.data?.comments]))
+        // dispatch(setPosts([...comments, ...response?.data?.comments]))
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -118,18 +115,19 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
     handleCommentCount()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comments])
-  useEffect(() => {
-    setComments(storePosts.filter((item: any) => item.post !== undefined))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storePosts])
+  // useEffect(() => {
+  //   setComments(storePosts.filter((item: any) => item.post !== undefined))
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [storePosts])
+  const user = getUserData()?.user
 
   return isCommentsLoading ? (
-    <CardLoading />
+    <CardLoading user={user} />
   ) : (
     <div className="mx-auto flex max-w-screen-xl justify-center">
-      <div
+      {/* <div
         className={`mr-[5px] ${
-          token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
+          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userData && <ProfileCard />}
         <div
@@ -140,14 +138,14 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
         </div>
         <div
           className={`sticky ${
-            token
+            accessToken
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
           } max-h-screen`}>
           {' '}
           <RulesCard />
         </div>
-      </div>
+      </div> */}
 
       <div className={`w-full max-w-screen-md`}>
         <div className="flex w-full justify-center">
@@ -174,7 +172,10 @@ const UserCommentsFeeds = ({ slug }: SlugProps) => {
                             channels={channels}
                             updatePosts={setComments}
                             posts={comments}
+                            userId={Number(userData?.id)}
                             userComment={comment}
+                            accessToken=""
+                            refreshToken=""
                           />
                         )
                       }

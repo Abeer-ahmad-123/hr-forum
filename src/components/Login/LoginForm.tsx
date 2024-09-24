@@ -29,9 +29,9 @@ export function LoginForm({
       />
       <Label className="pb-2 text-sm font-normal">Password</Label>
 
-      <div className="flex items-center rounded-xl border border-[#d3d3d3]  focus-within:border-blue-500">
+      <div className="flex items-center rounded-xl border border-[#d3d3d3] dark:border-bg-tertiary-dark ">
         <input
-          className="focus:border-primary-purple focus:ring-primary-purple mx-0 block w-full rounded-xl    px-4 py-2 font-[300] focus:outline-none dark:bg-dark-background dark:text-white"
+          className="focus:border-primary-purple focus:ring-primary-purple mx-0 block w-full rounded-xl    px-4 py-2 font-[300] focus:outline-none dark:bg-bg-primary-dark dark:text-white"
           name="password"
           value={password}
           type={showPassword ? 'text' : 'password'}
@@ -39,13 +39,15 @@ export function LoginForm({
           onChange={handleInputChange}
         />
         {showPassword ? (
-          <button onClick={handleShowPassowrd}>
-            <PasswordEyeIcon className=" ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700" />
-          </button>
+          <PasswordEyeIcon
+            onClick={handleShowPassowrd}
+            className="ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700"
+          />
         ) : (
-          <button onClick={handleShowPassowrd}>
-            <EyeClosedIcon className=" ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700" />
-          </button>
+          <EyeClosedIcon
+            onClick={handleShowPassowrd}
+            className="ml-2 mr-4 cursor-pointer text-gray-500 hover:text-gray-700"
+          />
         )}
       </div>
       {/* <CustomLink

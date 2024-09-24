@@ -39,7 +39,13 @@ const SinglePostWithDialog = ({ id, data }: SinglePostWithDialogProps) => {
       <DialogContent className="w-full max-w-[759px] bg-white ">
         <DialogDescription>
           <Suspense fallback={<PostSkelton isDialogPost={true} />}>
-            <Post isDialogPost={true} postId={id} data={data} />
+            <Post
+              isDialogPost={true}
+              postId={id}
+              data={data}
+              refreshToken=""
+              accessToken=""
+            />
           </Suspense>
         </DialogDescription>
       </DialogContent>

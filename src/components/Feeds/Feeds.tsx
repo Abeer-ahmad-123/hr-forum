@@ -1,20 +1,16 @@
 'use client'
-import PostBar from '@/components/shared/new-post/NewPostModal'
+import NewPost from '@/components/shared/NewPost/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { getChannelIdByChannelName } from '@/utils/channels'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
-import { StoreChannels } from '@/utils/interfaces/channels'
 import { FeedProps } from '@/utils/interfaces/feeds'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
+import { PostsInterface } from '@/utils/interfaces/posts'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
+import { PostBar } from '../shared/new-post/NewPostModal'
 
 const Feeds = ({
   channelSlug,
@@ -23,21 +19,21 @@ const Feeds = ({
   morePosts,
   searchParams,
   path,
-  user,
+  userId,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
   )
 
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
 
   const [page, setPage] = useState(2)
-  const dispatch = useDispatch()
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+  // const dispatch = useDispatch()
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+  // )
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
   const [addPost, setAddPost] = useState<boolean>(false)
@@ -62,7 +58,7 @@ const Feeds = ({
 
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID: userData.id,
+          userID: userId?.toString(),
           channelID: getChannelId,
         })
 
@@ -75,14 +71,14 @@ const Feeds = ({
             loadReactions: true,
             loadUser: true,
             pageNumber: page,
-            userID: userData.id,
+            userID: userId?.toString(),
           })
           _data = data
         }
       } else {
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID: userData.id,
+          userID: userId?.toString(),
         })
 
         _data = data
@@ -93,11 +89,11 @@ const Feeds = ({
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
-    dispatch(setPosts([...storePosts, ..._data?.posts]))
+    // dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
-  const handleCommentCount = () => {
-    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
-  }
+  // const handleCommentCount = () => {
+  //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
+  // }
   useEffect(() => {
     if (inView) {
       getPosts()
@@ -107,20 +103,21 @@ const Feeds = ({
 
   useEffect(() => {
     if (searchParams.search || channelSlug) {
-      if (path === '/saved' && storePosts.length > 0) return
+      // if (path === '/saved' && storePosts.length > 0) return
+      if (path === '/saved') return
       updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
+      // dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
       updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
+      // dispatch(setPosts([...initialPosts]))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
-  useEffect(() => {
-    handleCommentCount()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts])
+  // useEffect(() => {
+  //   handleCommentCount()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [posts])
 
   useEffect(() => {
     noMorePosts.current = morePosts
@@ -128,29 +125,37 @@ const Feeds = ({
 
   return (
     <>
-      {path !== '/saved' && user && (
+      {path !== '/saved' && userId && (
         <div className="mb-5">
-          <PostBar setAddPost={setAddPost} addPost={addPost} />
+          <PostBar
+            setAddPost={setAddPost}
+            addPost={addPost}
+            path={path}
+            channels={channels}
+          />
         </div>
       )}
 
-      <div className="min-h-[70vh] w-full max-w-[759px]">
-        {!addPost &&
-          (!!posts?.length ? (
-            posts?.map((post: any, index: number) => {
-              return (
-                <Card
-                  key={index}
-                  post={post}
-                  channels={channels}
-                  updatePosts={updatePosts}
-                  posts={posts}
-                />
-              )
-            })
-          ) : (
-            <NoPosts />
-          ))}
+      <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col gap-5">
+        {!addPost && (
+          <>
+            {!!posts?.length ? (
+              posts?.map((post: any, index: number) => {
+                return (
+                  <Card
+                    key={index}
+                    post={post}
+                    channels={channels}
+                    updatePosts={updatePosts}
+                    posts={posts}
+                  />
+                )
+              })
+            ) : (
+              <NoPosts />
+            )}
+          </>
+        )}
 
         {!!posts?.length && !addPost && addPost && noMorePosts?.current && (
           <CircularProgress incommingRef={ref} />

@@ -1,12 +1,10 @@
 'use client'
 import { navigation } from '@/utils/data'
-import { StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname } from 'next/navigation'
-import { useSelector } from 'react-redux'
 import { CustomLink } from './customLink/CustomLink'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import HrGeneral from '@/assets/icons/hrGeneral'
 import SmileIcon from '@/assets/icons/smileIcon'
+import { getTokens } from '@/utils/local-stroage'
 
 type NavigationItem = {
   name: string
@@ -20,28 +18,20 @@ const DropDownContent = ({
   handleLi: () => void
 }): JSX.Element => {
   const pathname = usePathname()
-  const channels = useSelector(
-    (state: StoreChannels) => state?.channels?.channels,
-  )
+  // const channels = useSelector(
+  //   (state: StoreChannels) => state?.channels?.channels,
+  // )
+  const channels = ['']
+  const accessToken = getTokens().accessToken
   const commonPrimaryText: string = 'text-bold bg-bg-tertiary'
   const commonDarkModeText: string = 'dark:text-gray-200'
 
   const textStyle = (key: string): string => {
-    return checkEqual(key)
-      ? commonPrimaryText
-      : `text-gray-600 ${commonDarkModeText}`
+    return checkEqual(key) ? commonPrimaryText : commonDarkModeText
   }
 
   const iconStyle = (key: string): string => {
-    return checkEqual(key)
-      ? commonPrimaryText
-      : `text-gray-400  ${commonDarkModeText}`
-  }
-
-  const channelNameStyle = (key: string): string => {
-    return checkEqual(key)
-      ? `${commonPrimaryText} dark:${commonPrimaryText}`
-      : `text-gray-500 ${commonDarkModeText}`
+    return checkEqual(key) ? commonPrimaryText : commonDarkModeText
   }
 
   const sidebarLinkStyle = (key: string): string => {
@@ -54,18 +44,15 @@ const DropDownContent = ({
     return pathname === key
   }
 
-  const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
-
   return (
-    <ul className={`mx-5 rounded-2xl border bg-white pt-3 dark:bg-black`}>
-      <div className="lg:h-3"></div>
-
+    <ul
+      className={`relative z-50 rounded-2xl border bg-white pt-3 dark:bg-bg-tertiary-dark`}>
       {navigation.map((item: NavigationItem, index: number) => {
-        if ((!token && item.name !== 'Saved') || token)
+        if ((!accessToken && item.name !== 'Saved') || accessToken)
           return (
             <div key={index} className="px-4">
               <li
-                className="mt-1 rounded-md hover:bg-bg-tertiary active:bg-bg-tertiary dark:text-gray-200 dark:hover:bg-gray-700"
+                className={`mt-1 rounded-md hover:bg-bg-tertiary dark:hover:bg-bg-primary-dark dark:active:bg-bg-primary-dark`}
                 onClick={handleLi}>
                 <CustomLink
                   href={item?.href}
@@ -74,7 +61,7 @@ const DropDownContent = ({
                   )}`}
                   data-testid="navigation-heading">
                   <item.icon
-                    className={`h-6 w-6 shrink-0 ${iconStyle(item?.href)}`}
+                    className={`h-5 w-5 shrink-0 ${iconStyle(item?.href)}`}
                     aria-hidden="true"
                     data-testid="navigation-icon"
                   />
@@ -85,26 +72,33 @@ const DropDownContent = ({
           )
       })}
 
-      <div className="mb-3 pl-2 text-base font-[800] text-bg-black">
+      <div className="mx-4 mt-3 pl-2 text-base font-[800] text-bg-black dark:text-bg-tertiary">
         Explore variety of channels
       </div>
 
-      {channels?.map((item: any, index: number) => (
-        <li
-          className="border-none text-base"
-          key={index}
-          onClick={handleLi}
-          data-testid="side-channels">
-          <CustomLink
-            href={`${'/channels/' + item?.slug}`}
-            className={`${sidebarLinkStyle(`/channels/${item?.name}`)}`}>
-            <div className="flex gap-3 rounded-md py-[10px] hover:bg-bg-tertiary hover:font-[800]">
-              {item?.slug == 'hr-general' ? <HrGeneral /> : <SmileIcon />}
-              <span>{item?.name}</span>
-            </div>
-          </CustomLink>
-        </li>
-      ))}
+      <div className="mb-4 mt-3">
+        {channels?.map((item: any, index: number) => (
+          <li
+            className="border-none text-base "
+            key={index}
+            onClick={handleLi}
+            data-testid="side-channels">
+            <CustomLink
+              href={`${'/channels/' + item?.slug}`}
+              className={`${sidebarLinkStyle(`/channels/${item?.name} `)}`}>
+              <div
+                className={`mx-4 my-1 flex gap-3 py-[8px] dark:hover:bg-bg-primary-dark  ${
+                  pathname === `/channels/${item.slug}`
+                    ? 'bg-bg-tertiary font-[800] dark:bg-bg-primary-dark'
+                    : ''
+                }  rounded-md hover:bg-bg-tertiary hover:font-[800]`}>
+                {item?.slug == 'hr-general' ? <HrGeneral /> : <SmileIcon />}
+                <span>{item?.name}</span>
+              </div>
+            </CustomLink>
+          </li>
+        ))}
+      </div>
     </ul>
   )
 }

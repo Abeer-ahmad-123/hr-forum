@@ -6,10 +6,8 @@ import {
 } from '@/components/ui/popover'
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import HeartIcon from '@/assets/icons/heartIcon'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { ReactionEmoji } from '.'
 
 const ReactionButton = ({
@@ -18,9 +16,9 @@ const ReactionButton = ({
   handleLikeWrapper,
   disableReactionButton,
   setDisableReactionButton,
-  reactionCountToUse
+  reactionCountToUse,
+  accessToken,
 }: any) => {
-
   const { isLargeScreen } = useScreenSize(1024)
   const [currentReaction, updateCurrentReaction] = useState('')
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
@@ -29,8 +27,8 @@ const ReactionButton = ({
     emoji: '',
   })
 
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
   const handleLikeWrapperExtended: React.MouseEventHandler<HTMLDivElement> = (
     e,
@@ -59,7 +57,7 @@ const ReactionButton = ({
   }
 
   const handleReactionEmoji = () => {
-    if (tokenInRedux && !disableReactionButton && isLargeScreen) {
+    if (accessToken && !disableReactionButton && isLargeScreen) {
       setDisableReactionButton(true)
       toggleHeartReaction()
       setEmojiPopoverVisible(false)
@@ -67,12 +65,11 @@ const ReactionButton = ({
   }
 
   const mouseEnter = () => {
-    if (tokenInRedux && !disableReactionButton)
-      setEmojiPopoverVisible(true)
+    if (accessToken && !disableReactionButton) setEmojiPopoverVisible(true)
   }
 
   const mouseLeft = () => {
-    if (tokenInRedux) setEmojiPopoverVisible(false)
+    if (accessToken) setEmojiPopoverVisible(false)
   }
 
   const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {
@@ -123,11 +120,11 @@ const ReactionButton = ({
                 isReactionOnLike={true}
               />
               {/* Add a small number under the heart emoji */}
-              <span className="text-base text-black font-[900]">
+              <span className="text-xs font-[900] text-black dark:text-white md:text-base">
                 {reactionCountToUse}
               </span>
             </div>
-            <div className="text-sm font-light text-[#666666] dark:text-white">
+            <div className="hidden  text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
               Like
             </div>
           </div>

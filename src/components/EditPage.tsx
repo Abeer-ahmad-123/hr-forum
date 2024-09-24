@@ -2,13 +2,11 @@
 import { InputField } from '@/components/shared'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
-import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { getTokens, setUserData } from '@/utils/local-stroage'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 interface userDataProps {
   name: string
   email: string
@@ -26,20 +24,22 @@ const EditPage = ({
   handleCloseDialog,
   setUpdatedUserData,
 }: EditPageProps) => {
-  const dispatch = useDispatch()
+  const { customFetch } = useInterceptor()
+  const router = useRouter()
+  // const dispatch = useDispatch()
+
   const [userDetails, setUserDetails] = useState(userData)
+
+  const token = getTokens().accessToken
+  const refreshToken = getTokens().refreshToken
+
   const originalData = useMemo(() => {
     return JSON.stringify(userData)
   }, [userData])
+
   const isContentChanged = useMemo(() => {
     return JSON.stringify(userDetails) !== originalData
   }, [userDetails, originalData])
-  const router = useRouter()
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  const refreshToken =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
-  const { customFetch } = useInterceptor()
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -93,7 +93,8 @@ const EditPage = ({
         )
         if (!response?.success) return router.push('/feeds')
 
-        dispatch(setUserData({ userData: response?.data }))
+        // dispatch(setUserData({ userData: response?.data }))
+        setUserData({ user: response?.data })
         setUpdatedUserData(response?.data)
         /**
          * Close the dialog on successful change
@@ -112,37 +113,52 @@ const EditPage = ({
         Edit your personal info
       </h3>
       <div>
-        <h4 className="mb-3 text-left text-sm  dark:text-white">Name</h4>
+        <h4 className="mb-3 mt-5 text-left text-sm font-medium  dark:text-white">
+          Full Name
+        </h4>
         <InputField
           name="name"
-          placeholder="name"
+          placeholder="Full name"
           value={userDetails?.name}
           onChange={handleChange}
         />
-        <h4 className="mb-3 text-left text-sm  dark:text-white">Email</h4>
+        <h4 className="mb-3 text-left text-sm font-medium  dark:text-white">
+          Email Address
+        </h4>
         <InputField
           name="email"
-          placeholder="email"
+          placeholder="Email Address"
           value={userDetails?.email}
           onChange={handleChange}
         />
-        <h4 className="mb-3 text-left text-sm  dark:text-white">Bio</h4>
+        <h4 className="mb-3 text-left text-sm font-medium  dark:text-white">
+          Bio
+        </h4>
         <textarea
           name="bio"
-          placeholder="bio"
+          placeholder="Tallk about yourself..."
           // * Added dark mode classes above changes are of prettier
-          className="font-sans w-full rounded-lg border border-[#571ce0] p-4 font-light ring-1 ring-gray-200 dark:bg-dark-background dark:text-white"
+          className="min-h-[156px] w-full  rounded-lg border border-[#d3d3d3]  p-4 outline-[#d3d3d3] dark:border-bg-tertiary-dark  dark:bg-bg-primary-dark  dark:text-white dark:outline-bg-tertiary-dark"
           value={userDetails?.bio}
           onChange={handleChange}
         />
       </div>
-      <button
-        name="update button"
-        onClick={handleSubmit}
-        disabled={!isContentChanged}
-        className="mb-1 mt-2 w-full rounded bg-accent px-4 py-2 text-xs font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none sm:mr-2 disabled:opacity-60 disabled:cursor-not-allowed">
-        Update
-      </button>
+      <div className="flex items-center justify-end gap-3">
+        <button
+          name="cancel button"
+          onClick={handleCloseDialog}
+          disabled={!isContentChanged}
+          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md border border-[#F4F4F5] bg-bg-primary px-4 py-2 text-sm font-semibold text-black outline-none     transition-all  duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 dark:border-[#202020] dark:bg-bg-primary-dark dark:text-white sm:mr-2">
+          Cancel
+        </button>
+        <button
+          name="update button"
+          onClick={handleSubmit}
+          disabled={!isContentChanged}
+          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md bg-bg-green px-4 py-2 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:mr-2">
+          Update
+        </button>
+      </div>
     </div>
   )
 }

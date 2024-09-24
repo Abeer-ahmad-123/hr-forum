@@ -1,7 +1,6 @@
 'use client'
 import { DownIcon } from '@/assets/icons'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import {
   DropdownMenu,
@@ -15,9 +14,10 @@ import { usePathname } from 'next/navigation'
 import VectorChannelIcon from '@/assets/icons/VectorChannelIcon'
 
 const Dropdown = ({ handleDropDownValue, value }: any) => {
-  const channels = useSelector(
-    (state: StoreChannels) => state.channels.channels,
-  )
+  // const channels = useSelector(
+  //   (state: StoreChannels) => state.channels.channels,
+  // )
+  const channels = [{ name: '', id: 0 }]
   const pathName = usePathname()
   const [buttonValue, setButtonValue] = useState('Select a Channel')
   const channelSlugRoute = pathName.split('/')[2]
@@ -33,7 +33,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
           <DropdownMenuTrigger
             className={`inline-flex ${
               channelSlugRoute ? 'pointer-events-none' : 'cursor-pointer'
-            }  h-[48px] w-[160px] items-center justify-center gap-[8px] rounded-[20px]  bg-bg-tertiary px-[10px] py-[12px] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-dark-primary dark:text-white`}>
+            }  h-[48px] w-[160px] items-center justify-center gap-[8px] rounded-[20px]  bg-bg-tertiary px-[10px] py-[12px] text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-bg-tertiary-dark  dark:text-white`}>
             <div className=" flex items-center justify-center gap-[8px]">
               <VectorChannelIcon className="text-black dark:text-white" />
               <span className="font-semibold max-sm:text-xs md:text-sm">
@@ -45,7 +45,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
             </div>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="min-w-[11.5rem] bg-white dark:bg-dark-primary">
+          <DropdownMenuContent className="min-w-[11.5rem] bg-white dark:bg-bg-tertiary-dark">
             <DropdownMenuSeparator />
             {channels.map((item, index) => (
               <DropdownMenuItem

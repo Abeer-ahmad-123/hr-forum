@@ -11,7 +11,7 @@ import {
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton'
 
 type Props = {
@@ -33,7 +33,7 @@ export default function Register({
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState(initialValues)
   const [loading, setLoading] = useState<boolean>(false)
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const isRegisterRoute = pathname === '/register'
 
   const handleInputChange = (e: any) => {
@@ -106,12 +106,12 @@ export default function Register({
             //   return
             // }
             if (response?.data?.token) {
-              dispatch(
-                setUser({
-                  ...response?.data,
-                  refreshToken: response?.data['refresh-token'],
-                }),
-              )
+              // dispatch(
+              //   setUser({
+              //     ...response?.data,
+              //     refreshToken: response?.data['refresh-token'],
+              //   }),
+              // )
               showSuccessAlert('Welcome! ' + response?.data?.userData?.name)
               handleDialogClose()
               // router.refresh()

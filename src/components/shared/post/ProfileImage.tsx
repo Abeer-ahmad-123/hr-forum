@@ -2,14 +2,15 @@
 import { noProfilePicture } from '@/assets/images'
 import { deleteModalState } from '@/services/auth/authService'
 import { ProfileImageInterface } from '@/utils/interfaces/card'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { getUserData } from '@/utils/local-stroage'
 import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 
 function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser?.userData,
+  // )
+  const userData = getUserData().user
 
   const router = useRouter()
 

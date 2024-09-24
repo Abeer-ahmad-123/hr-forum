@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 
 export const useInterceptor = () => {
   // * Spelling mistakes on disptach to dispatch
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const router = useRouter()
   const pathName = usePathname()
 
@@ -27,12 +27,12 @@ export const useInterceptor = () => {
       })
       if (refreshResponse.ok) {
         const newTokens = await refreshResponse.json()
-        dispatch(
-          setToken({
-            token: newTokens.data.token,
-            refreshToken: newTokens.data['refresh-token'],
-          }),
-        )
+        // dispatch(
+        //   setToken({
+        //     token: newTokens.data.token,
+        //     refreshToken: newTokens.data['refresh-token'],
+        //   }),
+        // )
 
         options.headers = options.headers || {}
         options.headers.authorization = `Bearer ${newTokens.data.token}`
@@ -45,7 +45,7 @@ export const useInterceptor = () => {
         throw `Session Expired! Please Login Again`
       }
     } catch (refreshError) {
-      dispatch(clearUser())
+      // dispatch(clearUser())
       logout()
       if (pathName.includes('saved') || pathName === '/profile') {
         router.push('/feeds')

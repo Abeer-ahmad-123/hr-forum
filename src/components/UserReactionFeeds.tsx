@@ -9,35 +9,33 @@ import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getUserReactedPosts } from '@/services/posts'
-import { setPosts } from '@/store/Slices/postSlice'
 import { ChannelInterface } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-import { SlugProps } from '@/utils/interfaces/userData'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { ReportedProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/CardLoading'
+import { getUserData } from '@/utils/local-stroage'
 
-const UserReactionFeeds = ({ slug }: SlugProps) => {
+const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const firstRunRef = useRef<boolean>(true)
 
   const [ref, inView] = useInView()
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const pathName = usePathname()
 
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+  // )
 
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
@@ -67,7 +65,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
         .map((item: any) => item.post)
         .filter((post: any) => post !== undefined)
       updatePost([...posts, ...extractedPosts])
-      dispatch(setPosts([...posts, ...extractedPosts]))
+      // dispatch(setPosts([...posts, ...extractedPosts]))
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleRedirect({ error })
@@ -102,17 +100,19 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
-  useEffect(() => {
-    updatePost([...storePosts])
-  }, [storePosts])
+  // useEffect(() => {
+  //   updatePost([...storePosts])
+  // }, [storePosts])
+
+  const user = getUserData()?.user
 
   return loading ? (
-    <CardLoading />
+    <CardLoading user={user} />
   ) : (
     <div className="mx-auto flex max-w-screen-xl justify-center">
-      <div
+      {/* <div
         className={`mr-[5px] ${
-          token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
+          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userData && <ProfileCard />}
         <div
@@ -123,14 +123,14 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
         </div>
         <div
           className={`sticky ${
-            token
+            accessToken
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
           } max-h-screen`}>
           {' '}
           <RulesCard />
         </div>
-      </div>
+      </div> */}
 
       <div className={`w-full max-w-screen-md`}>
         <div className="flex w-full justify-center">
@@ -153,6 +153,7 @@ const UserReactionFeeds = ({ slug }: SlugProps) => {
                         <Card
                           key={index}
                           post={reactionPost}
+                          userId={Number(userData?.id)}
                           channels={channels}
                           updatePosts={updatePost}
                           posts={posts}

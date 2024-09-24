@@ -20,7 +20,7 @@ import { showErrorAlert } from '@/utils/helper'
 
 const GoogleAndAuth = () => {
   const searchParams = useSearchParams()
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const router = useRouter()
   const pathname = usePathname()
   const { handleRedirect } = useFetchFailedClient()
@@ -37,7 +37,7 @@ const GoogleAndAuth = () => {
   }
 
   const clearAuthentication = () => {
-    dispatch(clearUser())
+    // dispatch(clearUser())
     logout()
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
@@ -50,12 +50,14 @@ const GoogleAndAuth = () => {
     if (code) {
       try {
         const response = await googleCodeExchange(code)
-        dispatch(
-          setUser({
-            ...response,
-            refreshToken: response['refresh-token'],
-          }),
-        )
+        //set cookies refrsh token here
+
+        // dispatch(
+        //   setUser({
+        //     ...response,
+        //     refreshToken: response['refresh-token'],
+        //   }),
+        // )
 
         const currentUrl = window.location.href
         const url = new URL(currentUrl)
@@ -91,12 +93,12 @@ const GoogleAndAuth = () => {
           const tokenResponse = await getRefreshToken()
 
           if (tokenResponse.success) {
-            dispatch(
-              setToken({
-                token: tokenResponse?.data?.token,
-                refreshToken: tokenResponse?.data?.['refresh-token'],
-              }),
-            )
+            // dispatch(
+            //   setToken({
+            //     token: tokenResponse?.data?.token,
+            //     refreshToken: tokenResponse?.data?.['refresh-token'],
+            //   }),
+            // )
             setUserToken(tokenResponse.data)
           } else {
             throw tokenResponse.errors[0]
@@ -118,12 +120,12 @@ const GoogleAndAuth = () => {
     if (token) {
       try {
         const response = await googleTokenExchange(token, username)
-        dispatch(
-          setUser({
-            ...response,
-            refreshToken: response['refresh-token'],
-          }),
-        )
+        // dispatch(
+        //   setUser({
+        //     ...response,
+        //     refreshToken: response['refresh-token'],
+        //   }),
+        // )
         handleCloseDialog()
       } catch (err: any) {
         showErrorAlert(err.message ?? 'Issue in google authentication')

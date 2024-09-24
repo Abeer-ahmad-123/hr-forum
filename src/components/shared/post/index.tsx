@@ -36,16 +36,15 @@ import {
   useSearchParams,
   redirect,
 } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
-import SignInDialog from '../new-post/SignInDialog'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import SignInDialog from '../NewPost/SignInDialog'
 import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
 import DeletePost from './DeletePost'
 import PostSkelton from './PostSkelton'
-import ProfileImage from './ProfileImage'
-import UserInteraction from '@/components/UserInteraction'
+
 import Card from '../Card'
+import { getUserData } from '@/utils/local-stroage'
 
 type Props = Omit<SinglePostWithDialogProps, 'id'> & {
   postId: string
@@ -56,9 +55,9 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const { id } = useParams()
   postId = postId ? postId : String(id)
   const paramsSearch = useSearchParams()
-  const isFirstRef = useRef(true)
+  // const isFirstRef = useRef(true)
   // * State to show more / less post content.
-  const [showFullPost, setShowFullPost] = useState(false)
+  // const [showFullPost, setShowFullPost] = useState(false)
 
   const [commentResult, setCommentResult] = useState<CommentInterface[] | null>(
     data?.comments?.comments ?? null,
@@ -72,48 +71,51 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const [paginationResult, setPaginationResult] = useState(
     data?.comments?.pagination,
   )
-  const [commentCount, setCommentCount] = useState<CommentCount>(
-    data ? { [data.post.id]: data?.post?.total_comments } : {},
-  )
+  // const [commentCount, setCommentCount] = useState<CommentCount>(
+  //   data ? { [data.post.id]: data?.post?.total_comments } : {},
+  // )
   const dispatch = useDispatch()
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
+  // const refreshTokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
   const [reported, setReported] = useState<boolean>(false)
-  const commentCountInStore = useSelector(
-    (state: CommentCountStore) => state.posts.commentCount,
-  )
+
+  // const commentCountInStore = useSelector(
+  //   (state: CommentCountStore) => state.posts.commentCount,
+  // )
 
   const [channels, setChannels] = useState<ChannelInterface[] | []>([])
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
+
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
   const [post, setPost] = useState<PostsInterface | null>(data?.post ?? null)
-  const [popOver, setPopOver] = useState<boolean>(false)
+  // const [popOver, setPopOver] = useState<boolean>(false)
   const router = useRouter()
-  const pathname = usePathname()
+  // const pathname = usePathname()
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
-  const userDetails = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser?.userData,
+  // )
+  const userData = getUserData().user
   const { handleRedirect } = useFetchFailedClient()
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const { customFetch } = useInterceptor()
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    setPopOver(false)
-  }
-  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
+  // const { customFetch } = useInterceptor()
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   setPopOver(false)
+  // }
+  // const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
-  const userId = userDetails?.id
+  const userId = userData?.id
 
   const getPost = async () => {
     const response = await getPostByPostId(postId ? String(postId) : '', {
       loadUser: true,
-      userId: userId,
+      userId: userId.toString(),
     })
     if (!response.success) {
       router.push('/feeds')
@@ -126,7 +128,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
         [postId]: response?.data?.post?.total_comments,
       }),
     )
-    setBookmarkSuccess(response?.data?.post?.user_has_bookmarked)
+    // setBookmarkSuccess(response?.data?.post?.user_has_bookmarked)
   }
 
   const commentId =
@@ -140,7 +142,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
     if (commentId) {
       const { comment } = await getComment(
         commentId ? String(commentId) : '',
-        userId,
+        userId.toString(),
         {
           loadNestedComments: replyId ? true : false,
           allReplies: replyId ? true : false,
@@ -150,7 +152,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
     } else {
       let { comments, pagination } = await getPostsComments(
         String(postId),
-        userId,
+        userId.toString(),
         {},
       )
       setCommentResult(comments)
@@ -168,104 +170,106 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
       }
     }
   }
-  const setOpenPopOver = (e: any) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setPopOver((pre) => !pre)
-  }
+  // const setOpenPopOver = (e: any) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   setPopOver((pre) => !pre)
+  // }
 
-  const handleReportClick = (event: any) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setPopOver(false)
+  // const handleReportClick = (event: any) => {
+  //   event.preventDefault()
+  //   event.stopPropagation()
+  //   setPopOver(false)
 
-    if (!tokenInRedux) {
-      setShowSignModal(true)
-    } else {
-      setOpenDialog(true)
-    }
-  }
+  //   if (!tokenInRedux) {
+  //     setShowSignModal(true)
+  //   } else {
+  //     setOpenDialog(true)
+  //   }
+  // }
 
-  const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    event.preventDefault()
-    event.stopPropagation()
-    setPopOver(false)
+  // const handleDeleteClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  //   event.preventDefault()
+  //   event.stopPropagation()
+  //   setPopOver(false)
 
-    if (!tokenInRedux) {
-      setShowSignModal(true)
-    } else {
-      setOpenDeleteDialog(true)
-    }
-  }
+  //   if (!tokenInRedux) {
+  //     setShowSignModal(true)
+  //   } else {
+  //     setOpenDeleteDialog(true)
+  //   }
+  // }
 
-  const handleBookmark = async (event: any) => {
-    event.preventDefault()
-    event.stopPropagation()
-    if (tokenInRedux) {
-      const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
-      try {
-        const res = await getApi(
-          String(postId),
-          customFetch,
-          tokenInRedux,
-          refreshTokenInRedux,
-        )
-        if (res.success) {
-          setBookmarkSuccess(true)
-          dispatch(
-            setPosts(updatePostBookmark(storePosts, Number(postId), true)),
-          )
-        } else if (res.status === 204) {
-          setBookmarkSuccess(false)
-          dispatch(
-            setPosts(updatePostBookmark(storePosts, Number(postId), false)),
-          )
-          if (pathname.includes('saved')) {
-            dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
-            router.back()
-          }
-        } else {
-          throw res.errors[0]
-        }
-      } catch (error) {
-        if (error instanceof Error) {
-          handleRedirect({ error })
-          showErrorAlert(`${error}`)
-        }
-      }
-    } else {
-      setShowSignModal(true)
-    }
-  }
+  // const handleBookmark = async (event: any) => {
+  //   event.preventDefault()
+  //   event.stopPropagation()
+  //   if (tokenInRedux) {
+  //     const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
+  //     try {
+  //       const res = await getApi(
+  //         String(postId),
+  //         customFetch,
+  //         tokenInRedux,
+  //         refreshTokenInRedux,
+  //       )
+  //       if (res.success) {
+  //         setBookmarkSuccess(true)
+  //         dispatch(
+  //           setPosts(updatePostBookmark(storePosts, Number(postId), true)),
+  //         )
+  //       } else if (res.status === 204) {
+  //         setBookmarkSuccess(false)
+  //         dispatch(
+  //           setPosts(updatePostBookmark(storePosts, Number(postId), false)),
+  //         )
+  //         if (pathname.includes('saved')) {
+  //           dispatch(setPosts(returnFilteredPosts(storePosts, Number(postId))))
+  //           router.back()
+  //         }
+  //       } else {
+  //         throw res.errors[0]
+  //       }
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         handleRedirect({ error })
+  //         showErrorAlert(`${error}`)
+  //       }
+  //     }
+  //   } else {
+  //     setShowSignModal(true)
+  //   }
+  // }
+
   const handleBack = () => {
     router.back()
   }
+
   useEffect(() => {
     if (commentId || postId) getPostComments()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commentId, postId, userDetails])
+  }, [commentId, postId, userData])
 
   useEffect(() => {
     if (!data) getPost()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postId, userDetails, reported])
+  }, [postId, userData, reported])
 
   useEffect(() => {
     if (!channels.length) getChannel()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    setCommentCount(commentCountInStore)
-  }, [commentCountInStore])
+  // useEffect(() => {
+  //   setCommentCount(commentCountInStore)
+  // }, [commentCountInStore])
 
-  useEffect(() => {
-    if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
-  }, [post])
+  // useEffect(() => {
+  //   if (post?.user_has_bookmarked) setBookmarkSuccess(post?.user_has_bookmarked)
+  // }, [post])
 
-  const reactionSummaryToUse = isFirstRef.current
-    ? data?.post?.reaction_summary
-    : reactionSummary
+  // const reactionSummaryToUse = isFirstRef.current
+  //   ? data?.post?.reaction_summary
+  //   : reactionSummary
 
   return post && post?.author_details?.name && commentResult !== null ? (
     <>
@@ -297,12 +301,9 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
           isDialogPost ? 'mb-5' : 'my-5'
         }`}>
         <div
-          className={`mx-auto mb-5 flex max-w-[759px] rounded-[16px] bg-white 
-      ${
-        !isDialogPost &&
-        'border border-gray-200  shadow-lg dark:border-gray-700 dark:shadow-xl'
-      } 
-      dark:bg-dark-background dark:text-gray-300 `}>
+          className={`mx-auto mb-5 flex max-w-[759px] rounded-[16px] bg-bg-primary 
+      ${!isDialogPost && 'shadow-lg dark:border-gray-700 dark:shadow-xl'} 
+      dark:bg-bg-primary-dark dark:text-gray-300 `}>
           <div
             // className={`flex w-full flex-col  pt-0 ${
             //   isDialogPost ? '' : 'p-10 max-custom-sm:px-2'
@@ -332,8 +333,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             //             {/*
             //              * "You" is based on user_id not on username what if i change username the "You" will also be changed.
             //              */}
-            //             {userDetails?.id &&
-            //             String(post?.user_id) === String(userDetails?.id)
+            //             {userData?.id &&
+            //             String(post?.user_id) === String(userData?.id)
             //               ? 'You'
             //               : post?.author_details?.name}
             //           </p>
@@ -383,7 +384,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             //         </PopoverTrigger>
             //         <PopoverContent className="bg-white">
             //           {(post.user_id as unknown as string) ===
-            //           userDetails.id ? (
+            //           userData.id ? (
             //             <div
             //               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
             //               onClick={handleDeleteClick}>
@@ -452,8 +453,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             }`}>
             <button
               onClick={handleBack}
-              className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[15px] py-[8px] text-[12px] opacity-60 dark:text-white  ">
-              <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
+              className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary px-[15px]  py-[8px] text-[12px] opacity-60 dark:bg-bg-tertiary-dark dark:text-white  ">
+              <ArrowLeft className="text-black opacity-60 dark:text-bg-tertiary dark:opacity-40" />{' '}
               <span className="tetx-black dark:text-white">Go back</span>
             </button>
 
@@ -462,7 +463,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                 key={1}
                 post={post}
                 channels={channels}
-                hideComments="w-full "
+                hideComments="w-full"
               />
             </div>
             {/* <ReactionDetails reactionSummary={reactionSummary} /> */}

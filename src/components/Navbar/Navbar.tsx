@@ -15,7 +15,7 @@ const Navbar = async ({ pathname }: NavbarProps) => {
   const isAuthPage = isLoginPage && isRegisterPage
 
   return (
-    <div className="fixed top-0 z-50 h-[100px] w-full items-center justify-center border-b-[1px] border-bg-tertiary bg-white shadow-sm dark:bg-black max-md:h-[72px]">
+    <div className="fixed top-0 z-50 h-[100px] w-full items-center justify-center border-b-[1px] border-bg-tertiary bg-white shadow-sm dark:border-bg-tertiary-dark dark:bg-bg-primary-dark max-md:h-[72px]">
       <div className="m-auto flex w-full max-w-[1550px] items-center justify-between  px-6 py-4 max-[430px]:px-4 md:px-14 md:py-7">
         <div className="flex items-center">
           <Logo />
@@ -27,10 +27,16 @@ const Navbar = async ({ pathname }: NavbarProps) => {
           </div>
 
           <div className="flex items-center justify-end gap-[10px] max-md:gap-[6px]">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full border bg-bg-tertiary text-center dark:bg-slate-800 md:h-11 md:w-11">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border bg-bg-tertiary text-center dark:border-none dark:bg-bg-tertiary-dark md:h-11 md:w-11">
               <NightModeToggle />
             </div>
-            {user?.id ? <LoggedIn /> : isAuthPage ? <></> : <SigninNavButton />}
+            {user?.id ? (
+              <LoggedIn userProfilePictture={user?.profilePictureURL} />
+            ) : isAuthPage ? (
+              <></>
+            ) : (
+              <SigninNavButton />
+            )}
           </div>
         </div>
       </div>
