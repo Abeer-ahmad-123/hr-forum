@@ -5,11 +5,10 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserPassword } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
 import { ErrorText } from './shared'
+import { getTokens } from '@/utils/local-stroage'
 
 interface userDataProps {
   oldPassword: string
@@ -35,10 +34,9 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
   }
   const [errors, setErrors] = useState<any>(initialValues)
 
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  const refreshToken =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
+  const token = getTokens().refreshToken
+  const refreshToken = getTokens().refreshToken
+
   const { customFetch } = useInterceptor()
 
   const toggleShowOldPassword = () => {

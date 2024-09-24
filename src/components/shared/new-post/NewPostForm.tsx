@@ -8,12 +8,12 @@ import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
 import ImageIcon from '@/assets/icons/ImageIcon'
-import './style.css'
+import { getTokens, getUserData } from '@/utils/local-stroage'
 
 interface newPostFormInterface {
   open: (arg0: boolean) => void
@@ -31,9 +31,10 @@ export default function NewPostForm({
     channelId: '',
   })
   const [buttonValue, setButtonValue] = useState('HR-General')
-  const channels = useSelector(
-    (state: StoreChannels) => state.channels.channels,
-  )
+  // const channels = useSelector(
+  //   (state: StoreChannels) => state.channels.channels,
+  // )
+  const channels = [{ name: '', slug: '', id: '' }]
   const [postImage, setPostImage] = useState(false)
 
   const [selectedImage, setSelectedImage] = useState<
@@ -41,14 +42,17 @@ export default function NewPostForm({
   >(null)
   const [image, setImage] = useState<string | Blob>()
 
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  const userDetails = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+  // const accessToken = useSelector((state: LoggedInUser) => state?.loggedInUser?.accessToken)
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state?.loggedInUser?.userData,
+  // )
+  const accessToken = getTokens().accessToken
+  const refreshToken = getTokens().refreshToken
+  const userData = getUserData().user
   const pathname = usePathname()
-  const refreshToken = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
-  )
+  // const refreshToken = useSelector(
+  //   (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
+  // )
   const { customFetch } = useInterceptor()
 
   const [loading, setLoading] = useState(false)
@@ -106,15 +110,15 @@ export default function NewPostForm({
         channelID: channelId,
         body,
         customFetch,
-        token,
+        accessToken,
         refreshToken,
       })
 
       if (result?.success) {
         result.data.post.author_details = {
-          name: userDetails.name,
-          username: userDetails.username,
-          profile_picture_url: userDetails.profilePictureURL,
+          name: userData.name,
+          username: userData.username,
+          profile_picture_url: userData.profilePictureURL,
         }
 
         result.data.post.reaction_summary = {
@@ -133,7 +137,7 @@ export default function NewPostForm({
               postId: postId,
               file: formData,
               customFetch,
-              token,
+              accessToken,
               refreshToken,
             })
 

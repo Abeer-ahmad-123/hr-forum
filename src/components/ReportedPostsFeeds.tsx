@@ -14,28 +14,29 @@ import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-import { SlugProps } from '@/utils/interfaces/userData'
+import { ReportedProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
-import CardLoading from './Loading/cardLoading'
+import CardLoading from './Loading/CardLoading'
+import { getUserData } from '@/utils/local-stroage'
 
-const ReportedPostsFeeds = ({ slug }: SlugProps) => {
+const ReportedPostsFeeds = ({ slug, accessToken, userData }: ReportedProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const [ref, inView] = useInView()
   const pathName = usePathname()
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
 
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+  // )
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
+  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
@@ -52,7 +53,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     {
       try {
         const { reports, pagination } = await getReportedPosts(
-          userId ?? userData.id,
+          userId ?? userData.id.toString(),
           {
             page,
           },
@@ -64,7 +65,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
           pagination?.CurrentPage !== pagination?.TotalPages
         const extractedPosts = reports.map((item: any) => item.post)
         updatePosts((prev: PostsInterface[]) => [...prev, ...extractedPosts])
-        dispatch(setPosts([...posts, ...extractedPosts]))
+        // dispatch(setPosts([...posts, ...extractedPosts]))
       } catch (error) {
         if (error instanceof Error) {
           handleRedirect({ error })
@@ -75,9 +76,9 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     }
   }
 
-  const handleCommentCount = () => {
-    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
-  }
+  // const handleCommentCount = () => {
+  //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
+  // }
 
   const getAllChannels = async () => {
     try {
@@ -90,10 +91,10 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     }
   }
 
-  useEffect(() => {
-    handleCommentCount()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts])
+  // useEffect(() => {
+  //   handleCommentCount()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [posts])
 
   useEffect(() => {
     if (firstRunRef.current) {
@@ -111,17 +112,16 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
-  useEffect(() => {
-    updatePosts([...storePosts])
-  }, [storePosts])
-
+  // useEffect(() => {
+  //   updatePosts([...storePosts])
+  // }, [storePosts])
   return loading ? (
     <CardLoading />
   ) : (
     <div className="mx-auto flex max-w-screen-xl justify-center">
       {/* <div
         className={`mr-[5px] ${
-          token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
+          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
         } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
         {userData && <ProfileCard />}
         <div
@@ -132,7 +132,7 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
         </div>
         <div
           className={`sticky ${
-            token
+            accessToken
               ? 'top-[330px] mt-[20px]'
               : 'top-[335px] mt-5 max-lg:top-[328px]'
           } max-h-screen`}>
@@ -162,9 +162,12 @@ const ReportedPostsFeeds = ({ slug }: SlugProps) => {
                         <Card
                           key={index}
                           post={post}
+                          userId={Number(userData?.id)}
                           channels={channels}
                           updatePosts={updatePosts}
                           posts={posts}
+                          accessToken=""
+                          refreshToken=""
                         />
                       )
                     })

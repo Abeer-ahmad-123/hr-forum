@@ -17,7 +17,9 @@ import TextArea from '../ui/TextArea'
 import LoadMoreReplyButton from './LoadMoreReplyButton'
 import Reply from './Reply'
 import SocialButtons from './SocialButtons'
-import SignInDialog from './new-post/SignInDialog'
+import SignInDialog from './NewPost/SignInDialog'
+import { getUserFromCookie } from '@/utils/cookies'
+import { getUserData } from '@/utils/local-stroage'
 
 function ReplyTextArea({
   submitCallback,
@@ -32,6 +34,7 @@ function ReplyTextArea({
   commentLength,
   refetchComments,
   getPostCommets,
+  accessToken,
 }: any) {
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
@@ -45,18 +48,19 @@ function ReplyTextArea({
   const params = useParams()
 
   const postId = params?.id as string
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const userData = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state?.loggedInUser?.userData,
+  // )
+  const userData = getUserData().user
 
   const toggleTextArea = () => {
     setShowTextArea((pre) => !pre)
   }
 
   const handleClick = () => {
-    if (!tokenInRedux) {
+    if (!accessToken) {
       setShowSignModal(true)
     } else {
       setOpenDialog(true)
@@ -74,7 +78,7 @@ function ReplyTextArea({
     event.stopPropagation()
     setPopOver(false)
 
-    if (!tokenInRedux) {
+    if (!accessToken) {
       setShowSignModal(true)
     } else {
       setOpenDeleteDialog(true)
@@ -212,6 +216,7 @@ function ReplyTextArea({
           placeholder={`Reply to ${author === userData.name ? 'you' : author}`}
           className={'max-sm:w-2/3'}
           classNameOuter={'mr-4'}
+          accessToken={accessToken}
         />
       </div>
 

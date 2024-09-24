@@ -3,12 +3,12 @@ import { usePathname } from 'next/navigation'
 import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
 import { useEffect, useState } from 'react'
+import { getTokens } from '@/utils/local-stroage'
 
 const CardLoading = () => {
   const renderTimes = 5
   const pathName = usePathname()
-
-  const slug = pathName.split('/')[2]
+  const slug = pathName?.split('/')[2]
 
   return (
     <div
@@ -52,12 +52,10 @@ const CardLoading = () => {
 export default CardLoading
 
 const BannerCardLoading = () => {
-
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    setToken(token)
+    setToken(getTokens()?.accessToken)
   }, [])
 
   if (!token) return

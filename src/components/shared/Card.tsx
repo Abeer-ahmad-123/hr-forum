@@ -13,21 +13,14 @@ import {
   bookmarkPost,
   deleteBookmarkPost,
 } from '@/services/bookmark/bookmarkService'
-import { setPosts } from '@/store/Slices/postSlice'
-import {
-  returnFilteredPosts,
-  showErrorAlert,
-  timeFormatInHours,
-  updatePostBookmark,
-} from '@/utils/helper'
+import { showErrorAlert, timeFormatInHours } from '@/utils/helper'
 import { EmojiActionInterface, ReactionSummary } from '@/utils/interfaces/card'
 import type {
   ChannelByIdInterface,
   ChannelInterface,
 } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { AlertOctagon, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { useParams, usePathname, useRouter } from 'next/navigation'
 import {
@@ -39,13 +32,13 @@ import {
   useState,
 } from 'react'
 import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
-import { useDispatch, useSelector } from 'react-redux'
 import Report from '../Report/Report'
 import PostActionBar from './PostActionBar'
 import { CustomLink } from './customLink/CustomLink'
-import SignInDialog from './new-post/SignInDialog'
+import SignInDialog from './NewPost/SignInDialog'
 import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
+import { getTokens, getUserData } from '@/utils/local-stroage'
 
 type CardProps = {
   post: PostsInterface
@@ -54,6 +47,11 @@ type CardProps = {
   userComment?: any
   updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
   hideComments?: string
+}
+
+export interface Tokens {
+  accessToken: string
+  refreshToken: string
 }
 const Card = ({
   post,
@@ -64,26 +62,32 @@ const Card = ({
   hideComments,
 }: CardProps) => {
   const pathName = usePathname()
-  const { slug } = useParams()
   const isFirstRef = useRef<boolean>(true)
   const router = useRouter()
-  const dispatch = useDispatch()
-  const userDetails = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+  const { slug } = useParams()
+
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+  const userDetails = getUserData()?.user
+  // const dispatch = useDispatch()
+  // const userDetails = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+  // )
   const { customFetch } = useInterceptor()
   const { handleRedirect } = useFetchFailedClient()
 
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   const [popOver, setPopOver] = useState(false)
 
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
+  // const refreshTokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -165,7 +169,7 @@ const Card = ({
     event.preventDefault()
     event.stopPropagation()
     router.push(
-      userDetails?.id === String(post?.user_id)
+      userDetails?.id === post?.user_id
         ? '/profile'
         : `/profile/${post?.author_details?.name
             ?.toLowerCase()
@@ -180,7 +184,7 @@ const Card = ({
     event.stopPropagation()
     setPopOver(false)
 
-    if (!tokenInRedux) {
+    if (!tokens.accessToken) {
       setShowSignModal(true)
     } else {
       setOpenDialog(true)
@@ -192,7 +196,7 @@ const Card = ({
     event.stopPropagation()
     setPopOver(false)
 
-    if (!tokenInRedux) {
+    if (!tokens.accessToken) {
       setShowSignModal(true)
     } else {
       setOpenDeleteDialog(true)
@@ -201,30 +205,28 @@ const Card = ({
   const handleBookmark = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
-    if (tokenInRedux) {
+    if (tokens.accessToken) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(
           post?.id ? String(post?.id) : '',
           customFetch,
-          tokenInRedux,
-          refreshTokenInRedux,
+          tokens.accessToken,
+          tokens.refreshToken ?? '',
         )
 
         if (res.success) {
           setBookmarkSuccess(true)
-          dispatch(setPosts(updatePostBookmark(storePosts, post?.id, true)))
+          // dispatch(setPosts(updatePostBookmark(storePosts, id, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
           if (pathName.includes('saved')) {
-            dispatch(
-              setPosts(returnFilteredPosts(storePosts, Number(post?.id))),
-            )
+            // dispatch(setPosts(returnFilteredPosts(storePosts, Number(id))))
             if (pathName.includes('/saved/feed')) {
               router.back()
             }
           } else {
-            dispatch(setPosts(updatePostBookmark(storePosts, post?.id, false)))
+            // dispatch(setPosts(updatePostBookmark(storePosts, id, false)))
           }
         } else {
           throw res.errors[0]
@@ -261,6 +263,14 @@ const Card = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
+
+  useEffect(() => {
+    setTokens({
+      ...tokens,
+      accessToken: getTokens()?.accessToken,
+      refreshToken: getTokens()?.refreshToken,
+    })
+  }, [getTokens()?.accessToken])
 
   return (
     <div
@@ -387,7 +397,7 @@ const Card = ({
                       </PopoverTrigger>
                       <Suspense>
                         <PopoverContent className="bg-white">
-                          {String(post?.user_id) === userDetails?.id ? (
+                          {post?.user_id === userDetails?.id ? (
                             <div
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleDeleteClick}>

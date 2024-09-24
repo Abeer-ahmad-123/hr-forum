@@ -2,12 +2,11 @@ import { noProfilePicture } from '@/assets/images'
 import CommentOrReply from '@/components/CommentOrReply'
 import { deleteModalState } from '@/services/auth/authService'
 import { getComment } from '@/services/comments'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
-import { ConvertDate, FormatCreatedAt } from '@/utils/helper'
+import { ConvertDate } from '@/utils/helper'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { getUserData } from '@/utils/local-stroage'
 
 const CommentSection = ({
   comment,
@@ -34,9 +33,10 @@ const CommentSection = ({
     },
   })
 
-  const userId = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData?.id,
-  )
+  // const userId = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser?.userData?.id,
+  // )
+  const userId = getUserData()?.user?.id
   // * State for Show More / Less Comment;
   const [showFullComment, setShowFullComment] = useState(false)
   const pathName = usePathname()
@@ -45,7 +45,9 @@ const CommentSection = ({
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = Math.floor(replies?.comment.replies?.length / 10) + 1
-    const data = await getComment(comment.id, userId, { nestedPage: index })
+    const data = await getComment(comment.id, userId.toString(), {
+      nestedPage: index,
+    })
 
     setReplies({
       ...replies,

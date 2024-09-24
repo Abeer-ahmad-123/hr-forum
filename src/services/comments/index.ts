@@ -110,7 +110,7 @@ export async function getPostsComments(
 }
 
 export async function getUserComments(
-  id: string,
+  id: string | number,
 
   {
     loadUser = true,
@@ -124,7 +124,7 @@ export async function getUserComments(
   },
 ) {
   try {
-    const userId = GET_USER_COMMENTS.replace('userId', id)
+    const userId = GET_USER_COMMENTS.replace('userId', id.toString())
 
     let url = `${userId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}`
     if (userId) {

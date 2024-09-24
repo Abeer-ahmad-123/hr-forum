@@ -1,34 +1,32 @@
-
-import { navigationItems } from '@/utils/data';
-import { MenuCardInterface } from '@/utils/interfaces/card';
-import Link from 'next/link';
+import { navigationItems } from '@/utils/data'
+import { MenuCardInterface } from '@/utils/interfaces/card'
+import Link from 'next/link'
 
 const MainMenu: React.FC<MenuCardInterface> = ({ path, user }) => {
-
   const filteredMenuItems = user
     ? navigationItems.filter((item) => item.title !== 'Popular')
-    : navigationItems.filter((item) => item.title !== 'Saved');
+    : navigationItems.filter((item) => item.title !== 'Saved')
 
   return (
     <div
-      className={`dark:bg-bg-primary-dark flex flex-col bg-bg-primary h-[94px] w-[254px] cursor-pointer`}
-    >
+      className={`flex h-[94px] w-[254px] cursor-pointer flex-col bg-bg-primary dark:bg-bg-primary-dark`}>
       {filteredMenuItems.map((item, index) => (
         <Link
-        href={item.href}
+          href={item.href}
           key={index}
-          className={`dark:hover:bg-bg-tertiary ${path == item.href? 'bg-bg-tertiary dark:bg-bg-tertiary-dark dark:text-bg-tertiary font-[800]': ''} hover:bg-bg-tertiary dark:hover:bg-bg-tertiary-dark dark:text-bg-tertiary hover:font-[800] rounded-md h-14  pt-2 mt-1`}
-        >
-          <div className={`flex pl-4 gap-3`}>
+          className={`dark:hover:bg-bg-tertiary ${
+            path == item.href
+              ? 'bg-bg-tertiary font-[800] dark:bg-bg-tertiary-dark dark:text-bg-tertiary'
+              : ''
+          } mt-1 h-14 rounded-md pt-2 hover:bg-bg-tertiary hover:font-[800]  dark:text-bg-tertiary dark:hover:bg-bg-tertiary-dark`}>
+          <div className={`flex gap-3 pl-4`}>
             {item.icon}
-            <div key={index}>
-              {item.title}
-            </div>
+            <div key={index}>{item.title}</div>
           </div>
         </Link>
       ))}
     </div>
-  );
+  )
 }
 
-export default MainMenu;
+export default MainMenu

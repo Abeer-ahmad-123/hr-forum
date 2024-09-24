@@ -1,6 +1,5 @@
 'use client'
 import { logout } from '@/services/auth/authService'
-import { clearUser } from '@/store/Slices/loggedInUserSlice'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -14,14 +13,15 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { noProfilePicture } from '@/assets/images'
+import { LoggedInProps } from '@/utils/interfaces/loggedIn'
 
-function LoggedIn() {
+const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
   const router = useRouter()
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const pathname = usePathname()
   const [openPopover, setOpenPopover] = useState(false)
-  const user = useSelector((state: any) => state.loggedInUser.userData)
-  const { name, username, profilePictureURL } = user
+  // const user = useSelector((state: any) => state.loggedInUser.userData)
+  // const { name, username, profilePictureURL } = user
 
   const handleClosePopover = () => {
     setOpenPopover(false)
@@ -37,7 +37,7 @@ function LoggedIn() {
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Logout
     handleClosePopover()
     logout()
-    dispatch(clearUser())
+    // dispatch(clearUser())
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
     } else {
@@ -54,7 +54,7 @@ function LoggedIn() {
         <div className="relative h-10 w-10 overflow-hidden rounded-full border-[2px] border-bg-green md:h-11 md:w-11">
           <img
             className="h-full w-full rounded-full object-cover"
-            src={profilePictureURL || noProfilePicture.src}
+            src={userProfilePictture || noProfilePicture.src}
             height={25}
             width={25}
             alt="User"

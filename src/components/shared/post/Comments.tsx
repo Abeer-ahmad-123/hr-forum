@@ -6,8 +6,9 @@ import type { CommentInterface, Pagination } from '@/utils/interfaces/posts'
 import { Reply } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import { Suspense, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
+import { getUserData } from '@/utils/local-stroage'
 type Props = {
   postId: string
   initialComments: CommentInterface[]
@@ -24,9 +25,10 @@ function Comments({
   getPostCommets,
 }: Props) {
   const searchParams = useSearchParams()
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser?.userData,
+  // )
+  const userData = getUserData().user
 
   const commentId = searchParams.get('commentId')
   const [comments, setComments] = useState<CommentInterface[]>(
@@ -42,9 +44,13 @@ function Comments({
   const refetchComments = async (pageNumber: number = 0) => {
     // Re-fetch comments
 
-    const commentsResponse = await getPostsComments(postId, userData.id, {
-      page: pageNumber || commentPage,
-    })
+    const commentsResponse = await getPostsComments(
+      postId,
+      userData.id.toString(),
+      {
+        page: pageNumber || commentPage,
+      },
+    )
 
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==

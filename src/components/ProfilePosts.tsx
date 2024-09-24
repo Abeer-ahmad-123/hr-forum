@@ -1,53 +1,39 @@
-import { ChannelPill } from '@/components/shared'
 import { timeFormatInHours } from '@/utils/helper'
-import { StoreChannels } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { UserData } from '@/utils/interfaces/cookies'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
 // import PostReactionBar from './shared/PostReactionBar'
 
 interface ProfilePostsProps {
   post: PostsInterface
   userId: number
+  userData: UserData
 }
 
-const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
-  const channels = useSelector(
-    (state: StoreChannels) => state?.channels.channels,
-  )
-  const channelsKeyValuePair = useSelector(
-    (state: StoreChannels) => state?.channels?.channelsKeyValuePair,
-  )
-
+const ProfilePosts = ({ post, userId, userData }: ProfilePostsProps) => {
   const router = useRouter()
+
   const handleNavigateProfile = () => {
     router.push(
-      userData?.id === (userId as unknown as string)
+      userData?.id === (userId as unknown as number)
         ? '/profile'
         : `/profile/${userId}`,
     )
   }
-  const handleNavigateFeed = () => {
-    {
-      post?.channel_id
-        ? router.push(
-            `/channels/${channelsKeyValuePair[
-              post?.channel_id
-            ]?.name.toLocaleLowerCase()}/feed/${post?.id}`,
-          )
-        : ''
-    }
-  }
+  // const handleNavigateFeed = () => {
+  //   router.push(
+  //     `/channels/${channelsKeyValuePair[
+  //       post?.channel_id
+  //     ]?.name.toLocaleLowerCase()}/feed/${post?.id}`,
+  //   )
+  // }
 
   return (
     <>
       <div
         className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300"
-        onClick={post?.channel_id ? handleNavigateFeed : () => {}}>
+        // onClick={handleNavigateFeed}
+      >
         <div className="py-4 pr-5">
           <div className="ml-10 flex text-left font-semibold dark:text-white">
             <div className="flex flex-col items-start align-baseline">
@@ -56,17 +42,15 @@ const ProfilePosts = ({ post, userId }: ProfilePostsProps) => {
                   onClick={handleNavigateProfile}
                   className="pr-1 text-sm font-normal leading-none text-gray-900 dark:text-gray-300"
                   aria-label="user-name">
-                  {/*
-                   * "You" is based on user_id not on username what if i change username the "You" will also be changed.
-                   */}
                   {userData.id && String(post?.user_id) === String(userData?.id)
                     ? 'You'
                     : post?.author_details?.name}
                 </p>
-                <ChannelPill
+                channel pill here
+                {/* <ChannelPill
                   channel_id={String(post.channel_id)}
                   channels={channels}
-                />
+                /> */}
               </div>
 
               <p className="text-xs font-light text-slate-500 dark:text-gray-400">

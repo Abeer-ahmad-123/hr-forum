@@ -1,7 +1,8 @@
-import { ChannelInterface } from "../interfaces/channels"
+import { ChannelInterface } from '../interfaces/channels'
 
 export type LayoutWrapperProps = {
   children: React.ReactNode
+  pathname: string | null
   serverState: {
     channels: {
       channels: ChannelInterface[]

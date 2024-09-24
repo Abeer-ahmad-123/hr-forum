@@ -7,10 +7,9 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { reportData } from '@/utils/data'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { getTokens } from '@/utils/local-stroage'
+// import { useSelector } from 'react-redux'
 
 interface ReportInterface {
   postId?: string
@@ -35,12 +34,14 @@ const Report = ({
 }: ReportInterface) => {
   const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
-  const router = useRouter()
+  // const accessToken =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const refreshToken =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
+  const accessToken = getTokens().accessToken
+  const refreshToken = getTokens().refreshToken
+
   const { handleRedirect } = useFetchFailedClient()
 
   const { customFetch } = useInterceptor()
@@ -58,15 +59,15 @@ const Report = ({
               postId!,
               selectedItem,
               customFetch,
-              tokenInRedux,
-              refreshTokenInRedux,
+              accessToken,
+              refreshToken,
             ) // else report type can be comment and reply so calling the same endpoint with Id of either comment or reply
           : await reportComment(
               commentId!,
               selectedItem,
               customFetch,
-              tokenInRedux,
-              refreshTokenInRedux,
+              accessToken,
+              refreshToken,
             )
 
       if (response.success) {

@@ -8,10 +8,9 @@ interface MenuCardProps {
 }
 
 function MenuCard({ path, user }: MenuCardProps) {
-
   return (
-    <div className='dark:bg-bg-primary-dark dark:text-gray-400'>
-      <div className={`dark:bg-bg-primary-dark dark:text-gray-400 pb-6`}>
+    <div className="dark:bg-bg-primary-dark dark:text-gray-400">
+      <div className={`pb-6 dark:bg-bg-primary-dark dark:text-gray-400`}>
         <MainMenu path={path} user={user} />
       </div>
       <ChannelCard />

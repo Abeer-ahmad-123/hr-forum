@@ -13,7 +13,7 @@ export interface EmojiActionInterface {
 
 export interface ProfileImageInterface {
   imgSrc: string | undefined
-  postUserId: string | undefined
+  postUserId: number | undefined
 }
 
 export interface MenuCardInterface{

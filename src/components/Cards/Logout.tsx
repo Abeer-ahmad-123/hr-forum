@@ -1,11 +1,9 @@
 import LogoutIcon from '@/assets/icons/logout'
 const Logout = () => {
-  
   return (
-    <div
-     className='flex gap-3 my-[10px] items-center'>
+    <div className="my-[10px] flex items-center gap-3">
       <LogoutIcon />
-      <div className=' dark:text-bg-tertiary text-base text-bg-black group-hover:font-[800]'>
+      <div className=" text-base text-bg-black group-hover:font-[800] dark:text-bg-tertiary">
         Logout
       </div>
     </div>

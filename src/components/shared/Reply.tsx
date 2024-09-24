@@ -20,13 +20,13 @@ import {
   useSearchParams,
 } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
 import CommentDelete from '../CommentDelete'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
-import SignInDialog from './new-post/SignInDialog'
+import SignInDialog from './NewPost/SignInDialog'
 import { deleteModalState } from '@/services/auth/authService'
 import { noProfilePicture } from '@/assets/images'
+import { getTokens, getUserData } from '@/utils/local-stroage'
 
 function Reply({
   reply,
@@ -37,8 +37,8 @@ function Reply({
   getPostCommets,
 }: ReplyInterface) {
   const replyRef = useRef<HTMLDivElement>(null)
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  const accessToken = getTokens().accessToken
+  const userData = getUserData().user
   const searchParams = useSearchParams()
   const params = useParams()
   const replyIdFromUrl = searchParams?.get('replyId')
@@ -51,10 +51,6 @@ function Reply({
   const postId = params.id as string
   const router = useRouter()
   const pathName = usePathname()
-
-  const userDetails = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
 
   const highLight = () => {
     if (
@@ -75,7 +71,7 @@ function Reply({
   const handleImgClick = () => {
     router.push(
       `${
-        userDetails?.id === reply?.user_id.toString()
+        userData?.id === reply?.user_id
           ? '/profile'
           : `/profile/${reply?.user_id}`
       }`,
@@ -95,7 +91,7 @@ function Reply({
   }
 
   const handleClick = () => {
-    if (!tokenInRedux) {
+    if (!accessToken) {
       setShowSignModal(true)
     } else setOpenDialog(true)
   }
@@ -105,7 +101,7 @@ function Reply({
     event.stopPropagation()
     setPopOver(false)
 
-    if (!tokenInRedux) {
+    if (!accessToken) {
       setShowSignModal(true)
     } else {
       setOpenDeleteDialog(true)
@@ -210,7 +206,7 @@ function Reply({
                   </Popover>
                 </div>
 
-                {reply.user_id.toString() == userDetails.id ? (
+                {reply.user_id == userData.id ? (
                   <div
                     onClick={handleDeleteClick}
                     className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]

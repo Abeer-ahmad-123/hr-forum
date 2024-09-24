@@ -2,13 +2,11 @@
 import { InputField } from '@/components/shared'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
-import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { getTokens, setUserData } from '@/utils/local-stroage'
 import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 interface userDataProps {
   name: string
   email: string
@@ -26,20 +24,22 @@ const EditPage = ({
   handleCloseDialog,
   setUpdatedUserData,
 }: EditPageProps) => {
-  const dispatch = useDispatch()
+  const { customFetch } = useInterceptor()
+  const router = useRouter()
+  // const dispatch = useDispatch()
+
   const [userDetails, setUserDetails] = useState(userData)
+
+  const token = getTokens().accessToken
+  const refreshToken = getTokens().refreshToken
+
   const originalData = useMemo(() => {
     return JSON.stringify(userData)
   }, [userData])
+
   const isContentChanged = useMemo(() => {
     return JSON.stringify(userDetails) !== originalData
   }, [userDetails, originalData])
-  const router = useRouter()
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  const refreshToken =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
-  const { customFetch } = useInterceptor()
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -93,7 +93,8 @@ const EditPage = ({
         )
         if (!response?.success) return router.push('/feeds')
 
-        dispatch(setUserData({ userData: response?.data }))
+        // dispatch(setUserData({ userData: response?.data }))
+        setUserData({ user: response?.data })
         setUpdatedUserData(response?.data)
         /**
          * Close the dialog on successful change

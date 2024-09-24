@@ -1,4 +1,3 @@
-import { IconProps } from '@/utils/interfaces/icons'
 interface iconprop {
   className: string
   onClick: () => void

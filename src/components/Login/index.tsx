@@ -9,13 +9,14 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton'
 import { LoginForm } from './LoginForm'
+import { setUserData } from '@/utils/local-stroage'
 
 export default function Login({
   toggleForm,
   handleDialogClose = () => {},
   setShowSignModal,
 }: any) {
-  const dispatch = useDispatch<AppDispatch>()
+  // const dispatch = useDispatch<AppDispatch>()
   const pathname = usePathname()
   const router = useRouter()
 
@@ -79,12 +80,13 @@ export default function Login({
         return
       }
       if (result?.data?.token) {
-        dispatch(
-          setUser({
-            ...result?.data,
-            refreshToken: result?.data['refresh-token'],
-          }),
-        )
+        setUserData(result?.data)
+        // dispatch(
+        //   setUser({
+        //     ...result?.data,
+        //     refreshToken: result?.data['refresh-token'],
+        //   }),
+        // )
         showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
         handleDialogClose()
 

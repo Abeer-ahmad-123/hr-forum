@@ -3,14 +3,10 @@ import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { postComment, postCommentReply } from '@/services/comments'
 import { showErrorAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useParams } from 'next/navigation'
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import ReplyTextArea from './shared/ReplyTextArea'
 import TextArea from './ui/TextArea'
-
-import { IncreaseCommentCountInStore } from '@/store/Slices/postSlice'
 
 const CommentOrReply = ({
   reply = false,
@@ -27,16 +23,15 @@ const CommentOrReply = ({
   createdDate,
   replies,
   commentLength,
+  refreshToken,
+  accessToken,
 }: any) => {
   const params = useParams()
   const postId = params['id'] || Id
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  const refreshToken = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
-  )
+
   const { handleRedirect } = useFetchFailedClient()
 
-  const disptach = useDispatch()
+  // const disptach = useDispatch()
 
   const { customFetch } = useInterceptor()
   const [isLoading, setIsLoading] = useState({
@@ -51,26 +46,26 @@ const CommentOrReply = ({
             commentId,
             content: { content: value },
             customFetch,
-            token,
+            accessToken,
             refreshToken,
           })
         : await postComment({
             postId,
             content: { content: value },
             customFetch,
-            token,
+            accessToken,
             refreshToken,
           })
 
       if (result?.success) {
         if (!commentId) {
-          disptach(IncreaseCommentCountInStore(postId))
+          // disptach(IncreaseCommentCountInStore(postId))
           setComments((prevComments: Array<Object>) => [
             result?.data?.comment,
             ...prevComments,
           ])
-        } else {
-          disptach(IncreaseCommentCountInStore(postId))
+          // } else {
+          //   disptach(IncreaseCommentCountInStore(postId))
           refetchComments()
         }
       } else {
@@ -104,6 +99,7 @@ const CommentOrReply = ({
           commentLength={commentLength}
           refetchComments={refetchComments}
           getPostCommets={getPostCommets}
+          accessToken={accessToken}
         />
       ) : (
         <TextArea
@@ -116,6 +112,7 @@ const CommentOrReply = ({
           placeholder="Write your comment..."
           getPostCommets={getPostCommets}
           classNameOuter={''}
+          accessToken={accessToken}
         />
       )}
     </div>

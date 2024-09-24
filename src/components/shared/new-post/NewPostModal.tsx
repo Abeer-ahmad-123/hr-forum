@@ -2,13 +2,14 @@
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { Suspense, useState } from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 import NewPostForm from './NewPostForm'
-import SignInDialog from './SignInDialog'
 import { noProfilePicture } from '@/assets/images'
 import { usePathname } from 'next/navigation'
 import ChannelsBanner from '@/components/ChannelsBanner'
 import { ChannelByIdInterface } from '@/utils/interfaces/channels'
+import { getTokens, getUserData } from '@/utils/local-stroage'
+import SignInDialog from '../NewPost/SignInDialog'
 
 interface NewPostProps {
   addPost: boolean
@@ -21,8 +22,6 @@ interface startNewPostProps {
   setAddPost: (arg0: boolean) => void
   path: string
   channels?: ChannelByIdInterface
-
-
 }
 export default function NewPost({
   setAddPost,
@@ -31,7 +30,8 @@ export default function NewPost({
   channels,
 }: NewPostProps) {
   const [openDilog, setOpenDilog] = useState(false)
-  const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
+  // const data = useSelector((state: LoggedInUser) => state.loggedInUser.token)
+  const accessToken = getTokens()?.accessToken
 
   const handleOpenDialog = () => {
     setOpenDilog(true)
@@ -54,7 +54,7 @@ export default function NewPost({
           )}
         </div>
         <Suspense>
-          {data ? (
+          {accessToken ? (
             addPost ? (
               <NewPostForm open={setOpenDilog} setAddPost={setAddPost} />
             ) : null
@@ -72,9 +72,10 @@ export const PostBar = ({
   path,
   channels,
 }: startNewPostProps): JSX.Element => {
-  const user = useSelector((state: any) => state.loggedInUser.userData)
-  const { profilePictureURL } = user
+  // const user = useSelector((state: any) => state.loggedInUser.userData)
+  // const { profilePictureURL } = user
   const pathname = usePathname()
+  const userData = getUserData().user
   const handleStart = () => {
     setAddPost(true)
   }
@@ -95,7 +96,7 @@ export const PostBar = ({
         <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
           <img
             className="h-full w-full rounded-full border-[2px] border-bg-green object-cover"
-            src={profilePictureURL || noProfilePicture.src}
+            src={userData?.profilePictureURL ?? noProfilePicture.src}
             height={44}
             width={44}
             alt="User"

@@ -11,21 +11,17 @@ export interface userData {
   comment_count?: number
 }
 
-export interface UserParamsProps {
+export interface ReportedParamsProps {
   params: {
     slug: string
   }
-}
-
-export interface SlugProps {
-  slug: string
 }
 
 export interface UserDataBadgeProps {
   postCount: number
   commentCount: number
   userName: string
-  userId: string
+  userId: string | number
   reportedPostCount: number
   reportedCommentCount: number
   showDropDown?: boolean
@@ -33,5 +29,16 @@ export interface UserDataBadgeProps {
 
 export interface profileProps {
   userId?: string
-  userInCookie?: UserData
+  userInCookie: UserData
+  accessToken: string
+  refreshToken: string
+}
+
+export interface ReportedProps {
+  slug: string
+  userData: userData
+  accessToken: string
+}
+export interface ActivityButtonProps {
+  slug: string
 }

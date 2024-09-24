@@ -1,11 +1,11 @@
 'use client'
 
-import { SlugProps } from '@/utils/interfaces/userData'
+import { ActivityButtonProps } from '@/utils/interfaces/userData'
 import { Plus, SmilePlus } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { FaRegComment } from 'react-icons/fa'
 
-const ActivityButtons = ({ slug }: SlugProps) => {
+const ActivityButtons = ({ slug }: ActivityButtonProps) => {
   const routeTo = `/user-activity/${slug}`
   const pathName = usePathname()
 

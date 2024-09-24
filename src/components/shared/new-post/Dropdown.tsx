@@ -1,7 +1,6 @@
 'use client'
 import { DownIcon } from '@/assets/icons'
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 
 import {
   DropdownMenu,
@@ -15,9 +14,10 @@ import { usePathname } from 'next/navigation'
 import VectorChannelIcon from '@/assets/icons/VectorChannelIcon'
 
 const Dropdown = ({ handleDropDownValue, value }: any) => {
-  const channels = useSelector(
-    (state: StoreChannels) => state.channels.channels,
-  )
+  // const channels = useSelector(
+  //   (state: StoreChannels) => state.channels.channels,
+  // )
+  const channels = [{ name: '', id: 0 }]
   const pathName = usePathname()
   const [buttonValue, setButtonValue] = useState('Select a Channel')
   const channelSlugRoute = pathName.split('/')[2]
