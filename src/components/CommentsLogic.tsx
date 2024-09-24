@@ -154,8 +154,6 @@ const CommentsLogic = ({
         updatePosts={() => {}}
         posts={[]}
         totalComments={0}
-        accessToken=""
-        refreshToken=""
       />
       <Comments
         postId={postId}

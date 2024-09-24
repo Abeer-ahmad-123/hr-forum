@@ -72,7 +72,6 @@ const timeFormatInHours = (timestamp: Date) => {
   const monthsAgo = Math.floor(daysAgo / 30)
 
   if (hoursAgo < 1) {
-<<<<<<< HEAD
     return minutesAgo > 1 ? `${minutesAgo} minutes ago` : `1m ago`
   } else if (hoursAgo < 24) {
     return hoursAgo > 1 ? `${hoursAgo} hours ago` : `1 hour ago`
@@ -82,17 +81,6 @@ const timeFormatInHours = (timestamp: Date) => {
     return weeksAgo > 1 ? `${weeksAgo} weeks ago ` : `1 week ago`
   } else {
     return monthsAgo > 1 ? `${monthsAgo} months ago ` : `1 month ago`
-=======
-    return minutesAgo > 1 ? `( ${minutesAgo} minutes ago )` : `1m ago`
-  } else if (hoursAgo < 24) {
-    return hoursAgo > 1 ? `( ${hoursAgo} hours ago )` : `1 hour ago`
-  } else if (daysAgo < 7) {
-    return daysAgo > 1 ? `( ${daysAgo} days ago )` : `1 day ago`
-  } else if (daysAgo < 30) {
-    return weeksAgo > 1 ? `( ${weeksAgo} weeks ago )` : `1 week ago`
-  } else {
-    return monthsAgo > 1 ? `( ${monthsAgo} months ago )` : `1 month ago`
->>>>>>> code-refactoring
   }
 }
 

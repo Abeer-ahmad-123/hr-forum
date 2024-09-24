@@ -17,7 +17,7 @@ const ReportedPosts = async ({ params }: ReportedParamsProps) => {
   const { user, token } = await getUserFromCookie()
 
   return (
-    <Suspense fallback={<CardLoading user={user} />}>
+    <Suspense fallback={<CardLoading />}>
       <ReportedPostsFeeds
         slug={params.slug}
         userData={user}

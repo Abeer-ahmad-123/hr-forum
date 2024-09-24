@@ -15,13 +15,13 @@ interface NewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
-  channels?: ChannelByIdInterface
+  channels?: ChannelByIdInterface[]
 }
 interface startNewPostProps {
   addPost: boolean
   setAddPost: (arg0: boolean) => void
   path: string
-  channels?: ChannelByIdInterface
+  channels?: ChannelByIdInterface[]
 }
 export default function NewPost({
   setAddPost,
@@ -86,7 +86,6 @@ export const PostBar = ({
         channelSlug={pathname.split('/')[2]}
         path={path}
         setAddPost={setAddPost}
-        channels={channels}
       />
     )
 

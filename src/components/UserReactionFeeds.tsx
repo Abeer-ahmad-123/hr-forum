@@ -1,9 +1,7 @@
 'use client'
 import NoPosts from '@/components/Cards/NoMore'
 import FeaturesDropDownWithSuspense from '@/components/Cards/FeaturesDropDownWithSuspense'
-import ChannelCard from '@/components/SideCards/ChannelCard'
-import ProfileCard from '@/components/SideCards/ProfileCard'
-import RulesCard from '@/components/SideCards/RuleCard'
+
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
@@ -17,7 +15,6 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/CardLoading'
-import { getUserData } from '@/utils/local-stroage'
 
 const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -104,10 +101,8 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   //   updatePost([...storePosts])
   // }, [storePosts])
 
-  const user = getUserData()?.user
-
   return loading ? (
-    <CardLoading user={user} />
+    <CardLoading />
   ) : (
     <div className="mx-auto flex max-w-screen-xl justify-center">
       {/* <div
@@ -153,7 +148,6 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
                         <Card
                           key={index}
                           post={reactionPost}
-                          userId={Number(userData?.id)}
                           channels={channels}
                           updatePosts={updatePost}
                           posts={posts}
