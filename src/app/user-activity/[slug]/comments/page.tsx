@@ -16,7 +16,7 @@ export function generateMetadata({ params }: any) {
 const UserComments = async ({ params }: ReportedParamsProps) => {
   const { user, token } = await getUserFromCookie()
   return (
-    <Suspense fallback={<CardLoading user={user} />}>
+    <Suspense fallback={<CardLoading />}>
       <UserCommentsFeeds
         slug={params.slug}
         userData={user}

@@ -17,7 +17,7 @@ const UserReaction = async ({ params }: ReportedParamsProps) => {
   const { user, token } = await getUserFromCookie()
 
   return (
-    <Suspense fallback={<CardLoading user={user} />}>
+    <Suspense fallback={<CardLoading />}>
       <UserReactionFeeds
         slug={params.slug}
         userData={user}

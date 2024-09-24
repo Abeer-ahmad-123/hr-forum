@@ -162,12 +162,9 @@ const ReportedPostsFeeds = ({ slug, accessToken, userData }: ReportedProps) => {
                         <Card
                           key={index}
                           post={post}
-                          userId={Number(userData?.id)}
                           channels={channels}
                           updatePosts={updatePosts}
                           posts={posts}
-                          accessToken=""
-                          refreshToken=""
                         />
                       )
                     })

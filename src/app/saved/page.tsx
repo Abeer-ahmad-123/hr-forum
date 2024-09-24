@@ -1,7 +1,6 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
 import { getGenericPosts } from '@/services/posts/server-posts'
-import { getUserFromCookie } from '@/utils/cookies'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
@@ -19,10 +18,9 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
     searchParams,
     path,
   })
-  const { user } = await getUserFromCookie()
 
   return (
-    <Suspense fallback={<CardLoading user={user} />}>
+    <Suspense fallback={<CardLoading />}>
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}

@@ -156,8 +156,6 @@ const UserInteraction = ({
         totalComments={0}
         handleBookmark={() => {}}
         bookmarkSuccess={false}
-        accessToken=""
-        refreshToken=""
       />
       <Comments
         postId={postId}
