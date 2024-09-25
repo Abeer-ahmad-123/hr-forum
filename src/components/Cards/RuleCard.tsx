@@ -1,3 +1,4 @@
+'use client'
 import { rulesData } from '@/utils/data'
 
 import {

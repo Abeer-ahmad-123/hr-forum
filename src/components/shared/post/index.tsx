@@ -4,38 +4,19 @@ import Report from '@/components/Report/Report'
 import type { SinglePostWithDialogProps } from '@/components/SinglePostWithDialog'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
-import { useInterceptor } from '@/hooks/interceptors'
-import {
-  bookmarkPost,
-  deleteBookmarkPost,
-} from '@/services/bookmark/bookmarkService'
 import { getChannels } from '@/services/channel/channel'
 import { getComment, getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
 import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import {
-  returnFilteredPosts,
-  showErrorAlert,
-  updatePostBookmark,
-} from '@/utils/helper'
 import type { ReactionSummary } from '@/utils/interfaces/card'
 import type { ChannelInterface } from '@/utils/interfaces/channels'
-import type { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import type {
-  CommentCount,
-  CommentCountStore,
   CommentInterface,
   PostsInterface,
   PostsInterfaceStore,
 } from '@/utils/interfaces/posts'
 import { SearchParams } from '@/utils/interfaces/renderFeeds'
-import {
-  useParams,
-  usePathname,
-  useRouter,
-  useSearchParams,
-  redirect,
-} from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import SignInDialog from '../NewPost/SignInDialog'
@@ -56,10 +37,6 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const { id } = useParams()
   postId = postId ? postId : String(id)
   const paramsSearch = useSearchParams()
-  // const isFirstRef = useRef(true)
-  // * State to show more / less post content.
-  // const [showFullPost, setShowFullPost] = useState(false)
-
   const [commentResult, setCommentResult] = useState<CommentInterface[] | null>(
     data?.comments?.comments ?? null,
   )
@@ -81,9 +58,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   //   ''
   const [reported, setReported] = useState<boolean>(false)
 
-  // const commentCountInStore = useSelector(
-  //   (state: CommentCountStore) => state.posts.commentCount,
-  // )
+  // const dispatch = useDispatch()
 
   const [channels, setChannels] = useState<ChannelInterface[] | []>([])
 

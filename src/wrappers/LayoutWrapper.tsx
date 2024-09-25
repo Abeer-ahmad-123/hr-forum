@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css'
 const LayoutWrapper = ({ children, pathname }: LayoutWrapperProps) => {
   const isError = pathname === '/error'
   return (
-    <main className="h-max max-w-[100dvw] font-primary">
+    <main className="m-auto h-max max-w-[1512px] font-primary">
       <ThemeProvider attribute="class" defaultTheme="theme-default">
         {!isError && <Navbar pathname={pathname} />}
         <ToastContainer />

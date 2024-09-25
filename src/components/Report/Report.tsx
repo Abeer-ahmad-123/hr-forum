@@ -127,8 +127,9 @@ const Report = ({
               <input
                 type="radio"
                 id={text.reason}
+                style={{ accentColor: 'cadetblue' }}
                 name="example"
-                className="h-4 w-4 cursor-pointer border border-[#d3d3d3] accent-bg-green"
+                className="h-4 w-4 cursor-pointer border border-[#d3d3d3]"
                 value={selectedItem}
                 checked={selectedItem === text.reason}
               />
@@ -157,7 +158,7 @@ const Report = ({
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-[#F4F4F5] text-white  transition ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-[#F4F4F5] text-black transition  dark:text-white ">
           {' '}
           Cancel
         </button>
