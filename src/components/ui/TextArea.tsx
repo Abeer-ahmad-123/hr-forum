@@ -1,12 +1,11 @@
 'use client'
 import { Dialog } from '@/components/ui/Dialog/interceptDialog'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
-import SignInDialog from '../shared/new-post/SignInDialog'
-import { deleteModalState } from '@/services/auth/authService'
+import { usePathname } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+import SignInDialog from '../shared/NewPost/SignInDialog'
 import StartIcon from '@/assets/icons/sentIcon'
+import { getTokens, getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 const TextArea = ({
   submitCallback,
@@ -20,14 +19,17 @@ const TextArea = ({
   classNameOuter,
 }: any) => {
   const [textAreaValue, setTextAreaValue] = useState('')
+  const [accessToken, setAccessToken] = useState<string>('')
+  const [userData, setUserData] = useState<userData>()
   const [open, setIsopen] = useState(false)
-  const reduxToken = !!useSelector((state: any) => state.loggedInUser.token)
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
 
   const pathName = usePathname()
-  const router = useRouter()
+
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+
+  // )
+
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
   }
@@ -37,7 +39,7 @@ const TextArea = ({
   }
 
   const handleClick = () => {
-    if (reduxToken) {
+    if (accessToken) {
       submitCallback(textAreaValue)
     } else {
       setIsopen(true)
@@ -54,20 +56,28 @@ const TextArea = ({
       setIsLoading({ loading: false, status: 'null' })
     }
   }
-  const handleImgClick = () => {
-    router.push('/profile')
-    deleteModalState()
-  }
 
   useEffect(() => {
     resetStatus()
   }, [isLoading])
 
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setAccessToken(storedTokens.accessToken)
+    }
+  }, [])
+
   return (
     <div
       className={` ${
         pathName === '/feeds' ||
-        (pathName.includes(`${userData.username}`) && 'mb-4')
+        (pathName.includes(`${userData?.username}`) && 'mb-4')
       }  ${classNameOuter} flex w-full cursor-pointer items-center gap-1 `}>
       <div
         className={`m-[0px] flex h-[44px] ${className} items-center  rounded-[20px] bg-bg-tertiary px-[20px] py-[8px] dark:bg-bg-tertiary-dark `}
@@ -92,7 +102,7 @@ const TextArea = ({
         </div>
       </div>
 
-      {!reduxToken && (
+      {!accessToken && (
         <Dialog open={open} onOpenChange={handleClosedialog}>
           <SignInDialog setShowSignModal={setIsopen} />
         </Dialog>

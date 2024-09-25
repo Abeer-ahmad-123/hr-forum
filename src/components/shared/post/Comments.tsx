@@ -5,9 +5,11 @@ import type { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import type { CommentInterface, Pagination } from '@/utils/interfaces/posts'
 import { Reply } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
+// import { useSelector } from 'react-redux'
 import CommentSection from '../CommentSection'
+import { getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 type Props = {
   postId: string
   initialComments: CommentInterface[]
@@ -23,28 +25,35 @@ function Comments({
   inputRef = null,
   getPostCommets,
 }: Props) {
-  const searchParams = useSearchParams()
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
-
-  const commentId = searchParams.get('commentId')
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser?.userData,
+  // )
+  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
   const [comments, setComments] = useState<CommentInterface[]>(
     initialComments || [],
   )
-  const [commentPage, setCommentPage] = useState<number>(commentId ? 1 : 2)
-  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
+  const [commentPage, setCommentPage] = useState<number>(0)
+  const [userData, setUserData] = useState<userData>()
 
   const nothingToLoadMore = useRef(
     pagination?.TotalPages !== 0 &&
       pagination?.CurrentPage !== pagination?.TotalPages,
   )
+
+  const searchParams = useSearchParams()
+
+  const commentId = searchParams.get('commentId')
+
   const refetchComments = async (pageNumber: number = 0) => {
     // Re-fetch comments
 
-    const commentsResponse = await getPostsComments(postId, userData.id, {
-      page: pageNumber || commentPage,
-    })
+    const commentsResponse = await getPostsComments(
+      postId,
+      {
+        page: pageNumber || commentPage,
+      },
+      userData?.id.toString(),
+    )
 
     nothingToLoadMore.current =
       commentsResponse?.pagination?.CurrentPage !==
@@ -70,6 +79,14 @@ function Comments({
   //   setComments([...initialComments])
   // }, [initialComments])
 
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
+
+  useEffect(() => {
+    setCommentPage(commentId ? 1 : 2)
+  }, [commentId])
   return (
     <>
       <CommentOrReply

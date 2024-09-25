@@ -4,19 +4,19 @@ import { ResponseData, UserData, setTokenCookies } from '../interfaces/cookies'
 
 export const setUserCookies = async (responseJson: ResponseData) => {
   const userData = responseJson.data.userData
-  cookies().set('user-details', JSON.stringify(userData))
-  cookies().set('access-token', responseJson.data.token)
-  cookies().set('refresh-token', responseJson.data['refresh-token'])
+  cookies().set('userData', JSON.stringify(userData))
+  cookies().set('token', responseJson.data.token)
+  cookies().set('refreshToken', responseJson.data['refresh-token'])
 }
 
 export const removeUserCookies = async () => {
-  cookies().delete('user-details')
-  cookies().delete('access-token')
-  cookies().delete('refresh-token')
+  cookies().delete('userData')
+  cookies().delete('token')
+  cookies().delete('refreshToken')
 }
 export const setUserTokens = async (data: setTokenCookies) => {
-  cookies().set('access-token', data.token)
-  cookies().set('refresh-token', data['refresh-token'])
+  cookies().set('token', data.token)
+  cookies().set('refreshToken', data['refresh-token'])
 }
 
 export const setModalCookie = async () => {
@@ -27,17 +27,17 @@ export const deleteModalCookie = async () => {
 }
 
 export const getUserDetailsFromCookie = async () => {
-  const user = await cookies().get('user-details')?.value
+  const user = await cookies().get('userData')?.value
   return user ? JSON.parse(user) : null
 }
 export const setUserDetailsInCookie = async (user: UserData) => {
-  await cookies().set('user-details', JSON.stringify(user))
+  await cookies().set('userData', JSON.stringify(user))
 }
 
 export const getUserFromCookie = async () => {
   const userDetails = await getUserDetailsFromCookie()
-  const token = await cookies().get('access-token')
-  const refreshToken = await cookies().get('refresh-token')
+  const token = await cookies().get('token')
+  const refreshToken = await cookies().get('refreshToken')
   return {
     token: token?.value || '',
     user: userDetails || {

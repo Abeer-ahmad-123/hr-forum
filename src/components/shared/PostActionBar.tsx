@@ -5,7 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
@@ -25,11 +25,13 @@ import { showErrorAlert } from '@/utils/helper'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps, PostsInterface } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
-import SignInDialog from './new-post/SignInDialog'
+import SignInDialog from './NewPost/SignInDialog'
 import BookMark from '@/assets/icons/bookMarkIcon'
 import { CommentCount, CommentCountStore } from '@/utils/interfaces/posts'
 import { CustomLink } from './customLink/CustomLink'
 import { ReactionSummary } from '@/utils/interfaces/card'
+import { getTokens } from '@/utils/local-stroage'
+import { Tokens } from './Card'
 
 const PostActionBar = ({
   postId,
@@ -47,32 +49,41 @@ const PostActionBar = ({
   totalComments,
   handleBookmark,
   bookmarkSuccess,
+  getUserSpecificDetailFunc,
 }: PostActionBarProps) => {
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
-  const [showCommentArea, setShowCommentArea] = useState(false)
-  const [comment, setComment] = useState<any>([])
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
+  const [reactionCount, setReactionCount] = useState<number>(0)
+  const [showCommentArea, setShowCommentArea] = useState(false)
+  const [commentCount, setCommentCount] = useState<number>()
+  const [showSignModal, setShowSignModal] = useState(false)
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+
+  const [comment, setComment] = useState<any>([])
+  const [popOver, setPopOver] = useState(false)
+
+  const isFirstRef = useRef<boolean>(true)
 
   const { handleRedirect } = useFetchFailedClient()
-  const [showSignModal, setShowSignModal] = useState(false)
-  const [popOver, setPopOver] = useState(false)
-  const [commentCount, setCommentCount] = useState<CommentCount>({})
-  const [reactionCount, setReactionCount] = useState<number>(0)
-  const isFirstRef = useRef<boolean>(true)
-  const commentCountInStore = useSelector(
-    (state: CommentCountStore) => state.posts.commentCount,
-  )
+
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const refreshToken =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
+
+  // const commentCountInStore = useSelector(
+  //   (state: CommentCountStore) => state.posts.commentCount,
+  // )
 
   const calculateTotalReactions = (reactions: ReactionSummary) => {
     return (
-      reactions?.like_count +
-      reactions?.love_count +
-      reactions?.clap_count +
-      reactions?.celebrate_count
+      reactions.like_count +
+      reactions.love_count +
+      reactions.clap_count +
+      reactions.celebrate_count
     )
   }
 
@@ -81,17 +92,15 @@ const PostActionBar = ({
     : reactionCount
 
   useEffect(() => {
-    setCommentCount(commentCountInStore)
+    if (comment.length) {
+      setCommentCount(totalComments + comment.length)
+    } else {
+      setCommentCount(totalComments)
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [commentCountInStore])
+  }, [totalComments, comment])
 
-  const postCommentsCount = useMemo(() => {
-    return commentCount[Number(postId)] || null
-  }, [commentCount, postId])
-
-  const commentCountToUse = isFirstRef.current
-    ? totalComments
-    : postCommentsCount
+  const commentCountToUse = isFirstRef.current ? totalComments : commentCount
 
   const { id } = useParams()
   const pathName = usePathname()
@@ -100,7 +109,7 @@ const PostActionBar = ({
   const submitReaction = async (value: string) => {
     if (pathName === '/feeds') reactionRef.current = true
     let response
-    if (tokenInRedux) {
+    if (tokens?.accessToken) {
       try {
         if (!userReaction || userReaction === 'none') {
           response = await postReactions(
@@ -109,8 +118,8 @@ const PostActionBar = ({
             },
             postId,
             customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
+            tokens?.accessToken,
+            tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
             value: value,
@@ -124,8 +133,8 @@ const PostActionBar = ({
             },
             postId,
             customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
+            tokens?.accessToken,
+            tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
             value: value,
@@ -136,8 +145,8 @@ const PostActionBar = ({
           response = await deleteReactions(
             postId,
             customFetch,
-            tokenInRedux,
-            refreshTokenInRedux,
+            tokens?.accessToken,
+            tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
             value: value === 'none' ? userReaction : value,
@@ -165,14 +174,14 @@ const PostActionBar = ({
   }
 
   const toggleCommentArea = () => {
-    if (tokenInRedux) {
+    if (tokens?.accessToken) {
       id ? inputRef?.current?.focus() : setShowCommentArea((pre) => !pre)
     } else {
       setShowSignModal(true)
     }
   }
   const handleLikeWrapper = () => {
-    if (!tokenInRedux) {
+    if (!tokens?.accessToken) {
       setShowSignModal(true)
       return true
     } else {
@@ -228,6 +237,18 @@ const PostActionBar = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
+
   return (
     <>
       {/* * Added Gap between the action bar and the comment section */}
@@ -241,6 +262,7 @@ const PostActionBar = ({
               disableReactionButton={disableReactionButton}
               setDisableReactionButton={setDisableReactionButton}
               reactionCountToUse={reactionCountToUse}
+              accessToken={tokens?.accessToken}
             />
 
             <div className="flex w-full items-center  justify-center rounded-sm  hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
@@ -249,19 +271,19 @@ const PostActionBar = ({
                 onClick={toggleCommentArea}
                 className="text-icon-light dark:text-icon-dark flex cursor-pointer  items-center gap-[8px]  font-black">
                 <CommentIcon className="h-[16px] w-[16px] text-black dark:text-white md:h-[20px] md:w-[20px] " />
-                <CustomLink
-                  href={
-                    pathName.includes('channels')
-                      ? `${pathName}/feed/${postId}`
-                      : `/feeds/feed/${postId}`
-                  }
+                <div
+                  // href={
+                  //   pathName.includes('channels')
+                  //     ? `${pathName}/feed/${postId}`
+                  //     : `/feeds/feed/${postId}`
+                  // }
                   className="flex items-center">
                   {commentCountToUse && commentCountToUse ? (
                     <span className="flex items-center justify-center gap-[8px]  text-[12px] font-light  text-black md:text-[16px]">
                       {commentCountToUse > 1 ? (
                         <>
                           <span className="font-[900] dark:text-white">
-                            {postCommentsCount}
+                            {commentCountToUse}
                           </span>
                           <span className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
                             Comments
@@ -283,7 +305,7 @@ const PostActionBar = ({
                       Comment
                     </span>
                   )}
-                </CustomLink>
+                </div>
               </button>
             </div>
 
@@ -305,9 +327,9 @@ const PostActionBar = ({
                   </span>
                 </PopoverTrigger>
 
-                <PopoverContent className="cursor-pointer bg-white">
+                <PopoverContent className="cursor-pointer rounded-[20px] bg-white p-2 shadow-[#00000059]">
                   <SocialButtons
-                    className="flex gap-3"
+                    className="flex gap-2 rounded-[20px]"
                     postId={postId}
                     handleButtonClick={handleButtonClick}
                   />
@@ -329,32 +351,35 @@ const PostActionBar = ({
           </div>
         </div>
 
-        {pathName.includes('/comment')
+        {/* {pathName.includes('/comment')
           ? comment.id && (
               <CommentSection
                 comment={comment}
                 setDeletedCommentId={setDeletedCommentId}
               />
             )
-          : !id && (
-              <div className={`${!showCommentArea && 'hidden'} `}>
-                <CommentOrReply
-                  className="m-2"
-                  btnClass="mr-[0px]"
-                  Id={postId}
-                  setComments={setComment}
-                  postId={postId}
-                />
-                <div className="mt-[20px]">
-                  {comment.length != 0 && (
-                    <CommentSection
-                      comment={comment[0]}
-                      setDeletedCommentId={setDeletedCommentId}
-                    />
-                  )}
-                </div>
-              </div>
+          : !id && ( */}
+        <div className={`${!showCommentArea && 'hidden'} `}>
+          <CommentOrReply
+            className="m-2"
+            btnClass="mr-[0px]"
+            Id={postId}
+            setComments={setComment}
+            postId={postId}
+            refreshToken={tokens?.refreshToken}
+            accessToken={tokens?.accessToken}
+            getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+          />
+          <div className="mt-[20px]">
+            {comment.length != 0 && (
+              <CommentSection
+                comment={comment[0]}
+                setDeletedCommentId={setDeletedCommentId}
+              />
             )}
+          </div>
+        </div>
+        {/* )} */}
       </div>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />

@@ -1,11 +1,13 @@
+'use client'
 import { navigation } from '@/utils/data'
-import { StoreChannels } from '@/utils/interfaces/channels'
 import { usePathname } from 'next/navigation'
-import { useSelector } from 'react-redux'
 import { CustomLink } from './customLink/CustomLink'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import HrGeneral from '@/assets/icons/hrGeneral'
 import SmileIcon from '@/assets/icons/smileIcon'
+import { iconStyle, sidebarLinkStyle, textStyle } from '@/utils/functions'
+import { getTokens } from '@/utils/local-stroage'
+import { useCallback, useEffect, useState } from 'react'
+import useChannels from '@/hooks/channels'
 
 type NavigationItem = {
   name: string
@@ -18,60 +20,45 @@ const DropDownContent = ({
 }: {
   handleLi: () => void
 }): JSX.Element => {
+  const [accessToken, setAccessToken] = useState<string>('')
+
   const pathname = usePathname()
-  const channels = useSelector(
-    (state: StoreChannels) => state?.channels?.channels,
-  )
-  const commonPrimaryText: string = 'text-[800] bg-bg-tertiary dark:bg-bg-primary-dark'
-  const commonDarkModeText: string = 'dark:text-white '
 
-  const textStyle = (key: string): string => {
-    return checkEqual(key)
-      ? commonPrimaryText
-      : commonDarkModeText
-  }
+  const channels = useChannels()
 
-  const iconStyle = (key: string): string => {
-    return checkEqual(key)
-      ? commonPrimaryText
-      : commonDarkModeText
-  }
+  // const channels = useSelector(
+  //   (state: StoreChannels) => state?.channels?.channels,
+  // )
 
-
-  const sidebarLinkStyle = (key: string): string => {
-    return checkEqual(key)
-      ? commonPrimaryText
-      : `text-gray-800 hover:bg-gray-100 ${commonDarkModeText} dark:hover:bg-gray-700`
-  }
-
-
-  const checkEqual = (key: string): boolean => {
-    return pathname === key
-  }
-
-  const token = useSelector((state: LoggedInUser) => state.loggedInUser.token)
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setAccessToken(storedTokens?.accessToken)
+    }
+  }, [])
 
   return (
-    <ul className={`bg-white dark:bg-bg-tertiary-dark rounded-2xl border pt-3 z-50 relative`}>
+    <ul
+      className={`relative z-50 rounded-2xl border bg-white pt-3 dark:bg-bg-tertiary-dark`}>
       {navigation.map((item: NavigationItem, index: number) => {
-        if ((!token && item.name !== 'Saved') || token)
+        if ((!accessToken && item.name !== 'Saved') || accessToken)
           return (
-
-            <div
-              key={index}
-              className='px-4'
-            >
+            <div key={index} className="px-4">
               <li
-                className={`mt-1 dark:active:bg-bg-primary-dark dark:hover:bg-bg-primary-dark hover:bg-bg-tertiary rounded-md`}
+                className={`mt-1 rounded-md hover:bg-bg-tertiary dark:hover:bg-bg-primary-dark dark:active:bg-bg-primary-dark`}
                 onClick={handleLi}>
                 <CustomLink
                   href={item?.href}
                   className={`group flex gap-x-3 rounded-md px-3 py-2 text-sm font-semibold leading-6 transition-colors duration-200 ${textStyle(
                     item?.href,
+                    pathname,
                   )}`}
                   data-testid="navigation-heading">
                   <item.icon
-                    className={`h-5 w-5 shrink-0 ${iconStyle(item?.href)}`}
+                    className={`h-5 w-5 shrink-0 ${iconStyle(
+                      item?.href,
+                      pathname,
+                    )}`}
                     aria-hidden="true"
                     data-testid="navigation-icon"
                   />
@@ -82,14 +69,14 @@ const DropDownContent = ({
           )
       })}
 
-      <div className="mx-4 pl-2 font-[800] mt-3 text-base text-bg-black dark:text-bg-tertiary">
+      <div className="mx-4 mt-3 pl-2 text-base font-[800] text-bg-black dark:text-bg-tertiary">
         Explore variety of channels
       </div>
 
-      <div className='mb-4 mt-3'>
+      <div className="mb-4 mt-3">
         {channels?.map((item: any, index: number) => (
           <li
-            className="text-base border-none "
+            className="border-none text-base "
             key={index}
             onClick={handleLi}
             data-testid="side-channels">
@@ -97,10 +84,15 @@ const DropDownContent = ({
               href={`${'/channels/' + item?.slug}`}
               className={`${sidebarLinkStyle(
                 `/channels/${item?.name} `,
-              )}`}
-              >
-              <div className={`my-1 flex gap-3 py-[8px] mx-4 dark:hover:bg-bg-primary-dark  ${pathname === `/channels/${item.slug}` ? 'bg-bg-tertiary dark:bg-bg-primary-dark font-[800]':''}  hover:bg-bg-tertiary hover:font-[800] rounded-md`}>
-                {item?.slug == "hr-general" ? <HrGeneral /> : <SmileIcon />}
+                pathname,
+              )}`}>
+              <div
+                className={`mx-4 my-1 flex gap-3 py-[8px] dark:hover:bg-bg-primary-dark  ${
+                  pathname === `/channels/${item.slug}`
+                    ? 'bg-bg-tertiary font-[800] dark:bg-bg-primary-dark'
+                    : ''
+                }  rounded-md hover:bg-bg-tertiary hover:font-[800]`}>
+                {item?.slug == 'hr-general' ? <HrGeneral /> : <SmileIcon />}
                 <span>{item?.name}</span>
               </div>
             </CustomLink>

@@ -3,13 +3,11 @@ import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deletePost } from '@/services/posts'
-import { setPosts } from '@/store/Slices/postSlice'
 import { showSuccessAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterfaceStore } from '@/utils/interfaces/posts'
+import { getTokens } from '@/utils/local-stroage'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useCallback, useEffect, useState } from 'react'
+import { Tokens } from '../Card'
 
 interface DeletePostInterface {
   postId: string
@@ -26,21 +24,28 @@ const DeletePost = ({
   updatePosts,
   posts = [],
 }: DeletePostInterface) => {
-  const dispatch = useDispatch()
-  const router = useRouter()
-  const pathname = usePathname()
   const [loading, setLoading] = useState<boolean>(false)
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
 
-  const { customFetch } = useInterceptor()
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+
+  const pathname = usePathname()
+  const router = useRouter()
+
   const { handleRedirect } = useFetchFailedClient()
+  const { customFetch } = useInterceptor()
+
+  // const dispatch = useDispatch()
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const refreshTokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)
@@ -52,20 +57,20 @@ const DeletePost = ({
       const response = await deletePost(
         postId!,
         customFetch,
-        tokenInRedux,
-        refreshTokenInRedux,
+        tokens.accessToken,
+        tokens.refreshToken,
       )
       if (response.status === 204) {
         setLoading(false)
         setOpenDeleteDialog(false)
         showSuccessAlert('Post deleted successfully')
         updatePosts(posts?.filter((item: any) => item.id !== Number(postId)))
-        const filteritem = posts.length ? posts : storePosts
-        dispatch(
-          setPosts(
-            filteritem.filter((item: any) => item.id !== Number(postId)),
-          ),
-        )
+        // const filteritem = posts.length ? posts : []
+        // dispatch(
+        //   setPosts(
+        //     filteritem.filter((item: any) => item.id !== Number(postId)),
+        //   ),
+        // )
         if (pathname === `/feeds/feed/${postId}`) router.back()
       }
     } catch (error) {
@@ -77,6 +82,17 @@ const DeletePost = ({
       setOpenDeleteDialog(false)
     }
   }
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
 
   return (
     <div className="rounded-lg bg-white p-4 dark:bg-dark-background dark:text-white">

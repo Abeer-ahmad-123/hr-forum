@@ -7,10 +7,10 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { reportData } from '@/utils/data'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useCallback, useEffect, useState } from 'react'
+import { getTokens } from '@/utils/local-stroage'
+import { Tokens } from '../shared/Card'
+// import { useSelector } from 'react-redux'
 
 interface ReportInterface {
   postId?: string
@@ -21,6 +21,7 @@ interface ReportInterface {
   setDeletedCommentId: (arg1: string) => void
   getPostCommets: () => void
   setReported: (arg1: boolean) => void
+  getUserSpecificDetailFunc: () => void
 }
 
 const Report = ({
@@ -32,18 +33,23 @@ const Report = ({
   setDeletedCommentId,
   getPostCommets,
   setReported,
+  getUserSpecificDetailFunc,
 }: ReportInterface) => {
-  const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
-  const router = useRouter()
-  const { handleRedirect } = useFetchFailedClient()
+  const [selectedItem, setSelectedItem] = useState('')
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
 
+  const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
+
+  // const accessToken =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const refreshToken =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
 
   const handleCancel = () => {
     setOpenDialog(false)
@@ -58,19 +64,20 @@ const Report = ({
               postId!,
               selectedItem,
               customFetch,
-              tokenInRedux,
-              refreshTokenInRedux,
+              tokens.accessToken,
+              tokens.refreshToken,
             ) // else report type can be comment and reply so calling the same endpoint with Id of either comment or reply
           : await reportComment(
               commentId!,
               selectedItem,
               customFetch,
-              tokenInRedux,
-              refreshTokenInRedux,
+              tokens.accessToken,
+              tokens.refreshToken,
             )
 
       if (response.success) {
         showSuccessAlert('Thanks for submitting your feedback')
+        getUserSpecificDetailFunc()
         getPostCommets()
         setReported(true)
         setReportedReplyId(commentId!)
@@ -93,6 +100,17 @@ const Report = ({
     setSelectedItem((e.target as HTMLDivElement).id)
   }
 
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
+
   return (
     <div className="gap-8">
       <div className="flex justify-items-start pb-8  dark:text-white">
@@ -109,8 +127,9 @@ const Report = ({
               <input
                 type="radio"
                 id={text.reason}
+                style={{ accentColor: 'cadetblue' }}
                 name="example"
-                className="h-4 w-4 cursor-pointer border border-[#d3d3d3] accent-[#571ce0]"
+                className="h-4 w-4 cursor-pointer border border-[#d3d3d3]"
                 value={selectedItem}
                 checked={selectedItem === text.reason}
               />
@@ -139,17 +158,17 @@ const Report = ({
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-[#F4F4F5] text-black transition  dark:text-white ">
           {' '}
-          cancel
+          Cancel
         </button>
         <button
           name="submit button"
           onClick={handleSubmit}
-          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-white 
-          ${loading ? 'bg-gray-300' : 'bg-accent'}
-          ${!selectedItem ? 'bg-gray-300' : 'bg-accent'}`}>
-          submit{' '}
+          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-sm font-semibold text-black 
+          ${loading ? 'bg-bg-green opacity-60' : 'bg-bg-green'}
+          ${!selectedItem ? 'bg-bg-green opacity-60' : 'bg-bg-green'}`}>
+          Submit{' '}
           {loading ? (
             <div className="ml-2">
               <CircularProgressIcon color="gray" />

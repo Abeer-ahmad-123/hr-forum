@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const isUserLogin = request.cookies.get('user-details')
+  const isUserLogin = request.cookies.get('userData')
   const route = request.url.split('/')[3] ?? '/'
   const redirect = NextResponse.redirect(new URL('/feeds', request.url))
   const pathname = request.nextUrl.pathname
   const requestHeaders = new Headers(request.headers)
+
   if (!pathname.includes('static')) {
     requestHeaders.set('x-next-pathname', pathname)
   }
@@ -27,8 +28,4 @@ export function middleware(request: NextRequest) {
       headers: requestHeaders,
     },
   })
-}
-
-export const config = {
-  matcher: ['/', '/profile', '/saved', '/login', '/register', '/error'],
 }

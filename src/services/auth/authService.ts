@@ -103,7 +103,7 @@ export async function logout() {
   }
 }
 export const checkUser = async () => {
-  return cookies().get('access-token')?.value
+  return cookies().get('token')?.value
 }
 
 export async function setUserToken(data: setTokenCookies) {
@@ -115,8 +115,8 @@ export async function setUserToken(data: setTokenCookies) {
 }
 
 export async function getRefreshToken() {
-  const accessToken = cookies().get('access-token')
-  const refreshToken = cookies().get('refresh-token')
+  const accessToken = cookies().get('token')
+  const refreshToken = cookies().get('refreshToken')
 
   try {
     const responseFromRefresh = await fetch(AUTH_REFRESH_TOKEN, {
@@ -130,8 +130,8 @@ export async function getRefreshToken() {
     const responseFromJson = await responseFromRefresh.json()
 
     if (responseFromJson.success) {
-      cookies().set('access-token', responseFromJson.data.token)
-      cookies().set('refresh-token', responseFromJson.data['refresh-token'])
+      cookies().set('token', responseFromJson.data.token)
+      cookies().set('refreshToken', responseFromJson.data['refresh-token'])
     } else {
       removeUserCookies()
     }
@@ -237,7 +237,7 @@ export async function googleCodeExchange(token: string) {
 }
 
 export async function isTokenExpired() {
-  const accessToken = cookies().get('access-token')
+  const accessToken = cookies().get('token')
 
   try {
     const response = await fetch(AUTH_IS_TOKEN_EXPIRED, {

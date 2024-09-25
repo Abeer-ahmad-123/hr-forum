@@ -13,9 +13,10 @@ const ProfileOverView = ({
   userId,
   reportedPostCount,
   reportedCommentCount,
-  showDropDown,
 }: UserDataBadgeProps) => {
   const router = useRouter()
+
+  console.log(reportedPostCount)
 
   const routeTo = `/user-activity/${userName
     ?.toLowerCase()

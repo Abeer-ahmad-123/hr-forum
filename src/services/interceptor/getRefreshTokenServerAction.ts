@@ -9,7 +9,7 @@ export const fetchRefreshToken = async (
   url: any,
 ) => {
   try {
-    const refreshToken = cookies().get('refresh-token')
+    const refreshToken = cookies().get('refreshToken')
     const headersForRefresh = {
       RefreshToken: refreshToken?.value?.toString()!,
     }
@@ -21,8 +21,8 @@ export const fetchRefreshToken = async (
     if (refreshResponse.ok) {
       const newTokens = await refreshResponse.json()
 
-      cookies().set('access-token', newTokens.data.token)
-      cookies().set('refresh-token', newTokens.data['refresh-token'])
+      cookies().set('token', newTokens.data.token)
+      cookies().set('refreshToken', newTokens.data['refresh-token'])
       options.headers = options.headers || {}
       options.headers['Authorization'] = `Bearer ${newTokens.accessToken}` || ''
       // Retry the original request with the new access token

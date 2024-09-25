@@ -39,6 +39,7 @@ module.exports = {
       },
 
       colors: {
+        customTeal: '#14CCAB',
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',

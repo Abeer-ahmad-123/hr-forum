@@ -2,13 +2,12 @@
 import { InputField } from '@/components/shared'
 import { useInterceptor } from '@/hooks/interceptors'
 import { updateUserDetails } from '@/services/user'
-import { setUserData } from '@/store/Slices/loggedInUserSlice'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
+import { getTokens, setValueToLocalStoage } from '@/utils/local-stroage'
 import { useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Tokens } from './shared/Card'
 interface userDataProps {
   name: string
   email: string
@@ -26,19 +25,24 @@ const EditPage = ({
   handleCloseDialog,
   setUpdatedUserData,
 }: EditPageProps) => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
+
   const [userDetails, setUserDetails] = useState(userData)
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+
+  const router = useRouter()
+
   const originalData = useMemo(() => {
     return JSON.stringify(userData)
   }, [userData])
+
   const isContentChanged = useMemo(() => {
     return JSON.stringify(userDetails) !== originalData
   }, [userDetails, originalData])
-  const router = useRouter()
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  const refreshToken =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
+
   const { customFetch } = useInterceptor()
 
   const handleChange = (e: any) => {
@@ -87,13 +91,14 @@ const EditPage = ({
       } else {
         const response = await updateUserDetails(
           customFetch,
-          token,
-          refreshToken,
+          tokens.accessToken,
+          tokens.refreshToken,
           userDetails,
         )
         if (!response?.success) return router.push('/feeds')
 
-        dispatch(setUserData({ userData: response?.data }))
+        // dispatch(setUserData({ userData: response?.data }))
+        setValueToLocalStoage('userData', response?.data)
         setUpdatedUserData(response?.data)
         /**
          * Close the dialog on successful change
@@ -106,6 +111,16 @@ const EditPage = ({
     }
   }
 
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
   return (
     <div>
       <h3 className="mb-3 text-left text-lg font-bold dark:text-white">

@@ -1,4 +1,3 @@
-import { GiCheckedShield } from 'react-icons/gi'
 import { CustomLink } from '../shared/customLink/CustomLink'
 import LogoIcon from '@/assets/icons/logo'
 import TextIcon from '@/assets/icons/hrTalkers'

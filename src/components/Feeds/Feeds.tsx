@@ -1,20 +1,16 @@
 'use client'
-import PostBar from '@/components/shared/new-post/NewPostModal'
 import { getAllPosts, getPostsByChannelId } from '@/services/posts'
 import { getSearchPosts } from '@/services/search'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
 import { getChannelIdByChannelName } from '@/utils/channels'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
-import { StoreChannels } from '@/utils/interfaces/channels'
 import { FeedProps } from '@/utils/interfaces/feeds'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
+import { PostsInterface } from '@/utils/interfaces/posts'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useDispatch, useSelector } from 'react-redux'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
+import PostBar from '../shared/NewPost/Postbar'
+import NewPostForm from '../shared/NewPost/NewPostForm'
 
 const Feeds = ({
   channelSlug,
@@ -29,30 +25,24 @@ const Feeds = ({
     initialPosts || [],
   )
 
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
 
-  const channelsInStore = useSelector(
-    (state: StoreChannels) => state?.channels.channels,
-  )
   const [page, setPage] = useState(2)
-  const dispatch = useDispatch()
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+  // const dispatch = useDispatch()
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+  // )
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
   const [addPost, setAddPost] = useState<boolean>(false)
+
   const getPosts = async () => {
     let _data: any = {}
     if (channelSlug) {
       if (!searchParams.search) {
-        const getChannelId = getChannelIdByChannelName(
-          channelSlug,
-          // @ts-ignore
-          channelsInStore || channels,
-        )
+        const getChannelId = getChannelIdByChannelName(channelSlug, channels)
         const { data } = await getPostsByChannelId({
           id: getChannelId,
           loadReactions: true,
@@ -68,7 +58,7 @@ const Feeds = ({
 
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID: userData.id,
+          userID: user?.id?.toString(),
           channelID: getChannelId,
         })
 
@@ -81,14 +71,14 @@ const Feeds = ({
             loadReactions: true,
             loadUser: true,
             pageNumber: page,
-            userID: userData.id,
+            userID: user?.id?.toString(),
           })
           _data = data
         }
       } else {
         const { data } = await getSearchPosts({
           search: searchParams.search,
-          userID: userData.id,
+          userID: user?.id?.toString(),
         })
 
         _data = data
@@ -99,11 +89,11 @@ const Feeds = ({
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
-    dispatch(setPosts([...storePosts, ..._data?.posts]))
+    // dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
-  const handleCommentCount = () => {
-    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
-  }
+  // const handleCommentCount = () => {
+  //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
+  // }
   useEffect(() => {
     if (inView) {
       getPosts()
@@ -113,20 +103,21 @@ const Feeds = ({
 
   useEffect(() => {
     if (searchParams.search || channelSlug) {
-      if (path === '/saved' && storePosts.length > 0) return
+      // if (path === '/saved' && storePosts.length > 0) return
+      if (path === '/saved') return
       updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
+      // dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
       updatePosts([...initialPosts])
-      dispatch(setPosts([...initialPosts]))
+      // dispatch(setPosts([...initialPosts]))
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
 
-  useEffect(() => {
-    handleCommentCount()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [posts])
+  // useEffect(() => {
+  //   handleCommentCount()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [posts])
 
   useEffect(() => {
     noMorePosts.current = morePosts
@@ -134,16 +125,15 @@ const Feeds = ({
 
   return (
     <>
-      {path !== '/saved' && user && (
-        <div className="mb-5">
-          <PostBar
-            setAddPost={setAddPost}
-            addPost={addPost}
-            path={path}
-            channels={channels}
-          />
-        </div>
-      )}
+      {path !== '/saved' &&
+        user?.id &&
+        (addPost ? (
+          <NewPostForm setAddPost={setAddPost} />
+        ) : (
+          <div className="mb-5">
+            <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
+          </div>
+        ))}
 
       <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col gap-5">
         {!addPost && (
@@ -154,9 +144,10 @@ const Feeds = ({
                   <Card
                     key={index}
                     post={post}
-                    channels={channels || channelsInStore}
+                    channels={channels}
                     updatePosts={updatePosts}
                     posts={posts}
+                    getUserSpecificDetailFunc={() => {}}
                   />
                 )
               })

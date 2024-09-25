@@ -110,13 +110,13 @@ export async function postCreatePostInChannel({
   channelID,
   body,
   customFetch,
-  token,
+  accessToken,
   refreshToken,
 }: any) {
   try {
     const headers = {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${accessToken}`,
       refreshToken: refreshToken,
     }
     const requestBody = JSON.stringify(body)
@@ -166,12 +166,15 @@ export async function feedImageCreateInChannel({
 }
 
 export async function getUserSpecificPosts(
-  userId: string,
+  userId: number | string,
   pageNumber = 1,
   { loadReactions = true, loadUser = true },
 ) {
   try {
-    const formatedRequestUrl = USER_SPECIFIC_POSTS.replace('userId', userId)
+    const formatedRequestUrl = USER_SPECIFIC_POSTS.replace(
+      'userId',
+      userId.toString(),
+    )
 
     let res = await fetch(
       `${`${formatedRequestUrl}?page=${pageNumber}&loadReactions=${loadReactions}&loadUser=${loadUser}`}`,
@@ -207,11 +210,14 @@ export async function getReportedPosts(
 }
 
 export async function getUserReactedPosts(
-  userId: string,
+  userId: string | number,
   { page = 1, pageSize = 10 },
 ) {
   try {
-    const formatedRequestUrl = USER_REACTED_POSTS.replace('userId', userId)
+    const formatedRequestUrl = USER_REACTED_POSTS.replace(
+      'userId',
+      userId.toString(),
+    )
 
     let res = await fetch(
       `${`${formatedRequestUrl}?page=${page}&pageSize=${pageSize}`}`,

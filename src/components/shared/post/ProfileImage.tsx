@@ -1,21 +1,21 @@
 'use client'
 import { noProfilePicture } from '@/assets/images'
 import { deleteModalState } from '@/services/auth/authService'
+import { getUserDetailsFromCookie } from '@/utils/cookies'
 import { ProfileImageInterface } from '@/utils/interfaces/card'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { useRouter } from 'next/navigation'
-import { useSelector } from 'react-redux'
 
-function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
-  const userData = useSelector(
-    (state: LoggedInUser) => state.loggedInUser?.userData,
-  )
+async function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser?.userData,
+  // )
 
+  const userData = await getUserDetailsFromCookie()
   const router = useRouter()
 
   const handleImageClick = () => {
     const url = `${
-      postUserId === userData.id ? '/profile' : `/profile/${postUserId}`
+      postUserId === userData?.id ? '/profile' : `/profile/${postUserId}`
     }`
     router.push(url)
     deleteModalState()

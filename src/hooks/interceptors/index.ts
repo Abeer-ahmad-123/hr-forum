@@ -1,13 +1,18 @@
 import { logout } from '@/services/auth/authService'
 import { AUTH_REFRESH_TOKEN } from '@/services/auth/routes'
 import { clearUser, setToken } from '@/store/Slices/loggedInUserSlice'
+import { setUserTokens } from '@/utils/cookies'
 import { showErrorAlert } from '@/utils/helper'
+import {
+  removeLocalStroage,
+  setValueToLocalStoage,
+} from '@/utils/local-stroage'
 import { usePathname, useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 
 export const useInterceptor = () => {
   // * Spelling mistakes on disptach to dispatch
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const router = useRouter()
   const pathName = usePathname()
 
@@ -27,12 +32,18 @@ export const useInterceptor = () => {
       })
       if (refreshResponse.ok) {
         const newTokens = await refreshResponse.json()
-        dispatch(
-          setToken({
-            token: newTokens.data.token,
-            refreshToken: newTokens.data['refresh-token'],
-          }),
-        )
+        setValueToLocalStoage('token', newTokens.data.token)
+        setValueToLocalStoage('refreshToken', newTokens.data['refresh-token'])
+        setUserTokens({
+          token: newTokens.data.token,
+          'refresh-token': newTokens.data['refresh-token'],
+        })
+        // dispatch(
+        //   setToken({
+        //     token: newTokens.data.token,
+        //     refreshToken: newTokens.data['refresh-token'],
+        //   }),
+        // )
 
         options.headers = options.headers || {}
         options.headers.authorization = `Bearer ${newTokens.data.token}`
@@ -45,7 +56,8 @@ export const useInterceptor = () => {
         throw `Session Expired! Please Login Again`
       }
     } catch (refreshError) {
-      dispatch(clearUser())
+      // dispatch(clearUser())
+      removeLocalStroage()
       logout()
       if (pathName.includes('saved') || pathName === '/profile') {
         router.push('/feeds')

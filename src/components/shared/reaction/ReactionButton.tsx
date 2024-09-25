@@ -6,10 +6,8 @@ import {
 } from '@/components/ui/popover'
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import HeartIcon from '@/assets/icons/heartIcon'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { ReactionEmoji } from '.'
 
 const ReactionButton = ({
@@ -19,6 +17,7 @@ const ReactionButton = ({
   disableReactionButton,
   setDisableReactionButton,
   reactionCountToUse,
+  accessToken,
 }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
   const [currentReaction, updateCurrentReaction] = useState('')
@@ -28,8 +27,8 @@ const ReactionButton = ({
     emoji: '',
   })
 
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
+  // const tokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
   const handleLikeWrapperExtended: React.MouseEventHandler<HTMLDivElement> = (
     e,
@@ -58,7 +57,7 @@ const ReactionButton = ({
   }
 
   const handleReactionEmoji = () => {
-    if (tokenInRedux && !disableReactionButton && isLargeScreen) {
+    if (accessToken && !disableReactionButton && isLargeScreen) {
       setDisableReactionButton(true)
       toggleHeartReaction()
       setEmojiPopoverVisible(false)
@@ -66,11 +65,11 @@ const ReactionButton = ({
   }
 
   const mouseEnter = () => {
-    if (tokenInRedux && !disableReactionButton) setEmojiPopoverVisible(true)
+    if (accessToken && !disableReactionButton) setEmojiPopoverVisible(true)
   }
 
   const mouseLeft = () => {
-    if (tokenInRedux) setEmojiPopoverVisible(false)
+    if (accessToken) setEmojiPopoverVisible(false)
   }
 
   const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {

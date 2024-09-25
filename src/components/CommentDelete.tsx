@@ -2,12 +2,11 @@
 import CircularProgressIcon from '@/assets/icons/circularProgress'
 import { useInterceptor } from '@/hooks/interceptors'
 import { deleteComment } from '@/services/comments'
-import { DecreaseCommentCountInStore } from '@/store/Slices/postSlice'
 import { showSuccessAlert } from '@/utils/helper'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { getTokens } from '@/utils/local-stroage'
+import { useCallback, useEffect, useState } from 'react'
+import { Tokens } from './shared/Card'
 interface CommentDeleteProps {
   commentId: string
   postId: string
@@ -28,13 +27,13 @@ const CommentDelete = ({
   deletedReplyId,
 }: CommentDeleteProps) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const refreshTokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-    ''
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+
   const { customFetch } = useInterceptor()
-  const disptach = useDispatch()
+  // const disptach = useDispatch()
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)
@@ -46,20 +45,20 @@ const CommentDelete = ({
       const response = await deleteComment(
         commentId,
         customFetch,
-        tokenInRedux,
-        refreshTokenInRedux,
+        tokens.accessToken,
+        tokens.refreshToken,
       )
 
       if (response.status === 204) {
         setLoading(false)
         if (deletedReplyId) {
           setDeletedReplyId(commentId)
-          disptach(DecreaseCommentCountInStore(postId))
+          // disptach(DecreaseCommentCountInStore(postId))
         }
 
         if (deletedCommentId) {
           setDeletedCommentId(commentId)
-          disptach(DecreaseCommentCountInStore(postId))
+          // disptach(DecreaseCommentCountInStore(postId))
         }
         showSuccessAlert('Comment deleted successfully')
         setOpenDeleteDialog(false)
@@ -70,25 +69,35 @@ const CommentDelete = ({
       }
     }
   }
-
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
   return (
-    <div className="rounded-lg bg-white p-4 dark:bg-dark-background dark:text-white">
-      <div className="text-sx mb-4 text-center font-medium">
-        Are you sure you want to delete the comment?
+    <div className="rounded-lg bg-white  dark:bg-bg-primary-dark dark:text-white">
+      <div className="item-start mb-5 flex flex-col gap-4">
+        <p className="text-lg font-semibold"> Delete this comment</p>
+        <p className="text-sm">Do you wish to delete this comment.</p>
       </div>
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-end gap-2">
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white dark:text-white ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-[#F4F4F5] font-medium text-black transition  dark:text-white ">
           {' '}
-          cancel
+          Cancel
         </button>
         <button
           name="delete button"
           onClick={handleDeleteComment}
-          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
-        text-white   ${loading ? 'bg-gray-300' : 'bg-accent'}
+          className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md  font-medium
+        text-black   ${loading ? 'bg-[#FC6B6B]-300 ' : 'bg-[#FC6B6B]'}
           `}>
           Delete{' '}
           {loading ? (

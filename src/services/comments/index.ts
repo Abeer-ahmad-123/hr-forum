@@ -11,14 +11,15 @@ export async function postComment({
   postId,
   content,
   customFetch,
-  token,
+  accessToken,
   refreshToken,
 }: any) {
+  console.log('token', accessToken)
   try {
     const requestBody = JSON.stringify(content)
     const headers = {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${accessToken}`,
       refreshToken: refreshToken,
     }
 
@@ -39,7 +40,7 @@ export async function postCommentReply({
   commentId,
   content,
   customFetch,
-  token,
+  accessToken,
   refreshToken,
 }: any) {
   try {
@@ -47,7 +48,7 @@ export async function postCommentReply({
 
     const headers = {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${accessToken}`,
       refreshToken: refreshToken,
     }
 
@@ -69,7 +70,6 @@ export async function postCommentReply({
 
 export async function getPostsComments(
   id: string,
-  userId: string,
   {
     loadUser = true,
     loadReactions = true,
@@ -80,6 +80,7 @@ export async function getPostsComments(
     page = 1,
     pageSize = 10,
   },
+  userId?: string,
 ) {
   try {
     const postId = GET_POST_COMMENT.replace('postId', id)
@@ -110,7 +111,7 @@ export async function getPostsComments(
 }
 
 export async function getUserComments(
-  id: string,
+  id: string | number,
 
   {
     loadUser = true,
@@ -124,7 +125,7 @@ export async function getUserComments(
   },
 ) {
   try {
-    const userId = GET_USER_COMMENTS.replace('userId', id)
+    const userId = GET_USER_COMMENTS.replace('userId', id.toString())
 
     let url = `${userId}?loadUser=${loadUser}&loadReactions=${loadReactions}&loadNestedComments=${loadNestedComments}&loadNestedUser=${loadNestedUser}&loadNestedReactions=${loadNestedReactions}`
     if (userId) {
@@ -152,7 +153,6 @@ export async function getUserComments(
 
 export async function getComment(
   commentId: string,
-  userId: string,
   {
     loadUser = true,
     loadReactions = true,
@@ -163,6 +163,7 @@ export async function getComment(
     nestedPage = 2,
     nestedPageSize = 10,
   },
+  userId?: string,
 ) {
   try {
     const postId = GET_COMMENT.replace('commentId', commentId)

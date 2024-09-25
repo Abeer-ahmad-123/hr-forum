@@ -2,17 +2,9 @@
 import { usePathname } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import DropDownContent from '../shared/DropDownContent'
-import HomeIcon from '@/assets/icons/home'
 import ArrowDown from '@/assets/icons/arrowDown'
-import Icon from '@/assets/icons/heartIcon'
-import HrGeneral from '@/assets/icons/hrGeneral'
-import SmileIcon from '@/assets/icons/smileIcon'
-
-interface FeaturesDropDownInterface {
-  classNameOuter: string
-  classNameInner: string
-  classNamefeaturesDropDowm: string
-}
+import { FeaturesDropDownInterface } from '@/utils/interfaces/dropdown'
+import { getSelectedIcon } from '@/utils/functions'
 
 const FeaturesDropDown = ({
   classNameOuter,
@@ -46,9 +38,7 @@ const FeaturesDropDown = ({
     [divRef],
   )
 
-  const showDiv = showMenu
-    ? `mt-1 ${classNamefeaturesDropDowm}`
-    : 'hidden'
+  const showDiv = showMenu ? `mt-1 ${classNamefeaturesDropDowm}` : 'hidden'
 
   const setSelectedFromPathName = useCallback(() => {
     let urlSegment
@@ -83,22 +73,6 @@ const FeaturesDropDown = ({
     }
   }, [pathname])
 
-  const getSelectedIcon = () => { 
-    const styles = 'mr-3 h-5 w-5 dark:text-bg-bg-tertiary'
-    if (selected === 'Home' || selected ===  'Feeds') {
-      return <HomeIcon className={styles} />
-    } else if (selected === 'Saved') {
-      return <Icon className={styles} strokeWidth='1.5' />
-    } else if (selected === 'HR General') {
-      return <HrGeneral className={`ml-0 ${styles}`} />
-    }
-    else {
-      return (
-        <SmileIcon className={`ml-0 ${styles}`} />
-      )
-    }
-  }
-
   useEffect(() => {
     if (pathname) setSelectedFromPathName()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,13 +105,11 @@ const FeaturesDropDown = ({
       } relative flex cursor-pointer justify-center ${classNameOuter}`}
       ref={divRef}>
       <div
-        className={`${classNameInner} h-12 items-center bg-bg-tertiary rounded-2xl border content-center border-[#e6e6e6] dark:border-none dark:bg-dark-grey`}>
-        <div
-          className="flex justify-between px-4"
-          onClick={handleChecked}>
-          <div className="flex items-center normal-case text-black dark:text-white pr-3">
-            <div className='text-left ml-0'>{getSelectedIcon()}</div>
-            <p className='font-extrabold text-base'>
+        className={`${classNameInner} h-12 content-center items-center rounded-2xl border border-[#e6e6e6] bg-bg-tertiary dark:border-none dark:bg-dark-grey`}>
+        <div className="flex justify-between px-4" onClick={handleChecked}>
+          <div className="flex items-center pr-3 normal-case text-black dark:text-white">
+            <div className="ml-0 text-left">{getSelectedIcon(selected)}</div>
+            <p className="text-base font-extrabold">
               {selected.length > 16
                 ? `${selected.substring(0, 14)}...`
                 : selected}
@@ -146,7 +118,7 @@ const FeaturesDropDown = ({
           <ArrowDown className="text-2xl dark:text-white" />
         </div>
         {isHydrated && (
-          <div className={`${showDiv} absolute top-full left-0 w-full`}>
+          <div className={`${showDiv} absolute left-0 top-full w-full`}>
             <DropDownContent handleLi={handleLi} />
           </div>
         )}

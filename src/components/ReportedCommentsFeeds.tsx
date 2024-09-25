@@ -9,34 +9,35 @@ import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { getChannels } from '@/services/channel/channel'
 import { getReportedComments } from '@/services/comments'
-import { setCommentCountInStore, setPosts } from '@/store/Slices/postSlice'
-import { makeCommentNumberKeyValuePair } from '@/utils/helper'
 import { ChannelInterface } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
-import { PostsInterface, PostsInterfaceStore } from '@/utils/interfaces/posts'
-import { SlugProps } from '@/utils/interfaces/userData'
+import { PostsInterface } from '@/utils/interfaces/posts'
+import { ReportedProps } from '@/utils/interfaces/userData'
 import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { useDispatch, useSelector } from 'react-redux'
 import ActivityButtons from './ActivityButtons'
-import CardLoading from './Loading/cardLoading'
+import CardLoading from './Loading/CardLoading'
+import { getUserData } from '@/utils/local-stroage'
 
-const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
+const ReportedCommentsFeeds = ({
+  slug,
+  userData,
+  accessToken,
+}: ReportedProps) => {
   const [ref, inView] = useInView()
   const pathName = usePathname()
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const { handleRedirect } = useFetchFailedClient()
 
-  const userDataInStore = useSelector(
-    (state: LoggedInUser) => state?.loggedInUser?.userData,
-  )
+  // const userDataInStore = useSelector(
+  //   (state: LoggedInUser) => state?.loggedInUser?.userData,
+  // )
 
-  const storePosts = useSelector(
-    (state: PostsInterfaceStore) => state.posts.posts,
-  )
+  // const storePosts = useSelector(
+  //   (state: PostsInterfaceStore) => state.posts.posts,
+  // )
 
-  const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
+  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [page, setPage] = useState<number>(1)
   const [morePosts] = useState<boolean>(true)
@@ -67,7 +68,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
   const getComments = async () => {
     try {
       const { reports, pagination } = await getReportedComments(
-        userId ?? userDataInStore.id,
+        userId ?? userData.id.toString(),
         {
           page,
         },
@@ -79,7 +80,7 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
         pagination?.CurrentPage !== pagination?.TotalPages
       const extractedPosts = reports.map((item: any) => item.comment)
       setComments((prev: PostsInterface[]) => [...prev, ...extractedPosts])
-      dispatch(setPosts([...comments, ...extractedPosts]))
+      // dispatch(setPosts([...comments, ...extractedPosts]))
     } catch (error) {
       if (error instanceof Error) {
         handleRedirect({ error })
@@ -89,9 +90,9 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
     }
   }
 
-  const handleCommentCount = () => {
-    dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(comments)))
-  }
+  // const handleCommentCount = () => {
+  //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(comments)))
+  // }
 
   useEffect(() => {
     getComments()
@@ -105,15 +106,15 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
-  useEffect(() => {
-    handleCommentCount()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comments])
+  // useEffect(() => {
+  //   handleCommentCount()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [comments])
 
-  useEffect(() => {
-    setComments([...storePosts])
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [storePosts])
+  // useEffect(() => {
+  //   setComments([...storePosts])
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [storePosts])
 
   useEffect(() => {
     return () => {
@@ -121,12 +122,11 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
     }
   }, [])
 
-  {
-    return isCommentsLoading ? (
-      <CardLoading />
-    ) : (
-      <div className="mx-auto flex max-w-screen-xl justify-center">
-        {/* <div
+  return isCommentsLoading ? (
+    <CardLoading />
+  ) : (
+    <div className="mx-auto flex max-w-screen-xl justify-center">
+      {/* <div
           className={`mr-[15px] ${
             token ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
           } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
@@ -148,48 +148,48 @@ const ReportedCommentsFeeds = ({ slug }: SlugProps) => {
           </div>
         </div> */}
 
-        <div className={`w-full max-w-screen-md`}>
-          <div className="flex w-full justify-center">
-            <div className="w-full">
-              <div>
-                {' '}
-                <FeaturesDropDownWithSuspense />
-              </div>
-              <div
-                className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
-                <div className="min-h-[70vh] w-full">
-                  {pathName.includes(`/reported/comments`) && (
-                    <ActivityButtons slug={slug} />
-                  )}
-                  <div>
-                    {!!comments?.length ? (
-                      comments?.map((comment: any, index: number) => {
-                        return (
-                          <Card
-                            key={index}
-                            post={comment}
-                            channels={channels}
-                            updatePosts={setComments}
-                            posts={comments}
-                            userComment={comment}
-                          />
-                        )
-                      })
-                    ) : (
-                      <NoPosts />
-                    )}
-                  </div>
-                  {!!comments?.length && noMorePosts?.current && (
-                    <CircularProgress incommingRef={ref} />
+      <div className={`w-full max-w-screen-md`}>
+        <div className="flex w-full justify-center">
+          <div className="w-full">
+            <div>
+              {' '}
+              <FeaturesDropDownWithSuspense />
+            </div>
+            <div
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+              <div className="min-h-[70vh] w-full">
+                {pathName.includes(`/reported/comments`) && (
+                  <ActivityButtons slug={slug} />
+                )}
+                <div>
+                  {!!comments?.length ? (
+                    comments?.map((comment: any, index: number) => {
+                      return (
+                        <Card
+                          key={index}
+                          post={comment}
+                          channels={channels}
+                          updatePosts={setComments}
+                          posts={comments}
+                          userComment={comment}
+                          getUserSpecificDetailFunc={() => {}}
+                        />
+                      )
+                    })
+                  ) : (
+                    <NoPosts />
                   )}
                 </div>
+                {!!comments?.length && noMorePosts?.current && (
+                  <CircularProgress incommingRef={ref} />
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default ReportedCommentsFeeds

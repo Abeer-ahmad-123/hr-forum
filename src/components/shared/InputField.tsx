@@ -1,3 +1,4 @@
+'use client'
 import { useRef } from 'react'
 import ErrorText from './ErrorText'
 import clsx from 'clsx'

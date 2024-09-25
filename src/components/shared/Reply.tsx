@@ -19,14 +19,15 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import CommentDelete from '../CommentDelete'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
-import SignInDialog from './new-post/SignInDialog'
+import SignInDialog from './NewPost/SignInDialog'
 import { deleteModalState } from '@/services/auth/authService'
 import { noProfilePicture } from '@/assets/images'
+import { getTokens, getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 function Reply({
   reply,
@@ -36,25 +37,23 @@ function Reply({
   setDeletedReplyId,
   getPostCommets,
 }: ReplyInterface) {
-  const replyRef = useRef<HTMLDivElement>(null)
-  const tokenInRedux =
-    useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const searchParams = useSearchParams()
-  const params = useParams()
-  const replyIdFromUrl = searchParams?.get('replyId')
-  const [highlighted, setHighlighted] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
-  const [popOver, setPopOver] = useState<boolean>(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  const [accessToken, setAccessToken] = useState<string>('')
+  const [popOver, setPopOver] = useState<boolean>(false)
+  const [highlighted, setHighlighted] = useState(false)
+  const [userData, setUserData] = useState<userData>()
+  const [openDialog, setOpenDialog] = useState(false)
 
-  const postId = params.id as string
-  const router = useRouter()
+  const replyRef = useRef<HTMLDivElement>(null)
+
+  const searchParams = useSearchParams()
   const pathName = usePathname()
+  const params = useParams()
+  const router = useRouter()
 
-  const userDetails = useSelector(
-    (state: LoggedInUser) => state.loggedInUser.userData,
-  )
+  const replyIdFromUrl = searchParams?.get('replyId')
+  const postId = params.id as string
 
   const highLight = () => {
     if (
@@ -75,7 +74,7 @@ function Reply({
   const handleImgClick = () => {
     router.push(
       `${
-        userDetails?.id === reply?.user_id.toString()
+        userData?.id === reply?.user_id
           ? '/profile'
           : `/profile/${reply?.user_id}`
       }`,
@@ -95,7 +94,7 @@ function Reply({
   }
 
   const handleClick = () => {
-    if (!tokenInRedux) {
+    if (!accessToken) {
       setShowSignModal(true)
     } else setOpenDialog(true)
   }
@@ -105,7 +104,7 @@ function Reply({
     event.stopPropagation()
     setPopOver(false)
 
-    if (!tokenInRedux) {
+    if (!accessToken) {
       setShowSignModal(true)
     } else {
       setOpenDeleteDialog(true)
@@ -116,6 +115,18 @@ function Reply({
     highLight()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replyIdFromUrl, reply.id])
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setAccessToken(storedTokens?.accessToken)
+    }
+  }, [])
+
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
 
   return (
     <>
@@ -145,7 +156,7 @@ function Reply({
             <div
               className={`min-w-sml rounded-2xl   ${
                 pathName.includes('/feeds/feed/') ? '' : ''
-              } dark:bg-dark-background`}>
+              } dark:bg-bg-primary-dark`}>
               <div className="flex flex-row items-center justify-between">
                 <div
                   className="flex h-[40px] cursor-pointer items-center gap-2 text-left font-[500] text-black  dark:text-white max-custom-sm:text-[11px]
@@ -200,9 +211,9 @@ function Reply({
                         Share
                       </span>
                     </PopoverTrigger>
-                    <PopoverContent className="bg-white">
+                    <PopoverContent className="rounded-[20px] bg-white p-2 shadow-[#00000059]">
                       <SocialButtons
-                        className="flex gap-3"
+                        className="flex gap-2 rounded-[20px]"
                         postId={postId}
                         handleButtonClick={handleButtonClick}
                       />
@@ -210,7 +221,7 @@ function Reply({
                   </Popover>
                 </div>
 
-                {reply.user_id.toString() == userDetails.id ? (
+                {reply.user_id == userData?.id ? (
                   <div
                     onClick={handleDeleteClick}
                     className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
@@ -236,6 +247,7 @@ function Reply({
                         getPostCommets={getPostCommets}
                         setReported={() => {}}
                         setDeletedCommentId={() => {}}
+                        getUserSpecificDetailFunc={() => {}}
                       />
                     </DialogContent>
                   </Dialog>
@@ -246,7 +258,7 @@ function Reply({
         </div>
       </div>
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
-        <DialogContent className="bg-white sm:max-w-[500px]">
+        <DialogContent className="bg-white sm:max-w-[472px]">
           <CommentDelete
             setOpenDeleteDialog={setOpenDeleteDialog}
             commentId={reply?.id}
