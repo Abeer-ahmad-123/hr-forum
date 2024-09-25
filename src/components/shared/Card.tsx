@@ -361,7 +361,7 @@ const Card = ({
                     )}
                   </div>
 
-                  <p className="justify-start text-[0.70rem] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
+                  <p className="justify-start text-[10px] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
                     {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
