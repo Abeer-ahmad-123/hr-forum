@@ -13,8 +13,8 @@ const CardLoading = () => {
   return (
     <div
       className={`mt-4 flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-      <div className="w-full bg-white">
-        <Skelton className="h-24 max-w-[759px] rounded-sm bg-skelton" />
+      <div className="w-full rounded-xl">
+        <Skelton className="r h-24 max-w-[759px] rounded-xl bg-skelton" />
       </div>
       <div className="flex w-full max-w-screen-md flex-col">
         {pathName.includes(`/${slug}/`) ? (
