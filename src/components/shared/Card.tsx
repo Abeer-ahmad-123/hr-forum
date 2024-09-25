@@ -27,6 +27,7 @@ import {
   Dispatch,
   SetStateAction,
   Suspense,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -38,7 +39,8 @@ import { CustomLink } from './customLink/CustomLink'
 import SignInDialog from './NewPost/SignInDialog'
 import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
-import { getTokens } from '@/utils/local-stroage'
+import { getTokens, getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 type CardProps = {
   post: PostsInterface
@@ -47,6 +49,7 @@ type CardProps = {
   userComment?: any
   updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
   hideComments?: string
+  getUserSpecificDetailFunc: () => void
 }
 
 export interface Tokens {
@@ -60,29 +63,48 @@ const Card = ({
   posts,
   userComment,
   hideComments,
+  getUserSpecificDetailFunc,
 }: CardProps) => {
-  const pathName = usePathname()
-  const isFirstRef = useRef<boolean>(true)
-  const router = useRouter()
-  const { slug } = useParams()
-
+  const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
+    like_count: 0,
+    love_count: 0,
+    clap_count: 0,
+    celebrate_count: 0,
+  })
+  const [reported, setReported] = useState<boolean>(post?.user_has_reported)
+  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(
+    post?.user_has_bookmarked,
+  )
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [disableReactionButton, setDisableReactionButton] =
+    useState<boolean>(false)
+  const [userDetails, setUserDetails] = useState<userData>()
+  const [userReaction, setUserReaction] = useState('')
   const [tokens, setTokens] = useState<Tokens>({
     accessToken: '',
     refreshToken: '',
   })
-  const userDetails = { name: '', id: 0 }
+  const [popOver, setPopOver] = useState(false)
 
-  // const userDetails = getUserData()?.user
+  const reactionRef = useRef<boolean>(false)
+  const isFirstRef = useRef<boolean>(true)
+
+  const pathName = usePathname()
+  const { slug } = useParams()
+  const router = useRouter()
+
+  const { handleRedirect } = useFetchFailedClient()
+  const { customFetch } = useInterceptor()
+
   // const dispatch = useDispatch()
   // const userDetails = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser.userData,
   // )
-  const { customFetch } = useInterceptor()
-  const { handleRedirect } = useFetchFailedClient()
 
   // const tokenInRedux =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  const [popOver, setPopOver] = useState(false)
 
   // const refreshTokenInRedux =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
@@ -90,35 +112,16 @@ const Card = ({
   // const storePosts = useSelector(
   //   (state: PostsInterfaceStore) => state.posts.posts,
   // )
-  const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
-    like_count: 0,
-    love_count: 0,
-    clap_count: 0,
-    celebrate_count: 0,
-  })
-  const [disableReactionButton, setDisableReactionButton] =
-    useState<boolean>(false)
-  const [userReaction, setUserReaction] = useState('')
-
-  const [showSignModal, setShowSignModal] = useState<boolean>(false)
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(
-    post?.user_has_bookmarked,
-  )
-  const [reported, setReported] = useState<boolean>(post?.user_has_reported)
-  const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
-
-  const reactionRef = useRef<boolean>(false)
 
   const reactionSummaryToUse = isFirstRef.current
     ? post?.reaction_summary
     : reactionSummary
 
-  const setOpenPopOver = (e: any) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setPopOver((pre) => !pre)
-  }
+  // const setOpenPopOver = (e: any) => {
+  //   e.preventDefault()
+  //   e.stopPropagation()
+  //   setPopOver((pre) => !pre)
+  // }
 
   const updateReactionArray = (
     reactionArray: ReactionSummary,
@@ -267,12 +270,20 @@ const Card = ({
   }, [])
 
   useEffect(() => {
-    setTokens({
-      ...tokens,
-      accessToken: getTokens()?.accessToken,
-      refreshToken: getTokens()?.refreshToken,
-    })
-  }, [getTokens()?.accessToken])
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens({
+        ...tokens,
+        accessToken: storedTokens.accessToken,
+        refreshToken: storedTokens.refreshToken,
+      })
+    }
+  }, [])
+
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserDetails(userData)
+  }, [])
 
   return (
     <div
@@ -301,6 +312,7 @@ const Card = ({
                 setReported={setReported}
                 setReportedReplyId={() => {}}
                 setDeletedCommentId={() => {}}
+                getUserSpecificDetailFunc={getUserSpecificDetailFunc}
               />
             </DialogContent>
           </Dialog>
@@ -348,7 +360,7 @@ const Card = ({
                       className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
-                      {String(userDetails.id) === String(post?.user_id)
+                      {String(userDetails?.id) === String(post?.user_id)
                         ? 'You'
                         : post?.author_details?.name}
                     </p>
@@ -508,6 +520,7 @@ const Card = ({
                 totalComments={post?.total_comments}
                 handleBookmark={handleBookmark}
                 bookmarkSuccess={bookmarkSuccess}
+                getUserSpecificDetailFunc={getUserSpecificDetailFunc}
               />
             </div>
           )}

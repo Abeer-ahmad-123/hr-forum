@@ -1,10 +1,10 @@
 'use client'
 import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import SignInDialog from '../shared/NewPost/SignInDialog'
 import StartIcon from '@/assets/icons/sentIcon'
-import { getUserData } from '@/utils/local-stroage'
+import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
 
 const TextArea = ({
@@ -17,16 +17,19 @@ const TextArea = ({
   inputRef = null,
   placeholder = 'Write your comment...',
   classNameOuter,
-  accessToken,
 }: any) => {
   const [textAreaValue, setTextAreaValue] = useState('')
+  const [accessToken, setAccessToken] = useState<string>('')
+  const [userData, setUserData] = useState<userData>()
   const [open, setIsopen] = useState(false)
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser.userData,
-  // )
-  const [userData, setUserData] = useState<userData | null>(null)
 
   const pathName = usePathname()
+
+  // const userData = useSelector(
+  //   (state: LoggedInUser) => state.loggedInUser.userData,
+
+  // )
+
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
   }
@@ -59,7 +62,15 @@ const TextArea = ({
   }, [isLoading])
 
   useEffect(() => {
-    setUserData(getUserData())
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setAccessToken(storedTokens.accessToken)
+    }
   }, [])
 
   return (

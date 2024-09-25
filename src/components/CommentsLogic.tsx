@@ -154,6 +154,7 @@ const CommentsLogic = ({
         updatePosts={() => {}}
         posts={[]}
         totalComments={0}
+        getUserSpecificDetailFunc={() => {}}
       />
       <Comments
         postId={postId}

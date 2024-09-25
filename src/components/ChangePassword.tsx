@@ -6,9 +6,10 @@ import { updateUserPassword } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { Eye, EyeOff } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { ErrorText } from './shared'
 import { getTokens } from '@/utils/local-stroage'
+import { Tokens } from './shared/Card'
 
 interface userDataProps {
   oldPassword: string
@@ -23,7 +24,6 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
     oldPassword: '',
     newPassword: '',
   })
-  const { handleRedirect } = useFetchFailedClient()
   const [showOldPassword, setShowOldPassword] = useState<boolean>(false)
   const [showNewPassword, setShowNewPassword] = useState<boolean>(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
@@ -33,11 +33,13 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
     password: '',
   }
   const [errors, setErrors] = useState<any>(initialValues)
-
-  const token = getTokens()?.accessToken
-  const refreshToken = getTokens()?.refreshToken
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
 
   const { customFetch } = useInterceptor()
+  const { handleRedirect } = useFetchFailedClient()
 
   const toggleShowOldPassword = () => {
     setShowOldPassword((prevShow) => !prevShow)
@@ -70,8 +72,8 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
 
       const response = await updateUserPassword(
         customFetch,
-        token,
-        refreshToken,
+        tokens.accessToken,
+        tokens.refreshToken,
         userData,
       )
       if (response.success) {
@@ -128,6 +130,17 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
       })
     }
   }
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
 
   return (
     <div className="container mx-auto p-0 custom-mid-sm:p-4">

@@ -4,12 +4,14 @@ import MenuCard from '@/components/Cards/MenuCard'
 import ProfileCard from '@/components/Cards/ProfileCard'
 import { useRouter, usePathname } from 'next/navigation'
 import { logout } from '@/services/auth/authService'
+import { removeLocalStroage } from '@/utils/local-stroage'
 
 const LeftSidebar = ({ token, user }: any) => {
   const router = useRouter()
   const pathname = usePathname()
 
   const handleLogout = () => {
+    removeLocalStroage()
     logout()
     // dispatch(clearUser())
     if (pathname.includes('saved') || pathname === '/profile') {

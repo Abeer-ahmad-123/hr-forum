@@ -7,8 +7,9 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { reportData } from '@/utils/data'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getTokens } from '@/utils/local-stroage'
+import { Tokens } from '../shared/Card'
 // import { useSelector } from 'react-redux'
 
 interface ReportInterface {
@@ -20,6 +21,7 @@ interface ReportInterface {
   setDeletedCommentId: (arg1: string) => void
   getPostCommets: () => void
   setReported: (arg1: boolean) => void
+  getUserSpecificDetailFunc: () => void
 }
 
 const Report = ({
@@ -31,20 +33,23 @@ const Report = ({
   setDeletedCommentId,
   getPostCommets,
   setReported,
+  getUserSpecificDetailFunc,
 }: ReportInterface) => {
-  const [selectedItem, setSelectedItem] = useState('')
   const [loading, setLoading] = useState<boolean>(false)
+  const [selectedItem, setSelectedItem] = useState('')
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+
+  const { handleRedirect } = useFetchFailedClient()
+  const { customFetch } = useInterceptor()
+
   // const accessToken =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   // const refreshToken =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
   //   ''
-  const accessToken = getTokens()?.accessToken
-  const refreshToken = getTokens()?.refreshToken
-
-  const { handleRedirect } = useFetchFailedClient()
-
-  const { customFetch } = useInterceptor()
 
   const handleCancel = () => {
     setOpenDialog(false)
@@ -59,19 +64,20 @@ const Report = ({
               postId!,
               selectedItem,
               customFetch,
-              accessToken,
-              refreshToken,
+              tokens.accessToken,
+              tokens.refreshToken,
             ) // else report type can be comment and reply so calling the same endpoint with Id of either comment or reply
           : await reportComment(
               commentId!,
               selectedItem,
               customFetch,
-              accessToken,
-              refreshToken,
+              tokens.accessToken,
+              tokens.refreshToken,
             )
 
       if (response.success) {
         showSuccessAlert('Thanks for submitting your feedback')
+        getUserSpecificDetailFunc()
         getPostCommets()
         setReported(true)
         setReportedReplyId(commentId!)
@@ -93,6 +99,17 @@ const Report = ({
   const handleTextClick = (e: React.MouseEvent<HTMLDivElement>) => {
     setSelectedItem((e.target as HTMLDivElement).id)
   }
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
 
   return (
     <div className="gap-8">

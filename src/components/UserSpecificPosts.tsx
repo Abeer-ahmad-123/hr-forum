@@ -3,7 +3,11 @@ import { ArrowRight } from 'lucide-react'
 import { Card } from './shared'
 import Link from 'next/link'
 
-const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
+const UserSpecificPosts = ({
+  posts: initialPosts,
+  user,
+  getUserSpecificDetailFunc,
+}: any) => {
   return (
     <div className="flex flex-col gap-2">
       {initialPosts.slice(0, 2)?.map((post: PostsInterface, i: number) => (
@@ -11,6 +15,7 @@ const UserSpecificPosts = ({ posts: initialPosts, user }: any) => {
           key={post.id}
           post={post}
           posts={initialPosts}
+          getUserSpecificDetailFunc={getUserSpecificDetailFunc}
           // channels={post?.channel_id}
         />
       ))}

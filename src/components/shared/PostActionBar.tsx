@@ -5,7 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
@@ -49,27 +49,30 @@ const PostActionBar = ({
   totalComments,
   handleBookmark,
   bookmarkSuccess,
+  getUserSpecificDetailFunc,
 }: PostActionBarProps) => {
+  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
+  const [reactionCount, setReactionCount] = useState<number>(0)
+  const [showCommentArea, setShowCommentArea] = useState(false)
+  const [commentCount, setCommentCount] = useState<number>()
+  const [showSignModal, setShowSignModal] = useState(false)
   const [tokens, setTokens] = useState<Tokens>({
     accessToken: '',
     refreshToken: '',
   })
-  console.log(tokens)
+
+  const [comment, setComment] = useState<any>([])
+  const [popOver, setPopOver] = useState(false)
+
+  const isFirstRef = useRef<boolean>(true)
+
+  const { handleRedirect } = useFetchFailedClient()
+
   // const tokenInRedux =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   // const refreshToken =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
   //   ''
-  const [showCommentArea, setShowCommentArea] = useState(false)
-  const [comment, setComment] = useState<any>([])
-  const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
-
-  const { handleRedirect } = useFetchFailedClient()
-  const [showSignModal, setShowSignModal] = useState(false)
-  const [popOver, setPopOver] = useState(false)
-  const [commentCount, setCommentCount] = useState<CommentCount>({})
-  const [reactionCount, setReactionCount] = useState<number>(0)
-  const isFirstRef = useRef<boolean>(true)
 
   // const commentCountInStore = useSelector(
   //   (state: CommentCountStore) => state.posts.commentCount,
@@ -88,18 +91,16 @@ const PostActionBar = ({
     ? calculateTotalReactions(reactionSummary)
     : reactionCount
 
-  // useEffect(() => {
-  //   setCommentCount(commentCountInStore)
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [commentCountInStore])
+  useEffect(() => {
+    if (comment.length) {
+      setCommentCount(totalComments + comment.length)
+    } else {
+      setCommentCount(totalComments)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalComments, comment])
 
-  const postCommentsCount = useMemo(() => {
-    return commentCount[Number(postId)] || null
-  }, [commentCount, postId])
-
-  const commentCountToUse = isFirstRef.current
-    ? totalComments
-    : postCommentsCount
+  const commentCountToUse = isFirstRef.current ? totalComments : commentCount
 
   const { id } = useParams()
   const pathName = usePathname()
@@ -236,13 +237,17 @@ const PostActionBar = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
+
   useEffect(() => {
-    setTokens({
-      ...tokens,
-      accessToken: getTokens()?.accessToken,
-      refreshToken: getTokens()?.refreshToken,
-    })
-  }, [getTokens()?.accessToken])
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
 
   return (
     <>
@@ -278,7 +283,7 @@ const PostActionBar = ({
                       {commentCountToUse > 1 ? (
                         <>
                           <span className="font-[900] dark:text-white">
-                            {postCommentsCount}
+                            {commentCountToUse}
                           </span>
                           <span className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
                             Comments
@@ -346,34 +351,35 @@ const PostActionBar = ({
           </div>
         </div>
 
-        {pathName.includes('/comment')
+        {/* {pathName.includes('/comment')
           ? comment.id && (
               <CommentSection
                 comment={comment}
                 setDeletedCommentId={setDeletedCommentId}
               />
             )
-          : !id && (
-              <div className={`${!showCommentArea && 'hidden'} `}>
-                <CommentOrReply
-                  className="m-2"
-                  btnClass="mr-[0px]"
-                  Id={postId}
-                  setComments={setComment}
-                  postId={postId}
-                  refreshToken={tokens?.refreshToken}
-                  accessToken={tokens?.accessToken}
-                />
-                <div className="mt-[20px]">
-                  {comment.length != 0 && (
-                    <CommentSection
-                      comment={comment[0]}
-                      setDeletedCommentId={setDeletedCommentId}
-                    />
-                  )}
-                </div>
-              </div>
+          : !id && ( */}
+        <div className={`${!showCommentArea && 'hidden'} `}>
+          <CommentOrReply
+            className="m-2"
+            btnClass="mr-[0px]"
+            Id={postId}
+            setComments={setComment}
+            postId={postId}
+            refreshToken={tokens?.refreshToken}
+            accessToken={tokens?.accessToken}
+            getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+          />
+          <div className="mt-[20px]">
+            {comment.length != 0 && (
+              <CommentSection
+                comment={comment[0]}
+                setDeletedCommentId={setDeletedCommentId}
+              />
             )}
+          </div>
+        </div>
+        {/* )} */}
       </div>
       <Dialog open={showSignModal} onOpenChange={setShowSignModal}>
         <SignInDialog setShowSignModal={setShowSignModal} />

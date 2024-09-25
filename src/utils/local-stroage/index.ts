@@ -10,11 +10,16 @@ export const getTokens = () => {
 }
 
 export const getUserData = () => {
-  const user = localStorage.getItem('userData')
-  const parsedUser: userData = !!user ? JSON.parse(user) : null
-  return parsedUser
+  if (typeof window !== 'undefined') {
+    const user = localStorage.getItem('userData')
+    const parsedUser: userData = !!user ? JSON.parse(user) : null
+    return parsedUser
+  }
 }
 
 export const setValueToLocalStoage = (key: string, value: string) => {
-  localStorage.setItem(key, JSON.stringify(value))
+  localStorage.setItem(key, key === 'userData' ? JSON.stringify(value) : value)
+}
+export const removeLocalStroage = () => {
+  localStorage.clear()
 }

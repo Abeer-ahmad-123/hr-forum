@@ -6,6 +6,8 @@ import HrGeneral from '@/assets/icons/hrGeneral'
 import SmileIcon from '@/assets/icons/smileIcon'
 import { iconStyle, sidebarLinkStyle, textStyle } from '@/utils/functions'
 import { getTokens } from '@/utils/local-stroage'
+import { useCallback, useEffect, useState } from 'react'
+import useChannels from '@/hooks/channels'
 
 type NavigationItem = {
   name: string
@@ -18,12 +20,22 @@ const DropDownContent = ({
 }: {
   handleLi: () => void
 }): JSX.Element => {
+  const [accessToken, setAccessToken] = useState<string>('')
+
   const pathname = usePathname()
+
+  const channels = useChannels()
+
   // const channels = useSelector(
   //   (state: StoreChannels) => state?.channels?.channels,
   // )
-  const channels = ['']
-  const accessToken = getTokens()?.accessToken
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setAccessToken(storedTokens?.accessToken)
+    }
+  }, [])
 
   return (
     <ul

@@ -19,7 +19,7 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import CommentDelete from '../CommentDelete'
 import Report from '../Report/Report'
 import SocialButtons from './SocialButtons'
@@ -27,6 +27,7 @@ import SignInDialog from './NewPost/SignInDialog'
 import { deleteModalState } from '@/services/auth/authService'
 import { noProfilePicture } from '@/assets/images'
 import { getTokens, getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 function Reply({
   reply,
@@ -36,21 +37,23 @@ function Reply({
   setDeletedReplyId,
   getPostCommets,
 }: ReplyInterface) {
-  const replyRef = useRef<HTMLDivElement>(null)
-  const accessToken = getTokens()?.accessToken
-  const userData = getUserData()
-  const searchParams = useSearchParams()
-  const params = useParams()
-  const replyIdFromUrl = searchParams?.get('replyId')
-  const [highlighted, setHighlighted] = useState(false)
-  const [openDialog, setOpenDialog] = useState(false)
-  const [popOver, setPopOver] = useState<boolean>(false)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  const [accessToken, setAccessToken] = useState<string>('')
+  const [popOver, setPopOver] = useState<boolean>(false)
+  const [highlighted, setHighlighted] = useState(false)
+  const [userData, setUserData] = useState<userData>()
+  const [openDialog, setOpenDialog] = useState(false)
 
-  const postId = params.id as string
-  const router = useRouter()
+  const replyRef = useRef<HTMLDivElement>(null)
+
+  const searchParams = useSearchParams()
   const pathName = usePathname()
+  const params = useParams()
+  const router = useRouter()
+
+  const replyIdFromUrl = searchParams?.get('replyId')
+  const postId = params.id as string
 
   const highLight = () => {
     if (
@@ -112,6 +115,18 @@ function Reply({
     highLight()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replyIdFromUrl, reply.id])
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setAccessToken(storedTokens?.accessToken)
+    }
+  }, [])
+
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
 
   return (
     <>
@@ -206,7 +221,7 @@ function Reply({
                   </Popover>
                 </div>
 
-                {reply.user_id == userData.id ? (
+                {reply.user_id == userData?.id ? (
                   <div
                     onClick={handleDeleteClick}
                     className="cursor-pointer text-sm text-gray-400 hover:underline max-custom-sm:text-[11px]
@@ -232,6 +247,7 @@ function Reply({
                         getPostCommets={getPostCommets}
                         setReported={() => {}}
                         setDeletedCommentId={() => {}}
+                        getUserSpecificDetailFunc={() => {}}
                       />
                     </DialogContent>
                   </Dialog>

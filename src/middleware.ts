@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const isUserLogin = request.cookies.get('user-details')
+  const isUserLogin = request.cookies.get('userData')
   const route = request.url.split('/')[3] ?? '/'
   const redirect = NextResponse.redirect(new URL('/feeds', request.url))
   const pathname = request.nextUrl.pathname

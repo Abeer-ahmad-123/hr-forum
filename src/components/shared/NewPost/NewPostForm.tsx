@@ -7,7 +7,7 @@ import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { StoreChannels } from '@/utils/interfaces/channels'
 import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 // import { useSelector } from 'react-redux'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
@@ -15,29 +15,45 @@ import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
 import ImageIcon from '@/assets/icons/ImageIcon'
 import './style.css'
 import { getTokens, getUserData } from '@/utils/local-stroage'
+import useChannels from '@/hooks/channels'
+import { Tokens } from '../Card'
+import { userData } from '@/utils/interfaces/userData'
 
 interface newPostFormInterface {
   setAddPost: (arg0: boolean) => void
 }
 
 export default function NewPostForm({ setAddPost }: newPostFormInterface) {
-  const router = useRouter()
   const [formValues, setFormValues] = useState({
     title: '',
     content: '',
     channelId: '',
   })
   const [buttonValue, setButtonValue] = useState('HR-General')
-  // const channels = useSelector(
-  //   (state: StoreChannels) => state.channels.channels,
-  // )
-  const channels = [{ slug: '', name: '', id: '' }]
+  const [userData, setUserData] = useState<userData>()
   const [postImage, setPostImage] = useState(false)
 
   const [selectedImage, setSelectedImage] = useState<
     string | ArrayBuffer | null | undefined
   >(null)
   const [image, setImage] = useState<string | Blob>()
+
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+  const [loading, setLoading] = useState(false)
+
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const { customFetch } = useInterceptor()
+  const channels = useChannels()
+
+  // const channels = useSelector(
+  //   (state: StoreChannels) => state.channels.channels,
+  // )
+  // const channels = [{ slug: '', name: '', id: '' }]
 
   // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
   // const userData = useSelector(
@@ -46,14 +62,6 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   // const refreshToken = useSelector(
   //   (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
   // )
-  const accessToken = getTokens()?.accessToken
-  const refreshToken = getTokens()?.refreshToken
-  const userData = getUserData()
-
-  const pathname = usePathname()
-  const { customFetch } = useInterceptor()
-
-  const [loading, setLoading] = useState(false)
 
   const handleImageChange = (event: any) => {
     const maxAllowedSize = 5 * 1024 * 1024
@@ -108,15 +116,15 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         channelID: channelId,
         body,
         customFetch,
-        accessToken,
-        refreshToken,
+        accessToken: tokens?.accessToken,
+        refreshToken: tokens?.refreshToken,
       })
 
       if (result?.success) {
         result.data.post.author_details = {
-          name: userData.name,
-          username: userData.username,
-          profile_picture_url: userData.profilePictureURL,
+          name: userData?.name,
+          username: userData?.username,
+          profile_picture_url: userData?.profilePictureURL,
         }
 
         result.data.post.reaction_summary = {
@@ -135,8 +143,8 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
               postId: postId,
               file: formData,
               customFetch,
-              accessToken,
-              refreshToken,
+              accessToken: tokens?.accessToken,
+              refreshToken: tokens?.refreshToken,
             })
 
             if (sendImage?.success) {
@@ -148,6 +156,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         }
         // updatePosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
         // dispatch(setPosts([result?.data?.post, ...posts]))
+        setAddPost(false)
         router.refresh()
         showSuccessAlert('Post has been created successfully')
         setLoading(false)
@@ -186,6 +195,22 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
+
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
+
   return (
     <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px]  rounded-xl bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark">
       <div className="flex flex-col justify-between gap-[18px]">
@@ -217,6 +242,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
           value={buttonValue}
           onSelect={handleFormChange}
           handleDropDownValue={handleDropDownValue}
+          channels={channels}
         />
       </div>
 

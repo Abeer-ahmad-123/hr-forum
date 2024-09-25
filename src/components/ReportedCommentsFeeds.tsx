@@ -172,6 +172,7 @@ const ReportedCommentsFeeds = ({
                           updatePosts={setComments}
                           posts={comments}
                           userComment={comment}
+                          getUserSpecificDetailFunc={() => {}}
                         />
                       )
                     })

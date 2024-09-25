@@ -26,6 +26,7 @@ import PostSkelton from './PostSkelton'
 
 import Card from '../Card'
 import { getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 type Props = Omit<SinglePostWithDialogProps, 'id'> & {
   postId: string
@@ -48,10 +49,16 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   const [paginationResult, setPaginationResult] = useState(
     data?.comments?.pagination,
   )
-
-  const dispatch = useDispatch()
-
+  // const [commentCount, setCommentCount] = useState<CommentCount>(
+  //   data ? { [data.post.id]: data?.post?.total_comments } : {},
+  // )
+  // const dispatch = useDispatch()
+  // const refreshTokenInRedux =
+  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
+  //   ''
   const [reported, setReported] = useState<boolean>(false)
+
+  // const dispatch = useDispatch()
 
   const [channels, setChannels] = useState<ChannelInterface[] | []>([])
 
@@ -66,7 +73,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   // const userData = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser?.userData,
   // )
-  const userData = getUserData()
+  const [userData, setUserData] = useState<userData | undefined>()
   const { handleRedirect } = useFetchFailedClient()
 
   const [openDialog, setOpenDialog] = useState<boolean>(false)
@@ -79,12 +86,12 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   // const [bookmarkSuccess, setBookmarkSuccess] = useState<boolean>(false) // TODO
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
 
-  const userId = userData?.id
+  const userId = userData?.id ?? null
 
   const getPost = async () => {
     const response = await getPostByPostId(postId ? String(postId) : '', {
       loadUser: true,
-      userId: userId.toString(),
+      userId: userId?.toString(),
     })
     if (!response.success) {
       router.push('/feeds')
@@ -92,11 +99,11 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
 
     setPost(response?.data?.post)
 
-    dispatch(
-      setCommentCountInStore({
-        [postId]: response?.data?.post?.total_comments,
-      }),
-    )
+    // dispatch(
+    //   setCommentCountInStore({
+    //     [postId]: response?.data?.post?.total_comments,
+    //   }),
+    // )
     // setBookmarkSuccess(response?.data?.post?.user_has_bookmarked)
   }
 
@@ -111,18 +118,18 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
     if (commentId) {
       const { comment } = await getComment(
         commentId ? String(commentId) : '',
-        userId.toString(),
         {
           loadNestedComments: replyId ? true : false,
           allReplies: replyId ? true : false,
         },
+        userId?.toString(),
       )
       setCommentResult(comment)
     } else {
       let { comments, pagination } = await getPostsComments(
         String(postId),
-        userId.toString(),
         {},
+        userId?.toString(),
       )
       setCommentResult(comments)
       setPaginationResult(pagination)
@@ -240,6 +247,10 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
   //   ? data?.post?.reaction_summary
   //   : reactionSummary
 
+  // useEffect(() => {
+  //   setUserData(getUserData())
+  // }, [])
+
   return post && post?.author_details?.name && commentResult !== null ? (
     <>
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
@@ -252,6 +263,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
             setReported={setReported}
             setReportedReplyId={() => {}}
             setDeletedCommentId={() => {}}
+            getUserSpecificDetailFunc={() => {}}
           />
         </DialogContent>
       </Dialog>
@@ -433,6 +445,7 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                 post={post}
                 channels={channels}
                 hideComments="w-full"
+                getUserSpecificDetailFunc={() => {}}
               />
             </div>
             {/* <ReactionDetails reactionSummary={reactionSummary} /> */}

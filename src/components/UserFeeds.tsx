@@ -148,6 +148,7 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
                           channels={channels}
                           updatePosts={updatePosts}
                           posts={posts}
+                          getUserSpecificDetailFunc={() => {}}
                         />
                       )
                     })

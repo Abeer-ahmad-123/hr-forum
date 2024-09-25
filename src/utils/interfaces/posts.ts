@@ -54,6 +54,7 @@ export interface PostActionBarProps {
   totalComments: number
   handleBookmark?: (arg0: React.MouseEvent<HTMLDivElement>) => void
   bookmarkSuccess?: boolean
+  getUserSpecificDetailFunc: () => void
 }
 
 export interface CommentCountStore {

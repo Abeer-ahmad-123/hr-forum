@@ -14,6 +14,8 @@ import {
 } from '../ui/dropdown-menu'
 import { noProfilePicture } from '@/assets/images'
 import { LoggedInProps } from '@/utils/interfaces/loggedIn'
+import Link from 'next/link'
+import { removeLocalStroage } from '@/utils/local-stroage'
 
 const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
   const router = useRouter()
@@ -30,13 +32,15 @@ const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
   const handleNavigateProfile = () => {
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Profile
     handleClosePopover()
-    router.push('/profile')
+    // router.push('/profile')
   }
 
   const handleLogout = () => {
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Logout
     handleClosePopover()
     logout()
+    removeLocalStroage()
+
     // dispatch(clearUser())
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
@@ -76,14 +80,18 @@ const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
           side="bottom"
           align="end"
           className="dark:hover:bg-primary-accent w-[224px] border border-[#E4E4E7] bg-white p-0 dark:bg-black">
-          <DropdownMenuItem
-            onClick={handleNavigateProfile}
-            className="m-0 h-[42px] cursor-pointer px-3 py-3 hover:text-white">
-            <div className={`flex gap-2 text-sm dark:text-white`}>
-              <UserIcon />
-              Profile
-            </div>
-          </DropdownMenuItem>
+          <Link href={'/profile'}>
+            {' '}
+            <DropdownMenuItem
+              onClick={handleNavigateProfile}
+              className="m-0 h-[42px] cursor-pointer px-3 py-3 hover:text-white">
+              <div className={`flex gap-2 text-sm dark:text-white`}>
+                <UserIcon />
+                Profile
+              </div>
+            </DropdownMenuItem>
+          </Link>
+
           <hr className=" h-[1px] w-full bg-[#E4E4E7] " />
           <DropdownMenuItem
             onClick={handleLogout}
