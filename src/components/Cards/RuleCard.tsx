@@ -1,3 +1,4 @@
+'use client'
 import { rulesData } from '@/utils/data'
 
 import {
@@ -8,14 +9,11 @@ import {
 } from '@/components/ui/accordion'
 import { usePathname } from 'next/navigation'
 
-interface RulesCardProps {
-  isProfilePage: boolean
-}
-
-const RulesCard = ({ isProfilePage }: RulesCardProps) => {
+const RulesCard = () => {
+  const pathname = usePathname()
   return (
-    <div className={`${isProfilePage ? 'hidden' : 'block'}`}>
-      <div className="flex h-screen max-h-[882px] w-full flex-col justify-between bg-white pl-3 pt-7 dark:bg-bg-primary-dark dark:text-white">
+    <div className={`${pathname.startsWith('/profile') ? 'hidden' : 'block'}`}>
+      <div className="flex h-[882px]  max-h-[882px] w-full flex-col justify-between bg-white pl-3 pt-7 dark:bg-bg-primary-dark dark:text-white">
         <div className="h-auto w-[331px] rounded-[10px] bg-white px-[10px] pb-[10px] dark:bg-bg-primary-dark dark:text-bg-tertiary">
           <h2 className="text-lg font-[800]">Forum rules to abide by</h2>
           <Accordion type="single" collapsible>

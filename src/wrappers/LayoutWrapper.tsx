@@ -11,7 +11,7 @@ const LayoutWrapper = ({ children, pathname }: LayoutWrapperProps) => {
   const isError = pathname === '/error'
   console.log(pathname)
   return (
-    <main className="h-max max-w-[100dvw] font-primary">
+    <main className="m-auto h-max max-w-[1512px] font-primary">
       <ThemeProvider attribute="class" defaultTheme="theme-default">
         {!isError && <Navbar pathname={pathname} />}
         <ToastContainer />
