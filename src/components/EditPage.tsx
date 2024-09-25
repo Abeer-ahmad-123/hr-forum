@@ -6,7 +6,8 @@ import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { getTokens, setValueToLocalStoage } from '@/utils/local-stroage'
 import { useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Tokens } from './shared/Card'
 interface userDataProps {
   name: string
   email: string
@@ -24,14 +25,15 @@ const EditPage = ({
   handleCloseDialog,
   setUpdatedUserData,
 }: EditPageProps) => {
-  const { customFetch } = useInterceptor()
-  const router = useRouter()
   // const dispatch = useDispatch()
 
   const [userDetails, setUserDetails] = useState(userData)
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
 
-  const token = getTokens()?.accessToken
-  const refreshToken = getTokens()?.refreshToken
+  const router = useRouter()
 
   const originalData = useMemo(() => {
     return JSON.stringify(userData)
@@ -40,6 +42,8 @@ const EditPage = ({
   const isContentChanged = useMemo(() => {
     return JSON.stringify(userDetails) !== originalData
   }, [userDetails, originalData])
+
+  const { customFetch } = useInterceptor()
 
   const handleChange = (e: any) => {
     const { name, value } = e.target
@@ -87,8 +91,8 @@ const EditPage = ({
       } else {
         const response = await updateUserDetails(
           customFetch,
-          token,
-          refreshToken,
+          tokens.accessToken,
+          tokens.refreshToken,
           userDetails,
         )
         if (!response?.success) return router.push('/feeds')
@@ -107,6 +111,16 @@ const EditPage = ({
     }
   }
 
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
   return (
     <div>
       <h3 className="mb-3 text-left text-lg font-bold dark:text-white">

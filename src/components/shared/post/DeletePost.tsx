@@ -6,7 +6,8 @@ import { deletePost } from '@/services/posts'
 import { showSuccessAlert } from '@/utils/helper'
 import { getTokens } from '@/utils/local-stroage'
 import { usePathname, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { Tokens } from '../Card'
 
 interface DeletePostInterface {
   postId: string
@@ -23,10 +24,20 @@ const DeletePost = ({
   updatePosts,
   posts = [],
 }: DeletePostInterface) => {
-  // const dispatch = useDispatch()
-  const router = useRouter()
-  const pathname = usePathname()
   const [loading, setLoading] = useState<boolean>(false)
+
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
+
+  const pathname = usePathname()
+  const router = useRouter()
+
+  const { handleRedirect } = useFetchFailedClient()
+  const { customFetch } = useInterceptor()
+
+  // const dispatch = useDispatch()
   // const storePosts = useSelector(
   //   (state: PostsInterfaceStore) => state.posts.posts,
   // )
@@ -35,12 +46,6 @@ const DeletePost = ({
   // const refreshTokenInRedux =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
   //   ''
-
-  const accessToken = getTokens()?.accessToken
-  const refreshToken = getTokens()?.refreshToken
-
-  const { customFetch } = useInterceptor()
-  const { handleRedirect } = useFetchFailedClient()
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)
@@ -52,8 +57,8 @@ const DeletePost = ({
       const response = await deletePost(
         postId!,
         customFetch,
-        accessToken,
-        refreshToken,
+        tokens.accessToken,
+        tokens.refreshToken,
       )
       if (response.status === 204) {
         setLoading(false)
@@ -77,6 +82,17 @@ const DeletePost = ({
       setOpenDeleteDialog(false)
     }
   }
+
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
 
   return (
     <div className="rounded-lg bg-white p-4 dark:bg-dark-background dark:text-white">

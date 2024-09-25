@@ -5,8 +5,9 @@ import { getComment } from '@/services/comments'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ConvertDate } from '@/utils/helper'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 const CommentSection = ({
   comment,
@@ -15,39 +16,28 @@ const CommentSection = ({
   setDeletedCommentId,
   getPostCommets,
 }: any) => {
-  const [replies, setReplies] = useState({
-    comment: {
-      id: comment.id || '',
-      replies: comment.replies || [],
-      author_details: comment.author_details || { name: '', id: '' },
-      content: comment.content || '',
-      created_at: comment.create_at || '',
-    },
-    pagination: {
-      CurrentPage: 0,
-      FirstRecord: 0,
-      LastRecord: 0,
-      RecordsPerPage: 0,
-      TotalPages: 0,
-      TotalRecords: 0,
-    },
-  })
+  const [showFullComment, setShowFullComment] = useState(false)
+  const [userDetails, setUserDetails] = useState<userData>()
+  const [replies, setReplies] = useState<any>()
+
+  const pathName = usePathname()
+  const router = useRouter()
 
   // const userId = useSelector(
   //   (state: LoggedInUser) => state.loggedInUser?.userData?.id,
   // )
-  const userId = getUserData()?.id
   // * State for Show More / Less Comment;
-  const [showFullComment, setShowFullComment] = useState(false)
-  const pathName = usePathname()
-  const router = useRouter()
 
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = Math.floor(replies?.comment.replies?.length / 10) + 1
-    const data = await getComment(comment.id, userId.toString(), {
-      nestedPage: index,
-    })
+    const data = await getComment(
+      comment.id,
+      {
+        nestedPage: index,
+      },
+      userDetails?.id?.toString(),
+    )
 
     setReplies({
       ...replies,
@@ -76,7 +66,9 @@ const CommentSection = ({
 
   const handleNavigate = () => {
     const url = `${
-      comment.user_id === userId ? '/profile' : `/profile/${comment.user_id}`
+      comment?.user_id === userDetails?.id
+        ? '/profile'
+        : `/profile/${comment?.user_id}`
     }`
     router.push(url)
     deleteModalState()
@@ -86,6 +78,11 @@ const CommentSection = ({
     setReplies({ ...replies, comment: comment })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comment])
+
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserDetails(userData)
+  }, [])
 
   return (
     <div className={`rounded-lg ${pathName === '/feeds' ? '' : ''}`}>
@@ -115,7 +112,7 @@ const CommentSection = ({
                 onClick={handleNavigate}
                 className="flex h-[40px] cursor-pointer items-center gap-2 text-left font-[500] text-black  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-                {replies.comment?.author_details?.name}
+                {replies?.comment?.author_details?.name}
 
                 <div className="flex items-center justify-center gap-2 ">
                   <div className="dot h-[5px] w-[5px] rounded-full bg-black opacity-60 dark:bg-white"></div>
@@ -125,7 +122,7 @@ const CommentSection = ({
                 </div>
               </div>
 
-              {comment.user_has_reported && (
+              {comment?.user_has_reported && (
                 <div className="flex cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500 ring-inset ring-gray-500/10 custom-sm:ring-1">
                   <div className="group relative inline-block">
                     <AlertOctagon
@@ -165,7 +162,7 @@ const CommentSection = ({
                 reply={true}
                 commentId={replies?.comment?.id}
                 refetchComments={getAllReplies}
-                author={replies.comment?.author_details?.name}
+                author={replies?.comment?.author_details?.name}
                 setDeletedCommentId={setDeletedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}

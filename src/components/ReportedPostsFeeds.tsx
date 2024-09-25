@@ -165,6 +165,7 @@ const ReportedPostsFeeds = ({ slug, accessToken, userData }: ReportedProps) => {
                           channels={channels}
                           updatePosts={updatePosts}
                           posts={posts}
+                          getUserSpecificDetailFunc={() => {}}
                         />
                       )
                     })

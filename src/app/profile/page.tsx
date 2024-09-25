@@ -2,8 +2,7 @@ import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
 import UserProfile from '@/components/UserProfile'
 import { Suspense } from 'react'
 import { Metadata } from 'next'
-import { getUserDetailsFromCookie, getUserFromCookie } from '@/utils/cookies'
-import type { UserData } from '@/services/auth/authService'
+import { getUserFromCookie } from '@/utils/cookies'
 
 export const metadata: Metadata = {
   title: 'HR-Forum · Profile',

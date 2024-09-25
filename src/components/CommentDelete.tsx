@@ -5,7 +5,8 @@ import { deleteComment } from '@/services/comments'
 import { showSuccessAlert } from '@/utils/helper'
 import { handleFetchFailed } from '@/utils/helper/FetchFailedErrorhandler'
 import { getTokens } from '@/utils/local-stroage'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { Tokens } from './shared/Card'
 interface CommentDeleteProps {
   commentId: string
   postId: string
@@ -26,9 +27,10 @@ const CommentDelete = ({
   deletedReplyId,
 }: CommentDeleteProps) => {
   const [loading, setLoading] = useState<boolean>(false)
-
-  const tokenInRedux = getTokens()?.accessToken
-  const refreshTokenInRedux = getTokens()?.refreshToken
+  const [tokens, setTokens] = useState<Tokens>({
+    accessToken: '',
+    refreshToken: '',
+  })
 
   const { customFetch } = useInterceptor()
   // const disptach = useDispatch()
@@ -43,8 +45,8 @@ const CommentDelete = ({
       const response = await deleteComment(
         commentId,
         customFetch,
-        tokenInRedux,
-        refreshTokenInRedux,
+        tokens.accessToken,
+        tokens.refreshToken,
       )
 
       if (response.status === 204) {
@@ -67,7 +69,16 @@ const CommentDelete = ({
       }
     }
   }
-
+  useEffect(() => {
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setTokens((prevTokens) => ({
+        ...prevTokens,
+        accessToken: storedTokens?.accessToken,
+        refreshToken: storedTokens?.refreshToken,
+      }))
+    }
+  }, [])
   return (
     <div className="rounded-lg bg-white  dark:bg-bg-primary-dark dark:text-white">
       <div className="item-start mb-5 flex flex-col gap-4">

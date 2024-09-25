@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css'
 
 const LayoutWrapper = ({ children, pathname }: LayoutWrapperProps) => {
   const isError = pathname === '/error'
-  console.log(pathname)
   return (
     <main className="h-max max-w-[100dvw] font-primary">
       <ThemeProvider attribute="class" defaultTheme="theme-default">

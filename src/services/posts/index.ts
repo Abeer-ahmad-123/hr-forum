@@ -110,13 +110,13 @@ export async function postCreatePostInChannel({
   channelID,
   body,
   customFetch,
-  token,
+  accessToken,
   refreshToken,
 }: any) {
   try {
     const headers = {
       'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
+      authorization: `Bearer ${accessToken}`,
       refreshToken: refreshToken,
     }
     const requestBody = JSON.stringify(body)

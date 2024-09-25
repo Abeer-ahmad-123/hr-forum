@@ -1,7 +1,7 @@
 'use client'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
 import { useParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
   Popover,
@@ -20,6 +20,7 @@ import SocialButtons from './SocialButtons'
 import SignInDialog from './NewPost/SignInDialog'
 import { getUserFromCookie } from '@/utils/cookies'
 import { getUserData } from '@/utils/local-stroage'
+import { userData } from '@/utils/interfaces/userData'
 
 function ReplyTextArea({
   submitCallback,
@@ -36,24 +37,25 @@ function ReplyTextArea({
   getPostCommets,
   accessToken,
 }: any) {
-  const [openDialog, setOpenDialog] = useState<boolean>(false)
-  const [showSignModal, setShowSignModal] = useState<boolean>(false)
-  const [popOver, setPopOver] = useState<boolean>(false)
-
-  const [showTextArea, setShowTextArea] = useState<boolean>(false)
-  const [formattedDate, setFormatedDate] = useState<String>('')
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
+  const [showSignModal, setShowSignModal] = useState<boolean>(false)
+  const [showTextArea, setShowTextArea] = useState<boolean>(false)
   const [deletedReplyId, setDeletedReplyId] = useState<string>('')
+  const [formattedDate, setFormatedDate] = useState<String>('')
+  const [openDialog, setOpenDialog] = useState<boolean>(false)
+  const [popOver, setPopOver] = useState<boolean>(false)
+  const [userData, setUserData] = useState<userData>()
   const [repliesLocal, setRepliesLocal] = useState([])
+
   const params = useParams()
 
   const postId = params?.id as string
+
   // const tokenInRedux =
   //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
   // const userData = useSelector(
   //   (state: LoggedInUser) => state?.loggedInUser?.userData,
   // )
-  const userData = getUserData()
 
   const toggleTextArea = () => {
     setShowTextArea((pre) => !pre)
@@ -106,6 +108,11 @@ function ReplyTextArea({
     }
   }, [replies, deletedReplyId])
 
+  useEffect(() => {
+    const userData = getUserData()
+    if (userData) setUserData(userData)
+  }, [])
+
   return (
     <div>
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
@@ -156,7 +163,7 @@ function ReplyTextArea({
             </PopoverContent>
           </Popover>
         </div>
-        {author == userData.name ? (
+        {author == userData?.name ? (
           <div
             onClick={handleDeleteClick}
             className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
@@ -182,6 +189,7 @@ function ReplyTextArea({
                 getPostCommets={getPostCommets}
                 setReported={() => {}}
                 setDeletedCommentId={() => {}}
+                getUserSpecificDetailFunc={() => {}}
               />
             </DialogContent>
           </Dialog>
@@ -213,7 +221,7 @@ function ReplyTextArea({
           isLoading={isLoading}
           isCommentPage={true}
           inputRef={inputRef}
-          placeholder={`Reply to ${author === userData.name ? 'you' : author}`}
+          placeholder={`Reply to ${author === userData?.name ? 'you' : author}`}
           className={'max-sm:w-2/3'}
           classNameOuter={'mr-4'}
           accessToken={accessToken}

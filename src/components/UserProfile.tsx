@@ -20,7 +20,6 @@ import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
-import ProfileBg from '@/assets/images/ProfileBg.svg'
 import { setValueToLocalStoage } from '@/utils/local-stroage'
 
 const UserProfile = ({
@@ -44,7 +43,7 @@ const UserProfile = ({
   //   (state: LoggedInUser) => state?.loggedInUser?.userData,
   // )
 
-  const [user, setUser] = useState<any>(userId ? '' : userInCookie || '')
+  const [user, setUser] = useState<any>(userId ? '' : userInCookie ?? '')
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
@@ -52,7 +51,7 @@ const UserProfile = ({
   const isFirstUser = useRef(true)
   const imageInputRef = useRef(null)
 
-  const userIdLocal = (userId || userInCookie?.id) ?? ''
+  const userIdLocal = userInCookie?.id || ''
 
   const getUserSpecificDetail = async () => {
     try {
@@ -167,11 +166,12 @@ const UserProfile = ({
       /**
        * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
        */
-      if (user && user?.id === userIdLocal) return
+      // if (user && user?.id === userIdLocal) return
       getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  console.log(user)
   return user.id ? (
     <div className="profile-page max-w-[1105px] max-md:block">
       <section className="relative mt-5 block h-[650px]">
@@ -321,7 +321,10 @@ const UserProfile = ({
               reportedCommentCount={user?.reported_comment_count}
             />
           </div>
-          <UserActivity userData={userInCookie} />
+          <UserActivity
+            userData={userInCookie}
+            getUserSpecificDetailFunc={getUserSpecificDetail}
+          />
         </div>
       </section>
     </div>

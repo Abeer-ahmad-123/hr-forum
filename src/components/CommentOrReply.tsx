@@ -25,6 +25,7 @@ const CommentOrReply = ({
   commentLength,
   refreshToken,
   accessToken,
+  getUserSpecificDetailFunc,
 }: any) => {
   const params = useParams()
   const postId = params['id'] || Id
@@ -60,6 +61,7 @@ const CommentOrReply = ({
       if (result?.success) {
         if (!commentId) {
           // disptach(IncreaseCommentCountInStore(postId))
+          getUserSpecificDetailFunc()
           setComments((prevComments: Array<Object>) => [
             result?.data?.comment,
             ...prevComments,

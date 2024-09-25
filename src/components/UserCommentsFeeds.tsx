@@ -168,6 +168,7 @@ const UserCommentsFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
                             updatePosts={setComments}
                             posts={comments}
                             userComment={comment}
+                            getUserSpecificDetailFunc={() => {}}
                           />
                         )
                       }

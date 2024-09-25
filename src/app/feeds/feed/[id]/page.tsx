@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const SingleFeedpage = async ({ params, searchParams }: any) => {
   const id = params.id
   const getPostComments = async () => {
-    let { comments, pagination } = await getPostsComments(id, '', {})
+    let { comments, pagination } = await getPostsComments(id, {}, undefined)
     return { comments, pagination }
   }
   const getPost = async () => {

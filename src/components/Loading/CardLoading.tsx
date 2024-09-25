@@ -2,7 +2,7 @@
 import { usePathname } from 'next/navigation'
 import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getTokens } from '@/utils/local-stroage'
 
 const CardLoading = () => {
@@ -55,7 +55,10 @@ const BannerCardLoading = () => {
   const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
-    setToken(getTokens()?.accessToken)
+    const storedTokens = getTokens()
+    if (storedTokens) {
+      setToken(storedTokens?.accessToken)
+    }
   }, [])
 
   if (!token) return

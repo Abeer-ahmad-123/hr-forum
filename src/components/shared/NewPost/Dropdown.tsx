@@ -11,12 +11,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { usePathname } from 'next/navigation'
 import VectorChannelIcon from '@/assets/icons/VectorChannelIcon'
+import { ChannelInterface } from '@/utils/interfaces/channels'
 
-const Dropdown = ({ handleDropDownValue, value }: any) => {
+const Dropdown = ({ handleDropDownValue, value, channels }: any) => {
   // const channels = useSelector(
   //   (state: StoreChannels) => state.channels.channels,
   // )
-  const channels = [{ name: '', id: 0 }]
+
   const pathName = usePathname()
   const [buttonValue, setButtonValue] = useState('Select a Channel')
   const channelSlugRoute = pathName.split('/')[2]
@@ -46,7 +47,7 @@ const Dropdown = ({ handleDropDownValue, value }: any) => {
 
           <DropdownMenuContent className="min-w-[11.5rem] bg-white dark:bg-dark-primary">
             <DropdownMenuSeparator />
-            {channels.map((item, index) => (
+            {channels.map((item: ChannelInterface, index: number) => (
               <DropdownMenuItem
                 onClick={() => {
                   setButtonValue(item.name), handleDropDownValue(item.id)

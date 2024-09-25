@@ -20,6 +20,7 @@ import { UserData } from '@/utils/interfaces/cookies'
 
 interface UserActivityProps {
   userData: UserData
+  getUserSpecificDetailFunc: () => void
 }
 interface ProfileNavType {
   isComment: boolean
@@ -27,7 +28,10 @@ interface ProfileNavType {
   isPost: boolean
 }
 
-const UserActivity = ({ userData }: UserActivityProps) => {
+const UserActivity = ({
+  userData,
+  getUserSpecificDetailFunc,
+}: UserActivityProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
   const [profileNav, setProfileNav] = useState<ProfileNavType>({
@@ -242,6 +246,7 @@ const UserActivity = ({ userData }: UserActivityProps) => {
                 user={userData?.id ? user : userData}
                 morePosts={morePosts.current}
                 userName={posts[0]?.author_details?.username}
+                getUserSpecificDetailFunc={getUserSpecificDetailFunc}
               />
             ) : (
               <NoPosts />
@@ -263,7 +268,11 @@ const UserActivity = ({ userData }: UserActivityProps) => {
           profileNav.isReaction &&
           // (!loadingReaction ? (
           (reactedPosts.length ? (
-            <UserSpecificReaction posts={reactedPosts} user={user} />
+            <UserSpecificReaction
+              posts={reactedPosts}
+              user={user}
+              getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+            />
           ) : (
             <NoPosts />
           ))

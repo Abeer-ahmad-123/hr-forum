@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const SingleFeedRoute = async ({ params }: any) => {
   const { id } = params
   const getPostComments = async () => {
-    let { comments, pagination } = await getPostsComments(id, '', {})
+    let { comments, pagination } = await getPostsComments(id, {}, '')
     return { comments, pagination }
   }
   const getPost = async () => {
