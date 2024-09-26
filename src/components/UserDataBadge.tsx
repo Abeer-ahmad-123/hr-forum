@@ -47,9 +47,10 @@ const UserDataBadge = ({
             Overview
           </h1>
           <button
-            className="block md:hidden"
-            onClick={() => setShowDropDown((prev) => !prev)}>
+            className="block cursor-pointer  md:hidden"
+            onClick={handleOpenOverview}>
             <ArrowDown
+              onClick={handleOpenOverview}
               className={`h-[18px] w-[18px] transform-gpu text-black dark:text-white ${
                 showDropDown ? 'rotate-180' : ''
               }`}
