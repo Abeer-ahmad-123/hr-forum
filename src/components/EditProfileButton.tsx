@@ -36,7 +36,7 @@ const EditProfileButton = ({
 
   return (
     <div className="absolute  sm:right-0 sm:top-0 sm:mr-0 sm:flex sm:justify-end">
-      <div className="ml-4 flex -translate-y-4 gap-4 sm:ml-0 sm:-translate-y-0 sm:pt-4">
+      <div className="ml-4 flex -translate-y-4 gap-4 sm:ml-0 sm:-translate-y-0 sm:pt-20 custom-mid-lg:pt-4">
         <button
           name="update password button"
           className="flex  h-[40px] w-[154px] items-center justify-center gap-2 rounded-[20px] bg-bg-green px-4 py-2 text-xs"

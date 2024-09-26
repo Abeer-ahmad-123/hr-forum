@@ -6,7 +6,9 @@ import type {
 } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
+import SavePost from '@/assets/images/savePost.svg'
 import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
+import Image from 'next/image'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -33,6 +35,16 @@ export default async function RenderFeedsGeneral({
             className={`${
               path === '/saved' ? '' : 'max-lg:mt-[30px] max-md:mt-[20px]'
             } mt-[20px] w-full max-w-screen-md dark:text-white`}>
+            {path === '/saved' && (
+              <Image
+                alt="save post"
+                src={SavePost}
+                width={759}
+                height={190}
+                className="mb-5"
+              />
+            )}
+
             <Feeds
               channelSlug={channelSlug}
               initialPosts={data.posts}

@@ -19,17 +19,14 @@ const UserSpecificPosts = ({
           // channels={post?.channel_id}
         />
       ))}
-      <div className="flex cursor-pointer justify-center py-3 dark:bg-bg-tertiary-dark dark:text-gray-300 max-md:text-sm">
+      <div className="flex cursor-pointer justify-center rounded-md border border-[#F4F4F5] py-3 text-sm dark:border-[#202020]  dark:text-white ">
         <div className="group flex justify-center">
           <Link
             href={`/user-activity/${user.name
               ?.toLowerCase()
               .replace(/ /g, '-')}-${user.id}/posts`}>
-            Show more posts
+            Show All Posts
           </Link>
-          <div className="origin-center transform transition-transform group-hover:scale-x-150">
-            <ArrowRight size={16} className="ml-1 inline-block" />
-          </div>
         </div>
       </div>
     </div>

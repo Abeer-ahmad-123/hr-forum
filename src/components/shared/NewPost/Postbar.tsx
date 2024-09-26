@@ -21,11 +21,11 @@ const PostBar = ({ setAddPost, user }: PostBarProps) => {
         placeholder="What's on your mind?"
         onBlur={handleStart}
         onFocus={handleStart}
-        className="h-[64px]  flex-1 border-b border-gray-300 bg-white text-sm text-gray-400 focus:border-b focus:border-blue-500 focus:outline-none dark:bg-bg-primary-dark dark:text-white"
+        className="h-[64px]  flex-1 border-b border-gray-300 bg-white text-sm text-gray-400 focus:outline-none dark:bg-bg-primary-dark "
       />
       <button
         onClick={handleStart}
-        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[25px] py-[8px] font-[550]">
+        className="h-[44px] min-w-[175px] cursor-pointer rounded-[20px] bg-bg-green px-[25px] py-[8px] font-[550] text-black">
         Start new thread
       </button>
     </div>
