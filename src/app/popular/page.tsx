@@ -1,15 +1,32 @@
-function PopularPosts() {
+import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
+import CardLoading from '@/components/Loading/CardLoading'
+import { getGenericPosts } from '@/services/posts/server-posts'
+import { FeedPageProps } from '@/utils/interfaces/feeds'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
+
+export const metadata: Metadata = {
+  title: 'HR-Forum - Popular',
+}
+
+export const dynamic = 'force-dynamic'
+
+const PopularPosts = async ({ searchParams }: FeedPageProps) => {
+  const { channelData, initialPosts, morePosts } = await getGenericPosts({
+    channelSlug: '',
+    searchParams,
+    path: '/feed',
+  })
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100">
-      <div className="p-4 text-center">
-        <h2 className="mb-2 text-3xl font-semibold text-gray-800">
-          We're working on it!
-        </h2>
-        <p className="text-gray-600">
-          Stay tuned for updates on our popular posts section.
-        </p>
-      </div>
-    </div>
+    <Suspense fallback={<CardLoading />}>
+      <RenderFeedsGeneral
+        channelSlug=""
+        searchParams={searchParams}
+        path="/popular"
+        morePosts={morePosts}
+        data={{ channels: channelData, posts: initialPosts }}
+      />
+    </Suspense>
   )
 }
 

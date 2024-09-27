@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import ActivityButtons from './ActivityButtons'
 import CardLoading from './Loading/CardLoading'
+import ProfilePageLoading from './Loading/ProfilePageLoading'
 
 const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   const { handleRedirect } = useFetchFailedClient()
@@ -100,7 +101,7 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   // }, [storePosts])
 
   return loading ? (
-    <CardLoading />
+    <ProfilePageLoading />
   ) : (
     <div className="mx-auto flex max-w-screen-xl justify-center">
       {/* <div
@@ -133,12 +134,12 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
-              <div className="min-h-[70vh] w-full">
+              className={`${'mt-[20px] rounded-2xl px-6  pb-5 pt-7 max-lg:mt-[30px] '} w-full max-w-screen-md  bg-white dark:bg-bg-tertiary-dark dark:text-white`}>
+              <div className="min-h-[70vh] w-full ">
                 {pathName.includes(`/${slug}/posts`) && (
                   <ActivityButtons slug={slug} />
                 )}
-                <div>
+                <div className="flex flex-col">
                   {!!posts?.length ? (
                     posts?.map((post: any, index: number) => {
                       return (

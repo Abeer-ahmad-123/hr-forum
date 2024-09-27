@@ -135,7 +135,7 @@ const Feeds = ({
           </div>
         ))}
 
-      <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col gap-5">
+      <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col">
         {!addPost && (
           <>
             {!!posts?.length ? (

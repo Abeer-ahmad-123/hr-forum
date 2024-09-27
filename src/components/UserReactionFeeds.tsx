@@ -135,7 +135,7 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[20px] rounded-[20px] max-lg:mt-[30px]'} w-full max-w-screen-md bg-bg-primary  px-6 pb-5 pt-7 dark:bg-bg-primary-dark dark:text-white`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/${slug}/reactions`) && (
                   <ActivityButtons slug={slug} />

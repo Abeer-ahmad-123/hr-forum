@@ -25,42 +25,33 @@ const ActivityButtons = ({ slug }: ActivityButtonProps) => {
       : router.push(`${routeTo}/posts`)
   }
   return (
-    <div className="border-grey-300 mb-4 justify-start rounded-lg border border-solid bg-white px-10 py-2 dark:bg-bg-tertiary-dark dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
+    <div className="bg-whitedark:bg-bg-tertiary-dark justify-start rounded-lg dark:text-gray-300 max-custom-sm:px-6 max-[392px]:px-2">
       <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
         {pathName.includes('reported') ? 'Reported Content' : 'Activity'}
       </div>
-      <div className="flex cursor-pointer items-start justify-start max-md:text-sm">
+      <div className="mb-5 mt-5 flex h-[42px] w-full  cursor-pointer items-center justify-start rounded-[6px] bg-bg-tertiary p-[5px] dark:bg-bg-tertiary-dark">
         <div
           onClick={handlePost}
-          className={`-ml-[3px] flex w-[80px] gap-[8px] py-2`}>
+          className={`flex h-[32px] w-[67px] items-center justify-center gap-[8px] py-2`}>
           <div
-            className={`flex gap-2  max-custom-sm:text-xs ${
-              pathName.includes('posts')
-                ? '  pb-2  text-black transition duration-500 ease-in-out dark:text-white'
-                : ' opacity-50'
-            }
-              `}>
-            <Plus size={20} className="max-custom-sm:h-4 max-custom-sm:w-4" />
-            <button name="post button text-black dark:text-whites ">
-              {' '}
+            className={`gap-2  text-black  hover:text-black dark:text-white dark:hover:text-white `}>
+            <button name="post button" className="text-sm font-medium">
               Post
             </button>
           </div>
         </div>
         <div
           onClick={commentOnClick}
-          className={`ml-0 flex w-[130px] cursor-pointer gap-[8px] py-2 pl-0 `}>
+          className={`flex h-[32px] w-[103px] items-center justify-center gap-[8px] py-2`}>
           <div
-            className={`flex gap-2  max-custom-sm:text-xs ${
-              pathName.includes('/comment')
-                ? 'z-10 border-b-2 border-[#571ce0]  pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-                : ' opacity-50'
-            }`}>
-            <FaRegComment
-              size={20}
-              className="max-custom-sm:h-4 max-custom-sm:w-4"
-            />
-            <button name="comment button"> Comment</button>
+            className={`flex items-center gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white max-custom-sm:text-xs `}>
+            {/* <FaRegComment
+                size={20}
+                className="max-custom-sm:h-4 max-custom-sm:w-4"
+              /> */}
+            <button name="comment button">
+              <span className="text-sm font-medium">Comment</span>{' '}
+            </button>
             <hr />
           </div>
         </div>
@@ -68,18 +59,17 @@ const ActivityButtons = ({ slug }: ActivityButtonProps) => {
         {!pathName.includes('/reported') && (
           <div
             onClick={reactionOnClick}
-            className={`flex w-[130px] cursor-pointer items-center gap-[8px] py-2  `}>
+            className={`flex h-[32px] w-[96px] items-center justify-center gap-[8px] py-2`}>
             <div
-              className={`flex gap-2 max-custom-sm:text-xs ${
-                pathName.includes('/reaction')
-                  ? 'z-10 border-b-2 border-[#571ce0] pb-2 text-[#571ce0] transition duration-500 ease-in-out dark:border-white dark:text-white'
-                  : ' opacity-50'
-              } `}>
-              <SmilePlus
+              className={`flex gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white  max-custom-sm:text-xs`}>
+              {/* <SmilePlus
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
-              />
-              <button name="reaction button"> Reactions</button>
+              /> */}
+              <button name="reaction button ">
+                {' '}
+                <span className="text-sm font-medium">Reactions</span>
+              </button>
               <hr />
             </div>
           </div>

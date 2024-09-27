@@ -279,7 +279,6 @@ const Card = ({
       })
     }
   }, [])
-
   useEffect(() => {
     const userData = getUserData()
     if (userData) setUserDetails(userData)
@@ -291,16 +290,21 @@ const Card = ({
       key={post?.id}
       className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
       <div
-        className={
-          updatePosts
-            ? `rounded-2xl  bg-bg-primary dark:bg-bg-primary-dark `
-            : hideComments
-            ? ``
-            : `rounded-2xl  bg-[#FAFAFA] dark:bg-bg-tertiary-dark ` +
-              `w-full cursor-pointer   dark:text-gray-300 
-          ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
-        `
-        }>
+        className={`${
+          pathName.includes('user-activity')
+            ? 'rounded-2xl bg-[#FAFAFA] dark:bg-bg-tertiary-dark'
+            : updatePosts
+            ? 'rounded-2xl bg-bg-primary dark:bg-bg-primary-dark'
+            : ''
+        } ${
+          !updatePosts && !hideComments
+            ? 'rounded-2xl bg-[#FAFAFA] dark:bg-bg-tertiary-dark'
+            : ''
+        } ${
+          hideComments
+            ? 'mb-5 h-full'
+            : 'mx-auto mb-5 w-full cursor-pointer dark:text-gray-300 md:max-w-screen-md'
+        }`}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
