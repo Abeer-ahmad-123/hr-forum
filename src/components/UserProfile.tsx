@@ -27,6 +27,10 @@ const UserProfile = ({
   userInCookie,
   accessToken,
   refreshToken,
+  posts,
+  morePosts,
+  comments,
+  reactedPosts,
 }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
@@ -52,6 +56,7 @@ const UserProfile = ({
   const imageInputRef = useRef(null)
 
   const userIdLocal = userInCookie?.id || ''
+  const [isActivityData, setIsActivityData] = useState<boolean>(false)
 
   const getUserSpecificDetail = async () => {
     try {
@@ -167,11 +172,11 @@ const UserProfile = ({
        * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
        */
       // if (user && user?.id === userIdLocal) return
-      getUserSpecificDetail()
+      // getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(user)
+  console.log(isActivityData)
   return user.id ? (
     <div className="profile-page max-w-[1105px] max-md:block">
       <section className="relative mt-5 block h-[650px]">
@@ -322,14 +327,22 @@ const UserProfile = ({
             />
           </div>
           <UserActivity
+            setIsActivityData={setIsActivityData}
             userData={userInCookie}
             getUserSpecificDetailFunc={getUserSpecificDetail}
+            postsComing={posts}
+            morePosts={morePosts}
+            comments={comments}
+            reactedPosts={reactedPosts}
           />
         </div>
       </section>
     </div>
   ) : (
-    <ProfilePageLoading />
+    <>
+      ""
+      {/* {isActivityData ? <ProfilePageLoading /> : null} */}
+    </>
   )
 }
 

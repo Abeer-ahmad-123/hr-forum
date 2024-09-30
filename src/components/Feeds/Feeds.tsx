@@ -130,12 +130,12 @@ const Feeds = ({
         (addPost ? (
           <NewPostForm setAddPost={setAddPost} />
         ) : (
-          <div className="mb-5">
+          <div className="">
             <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
           </div>
         ))}
 
-      <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col">
+      <div className="flex min-h-[70vh] w-full max-w-full flex-col px-0 py-4 lg:max-w-[759px] lg:p-0">
         {!addPost && (
           <>
             {!!posts?.length ? (

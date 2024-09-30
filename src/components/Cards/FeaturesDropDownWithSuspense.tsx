@@ -5,11 +5,11 @@ import RespScreenLoading from '../Loading/RespScreenLoading'
 
 const FeaturesDropDownWithSuspense = () => {
   return (
-    <div className="max-md: hidden w-full max-md:block">
+    <div className="block w-full lg:hidden">
       <Suspense fallback={<RespScreenLoading />}>
         <FeaturesDropDown
-          classNameOuter="w-[300px] max-md:w-full"
-          classNameInner="w-[300px] max-md:w-full "
+          classNameOuter="w-full max-md:w-full"
+          classNameInner="w-full max-md:w-full "
           classNamefeaturesDropDowm=""
         />
         <CustomAccordion />

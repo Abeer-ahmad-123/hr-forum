@@ -288,7 +288,11 @@ const Card = ({
     <div
       id={String(post?.id)}
       key={post?.id}
-      className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
+      className={
+        hideComments
+          ? hideComments
+          : 'm-0 w-full max-w-full p-0 lg:max-w-[759px]'
+      }>
       <div
         className={`${
           pathName.includes('user-activity')
@@ -303,7 +307,7 @@ const Card = ({
         } ${
           hideComments
             ? 'mb-5 h-full'
-            : 'mx-auto mb-5 w-full cursor-pointer dark:text-gray-300 md:max-w-screen-md'
+            : 'mx-auto mb-5 w-full cursor-pointer dark:text-gray-300 lg:max-w-screen-md'
         }`}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>

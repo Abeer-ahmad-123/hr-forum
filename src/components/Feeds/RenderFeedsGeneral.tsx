@@ -28,16 +28,14 @@ export default async function RenderFeedsGeneral({
   const { user, token: accessToken } = await getUserFromCookie()
   console.log('first', path.includes('popular'))
   return (
-    <div className="w-full max-w-[759px]">
+    <div className="w-full">
       <div className="flex w-full justify-center">
         <div className="w-full">
           <FeaturesDropDownWithSuspense />
           <div
             className={`${
-              path === '/saved' || path === '/popular'
-                ? ''
-                : 'max-lg:mt-[30px] max-md:mt-[20px]'
-            } mt-[20px] w-full max-w-screen-md dark:text-white`}>
+              path === '/saved' || path === '/popular' ? '' : 'mt-0 lg:mt-5'
+            } w-full dark:text-white lg:max-w-screen-md`}>
             {path === '/saved' && (
               <Image
                 alt="save post"

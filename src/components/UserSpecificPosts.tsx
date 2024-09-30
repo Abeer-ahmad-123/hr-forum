@@ -1,3 +1,4 @@
+'use client'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { ArrowRight } from 'lucide-react'
 import { Card } from './shared'
@@ -7,7 +8,9 @@ const UserSpecificPosts = ({
   posts: initialPosts,
   user,
   getUserSpecificDetailFunc,
+  morePosts,
 }: any) => {
+  console.log('posts in specific call', initialPosts)
   return (
     <div className="flex flex-col gap-2">
       {initialPosts.slice(0, 2)?.map((post: PostsInterface, i: number) => (

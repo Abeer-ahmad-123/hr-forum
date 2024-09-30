@@ -127,7 +127,7 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
         </div>
       </div> */}
 
-      <div className={`w-full max-w-screen-md`}>
+      <div className={`w-full max-w-full lg:max-w-screen-md`}>
         <div className="flex w-full justify-center">
           <div className="w-full">
             <div>
@@ -135,7 +135,7 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[20px] rounded-[20px] max-lg:mt-[30px]'} w-full max-w-screen-md bg-bg-primary  px-6 pb-5 pt-7 dark:bg-bg-primary-dark dark:text-white`}>
+              className={`${'mt-[20px] rounded-[20px] max-lg:mt-[30px]'} w-full max-w-full bg-bg-primary px-6  pb-5 pt-7 dark:bg-bg-primary-dark dark:text-white lg:max-w-screen-md`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/${slug}/reactions`) && (
                   <ActivityButtons slug={slug} />
