@@ -26,7 +26,6 @@ export default async function RenderFeedsGeneral({
   morePosts,
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
-  console.log('first', path.includes('popular'))
   return (
     <div className="w-full">
       <div className="flex w-full justify-center">
@@ -42,7 +41,7 @@ export default async function RenderFeedsGeneral({
                 src={SavePost}
                 width={759}
                 height={190}
-                className="mb-5"
+                className="mb-5 w-full"
               />
             )}
             {path === '/popular' && (
@@ -51,7 +50,7 @@ export default async function RenderFeedsGeneral({
                 src={PopularPost}
                 width={759}
                 height={190}
-                className="mb-5"
+                className="mb-5 w-full"
               />
             )}
 

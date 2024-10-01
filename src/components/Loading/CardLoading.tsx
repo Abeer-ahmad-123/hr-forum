@@ -15,7 +15,7 @@ const CardLoading = () => {
       className={`mt-4 flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`}>
       {!pathName.includes('user-activity') && (
         <div className="w-full rounded-xl">
-          <Skelton className="r h-24 max-w-[759px] rounded-xl bg-skelton" />
+          <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
         </div>
       )}
 

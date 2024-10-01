@@ -192,7 +192,7 @@ const UserActivity = ({
   // }, [posts])
   console.log('postsComing', postsComing)
   return (
-    <div className="flex h-full w-full max-w-[759px] flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7">
+    <div className="flex h-full w-full max-w-full flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7 lg:max-w-[70%]">
       <div className="flex w-full flex-col justify-start gap-[20px]">
         <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
           Activity

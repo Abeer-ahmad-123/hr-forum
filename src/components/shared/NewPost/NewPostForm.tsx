@@ -212,7 +212,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   }, [])
 
   return (
-    <div className="max-h[635px] flex max-w-full flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark lg:w-[759px]">
+    <div className="max-h[665px] flex h-full max-w-full flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark lg:w-[759px]">
       <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}
@@ -229,7 +229,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         <div className="flex h-[88px] w-full flex-col gap-[8px]">
           <p className="pl-3 text-sm font-[550]">Title</p>
           <input
-            className="title-input  flex h-[56px] rounded-[20px] border-[#eeeeee] px-[20px]  py-[8px] font-primary text-base  placeholder-gray-500 ring-1 ring-[#eeeeee] transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-bg-primary-dark dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
+            className="title-input  flex h-[56px] rounded-[20px] border-[#eeeeee] px-[20px]  py-[8px] font-primary text-base  placeholder-gray-500 ring-1 ring-[#eeeeee] transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-bg-primary-dark dark:text-white  dark:placeholder-white  md:w-full md:text-lg lg:text-xl"
             type="text"
             placeholder="Title goes here *"
             name="title"
@@ -328,7 +328,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         </>
       ) : (
         <>
-          <div className="h-[343px] min-h-[343px]">
+          <div className="h-full w-full md:min-h-[343px] md:min-w-[320px] ">
             <Editor
               value={formValues.content}
               onContentChange={handleEditorContentChange}

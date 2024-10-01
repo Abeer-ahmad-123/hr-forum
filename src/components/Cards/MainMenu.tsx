@@ -9,7 +9,7 @@ const MainMenu: React.FC<MenuCardInterface> = ({ path, user }) => {
 
   return (
     <div
-      className={`flex h-[94px] w-[254px] cursor-pointer flex-col bg-bg-primary dark:bg-bg-primary-dark`}>
+      className={`flex h-[94px] cursor-pointer flex-col bg-bg-primary dark:bg-bg-primary-dark`}>
       {filteredMenuItems.map((item, index) => (
         <Link
           href={item.href}

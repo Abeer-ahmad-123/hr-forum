@@ -34,11 +34,11 @@ const UserDataBadge = ({
       <div
         className={
           `${
-            width < 768 && !showDropDown
+            width < 1024 && !showDropDown
               ? 'mt-[16px] h-[56px]'
               : 'mt-[16px] h-full '
           }` +
-          `flex  max-h-[304px]  w-full flex-col gap-5  rounded-[16px] bg-bg-primary p-4 text-left dark:bg-bg-primary-dark dark:text-white custom-mid-lg:mt-0 custom-mid-lg:min-w-[326px] custom-mid-lg:max-w-[326px]  custom-mid-lg:px-6  custom-mid-lg:pb-[20px] custom-mid-lg:pt-7`
+          `flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary p-4 text-left dark:bg-bg-primary-dark dark:text-white custom-mid-lg:mt-0 custom-mid-lg:w-full   custom-mid-lg:px-6  custom-mid-lg:pb-[20px] custom-mid-lg:pt-7`
         }>
         <div
           className="flex items-center justify-between"
@@ -47,7 +47,7 @@ const UserDataBadge = ({
             Overview
           </h1>
           <button
-            className="block cursor-pointer  md:hidden"
+            className="block cursor-pointer  lg:hidden"
             onClick={handleOpenOverview}>
             <ArrowDown
               onClick={handleOpenOverview}
@@ -57,7 +57,7 @@ const UserDataBadge = ({
             />
           </button>
         </div>
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <ProfileOverView
             commentCount={commentCount}
             postCount={postCount}
@@ -68,7 +68,7 @@ const UserDataBadge = ({
           />
         </div>
 
-        <div className="block md:hidden">
+        <div className="block lg:hidden">
           {showDropDown && (
             <ProfileOverView
               commentCount={commentCount}

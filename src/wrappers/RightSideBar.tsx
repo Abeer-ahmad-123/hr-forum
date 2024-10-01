@@ -8,8 +8,8 @@ const RightSideBar = () => {
   return (
     <div
       className={`${isProfilePage ? 'hidden' : 'hidden lg:block'}
-       mt-0 h-[882px] bg-bg-primary pr-6 dark:bg-bg-primary-dark`}>
-      <div className={`hidden flex-1 lg:inline-block`}>
+       mt-0 h-[882px] w-[25%] bg-bg-primary pr-6 dark:bg-bg-primary-dark`}>
+      <div className={`hidden w-full flex-1 lg:inline-block`}>
         <RulesCard />
       </div>
     </div>

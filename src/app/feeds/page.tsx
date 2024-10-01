@@ -1,5 +1,6 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
+import useChannels from '@/hooks/channels'
 import { getGenericPosts } from '@/services/posts/server-posts'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
 import type { Metadata } from 'next'
