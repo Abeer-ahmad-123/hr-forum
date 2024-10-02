@@ -6,8 +6,10 @@ import type {
 } from '@/utils/interfaces/channels'
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
+import SavePost from '@/assets/images/savePost.svg'
+import PopularPost from '@/assets/images/popularPost.svg'
 import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
-import ChannelsBanner from '../ChannelsBanner'
+import Image from 'next/image'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -24,16 +26,34 @@ export default async function RenderFeedsGeneral({
   morePosts,
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
-
   return (
-    <div className="w-full max-w-[759px]">
+    <div className="w-full">
       <div className="flex w-full justify-center">
         <div className="w-full">
           <FeaturesDropDownWithSuspense />
           <div
             className={`${
-              path === '/saved' ? '' : 'max-lg:mt-[30px] max-md:mt-[20px]'
-            } mt-[20px] w-full max-w-screen-md dark:text-white`}>
+              path === '/saved' || path === '/popular' ? '' : 'mt-0 lg:mt-5'
+            } w-full dark:text-white lg:max-w-screen-md`}>
+            {path === '/saved' && (
+              <Image
+                alt="save post"
+                src={SavePost}
+                width={759}
+                height={190}
+                className="mb-5 w-full"
+              />
+            )}
+            {path === '/popular' && (
+              <Image
+                alt="save post"
+                src={PopularPost}
+                width={759}
+                height={190}
+                className="mb-5 w-full"
+              />
+            )}
+
             <Feeds
               channelSlug={channelSlug}
               initialPosts={data.posts}

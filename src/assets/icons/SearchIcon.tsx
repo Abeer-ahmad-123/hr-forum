@@ -1,5 +1,4 @@
-import { IconProps } from "@/utils/interfaces/icons"
-
+import { IconProps } from '@/utils/interfaces/icons'
 
 const SearchIcon = ({ className }: IconProps) => {
   return (

@@ -212,11 +212,11 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   }, [])
 
   return (
-    <div className="min-h[635px] flex max-w-[759px] flex-col gap-[18px]  rounded-xl bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark">
+    <div className="max-h[665px] flex h-full max-w-full flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark lg:w-[759px]">
       <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}
-          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary  px-[16px] py-[8px] text-[12px] opacity-60 dark:text-white  ">
+          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary px-[16px]  py-[8px] text-[12px] opacity-60 dark:bg-bg-tertiary-dark  dark:text-white  ">
           <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
           <span className="tetx-black dark:text-white">Go back</span>
         </button>
@@ -229,7 +229,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         <div className="flex h-[88px] w-full flex-col gap-[8px]">
           <p className="pl-3 text-sm font-[550]">Title</p>
           <input
-            className="title-input flex h-[56px] rounded-[20px] border-bg-tertiary  px-[20px]  py-[8px] font-primary text-base  placeholder-gray-500 ring-1 ring-gray-300 transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-dark-primary dark:text-white  dark:placeholder-white max-sm:w-[300px] md:w-full md:text-lg lg:text-xl"
+            className="title-input  flex h-[56px] rounded-[20px] border-[#eeeeee] px-[20px]  py-[8px] font-primary text-base  placeholder-gray-500 ring-1 ring-[#eeeeee] transition duration-200 ease-in-out focus:outline-none focus:ring-purple-100 dark:bg-bg-primary-dark dark:text-white  dark:placeholder-white  md:w-full md:text-lg lg:text-xl"
             type="text"
             placeholder="Title goes here *"
             name="title"
@@ -246,12 +246,12 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         />
       </div>
 
-      <div className="m-0 flex  h-[42px] w-[142px] items-center justify-start gap-[8px] rounded-[6px] bg-[#F1F5F9] p-[5px] dark:bg-dark-background">
+      <div className="m-0 flex  h-[42px] w-[142px] items-center justify-start gap-[8px] rounded-[6px] bg-[#F1F5F9] p-[5px] dark:bg-bg-tertiary-dark">
         <div
           onClick={handlePost}
           className={`m-0 flex w-[60px] items-center justify-center   dark:text-white ${
             !postImage
-              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm transition duration-500 ease-in-out dark:bg-slate-800'
+              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px] font-primary text-sm dark:bg-bg-primary-dark'
               : 'h-[32px] w-[60px] text-center font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
           <button name="post button " className="font-medium">
@@ -262,7 +262,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
           onClick={imageOnClick}
           className={`m-0 flex w-[60px] items-center justify-center  dark:text-white ${
             postImage
-              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px]  font-primary text-sm transition duration-500 ease-in-out  dark:bg-slate-800 '
+              ? 'h-[32px] w-[60px] rounded-[3px] bg-white px-[16px] py-[6px]  font-primary text-sm dark:bg-bg-primary-dark '
               : ' h-[32px] w-[60px]  font-primary text-sm opacity-50 dark:opacity-100'
           }`}>
           <button name="image button" className="font-medium">
@@ -283,7 +283,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
       {postImage ? (
         <>
           <div
-            className={`mx-auto flex h-[184px] w-[684px] items-center justify-center rounded-[20px] bg-bg-tertiary dark:bg-dark-background  ${
+            className={`mx-auto flex h-[184px] w-[684px] items-center justify-center rounded-[20px] bg-bg-tertiary dark:bg-bg-tertiary-dark  ${
               postImage ? 'w-full max-w-[702px] border-dotted' : ''
             }`}>
             <label
@@ -302,7 +302,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
                 <>
                   <div className="flex flex-col items-center justify-center">
                     <ImageIcon className="h-[18px] w-[18px]  dark:text-white" />
-                    <p className="text-xs text-bg-green dark:text-white ">
+                    <p className="text-xs text-bg-green dark:text-bg-green ">
                       Upload Image
                       <span className="text-black dark:text-white">
                         {' '}
@@ -328,7 +328,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
         </>
       ) : (
         <>
-          <div className="h-[343px] min-h-[343px]">
+          <div className="h-full w-full md:min-h-[343px] md:min-w-[320px] ">
             <Editor
               value={formValues.content}
               onContentChange={handleEditorContentChange}
@@ -343,8 +343,8 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
           name="loadding button"
           onClick={createPost}
           disabled={isDisabled}
-          className="h-[41px] w-[119px] cursor-pointer rounded-[100px] bg-bg-green p-2 px-[15px] py-[8px] text-black transition
-           duration-200 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:text-gray-400 dark:text-white">
+          className="h-[41px] w-[119px] cursor-pointer rounded-[100px] bg-bg-green p-2 px-[15px] py-[8px] font-medium text-black
+           transition duration-200 disabled:cursor-not-allowed disabled:bg-stone-200 disabled:text-gray-400 ">
           {loading ? 'Loading...' : 'Create Post'}
         </button>
       </div>

@@ -129,11 +129,11 @@ const ReactionButton = ({
             </div>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="-mt-2 border-0 shadow-none">
+        <PopoverContent className="-mt-2 rounded-[30px] border-0  shadow-none">
           {' '}
           <React.Fragment>
-            <div className="flex w-fit flex-row gap-4 rounded-xl bg-[#cecece] shadow-2xl shadow-black dark:bg-dark-background">
-              <div className="flex flex-row gap-2 p-1">
+            <div className="flex h-[44px] w-[144px] flex-row items-center justify-between  gap-4 rounded-[30px] bg-[#FAFAFA] shadow-2xl shadow-black dark:bg-bg-primary-dark">
+              <div className="flex flex-row  gap-2 p-1">
                 {reactionOptions.slice(1).map((reaction, i) => (
                   <span
                     key={i}

@@ -279,8 +279,7 @@ const Card = ({
         refreshToken: storedTokens.refreshToken,
       })
     }
-  }, [])
-
+  }, [tokens])
   useEffect(() => {
     const userData = getUserData()
     if (userData) setUserDetails(userData)
@@ -290,18 +289,27 @@ const Card = ({
     <div
       id={String(post?.id)}
       key={post?.id}
-      className={hideComments ? hideComments : 'm-0 w-full max-w-[759px] p-0'}>
+      className={
+        hideComments
+          ? hideComments
+          : 'm-0 w-full max-w-full p-0 lg:max-w-[759px]'
+      }>
       <div
-        className={
-          updatePosts
-            ? `rounded-2xl  bg-bg-primary dark:bg-bg-primary-dark `
-            : hideComments
-            ? ``
-            : `rounded-2xl  bg-[#FAFAFA] dark:bg-bg-tertiary-dark ` +
-              `w-full cursor-pointer   dark:text-gray-300 
-          ${hideComments ? 'mb-5 h-full ' : `mx-auto mb-5 md:max-w-screen-md`}
-        `
-        }>
+        className={`${
+          pathName.includes('user-activity')
+            ? 'rounded-2xl bg-[#FAFAFA] dark:bg-bg-tertiary-dark'
+            : updatePosts
+            ? 'rounded-2xl bg-bg-primary dark:bg-bg-primary-dark'
+            : ''
+        } ${
+          !updatePosts && !hideComments
+            ? 'rounded-2xl bg-[#FAFAFA] dark:bg-bg-tertiary-dark'
+            : ''
+        } ${
+          hideComments
+            ? 'mb-5 h-full'
+            : 'mx-auto mb-5 w-full cursor-pointer dark:text-gray-300 lg:max-w-screen-md'
+        }`}>
         <Suspense>
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogContent className="bg-white sm:max-w-[500px]">
@@ -358,7 +366,7 @@ const Card = ({
                 <div className="flex flex-col items-start align-baseline">
                   <div className="flex flex-row flex-wrap items-center gap-[12px]">
                     <p
-                      className="max-w-full shrink-0 break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
+                      className="max-w-full shrink-0 cursor-pointer break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                       aria-label="user-name"
                       onClick={handleNavigateProfile}>
                       {String(userDetails?.id) === String(post?.user_id)

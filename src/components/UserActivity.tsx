@@ -17,10 +17,16 @@ import UserSpecificReaction from './UserSpecificReaction'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import NoPosts from './Cards/NoMore'
 import { UserData } from '@/utils/interfaces/cookies'
+import { Dispatch, SetStateAction } from 'react'
 
 interface UserActivityProps {
   userData: UserData
   getUserSpecificDetailFunc: () => void
+  setIsActivityData: Dispatch<SetStateAction<boolean>>
+  postsComing: [] | undefined
+  morePosts: {} | undefined
+  comments: [] | undefined
+  reactedPosts: any[] | undefined
 }
 interface ProfileNavType {
   isComment: boolean
@@ -31,6 +37,11 @@ interface ProfileNavType {
 const UserActivity = ({
   userData,
   getUserSpecificDetailFunc,
+  setIsActivityData,
+  postsComing,
+  morePosts,
+  comments,
+  reactedPosts,
 }: UserActivityProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
@@ -40,15 +51,15 @@ const UserActivity = ({
     isPost: true,
   })
   const [user, setUser] = useState<any>('')
-  const [comments, setComments] = useState<PostsInterface[]>([])
+  // const [comments, setComments] = useState<PostsInterface[]>([])
   const [isCommentsLoading, setIsCommentsLoading] = useState(true)
-  const [reactedPosts, setReactedPosts] = useState<
-    UserSpecificPostsInterface[]
-  >([])
+  // const [reactedPosts, setReactedPosts] = useState<
+  //   UserSpecificPostsInterface[]
+  // >([])
   const [posts, setUserSpecificPosts] = useState<any>([])
   const [loadingPosts, setLoadingPosts] = useState<boolean>(true)
 
-  const morePosts = useRef<boolean>(false)
+  // const morePosts = useRef<boolean>(false)
 
   const activityStyles =
     'dark:text-white text-black bg-white dark:bg-black dark:text-white'
@@ -63,10 +74,10 @@ const UserActivity = ({
       if (response.success) {
         setUserSpecificPosts(response?.data?.posts)
         // dispatch(setPosts(posts))
-        morePosts.current =
-          response?.data?.pagination?.TotalPages &&
-          response?.data?.pagination?.CurrentPage !==
-            response?.data?.pagination?.TotalPages
+        // morePosts.current =
+        //   response?.data?.pagination?.TotalPages &&
+        //   response?.data?.pagination?.CurrentPage !==
+        //     response?.data?.pagination?.TotalPages
       } else {
         throw response.errors[0]
       }
@@ -129,48 +140,49 @@ const UserActivity = ({
     } else {
       setUser(userData)
     }
-    getAllUserSpecificPosts()
+    // getAllUserSpecificPosts()
   }
 
-  const getComments = async () => {
-    try {
-      setIsCommentsLoading(true)
-      const response = await getUserComments(userData?.id, {
-        loadUser: true,
-      })
-      if (response.success) {
-        setComments(response?.data?.comments)
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        handleRedirect({ error })
-      }
-    } finally {
-      setIsCommentsLoading(false)
-    }
-  }
+  // const getComments = async () => {
+  //   try {
+  //     setIsCommentsLoading(true)
+  //     const response = await getUserComments(userData?.id, {
+  //       loadUser: true,
+  //     })
+  //     if (response.success) {
+  //       // setComments(response?.data?.comments)
+  //       setIsActivityData(true)
+  //     }
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       handleRedirect({ error })
+  //     }
+  //   } finally {
+  //     setIsCommentsLoading(false)
+  //   }
+  // }
 
-  const getPosts = async () => {
-    try {
-      const { reactions } = await getUserReactedPosts(userData?.id, {})
+  // const getPosts = async () => {
+  //   try {
+  //     const { reactions } = await getUserReactedPosts(userData?.id, {})
 
-      setReactedPosts([...reactions.slice(0, 3)])
-      // dispatch(setPosts(reactions))
-    } catch (error) {
-      if (error instanceof Error && error.message) {
-        handleRedirect({ error })
-      }
-    }
-  }
+  //     // setReactedPosts([...reactions.slice(0, 3)])
+  //     // dispatch(setPosts(reactions))
+  //   } catch (error) {
+  //     if (error instanceof Error && error.message) {
+  //       handleRedirect({ error })
+  //     }
+  //   }
+  // }
 
   // const handleCommentCount = () => {
   //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
   // }
 
   useEffect(() => {
-    getComments()
-    UserSpecificationPosts()
-    getPosts()
+    // getComments()
+    // UserSpecificationPosts()
+    // getPosts()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -178,9 +190,9 @@ const UserActivity = ({
   //   handleCommentCount()
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [posts])
-
+  console.log('postsComing', postsComing)
   return (
-    <div className="flex h-full w-full max-w-[759px] flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7">
+    <div className="flex h-full w-full max-w-full flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7 lg:max-w-[70%]">
       <div className="flex w-full flex-col justify-start gap-[20px]">
         <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
           Activity
@@ -239,35 +251,38 @@ const UserActivity = ({
       </div>
       <div className="mt-2 w-full">
         {profileNav.isPost ? (
-          !loadingPosts ? (
-            posts.length ? (
-              <UserSpecificPosts
-                posts={posts}
-                user={userData?.id ? user : userData}
-                morePosts={morePosts.current}
-                userName={posts[0]?.author_details?.username}
-                getUserSpecificDetailFunc={getUserSpecificDetailFunc}
-              />
-            ) : (
-              <NoPosts />
-            )
+          // !loadingPosts ? (
+          postsComing?.length ? (
+            <UserSpecificPosts
+              posts={postsComing}
+              user={user?.id ? user : userData}
+              morePosts={morePosts}
+              userName={posts[0]?.author_details?.username}
+              getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+            />
           ) : (
-            [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} index={i} />)
-          )
-        ) : profileNav.isComment ? (
-          !isCommentsLoading ? (
-            comments.length ? (
-              <UserSpecificComments comments={comments} user={user} />
-            ) : (
-              <NoPosts />
-            )
+            ''
+          ) // ) : (
+        ) : //   // ) : (
+        //   //   ''
+        //   // <NoPosts />
+        //   // )
+        //   [1, 2, 3, 4].map((_, i) => (
+        //     <PostLoadingSkelton key={i} index={i} />
+        //   ))
+        // )
+        profileNav.isComment ? (
+          comments?.length ? (
+            <UserSpecificComments comments={comments} user={user} />
           ) : (
-            [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} index={i} />)
+            <NoPosts />
           )
         ) : (
+          // [1, 2, 3, 4].map((_, i) => <PostLoadingSkelton key={i} index={i} />)
+
           profileNav.isReaction &&
           // (!loadingReaction ? (
-          (reactedPosts.length ? (
+          (reactedPosts?.length ? (
             <UserSpecificReaction
               posts={reactedPosts}
               user={user}

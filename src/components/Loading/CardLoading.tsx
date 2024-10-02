@@ -13,10 +13,13 @@ const CardLoading = () => {
   return (
     <div
       className={`mt-4 flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-      <div className="w-full rounded-xl">
-        <Skelton className="r h-24 max-w-[759px] rounded-xl bg-skelton" />
-      </div>
-      <div className="flex w-full max-w-screen-md flex-col">
+      {!pathName.includes('user-activity') && (
+        <div className="w-full rounded-xl">
+          <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
+        </div>
+      )}
+
+      <div className="flex w-full max-w-full flex-col lg:max-w-screen-md">
         {pathName.includes(`/${slug}/`) ? (
           <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-bg-primary-dark">
             <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />

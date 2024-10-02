@@ -11,7 +11,7 @@ import {
 const RulesCard = () => {
   return (
     <div className="flex h-screen max-h-[882px] w-full flex-col justify-between bg-white pl-3 pt-7 dark:bg-bg-primary-dark dark:text-white">
-      <div className="h-auto w-[331px] rounded-[10px] bg-white px-[10px] pb-[10px] dark:bg-bg-primary-dark dark:text-bg-tertiary">
+      <div className="h-auto w-full rounded-[10px] bg-white px-[10px] pb-[10px] dark:bg-bg-primary-dark dark:text-bg-tertiary">
         <h2 className="text-lg font-[800]">Forum rules to abide by</h2>
         <Accordion type="single" collapsible>
           <ul className="mt-3 text-left">

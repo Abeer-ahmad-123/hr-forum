@@ -27,6 +27,10 @@ const UserProfile = ({
   userInCookie,
   accessToken,
   refreshToken,
+  posts,
+  morePosts,
+  comments,
+  reactedPosts,
 }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
@@ -167,12 +171,12 @@ const UserProfile = ({
        * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
        */
       // if (user && user?.id === userIdLocal) return
-      getUserSpecificDetail()
+      // getUserSpecificDetail()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return user.id ? (
-    <div className="profile-page max-w-[1105px] max-md:block">
+    <div className="profile-page  w-full flex-grow max-md:block">
       <section className="relative mt-5 block h-[650px]">
         <div
           className="absolute top-0 h-full max-h-[241px] w-full overflow-hidden rounded-2xl bg-cover bg-center"
@@ -222,7 +226,7 @@ const UserProfile = ({
         </div>
       </section>
 
-      <section className="relative  h-[98px] max-w-[1105px]">
+      <section className="relative  h-[98px] ">
         <div className="">
           <div className="relative -mt-[407px] mb-6 flex w-full min-w-0 flex-col">
             {/* Profile card start */}
@@ -309,8 +313,8 @@ const UserProfile = ({
             </div>
           </div>
         </div>
-        <div className="mt-4 flex flex-col justify-end gap-[20px] custom-mid-lg:flex-row-reverse">
-          <div className="flex flex-col gap-[20px]">
+        <div className="mt-4 flex w-full flex-col justify-end gap-[20px] lg:flex-row-reverse ">
+          <div className="flex w-full flex-col gap-[20px] lg:w-[30%]">
             <UserDataBadge
               postCount={user?.post_count}
               commentCount={user?.comment_count}
@@ -321,14 +325,22 @@ const UserProfile = ({
             />
           </div>
           <UserActivity
+            setIsActivityData={setIsActivityData}
             userData={userInCookie}
             getUserSpecificDetailFunc={getUserSpecificDetail}
+            postsComing={posts}
+            morePosts={morePosts}
+            comments={comments}
+            reactedPosts={reactedPosts}
           />
         </div>
       </section>
     </div>
   ) : (
-    <ProfilePageLoading />
+    <>
+      ""
+      {/* {isActivityData ? <ProfilePageLoading /> : null} */}
+    </>
   )
 }
 

@@ -11,7 +11,7 @@ const ChannelCard = () => {
   const channels = useChannels()
 
   return channels && channels.length > 0 ? (
-    <div className="w-64 bg-white dark:bg-bg-primary-dark dark:text-gray-400">
+    <div className="bg-white dark:bg-bg-primary-dark dark:text-gray-400">
       <div className="mb-3 text-lg font-[800] text-bg-black dark:bg-bg-primary-dark dark:text-bg-tertiary">
         Explore variety of channels
       </div>
