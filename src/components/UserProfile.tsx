@@ -56,7 +56,7 @@ const UserProfile = ({
   const getUserSpecificDetail = async () => {
     try {
       setLoading(true)
-      const response = await getSpecificUserDetails(userIdLocal)
+      const response = await getSpecificUserDetails(Number(userIdLocal))
       if (response.success) {
         setUser(response?.data?.user)
         setLoading(false)

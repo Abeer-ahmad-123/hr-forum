@@ -7,11 +7,11 @@ const UPDATE_USER_PASSWORD = API_BASE_URL + '/auth/updatePassword'
 const UPDATE_USER_IMAGE = API_BASE_URL + '/images/uploadUserImage'
 const UPDATE_USER_BG_IMAGE = API_BASE_URL + '/images/uploadUserBackgroundImage'
 
-export async function getSpecificUserDetails(userId: string | undefined) {
+export async function getSpecificUserDetails(userId: number | undefined) {
   try {
     const formatedRequestUrl = GET_SPECIFIC_USER_DETAILS.replace(
       'userId',
-      userId?.toString(),
+      userId?.toString() ?? '',
     )
     let res = await fetch(formatedRequestUrl, {
       method: 'GET',

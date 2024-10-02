@@ -21,7 +21,7 @@ export interface UserDataBadgeProps {
   postCount: number
   commentCount: number
   userName: string
-  userId: string | number
+  userId: string | number | undefined
   reportedPostCount: number
   reportedCommentCount: number
   showDropDown?: boolean
