@@ -22,7 +22,6 @@ import { Dispatch, SetStateAction } from 'react'
 interface UserActivityProps {
   userData: UserData
   getUserSpecificDetailFunc: () => void
-  setIsActivityData: Dispatch<SetStateAction<boolean>>
   postsComing: [] | undefined
   morePosts: {} | undefined
   comments: [] | undefined
@@ -37,7 +36,6 @@ interface ProfileNavType {
 const UserActivity = ({
   userData,
   getUserSpecificDetailFunc,
-  setIsActivityData,
   postsComing,
   morePosts,
   comments,

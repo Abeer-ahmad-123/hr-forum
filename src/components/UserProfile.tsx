@@ -325,7 +325,6 @@ const UserProfile = ({
             />
           </div>
           <UserActivity
-            setIsActivityData={setIsActivityData}
             userData={userInCookie}
             getUserSpecificDetailFunc={getUserSpecificDetail}
             postsComing={posts}
