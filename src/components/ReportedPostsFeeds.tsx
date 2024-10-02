@@ -141,7 +141,7 @@ const ReportedPostsFeeds = ({ slug, accessToken, userData }: ReportedProps) => {
         </div>
       </div> */}
 
-      <div className={`w-full max-w-screen-md`}>
+      <div className={`w-full max-w-full lg:max-w-screen-md`}>
         <div className="flex w-full justify-center">
           <div className="w-full">
             <div>
@@ -149,7 +149,7 @@ const ReportedPostsFeeds = ({ slug, accessToken, userData }: ReportedProps) => {
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-full dark:text-white lg:max-w-screen-md`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/reported/posts`) && (
                   <ActivityButtons slug={slug} />

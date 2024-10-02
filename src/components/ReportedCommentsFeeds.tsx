@@ -148,7 +148,7 @@ const ReportedCommentsFeeds = ({
           </div>
         </div> */}
 
-      <div className={`w-full max-w-screen-md`}>
+      <div className={`w-full max-w-full lg:max-w-screen-md`}>
         <div className="flex w-full justify-center">
           <div className="w-full">
             <div>
@@ -156,7 +156,7 @@ const ReportedCommentsFeeds = ({
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full max-w-screen-md dark:text-white`}>
+              className={`${'mt-[35px] max-lg:mt-[30px]'}  w-full  dark:text-white`}>
               <div className="min-h-[70vh] w-full">
                 {pathName.includes(`/reported/comments`) && (
                   <ActivityButtons slug={slug} />

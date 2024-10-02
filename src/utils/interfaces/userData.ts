@@ -21,7 +21,7 @@ export interface UserDataBadgeProps {
   postCount: number
   commentCount: number
   userName: string
-  userId: string | number
+  userId: string | number | undefined
   reportedPostCount: number
   reportedCommentCount: number
   showDropDown?: boolean
@@ -32,6 +32,10 @@ export interface profileProps {
   userInCookie: UserData
   accessToken: string
   refreshToken: string
+  posts?: []
+  morePosts?: {}
+  comments?: []
+  reactedPosts?: any[]
 }
 
 export interface ReportedProps {

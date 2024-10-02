@@ -11,6 +11,7 @@ import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
 import PostBar from '../shared/NewPost/Postbar'
 import NewPostForm from '../shared/NewPost/NewPostForm'
+import ChannelsBanner from '../ChannelsBanner'
 
 const Feeds = ({
   channelSlug,
@@ -94,6 +95,27 @@ const Feeds = ({
   // const handleCommentCount = () => {
   //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
   // }
+
+  const renderPostbarOrBanner = () => {
+    if (addPost) {
+      return <NewPostForm setAddPost={setAddPost} />
+    }
+
+    if (path !== '/saved') {
+      return user?.id ? (
+        <div className="mb-5">
+          <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
+        </div>
+      ) : null
+    }
+
+    return (
+      <div className="mb-5">
+        <ChannelsBanner channelSlug="" path="/saved" setAddPost={setAddPost} />
+      </div>
+    )
+  }
+
   useEffect(() => {
     if (inView) {
       getPosts()
@@ -125,17 +147,8 @@ const Feeds = ({
 
   return (
     <>
-      {path !== '/saved' &&
-        user?.id &&
-        (addPost ? (
-          <NewPostForm setAddPost={setAddPost} />
-        ) : (
-          <div className="mb-5">
-            <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
-          </div>
-        ))}
-
-      <div className="flex min-h-[70vh] w-full max-w-[759px] flex-col gap-5">
+      {renderPostbarOrBanner()}
+      <div className="flex min-h-[70vh] w-full max-w-full flex-col px-0 py-4 lg:max-w-[759px] lg:px-0 lg:py-0">
         {!addPost && (
           <>
             {!!posts?.length ? (
