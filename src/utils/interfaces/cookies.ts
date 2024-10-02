@@ -16,17 +16,17 @@ export interface ResponseData {
 }
 export interface UserData {
   id: number
-  email: string
-  username: string
-  name: string
-  bio: string
-  profilePictureURL: string
-  backgroundPictureURL: string
-  post_count: number
-  comment_count: number
-  date_joined: Date
-  reported_post_count: number
-  reported_comment_count: number
+  email?: string
+  username?: string
+  name?: string
+  bio?: string
+  profilePictureURL?: string
+  backgroundPictureURL?: string
+  post_count?: number
+  comment_count?: number
+  date_joined?: Date
+  reported_post_count?: number
+  reported_comment_count?: number
 }
 export interface setTokenCookies {
   token: string

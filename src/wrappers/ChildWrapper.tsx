@@ -13,7 +13,6 @@ const ChildWrapper = ({ children }: ChildProps) => {
   useEffect(() => {}, [pathName])
   const channels = useChannels()
 
-  console.log('channels', channels.length)
   return (
     <div
       className={`${

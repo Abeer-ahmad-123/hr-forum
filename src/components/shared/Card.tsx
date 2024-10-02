@@ -22,7 +22,7 @@ import type {
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { AlertOctagon, Trash2 } from 'lucide-react'
 import Image from 'next/image'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
 import {
   Dispatch,
   SetStateAction,
@@ -279,7 +279,7 @@ const Card = ({
         refreshToken: storedTokens.refreshToken,
       })
     }
-  }, [tokens])
+  }, [])
   useEffect(() => {
     const userData = getUserData()
     if (userData) setUserDetails(userData)
@@ -339,6 +339,9 @@ const Card = ({
           </Dialog>
         </Suspense>
         <div
+          onClick={() => {
+            redirect(`/feeds/feed/${post?.slug}`)
+          }}
           className={
             hideComments
               ? 'flex flex-col gap-[20px]'

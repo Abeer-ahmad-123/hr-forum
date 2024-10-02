@@ -166,8 +166,8 @@ const Report = ({
           name="submit button"
           onClick={handleSubmit}
           className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md text-sm font-semibold text-black 
-          ${loading ? 'bg-bg-green opacity-60' : 'bg-bg-green'}
-          ${!selectedItem ? 'bg-bg-green opacity-60' : 'bg-bg-green'}`}>
+          ${loading ? 'bg-bg-green ' : 'bg-bg-green'}
+          ${!selectedItem ? 'bg-bg-green ' : 'bg-bg-green'}`}>
           Submit{' '}
           {loading ? (
             <div className="ml-2">

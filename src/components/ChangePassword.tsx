@@ -253,7 +253,7 @@ const ChangePassword = ({ setOpenPasswordDialog }: ChangePasswordProps) => {
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md  border font-semibold text-black transition dark:border-bg-tertiary-dark dark:text-white ">
+          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md  border font-semibold text-[#09090B] transition dark:border-bg-tertiary-dark dark:text-[#EEEEEE]  ">
           {' '}
           Cancel
         </button>

@@ -11,9 +11,9 @@ import {
   updateUserImage,
 } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { profileProps } from '@/utils/interfaces/userData'
+import { profileProps, userData } from '@/utils/interfaces/userData'
 import { Mail, User } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 import { LiaUserEditSolid } from 'react-icons/lia'
 import EditProfileButton from './EditProfileButton'
 import ProfilePageLoading from './Loading/ProfilePageLoading'
@@ -21,6 +21,8 @@ import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
 import { setValueToLocalStoage } from '@/utils/local-stroage'
+import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
+import { getUserComments } from '@/services/comments'
 
 const UserProfile = ({
   userId,
@@ -47,20 +49,89 @@ const UserProfile = ({
   //   (state: LoggedInUser) => state?.loggedInUser?.userData,
   // )
 
-  const [user, setUser] = useState<any>(userId ? '' : userInCookie ?? '')
+  const [user, setUser] = useState<any>(
+    userId ? userId : userInCookie ?? userInCookie,
+  )
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
+  const [otherUserPosts, setOtherUserPosts] = useState([null])
+  const [otherUserComments, setOtherUserComments] = useState([null])
+  const [otherUserReactions, setOtherUserReactions] = useState<any>([null])
+  const [otherUserData, setOtherUserData] = useState<userData>()
 
   const isFirstUser = useRef(true)
   const imageInputRef = useRef(null)
 
   const userIdLocal = userId
+  const getOtherCommments = async () => {
+    try {
+      const response = await getUserComments(Number(userId && userId), {
+        loadUser: true,
+      })
+      if (response.success) {
+        setOtherUserComments(response?.data?.comments)
+        setLoading(false)
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
+      showErrorAlert(`${error}`)
+    }
+  }
+  const getOtherDetail = async () => {
+    const response = await getSpecificUserDetails(Number(userId))
+    setOtherUserData(response?.data?.user)
+  }
+  const getOtherReactions = async () => {
+    try {
+      setLoading(true)
+      const { reactions } = await getUserReactedPosts(
+        Number(userId && userId),
+        {},
+      )
+      const reactedPosts = [...reactions.slice(0, 3)]
+
+      if (reactedPosts) {
+        setOtherUserReactions(reactedPosts)
+        setLoading(false)
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
+      showErrorAlert(`${error}`)
+    }
+  }
+
+  const postOfother = async () => {
+    try {
+      const response = await getUserSpecificPosts(Number(userId), 1, {
+        loadReactions: true,
+      })
+      if (response.success) {
+        setOtherUserPosts(response?.data?.posts)
+        setLoading(false)
+      } else {
+        throw response.errors[0]
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
+      showErrorAlert(`${error}`)
+    }
+  }
 
   const getUserSpecificDetail = async () => {
     try {
       setLoading(true)
-      const response = await getSpecificUserDetails(Number(userIdLocal))
+      const response = await getSpecificUserDetails(
+        Number(userId ? userId : userInCookie.id),
+      )
       if (response.success) {
         setUser(response?.data?.user)
         setLoading(false)
@@ -165,17 +236,27 @@ const UserProfile = ({
   }
 
   useEffect(() => {
+    getUserSpecificDetail()
+    postOfother()
+    getOtherCommments()
+    getOtherReactions()
+    getOtherDetail()
+  }, [])
+  useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
       /**
        * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
        */
-      // if (user && user?.id === userIdLocal) return
-      // getUserSpecificDetail()
+      if (user && user?.id === userIdLocal) return
+      getUserSpecificDetail()
+    } else {
+      postOfother()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  return user.id ? (
+
+  return user ? (
     <div className="profile-page  w-full flex-grow max-md:block">
       <section className="relative mt-5 block h-[650px]">
         <div
@@ -325,12 +406,12 @@ const UserProfile = ({
             />
           </div>
           <UserActivity
-            userData={userInCookie}
+            userData={otherUserData ? otherUserData : userInCookie}
             getUserSpecificDetailFunc={getUserSpecificDetail}
-            postsComing={posts}
+            postsComing={userId ? otherUserPosts : posts}
             morePosts={morePosts}
-            comments={comments}
-            reactedPosts={reactedPosts}
+            comments={userId ? otherUserComments : comments}
+            reactedPosts={userId ? otherUserReactions : reactedPosts}
           />
         </div>
       </section>

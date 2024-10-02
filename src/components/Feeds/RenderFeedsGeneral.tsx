@@ -30,12 +30,12 @@ export default async function RenderFeedsGeneral({
     <div className="w-full">
       <div className="flex w-full justify-center">
         <div className="w-full">
-          <FeaturesDropDownWithSuspense />
+          {/* <FeaturesDropDownWithSuspense /> */}
           <div
             className={`${
               path === '/saved' || path === '/popular' ? '' : 'mt-0 lg:mt-5'
             } w-full dark:text-white lg:max-w-screen-md`}>
-            {path === '/saved' && (
+            {path === '/saved' && !accessToken && (
               <Image
                 alt="save post"
                 src={SavePost}

@@ -1,29 +1,34 @@
 import clsx from 'clsx'
 import HeartIcon from '@/assets/icons/heartIcon'
+
 const ReactionEmoji = ({
-  emojiCharacter,
+  EmojiCharacter,
   reactionName,
   isReactionSelected,
   onEmojiClick,
   isReactionOnLike = false,
 }: any) => {
   const styles = isReactionSelected
-    ? 'scale-150'
+    ? ''
     : isReactionOnLike
     ? ''
-    : 'transition-all duration-200 ease-in-out hover:scale-150'
+    : 'transition-all duration-200 ease-in-out '
 
   return (
     <div
       onClick={onEmojiClick}
       className={clsx(
-        'flex cursor-pointer items-center gap-[8px] rounded-lg border-none',
+        'flex cursor-pointer items-center gap-[8px] rounded-lg border-none hover:h-9 hover:w-9 hover:scale-125 hover:items-center hover:justify-center hover:rounded-full hover:bg-bg-tertiary hover:dark:bg-bg-tertiary-dark',
         styles,
       )}
       id={reactionName}
-      aria-label={`select ${reactionName} emoji`}>
+      aria-label={`select ${reactionName} Emoji`}>
       <span className="text-xl text-black dark:text-gray-300" id={reactionName}>
-        {emojiCharacter === '♡' ? <HeartIcon className="" /> : emojiCharacter}
+        {isReactionSelected === 'none' ? (
+          <HeartIcon className="" />
+        ) : (
+          EmojiCharacter
+        )}
       </span>
     </div>
   )

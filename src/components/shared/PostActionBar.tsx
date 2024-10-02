@@ -14,6 +14,8 @@ import CommentIcon from '@/assets/icons/CommentIcon'
 import ShareIcon from '@/assets/icons/shareIcon'
 
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
+import { useTheme } from 'next-themes'
+
 import {
   Popover,
   PopoverContent,
@@ -60,6 +62,7 @@ const PostActionBar = ({
     accessToken: '',
     refreshToken: '',
   })
+  const { theme } = useTheme()
 
   const [comment, setComment] = useState<any>([])
   const [popOver, setPopOver] = useState(false)
@@ -80,10 +83,10 @@ const PostActionBar = ({
 
   const calculateTotalReactions = (reactions: ReactionSummary) => {
     return (
-      reactions.like_count +
-      reactions.love_count +
-      reactions.clap_count +
-      reactions.celebrate_count
+      reactions?.like_count +
+      reactions?.love_count +
+      reactions?.clap_count +
+      reactions?.celebrate_count
     )
   }
 
@@ -343,8 +346,15 @@ const PostActionBar = ({
             onClick={handleBookmark}>
             <BookMark
               className="mb-1 h-[16px] w-[16px] text-black dark:text-white md:h-[18px] md:w-[18px]"
-              fill={bookmarkSuccess ? 'black' : 'none'}
+              fill={
+                bookmarkSuccess
+                  ? theme === 'dark'
+                    ? 'white'
+                    : 'black'
+                  : 'none'
+              }
             />
+
             <p className="hidden text-sm text-[#666666] dark:text-white custom-mid-sm:block ">
               Save
             </p>

@@ -1,16 +1,18 @@
+import React from 'react'
+
 function Icon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      width="24"
-      height="24"
+      width="32"
+      height="32"
       fill="none"
-      viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="12" fill="#0087D5" fillOpacity="0.1"></circle>
+      viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="16" fill="#0087D5" fillOpacity="0.1"></circle>
       <path
         fill="url(#pattern0_584_5913)"
-        d="M8.4 8.4H15.600000000000001V15.600000000000001H8.4z"></path>
+        d="M11.2 11.2H20.799999999999997V20.799999999999997H11.2z"></path>
       <defs>
         <pattern
           id="pattern0_584_5913"

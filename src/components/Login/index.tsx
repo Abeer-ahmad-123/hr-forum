@@ -3,7 +3,7 @@ import { googleAuthStart, signIn } from '@/services/auth/authService'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import GoogleButton from '../shared/GoogleButton'
 import { LoginForm } from './LoginForm'
 import { setValueToLocalStoage } from '@/utils/local-stroage'
@@ -85,7 +85,9 @@ export default function Login({
         //     refreshToken: result?.data['refresh-token'],
         //   }),
         // )
+        window.location.reload()
         showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
+
         handleDialogClose()
 
         if (

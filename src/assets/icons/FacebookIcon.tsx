@@ -1,15 +1,17 @@
+import React from 'react'
+
 function Icon() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
+      width="32"
+      height="32"
       fill="none"
-      viewBox="0 0 24 24">
-      <circle cx="12" cy="12" r="12" fill="#1877F2" fillOpacity="0.1"></circle>
+      viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="16" fill="#1877F2" fillOpacity="0.1"></circle>
       <path
         fill="#1877F2"
-        d="M13.88 12.563l.25-1.63h-1.564V9.878c0-.446.219-.88.919-.88h.71V7.61s-.645-.11-1.261-.11c-1.287 0-2.128.78-2.128 2.192v1.242H9.375v1.629h1.43V16.5h1.761v-3.938h1.313z"></path>
+        d="M18.506 16.75l.333-2.172h-2.084V13.17c0-.594.291-1.173 1.225-1.173h.947v-1.85S18.067 10 17.245 10c-1.716 0-2.837 1.04-2.837 2.923v1.655H12.5v2.172h1.908V22h2.347v-5.25h1.75z"></path>
     </svg>
   )
 }

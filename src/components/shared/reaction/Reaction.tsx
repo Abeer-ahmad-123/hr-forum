@@ -27,7 +27,7 @@ const Reaction = () => {
             className={`flex cursor-pointer items-center rounded-lg px-3 py-2 ${styles(
               react.name,
             )}`}>
-            <span className="mr-2 text-lg">{react.emoji}</span>
+            <span className="mr-2 text-lg">{react.Emoji}</span>
             <span className="text-sm">{react.name}</span>
           </div>
         ))}
@@ -35,7 +35,7 @@ const Reaction = () => {
       {reaction && (
         <p className="mt-4">
           You selected:{' '}
-          {reactionOptions.find((react) => react.name === reaction)?.emoji}
+          {reactionOptions.find((react) => react.name === reaction)?.Emoji}
           {reaction}
         </p>
       )}

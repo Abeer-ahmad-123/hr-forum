@@ -59,7 +59,7 @@ const TextArea = ({
 
   useEffect(() => {
     resetStatus()
-  }, [isLoading.status])
+  }, [isLoading])
 
   useEffect(() => {
     const userData = getUserData()

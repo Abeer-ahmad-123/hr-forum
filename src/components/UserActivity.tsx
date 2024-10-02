@@ -22,10 +22,10 @@ import { Dispatch, SetStateAction } from 'react'
 interface UserActivityProps {
   userData: UserData
   getUserSpecificDetailFunc: () => void
-  postsComing: [] | undefined
-  morePosts: {} | undefined
-  comments: [] | undefined
-  reactedPosts: any[] | undefined
+  postsComing?: any[]
+  morePosts?: {}
+  comments?: any[]
+  reactedPosts?: any[]
 }
 interface ProfileNavType {
   isComment: boolean
@@ -188,7 +188,6 @@ const UserActivity = ({
   //   handleCommentCount()
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [posts])
-  console.log('postsComing', postsComing)
   return (
     <div className="flex h-full w-full max-w-full flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7 lg:max-w-[70%]">
       <div className="flex w-full flex-col justify-start gap-[20px]">

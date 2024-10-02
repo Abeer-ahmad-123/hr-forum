@@ -64,22 +64,20 @@ const UserCommentsFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
 
   const getComments = async () => {
     try {
-      const response = await getUserComments(userId ?? userData.id, {
+      const response = await getUserComments(userData.id, {
         loadUser: true,
         page,
       })
 
       if (response.success) {
+        console.log('comments apiiiiiii', response?.data)
         setPage(page + 1)
         noMorePosts.current =
           response.data?.pagination?.CurrentPage &&
           response.data?.pagination?.CurrentPage !==
             response.data?.pagination?.TotalPages
 
-        setComments((prev: PostsInterface[]) => [
-          ...prev,
-          ...response?.data?.comments,
-        ])
+        setComments(response?.data?.comments)
         // dispatch(setPosts([...comments, ...response?.data?.comments]))
       }
     } catch (error) {

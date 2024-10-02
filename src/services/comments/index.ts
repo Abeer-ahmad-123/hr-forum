@@ -14,7 +14,6 @@ export async function postComment({
   accessToken,
   refreshToken,
 }: any) {
-  console.log('token', accessToken)
   try {
     const requestBody = JSON.stringify(content)
     const headers = {

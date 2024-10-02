@@ -162,14 +162,13 @@ const EditPage = ({
           name="cancel button"
           onClick={handleCloseDialog}
           disabled={!isContentChanged}
-          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md border border-[#F4F4F5] bg-bg-primary px-4 py-2 text-sm font-semibold text-black outline-none     transition-all  duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 dark:border-[#202020] dark:bg-bg-primary-dark dark:text-white sm:mr-2">
+          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md border border-[#F4F4F5] bg-bg-primary px-4 py-2 text-sm font-semibold text-black outline-none     transition-all  duration-150 ease-linear hover:shadow-md focus:outline-none  dark:border-[#202020] dark:bg-bg-primary-dark dark:text-[#eeeeee] sm:mr-2">
           Cancel
         </button>
         <button
           name="update button"
           onClick={handleSubmit}
-          disabled={!isContentChanged}
-          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md bg-bg-green px-4 py-2 text-sm font-bold uppercase text-white shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:mr-2">
+          className="mb-1 mt-2 h-[40px] w-[127px] rounded-md bg-bg-green px-4 py-2 text-sm font-bold uppercase text-black  shadow outline-none transition-all duration-150 ease-linear hover:shadow-md focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 sm:mr-2">
           Update
         </button>
       </div>

@@ -1,6 +1,8 @@
+import React, { JSXElementConstructor } from 'react'
 import { reactionOptions } from './data'
+
 interface ResultItem {
-  emoji: string
+  Emoji: React.JSX.Element
   count: number
 }
 
@@ -25,7 +27,7 @@ export const getEmojisAsArray = (
       )
       if (matchingEmoji) {
         result.push({
-          emoji: matchingEmoji.emoji,
+          Emoji: matchingEmoji?.Emoji,
           count: count,
         })
       }

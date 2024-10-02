@@ -9,6 +9,7 @@ import { reactionOptions } from '@/utils/data'
 import HeartIcon from '@/assets/icons/heartIcon'
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { ReactionEmoji } from '.'
+import EmptyHeartIcon from '@/assets/icons/EmptyHEart'
 
 const ReactionButton = ({
   onReact,
@@ -20,15 +21,12 @@ const ReactionButton = ({
   accessToken,
 }: any) => {
   const { isLargeScreen } = useScreenSize(1024)
-  const [currentReaction, updateCurrentReaction] = useState('')
   const [emojiPopoverVisible, setEmojiPopoverVisible] = useState(false)
+  const [currentReaction, updateCurrentReaction] = useState('')
   const [currentReactionEmoji, setCurrentReactionEmoji] = useState({
     name: '',
-    emoji: '',
+    Emoji: <EmptyHeartIcon />,
   })
-
-  // const tokenInRedux =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
 
   const handleLikeWrapperExtended: React.MouseEventHandler<HTMLDivElement> = (
     e,
@@ -40,18 +38,18 @@ const ReactionButton = ({
   }
 
   const selectReaction = useCallback(
-    (reactionName: any) => {
+    (reactionName: string) => {
       updateCurrentReaction((prevReaction: string) =>
         prevReaction === reactionName ? 'none' : reactionName,
       )
       onReact(reactionName)
     },
-    [onReact], // Removed currentReaction and post
+    [onReact],
   )
 
   const toggleHeartReaction = () => {
     const newReaction =
-      currentReaction == '' || currentReaction == 'none' ? 'love' : 'none'
+      currentReaction === '' || currentReaction === 'none' ? 'love' : 'none'
     updateCurrentReaction(newReaction)
     onReact(newReaction)
   }
@@ -68,37 +66,39 @@ const ReactionButton = ({
     if (accessToken && !disableReactionButton) setEmojiPopoverVisible(true)
   }
 
-  const mouseLeft = () => {
+  const mouseLeave = () => {
     if (accessToken) setEmojiPopoverVisible(false)
   }
 
-  const onEmojiClick = (e: ChangeEvent<HTMLInputElement>) => {
+  const onEmojiClick = (reactionName: string) => {
     if (!disableReactionButton) {
       setDisableReactionButton(true)
-      selectReaction(e.target.id)
+      selectReaction(reactionName)
+      setEmojiPopoverVisible(false) // Optionally close the popover after selection
     }
   }
 
   useEffect(() => {
     if (currentReaction) {
+      const foundEmoji = reactionOptions.find(
+        (reaction) => reaction.name === currentReaction,
+      )
       setCurrentReactionEmoji(
-        reactionOptions.find(
-          (reaction) => reaction.name === currentReaction,
-        ) ?? { name: '', emoji: '' },
+        foundEmoji ?? { name: '', Emoji: <EmptyHeartIcon /> }, // Fallback emoji
       )
     }
   }, [currentReaction])
 
   useEffect(() => {
-    updateCurrentReaction(userReaction?.toLowerCase())
+    updateCurrentReaction(userReaction?.toLowerCase() || 'none') // Handle default reaction correctly
   }, [userReaction])
 
   return (
     <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>
       <div
         onMouseEnter={mouseEnter}
-        onMouseLeave={mouseLeft}
-        className="group flex basis-1/4 cursor-pointer items-center justify-center rounded-sm  hover:bg-gray-100 dark:hover:bg-dark-background">
+        onMouseLeave={mouseLeave}
+        className="group flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background">
         <PopoverTrigger
           asChild
           name="reaction option button"
@@ -106,49 +106,49 @@ const ReactionButton = ({
           aria-labelledby="reactionOptionLabel"
           role="button">
           <div
-            className="dark:text-icon-dark pointer flex  items-center justify-center gap-2"
+            className="dark:text-icon-dark pointer flex items-center justify-center gap-2"
             onClick={handleLikeWrapperExtended}>
             <div className="flex items-center gap-2">
-              <ReactionEmoji
-                reactionName={currentReactionEmoji?.name || 'none'}
+              {reactionOptions.map((item) =>
+                item.name === currentReaction ? item.Emoji : null,
+              )}
+
+              {/* <ReactionEmoji
+                reactionName={currentReaction || 'none'}
                 emojiCharacter={
-                  currentReactionEmoji?.emoji || (
+                  currentReactionEmoji?.Emoji || (
                     <HeartIcon className="mb-[2px] h-[16px] w-[16px] text-black dark:text-white md:h-[20px] md:w-[20px]" />
                   )
                 }
                 isReactionSelected={false}
                 isReactionOnLike={true}
-              />
-              {/* Add a small number under the heart emoji */}
+              /> */}
               <span className="text-xs font-[900] text-black dark:text-white md:text-base">
                 {reactionCountToUse}
               </span>
             </div>
-            <div className="hidden  text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
+            <div className="hidden text-sm font-light text-[#666666] dark:text-white custom-mid-sm:block">
               Like
             </div>
           </div>
         </PopoverTrigger>
-        <PopoverContent className="-mt-2 rounded-[30px] border-0  shadow-none">
-          {' '}
-          <React.Fragment>
-            <div className="flex h-[44px] w-[144px] flex-row items-center justify-between  gap-4 rounded-[30px] bg-[#FAFAFA] shadow-2xl shadow-black dark:bg-bg-primary-dark">
-              <div className="flex flex-row  gap-2 p-1">
-                {reactionOptions.slice(1).map((reaction, i) => (
-                  <span
-                    key={i}
-                    className="dark:text-white dark:hover:text-black">
-                    <ReactionEmoji
-                      reactionName={reaction.name}
-                      emojiCharacter={reaction.emoji}
-                      isReactionSelected={currentReaction === reaction.name}
-                      onEmojiClick={onEmojiClick}
-                    />
-                  </span>
-                ))}
-              </div>
+        <PopoverContent className="-mt-2 rounded-[30px] border-0 shadow-none">
+          <div className="flex h-[44px] w-[135px] flex-row  items-center justify-center gap-2 rounded-[30px] bg-[#FAFAFA] shadow-2xl shadow-black dark:bg-bg-primary-dark">
+            <div className="flex h-9 w-9 flex-row items-center justify-center gap-2 rounded-full p-1">
+              {reactionOptions.slice(1).map((reaction, i) => (
+                <span
+                  key={i}
+                  className="flex gap-2 dark:text-white dark:hover:text-black">
+                  <ReactionEmoji
+                    reactionName={reaction.name}
+                    EmojiCharacter={reaction.Emoji} // Ensure the correct prop name is used
+                    isReactionSelected={currentReaction === reaction.name}
+                    onEmojiClick={() => onEmojiClick(reaction.name)} // Pass the reaction name here
+                  />
+                </span>
+              ))}
             </div>
-          </React.Fragment>
+          </div>
         </PopoverContent>
       </div>
     </Popover>

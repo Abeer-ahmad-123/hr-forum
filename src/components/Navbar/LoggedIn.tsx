@@ -39,6 +39,7 @@ const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Logout
     handleClosePopover()
     logout()
+    window.location.reload()
     removeLocalStroage()
 
     // dispatch(clearUser())

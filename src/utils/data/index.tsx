@@ -1,6 +1,11 @@
 import { LoginIcon, ScaleIcon, TermsOfServiceIcon } from '@/assets/icons'
 import Icon from '@/assets/icons/heartIcon'
 import HomeIcon from '@/assets/icons/home'
+import LikeIcon from '@/assets/icons/likeMark'
+import HeartIcon from '@/assets/icons/redHeart'
+import CelebrateIcon from '@/assets/icons/celebrateIcon'
+import ClapIcon from '@/assets/icons/clapIcon'
+import EmptyHeartIcon from '@/assets/icons/EmptyHEart'
 
 export const colors = ['indigo', 'blue', 'coral', 'mint', 'sunset', 'mauve']
 
@@ -25,17 +30,17 @@ export const menuItems = [
 export const navigationItems = [
   { title: 'Home', href: '/feeds', icon: <HomeIcon /> },
 
-  { title: 'Saved', href: '/saved', icon: <Icon strokeWidth='1.5' /> },
+  { title: 'Saved', href: '/saved', icon: <Icon strokeWidth="1.5" /> },
 
-  { title: 'Popular', href: '/popular', icon: <Icon strokeWidth='1.5' /> },
+  { title: 'Popular', href: '/popular', icon: <Icon strokeWidth="1.5" /> },
 ]
 
 export const reactionOptions = [
-  { name: 'none', emoji: '♡' },
-  { name: 'love', emoji: '❤️' },
-  { name: 'like', emoji: '👍' },
-  { name: 'clap', emoji: '👏' },
-  { name: 'celebrate', emoji: '🎉' },
+  { name: 'none', Emoji: <EmptyHeartIcon /> },
+  { name: 'love', Emoji: <HeartIcon /> },
+  { name: 'like', Emoji: <LikeIcon /> },
+  { name: 'clap', Emoji: <ClapIcon /> },
+  { name: 'celebrate', Emoji: <CelebrateIcon /> },
 ]
 
 export const sidebarChannels = [
