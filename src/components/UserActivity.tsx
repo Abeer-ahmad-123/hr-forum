@@ -23,10 +23,10 @@ interface UserActivityProps {
   userData: UserData
   getUserSpecificDetailFunc: () => void
   setIsActivityData: Dispatch<SetStateAction<boolean>>
-  postsComing: []
-  morePosts: {}
-  comments: []
-  reactedPosts: any[]
+  postsComing: [] | undefined
+  morePosts: {} | undefined
+  comments: [] | undefined
+  reactedPosts: any[] | undefined
 }
 interface ProfileNavType {
   isComment: boolean
@@ -252,7 +252,7 @@ const UserActivity = ({
       <div className="mt-2 w-full">
         {profileNav.isPost ? (
           // !loadingPosts ? (
-          postsComing.length ? (
+          postsComing?.length ? (
             <UserSpecificPosts
               posts={postsComing}
               user={user?.id ? user : userData}
@@ -272,7 +272,7 @@ const UserActivity = ({
         //   ))
         // )
         profileNav.isComment ? (
-          comments.length ? (
+          comments?.length ? (
             <UserSpecificComments comments={comments} user={user} />
           ) : (
             <NoPosts />
@@ -282,7 +282,7 @@ const UserActivity = ({
 
           profileNav.isReaction &&
           // (!loadingReaction ? (
-          (reactedPosts.length ? (
+          (reactedPosts?.length ? (
             <UserSpecificReaction
               posts={reactedPosts}
               user={user}

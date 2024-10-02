@@ -1,6 +1,6 @@
 'use client'
 import { UserDataBadgeProps } from '@/utils/interfaces/userData'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ArrowDown from '@/assets/icons/profileArrowDown'
 import ProfileOverView from './ProfileOverView'
 
@@ -25,18 +25,20 @@ const UserDataBadge = ({
     ?.toLowerCase()
     .replace(/ /g, '-')}-${userId}`
 
-  let width = 0
+  let width = useRef<number>()
   useEffect(() => {
-    width = window.screen.width
+    width.current = window.screen.width
   }, [width])
   return (
     <>
       <div
         className={
           `${
-            width < 1024 && !showDropDown
-              ? 'mt-[16px] h-[56px]'
-              : 'mt-[16px] h-full '
+            width.current
+              ? width.current < 1024 && !showDropDown
+                ? 'mt-[16px] h-[56px]'
+                : 'mt-[16px] h-full '
+              : ''
           }` +
           `flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary p-4 text-left dark:bg-bg-primary-dark dark:text-white custom-mid-lg:mt-0 custom-mid-lg:w-full   custom-mid-lg:px-6  custom-mid-lg:pb-[20px] custom-mid-lg:pt-7`
         }>

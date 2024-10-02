@@ -278,7 +278,7 @@ const Card = ({
         refreshToken: storedTokens.refreshToken,
       })
     }
-  }, [])
+  }, [tokens])
   useEffect(() => {
     const userData = getUserData()
     if (userData) setUserDetails(userData)

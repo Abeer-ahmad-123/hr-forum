@@ -32,10 +32,10 @@ export interface profileProps {
   userInCookie: UserData
   accessToken: string
   refreshToken: string
-  posts: []
-  morePosts: {}
-  comments: []
-  reactedPosts: any[]
+  posts?: []
+  morePosts?: {}
+  comments?: []
+  reactedPosts?: any[]
 }
 
 export interface ReportedProps {
