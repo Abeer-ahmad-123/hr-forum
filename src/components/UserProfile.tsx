@@ -51,7 +51,7 @@ const UserProfile = ({
   const isFirstUser = useRef(true)
   const imageInputRef = useRef(null)
 
-  const userIdLocal = userInCookie?.id || ''
+  const userIdLocal = userId
 
   const getUserSpecificDetail = async () => {
     try {
@@ -171,7 +171,6 @@ const UserProfile = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  console.log(user)
   return user.id ? (
     <div className="profile-page max-w-[1105px] max-md:block">
       <section className="relative mt-5 block h-[650px]">

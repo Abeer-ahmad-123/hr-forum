@@ -6,7 +6,7 @@ const PostBar = ({ setAddPost, user }: PostBarProps) => {
     setAddPost(true)
   }
   return (
-    <div className="border-grey-300 flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-wrap items-center justify-end justify-between gap-[16px] rounded-xl border border-solid bg-white px-[24px] py-[19px] dark:bg-bg-primary-dark dark:text-white md:flex-nowrap md:justify-between">
+    <div className="border-grey-300 flex min-h-[104px] w-full max-w-[759px] cursor-pointer flex-wrap items-center justify-between gap-[16px] rounded-xl border border-solid bg-white px-[24px] py-[19px] dark:bg-bg-primary-dark dark:text-white md:flex-nowrap md:justify-between">
       <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">
         <img
           className="h-full w-full rounded-full border-[2px] border-bg-green object-cover"

@@ -7,6 +7,7 @@ import type {
 import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
+import ChannelsBanner from '../ChannelsBanner'
 
 type Props = RenderFeedsInterface & {
   data: {

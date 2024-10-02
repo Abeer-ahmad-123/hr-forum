@@ -173,6 +173,7 @@ const Card = ({
   const handleNavigateProfile = (event: any) => {
     event.preventDefault()
     event.stopPropagation()
+
     router.push(
       userDetails?.id === post?.user_id
         ? '/profile'
