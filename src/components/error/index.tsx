@@ -1,26 +1,25 @@
+import Link from 'next/link'
+import ErrorImage from '@/assets/images/errorImage'
 import './index.css'
 
 const Error = ({ message }: { message?: string | React.ReactNode }) => {
   return (
-    <section className="page_404">
-      <div className="container bg-white">
-        <div className="row">
-          <div className="col-sm-12 ">
-            <div className="col-sm-10 col-sm-offset-1  text-center">
-              <div className="four_zero_four_bg">
-                {/* <h1 className="text-center ">404</h1> */}
-              </div>
-
-              <div className="contant_box_404">
-                <h3>Something went wrong.</h3>
-                {message ? <p className="text-red/80">{message}</p> : null}
-                <p>Please visit us again after some time.</p>
-              </div>
+    <div className="w-full max-w-[542px]">
+      <div className="error-contain w-full">
+        <div className="error-text flex w-full flex-col items-center p-8">
+          <ErrorImage className="h-full max-h-[300px] w-full max-w-[300px] items-center" />
+          <h2 className="mt-6 text-center text-3xl">Oops! 404: You Broke It</h2>
+          <p className="mt-3  w-full text-center  font-primary text-base text-[#71717A]">
+            {message}
+          </p>
+          <div className="mt-6 flex w-full max-w-[542px] cursor-pointer justify-center rounded-md border border-[#F4F4F5] py-3 text-sm dark:border-[#202020]  dark:text-white ">
+            <div className="group flex justify-center">
+              <Link href={`/`}>Let Go back</Link>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
 

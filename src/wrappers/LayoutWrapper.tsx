@@ -12,7 +12,9 @@ const LayoutWrapper = ({ children, pathname }: LayoutWrapperProps) => {
   return (
     <main className="h-max max-w-[100dvw] font-primary">
       <ThemeProvider attribute="class" defaultTheme="theme-default">
-        {!isError && <Navbar pathname={pathname} />}
+        {!isError &&
+          !pathname?.includes('/login') &&
+          !pathname?.includes('/register') && <Navbar pathname={pathname} />}
         <ToastContainer />
         <RenderChildren isError={isError} pathname={pathname}>
           {children}

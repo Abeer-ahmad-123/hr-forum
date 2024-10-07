@@ -111,8 +111,10 @@ export default function Login({
   const handleGoogleSignIn = async () => {
     try {
       const response = await googleAuthStart(pathname)
+
       if (response?.success) {
         router.push(response?.data)
+        window.location.reload()
       }
     } catch (err) {}
   }
@@ -130,7 +132,7 @@ export default function Login({
 
   return (
     <div
-      className={`container flex  h-full max-h-[518px] w-full max-w-[348px] flex-col p-0 md:max-h-[600px] md:max-w-[551px]  `}>
+      className={`container flex  h-full max-h-[518px] w-full max-w-[348px] flex-col p-0 md:max-h-[600px] md:max-w-[551px]`}>
       <div
         className={`${
           pathname === '/login'

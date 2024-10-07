@@ -16,17 +16,11 @@ const ProfileOverView = ({
 }: UserDataBadgeProps) => {
   const router = useRouter()
 
-  const routeTo = `/user-activity/${userName
+  const routeTo = `/user-activities/${userName
     ?.toLowerCase()
     .replace(/ /g, '-')}-${userId}`
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.currentTarget.id === 'post') router.push(`${routeTo}/posts`)
-    else if (e.currentTarget.id === 'comment')
-      router.push(`${routeTo}/comments`)
-    else if (e.currentTarget.id === 'report-post')
-      router.push(`${routeTo}/reported/posts`)
-    else if (e.currentTarget.id === 'report-comment')
-      router.push(`${routeTo}/reported/comments`)
+    router.push(`${routeTo}`)
   }
   return (
     <div className="flex flex-col pb-[10px] ">

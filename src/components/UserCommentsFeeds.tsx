@@ -68,9 +68,7 @@ const UserCommentsFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
         loadUser: true,
         page,
       })
-
       if (response.success) {
-        console.log('comments apiiiiiii', response?.data)
         setPage(page + 1)
         noMorePosts.current =
           response.data?.pagination?.CurrentPage &&

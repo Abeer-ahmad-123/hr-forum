@@ -1,5 +1,8 @@
+'use client'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { Card } from './shared'
+import { usePathname } from 'next/navigation'
+import { userData } from '@/utils/interfaces/userData'
 import Link from 'next/link'
 
 interface ReactionPostsFeedsProps {
@@ -10,6 +13,7 @@ interface ReactionPostsFeedsProps {
   reportType: string
   details: string
   post: PostsInterface
+  user: userData | Number
 }
 
 const UserSpecificReaction = ({
@@ -17,6 +21,7 @@ const UserSpecificReaction = ({
   user,
   getUserSpecificDetailFunc,
 }: any) => {
+  const pathName = usePathname()
   // const dispatch = useDispatch()
 
   // const handleCommentCountReactedPosts = () => {
@@ -40,16 +45,21 @@ const UserSpecificReaction = ({
           getUserSpecificDetailFunc={getUserSpecificDetailFunc}
         />
       ))}
-      <div className="flex cursor-pointer justify-center rounded-[6px] border border-[#F4F4F5] py-2 dark:border-[#202020]  dark:text-white max-md:text-sm">
-        <div className="group flex justify-center">
-          <Link
-            href={`/user-activity/${user.name
-              ?.toLowerCase()
-              .replace(/ /g, '-')}-${user.id}/reactions`}>
-            <span>Show All Reactions</span>
-          </Link>
+
+      {pathName.includes('/user-activities') ? (
+        ''
+      ) : (
+        <div className="flex cursor-pointer justify-center rounded-md border border-[#F4F4F5] py-3 text-sm dark:border-[#202020]  dark:text-white ">
+          <div className="group flex justify-center">
+            <Link
+              href={`/user-activities/${user?.name
+                ?.toLowerCase()
+                .replace(/ /g, '-')}-${user?.id}`}>
+              Show All Reactions
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

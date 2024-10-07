@@ -36,7 +36,12 @@ export const navigationItems = [
 ]
 
 export const reactionOptions = [
-  { name: 'none', Emoji: <EmptyHeartIcon /> },
+  {
+    name: 'none',
+    Emoji: (
+      <EmptyHeartIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
+    ),
+  },
   { name: 'love', Emoji: <HeartIcon /> },
   { name: 'like', Emoji: <LikeIcon /> },
   { name: 'clap', Emoji: <ClapIcon /> },

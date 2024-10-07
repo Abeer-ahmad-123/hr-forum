@@ -80,7 +80,7 @@ const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
         <DropdownMenuContent
           side="bottom"
           align="end"
-          className="dark:hover:bg-primary-accent w-[224px] border border-[#E4E4E7] bg-white p-0 dark:bg-black">
+          className="dark:hover:bg-primary-accent w-[224px] border border-[#E4E4E7] bg-white p-0 dark:border-[#282828] dark:bg-black">
           <Link href={'/profile'}>
             {' '}
             <DropdownMenuItem
@@ -93,10 +93,10 @@ const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
             </DropdownMenuItem>
           </Link>
 
-          <hr className=" h-[1px] w-full bg-[#E4E4E7] " />
+          <hr className=" h-[1px] w-full bg-[#E4E4E7] dark:border-[#282828]" />
           <DropdownMenuItem
             onClick={handleLogout}
-            className="h-[42px] cursor-pointer border border-t-0  border-[#E4E4E7] px-3 py-3 hover:text-white">
+            className="h-[42px] cursor-pointer border border-t-0  border-[#E4E4E7] px-3 py-3 hover:text-white dark:border-[#282828]">
             <button
               name="logout button"
               className={`flex w-full gap-2 text-sm  dark:text-white`}>

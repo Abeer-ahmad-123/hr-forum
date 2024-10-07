@@ -330,7 +330,7 @@ const PostActionBar = ({
                   </span>
                 </PopoverTrigger>
 
-                <PopoverContent className="cursor-pointer rounded-[20px] bg-white p-2 shadow-[#00000059]">
+                <PopoverContent className="cursor-pointer rounded-[20px] bg-white p-2 shadow-[#00000059] dark:bg-bg-tertiary-dark">
                   <SocialButtons
                     className="flex gap-2 rounded-[20px]"
                     postId={postId}

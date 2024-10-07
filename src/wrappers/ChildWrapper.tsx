@@ -16,7 +16,9 @@ const ChildWrapper = ({ children }: ChildProps) => {
   return (
     <div
       className={`${
-        pathName?.includes('/profile') ? 'flex-grow-1 w-full ' : ''
+        pathName?.includes('/profile') || pathName?.includes('/user-activities')
+          ? 'flex-grow-1 h-full w-full '
+          : ''
       } 
       ${
         pathName?.includes('/saved') ||
@@ -28,7 +30,13 @@ const ChildWrapper = ({ children }: ChildProps) => {
           ? 'flex-grow-1 w-full lg:w-[50%]'
           : ''
       }
-      p-0 lg:p-5`}>
+      ${
+        pathName?.includes('/login') || pathName?.includes('/register')
+          ? ' p-0 lg:p-0 '
+          : ' p-0 lg:p-5'
+      }
+
+     `}>
       {pathName?.includes('/feeds') ? (
         channels.length > 0 ? (
           children

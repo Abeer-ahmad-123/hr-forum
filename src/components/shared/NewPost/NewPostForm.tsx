@@ -293,7 +293,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
                 <img
                   src={typeof selectedImage === 'string' ? selectedImage : ''}
                   alt="Upload Image"
-                  className="mx-auto h-[343px] w-[400px] rounded-md border-0 object-contain"
+                  className="mx-auto h-[150px] w-[400px] rounded-md border-0 object-contain"
                   id="uploadedImage"
                   height={350}
                   width={400}

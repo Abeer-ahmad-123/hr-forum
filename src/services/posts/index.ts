@@ -173,7 +173,7 @@ export async function getUserSpecificPosts(
   try {
     const formatedRequestUrl = USER_SPECIFIC_POSTS.replace(
       'userId',
-      userId.toString(),
+      userId?.toString(),
     )
 
     let res = await fetch(

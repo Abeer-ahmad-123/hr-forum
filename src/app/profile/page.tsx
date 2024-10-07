@@ -28,7 +28,7 @@ const Profile = async () => {
   return (
     <Suspense fallback={<ProfilePageLoading />}>
       <UserProfile
-        userInCookie={user || undefined}
+        userInCookie={user}
         accessToken={token}
         refreshToken={refreshToken}
         posts={posts?.data?.posts}

@@ -1,10 +1,10 @@
 'use client'
-
-import { ArrowRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
 import ProfileComment from './ProfileComment'
 import { PostsInterface } from '@/utils/interfaces/posts'
+import { usePathname } from 'next/navigation'
+import { userData } from '@/utils/interfaces/userData'
+import Link from 'next/link'
 
 interface UserSpecificCommentsProps {
   comments: PostsInterface[]
@@ -14,16 +14,18 @@ interface UserSpecificCommentsProps {
     username: string
     profilePictureURL: string
   }
+  // user: userData | Number
 }
 
 const UserSpecificComments = ({
   comments,
   user,
 }: UserSpecificCommentsProps) => {
+  const pathName = usePathname()
   const router = useRouter()
   const handleClick = () => {
     router.push(
-      `/user-activity/${user.name?.toLowerCase().replace(/ /g, '-')}-${
+      `/user-activities/${user.name?.toLowerCase().replace(/ /g, '-')}-${
         user.id
       }/comments`,
     )
@@ -31,18 +33,39 @@ const UserSpecificComments = ({
 
   return (
     <>
-      {comments.slice(0, 3).map((comment, index) => {
-        return (
-          <div key={index}>
-            {<ProfileComment comment={comment} index={index} />}
+      {pathName.includes('/user-activities') ? (
+        <>
+          {comments.map((comment, index) => {
+            return (
+              <div key={index}>
+                {<ProfileComment comment={comment} index={index} />}
+              </div>
+            )
+          })}
+        </>
+      ) : (
+        comments.slice(0, 3).map((comment, index) => {
+          return (
+            <div key={index}>
+              {<ProfileComment comment={comment} index={index} />}
+            </div>
+          )
+        })
+      )}
+      {pathName.includes('/user-activities') ? (
+        ''
+      ) : (
+        <div className="flex cursor-pointer justify-center rounded-md border border-[#F4F4F5] py-3 text-sm dark:border-[#202020]  dark:text-white ">
+          <div className="group flex justify-center">
+            <Link
+              href={`/user-activities/${user?.name
+                ?.toLowerCase()
+                .replace(/ /g, '-')}-${user?.id}`}>
+              Show All Comments
+            </Link>
           </div>
-        )
-      })}
-      <div className="flex cursor-pointer justify-center rounded-[6px] border border-[#F4F4F5] py-2 dark:border-[#202020]  dark:text-white max-md:text-sm">
-        <div className="group flex justify-center">
-          <span onClick={handleClick}>Show All Comments</span>
         </div>
-      </div>
+      )}
     </>
   )
 }

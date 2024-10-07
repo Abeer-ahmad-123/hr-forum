@@ -32,6 +32,7 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       screens: {
+        'custom-lg': '1120',
         'custom-sm': '500px', // Adjust the value as needed
         'custom-mid-sm': '490px',
         'custom-mid-lg': '801px',
@@ -148,6 +149,7 @@ module.exports = {
     fontFamily: {
       primary: ['Avenir', 'sans-serif'],
     },
+    important: true,
   },
   plugins: [require('tailwindcss-animate')],
 }

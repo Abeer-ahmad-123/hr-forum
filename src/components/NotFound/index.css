@@ -1,7 +1,10 @@
 .error-contain {
   position: absolute;
-  height: 350px;
-  width: 300px;
+  max-height: 474px;
+  max-width: 542px;
+  height: 100%;
+  width: 100%;
+  padding: 30px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -18,7 +21,6 @@
   font-weight: bold;
 }
 .error-text p {
-  font-family: monospace;
   font-size: 16px;
 }
 .center {

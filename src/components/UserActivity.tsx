@@ -189,9 +189,9 @@ const UserActivity = ({
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [posts])
   return (
-    <div className="flex h-full w-full max-w-full flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white custom-mid-sm:px-6 custom-mid-sm:py-7 lg:max-w-[70%]">
+    <div className="flex h-full w-full max-w-full flex-col items-start gap-[20px] rounded-[16px] bg-bg-primary p-4 dark:bg-bg-primary-dark dark:text-white lg:max-w-[70%] custom-mid-sm:px-6 custom-mid-sm:py-7">
       <div className="flex w-full flex-col justify-start gap-[20px]">
-        <div className="text-start text-xl font-normal max-[500px]:text-[16px]">
+        <div className="max-[500px]:text-[16px] text-start text-xl font-normal">
           Activity
         </div>
         <div className="flex h-[42px] w-full  cursor-pointer items-center justify-start rounded-[6px] bg-bg-tertiary p-[5px] dark:bg-bg-tertiary-dark ">
@@ -213,7 +213,7 @@ const UserActivity = ({
               ${profileNav.isComment ? activityStyles : 'text-white'} 
             `}>
             <div
-              className={`flex items-center gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white max-custom-sm:text-xs `}>
+              className={`max-custom-sm:text-xs flex items-center gap-2  font-semibold text-black  hover:text-black  dark:text-white dark:hover:text-white `}>
               {/* <FaRegComment
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
@@ -231,7 +231,7 @@ const UserActivity = ({
               ${profileNav.isReaction ? activityStyles : ''}
             `}>
             <div
-              className={`flex gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white  max-custom-sm:text-xs`}>
+              className={`max-custom-sm:text-xs flex gap-2  font-semibold text-black  hover:text-black  dark:text-white  dark:hover:text-white`}>
               {/* <SmilePlus
                 size={20}
                 className="max-custom-sm:h-4 max-custom-sm:w-4"
@@ -270,7 +270,10 @@ const UserActivity = ({
         // )
         profileNav.isComment ? (
           comments?.length ? (
-            <UserSpecificComments comments={comments} user={user} />
+            <UserSpecificComments
+              comments={comments}
+              user={user?.id ? user : userData}
+            />
           ) : (
             <NoPosts />
           )
@@ -282,7 +285,7 @@ const UserActivity = ({
           (reactedPosts?.length ? (
             <UserSpecificReaction
               posts={reactedPosts}
-              user={user}
+              user={user?.id ? user : userData}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
             />
           ) : (

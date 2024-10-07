@@ -14,19 +14,32 @@ const RenderChildren = async ({
   const { token, user } = await getUserFromCookie()
   return (
     <div
-      className={`m-auto max-w-[1512px] p-[16px] transition-all duration-700 ease-in-out lg:p-0 
-                    ${
-                      isRegisterPage || isLoginPage
-                        ? 'flex items-center justify-center'
-                        : ''
-                    }
-                `}>
+      className={
+        `mx-auto max-w-[1512px] transition-all duration-700 ease-in-out ` +
+          pathname?.includes('/login') || pathname?.includes('/register')
+          ? 'p-0'
+          : `p-[16px] lg:p-0 `
+      }>
       <div
-        className={isError ? 'mt-0' : 'mt-[81px] md:mt-[101px] lg:mt-[81px]'}>
-        <div className="w-full lg:flex ">
-          <LeftSidebar token={token} user={user} />
-          <ChildWrapper>{children}</ChildWrapper>
-          <RightSideBar />
+        className={
+          isError
+            ? 'mt-0'
+            : pathname?.includes('/login') || pathname?.includes('/register')
+            ? 'mt-0 h-[100vh]'
+            : 'mt-[81px] md:mt-[101px] lg:mt-[81px]'
+        }>
+        <div className="flex w-full">
+          {pathname?.includes('/login') || pathname?.includes('/register') ? (
+            <>
+              <ChildWrapper>{children}</ChildWrapper>
+            </>
+          ) : (
+            <>
+              <LeftSidebar token={token} user={user} />
+              <ChildWrapper>{children}</ChildWrapper>
+              <RightSideBar />
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -20,9 +20,10 @@ import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
-import { setValueToLocalStoage } from '@/utils/local-stroage'
+import { getUserData, setValueToLocalStoage } from '@/utils/local-stroage'
 import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
 import { getUserComments } from '@/services/comments'
+import { usePathname } from 'next/navigation'
 
 const UserProfile = ({
   userId,
@@ -36,6 +37,7 @@ const UserProfile = ({
 }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
+  const pathName = usePathname()
 
   // const dispatch = useDispatch()
 
@@ -49,9 +51,7 @@ const UserProfile = ({
   //   (state: LoggedInUser) => state?.loggedInUser?.userData,
   // )
 
-  const [user, setUser] = useState<any>(
-    userId ? userId : userInCookie ?? userInCookie,
-  )
+  const [user, setUser] = useState<any>(userInCookie ?? userInCookie)
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
   const [image, setImage] = useState<any>(null)
@@ -62,6 +62,9 @@ const UserProfile = ({
 
   const isFirstUser = useRef(true)
   const imageInputRef = useRef(null)
+
+  const getUserDetail = getUserData()
+  const userOrOther = getUserDetail?.name === userInCookie?.name
 
   const userIdLocal = userId
   const getOtherCommments = async () => {
@@ -94,8 +97,10 @@ const UserProfile = ({
         {},
       )
       const reactedPosts = [...reactions.slice(0, 3)]
-
-      if (reactedPosts) {
+      if (pathName.includes('/user-activities')) {
+        setOtherUserReactions(reactions)
+        setLoading(false)
+      } else {
         setOtherUserReactions(reactedPosts)
         setLoading(false)
       }
@@ -109,9 +114,17 @@ const UserProfile = ({
 
   const postOfother = async () => {
     try {
-      const response = await getUserSpecificPosts(Number(userId), 1, {
-        loadReactions: true,
-      })
+      let response = []
+      if (pathName.includes('/user-activities')) {
+        response = await getUserSpecificPosts(Number(userId), 2, {
+          loadReactions: true,
+        })
+      } else {
+        response = await getUserSpecificPosts(Number(userId), 1, {
+          loadReactions: true,
+        })
+      }
+
       if (response.success) {
         setOtherUserPosts(response?.data?.posts)
         setLoading(false)
@@ -237,10 +250,12 @@ const UserProfile = ({
 
   useEffect(() => {
     getUserSpecificDetail()
-    postOfother()
-    getOtherCommments()
-    getOtherReactions()
-    getOtherDetail()
+    if (userId) {
+      postOfother()
+      getOtherCommments()
+      getOtherReactions()
+      getOtherDetail()
+    }
   }, [])
   useEffect(() => {
     if (isFirstUser.current) {
@@ -249,18 +264,22 @@ const UserProfile = ({
        * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
        */
       if (user && user?.id === userIdLocal) return
-      getUserSpecificDetail()
+      // getUserSpecificDetail()
     } else {
-      postOfother()
+      // postOfother()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return user ? (
-    <div className="profile-page  w-full flex-grow max-md:block">
+    <div className="profile-page  max-md:block w-full flex-grow">
       <section className="relative mt-5 block h-[650px]">
         <div
-          className="absolute top-0 h-full max-h-[241px] w-full overflow-hidden rounded-2xl bg-cover bg-center"
+          className={`${
+            pathName.includes('user-activities')
+              ? 'absolute top-0 h-full max-h-[60px] w-full overflow-hidden rounded-2xl bg-cover bg-center'
+              : 'absolute top-0 h-full max-h-[241px] w-full overflow-hidden rounded-2xl bg-cover bg-center'
+          } `}
           style={{
             backgroundImage: `url(${
               user?.backgroundPictureURL
@@ -268,7 +287,7 @@ const UserProfile = ({
                 : BgBanner.src
             })`,
           }}>
-          {!userId && (
+          {!userId && !pathName.includes('/user-activities') && (
             <label
               htmlFor="changeBackgroundImage"
               className="absolute bottom-2 right-4 z-40 flex   h-[30px] w-[152px] cursor-pointer items-center justify-center gap-2 rounded-[20px] bg-bg-tertiary px-5 py-2 text-[10px] dark:bg-bg-primary-dark">
@@ -309,7 +328,12 @@ const UserProfile = ({
 
       <section className="relative  h-[98px] ">
         <div className="">
-          <div className="relative -mt-[407px] mb-6 flex w-full min-w-0 flex-col">
+          <div
+            className={`${
+              pathName.includes('/user-activities')
+                ? 'relative -mt-[600px] mb-6 flex w-full min-w-0 flex-col'
+                : 'relative -mt-[407px] mb-6 flex w-full min-w-0 flex-col'
+            }`}>
             {/* Profile card start */}
             <div className="flex h-[98px]">
               <div className="top-0">
@@ -325,12 +349,20 @@ const UserProfile = ({
                             ? user?.profilePictureURL
                             : noProfilePicture.src
                         }
-                        className="ml-[70px] h-[98px] w-[98px] -translate-y-9 rounded-full border  border-bg-green align-middle  max-md:ml-4 "
+                        className={`${
+                          pathName.includes('/user-activities')
+                            ? 'max-md:ml-4 ml-[34px]  h-[98px] w-[98px] -translate-y-9 rounded-full  border border-bg-green  align-middle'
+                            : 'max-md:ml-4 ml-[70px] h-[98px] w-[98px] -translate-y-9 rounded-full  border border-bg-green  align-middle '
+                        }`}
                       />
-                      {!userId && (
+                      {userOrOther && (
                         <label
                           htmlFor="changeImage"
-                          className="absolute bottom-12 left-[140px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark max-md:left-[97px]">
+                          className={`${
+                            pathName.includes('/user-activities')
+                              ? 'max-md:left-[97px] absolute bottom-12 left-[110px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark'
+                              : 'max-md:left-[97px] absolute bottom-12 left-[140px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark'
+                          }`}>
                           <EditProfileIcon className="h-3 w-3 cursor-pointer text-black dark:text-white" />
                         </label>
                       )}
@@ -380,27 +412,39 @@ const UserProfile = ({
                   </div>
                 </div>
 
-                {!userId && (
+                {
                   <EditProfileButton
                     userData={{
                       name: userInCookie?.name || '',
                       email: userInCookie?.email || '',
                       bio: userInCookie?.bio || '',
                     }}
+                    accessToken={accessToken}
                     setUserData={setUser}
                   />
-                )}
+                }
               </div>
             </div>
           </div>
         </div>
-        <div className="mt-4 flex w-full flex-col justify-end gap-[20px] lg:flex-row-reverse ">
+        <div
+          className={`${
+            pathName.includes('/user-activities')
+              ? '-mt-7 flex w-full flex-col justify-end gap-[20px] lg:flex-row-reverse '
+              : 'mt-4 flex w-full flex-col justify-end gap-[20px] lg:flex-row-reverse '
+          }`}>
           <div className="flex w-full flex-col gap-[20px] lg:w-[30%]">
             <UserDataBadge
               postCount={user?.post_count}
-              commentCount={user?.comment_count}
+              commentCount={
+                comments?.length
+                  ? comments.length
+                  : userId
+                  ? otherUserComments.length
+                  : user?.comment_count
+              }
               userName={user.name}
-              userId={userIdLocal}
+              userId={userId ? userId : user?.id}
               reportedPostCount={user?.reported_post_count}
               reportedCommentCount={user?.reported_comment_count}
             />

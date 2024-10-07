@@ -3,6 +3,7 @@ import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 import { useEffect, useRef, useState } from 'react'
 import ArrowDown from '@/assets/icons/profileArrowDown'
 import ProfileOverView from './ProfileOverView'
+import { usePathname } from 'next/navigation'
 
 const UserDataBadge = ({
   postCount,
@@ -13,6 +14,7 @@ const UserDataBadge = ({
   reportedCommentCount,
 }: UserDataBadgeProps) => {
   const [showDropDown, setShowDropDown] = useState(false)
+  const pathName = usePathname()
 
   const handleOpenOverview = () => {
     if (setShowDropDown) {
@@ -25,25 +27,21 @@ const UserDataBadge = ({
     ?.toLowerCase()
     .replace(/ /g, '-')}-${userId}`
 
-  let width = useRef<number>()
-  useEffect(() => {
-    width.current = window.screen.width
-  }, [width])
   return (
     <>
       <div
         className={
-          `${
-            width.current
-              ? width.current < 1024 && !showDropDown
-                ? 'mt-[16px] h-[56px]'
-                : 'mt-[16px] h-full '
-              : ''
-          }` +
-          `flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary p-4 text-left dark:bg-bg-primary-dark dark:text-white custom-mid-lg:mt-0 custom-mid-lg:w-full   custom-mid-lg:px-6  custom-mid-lg:pb-[20px] custom-mid-lg:pt-7`
+          `h-[56px]flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary  p-4 text-left dark:bg-bg-primary-dark dark:text-white lg:h-[350] custom-lg:mt-0 custom-lg:w-full custom-lg:p-6 ` +
+          'mt-[50px] lg:mt-0'
         }>
         <div
-          className="flex items-center justify-between"
+          className={`
+            ${
+              pathName.includes('/user-activies')
+                ? 'mt-[50px] flex items-center justify-between'
+                : 'flex items-center justify-between'
+            }
+            `}
           onClick={handleOpenOverview}>
           <h1 className="text-sm text-black dark:text-white custom-mid-sm:text-lg">
             Overview

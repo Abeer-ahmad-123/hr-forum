@@ -339,21 +339,34 @@ const Card = ({
           </Dialog>
         </Suspense>
         <div
-          onClick={() => {
-            redirect(`/feeds/feed/${post?.slug}`)
-          }}
+          onClick={
+            pathName.includes('/profile')
+              ? () => router.push(`/feeds/feed/${post.id}`)
+              : undefined
+          }
+          // onClick={() => {
+          //   const newPath = pathName.includes('channels')
+          //     ? `${pathName}/feed/${post?.id}`
+          //     : pathName.includes('saved')
+          //     ? `/saved/feed/${post?.id}`
+          //     : `/feeds/feed/${post?.id}`
+
+          //   if (newPath) {
+          //     router.push(newPath)
+          //   }
+          // }}
           className={
             hideComments
               ? 'flex flex-col gap-[20px]'
               : 'flex flex-col gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
           }>
           <div className="flex flex-row justify-between">
-            <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
+            <div className="max-custom-sm:items-start flex w-full  flex-row items-center justify-between">
               <div className="flex items-center gap-[12px]">
                 <div className="-z-2">
                   <div className="static rounded-xl">
                     <img
-                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
+                      className="max-custom-sx:h-6 max-custom-sx:w-6 inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
                       width={48}
                       height={48}
                       src={
@@ -385,7 +398,7 @@ const Card = ({
                     )}
                   </div>
 
-                  <p className="justify-start text-[10px] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
+                  <p className="max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px] justify-start text-[10px] font-light text-slate-500 dark:text-gray-400">
                     {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
@@ -412,7 +425,7 @@ const Card = ({
                         aria-labelledby="postOptionsLabel"
                         role="button">
                         <span
-                          className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 "
+                          className="text-icon-light dark:text-icon-dark max-[392px]:px-0 flex cursor-pointer items-center space-x-2 px-[9px] font-black "
                           onClick={handleReportClick}>
                           {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
                           <AlertOctagon
@@ -428,7 +441,7 @@ const Card = ({
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleDeleteClick}>
                               <Trash2 size={17} />
-                              <span className="text-[15px] font-light max-custom-sm:hidden">
+                              <span className="max-custom-sm:hidden text-[15px] font-light">
                                 {' '}
                                 Delete
                               </span>
@@ -438,7 +451,7 @@ const Card = ({
                               className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleReportClick}>
                               <AlertOctagon size={17} />
-                              <span className="text-[15px] font-light max-custom-sm:hidden">
+                              <span className="max-custom-sm:hidden text-[15px] font-light">
                                 {' '}
                                 Report
                               </span>
@@ -452,7 +465,7 @@ const Card = ({
                             ) : (
                               <FaRegBookmark />
                             )}
-                            <span className="text-[15px] font-light max-custom-sm:hidden ">
+                            <span className="max-custom-sm:hidden text-[15px] font-light ">
                               Bookmark
                             </span>
                           </div>
@@ -477,12 +490,21 @@ const Card = ({
                   : `/feeds/feed/${post?.id}`
               }>
               {' '}
-              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
+              <div className="max-custom-sm:text-base text-start text-[16px] font-[800] dark:text-white">
                 <p>{post?.title}</p>
               </div>
             </CustomLink>
             {post?.content && (
-              <div>
+              <div
+                onClick={() => {
+                  const newPath = pathName.includes('channels')
+                    ? `${pathName}/feed/${post?.id}`
+                    : pathName.includes('saved')
+                    ? `/saved/feed/${post?.id}`
+                    : `/feeds/feed/${post?.id}`
+
+                  router.push(newPath)
+                }}>
                 <CardContent content={post?.content} />
                 {post?.content?.length > 200 && (
                   <CustomLink

@@ -143,9 +143,12 @@ export default function Register({
           ? 'h-full min-h-[calc(100vh-56px)]'
           : 'h-[694px]'
       }
+      flex-col justify-start p-0
        ${
-         isRegisterRoute ? 'w-[511px] ' : 'w-full max-w-[511px]'
-       } flex-col justify-start p-0`}>
+         isRegisterRoute
+           ? 'h-full max-h-[694] max-w-[530px] justify-center p-6'
+           : 'w-full max-w-[511px] '
+       } `}>
       <div
         className={`${
           isRegisterRoute ? 'rounded-md shadow-2xl' : ''
@@ -177,9 +180,8 @@ export default function Register({
                 name="sign in button"
                 className="text-primary-purple cursor-pointer font-medium hover:underline"
                 onClick={() => {
-                  toggleForm()
+                  router.push('/login')
                 }}>
-                {' '}
                 Sign in
               </button>
             </p>

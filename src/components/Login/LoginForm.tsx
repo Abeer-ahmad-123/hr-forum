@@ -31,7 +31,7 @@ export function LoginForm({
 
       <div className="flex items-center rounded-xl border border-[#d3d3d3] dark:border-bg-tertiary-dark ">
         <input
-          className="focus:border-primary-purple focus:ring-primary-purple mx-0 block w-full rounded-xl    px-4 py-2 font-[300] focus:outline-none dark:bg-bg-primary-dark dark:text-white"
+          className="focus:border-primary-purple  focus:ring-primary-purple mx-0 block w-full rounded-xl    px-4 py-2 font-[300] focus:outline-none dark:bg-bg-primary-dark dark:text-white"
           name="password"
           value={password}
           type={showPassword ? 'text' : 'password'}

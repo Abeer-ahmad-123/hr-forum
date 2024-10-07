@@ -25,7 +25,9 @@ const ReactionButton = ({
   const [currentReaction, updateCurrentReaction] = useState('')
   const [currentReactionEmoji, setCurrentReactionEmoji] = useState({
     name: '',
-    Emoji: <EmptyHeartIcon />,
+    Emoji: (
+      <EmptyHeartIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
+    ),
   })
 
   const handleLikeWrapperExtended: React.MouseEventHandler<HTMLDivElement> = (
@@ -84,7 +86,12 @@ const ReactionButton = ({
         (reaction) => reaction.name === currentReaction,
       )
       setCurrentReactionEmoji(
-        foundEmoji ?? { name: '', Emoji: <EmptyHeartIcon /> }, // Fallback emoji
+        foundEmoji ?? {
+          name: '',
+          Emoji: (
+            <EmptyHeartIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
+          ),
+        }, // Fallback emoji
       )
     }
   }, [currentReaction])
