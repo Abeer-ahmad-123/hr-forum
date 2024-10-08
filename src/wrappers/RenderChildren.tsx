@@ -15,10 +15,10 @@ const RenderChildren = async ({
   return (
     <div
       className={
-        `mx-auto max-w-[1512px] transition-all duration-700 ease-in-out ` +
-          pathname?.includes('/login') || pathname?.includes('/register')
+        pathname?.includes('/login') || pathname?.includes('/register')
           ? 'p-0'
-          : `p-[16px] lg:p-0 `
+          : `p-[16px] lg:p-0 ` +
+            `mx-auto max-w-[1512px] transition-all duration-700 ease-in-out `
       }>
       <div
         className={
@@ -28,7 +28,7 @@ const RenderChildren = async ({
             ? 'mt-0 h-[100vh]'
             : 'mt-[81px] md:mt-[101px] lg:mt-[81px]'
         }>
-        <div className="flex w-full">
+        <div className="flex max-w-[100vw]">
           {pathname?.includes('/login') || pathname?.includes('/register') ? (
             <>
               <ChildWrapper>{children}</ChildWrapper>
