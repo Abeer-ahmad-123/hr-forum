@@ -136,7 +136,7 @@ export default function Login({
       <div
         className={`${
           pathname === '/login'
-            ? 'h-full max-h-[518px] w-full max-w-[348px] flex-col  md:max-h-[600px] md:max-w-[551px] '
+            ? 'h-full max-h-[518px] w-full max-w-[348px] flex-col rounded-md  border border-[#E2E8F0]  dark:border-[#202020] md:max-h-[600px] md:max-w-[551px]'
             : ''
         } relative flex flex-col justify-center `}>
         <div

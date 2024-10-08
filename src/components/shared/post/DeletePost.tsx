@@ -95,23 +95,24 @@ const DeletePost = ({
   }, [])
 
   return (
-    <div className="rounded-lg bg-white p-4 dark:bg-dark-background dark:text-white">
-      <div className="mb-4 text-center text-lg font-medium">
-        Are you sure you want to delete the post?
+    <div className="rounded-lg bg-white p-4 dark:bg-bg-primary-dark dark:text-white ">
+      <div className="mb-4">
+        <h3 className="text-lg">Delete this comment.</h3>
+        <p className="text-sm"> Are you sure you want to delete the post?</p>
       </div>
-      <div className="flex justify-center gap-2">
+      <div className="flex justify-end gap-3">
         <button
           name="cancel button"
           onClick={handleCancel}
-          className="duration-450 flex h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-accent text-accent transition hover:bg-accent hover:text-white dark:text-white ">
+          className="duration-450 flex  h-10 w-32 cursor-pointer items-center justify-center rounded-md border border-solid border-bg-tertiary text-sm text-black transition hover:bg-black hover:text-white dark:border-[#202020] dark:text-white ">
           {' '}
-          cancel
+          Cancel
         </button>
         <button
           name="delete button"
           onClick={handleDeletePost}
           className={`flex h-10 w-32 cursor-pointer items-center justify-center rounded-md 
-        text-white   ${loading ? 'bg-gray-300' : 'bg-accent'}
+        text-sm  text-black  ${loading ? 'bg-gray-300' : 'bg-[#FC6B6B]'}
           `}>
           Delete{' '}
           {loading ? (

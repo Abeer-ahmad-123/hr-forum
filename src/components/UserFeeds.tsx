@@ -101,7 +101,7 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   // }, [storePosts])
 
   return loading ? (
-    <ProfilePageLoading />
+    <ProfilePageLoading accessToken="" />
   ) : (
     <div className="max-w-full justify-center lg:mx-auto lg:flex lg:max-w-screen-xl">
       {/* <div
@@ -134,7 +134,7 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'mt-[20px] max-w-[711px] rounded-2xl px-6  pb-5 pt-7 max-lg:mt-[30px] '} w-full max-w-full bg-white  dark:bg-bg-primary-dark dark:text-white lg:max-w-screen-md`}>
+              className={`${'max-lg:mt-[30px] mt-[20px] max-w-[711px] rounded-2xl  px-6 pb-5 pt-7 '} w-full max-w-full bg-white  dark:bg-bg-primary-dark dark:text-white lg:max-w-screen-md`}>
               <div className="min-h-[70vh] w-full ">
                 {pathName.includes(`/${slug}/posts`) && (
                   <ActivityButtons slug={slug} />

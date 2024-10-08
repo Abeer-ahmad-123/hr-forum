@@ -148,7 +148,7 @@ const Feeds = ({
   return (
     <>
       {renderPostbarOrBanner()}
-      <div className="flex min-h-[70vh] w-full max-w-full flex-col px-0 py-4 lg:max-w-[759px] lg:px-0 lg:py-0">
+      <div className="flex min-h-[70vh] w-full max-w-full flex-col  lg:max-w-[759px] lg:px-0 lg:py-0">
         {!addPost && (
           <>
             {!!posts?.length ? (

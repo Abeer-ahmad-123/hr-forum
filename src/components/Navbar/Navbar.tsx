@@ -15,7 +15,7 @@ const Navbar = async ({ pathname }: NavbarProps) => {
   const isAuthPage = isLoginPage && isRegisterPage
 
   return (
-    <div className="max-md:h-[72px] fixed top-0 z-50 h-[100px] w-full items-center justify-center border-b-[1px] border-bg-tertiary bg-white shadow-sm dark:border-bg-tertiary-dark dark:bg-bg-primary-dark">
+    <div className="fixed top-0 z-50 h-[72px] w-full items-center justify-center border-b-[1px] border-bg-tertiary bg-white shadow-sm dark:border-bg-tertiary-dark dark:bg-bg-primary-dark md:h-[100px]">
       <div className="max-[430px]:px-4 m-auto flex w-full max-w-[1512px] items-center  justify-between px-6 py-4 md:px-14 md:py-7">
         <div className="flex items-center">
           <Logo className="" />

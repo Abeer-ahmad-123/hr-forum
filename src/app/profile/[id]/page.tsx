@@ -19,7 +19,7 @@ const Profile = async ({ params }: ProfilePageProps) => {
 
   const { user, token, refreshToken } = await getUserFromCookie()
   return (
-    <Suspense fallback={<ProfilePageLoading />}>
+    <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
       <UserProfile
         userId={userId}
         userInCookie={user}

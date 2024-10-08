@@ -273,7 +273,7 @@ const UserProfile = ({
 
   return user ? (
     <div className="profile-page  max-md:block w-full flex-grow">
-      <section className="relative mt-5 block h-[650px]">
+      <section className="relative  block h-[650px]">
         <div
           className={`${
             pathName.includes('user-activities')
@@ -352,7 +352,7 @@ const UserProfile = ({
                         className={`${
                           pathName.includes('/user-activities')
                             ? 'max-md:ml-4 ml-[34px]  h-[98px] w-[98px] -translate-y-9 rounded-full  border border-bg-green  align-middle'
-                            : 'max-md:ml-4 ml-[70px] h-[98px] w-[98px] -translate-y-9 rounded-full  border border-bg-green  align-middle '
+                            : 'ml-4 h-[98px] w-[98px] -translate-y-9 rounded-full border  border-bg-green align-middle  md:ml-[70px] '
                         }`}
                       />
                       {userOrOther && (
@@ -361,7 +361,7 @@ const UserProfile = ({
                           className={`${
                             pathName.includes('/user-activities')
                               ? 'max-md:left-[97px] absolute bottom-12 left-[110px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark'
-                              : 'max-md:left-[97px] absolute bottom-12 left-[140px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark'
+                              : 'absolute bottom-12 left-[97px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark md:left-[140px]'
                           }`}>
                           <EditProfileIcon className="h-3 w-3 cursor-pointer text-black dark:text-white" />
                         </label>

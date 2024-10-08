@@ -15,10 +15,10 @@ const LoginRoute = () => {
   }
 
   return (
-    <div className="items-cente mt-0 flex   h-[100vh] w-full max-w-[100vw]">
-      <div className="hidden bg-bg-tertiary-dark  px-[40px] py-[40px] lg:flex  lg:h-full  lg:w-full lg:max-w-[50%]    lg:flex-col lg:items-start lg:justify-between lg:gap-6">
+    <div className="mt-0 flex h-[100vh]   w-full max-w-[100vw] items-center">
+      <div className="hidden bg-bg-tertiary-dark  px-[40px] py-[70px] lg:flex  lg:h-full  lg:w-full lg:max-w-[50%]    lg:flex-col lg:items-start lg:justify-between lg:gap-2">
         <div>
-          <Logo className="lg:blocl hiddden text-white" />
+          <Logo className="hiddden text-white lg:block" />
         </div>
         <div>
           <LoginImage className="hidden h-full max-h-[314] w-full max-w-[446px] lg:block" />
@@ -29,7 +29,11 @@ const LoginRoute = () => {
           </p>
         </div>
       </div>
-      <div className="flex  h-full w-full max-w-full flex-col items-center justify-center bg-bg-secondary dark:bg-bg-secondary-dark  lg:flex lg:max-w-[50%]">
+      <div
+        className={`flex  h-full w-full max-w-full flex-col items-center justify-center gap-16  bg-bg-secondary dark:bg-bg-secondary-dark   lg:flex lg:max-w-[50%] `}>
+        <div className="inline-block lg:hidden">
+          <Logo className="  text-black dark:text-white" />
+        </div>
         <Login toggleForm={changeRoute} />
       </div>
     </div>

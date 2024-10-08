@@ -20,7 +20,7 @@ import type {
   ChannelInterface,
 } from '@/utils/interfaces/channels'
 import { PostsInterface } from '@/utils/interfaces/posts'
-import { AlertOctagon, Trash2 } from 'lucide-react'
+import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import Image from 'next/image'
 import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
 import {
@@ -41,6 +41,7 @@ import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
+import ThreeDots from '@/assets/icons/meetBalls'
 
 type CardProps = {
   post: PostsInterface
@@ -424,21 +425,25 @@ const Card = ({
                         aria-label="post options"
                         aria-labelledby="postOptionsLabel"
                         role="button">
-                        <span
-                          className="text-icon-light dark:text-icon-dark max-[392px]:px-0 flex cursor-pointer items-center space-x-2 px-[9px] font-black "
-                          onClick={handleReportClick}>
-                          {/* <MoreHorizontal className="h-fit w-fit font-light  max-[380px]:w-[1.05rem] max-custom-sx:w-[15px]" /> */}
-                          <AlertOctagon
-                            size={17}
-                            className={reported ? 'text-red' : ''}
-                          />
+                        <span className="text-icon-light dark:text-icon-dark max-[392px]:px-0 flex cursor-pointer items-center space-x-2 px-[9px] font-black ">
+                          {post?.user_id === userDetails?.id ? (
+                            <div onClick={handleDeleteClick}>
+                              <Trash2 size={17} />
+                            </div>
+                          ) : (
+                            <AlertOctagon
+                              size={17}
+                              className={reported ? 'text-red' : ''}
+                              onClick={handleReportClick}
+                            />
+                          )}
                         </span>
                       </PopoverTrigger>
                       <Suspense>
                         <PopoverContent className="bg-white">
                           {post?.user_id === userDetails?.id ? (
                             <div
-                              className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                              className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleDeleteClick}>
                               <Trash2 size={17} />
                               <span className="max-custom-sm:hidden text-[15px] font-light">
@@ -448,7 +453,7 @@ const Card = ({
                             </div>
                           ) : (
                             <div
-                              className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white"
+                              className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleReportClick}>
                               <AlertOctagon size={17} />
                               <span className="max-custom-sm:hidden text-[15px] font-light">
@@ -457,18 +462,6 @@ const Card = ({
                               </span>
                             </div>
                           )}
-                          <div
-                            onClick={handleBookmark}
-                            className="dark:text-icon-dark text-icon-light flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-accent hover:text-white dark:text-white dark:hover:text-white">
-                            {bookmarkSuccess ? (
-                              <FaBookmark color="blue" />
-                            ) : (
-                              <FaRegBookmark />
-                            )}
-                            <span className="max-custom-sm:hidden text-[15px] font-light ">
-                              Bookmark
-                            </span>
-                          </div>
                         </PopoverContent>
                       </Suspense>
                     </Popover>

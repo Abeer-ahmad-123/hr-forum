@@ -8,8 +8,8 @@ const FeaturesDropDownWithSuspense = () => {
     <div className="block w-full lg:hidden">
       <Suspense fallback={<RespScreenLoading />}>
         <FeaturesDropDown
-          classNameOuter="w-full max-md:w-full"
-          classNameInner="w-full max-md:w-full "
+          classNameOuter="w-full md:w-full"
+          classNameInner="w-full md:w-full "
           classNamefeaturesDropDowm=""
         />
         <CustomAccordion />

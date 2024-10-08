@@ -146,15 +146,17 @@ export default function Register({
       flex-col justify-start p-0
        ${
          isRegisterRoute
-           ? 'h-full max-h-[694] max-w-[530px] justify-center p-6'
+           ? 'h-full max-h-[680] max-w-[530px] justify-center'
            : 'w-full max-w-[511px] '
        } `}>
       <div
         className={`${
-          isRegisterRoute ? 'rounded-md shadow-2xl' : ''
+          isRegisterRoute
+            ? 'rounded-md border border-[#E2E8F0] dark:border-[#202020]'
+            : ''
         } relative flex flex-col items-center justify-start overflow-hidden`}>
         <div
-          className={`flex w-full flex-col items-center rounded-md bg-white shadow-md dark:bg-bg-primary-dark lg:max-w-xl`}>
+          className={`flex w-full flex-col items-center rounded-md bg-white p-5 shadow-md dark:bg-bg-primary-dark lg:max-w-xl`}>
           <h1 className="mb-2 text-center text-xl font-semibold dark:text-white">
             Create your account
           </h1>

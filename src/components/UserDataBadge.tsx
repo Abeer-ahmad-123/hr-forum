@@ -32,15 +32,13 @@ const UserDataBadge = ({
       <div
         className={
           `h-[56px]flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary  p-4 text-left dark:bg-bg-primary-dark dark:text-white lg:h-[350] custom-lg:mt-0 custom-lg:w-full custom-lg:p-6 ` +
-          'mt-[50px] lg:mt-0'
+          pathName.includes('/user-activies')
+            ? 'mt-[50px] lg:mt-0'
+            : 'mt-[20px] lg:mt-0'
         }>
         <div
           className={`
-            ${
-              pathName.includes('/user-activies')
-                ? 'mt-[50px] flex items-center justify-between'
-                : 'flex items-center justify-between'
-            }
+            ${'flex items-center justify-between'}
             `}
           onClick={handleOpenOverview}>
           <h1 className="text-sm text-black dark:text-white custom-mid-sm:text-lg">

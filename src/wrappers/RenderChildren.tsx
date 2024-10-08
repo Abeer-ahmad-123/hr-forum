@@ -17,7 +17,10 @@ const RenderChildren = async ({
       className={
         pathname?.includes('/login') || pathname?.includes('/register')
           ? 'p-0'
-          : `p-[16px] lg:p-0 ` +
+          : pathname?.includes('/profile') ||
+            pathname?.includes('/user-activities')
+          ? 'px-0 pt-4 lg:p-0'
+          : `p-4 lg:p-0 ` +
             `mx-auto max-w-[1512px] transition-all duration-700 ease-in-out `
       }>
       <div
@@ -26,7 +29,12 @@ const RenderChildren = async ({
             ? 'mt-0'
             : pathname?.includes('/login') || pathname?.includes('/register')
             ? 'mt-0 h-[100vh]'
-            : 'mt-[81px] md:mt-[101px] lg:mt-[81px]'
+            : pathname?.includes('/popular')
+            ? 'mt-[101px] lg:mt-[81px]'
+            : pathname?.includes('/profile') ||
+              pathname?.includes('/user-activities')
+            ? 'mt-[70px] md:mt-[101px]'
+            : 'mt-[81px] md:mt-[101px]'
         }>
         <div className="flex max-w-[100vw]">
           {pathname?.includes('/login') || pathname?.includes('/register') ? (

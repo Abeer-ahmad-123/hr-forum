@@ -49,7 +49,7 @@ const Profile = async ({ params }: any) => {
     posts?.data?.pagination?.CurrentPage !== posts?.data?.pagination?.TotalPages
 
   return (
-    <Suspense fallback={<ProfilePageLoading />}>
+    <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
       <UserProfile
         userInCookie={user?.id === idFromSlug ? user : otherUser}
         accessToken={
