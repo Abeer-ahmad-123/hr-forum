@@ -15,6 +15,7 @@ const LayoutWrapper = ({ children, pathname }: LayoutWrapperProps) => {
         {!isError &&
           !pathname?.includes('/login') &&
           !pathname?.includes('/register') && <Navbar pathname={pathname} />}
+        {isError && <Navbar pathname={pathname} />}
         <ToastContainer />
         <RenderChildren isError={isError} pathname={pathname}>
           {children}

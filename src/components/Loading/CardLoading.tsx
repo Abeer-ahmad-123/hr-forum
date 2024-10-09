@@ -13,11 +13,12 @@ const CardLoading = () => {
   return (
     <div
       className={`mt-4 flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`}>
-      {!pathName.includes('user-activity') && (
-        <div className="w-full rounded-xl">
-          <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
-        </div>
-      )}
+      {!pathName.includes('user-activity') ||
+        (!pathName.includes('/channels') && (
+          <div className="w-full rounded-xl">
+            <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
+          </div>
+        ))}
 
       <div className="flex w-full max-w-full flex-col lg:max-w-screen-md">
         {pathName.includes(`/${slug}/`) ? (
@@ -40,7 +41,7 @@ const CardLoading = () => {
                 className={`h-104 mt-[15px] w-full rounded-md bg-skelton`}
               />
             ) : (
-              <BannerCardLoading />
+              pathName.includes('/channels') && <BannerCardLoading />
             )}
           </div>
         )}

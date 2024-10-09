@@ -4,7 +4,9 @@ import SmileIcon from '@/assets/icons/smileIcon'
 import { noChannelBanner } from '@/assets/images'
 import useChannels from '@/hooks/channels'
 import { toPascalCase } from '@/utils/common'
+import { getUserFromCookie } from '@/utils/cookies'
 import { ChannelBannerProps } from '@/utils/interfaces/channels'
+import { useEffect, useState } from 'react'
 
 const ChannelsBanner: React.FC<ChannelBannerProps> = ({
   channelSlug,
@@ -12,6 +14,7 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
   setAddPost,
 }) => {
   const channels = useChannels()
+  const [token, setToken] = useState('')
 
   const getImageUrlBySlug = (slug: string) => {
     const matchingObject = channels.find(
@@ -27,18 +30,43 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
     setAddPost(true)
   }
 
+  // Define the async function for fetching the user data
+  const fetchUser = async () => {
+    try {
+      const response = await getUserFromCookie() // Fetch user from cookie
+      return response
+    } catch (error) {
+      console.error('Error fetching user:', error)
+    }
+  }
+
+  // Use useEffect to only call fetchUser when token is null or needs to be updated
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await fetchUser()
+      if (userData) {
+        setToken(userData?.token) // Update token if user data is available
+      }
+    }
+
+    // Only call getUserData if the token is null or changes
+    if (!token) {
+      getUserData()
+    }
+  }, [token])
+
   const channelNameFormat = (channelName: string) => {
     return toPascalCase(channelName?.replaceAll('-', ' '))
   }
 
   return (
     <div>
-      {(!!channelSlug || path === '/saved') && (
+      {(channelSlug || !(path === '/saved' && token)) && (
         <div className="h-[266px] max-w-full rounded-2xl bg-bg-primary px-2 dark:bg-bg-primary-dark lg:max-w-[759px]">
           <div className="mx-auto max-w-full md:max-w-[768px]">
             <div className="relative overflow-hidden rounded-xl pt-2">
               <img
-                className="lg:max-w-768 px z-10 h-[190px] w-full max-w-full"
+                className="lg:max-w-768 px z-10 h-[190px] w-full max-w-full rounded-[20px]"
                 src={
                   channelSlug
                     ? getImageUrlBySlug(channelSlug) || noChannelBanner.src
@@ -50,7 +78,7 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
           </div>
           <div className="mx-5 my-3 flex justify-between">
             <div className="mr-3 flex h-11 w-11 items-center justify-center rounded-full bg-bg-tertiary text-black dark:bg-dark-grey">
-              {channelSlug == 'hr-general' ? (
+              {channelSlug === 'hr-general' ? (
                 <HrGeneral className="ml-0 h-[18px] w-[18px] dark:text-bg-tertiary" />
               ) : (
                 <SmileIcon className="ml-0 h-[18px] w-[18px] dark:text-bg-tertiary md:h-5 md:w-5" />

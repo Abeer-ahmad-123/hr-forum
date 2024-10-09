@@ -10,11 +10,11 @@
   border-bottom-right-radius: 12px;
 }
 
-.quill>.ql-container>.ql-editor.ql-blank::before {
+.quill > .ql-container > .ql-editor.ql-blank::before {
   font-size: 16px;
 }
 
-.quill>.ql-toolbar {
+.quill > .ql-toolbar {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   border: 2px solid rgb(226, 226, 226);
@@ -34,6 +34,21 @@
   stroke: white;
 }
 
-.dark .quill>.ql-container>.ql-editor.ql-blank::before {
+.dark .quill > .ql-container > .ql-editor.ql-blank::before {
   color: grey;
+}
+.ql-editor.ql-blank::before {
+  font-family: 'Averin', sans-serif !important;
+  color: #6f727a !important;
+  font-style: normal !important;
+  font-size: 14px !important;
+  line-height: 24px !important;
+  font-weight: 100 !important;
+}
+.ql-toolbar.ql-snow .ql-formats {
+  margin-right: 0 !important;
+}
+/* Add custom styles for the divider button */
+.ql-divider {
+  display: none !important;
 }

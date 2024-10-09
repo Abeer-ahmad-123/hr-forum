@@ -14,6 +14,7 @@ module.exports = {
       padding: '2rem',
       screens: {
         '2xl': '1400px',
+        'custom-lg': '1120px',
       },
     },
     extend: {
@@ -32,7 +33,8 @@ module.exports = {
         'accordion-up': 'accordion-up 0.2s ease-out',
       },
       screens: {
-        'custom-lg': '1120',
+        'custom-xl': '1240px',
+        'custom-lg': '1120px',
         'custom-sm': '500px', // Adjust the value as needed
         'custom-max-sm': '700px',
         'custom-mid-sm': '490px',
@@ -43,7 +45,7 @@ module.exports = {
       colors: {
         customTeal: '#14CCAB',
         border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
+        // input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

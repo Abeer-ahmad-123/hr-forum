@@ -97,7 +97,7 @@ const DeletePost = ({
   return (
     <div className="rounded-lg bg-white p-4 dark:bg-bg-primary-dark dark:text-white ">
       <div className="mb-4">
-        <h3 className="text-lg">Delete this comment.</h3>
+        <h3 className="text-lg">Delete this post.</h3>
         <p className="text-sm"> Are you sure you want to delete the post?</p>
       </div>
       <div className="flex justify-end gap-3">

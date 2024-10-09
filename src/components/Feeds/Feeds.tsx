@@ -9,9 +9,10 @@ import { useInView } from 'react-intersection-observer'
 import NoPosts from '../Cards/NoMore'
 import { Card } from '../shared'
 import CircularProgress from '../ui/circularProgress'
-import PostBar from '../shared/NewPost/Postbar'
 import NewPostForm from '../shared/NewPost/NewPostForm'
 import ChannelsBanner from '../ChannelsBanner'
+import { usePathname } from 'next/navigation'
+import PostBar from '../shared/NewPost/Postbar'
 
 const Feeds = ({
   channelSlug,
@@ -38,6 +39,7 @@ const Feeds = ({
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
   const [addPost, setAddPost] = useState<boolean>(false)
+  const pathName = usePathname()
 
   const getPosts = async () => {
     let _data: any = {}
@@ -101,17 +103,37 @@ const Feeds = ({
       return <NewPostForm setAddPost={setAddPost} />
     }
 
-    if (path !== '/saved') {
-      return user?.id ? (
-        <div className="mb-5">
-          <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
-        </div>
-      ) : null
-    }
+    // if (path !== '/saved') {
+    //   return user?.id ? (
+    //     <div className="mb-5">
+    //       <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
+    //     </div>
+    //   ) : null
+    // }
 
     return (
       <div className="mb-5">
-        <ChannelsBanner channelSlug="" path="/saved" setAddPost={setAddPost} />
+        {pathName.includes('/popular') ? (
+          ''
+        ) : pathName.includes('/saved') && user ? (
+          <ChannelsBanner
+            channelSlug={channelSlug}
+            path={`Saved`}
+            setAddPost={setAddPost}
+          />
+        ) : pathName.includes('/channels') ? (
+          pathName.includes('/channels') && (
+            <ChannelsBanner
+              channelSlug={channelSlug}
+              path={'save'}
+              setAddPost={setAddPost}
+            />
+          )
+        ) : pathName.includes('/feeds') && user?.id ? (
+          <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
+        ) : (
+          ''
+        )}
       </div>
     )
   }

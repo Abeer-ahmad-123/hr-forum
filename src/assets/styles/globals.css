@@ -39,7 +39,7 @@
     --bg-primary: #ffffff;
     --bg-primary-dark: #121212;
     --bg-secondary-dark: #0a0a0a;
-    
+
     --bg-tertiary: #eeeeee;
     --bg-tertiary-dark: #282828;
     --color-grey: #838b98;
@@ -50,7 +50,6 @@
     --dark-grey: #202020;
   }
 }
-
 
 .avatarEditor {
   width: 100% !important;
@@ -65,4 +64,9 @@
 
 .card-li a {
   @apply cursor-pointer underline hover:text-blue-600 dark:hover:text-blue-400;
+}
+input:-internal-autofill-selected {
+  appearance: menulist-button;
+  background-image: none !important;
+  background-color: #ffffff !important;
 }

@@ -18,7 +18,7 @@ const ReactionEmoji = ({
     <div
       onClick={onEmojiClick}
       className={clsx(
-        'flex cursor-pointer items-center gap-[8px] rounded-lg border-none hover:h-9 hover:w-9 hover:scale-125 hover:items-center hover:justify-center hover:rounded-full hover:bg-bg-tertiary hover:dark:bg-bg-tertiary-dark',
+        'flex cursor-pointer items-center gap-[8px] rounded-lg border-none hover:scale-150  hover:rounded-full  ',
         styles,
       )}
       id={reactionName}

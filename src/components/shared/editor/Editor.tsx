@@ -13,15 +13,17 @@ const Editor = ({ onContentChange, value }: any) => {
   }
 
   return (
-    <ReactQuill
-      value={value} // You can set an initial value here
-      onChange={handleEditorChange}
-      modules={Editor.modules}
-      formats={Editor.formats}
-      bounds={'.app'}
-      placeholder="Write something..."
-      className="dark:text-white"
-    />
+    <>
+      <ReactQuill
+        value={value}
+        onChange={handleEditorChange}
+        modules={Editor.modules}
+        formats={Editor.formats}
+        bounds={'.app'}
+        placeholder="Write something here..."
+        className="dark:text-white"
+      />
+    </>
   )
 }
 

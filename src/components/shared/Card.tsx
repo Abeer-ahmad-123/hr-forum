@@ -22,7 +22,7 @@ import type {
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
 import Image from 'next/image'
-import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import {
   Dispatch,
   SetStateAction,
@@ -32,7 +32,6 @@ import {
   useRef,
   useState,
 } from 'react'
-import { FaBookmark, FaRegBookmark } from 'react-icons/fa'
 import Report from '../Report/Report'
 import PostActionBar from './PostActionBar'
 import { CustomLink } from './customLink/CustomLink'
@@ -41,7 +40,6 @@ import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
-import ThreeDots from '@/assets/icons/meetBalls'
 
 type CardProps = {
   post: PostsInterface
@@ -172,17 +170,33 @@ const Card = ({
     )
   }
   const handleNavigateProfile = (event: any) => {
-    event.preventDefault()
-    event.stopPropagation()
+    // Optionally prevent default and stop propagation if needed
+    // event.preventDefault();
+    // event.stopPropagation();
 
-    router.push(
-      userDetails?.id === post?.user_id
-        ? '/profile'
-        : `/profile/${post?.author_details?.name
-            ?.toLowerCase()
-            .replace(/ /g, '-')}-${post?.user_id}`,
-    )
+    console.log('post?.id', post?.id) // Check if post ID is available
+
+    // Construct the profile URL regardless of the user's login status
+    const profileURL = `/profile/${post?.author_details?.name
+      ?.toLowerCase()
+      .replace(/ /g, '-')}-${post?.user_id}`
+
+    console.log('Navigating to:', profileURL) // Check the URL being generated
+
+    // Navigate to the user's profile
+    router.push(profileURL)
   }
+  // const handleNavigateProfile = (event: any) => {
+  //   // event.preventDefault()
+  //   // event.stopPropagation()
+  //   console.log('post?.id', post?.id)
+
+  //   router.push(
+  //     `/profile/${post?.author_details?.name
+  //       ?.toLowerCase()
+  //       .replace(/ /g, '-')}-${post?.user_id}`,
+  //   )
+  // }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setPopOver(false)
   }

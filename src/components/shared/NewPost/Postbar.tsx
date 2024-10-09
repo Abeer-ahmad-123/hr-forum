@@ -8,7 +8,7 @@ const PostBar = ({ addPost, setAddPost, user }: PostBarProps) => {
   }
   return (
     <div>
-      {!addPost && <FeaturesDropDownWithSuspense />}
+      {!addPost && !user && <FeaturesDropDownWithSuspense />}
 
       <div className="border-grey-300 mb-0  flex min-h-[104px] w-full max-w-full cursor-pointer flex-wrap items-center justify-end gap-[16px] rounded-xl border border-solid bg-white px-4 py-[19px] dark:border-[#202020] dark:bg-bg-primary-dark dark:text-white md:flex-nowrap md:justify-between lg:mb-5 lg:max-w-[759px] lg:px-[24px] lg:pt-5">
         <div className="relative h-[44px] w-[44px] overflow-hidden rounded-full">

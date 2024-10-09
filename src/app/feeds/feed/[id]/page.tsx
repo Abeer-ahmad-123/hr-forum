@@ -1,3 +1,4 @@
+import PostSkelton from '@/components/shared/post/PostSkelton'
 import SinglePost from '@/components/SinglePost'
 import { getPostsComments } from '@/services/comments'
 import { getPostByPostId } from '@/services/posts'
@@ -28,7 +29,9 @@ const SingleFeedpage = async ({ params, searchParams }: any) => {
     post: await getPost(),
     comments: await getPostComments(),
   }
-  return <SinglePost postId={id} searchParams={searchParams} data={data} />
+  return <PostSkelton />
+
+  // <SinglePost postId={id} searchParams={searchParams} data={data} />
 }
 
 export default SingleFeedpage

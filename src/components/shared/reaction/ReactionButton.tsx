@@ -140,21 +140,19 @@ const ReactionButton = ({
           </div>
         </PopoverTrigger>
         <PopoverContent className="-mt-2 rounded-[30px] border-0 shadow-none">
-          <div className="flex h-[44px] w-[135px] flex-row  items-center justify-center gap-2 rounded-[30px] bg-[#FAFAFA] shadow-2xl shadow-black dark:bg-bg-primary-dark">
-            <div className="flex h-9 w-9 flex-row items-center justify-center gap-2 rounded-full p-1">
-              {reactionOptions.slice(1).map((reaction, i) => (
-                <span
-                  key={i}
-                  className="flex gap-2 dark:text-white dark:hover:text-black">
-                  <ReactionEmoji
-                    reactionName={reaction.name}
-                    EmojiCharacter={reaction.Emoji} // Ensure the correct prop name is used
-                    isReactionSelected={currentReaction === reaction.name}
-                    onEmojiClick={() => onEmojiClick(reaction.name)} // Pass the reaction name here
-                  />
-                </span>
-              ))}
-            </div>
+          <div className="flex h-[44px] w-[135px]  flex-row items-center justify-center gap-2 rounded-[30px] bg-[#FAFAFA] shadow-2xl shadow-black dark:bg-[#202020]">
+            {reactionOptions.slice(1).map((reaction, i) => (
+              <span
+                key={i}
+                className="flex gap-2 dark:text-white dark:hover:text-black">
+                <ReactionEmoji
+                  reactionName={reaction.name}
+                  EmojiCharacter={reaction.Emoji}
+                  isReactionSelected={currentReaction === reaction.name}
+                  onEmojiClick={() => onEmojiClick(reaction.name)}
+                />
+              </span>
+            ))}
           </div>
         </PopoverContent>
       </div>

@@ -37,7 +37,9 @@ const UserSpecificComments = ({
         <>
           {comments.map((comment, index) => {
             return (
-              <div key={index}>
+              <div
+                key={index}
+                className="mb-4 rounded-2xl bg-bg-secondary px-6 pb-5 pt-7 dark:bg-bg-tertiary-dark">
                 {<ProfileComment comment={comment} index={index} />}
               </div>
             )
@@ -46,7 +48,9 @@ const UserSpecificComments = ({
       ) : (
         comments.slice(0, 3).map((comment, index) => {
           return (
-            <div key={index}>
+            <div
+              key={index}
+              className="mb-4 rounded-2xl bg-bg-secondary px-6 pb-5 pt-7 dark:bg-bg-tertiary-dark">
               {<ProfileComment comment={comment} index={index} />}
             </div>
           )

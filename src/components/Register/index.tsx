@@ -138,15 +138,15 @@ export default function Register({
   }
   return (
     <div
-      className={`container flex ${
+      className={`container flex  ${
         pathname.includes('register')
-          ? 'h-full min-h-[calc(100vh-56px)]'
-          : 'h-[694px]'
+          ? 'mt-5 h-full max-h-[calc(100vh)]'
+          : 'h-[710px]'
       }
-      flex-col justify-start p-0
+      flex-col justify-end p-0
        ${
          isRegisterRoute
-           ? 'h-full max-h-[680] max-w-[530px] justify-center'
+           ? 'h-full max-h-[680px] max-w-[530px] justify-center'
            : 'w-full max-w-[511px] '
        } `}>
       <div
@@ -154,9 +154,9 @@ export default function Register({
           isRegisterRoute
             ? 'rounded-md border border-[#E2E8F0] dark:border-[#202020]'
             : ''
-        } relative flex flex-col items-center justify-start overflow-hidden`}>
+        } relative flex flex-col items-center justify-center overflow-hidden`}>
         <div
-          className={`flex w-full flex-col items-center rounded-md bg-white p-5 shadow-md dark:bg-bg-primary-dark lg:max-w-xl`}>
+          className={`flex w-full flex-col items-center justify-end rounded-md bg-white p-3 shadow-md dark:bg-bg-primary-dark md:justify-center lg:max-w-xl `}>
           <h1 className="mb-2 text-center text-xl font-semibold dark:text-white">
             Create your account
           </h1>
@@ -164,8 +164,10 @@ export default function Register({
             Enter your email and password to create your account
           </p>
 
-          <p className="mt-4 text-center dark:text-white">OR</p>
-          <div className="mt-4 w-full max-w-[348px] rounded-xl border border-[#E4E4E7] p-4 dark:border-bg-tertiary-dark md:min-w-[432px] md:p-6">
+          <p className="mt-4 hidden text-center dark:text-white lg:inline-block">
+            OR
+          </p>
+          <div className="mt-4  w-full max-w-[432px] rounded-xl border border-[#E4E4E7] p-4 dark:border-bg-tertiary-dark md:p-6">
             <RegisterForm
               errors={errors}
               loading={loading}
@@ -176,7 +178,7 @@ export default function Register({
           </div>
 
           <>
-            <p className="mt-6 text-center text-xs font-light text-gray-700 dark:text-white">
+            <p className=" mt-0 text-center text-xs font-light text-gray-700 dark:text-white md:mt-6">
               Already have an account?{' '}
               <button
                 name="sign in button"

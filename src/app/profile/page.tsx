@@ -26,17 +26,19 @@ const Profile = async () => {
     posts?.data?.pagination?.CurrentPage !== posts?.data?.pagination?.TotalPages
 
   return (
-    <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
-      <UserProfile
-        userInCookie={user}
-        accessToken={token}
-        refreshToken={refreshToken}
-        posts={posts?.data?.posts}
-        morePosts={morePosts}
-        comments={comments?.data?.comments}
-        reactedPosts={reactedPosts}
-      />
-    </Suspense>
+    <>
+      <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
+        <UserProfile
+          userInCookie={user}
+          accessToken={token}
+          refreshToken={refreshToken}
+          posts={posts?.data?.posts}
+          morePosts={morePosts}
+          comments={comments?.data?.comments}
+          reactedPosts={reactedPosts}
+        />
+      </Suspense>
+    </>
   )
 }
 

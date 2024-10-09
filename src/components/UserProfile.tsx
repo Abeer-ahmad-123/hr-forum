@@ -250,7 +250,7 @@ const UserProfile = ({
 
   useEffect(() => {
     getUserSpecificDetail()
-    if (userId) {
+    if (userId && !accessToken) {
       postOfother()
       getOtherCommments()
       getOtherReactions()

@@ -1,5 +1,5 @@
-import Skelton from '../../ui/skelton'
-import CommentSkelton from '../CommentSkelton'
+import Skelton from '@/components/ui/skelton'
+import CommentSkelton from '@/components/shared/CommentSkelton'
 
 function PostSkelton({ isDialogPost = false }) {
   return (
@@ -11,6 +11,9 @@ function PostSkelton({ isDialogPost = false }) {
         <div className="flex w-full flex-col items-center p-10 pl-4 pt-0">
           <div className="mb-5 h-fit w-full  cursor-pointer rounded-xl bg-white  dark:bg-bg-primary-dark dark:text-gray-300">
             <div className="w-full px-4 py-4">
+              <div className="-z-2">
+                <Skelton className="h-11 w-28 rounded-full  bg-skelton" />
+              </div>
               <div className="mt-6 flex items-center justify-between max-md:block">
                 <div className="flex items-center">
                   <div className="-z-2">

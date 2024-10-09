@@ -3,9 +3,9 @@ import { noProfilePicture } from '@/assets/images'
 
 const ProfileComment = ({ comment, index }: any) => {
   return (
-    <div className={`${index == 0 ? 'mt-0' : 'mt-2'} mb-4`}>
-      <div className={`${index == 0 ? 'mt-0' : 'mt-2'} mb-4`}>
-        <div className="mb-2 flex flex-col items-start align-baseline">
+    <div>
+      <div>
+        <div className="flex flex-col items-start align-baseline">
           <div className="flex flex-row items-center gap-2">
             <img
               alt="avatar"
@@ -37,7 +37,7 @@ const ProfileComment = ({ comment, index }: any) => {
           {comment.content}
         </div>
       </div>
-      <hr className="bg-[#202020] opacity-60" />
+      <hr className="mt-4 h-[1px] bg-[#202020] opacity-60 dark:bg-bg-tertiary-dark" />
     </div>
   )
 }

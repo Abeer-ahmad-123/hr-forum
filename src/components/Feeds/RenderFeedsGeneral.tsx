@@ -26,6 +26,18 @@ export default async function RenderFeedsGeneral({
   morePosts,
 }: Props) {
   const { user, token: accessToken } = await getUserFromCookie()
+  // const channels = useChannels()
+  // if (channelSlug) {
+  //   const getImageUrlBySlug = (slug: string) => {
+  //     const matchingObject = channels.find(
+  //       (obj: { slug: string }) => obj.slug === slug,
+  //     )
+
+  //     if (matchingObject) {
+  //       return matchingObject.ImageURL
+  //     }
+  //   }
+  // }
   return (
     <div className="w-full">
       <div className="flex w-full justify-center">
@@ -44,7 +56,7 @@ export default async function RenderFeedsGeneral({
                 className="mb-5 w-full"
               />
             )}
-            {path === '/popular' && (
+            {path === '/popular' && !accessToken && (
               <Image
                 alt="save post"
                 src={PopularPost}

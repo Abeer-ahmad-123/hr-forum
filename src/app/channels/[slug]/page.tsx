@@ -23,15 +23,17 @@ const ChannelPage = async ({ params, searchParams }: any) => {
 
   const { user } = await getUserFromCookie()
   return (
-    <Suspense fallback={<CardLoading />}>
-      <RenderFeedsGeneral
-        searchParams={searchParams}
-        channelSlug={params?.slug}
-        path={path}
-        data={{ channels: channelData, posts: initialPosts }}
-        morePosts={morePosts}
-      />
-    </Suspense>
+    <>
+      <Suspense fallback={<CardLoading />}>
+        <RenderFeedsGeneral
+          searchParams={searchParams}
+          channelSlug={params?.slug}
+          path={path}
+          data={{ channels: channelData, posts: initialPosts }}
+          morePosts={morePosts}
+        />
+      </Suspense>
+    </>
   )
 }
 

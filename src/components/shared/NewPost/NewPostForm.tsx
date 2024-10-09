@@ -216,9 +216,9 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
       <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}
-          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary px-[16px]  py-[8px] text-[12px] opacity-60 dark:bg-bg-tertiary-dark  dark:text-white  ">
-          <ArrowLeft className="text-black opacity-60 dark:text-white" />{' '}
-          <span className="tetx-black dark:text-white">Go back</span>
+          className="flex h-[40px]  w-[104px] cursor-pointer items-center justify-center gap-[8px] rounded-[20px] bg-bg-tertiary px-[16px]  py-[8px] text-[12px]  dark:bg-bg-tertiary-dark  dark:text-white  ">
+          <ArrowLeft className="text-black opacity-80 dark:text-white" />{' '}
+          <span className="tetx-black opacity-60 dark:text-white">Go Back</span>
         </button>
         <h3 className="font-primary text-[18px] font-[550]  text-[#09090B] dark:text-white ">
           Ask for help from the community

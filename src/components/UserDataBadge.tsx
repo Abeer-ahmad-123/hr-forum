@@ -31,10 +31,10 @@ const UserDataBadge = ({
     <>
       <div
         className={
-          `h-[56px]flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary  p-4 text-left dark:bg-bg-primary-dark dark:text-white lg:h-[350] custom-lg:mt-0 custom-lg:w-full custom-lg:p-6 ` +
           pathName.includes('/user-activies')
             ? 'mt-[50px] lg:mt-0'
-            : 'mt-[20px] lg:mt-0'
+            : 'mt-[20px] lg:mt-0' +
+              `h-[56px]flex w-full flex-col gap-5  rounded-[16px] bg-bg-primary  p-4 text-left dark:bg-bg-primary-dark dark:text-white lg:h-[350] custom-lg:mt-0 custom-lg:w-full custom-lg:p-6 `
         }>
         <div
           className={`
