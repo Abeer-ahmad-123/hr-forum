@@ -1,7 +1,6 @@
 'use client'
 import NoPosts from '@/components/Cards/NoMore'
 import FeaturesDropDownWithSuspense from '@/components/Cards/FeaturesDropDownWithSuspense'
-
 import { Card } from '@/components/shared'
 import CircularProgress from '@/components/ui/circularProgress'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
@@ -22,17 +21,7 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   const firstRunRef = useRef<boolean>(true)
 
   const [ref, inView] = useInView()
-  // const dispatch = useDispatch()
   const pathName = usePathname()
-
-  // const storePosts = useSelector(
-  //   (state: PostsInterfaceStore) => state.posts.posts,
-  // )
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser.userData,
-  // )
-
-  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
 
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
@@ -62,7 +51,6 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
         .map((item: any) => item.post)
         .filter((post: any) => post !== undefined)
       updatePost([...posts, ...extractedPosts])
-      // dispatch(setPosts([...posts, ...extractedPosts]))
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleRedirect({ error })
@@ -88,45 +76,18 @@ const UserReactionFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
       getAllChannels()
       firstRunRef.current = false
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (inView) {
       getPosts()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
-  // useEffect(() => {
-  //   updatePost([...storePosts])
-  // }, [storePosts])
 
   return loading ? (
     <CardLoading />
   ) : (
     <div className="mx-auto flex max-w-screen-xl justify-center">
-      {/* <div
-        className={`mr-[5px] ${
-          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
-        {userData && <ProfileCard />}
-        <div
-          className={`${
-            userData ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}>
-          <ChannelCard />
-        </div>
-        <div
-          className={`sticky ${
-            accessToken
-              ? 'top-[330px] mt-[20px]'
-              : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}>
-          {' '}
-          <RulesCard />
-        </div>
-      </div> */}
-
       <div className={`w-full max-w-full lg:max-w-screen-md`}>
         <div className="flex w-full justify-center">
           <div className="w-full">

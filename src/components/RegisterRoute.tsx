@@ -3,7 +3,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import LoginImage from '@/assets/images/loginImage'
 import Logo from '@/components/Navbar/Logo'
 import Register from './Register'
-import HRTalkerLogo from '@/assets/icons/HRlogo.png'
 
 const RegisterRoute = () => {
   const pathName = usePathname()

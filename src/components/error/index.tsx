@@ -1,6 +1,6 @@
+import './index.css'
 import Link from 'next/link'
 import ErrorImage from '@/assets/images/errorImage'
-import './index.css'
 
 const Error = ({ message }: { message?: string | React.ReactNode }) => {
   return (

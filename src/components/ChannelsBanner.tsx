@@ -29,7 +29,6 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
     }
   }
 
-  // Define the async function for fetching the user data
   const fetchUser = async () => {
     try {
       const response = await getUserFromCookie() // Fetch user from cookie
@@ -46,16 +45,14 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
     }
   }
 
-  // Use useEffect to only call fetchUser when token is null or needs to be updated
   useEffect(() => {
     const getUserData = async () => {
       const userData = await fetchUser()
       if (userData) {
-        setToken(userData?.token) // Update token if user data is available
+        setToken(userData?.token)
       }
     }
 
-    // Only call getUserData if the token is null or changes
     if (!token) {
       getUserData()
     }

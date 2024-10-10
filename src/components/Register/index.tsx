@@ -1,7 +1,6 @@
 'use client'
 import RegisterForm from '@/components/Register/RegisterForm'
-import { googleAuthStart, signIn, signUp } from '@/services/auth/authService'
-import { setUser } from '@/store/Slices/loggedInUserSlice'
+import { signUp } from '@/services/auth/authService'
 import {
   isValidEmail,
   isValidUserName,
@@ -11,7 +10,6 @@ import {
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
-// import { useDispatch } from 'react-redux'
 import GoogleButton from '../shared/GoogleButton'
 
 type Props = {
@@ -33,7 +31,6 @@ export default function Register({
   const [formValues, setFormValues] = useState(initialValues)
   const [errors, setErrors] = useState(initialValues)
   const [loading, setLoading] = useState<boolean>(false)
-  // const dispatch = useDispatch()
   const isRegisterRoute = pathname === '/register'
 
   const handleInputChange = (e: any) => {
@@ -83,38 +80,10 @@ export default function Register({
                 'username already exists',
             })
           } else {
-            /**
-             * OVERHEAD CODE:
-             * SignUp API is also returning token, refreshToken and userData so why not save and log in user?
-             */
-            // const result = await signIn(
-            //   JSON.stringify({
-            //     email: formValues.email,
-            //     password: formValues.password,
-            //   }),
-            // )
-            // if (
-            //   !result?.success &&
-            //   (result?.status === 401 || result?.status === 404)
-            // ) {
-            //   setErrors({
-            //     ...errors,
-            //     password:
-            //       result.errors[0].includes('password') && 'Invalid Password',
-            //     email: result.errors[0].includes('email') && result.errors[0],
-            //   })
-            //   return
-            // }
             if (response?.data?.token) {
-              // dispatch(
-              //   setUser({
-              //     ...response?.data,
-              //     refreshToken: response?.data['refresh-token'],
-              //   }),
-              // )
               showSuccessAlert('Welcome! ' + response?.data?.userData?.name)
               handleDialogClose()
-              // router.refresh()
+              router.refresh()
             } else {
               showSuccessAlert('User Created Please Login!')
               toggleForm()

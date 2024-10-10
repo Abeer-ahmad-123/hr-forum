@@ -1,7 +1,7 @@
 'use client'
 import { Dialog } from '@/components/ui/Dialog/interceptDialog'
 import { usePathname } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import SignInDialog from '../shared/NewPost/SignInDialog'
 import StartIcon from '@/assets/icons/sentIcon'
 import { getTokens, getUserData } from '@/utils/local-stroage'
@@ -24,12 +24,6 @@ const TextArea = ({
   const [open, setIsopen] = useState(false)
 
   const pathName = usePathname()
-
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser.userData,
-
-  // )
-
   const textareaStyle = {
     width: isCommentPage ? '30rem' : '100%',
   }
@@ -89,7 +83,7 @@ const TextArea = ({
             placeholder={placeholder}
             value={textAreaValue}
             onChange={handleTextAreaChange}
-            className={`caret-gray max-custom-sx:text-[8px]  h-full w-full resize-none place-content-center  items-center border-none   bg-bg-tertiary text-left  text-[12px] outline-none dark:bg-bg-tertiary-dark `}
+            className={`caret-gray h-full  w-full resize-none place-content-center items-center  border-none bg-bg-tertiary   text-left text-[12px]  outline-none dark:bg-bg-tertiary-dark max-custom-sx:text-[8px] `}
           />
 
           <button

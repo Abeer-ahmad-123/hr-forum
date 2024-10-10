@@ -4,11 +4,8 @@ import {
   postCreatePostInChannel,
 } from '@/services/posts'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { StoreChannels } from '@/utils/interfaces/channels'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
-// import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 import { Editor } from '../editor'
 import Dropdown from './Dropdown'
 import ArrowLeft from '@/assets/icons/ArrowLeftIcon'
@@ -49,19 +46,6 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
 
   const { customFetch } = useInterceptor()
   const channels = useChannels()
-
-  // const channels = useSelector(
-  //   (state: StoreChannels) => state.channels.channels,
-  // )
-  // const channels = [{ slug: '', name: '', id: '' }]
-
-  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state?.loggedInUser?.userData,
-  // )
-  // const refreshToken = useSelector(
-  //   (state: LoggedInUser) => state?.loggedInUser?.refreshToken,
-  // )
 
   const handleImageChange = (event: any) => {
     const maxAllowedSize = 5 * 1024 * 1024
@@ -150,8 +134,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
             }
           } catch (err) {}
         }
-        // updatePosts((prev: LoggedInUser[]) => [result?.data?.post, ...prev])
-        // dispatch(setPosts([result?.data?.post, ...posts]))
+
         setAddPost(false)
         router.refresh()
         showSuccessAlert('Post has been created successfully')
@@ -188,7 +171,6 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   }
   useEffect(() => {
     checkChannel()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   useEffect(() => {

@@ -13,10 +13,8 @@ export default function Login({
   handleDialogClose = () => {},
   setShowSignModal,
 }: any) {
-  // const dispatch = useDispatch<AppDispatch>()
   const pathname = usePathname()
   const router = useRouter()
-
   const initialValues = {
     email: '',
     password: '',
@@ -29,7 +27,6 @@ export default function Login({
   const handleInputChange = (e: any) => {
     const { name, value } = e.target
     let error = handleAuthError(name, value)
-
     setErrors({ ...errors, [name]: error?.message || '' })
     setFormValues({ ...formValues, [name]: value })
   }
@@ -42,14 +39,12 @@ export default function Login({
         errors = { ...errors, [error.name]: error.message }
       }
     })
-
     setErrors(errors)
     return !Object?.keys(errors)?.length
   }
 
   async function handleLoginSubmit(e: ChangeEvent) {
     e.preventDefault()
-
     try {
       setLoading(true)
       const { email, password } = formValues
@@ -79,15 +74,9 @@ export default function Login({
         setValueToLocalStoage('userData', result?.data?.userData)
         setValueToLocalStoage('token', result?.data?.token)
         setValueToLocalStoage('refreshToken', result?.data['refresh-token'])
-        // dispatch(
-        //   setUser({
-        //     ...result?.data,
-        //     refreshToken: result?.data['refresh-token'],
-        //   }),
-        // )
-        window.location.reload()
+        router.refresh()
         showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
-
+        router.refresh()
         handleDialogClose()
 
         if (
@@ -100,6 +89,7 @@ export default function Login({
       if (pathname.includes('/login')) {
         router.push('/feeds')
       }
+      router.refresh()
     } catch (err) {
       showErrorAlert('Something went wrong while logging in.')
     } finally {
@@ -108,25 +98,20 @@ export default function Login({
     }
   }
 
-  const handleGoogleSignIn = async () => {
+  async function handleGoogleSignIn() {
     try {
       const response = await googleAuthStart(pathname)
+      console.log('response of google login', response)
 
       if (response?.success) {
         router.push(response?.data)
-        window.location.reload()
+        console.log('response?.data', response?.data)
       }
     } catch (err) {}
   }
 
   function submitForm() {
-    /**
-     * On form change reset the values of current form.
-     */
     setFormValues(initialValues)
-    /**
-     * Reset the form to login form.
-     */
     toggleForm()
   }
 

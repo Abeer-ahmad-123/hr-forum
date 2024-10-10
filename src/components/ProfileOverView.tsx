@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation'
 import ReportIcon from '@/assets/icons/reportedPostIcon'
 import PublishPostIcon from '@/assets/icons/publishPost'
-import CommentReportedIcon from '@/assets/icons/commentReportedIcon'
 import CommentIcon from '@/assets/icons/commentProfileIcon'
+import CommentReportedIcon from '@/assets/icons/commentReportedIcon'
 
 import { UserDataBadgeProps } from '@/utils/interfaces/userData'
 

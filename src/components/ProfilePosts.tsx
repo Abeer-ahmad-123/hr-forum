@@ -2,7 +2,6 @@ import { timeFormatInHours } from '@/utils/helper'
 import { UserData } from '@/utils/interfaces/cookies'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { useRouter } from 'next/navigation'
-// import PostReactionBar from './shared/PostReactionBar'
 
 interface ProfilePostsProps {
   post: PostsInterface
@@ -20,20 +19,10 @@ const ProfilePosts = ({ post, userId, userData }: ProfilePostsProps) => {
         : `/profile/${userId}`,
     )
   }
-  // const handleNavigateFeed = () => {
-  //   router.push(
-  //     `/channels/${channelsKeyValuePair[
-  //       post?.channel_id
-  //     ]?.name.toLocaleLowerCase()}/feed/${post?.id}`,
-  //   )
-  // }
 
   return (
     <>
-      <div
-        className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300"
-        // onClick={handleNavigateFeed}
-      >
+      <div className="w-full cursor-pointer rounded-xl bg-white dark:bg-slate-800 dark:text-gray-300">
         <div className="py-4 pr-5">
           <div className="ml-10 flex text-left font-semibold dark:text-white">
             <div className="flex flex-col items-start align-baseline">
@@ -47,10 +36,6 @@ const ProfilePosts = ({ post, userId, userData }: ProfilePostsProps) => {
                     : post?.author_details?.name}
                 </p>
                 channel pill here
-                {/* <ChannelPill
-                  channel_id={String(post.channel_id)}
-                  channels={channels}
-                /> */}
               </div>
 
               <p className="text-xs font-light text-slate-500 dark:text-gray-400">
@@ -85,11 +70,6 @@ const ProfilePosts = ({ post, userId, userData }: ProfilePostsProps) => {
             }}
           />
         </div>
-
-        {/* <PostReactionBar
-          postId={post.id as unknown as string}
-          reaction_summary={post.reaction_summary}
-        /> */}
       </div>
       <hr className="mx-3" />
     </>

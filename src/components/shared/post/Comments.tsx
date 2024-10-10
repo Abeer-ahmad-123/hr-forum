@@ -1,12 +1,10 @@
 'use client'
 import CommentOrReply from '@/components/CommentOrReply'
 import { getPostsComments } from '@/services/comments'
-import type { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import type { CommentInterface, Pagination } from '@/utils/interfaces/posts'
 import { Reply } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
-// import { useSelector } from 'react-redux'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import CommentSection from '../CommentSection'
 import { getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
@@ -25,9 +23,6 @@ function Comments({
   inputRef = null,
   getPostCommets,
 }: Props) {
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser?.userData,
-  // )
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
   const [comments, setComments] = useState<CommentInterface[]>(
     initialComments || [],
@@ -74,10 +69,6 @@ function Comments({
   const handleLoadMore = () => {
     refetchComments()
   }
-  // ! Removing these as the undefined state will cause them to break and why not set the state on declare level..
-  // useEffect(() => {
-  //   setComments([...initialComments])
-  // }, [initialComments])
 
   useEffect(() => {
     const userData = getUserData()

@@ -27,7 +27,6 @@ import {
   Dispatch,
   SetStateAction,
   Suspense,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -97,30 +96,9 @@ const Card = ({
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
 
-  // const dispatch = useDispatch()
-  // const userDetails = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser.userData,
-  // )
-
-  // const tokenInRedux =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-
-  // const refreshTokenInRedux =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-  //   ''
-  // const storePosts = useSelector(
-  //   (state: PostsInterfaceStore) => state.posts.posts,
-  // )
-
   const reactionSummaryToUse = isFirstRef.current
     ? post?.reaction_summary
     : reactionSummary
-
-  // const setOpenPopOver = (e: any) => {
-  //   e.preventDefault()
-  //   e.stopPropagation()
-  //   setPopOver((pre) => !pre)
-  // }
 
   const updateReactionArray = (
     reactionArray: ReactionSummary,
@@ -170,33 +148,15 @@ const Card = ({
     )
   }
   const handleNavigateProfile = (event: any) => {
-    // Optionally prevent default and stop propagation if needed
-    // event.preventDefault();
-    // event.stopPropagation();
-
-    console.log('post?.id', post?.id) // Check if post ID is available
-
     // Construct the profile URL regardless of the user's login status
     const profileURL = `/profile/${post?.author_details?.name
       ?.toLowerCase()
       .replace(/ /g, '-')}-${post?.user_id}`
 
-    console.log('Navigating to:', profileURL) // Check the URL being generated
-
     // Navigate to the user's profile
     router.push(profileURL)
   }
-  // const handleNavigateProfile = (event: any) => {
-  //   // event.preventDefault()
-  //   // event.stopPropagation()
-  //   console.log('post?.id', post?.id)
 
-  //   router.push(
-  //     `/profile/${post?.author_details?.name
-  //       ?.toLowerCase()
-  //       .replace(/ /g, '-')}-${post?.user_id}`,
-  //   )
-  // }
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     setPopOver(false)
   }
@@ -238,16 +198,12 @@ const Card = ({
 
         if (res.success) {
           setBookmarkSuccess(true)
-          // dispatch(setPosts(updatePostBookmark(storePosts, id, true)))
         } else if (res.status === 204) {
           setBookmarkSuccess(false)
           if (pathName.includes('saved')) {
-            // dispatch(setPosts(returnFilteredPosts(storePosts, Number(id))))
             if (pathName.includes('/saved/feed')) {
               router.back()
             }
-          } else {
-            // dispatch(setPosts(updatePostBookmark(storePosts, id, false)))
           }
         } else {
           throw res.errors[0]
@@ -359,29 +315,18 @@ const Card = ({
               ? () => router.push(`/feeds/feed/${post.id}`)
               : undefined
           }
-          // onClick={() => {
-          //   const newPath = pathName.includes('channels')
-          //     ? `${pathName}/feed/${post?.id}`
-          //     : pathName.includes('saved')
-          //     ? `/saved/feed/${post?.id}`
-          //     : `/feeds/feed/${post?.id}`
-
-          //   if (newPath) {
-          //     router.push(newPath)
-          //   }
-          // }}
           className={
             hideComments
               ? 'flex flex-col gap-[20px]'
               : 'flex flex-col gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
           }>
           <div className="flex flex-row justify-between">
-            <div className="max-custom-sm:items-start flex w-full  flex-row items-center justify-between">
+            <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
               <div className="flex items-center gap-[12px]">
                 <div className="-z-2">
                   <div className="static rounded-xl">
                     <img
-                      className="max-custom-sx:h-6 max-custom-sx:w-6 inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800"
+                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
                       width={48}
                       height={48}
                       src={
@@ -413,23 +358,13 @@ const Card = ({
                     )}
                   </div>
 
-                  <p className="max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px] justify-start text-[10px] font-light text-slate-500 dark:text-gray-400">
+                  <p className="justify-start text-[10px] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
                     {timeFormatInHours(post?.created_at as unknown as Date)}
                   </p>
                 </div>
               </div>
 
               <div className="flex items-center gap-0.5">
-                {/* {reported && (
-                  <div className="flex w-fit cursor-default items-center justify-center rounded-md  p-1 text-[7px] font-medium text-gray-500">
-                    <div className="group relative inline-block text-black dark:text-white">
-                      <AlertOctagon className=" h-4 w-4 cursor-pointer max-custom-sm:w-[14px] max-[380px]:w-3 max-custom-sx:w-[10px]" />
-                      <div className="absolute bottom-full hidden -translate-x-1/2 transform  whitespace-nowrap rounded-xl bg-gray-400 px-[5px] py-[2px] text-[0.5rem] text-gray-200 group-hover:block max-md:left-[50px]">
-                        Reported
-                      </div>
-                    </div>
-                  </div>
-                )} */}
                 {!pathName.includes(`user-activity/${slug}/comment`) && (
                   <div onMouseLeave={handleMouseDown}>
                     <Popover open={popOver} onOpenChange={setPopOver}>
@@ -439,7 +374,7 @@ const Card = ({
                         aria-label="post options"
                         aria-labelledby="postOptionsLabel"
                         role="button">
-                        <span className="text-icon-light dark:text-icon-dark max-[392px]:px-0 flex cursor-pointer items-center space-x-2 px-[9px] font-black ">
+                        <span className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 ">
                           {post?.user_id === userDetails?.id ? (
                             <div onClick={handleDeleteClick}>
                               <Trash2 size={17} />
@@ -460,7 +395,7 @@ const Card = ({
                               className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleDeleteClick}>
                               <Trash2 size={17} />
-                              <span className="max-custom-sm:hidden text-[15px] font-light">
+                              <span className="text-[15px] font-light max-custom-sm:hidden">
                                 {' '}
                                 Delete
                               </span>
@@ -470,7 +405,7 @@ const Card = ({
                               className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
                               onClick={handleReportClick}>
                               <AlertOctagon size={17} />
-                              <span className="max-custom-sm:hidden text-[15px] font-light">
+                              <span className="text-[15px] font-light max-custom-sm:hidden">
                                 {' '}
                                 Report
                               </span>
@@ -497,7 +432,7 @@ const Card = ({
                   : `/feeds/feed/${post?.id}`
               }>
               {' '}
-              <div className="max-custom-sm:text-base text-start text-[16px] font-[800] dark:text-white">
+              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
                 <p>{post?.title}</p>
               </div>
             </CustomLink>

@@ -18,11 +18,13 @@ interface EditProfileButtonProps {
 
   setUserData: (userData: userDataProps) => void
   accessToken: string
+  userId?: string
 }
 const EditProfileButton = ({
   userData,
   setUserData,
   accessToken,
+  userId,
 }: EditProfileButtonProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const [openPasswordDialog, setOpenPasswordDialog] = useState(false)
@@ -41,7 +43,7 @@ const EditProfileButton = ({
 
   return (
     <div className="absolute  sm:right-0 sm:top-0 sm:mr-0 sm:flex sm:justify-end">
-      {accessToken && (
+      {accessToken && !userId && (
         <div className="ml-4 flex -translate-y-4 gap-4 sm:ml-0 sm:-translate-y-0 sm:pt-20 custom-mid-lg:pt-4">
           <button
             name="update password button"
@@ -60,14 +62,16 @@ const EditProfileButton = ({
         </div>
       )}
 
-      {!accessToken && (
+      {pathName.includes('/user-activities') ||
+      (accessToken && userId) ||
+      (!accessToken && userId) ? (
         <div className="md: ml-4 flex w-full max-w-[300px] -translate-y-4 gap-4 text-xs opacity-60 sm:ml-0 sm:-translate-y-0 sm:pt-20 custom-mid-lg:pt-4">
           <p className="w-full">
-            Hey there, I am steve jons with tons of exp working with different
-            people. And I can help them in many ways.
+            Hey there, I am Steve Jons with tons of experience working with
+            different people. And I can help them in many ways.
           </p>
         </div>
-      )}
+      ) : null}
 
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent className="max-h-[520px] max-w-[396px] md:max-w-[581px] ">

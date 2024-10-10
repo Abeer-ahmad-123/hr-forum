@@ -6,10 +6,6 @@ import { ProfileImageInterface } from '@/utils/interfaces/card'
 import { useRouter } from 'next/navigation'
 
 async function ProfileImage({ imgSrc, postUserId }: ProfileImageInterface) {
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser?.userData,
-  // )
-
   const userData = await getUserDetailsFromCookie()
   const router = useRouter()
 

@@ -27,6 +27,7 @@ export default function RegisterForm({
       const response = await googleAuthStart(pathname)
       if (response?.success) {
         router.push(response?.data)
+        router.refresh()
       }
     } catch (err) {}
   }

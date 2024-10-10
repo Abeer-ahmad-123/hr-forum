@@ -23,11 +23,6 @@ const CommentSection = ({
   const pathName = usePathname()
   const router = useRouter()
 
-  // const userId = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser?.userData?.id,
-  // )
-  // * State for Show More / Less Comment;
-
   const getAllReplies = async () => {
     // There may be an issue when getting replying a comment after 10th Reply.
     let index = Math.floor(replies?.comment.replies?.length / 10) + 1
@@ -76,7 +71,6 @@ const CommentSection = ({
 
   useEffect(() => {
     setReplies({ ...replies, comment: comment })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [comment])
 
   useEffect(() => {

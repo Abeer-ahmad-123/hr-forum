@@ -6,7 +6,7 @@ import HrGeneral from '@/assets/icons/hrGeneral'
 import SmileIcon from '@/assets/icons/smileIcon'
 import { iconStyle, sidebarLinkStyle, textStyle } from '@/utils/functions'
 import { getTokens } from '@/utils/local-stroage'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import useChannels from '@/hooks/channels'
 
 type NavigationItem = {

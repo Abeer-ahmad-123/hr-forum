@@ -1,7 +1,6 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
 import { getGenericPosts } from '@/services/posts/server-posts'
-import { getUserFromCookie } from '@/utils/cookies'
 import { capitalizeWord } from '@/utils/helper'
 import { Suspense } from 'react'
 
@@ -14,7 +13,6 @@ export const dynamic = 'force-dynamic'
 
 const ChannelPage = async ({ params, searchParams }: any) => {
   const path = '/channels'
-  const { user, token, refreshToken } = await getUserFromCookie()
 
   const { channelData, initialPosts, morePosts } = await getGenericPosts({
     channelSlug: params?.slug ?? '',

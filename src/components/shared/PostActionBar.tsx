@@ -5,8 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'

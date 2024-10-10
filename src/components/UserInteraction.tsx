@@ -19,10 +19,6 @@ const UserInteraction = ({
   const [disableReactionButton, setDisableReactionButton] =
     useState<boolean>(false)
   const [userReaction, setUserReaction] = useState('')
-  // const storePosts = useSelector(
-  //   (state: PostsInterfaceStore) => state.posts.posts,
-  // )
-  // const dispatch = useDispatch()
 
   const updateReactionArray = (
     reactionArray: ReactionSummary,
@@ -54,27 +50,6 @@ const UserInteraction = ({
       [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
       [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
     })
-
-    // dispatch(
-    //   setPosts(
-    //     storePosts.map((post: any) => {
-    //       if (post.id === Number(postId)) {
-    //         return {
-    //           ...post,
-    //           reaction_summary: {
-    //             ...post.reaction_summary,
-    //             [increment]:
-    //               reactionSummary[increment as keyof ReactionSummary] + 1,
-    //             [decrement]:
-    //               reactionSummary[decrement as keyof ReactionSummary] - 1,
-    //           },
-    //           user_reaction: value,
-    //         }
-    //       }
-    //       return post
-    //     }),
-    //   ),
-    // )
   }
 
   const incrementReactionCount = (increment: string, value: string) => {
@@ -82,49 +57,12 @@ const UserInteraction = ({
       ...reactionSummary,
       [increment]: reactionSummary[increment as keyof ReactionSummary] + 1,
     })
-    // dispatch(
-    //   setPosts(
-    //     storePosts.map((post: any) => {
-    //       if (post.id === Number(postId)) {
-    //         return {
-    //           ...post,
-    //           reaction_summary: {
-    //             ...post.reaction_summary,
-    //             [increment]:
-    //               reactionSummary[increment as keyof ReactionSummary] + 1,
-    //           },
-    //           user_reaction: value,
-    //         }
-    //       }
-    //       return post
-    //     }),
-    //   ),
-    // )
   }
   const deleteReaction = (decrement: string, value: string) => {
     setReactionSummary({
       ...reactionSummary,
       [decrement]: reactionSummary[decrement as keyof ReactionSummary] - 1,
     })
-
-    // dispatch(
-    //   setPosts(
-    //     storePosts.map((post: any) => {
-    //       if (post.id === Number(postId)) {
-    //         return {
-    //           ...post,
-    //           reaction_summary: {
-    //             ...post.reaction_summary,
-    //             [decrement]:
-    //               reactionSummary[decrement as keyof ReactionSummary] - 1,
-    //           },
-    //           user_reaction: value,
-    //         }
-    //       }
-    //       return post
-    //     }),
-    //   ),
-    // )
   }
 
   useEffect(() => {
@@ -135,7 +73,6 @@ const UserInteraction = ({
     if (reaction_summary) {
       setReactionSummary(reaction_summary)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reaction_summary])
 
   return (

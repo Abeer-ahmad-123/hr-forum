@@ -22,18 +22,6 @@ const UserSpecificReaction = ({
   getUserSpecificDetailFunc,
 }: any) => {
   const pathName = usePathname()
-  // const dispatch = useDispatch()
-
-  // const handleCommentCountReactedPosts = () => {
-  //   dispatch(
-  //     setCommentCountInStore(makeCommentNumberKeyValuePairFromSummary(posts)),
-  //   )
-  // }
-
-  // useEffect(() => {
-  //   handleCommentCountReactedPosts()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [posts])
 
   return (
     <div className="flex flex-col gap-2">

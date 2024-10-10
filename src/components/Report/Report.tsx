@@ -7,10 +7,9 @@ import { useInterceptor } from '@/hooks/interceptors'
 import { reportComment, reportPost } from '@/services/report'
 import { reportData } from '@/utils/data'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getTokens } from '@/utils/local-stroage'
 import { Tokens } from '../shared/Card'
-// import { useSelector } from 'react-redux'
 
 interface ReportInterface {
   postId?: string
@@ -44,13 +43,6 @@ const Report = ({
 
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
-
-  // const accessToken =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  // const refreshToken =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-  //   ''
-
   const handleCancel = () => {
     setOpenDialog(false)
   }

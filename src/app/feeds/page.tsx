@@ -1,6 +1,5 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
-import useChannels from '@/hooks/channels'
 import { getGenericPosts } from '@/services/posts/server-posts'
 import { getUserFromCookie } from '@/utils/cookies'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
@@ -20,7 +19,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
     path: '/feed',
   })
   const { token } = await getUserFromCookie()
-  console.log('token', token)
+
   return (
     <Suspense fallback={<CardLoading />}>
       <RenderFeedsGeneral

@@ -79,7 +79,6 @@ function ReplyTextArea({
     event.preventDefault()
     event.stopPropagation()
     setPopOver(false)
-    console.log('accessToken in replpy', accessToken)
 
     if (!accessToken) {
       setShowSignModal(true)
@@ -134,8 +133,8 @@ function ReplyTextArea({
         <button
           name="reply button"
           onClick={toggleTextArea}
-          className="max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] cursor-pointer text-sm font-medium text-black
-                       opacity-60 hover:underline dark:text-white">
+          className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
           Reply
         </button>
 
@@ -148,8 +147,8 @@ function ReplyTextArea({
               aria-labelledby="shareOptionLabel"
               role="button">
               <span
-                className="opacity-60hover:underline max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] cursor-pointer text-sm
-                       font-medium text-black dark:text-white"
+                className="opacity-60hover:underline cursor-pointer text-sm font-medium text-black dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
                 onClick={setOpenPopOver}>
                 Share
               </span>
@@ -167,16 +166,16 @@ function ReplyTextArea({
         {author == userData?.name ? (
           <div
             onClick={handleDeleteClick}
-            className="max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] cursor-pointer text-sm font-medium text-black
-                       opacity-60 hover:underline dark:text-white">
+            className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
             Delete
           </div>
         ) : (
           <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <button
               name="report button"
-              className="max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px] cursor-pointer text-sm font-medium text-black
-                       opacity-60 hover:underline dark:text-white"
+              className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
+                       max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
               onClick={handleClick}>
               Report
             </button>

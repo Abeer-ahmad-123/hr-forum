@@ -27,15 +27,7 @@ const Feeds = ({
     initialPosts || [],
   )
 
-  // const storePosts = useSelector(
-  //   (state: PostsInterfaceStore) => state.posts.posts,
-  // )
-
   const [page, setPage] = useState(2)
-  // const dispatch = useDispatch()
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser.userData,
-  // )
   const [ref, inView] = useInView()
   let noMorePosts = useRef(morePosts)
   const [addPost, setAddPost] = useState<boolean>(false)
@@ -92,25 +84,12 @@ const Feeds = ({
     noMorePosts.current =
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
-    // dispatch(setPosts([...storePosts, ..._data?.posts]))
   }
-  // const handleCommentCount = () => {
-  //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
-  // }
 
   const renderPostbarOrBanner = () => {
     if (addPost) {
       return <NewPostForm setAddPost={setAddPost} />
     }
-
-    // if (path !== '/saved') {
-    //   return user?.id ? (
-    //     <div className="mb-5">
-    //       <PostBar setAddPost={setAddPost} addPost={addPost} user={user} />
-    //     </div>
-    //   ) : null
-    // }
-
     return (
       <div className="mb-5">
         {pathName.includes('/popular') ? (
@@ -142,26 +121,16 @@ const Feeds = ({
     if (inView) {
       getPosts()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
 
   useEffect(() => {
     if (searchParams.search || channelSlug) {
-      // if (path === '/saved' && storePosts.length > 0) return
       if (path === '/saved') return
       updatePosts([...initialPosts])
-      // dispatch(setPosts([...initialPosts]))
     } else if (!searchParams.search && initialPosts.length) {
       updatePosts([...initialPosts])
-      // dispatch(setPosts([...initialPosts]))
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialPosts])
-
-  // useEffect(() => {
-  //   handleCommentCount()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [posts])
 
   useEffect(() => {
     noMorePosts.current = morePosts

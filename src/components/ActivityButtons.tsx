@@ -107,10 +107,6 @@ const ActivityButtons = ({ slug }: ActivityButtonProps) => {
               className={`flex gap-2 font-semibold  text-black hover:text-black  dark:text-white  dark:hover:text-white  max-custom-sm:text-xs
            
               `}>
-              {/* <SmilePlus
-                size={20}
-                className="max-custom-sm:h-4 max-custom-sm:w-4"
-              /> */}
               <button name="reaction button ">
                 {' '}
                 <span className="text-sm font-medium">Reactions</span>

@@ -18,14 +18,7 @@ const ProfileActivityLoading = () => {
           </div>
         </div>
         <div className="flex flex-col items-start align-baseline"></div>
-        {/* <div>
-                <Skelton className="w-54 ml-4 mt-4 h-10 rounded-md pl-[85px] pr-3 max-md:pl-6" />
-                <Skelton className="w-54 ml-4 mt-4 h-10 rounded-md pl-[85px] pr-3 max-md:pl-6" />
-                <Skelton className="w-54 ml-4 mt-4 h-10 rounded-md pl-[85px] pr-3 max-md:pl-6" />
-                <Skelton className="w-54 ml-4 mt-4 h-10 rounded-md pl-[85px] pr-3 max-md:pl-6" />
 
-                <Skelton className="ml-42 mx-auto mt-4 h-10 w-20 self-center rounded-md pl-[85px] pr-3 max-md:pl-6" />
-              </div> */}
         {[1, 2, 3, 4].map((_, i) => (
           <PostLoadingSkelton key={i} index={i} />
         ))}

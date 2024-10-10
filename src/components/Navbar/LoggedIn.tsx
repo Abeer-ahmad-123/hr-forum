@@ -1,8 +1,7 @@
 'use client'
 import { logout } from '@/services/auth/authService'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useState } from 'react'
 import UserIcon from '@/assets/icons/userIcon'
 import LogoutIcon from '@/assets/icons/logoutIcon'
 import {
@@ -19,11 +18,8 @@ import { removeLocalStroage } from '@/utils/local-stroage'
 
 const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
   const router = useRouter()
-  // const dispatch = useDispatch()
   const pathname = usePathname()
   const [openPopover, setOpenPopover] = useState(false)
-  // const user = useSelector((state: any) => state.loggedInUser.userData)
-  // const { name, username, profilePictureURL } = user
 
   const handleClosePopover = () => {
     setOpenPopover(false)
@@ -32,16 +28,15 @@ const LoggedIn = ({ userProfilePictture }: LoggedInProps) => {
   const handleNavigateProfile = () => {
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Profile
     handleClosePopover()
-    // router.push('/profile')
+    router.push('/profile')
   }
 
   const handleLogout = () => {
     // * Adding functionality on Menu Button instead of child of menu button onClick fn; => Logout
     handleClosePopover()
     logout()
-    window.location.reload()
     removeLocalStroage()
-
+    router.refresh()
     // dispatch(clearUser())
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')

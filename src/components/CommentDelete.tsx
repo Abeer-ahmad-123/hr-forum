@@ -33,7 +33,6 @@ const CommentDelete = ({
   })
 
   const { customFetch } = useInterceptor()
-  // const disptach = useDispatch()
 
   const handleCancel = () => {
     setOpenDeleteDialog(false)
@@ -53,12 +52,10 @@ const CommentDelete = ({
         setLoading(false)
         if (deletedReplyId) {
           setDeletedReplyId(commentId)
-          // disptach(DecreaseCommentCountInStore(postId))
         }
 
         if (deletedCommentId) {
           setDeletedCommentId(commentId)
-          // disptach(DecreaseCommentCountInStore(postId))
         }
         showSuccessAlert('Comment deleted successfully')
         setOpenDeleteDialog(false)

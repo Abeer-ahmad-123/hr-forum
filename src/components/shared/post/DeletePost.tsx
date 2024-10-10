@@ -6,7 +6,7 @@ import { deletePost } from '@/services/posts'
 import { showSuccessAlert } from '@/utils/helper'
 import { getTokens } from '@/utils/local-stroage'
 import { usePathname, useRouter } from 'next/navigation'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Tokens } from '../Card'
 
 interface DeletePostInterface {
@@ -37,16 +37,6 @@ const DeletePost = ({
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
 
-  // const dispatch = useDispatch()
-  // const storePosts = useSelector(
-  //   (state: PostsInterfaceStore) => state.posts.posts,
-  // )
-  // const tokenInRedux =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.token) ?? ''
-  // const refreshTokenInRedux =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-  //   ''
-
   const handleCancel = () => {
     setOpenDeleteDialog(false)
   }
@@ -65,12 +55,7 @@ const DeletePost = ({
         setOpenDeleteDialog(false)
         showSuccessAlert('Post deleted successfully')
         updatePosts(posts?.filter((item: any) => item.id !== Number(postId)))
-        // const filteritem = posts.length ? posts : []
-        // dispatch(
-        //   setPosts(
-        //     filteritem.filter((item: any) => item.id !== Number(postId)),
-        //   ),
-        // )
+
         if (pathname === `/feeds/feed/${postId}`) router.back()
       }
     } catch (error) {

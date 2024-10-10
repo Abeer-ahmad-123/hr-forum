@@ -4,10 +4,10 @@ import type {
   ChannelByIdInterface,
   ChannelInterface,
 } from '@/utils/interfaces/channels'
-import type { PostsInterface } from '@/utils/interfaces/posts'
-import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import SavePost from '@/assets/images/savePost.svg'
 import PopularPost from '@/assets/images/popularPost.svg'
+import type { PostsInterface } from '@/utils/interfaces/posts'
+import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
 import Image from 'next/image'
 
@@ -25,29 +25,17 @@ export default async function RenderFeedsGeneral({
   data,
   morePosts,
 }: Props) {
-  const { user, token: accessToken } = await getUserFromCookie()
-  // const channels = useChannels()
-  // if (channelSlug) {
-  //   const getImageUrlBySlug = (slug: string) => {
-  //     const matchingObject = channels.find(
-  //       (obj: { slug: string }) => obj.slug === slug,
-  //     )
-
-  //     if (matchingObject) {
-  //       return matchingObject.ImageURL
-  //     }
-  //   }
-  // }
+  const { user, token } = await getUserFromCookie()
   return (
     <div className="w-full">
       <div className="flex w-full justify-center">
         <div className="w-full">
-          {!accessToken && <FeaturesDropDownWithSuspense />}
+          {!token && <FeaturesDropDownWithSuspense />}
           <div
             className={`${
               path === '/saved' || path === '/popular' ? '' : 'mt-0 '
             } w-full dark:text-white lg:max-w-screen-md`}>
-            {path === '/saved' && !accessToken && (
+            {path === '/saved' && !token && (
               <Image
                 alt="save post"
                 src={SavePost}
@@ -56,7 +44,7 @@ export default async function RenderFeedsGeneral({
                 className="mb-5  w-full"
               />
             )}
-            {path === '/popular' && !accessToken && (
+            {path === '/popular' && !token && (
               <Image
                 alt="save post"
                 src={PopularPost}

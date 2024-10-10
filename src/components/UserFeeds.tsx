@@ -13,25 +13,13 @@ import { usePathname } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import ActivityButtons from './ActivityButtons'
-import CardLoading from './Loading/CardLoading'
 import ProfilePageLoading from './Loading/ProfilePageLoading'
 
 const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
-  // const dispatch = useDispatch()
   const pathName = usePathname()
   const [ref, inView] = useInView()
-
-  // const userData = useSelector(
-  //   (state: LoggedInUser) => state.loggedInUser.userData,
-  // )
-  // const storePosts = useSelector(
-  //   (state: PostsInterfaceStore) => state.posts.posts,
-  // )
-
-  // const token = useSelector((state: LoggedInUser) => state?.loggedInUser?.token)
-
   const [page, setPage] = useState(1)
   const [morePosts] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(true)
@@ -55,7 +43,6 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
         data?.pagination?.CurrentPage !== data?.pagination?.TotalPages
 
       updatePosts([...posts, ...data?.posts])
-      // dispatch(setPosts([...posts, ...data?.posts]))
     } catch (error) {
       if (error instanceof Error && error.message) {
         handleRedirect({ error })
@@ -64,9 +51,6 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
       setLoading(false)
     }
   }
-  // const handleCommentCount = () => {
-  //   dispatch(setCommentCountInStore(makeCommentNumberKeyValuePair(posts)))
-  // }
 
   const getAllChannels = async () => {
     try {
@@ -78,54 +62,22 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
       }
     }
   }
-  // useEffect(() => {
-  //   handleCommentCount()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [posts])
 
   useEffect(() => {
     getPosts()
     getAllChannels()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
     if (inView) {
       getPosts()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inView])
-
-  // useEffect(() => {
-  //   updatePosts([...storePosts])
-  // }, [storePosts])
 
   return loading ? (
     <ProfilePageLoading accessToken="" />
   ) : (
     <div className="max-w-full justify-center lg:mx-auto lg:flex lg:max-w-screen-xl">
-      {/* <div
-        className={`mr-[5px] ${
-          accessToken ? 'mt-[15px] max-lg:mt-[5px]' : 'mt-[15px]'
-        } flex flex-col max-md:hidden max-sm:hidden lg:block`}>
-        {userData && <ProfileCard />}
-        <div
-          className={`${
-            userData ? 'top-[70px] mt-[0px]' : 'top-[70px] '
-          } sticky max-h-screen  max-lg:top-[55px]`}>
-          <ChannelCard />
-        </div>
-        <div
-          className={`sticky ${
-            accessToken
-              ? 'top-[330px] mt-[20px]'
-              : 'top-[335px] mt-5 max-lg:top-[328px]'
-          } max-h-screen`}>
-          {' '}
-          <RulesCard />
-        </div>
-      </div> */}
-
       <div className={`w-full max-w-full lg:max-w-screen-md`}>
         <div className="flex w-full justify-center">
           <div className="w-full">
@@ -134,7 +86,7 @@ const UserFeeds = ({ slug, userData, accessToken }: ReportedProps) => {
               <FeaturesDropDownWithSuspense />
             </div>
             <div
-              className={`${'max-lg:mt-[30px] mt-[20px] max-w-[711px] rounded-2xl  px-6 pb-5 pt-7 '} w-full max-w-full bg-white  dark:bg-bg-primary-dark dark:text-white lg:max-w-screen-md`}>
+              className={`${'mt-[20px] max-w-[711px] rounded-2xl px-6  pb-5 pt-7 max-lg:mt-[30px] '} w-full max-w-full bg-white  dark:bg-bg-primary-dark dark:text-white lg:max-w-screen-md`}>
               <div className="min-h-[70vh] w-full ">
                 {pathName.includes(`/${slug}/posts`) && (
                   <ActivityButtons slug={slug} />

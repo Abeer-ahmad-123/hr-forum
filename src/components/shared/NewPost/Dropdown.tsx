@@ -14,10 +14,6 @@ import VectorChannelIcon from '@/assets/icons/VectorChannelIcon'
 import { ChannelInterface } from '@/utils/interfaces/channels'
 
 const Dropdown = ({ handleDropDownValue, value, channels }: any) => {
-  // const channels = useSelector(
-  //   (state: StoreChannels) => state.channels.channels,
-  // )
-
   const pathName = usePathname()
   const [buttonValue, setButtonValue] = useState('Select a Channel')
   const channelSlugRoute = pathName.split('/')[2]

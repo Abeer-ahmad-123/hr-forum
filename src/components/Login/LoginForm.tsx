@@ -50,11 +50,7 @@ export function LoginForm({
           />
         )}
       </div>
-      {/* <CustomLink
-        className="text-primary-purple text-xs hover:underline dark:text-white"
-        href="#">
-        Forget Password?
-      </CustomLink> */}
+
       <div className="mt-6">
         <div
           onClick={handleLoginSubmit}

@@ -31,9 +31,6 @@ const CommentOrReply = ({
   const postId = params['id'] || Id
 
   const { handleRedirect } = useFetchFailedClient()
-
-  // const disptach = useDispatch()
-
   const { customFetch } = useInterceptor()
   const [isLoading, setIsLoading] = useState({
     loading: false,
@@ -60,14 +57,11 @@ const CommentOrReply = ({
 
       if (result?.success) {
         if (!commentId) {
-          // disptach(IncreaseCommentCountInStore(postId))
           getUserSpecificDetailFunc()
           setComments((prevComments: Array<Object>) => [
             result?.data?.comment,
             ...prevComments,
           ])
-          // } else {
-          //   disptach(IncreaseCommentCountInStore(postId))
           refetchComments()
         }
       } else {

@@ -8,7 +8,6 @@ const UserSpecificPosts = ({
   posts: initialPosts,
   user,
   getUserSpecificDetailFunc,
-  morePosts,
 }: any) => {
   const pathName = usePathname()
 
@@ -22,20 +21,20 @@ const UserSpecificPosts = ({
               post={post}
               posts={initialPosts}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
-              // channels={post?.channel_id}
             />
           ))}
         </>
       ) : (
-        initialPosts.slice(0, 2)?.map((post: PostsInterface, i: number) => (
-          <Card
-            key={post?.id}
-            post={post}
-            posts={initialPosts}
-            getUserSpecificDetailFunc={getUserSpecificDetailFunc}
-            // channels={post?.channel_id}
-          />
-        ))
+        initialPosts
+          .slice(0, 2)
+          ?.map((post: PostsInterface, i: number) => (
+            <Card
+              key={post?.id}
+              post={post}
+              posts={initialPosts}
+              getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+            />
+          ))
       )}
 
       {pathName.includes('/user-activities') ? (

@@ -1,6 +1,6 @@
 import './index.css'
-import ErrorImage from '@/assets/images/404Image'
 import Link from 'next/link'
+import ErrorImage from '@/assets/images/404Image'
 
 const NotFound = () => {
   return (

@@ -78,8 +78,6 @@ const CardLoading = () => {
           <RenderFeedLoading key={index} />
         ))}
       </div>
-
-      {/* <RulesCardSkelton className={'max-md:hidden'} token={token} /> */}
     </div>
   )
 }

@@ -1,9 +1,8 @@
-import PostSkelton from '@/components/shared/post/PostSkelton'
-import SinglePost from '@/components/SinglePost'
-import { getPostsComments } from '@/services/comments'
-import { getPostByPostId } from '@/services/posts'
 import { Metadata } from 'next'
 import { redirect } from 'next/navigation'
+import SinglePost from '@/components/SinglePost'
+import { getPostByPostId } from '@/services/posts'
+import { getPostsComments } from '@/services/comments'
 
 export const metadata: Metadata = {
   title: 'HR-Forum - Feed - Post',
@@ -29,9 +28,7 @@ const SingleFeedpage = async ({ params, searchParams }: any) => {
     post: await getPost(),
     comments: await getPostComments(),
   }
-  return <PostSkelton />
-
-  // <SinglePost postId={id} searchParams={searchParams} data={data} />
+  return <SinglePost postId={id} searchParams={searchParams} data={data} />
 }
 
 export default SingleFeedpage

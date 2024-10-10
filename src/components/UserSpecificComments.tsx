@@ -3,7 +3,6 @@ import { useRouter } from 'next/navigation'
 import ProfileComment from './ProfileComment'
 import { PostsInterface } from '@/utils/interfaces/posts'
 import { usePathname } from 'next/navigation'
-import { userData } from '@/utils/interfaces/userData'
 import Link from 'next/link'
 
 interface UserSpecificCommentsProps {
@@ -14,7 +13,6 @@ interface UserSpecificCommentsProps {
     username: string
     profilePictureURL: string
   }
-  // user: userData | Number
 }
 
 const UserSpecificComments = ({

@@ -12,11 +12,8 @@ import {
 } from '@/services/user'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { profileProps, userData } from '@/utils/interfaces/userData'
-import { Mail, User } from 'lucide-react'
 import { useEffect, useId, useRef, useState } from 'react'
-import { LiaUserEditSolid } from 'react-icons/lia'
 import EditProfileButton from './EditProfileButton'
-import ProfilePageLoading from './Loading/ProfilePageLoading'
 import UserActivity from './UserActivity'
 import UserDataBadge from './UserDataBadge'
 import { setUserDetailsInCookie } from '@/utils/cookies'
@@ -38,18 +35,6 @@ const UserProfile = ({
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
   const pathName = usePathname()
-
-  // const dispatch = useDispatch()
-
-  // const userToken = useSelector(
-  //   (state: LoggedInUser) => state?.loggedInUser?.token,
-  // )
-  // const refreshToken =
-  //   useSelector((state: LoggedInUser) => state?.loggedInUser?.refreshToken) ??
-  //   ''
-  // const userDataInStore = useSelector(
-  //   (state: LoggedInUser) => state?.loggedInUser?.userData,
-  // )
 
   const [user, setUser] = useState<any>(userInCookie ?? userInCookie)
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
@@ -115,8 +100,11 @@ const UserProfile = ({
   const postOfother = async () => {
     try {
       let response = []
-      if (pathName.includes('/user-activities')) {
-        response = await getUserSpecificPosts(Number(userId), 2, {
+      if (
+        pathName.includes('/user-activities') ||
+        (userId && pathName.includes('/profile'))
+      ) {
+        response = await getUserSpecificPosts(Number(userId), 1, {
           loadReactions: true,
         })
       } else {
@@ -127,6 +115,7 @@ const UserProfile = ({
 
       if (response.success) {
         setOtherUserPosts(response?.data?.posts)
+        console.log('response?.data?.posts', response?.data?.posts)
         setLoading(false)
       } else {
         throw response.errors[0]
@@ -190,14 +179,6 @@ const UserProfile = ({
           }
           setUser({ ...user, profilePictureURL: response?.data?.url })
           setValueToLocalStoage('userData', response?.data)
-          // dispatch(
-          //   setUserData({
-          //     userData: {
-          //       ...userDataInStore,
-          //       profilePictureURL: response?.data?.url,
-          //     },
-          //   }),
-          // )
         } else {
           throw response.errors[0]
         }
@@ -219,14 +200,7 @@ const UserProfile = ({
       )
       if (response?.success) {
         showSuccessAlert('Profile picture updated')
-        // dispatch(
-        //   setUserData({
-        //     userData: {
-        //       ...userDataInStore,
-        //       backgroundPictureURL: response?.data?.url,
-        //     },
-        //   }),
-        // )
+
         if (userInCookie) {
           await setUserDetailsInCookie({
             ...userInCookie,
@@ -250,7 +224,7 @@ const UserProfile = ({
 
   useEffect(() => {
     getUserSpecificDetail()
-    if (userId && !accessToken) {
+    if (userId) {
       postOfother()
       getOtherCommments()
       getOtherReactions()
@@ -260,19 +234,13 @@ const UserProfile = ({
   useEffect(() => {
     if (isFirstUser.current) {
       isFirstUser.current = false
-      /**
-       * If the current user is current logged-in user then don't fetch details like name, bio email we wll take them from cookies
-       */
+
       if (user && user?.id === userIdLocal) return
-      // getUserSpecificDetail()
-    } else {
-      // postOfother()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return user ? (
-    <div className="profile-page  max-md:block w-full flex-grow">
+    <div className="profile-page  w-full flex-grow max-md:block">
       <section className="relative  block h-[650px]">
         <div
           className={`${
@@ -351,16 +319,16 @@ const UserProfile = ({
                         }
                         className={`${
                           pathName.includes('/user-activities')
-                            ? 'max-md:ml-4 ml-[34px]  h-[98px] w-[98px] -translate-y-9 rounded-full  border border-bg-green  align-middle'
+                            ? 'ml-[34px] h-[98px]  w-[98px] -translate-y-9 rounded-full border  border-bg-green align-middle  max-md:ml-4'
                             : 'ml-4 h-[98px] w-[98px] -translate-y-9 rounded-full border  border-bg-green align-middle  md:ml-[70px] '
                         }`}
                       />
-                      {userOrOther && (
+                      {userOrOther && !userId && (
                         <label
                           htmlFor="changeImage"
                           className={`${
                             pathName.includes('/user-activities')
-                              ? 'max-md:left-[97px] absolute bottom-12 left-[110px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark'
+                              ? 'absolute bottom-12 left-[110px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark max-md:left-[97px]'
                               : 'absolute bottom-12 left-[97px] z-10 flex h-6 w-6 items-center justify-center rounded-full bg-bg-tertiary dark:bg-bg-tertiary-dark md:left-[140px]'
                           }`}>
                           <EditProfileIcon className="h-3 w-3 cursor-pointer text-black dark:text-white" />
@@ -381,22 +349,12 @@ const UserProfile = ({
                             {user?.name}
                           </h3>
                           <div className="mx-auto flex w-full flex-col justify-start gap-4 break-words text-base font-light text-gray-600 md:flex-row md:items-center md:justify-center">
-                            {/* <div className="flex items-center gap-3">
-                              <User className="mr-1 h-7 w-7 text-gray-600 dark:text-white" />
-                              <div className="text-sm dark:text-white md:text-base">
-                                {' '}
-                                {user?.username}
-                              </div>
-                            </div> */}
                             <div className="flex items-center gap-3 dark:text-white">
                               <div className="max-w-[600px] text-xs opacity-60">
                                 {user?.email}
                               </div>
                             </div>
                           </div>
-                          {/* <div className="mt-4 line-clamp-3 gap-3 text-sm font-normal lg:mx-auto lg:w-[90%] lg:text-center">
-                            {user?.bio}
-                          </div> */}
                         </div>
                       </div>
                     </div>
@@ -419,6 +377,7 @@ const UserProfile = ({
                       email: userInCookie?.email || '',
                       bio: userInCookie?.bio || '',
                     }}
+                    userId={userId}
                     accessToken={accessToken}
                     setUserData={setUser}
                   />
@@ -427,6 +386,7 @@ const UserProfile = ({
             </div>
           </div>
         </div>
+
         <div
           className={`${
             pathName.includes('/user-activities')
@@ -461,10 +421,7 @@ const UserProfile = ({
       </section>
     </div>
   ) : (
-    <>
-      ""
-      {/* {isActivityData ? <ProfilePageLoading /> : null} */}
-    </>
+    ''
   )
 }
 

@@ -2,8 +2,6 @@ import {
   FacebookShareButton,
   LinkedinShareButton,
   RedditShareButton,
-  TelegramIcon,
-  TelegramShareButton,
   TwitterShareButton,
   WhatsappShareButton,
 } from 'react-share'
