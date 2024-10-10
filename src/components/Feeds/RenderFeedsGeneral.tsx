@@ -53,7 +53,7 @@ export default async function RenderFeedsGeneral({
                 src={SavePost}
                 width={759}
                 height={190}
-                className="mb-5 w-full"
+                className="mb-5  w-full"
               />
             )}
             {path === '/popular' && !accessToken && (
@@ -62,7 +62,7 @@ export default async function RenderFeedsGeneral({
                 src={PopularPost}
                 width={759}
                 height={190}
-                className="mb-0 w-full lg:mb-5"
+                className="mb-0 mt-5 w-full lg:mb-5"
               />
             )}
 

@@ -1,7 +1,9 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
 import { getGenericPosts } from '@/services/posts/server-posts'
+import { getUserFromCookie } from '@/utils/cookies'
 import { FeedPageProps } from '@/utils/interfaces/feeds'
+import { redirect } from 'next/navigation'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 
@@ -13,11 +15,16 @@ export const dynamic = 'force-dynamic'
 
 const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const path = '/saved'
+  const { user, token, refreshToken } = await getUserFromCookie()
+
   const { channelData, initialPosts, morePosts } = await getGenericPosts({
     channelSlug: '',
     searchParams,
     path,
   })
+  if (!token) {
+    redirect('/')
+  }
 
   return (
     <Suspense fallback={<CardLoading />}>
