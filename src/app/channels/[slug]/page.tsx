@@ -14,6 +14,7 @@ export const dynamic = 'force-dynamic'
 
 const ChannelPage = async ({ params, searchParams }: any) => {
   const path = '/channels'
+  const { user, token, refreshToken } = await getUserFromCookie()
 
   const { channelData, initialPosts, morePosts } = await getGenericPosts({
     channelSlug: params?.slug ?? '',
@@ -21,7 +22,6 @@ const ChannelPage = async ({ params, searchParams }: any) => {
     path,
   })
 
-  const { user } = await getUserFromCookie()
   return (
     <>
       <Suspense fallback={<CardLoading />}>

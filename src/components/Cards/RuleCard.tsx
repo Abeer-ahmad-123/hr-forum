@@ -40,7 +40,7 @@ const RulesCard = () => {
           </ul>
         </Accordion>
       </div>
-      <div className="pb-5 pl-[135px] text-[12px] text-color-grey">
+      <div className="pb-5 text-end text-[12px] text-color-grey">
         © 2024 HRTalkers. All rights reserved.
       </div>
     </div>

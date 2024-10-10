@@ -85,11 +85,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   }
 
   const isDisabled =
-    !formValues.channelId ||
-    !buttonValue ||
-    !formValues.title ||
-    loading ||
-    (postImage && !selectedImage)
+    !formValues.title || loading || (postImage && !selectedImage)
 
   const handleEditorContentChange = (content: any) => {
     setFormValues({ ...formValues, content })

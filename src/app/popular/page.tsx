@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic'
 
 const PopularPosts = async ({ searchParams }: FeedPageProps) => {
-  const { user, token, refreshToken } = await getUserFromCookie()
+  const { token } = await getUserFromCookie()
   const { channelData, initialPosts, morePosts } = await getGenericPosts({
     channelSlug: '',
     searchParams,

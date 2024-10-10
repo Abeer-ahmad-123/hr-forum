@@ -25,9 +25,10 @@ const ChildWrapper = ({ children }: ChildProps) => {
         pathName?.includes('/feeds') ||
         pathName?.includes('/popular') ||
         pathName?.includes('/channels') ||
-        pathName?.includes('/erro') ||
         pathName?.includes('/user-activity')
           ? 'flex-grow-1 w-full lg:w-[50%]'
+          : pathName?.includes('/error')
+          ? 'flex-grow-1 flex   items-center justify-center'
           : ''
       }
       ${

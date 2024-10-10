@@ -2,13 +2,36 @@
 import { usePathname } from 'next/navigation'
 import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getTokens } from '@/utils/local-stroage'
+import { getUserFromCookie } from '@/utils/cookies'
 
 const CardLoading = () => {
   const renderTimes = 5
   const pathName = usePathname()
+  const [token, setToken] = useState('')
   const slug = pathName?.split('/')[2]
+  const fetchUser = async () => {
+    try {
+      const response = await getUserFromCookie() // Fetch user from cookie
+      return response
+    } catch (error) {
+      console.error('Error fetching user:', error)
+    }
+  }
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await fetchUser()
+      if (userData) {
+        setToken(userData?.token) // Update token if user data is available
+      }
+    }
+
+    // Only call getUserData if the token is null or changes
+    if (!token) {
+      getUserData()
+    }
+  }, [token])
 
   return (
     <div
@@ -19,6 +42,11 @@ const CardLoading = () => {
             <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
           </div>
         ))}
+      {token && (
+        <div className="w-full rounded-xl">
+          <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
+        </div>
+      )}
 
       <div className="flex w-full max-w-full flex-col lg:max-w-screen-md">
         {pathName.includes(`/${slug}/`) ? (

@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic'
 
 const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const path = '/saved'
-  const { user, token, refreshToken } = await getUserFromCookie()
+  const { token } = await getUserFromCookie()
 
   const { channelData, initialPosts, morePosts } = await getGenericPosts({
     channelSlug: '',
