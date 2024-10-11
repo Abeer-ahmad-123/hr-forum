@@ -21,7 +21,7 @@ const LeftSidebar = ({ token, user }: any) => {
     }
   }
   return (
-    <div className="relative hidden h-screen max-h-[882px] w-full max-w-[25%] basis-1/4 flex-col items-end justify-between bg-white  dark:bg-bg-primary-dark dark:text-white lg:inline-block lg:pb-3 lg:pl-[6px] lg:pr-3 lg:pt-3 custom-xl:pb-5 custom-xl:pl-10 custom-xl:pr-7 custom-xl:pt-7">
+    <div className="relative hidden h-screen max-h-[882px] w-full max-w-[25%] basis-1/4 flex-col items-end justify-between bg-white  dark:bg-bg-primary-dark dark:text-white lg:inline-block lg:pb-3 lg:pl-[16px] lg:pr-3 lg:pt-7 custom-xl:pb-5 custom-xl:pl-10 custom-xl:pr-7 custom-xl:pt-7">
       <div>
         {user?.id && <ProfileCard user={user} />}
         <MenuCard path={pathname} user={user?.id} />

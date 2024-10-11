@@ -132,7 +132,7 @@ const CommentSection = ({
                 </div>
               )}
             </div>
-            <div className="h-full w-fit pb-3 text-left text-sm leading-loose text-black opacity-80 dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
+            <div className="h-full w-fit pb-3 text-left text-sm leading-loose text-black opacity-80 dark:text-[#eeeeee] max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]">
               {replies?.comment?.content &&
               replies?.comment?.content.length > 200
                 ? replies?.comment?.content

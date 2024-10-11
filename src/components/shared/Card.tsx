@@ -39,6 +39,7 @@ import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
+import Link from 'next/link'
 
 type CardProps = {
   post: PostsInterface
@@ -309,198 +310,205 @@ const Card = ({
             </DialogContent>
           </Dialog>
         </Suspense>
-        <div
-          onClick={
-            pathName.includes('/profile')
-              ? () => router.push(`/feeds/feed/${post.id}`)
-              : undefined
-          }
-          className={
-            hideComments
-              ? 'flex flex-col gap-[20px]'
-              : 'flex flex-col gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
-          }>
-          <div className="flex flex-row justify-between">
-            <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
-              <div className="flex items-center gap-[12px]">
-                <div className="-z-2">
-                  <div className="static rounded-xl">
-                    <img
-                      className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
-                      width={48}
-                      height={48}
-                      src={
-                        post?.author_details?.profile_picture_url ||
-                        noProfilePicture.src
-                      }
-                      alt="user-picture"
-                      onClick={handleNavigateProfile}
-                    />
+        <Link
+          href={pathName.includes('/profile') ? `/feeds/feed/${post?.id}` : ''}>
+          <div
+            className={
+              hideComments
+                ? 'flex flex-col gap-[20px]'
+                : 'flex flex-col gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
+            }>
+            <div className="flex flex-row justify-between">
+              <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
+                <div className="flex items-center gap-[12px]">
+                  <div className="-z-2">
+                    <div className="static rounded-xl">
+                      <Link
+                        href={
+                          post?.user_id === userDetails?.id
+                            ? '/profile'
+                            : `/profile/${post?.author_details?.name
+                                ?.toLowerCase()
+                                .replace(/ /g, '-')}-${post?.user_id}`
+                        }>
+                        <img
+                          className="inline-block rounded-full object-contain ring-2 ring-white dark:ring-gray-800 max-custom-sx:h-6 max-custom-sx:w-6"
+                          width={48}
+                          height={48}
+                          src={
+                            post?.author_details?.profile_picture_url ||
+                            noProfilePicture.src
+                          }
+                          alt="user-picture"
+                          onClick={handleNavigateProfile}
+                        />
+                      </Link>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex flex-col items-start align-baseline">
-                  <div className="flex flex-row flex-wrap items-center gap-[12px]">
-                    <p
-                      className="max-w-full shrink-0 cursor-pointer break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
-                      aria-label="user-name"
-                      onClick={handleNavigateProfile}>
-                      {String(userDetails?.id) === String(post?.user_id)
-                        ? 'You'
-                        : post?.author_details?.name}
+                  <div className="flex flex-col items-start align-baseline">
+                    <div className="flex flex-row flex-wrap items-center gap-[12px]">
+                      <p
+                        className="max-w-full shrink-0 cursor-pointer break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
+                        aria-label="user-name"
+                        onClick={handleNavigateProfile}>
+                        {String(userDetails?.id) === String(post?.user_id)
+                          ? 'You'
+                          : post?.author_details?.name}
+                      </p>
+
+                      {channels && (
+                        <ChannelPill
+                          channel_id={String(post?.channel_id)}
+                          channels={channels}
+                        />
+                      )}
+                    </div>
+
+                    <p className="justify-start text-[10px] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
+                      {timeFormatInHours(post?.created_at as unknown as Date)}
                     </p>
-
-                    {channels && (
-                      <ChannelPill
-                        channel_id={String(post?.channel_id)}
-                        channels={channels}
-                      />
-                    )}
                   </div>
-
-                  <p className="justify-start text-[10px] font-light text-slate-500 dark:text-gray-400 max-custom-sm:text-[9px] max-[392px]:text-[9px] max-custom-sx:text-[7px]">
-                    {timeFormatInHours(post?.created_at as unknown as Date)}
-                  </p>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-0.5">
-                {!pathName.includes(`user-activity/${slug}/comment`) && (
-                  <div onMouseLeave={handleMouseDown}>
-                    <Popover open={popOver} onOpenChange={setPopOver}>
-                      <PopoverTrigger
-                        className="relative flex"
-                        name="post options button"
-                        aria-label="post options"
-                        aria-labelledby="postOptionsLabel"
-                        role="button">
-                        <span className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 ">
-                          {post?.user_id === userDetails?.id ? (
-                            <div onClick={handleDeleteClick}>
-                              <Trash2 size={17} />
-                            </div>
-                          ) : (
-                            <AlertOctagon
-                              size={17}
-                              className={reported ? 'text-red' : ''}
-                              onClick={handleReportClick}
-                            />
-                          )}
-                        </span>
-                      </PopoverTrigger>
-                      <Suspense>
-                        <PopoverContent className="bg-white">
-                          {post?.user_id === userDetails?.id ? (
-                            <div
-                              className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
-                              onClick={handleDeleteClick}>
-                              <Trash2 size={17} />
-                              <span className="text-[15px] font-light max-custom-sm:hidden">
-                                {' '}
-                                Delete
-                              </span>
-                            </div>
-                          ) : (
-                            <div
-                              className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
-                              onClick={handleReportClick}>
-                              <AlertOctagon size={17} />
-                              <span className="text-[15px] font-light max-custom-sm:hidden">
-                                {' '}
-                                Report
-                              </span>
-                            </div>
-                          )}
-                        </PopoverContent>
-                      </Suspense>
-                    </Popover>
-                  </div>
-                )}
+                <div className="flex items-center gap-0.5">
+                  {!pathName.includes(`user-activity/${slug}/comment`) && (
+                    <div onMouseLeave={handleMouseDown}>
+                      <Popover open={popOver} onOpenChange={setPopOver}>
+                        <PopoverTrigger
+                          className="relative flex"
+                          name="post options button"
+                          aria-label="post options"
+                          aria-labelledby="postOptionsLabel"
+                          role="button">
+                          <span className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 ">
+                            {post?.user_id === userDetails?.id ? (
+                              <div onClick={handleDeleteClick}>
+                                <Trash2 size={17} />
+                              </div>
+                            ) : (
+                              <AlertOctagon
+                                size={17}
+                                className={reported ? 'text-red' : ''}
+                                onClick={handleReportClick}
+                              />
+                            )}
+                          </span>
+                        </PopoverTrigger>
+                        <Suspense>
+                          <PopoverContent className="bg-white">
+                            {post?.user_id === userDetails?.id ? (
+                              <div
+                                className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
+                                onClick={handleDeleteClick}>
+                                <Trash2 size={17} />
+                                <span className="text-[15px] font-light max-custom-sm:hidden">
+                                  {' '}
+                                  Delete
+                                </span>
+                              </div>
+                            ) : (
+                              <div
+                                className="dark:text-icon-dark text-icon-light pyrepo-2 dark:white flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
+                                onClick={handleReportClick}>
+                                <AlertOctagon size={17} />
+                                <span className="text-[15px] font-light max-custom-sm:hidden">
+                                  {' '}
+                                  Report
+                                </span>
+                              </div>
+                            )}
+                          </PopoverContent>
+                        </Suspense>
+                      </Popover>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div
-            className="flex max-w-full flex-col gap-[5px] hyphens-auto"
-            onClick={handleNavigateFeed}>
-            <CustomLink
-              href={
-                pathName.includes('channels')
-                  ? `${pathName}/feed/${post?.id}`
-                  : pathName.includes('saved')
-                  ? `/saved/feed/${post?.id}`
-                  : `/feeds/feed/${post?.id}`
-              }>
-              {' '}
-              <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
-                <p>{post?.title}</p>
-              </div>
-            </CustomLink>
-            {post?.content && (
-              <div
-                onClick={() => {
-                  const newPath = pathName.includes('channels')
+            <div
+              className="flex max-w-full flex-col gap-[5px] hyphens-auto"
+              onClick={handleNavigateFeed}>
+              <CustomLink
+                href={
+                  pathName.includes('channels')
                     ? `${pathName}/feed/${post?.id}`
                     : pathName.includes('saved')
                     ? `/saved/feed/${post?.id}`
                     : `/feeds/feed/${post?.id}`
+                }>
+                {' '}
+                <div className="text-start text-[16px] font-[800] dark:text-white max-custom-sm:text-base">
+                  <p>{post?.title}</p>
+                </div>
+              </CustomLink>
+              {post?.content && (
+                <div
+                  onClick={() => {
+                    const newPath = pathName.includes('channels')
+                      ? `${pathName}/feed/${post?.id}`
+                      : pathName.includes('saved')
+                      ? `/saved/feed/${post?.id}`
+                      : `/feeds/feed/${post?.id}`
 
-                  router.push(newPath)
-                }}>
-                <CardContent content={post?.content} />
-                {post?.content?.length > 200 && (
-                  <CustomLink
-                    href={
-                      pathName.includes('channels')
-                        ? `${pathName}/feed/${post?.id}`
-                        : pathName.includes('saved')
-                        ? `/saved/feed/${post?.id}`
-                        : `/feeds/feed/${post?.id}`
-                    }>
-                    <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
-                      Show More
-                    </button>
-                  </CustomLink>
-                )}
+                    router.push(newPath)
+                  }}>
+                  <CardContent content={post?.content} />
+                  {post?.content?.length > 200 && (
+                    <CustomLink
+                      href={
+                        pathName.includes('channels')
+                          ? `${pathName}/feed/${post?.id}`
+                          : pathName.includes('saved')
+                          ? `/saved/feed/${post?.id}`
+                          : `/feeds/feed/${post?.id}`
+                      }>
+                      <button className="text-sm text-gray-500 dark:text-gray-400 lg:text-base">
+                        Show More
+                      </button>
+                    </CustomLink>
+                  )}
+                </div>
+              )}
+
+              {post?.image_url && (
+                // * Image consistency for width / height and fill properties
+                <Image
+                  quality={100}
+                  src={post?.image_url}
+                  alt="post"
+                  height={500}
+                  width={500}
+                  className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover"
+                />
+              )}
+            </div>
+            {!hideComments && (
+              <div className="flex" key={post?.id}>
+                <PostActionBar
+                  postId={String(post?.id)}
+                  userReaction={
+                    reactionRef.current ? userReaction : post?.user_reaction
+                  }
+                  setUserReaction={setUserReaction}
+                  updateReactionArray={updateReactionArray}
+                  reactionSummary={reactionSummaryToUse}
+                  disableReactionButton={disableReactionButton}
+                  setDisableReactionButton={setDisableReactionButton}
+                  userComment={userComment}
+                  reactionRef={reactionRef}
+                  updatePosts={updatePosts}
+                  posts={posts}
+                  totalComments={post?.total_comments}
+                  handleBookmark={handleBookmark}
+                  bookmarkSuccess={bookmarkSuccess}
+                  getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+                />
               </div>
             )}
-
-            {post?.image_url && (
-              // * Image consistency for width / height and fill properties
-              <Image
-                quality={100}
-                src={post?.image_url}
-                alt="post"
-                height={500}
-                width={500}
-                className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover"
-              />
-            )}
           </div>
-          {!hideComments && (
-            <div className="flex" key={post?.id}>
-              <PostActionBar
-                postId={String(post?.id)}
-                userReaction={
-                  reactionRef.current ? userReaction : post?.user_reaction
-                }
-                setUserReaction={setUserReaction}
-                updateReactionArray={updateReactionArray}
-                reactionSummary={reactionSummaryToUse}
-                disableReactionButton={disableReactionButton}
-                setDisableReactionButton={setDisableReactionButton}
-                userComment={userComment}
-                reactionRef={reactionRef}
-                updatePosts={updatePosts}
-                posts={posts}
-                totalComments={post?.total_comments}
-                handleBookmark={handleBookmark}
-                bookmarkSuccess={bookmarkSuccess}
-                getUserSpecificDetailFunc={getUserSpecificDetailFunc}
-              />
-            </div>
-          )}
-        </div>
+        </Link>
       </div>
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>

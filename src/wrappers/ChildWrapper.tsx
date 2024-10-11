@@ -4,6 +4,7 @@ import CardLoading from '@/components/Loading/CardLoading'
 import useChannels from '@/hooks/channels'
 import { usePathname } from 'next/navigation'
 import { useEffect } from 'react'
+import { getTokens } from '@/utils/local-stroage'
 
 interface ChildProps {
   children: React.ReactNode
@@ -12,14 +13,10 @@ const ChildWrapper = ({ children }: ChildProps) => {
   const pathName = usePathname()
   useEffect(() => {}, [pathName])
   const channels = useChannels()
-
+  const { accessToken, refreshToken } = getTokens()
   return (
     <div
-      className={`${
-        pathName?.includes('/profile') || pathName?.includes('/user-activities')
-          ? 'flex-grow-1 h-full w-full '
-          : ''
-      } 
+      className={`
       ${
         pathName?.includes('/saved') ||
         pathName?.includes('/feeds') ||
@@ -34,8 +31,15 @@ const ChildWrapper = ({ children }: ChildProps) => {
       ${
         pathName?.includes('/login') || pathName?.includes('/register')
           ? 'w-full p-0 lg:p-0'
-          : ' p-0 lg:p-5'
+          : pathName?.includes('/feeds') && !accessToken
+          ? ' p-0 lg:p-5 lg:pt-0'
+          : ' p-0 lg:p-5  lg:py-5'
       }
+      ${
+        pathName?.includes('/profile') || pathName?.includes('/user-activities')
+          ? 'flex-grow-1 h-full w-full p-0 lg:p-5'
+          : ''
+      } 
 
      `}>
       {pathName?.includes('/feeds') ? (

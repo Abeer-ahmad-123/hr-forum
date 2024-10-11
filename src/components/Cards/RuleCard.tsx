@@ -21,7 +21,7 @@ const RulesCard = () => {
                   <AccordionItem
                     value={item.title}
                     key={index}
-                    className="border-b dark:border-none">
+                    className="border-b dark:border-bg-tertiary-dark">
                     <AccordionTrigger>
                       <div className="my-[10px] flex gap-2.5 text-base font-medium dark:text-bg-tertiary">
                         <div className="dark:text-white">{index + 1}.</div>

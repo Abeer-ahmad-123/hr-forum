@@ -10,6 +10,7 @@ import { getSpecificUserDetails } from '@/services/user'
 export const metadata: Metadata = {
   title: 'HR-Forum · Profile',
 }
+export const dynamic = 'force-dynamic'
 
 const Profile = async ({ params }: any) => {
   // Split the slug and extract the ID

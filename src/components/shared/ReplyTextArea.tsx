@@ -58,6 +58,9 @@ function ReplyTextArea({
   // )
 
   const toggleTextArea = () => {
+    if (!accessToken) {
+      setShowSignModal(true)
+    }
     setShowTextArea((pre) => !pre)
   }
 

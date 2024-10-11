@@ -190,7 +190,7 @@ export default function NewPostForm({ setAddPost }: newPostFormInterface) {
   }, [])
 
   return (
-    <div className="max-h[665px] flex h-full max-w-full flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark lg:w-[759px]">
+    <div className="max-h[665px]  flex h-full max-w-full flex-col gap-[18px] rounded-xl  bg-white p-2 px-[24px] pb-[20px] pt-[28px] dark:bg-bg-primary-dark lg:w-[759px]">
       <div className="flex flex-col justify-between gap-[18px]">
         <button
           onClick={handleBack}

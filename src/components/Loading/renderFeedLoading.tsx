@@ -7,7 +7,7 @@ const RenderFeedLoading = () => {
         <div className="flex items-center justify-between max-md:block">
           <div className="flex items-center">
             <div className="-z-2">
-              <Skelton className="h-8 w-8 rounded-full  bg-skelton" />
+              <Skelton className="h-12 w-12 rounded-full  bg-skelton" />
             </div>
 
             <div className="ml-2 flex flex-col items-start align-baseline">

@@ -12,12 +12,16 @@ const RenderChildren = async ({
   const { token, user } = await getUserFromCookie()
   return (
     <div
-      className={
-        pathname?.includes('/login') || pathname?.includes('/register')
-          ? 'p-0'
-          : `p-4 lg:p-0 ` +
-            `mx-auto max-w-[1512px] transition-all duration-700 ease-in-out `
-      }>
+      className={`
+        ${
+          pathname?.includes('/login') || pathname?.includes('/register')
+            ? 'p-0'
+            : pathname?.includes('/profile') ||
+              pathname?.includes('/user-activities')
+            ? 'p-0 px-0 pt-4  lg:p-0 lg:pt-0 '
+            : `p-4 lg:p-0  `
+        }
+            mx-auto max-w-[1512px] transition-all duration-700 ease-in-out `}>
       <div
         className={
           isError

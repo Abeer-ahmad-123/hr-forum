@@ -5,6 +5,7 @@ import { Metadata } from 'next'
 import { getUserFromCookie } from '@/utils/cookies'
 import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
 import { getUserComments } from '@/services/comments'
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'HR-Forum · Profile',

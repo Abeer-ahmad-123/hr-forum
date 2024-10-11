@@ -101,11 +101,9 @@ export default function Login({
   async function handleGoogleSignIn() {
     try {
       const response = await googleAuthStart(pathname)
-      console.log('response of google login', response)
 
       if (response?.success) {
         router.push(response?.data)
-        console.log('response?.data', response?.data)
       }
     } catch (err) {}
   }

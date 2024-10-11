@@ -35,7 +35,11 @@ const CardLoading = () => {
 
   return (
     <div
-      className={`mt-4 flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`}>
+      className={
+        token &&
+        'mt-4' +
+          `flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`
+      }>
       {!pathName.includes('user-activity') ||
         (!pathName.includes('/channels') && (
           <div className="w-full rounded-xl">
@@ -63,17 +67,25 @@ const CardLoading = () => {
             </div>
           </div>
         ) : (
-          <div className="mb-5">
+          <div className={token && 'mb-5'}>
             {pathName == '/saved' || pathName.includes('/feeds') ? (
               <Skelton
                 className={`h-104 mt-[15px] w-full rounded-md bg-skelton`}
               />
             ) : (
-              pathName.includes('/channels') && <BannerCardLoading />
+              ''
             )}
           </div>
         )}
-
+        {pathName.includes('/channels') ||
+          (pathName.includes('/saved') && <BannerCardLoading />)}
+        {pathName.includes('/popular') && (
+          <>
+            <Skelton
+              className={`mb-5 mt-8 h-[119px] w-full rounded-md bg-skelton`}
+            />
+          </>
+        )}
         {Array.from({ length: renderTimes }, (_, index) => (
           <RenderFeedLoading key={index} />
         ))}
@@ -94,10 +106,8 @@ const BannerCardLoading = () => {
     }
   }, [])
 
-  if (!token) return
-
   return (
-    <div className="h-[266px] rounded-xl bg-bg-primary px-2 dark:bg-bg-primary-dark">
+    <div className="mb-5 mt-5 h-[266px] rounded-xl bg-bg-primary px-2 dark:bg-bg-primary-dark">
       <Skelton className="mt-[15px] h-[190px] w-full rounded-md" />
 
       <div className="flex items-center justify-center px-5 pt-3">

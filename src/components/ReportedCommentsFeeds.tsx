@@ -93,7 +93,6 @@ const ReportedCommentsFeeds = ({
         <div className="flex w-full justify-center">
           <div className="w-full">
             <div>
-              {' '}
               <FeaturesDropDownWithSuspense />
             </div>
             <div

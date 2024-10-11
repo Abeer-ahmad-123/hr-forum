@@ -30,7 +30,7 @@ export default async function RenderFeedsGeneral({
     <div className="w-full">
       <div className="flex w-full justify-center">
         <div className="w-full">
-          {!token && <FeaturesDropDownWithSuspense />}
+          {<FeaturesDropDownWithSuspense />}
           <div
             className={`${
               path === '/saved' || path === '/popular' ? '' : 'mt-0 '
@@ -41,7 +41,7 @@ export default async function RenderFeedsGeneral({
                 src={SavePost}
                 width={759}
                 height={190}
-                className="mb-5  w-full"
+                className="mb-5  mt-5 w-full"
               />
             )}
             {path === '/popular' && !token && (
@@ -50,7 +50,7 @@ export default async function RenderFeedsGeneral({
                 src={PopularPost}
                 width={759}
                 height={190}
-                className="mb-0 mt-5 w-full lg:mb-5"
+                className="mb-0 w-full lg:mb-5 "
               />
             )}
 

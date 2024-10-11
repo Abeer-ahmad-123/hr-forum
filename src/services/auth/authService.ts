@@ -21,6 +21,7 @@ import {
   GOOGLE_EXCHANGE_CODE,
   GOOGLE_REGISTER,
 } from './routes'
+import { revalidatePath } from 'next/cache'
 
 export interface GoogleCodeExchangeType {
   token: string
@@ -56,6 +57,7 @@ export async function signIn(body: any) {
     })
     const responseJson = await responseFromAuth.json()
     if (responseJson.success) setUserCookies(responseJson)
+    revalidatePath('/feeds')
     return { ...responseJson, status: responseFromAuth?.status }
   } catch (err) {
     throw err
@@ -98,6 +100,7 @@ export async function updatePassword(body: any) {
 export async function logout() {
   try {
     removeUserCookies()
+    revalidatePath('/feeds')
   } catch (err) {
     throw err
   }
