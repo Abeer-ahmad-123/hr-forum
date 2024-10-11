@@ -86,10 +86,6 @@ const ActivityButtons = ({ slug }: ActivityButtonProps) => {
             ${profileNav.isComment ? activityStyles : 'text-white'}`}>
           <div
             className={`flex items-center gap-2 font-semibold text-[#334155] hover:text-black  dark:text-white  dark:hover:text-white max-custom-sm:text-xs   `}>
-            {/* <FaRegComment
-                size={20}
-                className="max-custom-sm:h-4 max-custom-sm:w-4"
-              /> */}
             <button name="comment button">
               <span className="text-sm font-medium ">Comment</span>{' '}
             </button>

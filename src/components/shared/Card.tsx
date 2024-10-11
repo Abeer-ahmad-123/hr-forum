@@ -20,9 +20,9 @@ import type {
   ChannelInterface,
 } from '@/utils/interfaces/channels'
 import { PostsInterface } from '@/utils/interfaces/posts'
-import { AlertOctagon, MoreHorizontal, Trash2 } from 'lucide-react'
+import { AlertOctagon, MoreHorizontal, Trash2, User } from 'lucide-react'
 import Image from 'next/image'
-import { useParams, usePathname, useRouter } from 'next/navigation'
+import { redirect, useParams, usePathname, useRouter } from 'next/navigation'
 import {
   Dispatch,
   SetStateAction,
@@ -39,6 +39,7 @@ import DeletePost from './post/DeletePost'
 import CardContent from './CardContent'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
+import { getUserFromCookie } from '@/utils/cookies'
 
 type CardProps = {
   post: PostsInterface
@@ -48,6 +49,7 @@ type CardProps = {
   updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
   hideComments?: string
   getUserSpecificDetailFunc: () => void
+  userDetails?: userData
 }
 
 export interface Tokens {
@@ -62,6 +64,7 @@ const Card = ({
   userComment,
   hideComments,
   getUserSpecificDetailFunc,
+  userDetails,
 }: CardProps) => {
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -78,7 +81,7 @@ const Card = ({
   const [openDialog, setOpenDialog] = useState<boolean>(false)
   const [disableReactionButton, setDisableReactionButton] =
     useState<boolean>(false)
-  const [userDetails, setUserDetails] = useState<userData>()
+  // const [userDetails, setUserDetails] = useState<userData>()
   const [userReaction, setUserReaction] = useState('')
   const [tokens, setTokens] = useState<Tokens>({
     accessToken: '',
@@ -153,8 +156,12 @@ const Card = ({
       ?.toLowerCase()
       .replace(/ /g, '-')}-${post?.user_id}`
 
-    // Navigate to the user's profile
-    router.push(profileURL)
+    if (post?.user_id === userDetails?.id) {
+      router.push('/profile')
+    } else {
+      // Navigate to the user's profile
+      router.push(profileURL)
+    }
   }
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -250,10 +257,6 @@ const Card = ({
         refreshToken: storedTokens.refreshToken,
       })
     }
-  }, [])
-  useEffect(() => {
-    const userData = getUserData()
-    if (userData) setUserDetails(userData)
   }, [])
 
   return (
@@ -473,6 +476,16 @@ const Card = ({
                 alt="post"
                 height={500}
                 width={500}
+                onClick={() => {
+                  console.log(
+                    'post.author_details?.name}-${post?.user_id',
+                    post.author_details,
+                    post?.user_id,
+                  )
+                  redirect(
+                    `/profile/${post.author_details?.name}-${post?.user_id}`,
+                  )
+                }}
                 className="h-[270px] w-full  max-w-[711px] rounded-[20px] object-cover"
               />
             )}

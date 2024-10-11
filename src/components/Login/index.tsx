@@ -3,7 +3,7 @@ import { googleAuthStart, signIn } from '@/services/auth/authService'
 import { showErrorAlert, showSuccessAlert } from '@/utils/helper'
 import { handleAuthError } from '@/utils/helper/AuthErrorHandler'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChangeEvent, useEffect, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import GoogleButton from '../shared/GoogleButton'
 import { LoginForm } from './LoginForm'
 import { setValueToLocalStoage } from '@/utils/local-stroage'
@@ -101,11 +101,9 @@ export default function Login({
   async function handleGoogleSignIn() {
     try {
       const response = await googleAuthStart(pathname)
-      console.log('response of google login', response)
 
       if (response?.success) {
         router.push(response?.data)
-        console.log('response?.data', response?.data)
       }
     } catch (err) {}
   }

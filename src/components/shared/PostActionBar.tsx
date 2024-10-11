@@ -11,7 +11,6 @@ import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
 import CommentIcon from '@/assets/icons/CommentIcon'
 import ShareIcon from '@/assets/icons/shareIcon'
-
 import { Dialog } from '@/components/ui/Dialog/simpleDialog'
 import { useTheme } from 'next-themes'
 

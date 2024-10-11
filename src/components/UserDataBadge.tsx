@@ -32,7 +32,7 @@ const UserDataBadge = ({
         className={`
           ${
             pathName.includes('/user-activities')
-              ? 'mt-[50px] lg:mt-0 '
+              ? ' mt-[110px] md:mt-[50px] lg:mt-0 '
               : 'mt-[20px] lg:mt-0 '
           }
           

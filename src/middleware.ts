@@ -11,9 +11,9 @@ export function middleware(request: NextRequest) {
     requestHeaders.set('x-next-pathname', pathname)
   }
 
-  // if (!isUserLogin && (route === 'saved' || route === 'profile')) {
-  //   return redirect
-  // }
+  if (!isUserLogin && (route === 'saved' || route === 'profile')) {
+    return redirect
+  }
 
   if (!route) {
     return redirect

@@ -115,7 +115,6 @@ const UserProfile = ({
 
       if (response.success) {
         setOtherUserPosts(response?.data?.posts)
-        console.log('response?.data?.posts', response?.data?.posts)
         setLoading(false)
       } else {
         throw response.errors[0]
@@ -390,8 +389,8 @@ const UserProfile = ({
         <div
           className={`${
             pathName.includes('/user-activities')
-              ? '-mt-7 flex w-full flex-col justify-end gap-[20px] lg:flex-row-reverse '
-              : 'mt-4 flex w-full flex-col justify-end gap-[20px] lg:flex-row-reverse '
+              ? '-mt-7 flex w-full flex-col justify-end gap-[20px] p-4 md:p-0 lg:flex-row-reverse'
+              : 'mt-4 flex w-full flex-col justify-end gap-[20px] p-4 md:p-0 lg:flex-row-reverse'
           }`}>
           <div className="flex w-full flex-col gap-[20px] lg:w-[30%]">
             <UserDataBadge

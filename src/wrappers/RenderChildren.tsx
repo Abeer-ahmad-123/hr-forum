@@ -15,7 +15,10 @@ const RenderChildren = async ({
       className={
         pathname?.includes('/login') || pathname?.includes('/register')
           ? 'p-0'
-          : `p-4 lg:p-0 ` +
+          : pathname?.includes('/user-activities') ||
+            pathname?.includes('/profile')
+          ? `p-0 pt-4 md:mt-0 lg:p-0 `
+          : '' +
             `mx-auto max-w-[1512px] transition-all duration-700 ease-in-out `
       }>
       <div

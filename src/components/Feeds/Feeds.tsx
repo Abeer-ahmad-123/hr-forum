@@ -151,6 +151,7 @@ const Feeds = ({
                     channels={channels}
                     updatePosts={updatePosts}
                     posts={posts}
+                    userDetails={user}
                     getUserSpecificDetailFunc={() => {}}
                   />
                 )

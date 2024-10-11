@@ -1,6 +1,7 @@
 'use server'
 import { cookies } from 'next/headers'
 import { ResponseData, UserData, setTokenCookies } from '../interfaces/cookies'
+import { revalidatePath } from 'next/cache'
 
 export const setUserCookies = async (responseJson: ResponseData) => {
   const userData = responseJson.data.userData
@@ -13,6 +14,7 @@ export const removeUserCookies = async () => {
   cookies().delete('userData')
   cookies().delete('token')
   cookies().delete('refreshToken')
+  revalidatePath('/')
 }
 export const setUserTokens = async (data: setTokenCookies) => {
   cookies().set('token', data.token)

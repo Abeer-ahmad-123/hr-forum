@@ -12,6 +12,7 @@ export const getTokens = () => {
 export const getUserData = () => {
   if (typeof window !== 'undefined') {
     const user = localStorage.getItem('userData')
+
     const parsedUser: userData = !!user ? JSON.parse(user) : null
     return parsedUser
   }
