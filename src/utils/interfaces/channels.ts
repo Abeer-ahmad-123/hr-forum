@@ -28,4 +28,5 @@ export interface ChannelBannerProps {
   channelSlug?: string | null | undefined
   path: string
   setAddPost: (arg0: boolean) => void
+  channelImg?: string
 }

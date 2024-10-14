@@ -17,6 +17,7 @@ type Props = RenderFeedsInterface & {
     posts: PostsInterface[]
   }
   morePosts: boolean
+  channelImg?: string
 }
 export default async function RenderFeedsGeneral({
   channelSlug = '',
@@ -24,6 +25,7 @@ export default async function RenderFeedsGeneral({
   path,
   data,
   morePosts,
+  channelImg,
 }: Props) {
   const { user, token } = await getUserFromCookie()
   return (
@@ -62,6 +64,7 @@ export default async function RenderFeedsGeneral({
               searchParams={searchParams}
               path={path}
               user={user}
+              channelImg={channelImg}
             />
           </div>
         </div>

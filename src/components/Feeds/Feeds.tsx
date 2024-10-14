@@ -22,6 +22,7 @@ const Feeds = ({
   searchParams,
   path,
   user,
+  channelImg,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
@@ -106,6 +107,7 @@ const Feeds = ({
               channelSlug={channelSlug}
               path={'save'}
               setAddPost={setAddPost}
+              channelImg={channelImg}
             />
           )
         ) : pathName.includes('/feeds') && user?.id ? (
@@ -152,6 +154,7 @@ const Feeds = ({
                     updatePosts={updatePosts}
                     posts={posts}
                     getUserSpecificDetailFunc={() => {}}
+                    user={user}
                   />
                 )
               })

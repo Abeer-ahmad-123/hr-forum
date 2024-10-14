@@ -1,7 +1,6 @@
 'use client'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-import { useDispatch } from 'react-redux'
 import {
   checkUser,
   deleteModalState,
@@ -12,11 +11,11 @@ import {
   logout,
   setUserToken,
 } from '@/services/auth/authService'
-import { clearUser, setUser, setToken } from '@/store/Slices/loggedInUserSlice'
 import { useEffect, useRef, useState } from 'react'
 import UserNameDialog from '@/wrappers/UserNameDialog'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { showErrorAlert } from '@/utils/helper'
+import { setUserDetailsInCookie, setUserTokens } from '@/utils/cookies'
 
 const GoogleAndAuth = () => {
   const searchParams = useSearchParams()
@@ -50,23 +49,17 @@ const GoogleAndAuth = () => {
     if (code) {
       try {
         const response = await googleCodeExchange(code)
-        //set cookies refrsh token here
-
-        // dispatch(
-        //   setUser({
-        //     ...response,
-        //     refreshToken: response['refresh-token'],
-        //   }),
-        // )
+        await setUserTokens(response)
+        await setUserDetailsInCookie(response?.userData)
 
         const currentUrl = window.location.href
         const url = new URL(currentUrl)
 
         url.searchParams.delete('code')
-        router.replace('/feeds')
 
-        window.history.replaceState({}, document.title, url.href)
+        router.replace('/feeds')
       } catch (err) {
+        // debugger
         if (err instanceof Error && err.message.includes('fetch failed')) {
           router.push('/error')
         }

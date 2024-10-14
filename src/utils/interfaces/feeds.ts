@@ -11,6 +11,7 @@ export interface FeedProps {
   searchParams: SearchParams
   path: string
   user: userData
+  channelImg?: string
 }
 
 export type CommentObject = {

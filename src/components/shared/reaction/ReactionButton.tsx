@@ -7,7 +7,7 @@ import {
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
 import HeartIcon from '@/assets/icons/heartIcon'
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { ReactionEmoji } from '.'
 import EmptyHeartIcon from '@/assets/icons/EmptyHEart'
 

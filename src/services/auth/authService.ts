@@ -57,7 +57,7 @@ export async function signIn(body: any) {
     })
     const responseJson = await responseFromAuth.json()
     if (responseJson.success) setUserCookies(responseJson)
-    revalidatePath('/feeds')
+    // revalidatePath('/')
     return { ...responseJson, status: responseFromAuth?.status }
   } catch (err) {
     throw err
@@ -100,7 +100,7 @@ export async function updatePassword(body: any) {
 export async function logout() {
   try {
     removeUserCookies()
-    revalidatePath('/feeds')
+    revalidatePath('/')
   } catch (err) {
     throw err
   }
@@ -185,7 +185,8 @@ export async function googleAuthStart(url: string) {
       },
     })
     const responseJson: APIResponse<string> = await responseFromRefresh.json()
-    // setUserCookies(responseJson)
+
+    // revalidatePath('/')
 
     return responseJson
   } catch (err) {

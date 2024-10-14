@@ -33,6 +33,7 @@ import { CustomLink } from './customLink/CustomLink'
 import { ReactionSummary } from '@/utils/interfaces/card'
 import { getTokens } from '@/utils/local-stroage'
 import { Tokens } from './Card'
+import { getUserFromCookie } from '@/utils/cookies'
 
 const PostActionBar = ({
   postId,
@@ -171,7 +172,9 @@ const PostActionBar = ({
         setDisableReactionButton(false)
       }
     } else {
-      setShowSignModal(true)
+      if (!tokens.accessToken) {
+        setShowSignModal(true)
+      }
     }
   }
 
@@ -241,14 +244,17 @@ const PostActionBar = ({
   }, [])
 
   useEffect(() => {
-    const storedTokens = getTokens()
-    if (storedTokens) {
-      setTokens((prevTokens) => ({
-        ...prevTokens,
-        accessToken: storedTokens?.accessToken,
-        refreshToken: storedTokens?.refreshToken,
-      }))
+    const updateUserTokens = async () => {
+      const storedTokens = await getUserFromCookie()
+      if (storedTokens) {
+        setTokens((prevTokens) => ({
+          ...prevTokens,
+          accessToken: storedTokens?.token,
+          refreshToken: storedTokens?.refreshToken,
+        }))
+      }
     }
+    updateUserTokens()
   }, [])
 
   return (

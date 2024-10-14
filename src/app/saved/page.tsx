@@ -15,14 +15,14 @@ export const dynamic = 'force-dynamic'
 
 const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const path = '/saved'
-  const { token } = await getUserFromCookie()
+  const { user } = await getUserFromCookie()
 
   const { channelData, initialPosts, morePosts } = await getGenericPosts({
     channelSlug: '',
     searchParams,
-    path,
+    path: '/saved',
   })
-  if (!token) {
+  if (!user) {
     redirect('/')
   }
 

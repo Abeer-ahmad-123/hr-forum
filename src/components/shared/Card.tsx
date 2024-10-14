@@ -40,6 +40,7 @@ import CardContent from './CardContent'
 import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
 import Link from 'next/link'
+import { getUserFromCookie } from '@/utils/cookies'
 
 type CardProps = {
   post: PostsInterface
@@ -49,6 +50,7 @@ type CardProps = {
   updatePosts?: Dispatch<SetStateAction<PostsInterface[]>>
   hideComments?: string
   getUserSpecificDetailFunc: () => void
+  user?: userData
 }
 
 export interface Tokens {
@@ -63,6 +65,7 @@ const Card = ({
   userComment,
   hideComments,
   getUserSpecificDetailFunc,
+  user,
 }: CardProps) => {
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -100,7 +103,6 @@ const Card = ({
   const reactionSummaryToUse = isFirstRef.current
     ? post?.reaction_summary
     : reactionSummary
-
   const updateReactionArray = (
     reactionArray: ReactionSummary,
     reactionObject: EmojiActionInterface,
@@ -243,14 +245,16 @@ const Card = ({
   }, [])
 
   useEffect(() => {
+    getUserFromCookie().then((res) => {
+      if (res) {
+        setTokens({
+          ...tokens,
+          accessToken: res.token,
+          refreshToken: res.refreshToken,
+        })
+      }
+    })
     const storedTokens = getTokens()
-    if (storedTokens) {
-      setTokens({
-        ...tokens,
-        accessToken: storedTokens.accessToken,
-        refreshToken: storedTokens.refreshToken,
-      })
-    }
   }, [])
   useEffect(() => {
     const userData = getUserData()
@@ -352,7 +356,7 @@ const Card = ({
                         className="max-w-full shrink-0 cursor-pointer break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                         aria-label="user-name"
                         onClick={handleNavigateProfile}>
-                        {String(userDetails?.id) === String(post?.user_id)
+                        {String(user?.id) === String(post?.user_id)
                           ? 'You'
                           : post?.author_details?.name}
                       </p>

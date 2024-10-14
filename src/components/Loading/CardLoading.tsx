@@ -77,8 +77,8 @@ const CardLoading = () => {
             )}
           </div>
         )}
-        {pathName.includes('/channels') ||
-          (pathName.includes('/saved') && <BannerCardLoading />)}
+        {pathName.includes('/channels') && <BannerCardLoading />}
+        {pathName.includes('/saved') && token && <BannerCardLoading />}
         {pathName.includes('/popular') && (
           <>
             <Skelton

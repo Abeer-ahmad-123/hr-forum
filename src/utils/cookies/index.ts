@@ -13,6 +13,7 @@ export const removeUserCookies = async () => {
   cookies().delete('userData')
   cookies().delete('token')
   cookies().delete('refreshToken')
+  cookies().delete('accessToken')
 }
 export const setUserTokens = async (data: setTokenCookies) => {
   cookies().set('token', data.token)
@@ -38,6 +39,7 @@ export const getUserFromCookie = async () => {
   const userDetails = await getUserDetailsFromCookie()
   const token = await cookies().get('token')
   const refreshToken = await cookies().get('refreshToken')
+
   return {
     token: token?.value || '',
     user: userDetails || {

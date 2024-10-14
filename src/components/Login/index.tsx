@@ -74,9 +74,9 @@ export default function Login({
         setValueToLocalStoage('userData', result?.data?.userData)
         setValueToLocalStoage('token', result?.data?.token)
         setValueToLocalStoage('refreshToken', result?.data['refresh-token'])
-        router.refresh()
+        // router.refresh()
         showSuccessAlert('Welcome! ' + result?.data?.userData?.name)
-        router.refresh()
+        // router.refresh()
         handleDialogClose()
 
         if (
@@ -89,12 +89,12 @@ export default function Login({
       if (pathname.includes('/login')) {
         router.push('/feeds')
       }
-      router.refresh()
+      // router.refresh()
     } catch (err) {
       showErrorAlert('Something went wrong while logging in.')
     } finally {
       setLoading(false)
-      setShowSignModal && setShowSignModal(false)
+      setShowSignModal(false)
     }
   }
 

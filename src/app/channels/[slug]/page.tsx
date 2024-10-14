@@ -1,5 +1,6 @@
 import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
+import { getChannels } from '@/services/channel/channel'
 import { getGenericPosts } from '@/services/posts/server-posts'
 import { capitalizeWord } from '@/utils/helper'
 import { Suspense } from 'react'
@@ -20,6 +21,14 @@ const ChannelPage = async ({ params, searchParams }: any) => {
     path,
   })
 
+  const channels = await getChannels()
+  let channelImg
+  for (let i = 0; i < channels.channels.length; i++) {
+    if (channels.channels[i].slug === params.slug) {
+      channelImg = channels.channels[i]?.ImageURL
+    }
+  }
+
   return (
     <>
       <Suspense fallback={<CardLoading />}>
@@ -29,6 +38,7 @@ const ChannelPage = async ({ params, searchParams }: any) => {
           path={path}
           data={{ channels: channelData, posts: initialPosts }}
           morePosts={morePosts}
+          channelImg={channelImg}
         />
       </Suspense>
     </>

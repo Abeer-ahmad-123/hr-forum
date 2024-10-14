@@ -14,6 +14,7 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
   channelSlug,
   path,
   setAddPost,
+  channelImg,
 }) => {
   const channels = useChannels()
   const [token, setToken] = useState('')
@@ -64,15 +65,15 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
   return (
     <>
       <div>
-        {(channelSlug || !(path === '/saved' && token)) && (
+        {(channelSlug || (path === '/saved' && token)) && (
           <div className="h-[266px] max-w-full rounded-2xl bg-bg-primary px-2 dark:bg-bg-primary-dark lg:max-w-[759px]">
             <div className="mx-auto max-w-full md:max-w-[768px]">
               <div className="relative overflow-hidden rounded-xl pt-2">
                 <img
                   className="lg:max-w-768 px z-10 h-[190px] w-full max-w-full rounded-[20px]"
                   src={
-                    channelSlug
-                      ? getImageUrlBySlug(channelSlug) || noChannelBanner.src
+                    channelImg
+                      ? channelImg || noChannelBanner.src
                       : noChannelBanner.src
                   }
                   alt="banner"
