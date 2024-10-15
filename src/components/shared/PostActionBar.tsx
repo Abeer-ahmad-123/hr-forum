@@ -52,6 +52,7 @@ const PostActionBar = ({
   handleBookmark,
   bookmarkSuccess,
   getUserSpecificDetailFunc,
+  token,
 }: PostActionBarProps) => {
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
   const [reactionCount, setReactionCount] = useState<number>(0)
@@ -270,7 +271,7 @@ const PostActionBar = ({
               disableReactionButton={disableReactionButton}
               setDisableReactionButton={setDisableReactionButton}
               reactionCountToUse={reactionCountToUse}
-              accessToken={tokens?.accessToken}
+              accessToken={token}
             />
 
             <div className="flex w-full items-center  justify-center rounded-sm  hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">

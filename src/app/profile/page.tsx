@@ -30,6 +30,7 @@ const Profile = async () => {
     <>
       <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
         <UserProfile
+          userFlag={user && token ? true : false}
           userInCookie={user}
           accessToken={token}
           refreshToken={refreshToken}

@@ -49,8 +49,6 @@ const GoogleAndAuth = () => {
     if (code) {
       try {
         const response = await googleCodeExchange(code)
-        await setUserTokens(response)
-        await setUserDetailsInCookie(response?.userData)
 
         const currentUrl = window.location.href
         const url = new URL(currentUrl)
@@ -58,6 +56,8 @@ const GoogleAndAuth = () => {
         url.searchParams.delete('code')
 
         router.replace('/feeds')
+        await setUserTokens(response)
+        await setUserDetailsInCookie(response?.userData)
       } catch (err) {
         // debugger
         if (err instanceof Error && err.message.includes('fetch failed')) {

@@ -1,11 +1,10 @@
 'use client'
 import { Dialog, DialogContent } from '@/components/ui/Dialog/simpleDialog'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChangePassword from './ChangePassword'
 import PasswprdProfileIcon from '@/assets/icons/passwordProfileIcon'
 import EditProfileIcon from '@/assets/icons/editProfileIcon'
 import { usePathname } from 'next/navigation'
-
 import EditPage from './EditPage'
 
 interface userDataProps {
@@ -19,12 +18,14 @@ interface EditProfileButtonProps {
   setUserData: (userData: userDataProps) => void
   accessToken: string
   userId?: string
+  userFlag?: boolean
 }
 const EditProfileButton = ({
   userData,
   setUserData,
   accessToken,
   userId,
+  userFlag,
 }: EditProfileButtonProps) => {
   const [openDialog, setOpenDialog] = useState(false)
   const [openPasswordDialog, setOpenPasswordDialog] = useState(false)
@@ -43,7 +44,7 @@ const EditProfileButton = ({
 
   return (
     <div className="absolute  sm:right-0 sm:top-0 sm:mr-0 sm:flex sm:justify-end">
-      {accessToken && !userId && (
+      {accessToken && !userId && userFlag && (
         <div className="ml-4 flex -translate-y-4 gap-4 sm:ml-0 sm:-translate-y-0 sm:pt-20 custom-mid-lg:pt-4">
           <button
             name="update password button"
@@ -61,7 +62,8 @@ const EditProfileButton = ({
           </button>
         </div>
       )}
-      {(accessToken && userId) || (!accessToken && userId) ? (
+
+      {(accessToken && userId) || (!accessToken && userId) || !userFlag ? (
         <div className="flex w-full max-w-[300px] -translate-y-4 gap-4 text-xs opacity-60 sm:ml-0 sm:-translate-y-0 sm:pt-20 md:ml-4 custom-mid-lg:pt-4">
           <p className="w-full">
             Hey there, I am Steve Jons with tons of experience working with

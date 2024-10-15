@@ -31,6 +31,7 @@ const UserProfile = ({
   morePosts,
   comments,
   reactedPosts,
+  userFlag,
 }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
@@ -254,7 +255,7 @@ const UserProfile = ({
                 : BgBanner.src
             })`,
           }}>
-          {!userId && !pathName.includes('/user-activities') && (
+          {!userId && userFlag && (
             <label
               htmlFor="changeBackgroundImage"
               className="absolute bottom-2 right-4 z-40 flex   h-[30px] w-[152px] cursor-pointer items-center justify-center gap-2 rounded-[20px] bg-bg-tertiary px-5 py-2 text-[10px] dark:bg-bg-primary-dark">
@@ -379,6 +380,7 @@ const UserProfile = ({
                     userId={userId}
                     accessToken={accessToken}
                     setUserData={setUser}
+                    userFlag={userFlag}
                   />
                 }
               </div>

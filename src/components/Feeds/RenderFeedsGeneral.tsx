@@ -18,6 +18,7 @@ type Props = RenderFeedsInterface & {
   }
   morePosts: boolean
   channelImg?: string
+  token?: string
 }
 export default async function RenderFeedsGeneral({
   channelSlug = '',
@@ -26,8 +27,9 @@ export default async function RenderFeedsGeneral({
   data,
   morePosts,
   channelImg,
+  token,
 }: Props) {
-  const { user, token } = await getUserFromCookie()
+  const { user } = await getUserFromCookie()
   return (
     <div className="w-full">
       <div className="flex w-full justify-center">
@@ -37,13 +39,13 @@ export default async function RenderFeedsGeneral({
             className={`${
               path === '/saved' || path === '/popular' ? '' : 'mt-0 '
             } w-full dark:text-white lg:max-w-screen-md`}>
-            {path === '/saved' && !token && (
+            {path === '/saved' && (
               <Image
                 alt="save post"
                 src={SavePost}
                 width={759}
                 height={190}
-                className="mb-5  mt-5 w-full"
+                className="mb-5  w-full"
               />
             )}
             {path === '/popular' && !token && (
@@ -65,6 +67,7 @@ export default async function RenderFeedsGeneral({
               path={path}
               user={user}
               channelImg={channelImg}
+              token={token}
             />
           </div>
         </div>

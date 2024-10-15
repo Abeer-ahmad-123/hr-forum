@@ -2,6 +2,7 @@ import RenderFeedsGeneral from '@/components/Feeds/RenderFeedsGeneral'
 import CardLoading from '@/components/Loading/CardLoading'
 import { getChannels } from '@/services/channel/channel'
 import { getGenericPosts } from '@/services/posts/server-posts'
+import { getUserFromCookie } from '@/utils/cookies'
 import { capitalizeWord } from '@/utils/helper'
 import { Suspense } from 'react'
 
@@ -28,6 +29,7 @@ const ChannelPage = async ({ params, searchParams }: any) => {
       channelImg = channels.channels[i]?.ImageURL
     }
   }
+  const { token } = await getUserFromCookie()
 
   return (
     <>
@@ -39,6 +41,7 @@ const ChannelPage = async ({ params, searchParams }: any) => {
           data={{ channels: channelData, posts: initialPosts }}
           morePosts={morePosts}
           channelImg={channelImg}
+          token={token}
         />
       </Suspense>
     </>

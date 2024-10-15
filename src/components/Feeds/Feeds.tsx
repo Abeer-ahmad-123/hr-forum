@@ -23,6 +23,7 @@ const Feeds = ({
   path,
   user,
   channelImg,
+  token,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
@@ -155,6 +156,7 @@ const Feeds = ({
                     posts={posts}
                     getUserSpecificDetailFunc={() => {}}
                     user={user}
+                    token={token}
                   />
                 )
               })

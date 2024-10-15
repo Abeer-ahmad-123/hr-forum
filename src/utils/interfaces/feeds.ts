@@ -12,6 +12,7 @@ export interface FeedProps {
   path: string
   user: userData
   channelImg?: string
+  token?: string
 }
 
 export type CommentObject = {

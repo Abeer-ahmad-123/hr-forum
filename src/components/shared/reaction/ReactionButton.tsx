@@ -34,6 +34,7 @@ const ReactionButton = ({
     e,
   ) => {
     e.stopPropagation()
+    e.preventDefault()
     if (!handleLikeWrapper()) {
       handleReactionEmoji()
     }

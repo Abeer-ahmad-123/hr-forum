@@ -1,6 +1,6 @@
 import ProfilePageLoading from '@/components/Loading/ProfilePageLoading'
 import UserProfile from '@/components/UserProfile'
-import { Suspense } from 'react'
+import { Suspense, use } from 'react'
 import { Metadata } from 'next'
 import { getUserFromCookie } from '@/utils/cookies'
 import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
@@ -52,10 +52,11 @@ const Profile = async ({ params }: any) => {
   return (
     <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
       <UserProfile
-        userInCookie={user?.id === idFromSlug ? user : otherUser}
-        accessToken={
-          Number(user?.id) === Number(idFromSlug) || !idFromSlug ? token : ''
+        userFlag={
+          Number(user.id) === Number(idFromSlug) && token ? true : false
         }
+        userInCookie={user?.id === idFromSlug ? user : otherUser}
+        accessToken={token}
         refreshToken={refreshToken}
         posts={posts?.data?.posts}
         morePosts={morePosts}

@@ -32,6 +32,7 @@ const PopularPosts = async ({ searchParams }: FeedPageProps) => {
         path="/popular"
         morePosts={morePosts}
         data={{ channels: channelData, posts: initialPosts }}
+        token={token}
       />
     </Suspense>
   )

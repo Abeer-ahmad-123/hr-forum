@@ -51,6 +51,7 @@ type CardProps = {
   hideComments?: string
   getUserSpecificDetailFunc: () => void
   user?: userData
+  token?: string
 }
 
 export interface Tokens {
@@ -66,6 +67,7 @@ const Card = ({
   hideComments,
   getUserSpecificDetailFunc,
   user,
+  token,
 }: CardProps) => {
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
@@ -386,7 +388,9 @@ const Card = ({
                           aria-labelledby="postOptionsLabel"
                           role="button">
                           <span className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 ">
-                            {post?.user_id === userDetails?.id ? (
+                            {post?.user_id === userDetails?.id &&
+                            token &&
+                            tokens?.accessToken ? (
                               <div onClick={handleDeleteClick}>
                                 <Trash2 size={17} />
                               </div>
@@ -508,6 +512,7 @@ const Card = ({
                   handleBookmark={handleBookmark}
                   bookmarkSuccess={bookmarkSuccess}
                   getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+                  token={token}
                 />
               </div>
             )}

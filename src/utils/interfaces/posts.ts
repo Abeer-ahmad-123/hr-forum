@@ -55,6 +55,7 @@ export interface PostActionBarProps {
   handleBookmark?: (arg0: React.MouseEvent<HTMLDivElement>) => void
   bookmarkSuccess?: boolean
   getUserSpecificDetailFunc: () => void
+  token?: string
 }
 
 export interface CommentCountStore {

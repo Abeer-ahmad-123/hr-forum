@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react'
 import { getTokens } from '@/utils/local-stroage'
 import { getUserFromCookie } from '@/utils/cookies'
 
-const CardLoading = () => {
+const CardLoading = ({ token }: { token?: string }) => {
   const renderTimes = 5
   const pathName = usePathname()
-  const [token, setToken] = useState('')
+  // const [token, setToken] = useState('')
   const slug = pathName?.split('/')[2]
   const fetchUser = async () => {
     try {
@@ -23,10 +23,9 @@ const CardLoading = () => {
     const getUserData = async () => {
       const userData = await fetchUser()
       if (userData) {
-        setToken(userData?.token) // Update token if user data is available
+        // setToken(userData?.token) // Update token if user data is available
       }
     }
-
     // Only call getUserData if the token is null or changes
     if (!token) {
       getUserData()
@@ -47,8 +46,14 @@ const CardLoading = () => {
           </div>
         ))}
       {token && (
-        <div className="w-full rounded-xl">
+        <div className="mt-5 w-full rounded-xl">
           <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
+        </div>
+      )}
+
+      {pathName.includes('/saved') && (
+        <div className="w-full rounded-xl">
+          <Skelton className="h-295 w-full  rounded-xl bg-skelton" />
         </div>
       )}
 
