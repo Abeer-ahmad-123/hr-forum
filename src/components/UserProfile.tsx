@@ -374,8 +374,8 @@ const UserProfile = ({
                   <EditProfileButton
                     userData={{
                       name: userId ? user?.name : userInCookie?.name,
-                      email: userInCookie?.email || '',
-                      bio: userInCookie?.bio || '',
+                      email: userId ? user?.email : userInCookie?.email,
+                      bio: userId ? user?.bio : userInCookie?.bio,
                     }}
                     userId={userId}
                     accessToken={accessToken}
