@@ -41,6 +41,7 @@ import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
 import Link from 'next/link'
 import { getUserFromCookie } from '@/utils/cookies'
+import { reactionOptions } from '@/utils/data'
 
 type CardProps = {
   post: PostsInterface
@@ -110,6 +111,7 @@ const Card = ({
     reactionObject: EmojiActionInterface,
   ) => {
     if (reactionObject.action === 'post') {
+      console.log('reactionObject.action', reactionObject.action)
       incrementReactionCount(`${reactionObject.value}_count`)
     } else if (reactionObject.action === 'update') {
       updateReactions(
@@ -245,7 +247,6 @@ const Card = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
-
   useEffect(() => {
     getUserFromCookie().then((res) => {
       if (res) {
@@ -322,7 +323,7 @@ const Card = ({
             className={
               hideComments
                 ? 'flex flex-col gap-[20px]'
-                : 'flex flex-col gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
+                : 'flex flex-col  gap-[20px]  px-[24px] pb-[20px] pt-[28px]'
             }>
             <div className="flex flex-row justify-between">
               <div className="flex w-full flex-row  items-center justify-between max-custom-sm:items-start">
@@ -388,9 +389,7 @@ const Card = ({
                           aria-labelledby="postOptionsLabel"
                           role="button">
                           <span className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 ">
-                            {post?.user_id === userDetails?.id &&
-                            token &&
-                            tokens?.accessToken ? (
+                            {post?.user_id === userDetails?.id && token ? (
                               <div onClick={handleDeleteClick}>
                                 <Trash2 size={17} />
                               </div>
@@ -405,7 +404,7 @@ const Card = ({
                         </PopoverTrigger>
                         <Suspense>
                           <PopoverContent className="bg-white">
-                            {post?.user_id === userDetails?.id ? (
+                            {post?.user_id === userDetails?.id && token ? (
                               <div
                                 className="dark:text-icon-dark text-icon-light pyrepo-2 flex w-full basis-1/4 cursor-pointer items-center space-x-2 rounded-sm px-[9px] py-2 font-black hover:bg-bg-green hover:text-white dark:text-white dark:hover:text-white"
                                 onClick={handleDeleteClick}>

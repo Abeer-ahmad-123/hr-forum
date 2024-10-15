@@ -66,7 +66,7 @@ const EditProfileButton = ({
       {(accessToken && userId) || (!accessToken && userId) || !userFlag ? (
         <div className="flex w-full max-w-[300px] -translate-y-4 gap-4 text-xs opacity-60 sm:ml-0 sm:-translate-y-0 sm:pt-20 md:ml-4 custom-mid-lg:pt-4">
           <p className="w-full">
-            Hey there, I am Steve Jons with tons of experience working with
+            Hey there, I am {userData.name} with tons of experience working with
             different people. And I can help them in many ways.
           </p>
         </div>

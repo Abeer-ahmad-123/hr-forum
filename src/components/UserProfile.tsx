@@ -373,7 +373,7 @@ const UserProfile = ({
                 {
                   <EditProfileButton
                     userData={{
-                      name: userInCookie?.name || '',
+                      name: userId ? user?.name : userInCookie?.name,
                       email: userInCookie?.email || '',
                       bio: userInCookie?.bio || '',
                     }}

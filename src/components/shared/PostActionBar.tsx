@@ -23,7 +23,6 @@ import {
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { useInterceptor } from '@/hooks/interceptors'
 import { showErrorAlert } from '@/utils/helper'
-import { LoggedInUser } from '@/utils/interfaces/loggedInUser'
 import { PostActionBarProps, PostsInterface } from '@/utils/interfaces/posts'
 import SocialButtons from './SocialButtons'
 import SignInDialog from './NewPost/SignInDialog'
@@ -95,6 +94,8 @@ const PostActionBar = ({
     ? calculateTotalReactions(reactionSummary)
     : reactionCount
 
+  useEffect(() => {}, [reactionCount])
+
   useEffect(() => {
     if (comment.length) {
       setCommentCount(totalComments + comment.length)
@@ -113,8 +114,12 @@ const PostActionBar = ({
   const submitReaction = async (value: string) => {
     if (pathName === '/feeds') reactionRef.current = true
     let response
-    if (tokens?.accessToken) {
+    console.log('token ', token)
+
+    if (token) {
       try {
+        console.log('userReaction==?>>>', userReaction)
+        console.log('value', value)
         if (!userReaction || userReaction === 'none') {
           response = await postReactions(
             {
@@ -122,7 +127,7 @@ const PostActionBar = ({
             },
             postId,
             customFetch,
-            tokens?.accessToken,
+            token,
             tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
@@ -130,14 +135,14 @@ const PostActionBar = ({
             action: 'post',
             previousAction: userReaction,
           })
-        } else if (value !== 'none' && value !== userReaction) {
+        } else if (value !== 'none' && userReaction !== 'none') {
           response = await updatePostReaction(
             {
               reactionType: value,
             },
             postId,
             customFetch,
-            tokens?.accessToken,
+            token,
             tokens?.refreshToken,
           )
           updateReactionArray(reactionSummary, {
@@ -145,15 +150,19 @@ const PostActionBar = ({
             action: 'update',
             previousAction: userReaction,
           })
-        } else if (value === 'none' || value === userReaction) {
+        } else if (value === 'none') {
           response = await deleteReactions(
             postId,
             customFetch,
-            tokens?.accessToken,
-            tokens?.refreshToken,
+            token,
+            tokens.refreshToken,
+
+            // tokens?.accessToken,
+            // tokens?.refreshToken,
           )
+
           updateReactionArray(reactionSummary, {
-            value: value === 'none' ? userReaction : value,
+            value: value === 'none' ? userReaction : '',
             action: 'delete',
             previousAction: userReaction,
           })
@@ -173,7 +182,7 @@ const PostActionBar = ({
         setDisableReactionButton(false)
       }
     } else {
-      if (!tokens.accessToken) {
+      if (!token) {
         setShowSignModal(true)
       }
     }

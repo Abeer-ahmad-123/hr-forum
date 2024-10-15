@@ -22,12 +22,13 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
     searchParams,
     path: '/saved',
   })
+
   if (!token) {
     redirect('/')
   }
 
   return (
-    <Suspense fallback={<CardLoading />}>
+    <Suspense fallback={<CardLoading token={token} />}>
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}

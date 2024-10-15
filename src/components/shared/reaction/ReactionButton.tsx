@@ -49,7 +49,7 @@ const ReactionButton = ({
     },
     [onReact],
   )
-
+  useEffect(() => {}, [reactionCountToUse])
   const toggleHeartReaction = () => {
     const newReaction =
       currentReaction === '' || currentReaction === 'none' ? 'love' : 'none'
