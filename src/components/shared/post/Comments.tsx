@@ -14,6 +14,8 @@ type Props = {
   pagination: Pagination
   inputRef: any
   getPostCommets: () => void
+  user?: userData
+  token?: string
 }
 
 function Comments({
@@ -22,7 +24,10 @@ function Comments({
   pagination,
   inputRef = null,
   getPostCommets,
+  user,
+  token,
 }: Props) {
+  console.log('token in comments', token)
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
   const [comments, setComments] = useState<CommentInterface[]>(
     initialComments || [],
@@ -85,6 +90,8 @@ function Comments({
         setComments={setComments}
         inputRef={inputRef}
         getPostCommets={getPostCommets}
+        user={user}
+        token={token}
       />
       <Suspense fallback={<h1 className="text-red">Loading...</h1>}>
         <div className="flex flex-col gap-[20px]">
@@ -104,6 +111,8 @@ function Comments({
                     setDeletedCommentId={setDeletedCommentId}
                     deletedCommentId={deletedCommentId}
                     getPostCommets={getPostCommets}
+                    user={user}
+                    token={token}
                   />
                 )
               })}

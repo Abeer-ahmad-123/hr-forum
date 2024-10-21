@@ -14,6 +14,8 @@ const CommentsLogic = ({
   getPostCommets,
   reactionSummary,
   setReactionSummary,
+  user,
+  token,
 }: any) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const [disableReactionButton, setDisableReactionButton] =
@@ -90,6 +92,8 @@ const CommentsLogic = ({
         posts={[]}
         totalComments={0}
         getUserSpecificDetailFunc={() => {}}
+        userFlag={user ? true : false}
+        token={token}
       />
       <Comments
         postId={postId}
@@ -97,6 +101,8 @@ const CommentsLogic = ({
         pagination={paginationResult}
         inputRef={inputRef}
         getPostCommets={getPostCommets}
+        user={user}
+        token={token}
       />
     </div>
   )

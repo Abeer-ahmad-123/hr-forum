@@ -37,9 +37,11 @@ export default async function RenderFeedsGeneral({
           {<FeaturesDropDownWithSuspense />}
           <div
             className={`${
-              path === '/saved' || path === '/popular' ? '' : 'mt-0 '
+              path.includes('/saved') || path.includes('/popular')
+                ? ''
+                : 'mt-0 '
             } w-full dark:text-white lg:max-w-screen-md`}>
-            {path === '/saved' && (
+            {path.includes('/saved') && (
               <Image
                 alt="save post"
                 src={SavePost}
@@ -48,7 +50,7 @@ export default async function RenderFeedsGeneral({
                 className="mb-5  w-full"
               />
             )}
-            {path === '/popular' && !token && (
+            {path.includes('/popular') && !token && (
               <Image
                 alt="save post"
                 src={PopularPost}

@@ -32,7 +32,7 @@ const ChildWrapper = ({ children }: ChildProps) => {
         pathName?.includes('/login') || pathName?.includes('/register')
           ? 'w-full p-0 lg:p-0'
           : pathName?.includes('/feeds') && !accessToken
-          ? ' p-0 lg:p-5 lg:pt-0'
+          ? ' p-0 lg:p-5 '
           : ' p-0 lg:p-5 '
       }
       ${

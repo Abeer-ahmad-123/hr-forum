@@ -6,12 +6,10 @@ import { FeedPageProps } from '@/utils/interfaces/feeds'
 import { redirect } from 'next/navigation'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: 'HR-Forum - Saved',
 }
-
-export const dynamic = 'force-dynamic'
 
 const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const path = '/saved'
@@ -28,7 +26,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
   }
 
   return (
-    <Suspense fallback={<CardLoading token={token} />}>
+    <Suspense fallback={<CardLoading token={token} pathName="/saved" />}>
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}

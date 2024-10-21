@@ -5,7 +5,7 @@ import { getComment } from '@/services/comments'
 import { AlertOctagon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { ConvertDate } from '@/utils/helper'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
 
@@ -15,6 +15,8 @@ const CommentSection = ({
   commentLength,
   setDeletedCommentId,
   getPostCommets,
+  user,
+  token,
 }: any) => {
   const [showFullComment, setShowFullComment] = useState(false)
   const [userDetails, setUserDetails] = useState<userData>()
@@ -98,7 +100,7 @@ const CommentSection = ({
         </div>
         <div className="mx-[10px]">
           <div
-            className={`w-fit flex-wrap break-all dark:bg-bg-primary-dark
+            className={`w-full flex-wrap break-all dark:bg-bg-primary-dark
                `}>
             {/* * Fixing Alignment */}
             <div className="flex flex-row items-center justify-between">
@@ -106,7 +108,9 @@ const CommentSection = ({
                 onClick={handleNavigate}
                 className="flex h-[40px] cursor-pointer items-center gap-2 text-left font-[500] text-black  dark:text-white max-custom-sm:text-[11px]
                        max-[392px]:text-[10px] max-custom-sx:text-[8px]">
-                {replies?.comment?.author_details?.name}
+                {user?.name === replies?.comment?.author_details?.name
+                  ? 'You'
+                  : replies?.comment?.author_details?.name}
 
                 <div className="flex items-center justify-center gap-2 ">
                   <div className="dot h-[5px] w-[5px] rounded-full bg-black opacity-60 dark:bg-white"></div>
@@ -150,7 +154,7 @@ const CommentSection = ({
             </div>
           </div>
 
-          <div className="flex items-baseline gap-2">
+          <div className="flex  gap-2">
             <div className=" ml-0 text-gray-500">
               <CommentOrReply
                 reply={true}
@@ -160,6 +164,8 @@ const CommentSection = ({
                 setDeletedCommentId={setDeletedCommentId}
                 replies={replies}
                 getPostCommets={getPostCommets}
+                user={user}
+                token={token}
               />
             </div>
           </div>

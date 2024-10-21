@@ -10,7 +10,6 @@ const UserSpecificPosts = ({
   getUserSpecificDetailFunc,
 }: any) => {
   const pathName = usePathname()
-
   return (
     <div className="flex flex-col gap-2">
       {pathName.includes('/user-activities') ? (
@@ -21,6 +20,7 @@ const UserSpecificPosts = ({
               post={post}
               posts={initialPosts}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+              user={user}
             />
           ))}
         </>
@@ -33,6 +33,7 @@ const UserSpecificPosts = ({
               post={post}
               posts={initialPosts}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+              user={user}
             />
           ))
       )}

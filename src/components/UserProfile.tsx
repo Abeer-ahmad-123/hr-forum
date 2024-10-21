@@ -238,7 +238,6 @@ const UserProfile = ({
       if (user && user?.id === userIdLocal) return
     }
   }, [])
-
   return user ? (
     <div className="profile-page  w-full flex-grow max-md:block">
       <section className="relative  block h-[650px]">

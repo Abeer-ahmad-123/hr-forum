@@ -1,64 +1,47 @@
-'use client'
-import { usePathname } from 'next/navigation'
 import Skelton from '../ui/skelton'
 import RenderFeedLoading from './renderFeedLoading'
-import { useEffect, useState } from 'react'
-import { getTokens } from '@/utils/local-stroage'
-import { getUserFromCookie } from '@/utils/cookies'
-
-const CardLoading = ({ token }: { token?: string }) => {
+interface Props {
+  token?: string
+  pathName?: string
+}
+const CardLoading = ({ token, pathName }: Props) => {
   const renderTimes = 5
-  const pathName = usePathname()
-  // const [token, setToken] = useState('')
   const slug = pathName?.split('/')[2]
-  const fetchUser = async () => {
-    try {
-      const response = await getUserFromCookie() // Fetch user from cookie
-      return response
-    } catch (error) {
-      console.error('Error fetching user:', error)
-    }
-  }
-  useEffect(() => {
-    const getUserData = async () => {
-      const userData = await fetchUser()
-      if (userData) {
-        // setToken(userData?.token) // Update token if user data is available
-      }
-    }
-    // Only call getUserData if the token is null or changes
-    if (!token) {
-      getUserData()
-    }
-  }, [token])
 
   return (
-    <div
-      className={
-        token &&
-        'mt-4' +
-          `flex flex-col justify-center max-md:mt-5  max-md:block max-md:w-full`
-      }>
-      {!pathName.includes('user-activity') ||
-        (!pathName.includes('/channels') && (
+    <div className={`flex flex-col justify-center  max-md:block max-md:w-full`}>
+      {!pathName?.includes('user-activity') ||
+        (!pathName?.includes('/channels') && (
           <div className="w-full rounded-xl">
             <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
           </div>
         ))}
+
       {token && (
-        <div className="mt-5 w-full rounded-xl">
-          <Skelton className="h-24 w-full  rounded-xl bg-skelton" />
+        <div className=" w-full rounded-xl">
+          <Skelton
+            className={
+              pathName?.includes('/saved') || pathName?.includes('/popular')
+                ? 'mb-5 h-40 w-full  rounded-xl bg-skelton '
+                : 'hidden'
+            }
+          />
         </div>
       )}
-
-      {pathName.includes('/saved') && (
+      {token && (
         <div className="w-full rounded-xl">
-          <Skelton className="h-295 w-full  rounded-xl bg-skelton" />
+          <Skelton
+            className={
+              token && 'mt-5' && pathName?.includes('/feed')
+                ? 'mb-5 h-24 w-full  rounded-xl bg-skelton '
+                : 'hidden'
+            }
+          />
         </div>
       )}
 
       <div className="flex w-full max-w-full flex-col lg:max-w-screen-md">
-        {pathName.includes(`/${slug}/`) ? (
+        {pathName?.includes(`/${slug}/`) && (
           <div className="mb-4 mt-[25px] rounded-xl bg-white py-2 dark:bg-bg-primary-dark">
             <Skelton className="ml-4 h-8 w-24 rounded-sm bg-skelton" />
             <div className="mt-2 flex items-center ">
@@ -71,23 +54,13 @@ const CardLoading = ({ token }: { token?: string }) => {
               </div>
             </div>
           </div>
-        ) : (
-          <div className={token && 'mb-5'}>
-            {pathName == '/saved' || pathName.includes('/feeds') ? (
-              <Skelton
-                className={`h-104 mt-[15px] w-full rounded-md bg-skelton`}
-              />
-            ) : (
-              ''
-            )}
-          </div>
         )}
-        {pathName.includes('/channels') && <BannerCardLoading />}
-        {pathName.includes('/saved') && token && <BannerCardLoading />}
-        {pathName.includes('/popular') && (
+        {pathName?.includes('/channels') && <BannerCardLoading />}
+        {pathName?.includes('/saved') && token && <BannerCardLoading />}
+        {pathName?.includes('/popular') && (
           <>
             <Skelton
-              className={`mb-5 mt-8 h-[119px] w-full rounded-md bg-skelton`}
+              className={`mb-5 mt-4 h-[119px] w-full rounded-md bg-skelton`}
             />
           </>
         )}
@@ -102,17 +75,17 @@ const CardLoading = ({ token }: { token?: string }) => {
 export default CardLoading
 
 const BannerCardLoading = () => {
-  const [token, setToken] = useState<string | null>(null)
+  // const [token, setToken] = useState<string | null>(null)
 
-  useEffect(() => {
-    const storedTokens = getTokens()
-    if (storedTokens) {
-      setToken(storedTokens?.accessToken)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const storedTokens = getTokens()
+  //   if (storedTokens) {
+  //     setToken(storedTokens?.accessToken)
+  //   }
+  // }, [])
 
   return (
-    <div className="mb-5 mt-5 h-[266px] rounded-xl bg-bg-primary px-2 dark:bg-bg-primary-dark">
+    <div className="mb-5 h-[266px] rounded-xl bg-bg-primary px-2 dark:bg-bg-primary-dark">
       <Skelton className="mt-[15px] h-[190px] w-full rounded-md" />
 
       <div className="flex items-center justify-center px-5 pt-3">

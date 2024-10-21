@@ -26,6 +26,8 @@ const CommentOrReply = ({
   refreshToken,
   accessToken,
   getUserSpecificDetailFunc,
+  user,
+  token,
 }: any) => {
   const params = useParams()
   const postId = params['id'] || Id
@@ -80,7 +82,7 @@ const CommentOrReply = ({
   }
 
   return (
-    <div>
+    <div className="w-full">
       {reply ? (
         <ReplyTextArea
           submitCallback={handleSubmit}
@@ -96,6 +98,8 @@ const CommentOrReply = ({
           refetchComments={refetchComments}
           getPostCommets={getPostCommets}
           accessToken={accessToken}
+          user={user}
+          token={token}
         />
       ) : (
         <TextArea

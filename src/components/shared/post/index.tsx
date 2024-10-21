@@ -25,9 +25,19 @@ type Props = Omit<SinglePostWithDialogProps, 'id'> & {
   postId: string
   isDialogPost?: boolean
   searchParams?: { commentId?: string; replyId?: string } | SearchParams
+  user?: userData
+  token?: string
 }
-const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
+const Post = ({
+  isDialogPost = false,
+  postId,
+  searchParams,
+  data,
+  user,
+  token,
+}: Props) => {
   const { id } = useParams()
+  console.log('token in post component ', token)
   postId = postId ? postId : String(id)
   const paramsSearch = useSearchParams()
   const [commentResult, setCommentResult] = useState<CommentInterface[] | null>(
@@ -177,6 +187,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                 channels={channels}
                 hideComments="w-full"
                 getUserSpecificDetailFunc={() => {}}
+                user={user}
+                token={token}
               />
             </div>
 
@@ -192,6 +204,8 @@ const Post = ({ isDialogPost = false, postId, searchParams, data }: Props) => {
                 getPostCommets={getPostComments}
                 reactionSummary={reactionSummary}
                 setReactionSummary={setReactionSummary}
+                user={user}
+                token={token}
               />
             </div>
           </div>

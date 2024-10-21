@@ -5,13 +5,13 @@ import { getGenericPosts } from '@/services/posts/server-posts'
 import { getUserFromCookie } from '@/utils/cookies'
 import { capitalizeWord } from '@/utils/helper'
 import { Suspense } from 'react'
+export const dynamic = 'force-dynamic'
 
 export function generateMetadata({ params }: any) {
   return {
     title: `HR-Forum - ${capitalizeWord(params.slug)}`,
   }
 }
-export const dynamic = 'force-dynamic'
 
 const ChannelPage = async ({ params, searchParams }: any) => {
   const path = '/channels'
@@ -33,7 +33,7 @@ const ChannelPage = async ({ params, searchParams }: any) => {
 
   return (
     <>
-      <Suspense fallback={<CardLoading />}>
+      <Suspense fallback={<CardLoading token={token} pathName="/channels" />}>
         <RenderFeedsGeneral
           searchParams={searchParams}
           channelSlug={params?.slug}

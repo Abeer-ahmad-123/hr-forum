@@ -1,7 +1,7 @@
 import { timeFormatInHours } from '@/utils/helper'
 import { noProfilePicture } from '@/assets/images'
 
-const ProfileComment = ({ comment, index }: any) => {
+const ProfileComment = ({ comment, index, user }: any) => {
   return (
     <div>
       <div>
@@ -21,7 +21,9 @@ const ProfileComment = ({ comment, index }: any) => {
               className="text-base font-semibold leading-none text-black dark:text-white max-custom-sm:text-[11px] max-[392px]:text-[10px] max-custom-sx:text-[8px]"
               aria-label="user-name"
               onClick={() => {}}>
-              {comment?.author_details?.name}
+              {user.name === comment?.author_details?.name
+                ? 'You'
+                : comment?.author_details?.name}
             </p>
             <p className="pl-1 text-xs font-light text-slate-500 dark:text-gray-400">
               <div className="flex items-center justify-center gap-2 ">

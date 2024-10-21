@@ -31,6 +31,7 @@ const UserSpecificReaction = ({
           post={post.post}
           posts={posts}
           getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+          user={user}
         />
       ))}
 

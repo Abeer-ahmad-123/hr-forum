@@ -1,4 +1,5 @@
 import { EmojiActionInterface, ReactionSummary } from './card'
+import { userData } from './userData'
 
 export interface PostsInterface {
   id: number
@@ -56,6 +57,7 @@ export interface PostActionBarProps {
   bookmarkSuccess?: boolean
   getUserSpecificDetailFunc: () => void
   token?: string
+  userFlag?: boolean
 }
 
 export interface CommentCountStore {

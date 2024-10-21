@@ -52,6 +52,7 @@ const PostActionBar = ({
   bookmarkSuccess,
   getUserSpecificDetailFunc,
   token,
+  userFlag,
 }: PostActionBarProps) => {
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
   const [reactionCount, setReactionCount] = useState<number>(0)
@@ -80,7 +81,6 @@ const PostActionBar = ({
   // const commentCountInStore = useSelector(
   //   (state: CommentCountStore) => state.posts.commentCount,
   // )
-
   const calculateTotalReactions = (reactions: ReactionSummary) => {
     return (
       reactions?.like_count +
@@ -114,12 +114,9 @@ const PostActionBar = ({
   const submitReaction = async (value: string) => {
     if (pathName === '/feeds') reactionRef.current = true
     let response
-    console.log('token ', token)
 
     if (token) {
       try {
-        console.log('userReaction==?>>>', userReaction)
-        console.log('value', value)
         if (!userReaction || userReaction === 'none') {
           response = await postReactions(
             {
@@ -283,7 +280,7 @@ const PostActionBar = ({
               accessToken={token}
             />
 
-            <div className="flex w-full items-center  justify-center rounded-sm  hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-dark-background">
+            <div className="flex w-full items-center  justify-center rounded-sm   dark:text-gray-300 ">
               <button
                 name="comment button"
                 onClick={toggleCommentArea}
@@ -328,7 +325,7 @@ const PostActionBar = ({
             </div>
 
             <div
-              className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm hover:bg-gray-100 dark:hover:bg-dark-background"
+              className="dark:text-icon-dark  flex basis-1/4 cursor-pointer items-center justify-center rounded-sm "
               onMouseLeave={handleMouseDown}>
               <Popover open={popOver} onOpenChange={setPopOver}>
                 <PopoverTrigger
@@ -392,14 +389,18 @@ const PostActionBar = ({
             setComments={setComment}
             postId={postId}
             refreshToken={tokens?.refreshToken}
-            accessToken={tokens?.accessToken}
+            accessToken={tokens?.accessToken || token}
             getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+            userFlag={userFlag}
+            token={token}
           />
           <div className="mt-[20px]">
             {comment.length != 0 && (
               <CommentSection
                 comment={comment[0]}
                 setDeletedCommentId={setDeletedCommentId}
+                userFlag={userFlag}
+                token={token}
               />
             )}
           </div>

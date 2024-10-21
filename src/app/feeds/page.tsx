@@ -18,7 +18,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
   const { token } = await getUserFromCookie()
 
   return (
-    <Suspense fallback={<CardLoading token={token} />}>
+    <Suspense fallback={<CardLoading token={token} pathName="/feed" />}>
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}

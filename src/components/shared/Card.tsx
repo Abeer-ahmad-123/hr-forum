@@ -70,6 +70,7 @@ const Card = ({
   user,
   token,
 }: CardProps) => {
+  let userFlag = user ? true : false
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -111,7 +112,6 @@ const Card = ({
     reactionObject: EmojiActionInterface,
   ) => {
     if (reactionObject.action === 'post') {
-      console.log('reactionObject.action', reactionObject.action)
       incrementReactionCount(`${reactionObject.value}_count`)
     } else if (reactionObject.action === 'update') {
       updateReactions(
@@ -151,6 +151,8 @@ const Card = ({
         ? `/saved/feed/${post?.id}`
         : pathName.includes('user-activity')
         ? `${pathName}/feed/${post?.id}`
+        : pathName.includes('profile')
+        ? ''
         : `/feeds/feed/${post?.id}`,
     )
   }
@@ -355,19 +357,26 @@ const Card = ({
 
                   <div className="flex flex-col items-start align-baseline">
                     <div className="flex flex-row flex-wrap items-center gap-[12px]">
-                      <p
+                      <Link
                         className="max-w-full shrink-0 cursor-pointer break-all text-[16px]  font-[550]  leading-none text-gray-900 hover:underline dark:text-white   "
                         aria-label="user-name"
-                        onClick={handleNavigateProfile}>
+                        href={
+                          post?.user_id === userDetails?.id
+                            ? '/profile'
+                            : `/profile/${post?.author_details?.name
+                                ?.toLowerCase()
+                                .replace(/ /g, '-')}-${post?.user_id}`
+                        }>
                         {String(user?.id) === String(post?.user_id)
                           ? 'You'
                           : post?.author_details?.name}
-                      </p>
+                      </Link>
 
                       {channels && (
                         <ChannelPill
                           channel_id={String(post?.channel_id)}
                           channels={channels}
+                          setOpenDialog={setOpenDialog}
                         />
                       )}
                     </div>
@@ -389,7 +398,8 @@ const Card = ({
                           aria-labelledby="postOptionsLabel"
                           role="button">
                           <span className="text-icon-light dark:text-icon-dark flex cursor-pointer items-center space-x-2 px-[9px] font-black max-[392px]:px-0 ">
-                            {post?.user_id === userDetails?.id && token ? (
+                            {post?.user_id === userDetails?.id ||
+                            (post?.user_id === user?.id && token) ? (
                               <div onClick={handleDeleteClick}>
                                 <Trash2 size={17} />
                               </div>
@@ -512,6 +522,7 @@ const Card = ({
                   bookmarkSuccess={bookmarkSuccess}
                   getUserSpecificDetailFunc={getUserSpecificDetailFunc}
                   token={token}
+                  userFlag={userFlag}
                 />
               </div>
             )}

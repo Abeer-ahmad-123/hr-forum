@@ -25,7 +25,7 @@ const PopularPosts = async ({ searchParams }: FeedPageProps) => {
   }
 
   return (
-    <Suspense fallback={<CardLoading />}>
+    <Suspense fallback={<CardLoading token={token} pathName="/popular" />}>
       <RenderFeedsGeneral
         channelSlug=""
         searchParams={searchParams}

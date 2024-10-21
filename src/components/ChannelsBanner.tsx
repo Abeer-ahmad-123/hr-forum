@@ -67,7 +67,7 @@ const ChannelsBanner: React.FC<ChannelBannerProps> = ({
       <div>
         {(channelSlug || (path === '/saved' && token)) && (
           <div className="h-[266px] max-w-full rounded-2xl bg-bg-primary px-2 dark:bg-bg-primary-dark lg:max-w-[759px]">
-            <div className="mx-auto max-w-full md:max-w-[768px]">
+            <div className="mx-auto max-w-full lg:max-w-[768px]">
               <div className="relative overflow-hidden rounded-xl pt-2">
                 <img
                   className="lg:max-w-768 px z-10 h-[190px] w-full max-w-full rounded-[20px]"

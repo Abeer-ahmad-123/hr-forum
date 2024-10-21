@@ -36,7 +36,10 @@ function ReplyTextArea({
   refetchComments,
   getPostCommets,
   accessToken,
+  userFlag,
+  token,
 }: any) {
+  console.log('token in reply', token)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const [showTextArea, setShowTextArea] = useState<boolean>(false)
@@ -58,14 +61,14 @@ function ReplyTextArea({
   // )
 
   const toggleTextArea = () => {
-    if (!accessToken) {
+    if (!accessToken && !token) {
       setShowSignModal(true)
     }
     setShowTextArea((pre) => !pre)
   }
 
   const handleClick = () => {
-    if (!accessToken) {
+    if (!accessToken && !token) {
       setShowSignModal(true)
     } else {
       setOpenDialog(true)
@@ -83,7 +86,7 @@ function ReplyTextArea({
     event.stopPropagation()
     setPopOver(false)
 
-    if (!accessToken) {
+    if (!accessToken && !token) {
       setShowSignModal(true)
     } else {
       setOpenDeleteDialog(true)
@@ -117,7 +120,7 @@ function ReplyTextArea({
   }, [])
 
   return (
-    <div>
+    <div className="w-full">
       <Dialog open={openDeleteDialog} onOpenChange={setOpenDeleteDialog}>
         <DialogContent className="bg-white sm:max-w-[472px]">
           <CommentDelete
@@ -166,7 +169,7 @@ function ReplyTextArea({
             </PopoverContent>
           </Popover>
         </div>
-        {author == userData?.name ? (
+        {author == userData?.name || userFlag ? (
           <div
             onClick={handleDeleteClick}
             className="cursor-pointer text-sm font-medium text-black opacity-60 hover:underline dark:text-white
@@ -217,7 +220,7 @@ function ReplyTextArea({
         total_replies={replies?.comment?.total_replies}
         repliesLength={replies?.comment?.replies?.length}
       />
-      <div className={` ${!showTextArea && ' hidden'} mt-[10px] `}>
+      <div className={` ${!showTextArea && ' hidden'} mt-[10px] w-full `}>
         <TextArea
           submitCallback={submitCallback}
           setIsLoading={setIsLoading}
@@ -225,7 +228,7 @@ function ReplyTextArea({
           isCommentPage={true}
           inputRef={inputRef}
           placeholder={`Reply to ${author === userData?.name ? 'you' : author}`}
-          className={'max-sm:w-2/3'}
+          className={'w-full'}
           classNameOuter={'mr-4'}
           accessToken={accessToken}
         />

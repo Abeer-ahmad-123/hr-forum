@@ -38,7 +38,7 @@ const UserSpecificComments = ({
               <div
                 key={index}
                 className="mb-4 rounded-2xl bg-bg-secondary px-6 pb-5 pt-7 dark:bg-bg-tertiary-dark">
-                {<ProfileComment comment={comment} index={index} />}
+                {<ProfileComment comment={comment} index={index} user={user} />}
               </div>
             )
           })}
@@ -49,7 +49,7 @@ const UserSpecificComments = ({
             <div
               key={index}
               className="mb-4 rounded-2xl bg-bg-secondary px-6 pb-5 pt-7 dark:bg-bg-tertiary-dark">
-              {<ProfileComment comment={comment} index={index} />}
+              {<ProfileComment comment={comment} index={index} user={user} />}
             </div>
           )
         })
