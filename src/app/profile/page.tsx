@@ -5,7 +5,6 @@ import { Metadata } from 'next'
 import { getUserFromCookie } from '@/utils/cookies'
 import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
 import { getUserComments } from '@/services/comments'
-import { redirect } from 'next/navigation'
 import { ProfilePageProps } from '@/utils/interfaces/profile'
 export const dynamic = 'force-dynamic'
 

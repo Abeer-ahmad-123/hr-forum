@@ -30,9 +30,6 @@ const ChannelPill = ({ channel_id, channels, setOpenDialog }: Props) => {
       <VectorRight className="text-black dark:text-white" />
       <Link
         className="d-flex items-center justify-center"
-        // onClick={() => {
-        //   setOpenDialog((prev) => !prev)
-        // }}
         href={
           pathName.includes('channels')
             ? ''

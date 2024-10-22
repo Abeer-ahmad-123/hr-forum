@@ -1,5 +1,4 @@
 import Feeds from '@/components/Feeds/Feeds'
-import { getUserFromCookie } from '@/utils/cookies'
 import type {
   ChannelByIdInterface,
   ChannelInterface,
@@ -10,7 +9,6 @@ import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
 import Image from 'next/image'
-import { UserData } from '@/utils/interfaces/cookies'
 import { userData } from '@/utils/interfaces/userData'
 
 type Props = RenderFeedsInterface & {
@@ -59,7 +57,7 @@ export default async function RenderFeedsGeneral({
                 src={PopularPost}
                 width={759}
                 height={190}
-                className="mt-5 w-full lg:mb-5 "
+                className=" w-full lg:mb-5 "
               />
             )}
 

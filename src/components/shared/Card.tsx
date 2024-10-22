@@ -41,7 +41,6 @@ import { getTokens, getUserData } from '@/utils/local-stroage'
 import { userData } from '@/utils/interfaces/userData'
 import Link from 'next/link'
 import { getUserFromCookie } from '@/utils/cookies'
-import { reactionOptions } from '@/utils/data'
 import { UserData } from '@/utils/interfaces/cookies'
 
 type CardProps = {
