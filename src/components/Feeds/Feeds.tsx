@@ -24,6 +24,7 @@ const Feeds = ({
   user,
   channelImg,
   token,
+  userInCookies,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
@@ -93,7 +94,7 @@ const Feeds = ({
       return <NewPostForm setAddPost={setAddPost} />
     }
     return (
-      <div className="mb-5">
+      <div className="">
         {pathName.includes('/popular') ? (
           ''
         ) : pathName.includes('/saved') && user ? (
@@ -157,6 +158,7 @@ const Feeds = ({
                     getUserSpecificDetailFunc={() => {}}
                     user={user}
                     token={token}
+                    userInCookies={userInCookies}
                   />
                 )
               })

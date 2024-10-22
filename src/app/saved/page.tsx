@@ -34,6 +34,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
         data={{ channels: channelData, posts: initialPosts }}
         morePosts={morePosts}
         token={token}
+        userInCookies={user}
       />
     </Suspense>
   )

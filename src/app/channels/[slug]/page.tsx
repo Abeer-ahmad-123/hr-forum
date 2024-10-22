@@ -29,7 +29,7 @@ const ChannelPage = async ({ params, searchParams }: any) => {
       channelImg = channels.channels[i]?.ImageURL
     }
   }
-  const { token } = await getUserFromCookie()
+  const { user, token } = await getUserFromCookie()
 
   return (
     <>
@@ -42,6 +42,7 @@ const ChannelPage = async ({ params, searchParams }: any) => {
           morePosts={morePosts}
           channelImg={channelImg}
           token={token}
+          userInCookies={user}
         />
       </Suspense>
     </>

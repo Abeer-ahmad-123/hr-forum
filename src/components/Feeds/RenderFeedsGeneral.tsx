@@ -10,6 +10,8 @@ import type { PostsInterface } from '@/utils/interfaces/posts'
 import type { RenderFeedsInterface } from '@/utils/interfaces/renderFeeds'
 import FeaturesDropDownWithSuspense from '../Cards/FeaturesDropDownWithSuspense'
 import Image from 'next/image'
+import { UserData } from '@/utils/interfaces/cookies'
+import { userData } from '@/utils/interfaces/userData'
 
 type Props = RenderFeedsInterface & {
   data: {
@@ -19,6 +21,7 @@ type Props = RenderFeedsInterface & {
   morePosts: boolean
   channelImg?: string
   token?: string
+  userInCookies?: userData
 }
 export default async function RenderFeedsGeneral({
   channelSlug = '',
@@ -28,8 +31,8 @@ export default async function RenderFeedsGeneral({
   morePosts,
   channelImg,
   token,
+  userInCookies,
 }: Props) {
-  const { user } = await getUserFromCookie()
   return (
     <div className="w-full">
       <div className="flex w-full justify-center">
@@ -56,7 +59,7 @@ export default async function RenderFeedsGeneral({
                 src={PopularPost}
                 width={759}
                 height={190}
-                className="mb-0 w-full lg:mb-5 "
+                className="mt-5 w-full lg:mb-5 "
               />
             )}
 
@@ -67,9 +70,10 @@ export default async function RenderFeedsGeneral({
               morePosts={morePosts}
               searchParams={searchParams}
               path={path}
-              user={user}
+              user={userInCookies}
               channelImg={channelImg}
               token={token}
+              userInCookies={userInCookies}
             />
           </div>
         </div>

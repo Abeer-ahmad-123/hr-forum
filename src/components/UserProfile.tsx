@@ -32,11 +32,11 @@ const UserProfile = ({
   comments,
   reactedPosts,
   userFlag,
+  token,
 }: profileProps) => {
   const { handleRedirect } = useFetchFailedClient()
   const { customFetch } = useInterceptor()
   const pathName = usePathname()
-
   const [user, setUser] = useState<any>(userInCookie ?? userInCookie)
   const [dialogOpen, setOpenDialog] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
@@ -416,6 +416,9 @@ const UserProfile = ({
             morePosts={morePosts}
             comments={userId ? otherUserComments : comments}
             reactedPosts={userId ? otherUserReactions : reactedPosts}
+            userFlag={userFlag}
+            userInCookies={userInCookie}
+            token={token}
           />
         </div>
       </section>

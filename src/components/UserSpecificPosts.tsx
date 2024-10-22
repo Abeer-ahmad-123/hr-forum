@@ -8,6 +8,9 @@ const UserSpecificPosts = ({
   posts: initialPosts,
   user,
   getUserSpecificDetailFunc,
+  userFlag,
+  userInCookies,
+  token,
 }: any) => {
   const pathName = usePathname()
   return (
@@ -21,6 +24,9 @@ const UserSpecificPosts = ({
               posts={initialPosts}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
               user={user}
+              userFlag={userFlag}
+              userInCookies={userInCookies}
+              token={token}
             />
           ))}
         </>
@@ -34,6 +40,9 @@ const UserSpecificPosts = ({
               posts={initialPosts}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
               user={user}
+              userFlag={userFlag}
+              userInCookies={userInCookies}
+              token={token}
             />
           ))
       )}

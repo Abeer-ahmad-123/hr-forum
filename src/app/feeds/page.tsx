@@ -15,7 +15,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
     searchParams,
     path: '/feed',
   })
-  const { token } = await getUserFromCookie()
+  const { token, user } = await getUserFromCookie()
 
   return (
     <Suspense fallback={<CardLoading token={token} pathName="/feed" />}>
@@ -26,6 +26,7 @@ const FeedPage = async ({ searchParams }: FeedPageProps) => {
         morePosts={morePosts}
         data={{ channels: channelData, posts: initialPosts }}
         token={token}
+        userInCookies={user}
       />
     </Suspense>
   )

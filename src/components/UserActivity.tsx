@@ -9,6 +9,7 @@ import UserSpecificReaction from './UserSpecificReaction'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import NoPosts from './Cards/NoMore'
 import { UserData } from '@/utils/interfaces/cookies'
+import { userData } from '@/utils/interfaces/userData'
 
 interface UserActivityProps {
   userData: UserData
@@ -17,6 +18,9 @@ interface UserActivityProps {
   morePosts?: {}
   comments?: any[]
   reactedPosts?: any[]
+  userFlag?: boolean
+  userInCookies?: UserData
+  token?: string
 }
 interface ProfileNavType {
   isComment: boolean
@@ -31,6 +35,9 @@ const UserActivity = ({
   morePosts,
   comments,
   reactedPosts,
+  userFlag,
+  userInCookies,
+  token,
 }: UserActivityProps) => {
   const { handleRedirect } = useFetchFailedClient()
 
@@ -179,6 +186,9 @@ const UserActivity = ({
               morePosts={morePosts}
               userName={posts[0]?.author_details?.username}
               getUserSpecificDetailFunc={getUserSpecificDetailFunc}
+              userFlag={userFlag}
+              userInCookies={userInCookies}
+              token={token}
             />
           ) : (
             ''

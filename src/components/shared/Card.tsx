@@ -42,6 +42,7 @@ import { userData } from '@/utils/interfaces/userData'
 import Link from 'next/link'
 import { getUserFromCookie } from '@/utils/cookies'
 import { reactionOptions } from '@/utils/data'
+import { UserData } from '@/utils/interfaces/cookies'
 
 type CardProps = {
   post: PostsInterface
@@ -53,6 +54,8 @@ type CardProps = {
   getUserSpecificDetailFunc: () => void
   user?: userData
   token?: string
+  userFlag?: boolean
+  userInCookies?: UserData
 }
 
 export interface Tokens {
@@ -69,8 +72,10 @@ const Card = ({
   getUserSpecificDetailFunc,
   user,
   token,
+  userFlag,
+  userInCookies,
 }: CardProps) => {
-  let userFlag = user ? true : false
+  // let userFlag = user ? true : false
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
     like_count: 0,
     love_count: 0,
@@ -319,8 +324,12 @@ const Card = ({
             </DialogContent>
           </Dialog>
         </Suspense>
-        <Link
-          href={pathName.includes('/profile') ? `/feeds/feed/${post?.id}` : ''}>
+        <div
+        // href={
+        //   // pathName.includes('/profile') ? `/feeds/feed/${post?.id}` :
+        //   '#'
+        // }
+        >
           <div
             className={
               hideComments
@@ -367,7 +376,7 @@ const Card = ({
                                 ?.toLowerCase()
                                 .replace(/ /g, '-')}-${post?.user_id}`
                         }>
-                        {String(user?.id) === String(post?.user_id)
+                        {String(userInCookies?.id) === String(post?.user_id)
                           ? 'You'
                           : post?.author_details?.name}
                       </Link>
@@ -446,7 +455,8 @@ const Card = ({
 
             <div
               className="flex max-w-full flex-col gap-[5px] hyphens-auto"
-              onClick={handleNavigateFeed}>
+              // onClick={handleNavigateFeed}>
+            >
               <CustomLink
                 href={
                   pathName.includes('channels')
@@ -527,7 +537,7 @@ const Card = ({
               </div>
             )}
           </div>
-        </Link>
+        </div>
       </div>
       <Suspense>
         <Dialog open={showSignModal} onOpenChange={setShowSignModal}>

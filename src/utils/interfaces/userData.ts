@@ -37,6 +37,7 @@ export interface profileProps {
   comments?: []
   reactedPosts?: any[]
   userFlag?: boolean
+  token?: string
 }
 
 export interface ReportedProps {

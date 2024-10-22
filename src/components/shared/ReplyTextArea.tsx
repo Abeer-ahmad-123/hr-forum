@@ -39,7 +39,6 @@ function ReplyTextArea({
   userFlag,
   token,
 }: any) {
-  console.log('token in reply', token)
   const [openDeleteDialog, setOpenDeleteDialog] = useState<boolean>(false)
   const [showSignModal, setShowSignModal] = useState<boolean>(false)
   const [showTextArea, setShowTextArea] = useState<boolean>(false)

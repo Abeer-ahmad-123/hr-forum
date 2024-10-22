@@ -5,7 +5,7 @@ import {
   updatePostReaction,
 } from '@/services/reactions/reactions'
 import { useParams, usePathname } from 'next/navigation'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CommentOrReply from '../CommentOrReply'
 import CommentSection from './CommentSection'
 import { ReactionButton } from './reaction'
@@ -94,7 +94,7 @@ const PostActionBar = ({
     ? calculateTotalReactions(reactionSummary)
     : reactionCount
 
-  useEffect(() => {}, [reactionCount])
+  useEffect(() => {}, [reactionCountToUse])
 
   useEffect(() => {
     if (comment.length) {
@@ -112,78 +112,155 @@ const PostActionBar = ({
 
   const { customFetch } = useInterceptor()
   const submitReaction = async (value: string) => {
-    if (pathName === '/feeds') reactionRef.current = true
+    reactionRef.current = true
     let response
 
-    if (token) {
-      try {
-        if (!userReaction || userReaction === 'none') {
-          response = await postReactions(
-            {
-              reactionType: value,
-            },
-            postId,
-            customFetch,
-            token,
-            tokens?.refreshToken,
-          )
-          updateReactionArray(reactionSummary, {
-            value: value,
-            action: 'post',
-            previousAction: userReaction,
-          })
-        } else if (value !== 'none' && userReaction !== 'none') {
-          response = await updatePostReaction(
-            {
-              reactionType: value,
-            },
-            postId,
-            customFetch,
-            token,
-            tokens?.refreshToken,
-          )
-          updateReactionArray(reactionSummary, {
-            value: value,
-            action: 'update',
-            previousAction: userReaction,
-          })
-        } else if (value === 'none') {
-          response = await deleteReactions(
-            postId,
-            customFetch,
-            token,
-            tokens.refreshToken,
+    if (!token) {
+      setShowSignModal(true) // Show sign-in modal if not logged in
+      return
+    }
 
-            // tokens?.accessToken,
-            // tokens?.refreshToken,
-          )
+    try {
+      // Add a reaction if the user has not reacted before
+      if (!userReaction || userReaction === 'none') {
+        response = await postReactions(
+          {
+            reactionType: value,
+          },
+          postId,
+          customFetch,
+          token,
+          tokens?.refreshToken,
+        )
 
-          updateReactionArray(reactionSummary, {
-            value: value === 'none' ? userReaction : '',
-            action: 'delete',
-            previousAction: userReaction,
-          })
+        if (response.success) {
+          // Only increment the count on first reaction
+          setReactionCount((prevCount) => prevCount + 1)
+          setUserReaction(value) // Set the user's reaction to the new value
         }
-        setUserReaction(userReaction === value ? '' : value)
 
-        if (!response.success) {
-          throw response.errors[0]
+        // Update the reaction if the user is changing it
+      } else if (value !== 'none' && userReaction !== value) {
+        response = await updatePostReaction(
+          {
+            reactionType: value,
+          },
+          postId,
+          customFetch,
+          token,
+          tokens?.refreshToken,
+        )
+
+        if (response.success) {
+          // No change in count, just update the reaction
+          setUserReaction(value)
         }
-      } catch (error) {
-        setUserReaction('')
-        if (error instanceof Error) {
-          handleRedirect({ error })
+
+        // Remove the reaction if user wants to undo their reaction
+      } else if (value === 'none' && userReaction !== 'none') {
+        response = await deleteReactions(
+          postId,
+          customFetch,
+          token,
+          tokens?.refreshToken,
+        )
+
+        if (response.success) {
+          // Decrease the count when the reaction is removed
+          setReactionCount((prevCount) => Math.max(0, prevCount - 1))
+          setUserReaction('') // Clear the user's reaction
         }
-        showErrorAlert(`${error}`)
-      } finally {
-        setDisableReactionButton(false)
       }
-    } else {
-      if (!token) {
-        setShowSignModal(true)
+
+      if (!response.success) {
+        throw new Error(response.errors[0]) // If the response fails, throw an error
       }
+    } catch (error) {
+      setUserReaction('') // Clear the reaction in case of error
+      if (error instanceof Error) {
+        handleRedirect({ error })
+      }
+      showErrorAlert(`${error}`)
+    } finally {
+      setDisableReactionButton(false) // Re-enable the button after the process is done
     }
   }
+
+  // const submitReaction = async (value: string) => {
+  //   reactionRef.current = true
+  //   let response
+
+  //   if (token) {
+  //     try {
+  //       if (!userReaction || userReaction === 'none') {
+  //         response = await postReactions(
+  //           {
+  //             reactionType: value,
+  //           },
+  //           postId,
+  //           customFetch,
+  //           token,
+  //           tokens?.refreshToken,
+  //         )
+  //         updateReactionArray(reactionSummary, {
+  //           value: value,
+  //           action: 'post',
+  //           previousAction: userReaction,
+  //         })
+  //         setReactionCount((prevCount) => prevCount + 1)
+  //       } else if (value !== 'none' && userReaction !== 'none') {
+  //         response = await updatePostReaction(
+  //           {
+  //             reactionType: value,
+  //           },
+  //           postId,
+  //           customFetch,
+  //           token,
+  //           tokens?.refreshToken,
+  //         )
+  //         updateReactionArray(reactionSummary, {
+  //           value: value,
+  //           action: 'update',
+  //           previousAction: userReaction,
+  //         })
+  //       } else if (value === 'none') {
+  //         response = await deleteReactions(
+  //           postId,
+  //           customFetch,
+  //           token,
+  //           tokens.refreshToken,
+
+  //           // tokens?.accessToken,
+  //           // tokens?.refreshToken,
+  //         )
+
+  //         // updateReactionArray(reactionSummary, {
+  //         //   value: value === 'none' ? userReaction : '',
+  //         //   action: 'delete',
+  //         //   previousAction: userReaction,
+  //         // })
+  //         setReactionCount((prevCount) => Math.max(0, prevCount - 1))
+  //       }
+  //       // setUserReaction(userReaction === value ? '' : value)
+
+  //       if (!response.success) {
+  //         throw response.errors[0]
+  //       }
+  //     } catch (error) {
+  //       setUserReaction('')
+  //       if (error instanceof Error) {
+  //         handleRedirect({ error })
+  //       }
+  //       showErrorAlert(`${error}`)
+  //     } finally {
+  //       setDisableReactionButton(false)
+  //     }
+  //   } else {
+  //     if (!token) {
+  //       setShowSignModal(true)
+  //     }
+  //   }
+  // }
 
   const toggleCommentArea = () => {
     if (tokens?.accessToken) {
@@ -263,7 +340,6 @@ const PostActionBar = ({
     }
     updateUserTokens()
   }, [])
-
   return (
     <>
       {/* * Added Gap between the action bar and the comment section */}

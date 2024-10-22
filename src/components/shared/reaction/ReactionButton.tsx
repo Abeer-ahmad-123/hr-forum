@@ -6,7 +6,6 @@ import {
 } from '@/components/ui/popover'
 import { useScreenSize } from '@/hooks/responsiveness/useScreenSize'
 import { reactionOptions } from '@/utils/data'
-import HeartIcon from '@/assets/icons/heartIcon'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ReactionEmoji } from '.'
 import EmptyHeartIcon from '@/assets/icons/EmptyHEart'
@@ -29,7 +28,6 @@ const ReactionButton = ({
       <EmptyHeartIcon className="w-[16px]text-black mb-[3px] h-[16px] dark:text-white md:h-[18px] md:w-[18px] " />
     ),
   })
-
   const handleLikeWrapperExtended: React.MouseEventHandler<HTMLDivElement> = (
     e,
   ) => {
@@ -49,7 +47,6 @@ const ReactionButton = ({
     },
     [onReact],
   )
-  useEffect(() => {}, [reactionCountToUse])
   const toggleHeartReaction = () => {
     const newReaction =
       currentReaction === '' || currentReaction === 'none' ? 'love' : 'none'
@@ -100,7 +97,6 @@ const ReactionButton = ({
   useEffect(() => {
     updateCurrentReaction(userReaction?.toLowerCase() || 'none') // Handle default reaction correctly
   }, [userReaction])
-
   return (
     <Popover open={emojiPopoverVisible} onOpenChange={setEmojiPopoverVisible}>
       <div

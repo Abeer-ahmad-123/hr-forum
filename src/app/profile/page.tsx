@@ -6,13 +6,14 @@ import { getUserFromCookie } from '@/utils/cookies'
 import { getUserReactedPosts, getUserSpecificPosts } from '@/services/posts'
 import { getUserComments } from '@/services/comments'
 import { redirect } from 'next/navigation'
+import { ProfilePageProps } from '@/utils/interfaces/profile'
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'HR-Forum · Profile',
 }
 
-const Profile = async () => {
+const Profile = async ({ params }: ProfilePageProps) => {
   const { user, token, refreshToken } = await getUserFromCookie()
   const posts = await getUserSpecificPosts(user?.id, 1, {
     loadReactions: true,
@@ -26,7 +27,6 @@ const Profile = async () => {
   const morePosts =
     posts.data?.pagination?.TotalPages &&
     posts?.data?.pagination?.CurrentPage !== posts?.data?.pagination?.TotalPages
-
   return (
     <>
       <Suspense fallback={<ProfilePageLoading accessToken={token} />}>
@@ -39,6 +39,7 @@ const Profile = async () => {
           morePosts={morePosts}
           comments={comments?.data?.comments}
           reactedPosts={reactedPosts}
+          token={token}
         />
       </Suspense>
     </>

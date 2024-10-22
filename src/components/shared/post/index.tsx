@@ -37,7 +37,6 @@ const Post = ({
   token,
 }: Props) => {
   const { id } = useParams()
-  console.log('token in post component ', token)
   postId = postId ? postId : String(id)
   const paramsSearch = useSearchParams()
   const [commentResult, setCommentResult] = useState<CommentInterface[] | null>(
@@ -162,9 +161,7 @@ const Post = ({
         </DialogContent>
       </Dialog>
       <div
-        className={`mx-auto max-w-5xl  rounded-full ${
-          isDialogPost ? 'mb-5' : 'my-5'
-        }`}>
+        className={`mx-auto max-w-5xl  rounded-full ${isDialogPost && 'mb-5'}`}>
         <div
           className={`mx-auto mb-5 flex max-w-[759px] rounded-[16px] bg-bg-primary 
       ${!isDialogPost && 'shadow-lg dark:border-gray-700 dark:shadow-xl'} 

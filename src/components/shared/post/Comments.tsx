@@ -27,7 +27,6 @@ function Comments({
   user,
   token,
 }: Props) {
-  console.log('token in comments', token)
   const [deletedCommentId, setDeletedCommentId] = useState<string | null>(null)
   const [comments, setComments] = useState<CommentInterface[]>(
     initialComments || [],
