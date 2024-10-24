@@ -11,32 +11,29 @@ import {
   logout,
   setUserToken,
 } from '@/services/auth/authService'
-import { useEffect, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import UserNameDialog from '@/wrappers/UserNameDialog'
 import { useFetchFailedClient } from '@/hooks/handleFetchFailed'
 import { showErrorAlert } from '@/utils/helper'
 import { setUserDetailsInCookie, setUserTokens } from '@/utils/cookies'
 
-const GoogleAndAuth = () => {
+const GoogleAndAuth = ({
+  token,
+  setIsLoading,
+}: {
+  token: string
+  setIsLoading: Dispatch<SetStateAction<boolean>>
+}) => {
   const searchParams = useSearchParams()
-  // const dispatch = useDispatch()
   const router = useRouter()
   const pathname = usePathname()
   const { handleRedirect } = useFetchFailedClient()
 
-  const isFirstRun = useRef(true)
-  const isFirstOnce = useRef(false)
-  // * A Dialog to set the username on signup / login with Google
+  const hasRunOnce = useRef(false) // For searchParams effect
+  const hasTokenHandled = useRef(false) // For token refresh effect
   const [openUserNameDialog, setOpenUserNameDialog] = useState(false)
-  const handleUserClientLogout = async () => {
-    const token = localStorage.getItem('token')
-    if (!(await checkUser()) && token) {
-      clearAuthentication()
-    }
-  }
 
   const clearAuthentication = () => {
-    // dispatch(clearUser())
     logout()
     if (pathname.includes('saved') || pathname === '/profile') {
       router.push('/feeds')
@@ -46,34 +43,20 @@ const GoogleAndAuth = () => {
   }
 
   const exchangeCode = async (code: string) => {
-    if (code) {
-      try {
-        const response = await googleCodeExchange(code)
-
-        const currentUrl = window.location.href
-        const url = new URL(currentUrl)
-
-        url.searchParams.delete('code')
-
-        router.replace('/feeds')
-        await setUserTokens(response)
-        await setUserDetailsInCookie(response?.userData)
-      } catch (err) {
-        // debugger
-        if (err instanceof Error && err.message.includes('fetch failed')) {
-          router.push('/error')
-        }
-        // * Clearing the SearchParams the simple way.
-        router.replace(pathname)
-        showErrorAlert('Issue in google authentication')
-        clearAuthentication()
+    try {
+      const response = await googleCodeExchange(code)
+      const currentUrl = window.location.href
+      const url = new URL(currentUrl)
+      url.searchParams.delete('code')
+      router.replace('/feeds')
+      await setUserTokens(response)
+      await setUserDetailsInCookie(response?.userData)
+    } catch (err) {
+      if (err instanceof Error && err.message.includes('fetch failed')) {
+        router.push('/error')
       }
-    }
-  }
-
-  const handleUserServerLogout = async () => {
-    const token = localStorage.getItem('token')
-    if (!token && (await checkUser())) {
+      router.replace(pathname)
+      showErrorAlert('Issue in google authentication')
       clearAuthentication()
     }
   }
@@ -82,22 +65,11 @@ const GoogleAndAuth = () => {
     try {
       const res = await isTokenExpired()
       if (res.IsExpired) {
-        try {
-          const tokenResponse = await getRefreshToken()
-
-          if (tokenResponse.success) {
-            // dispatch(
-            //   setToken({
-            //     token: tokenResponse?.data?.token,
-            //     refreshToken: tokenResponse?.data?.['refresh-token'],
-            //   }),
-            // )
-            setUserToken(tokenResponse.data)
-          } else {
-            throw tokenResponse.errors[0]
-          }
-        } catch (error) {
-          throw error
+        const tokenResponse = await getRefreshToken()
+        if (tokenResponse.success) {
+          setUserToken(tokenResponse.data)
+        } else {
+          throw new Error(tokenResponse.errors[0])
         }
       }
     } catch (error) {
@@ -108,64 +80,58 @@ const GoogleAndAuth = () => {
     }
   }
 
-  // * The API for Google AccessToken sign-up
-  const exchangeGoogleToken = async (token: string, username: string) => {
-    if (token) {
-      try {
-        const response = await googleTokenExchange(token, username)
-        // dispatch(
-        //   setUser({
-        //     ...response,
-        //     refreshToken: response['refresh-token'],
-        //   }),
-        // )
-        handleCloseDialog()
-      } catch (err: any) {
-        showErrorAlert(err.message ?? 'Issue in google authentication')
+  // Effect to handle URL parameters (Google code or token)
+  useEffect(() => {
+    if (hasRunOnce.current) return
+    hasRunOnce.current = true
+
+    const code = searchParams.get('code')
+    const googleToken = searchParams.get('googleAccessToken')
+
+    if (code) {
+      exchangeCode(code)
+    } else if (googleToken) {
+      setOpenUserNameDialog(true)
+    }
+  }, []) // Empty dependency to only run once after initial render
+
+  // Effect to handle token refresh or logout logic
+  useEffect(() => {
+    if (hasTokenHandled.current) return
+    hasTokenHandled.current = true
+
+    const handleToken = async () => {
+      if (token) {
+        await getToken()
+      } else if (await checkUser()) {
+        clearAuthentication()
       }
     }
+
+    handleToken()
+  }, [token]) // Only runs when `token` changes
+
+  const exchangeGoogleToken = async (googleToken: string, username: string) => {
+    try {
+      const response = await googleTokenExchange(googleToken, username)
+      handleCloseDialog()
+    } catch (err: any) {
+      showErrorAlert(err.message ?? 'Issue in google authentication')
+    }
   }
-  // * Create new user from Google based on username
+
   const handleSubmitUserName = (userName: string) => {
     const googleToken = searchParams.get('googleAccessToken')
-    exchangeGoogleToken(googleToken!, userName)
-    // setOpenUserNameDialog(false)
+    if (googleToken) {
+      exchangeGoogleToken(googleToken, userName)
+    }
   }
-  // * Close the username dialog
+
   function handleCloseDialog() {
     setOpenUserNameDialog(false)
     router.replace(pathname)
   }
-  useEffect(() => {
-    const code = searchParams.get('code')
-    const googleToken = searchParams.get('googleAccessToken')
-    if (!isFirstOnce.current && (code || googleToken)) {
-      isFirstOnce.current = true
-      if (code) {
-        exchangeCode(code!)
-      } else {
-        // * If there is no code Param then that means that the user does not exist and we need to create one so we are opening a username dialog for input and then we create a new user and right after that we login.
-        setOpenUserNameDialog(true)
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
 
-  useEffect(() => {
-    deleteModalState()
-    const token = localStorage.getItem('token')
-    if (token) {
-      getToken()
-    }
-    if (isFirstRun.current) {
-      isFirstRun.current = false
-      // if (!channels || !serverState.channels?.channels) getChannelsLocal()
-      handleUserClientLogout()
-      handleUserServerLogout()
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
   return (
     <UserNameDialog
       isDialogOpen={openUserNameDialog}

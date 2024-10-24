@@ -100,7 +100,7 @@ export async function updatePassword(body: any) {
 export async function logout() {
   try {
     removeUserCookies()
-    revalidatePath('/')
+    // revalidatePath('/')
   } catch (err) {
     throw err
   }

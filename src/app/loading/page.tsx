@@ -2,10 +2,10 @@ import NewLoading from '@/components/NewLoading/NewLoading'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'HR-Forum - Login',
+  title: 'HR-Forum - Loading',
 }
 
-const NewLoadingPage = () => {
+const NewLoadingPage = async () => {
   return <NewLoading />
 }
 

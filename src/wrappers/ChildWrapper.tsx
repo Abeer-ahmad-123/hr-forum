@@ -3,7 +3,6 @@
 import CardLoading from '@/components/Loading/CardLoading'
 import useChannels from '@/hooks/channels'
 import { usePathname } from 'next/navigation'
-import { useEffect } from 'react'
 import { getTokens } from '@/utils/local-stroage'
 
 interface ChildProps {
@@ -11,7 +10,7 @@ interface ChildProps {
 }
 const ChildWrapper = ({ children }: ChildProps) => {
   const pathName = usePathname()
-  useEffect(() => {}, [pathName])
+  // useEffect(() => {}, [pathName])
   const channels = useChannels()
   const { accessToken, refreshToken } = getTokens()
   return (

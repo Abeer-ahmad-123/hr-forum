@@ -1,5 +1,4 @@
 import '@/assets/styles/globals.css'
-import StoreProvider from '@/Providers/StoreProvider'
 import { getChannels } from '@/services/channel/channel'
 import { arrayToKeyIdNValueData } from '@/utils/channels'
 import { getUserFromCookie } from '@/utils/cookies'
@@ -20,6 +19,7 @@ const avenirBold = localFont({
   variable: '--font-avenir-bold',
   weight: '100 900',
 })
+
 const avenirRegular = localFont({
   src: '../assets/fonts/AvenirNextLTPro-Regular.otf',
   variable: '--font-avenir-regular',
@@ -29,6 +29,8 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
   /**
    * ServerSide state of channels.
    */
+  // Fetch data in LayoutWrapper only if not already fetched
+
   const { channels } = await getChannels()
   const { user, token, refreshToken } = await getUserFromCookie()
   const pathname = headers().get('x-next-pathname')
@@ -63,7 +65,11 @@ async function RootLayout({ children }: { children: React.ReactNode }) {
         } ${avenirBold.variable} `}>
         {/* <StoreProvider serverStore={serverState}> */}
         <Suspense fallback={null}>
-          <LayoutWrapper serverState={serverState} pathname={pathname}>
+          <LayoutWrapper
+            serverState={serverState}
+            pathname={pathname}
+            user={user}
+            token={token}>
             {children}
           </LayoutWrapper>
         </Suspense>

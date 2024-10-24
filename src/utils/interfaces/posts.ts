@@ -58,6 +58,7 @@ export interface PostActionBarProps {
   getUserSpecificDetailFunc: () => void
   token?: string
   userFlag?: boolean
+  refreshToken?: string
 }
 
 export interface CommentCountStore {

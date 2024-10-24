@@ -20,6 +20,7 @@ type Props = RenderFeedsInterface & {
   channelImg?: string
   token?: string
   userInCookies?: userData
+  refreshToken?: string
 }
 export default async function RenderFeedsGeneral({
   channelSlug = '',
@@ -30,6 +31,7 @@ export default async function RenderFeedsGeneral({
   channelImg,
   token,
   userInCookies,
+  refreshToken,
 }: Props) {
   return (
     <div className="w-full">
@@ -71,6 +73,7 @@ export default async function RenderFeedsGeneral({
               user={userInCookies}
               channelImg={channelImg}
               token={token}
+              refreshToken={refreshToken}
               userInCookies={userInCookies}
             />
           </div>

@@ -251,19 +251,19 @@ const PostActionBar = ({
     isFirstRef.current = false
   }, [])
 
-  useEffect(() => {
-    const updateUserTokens = async () => {
-      const storedTokens = await getUserFromCookie()
-      if (storedTokens) {
-        setTokens((prevTokens) => ({
-          ...prevTokens,
-          accessToken: storedTokens?.token,
-          refreshToken: storedTokens?.refreshToken,
-        }))
-      }
-    }
-    updateUserTokens()
-  }, [])
+  // useEffect(() => {
+  //   const updateUserTokens = async () => {
+  //     const storedTokens = await getUserFromCookie()
+  //     if (storedTokens) {
+  //       setTokens((prevTokens) => ({
+  //         ...prevTokens,
+  //         accessToken: storedTokens?.token,
+  //         refreshToken: storedTokens?.refreshToken,
+  //       }))
+  //     }
+  //   }
+  //   updateUserTokens()
+  // }, [])
   return (
     <>
       {/* * Added Gap between the action bar and the comment section */}

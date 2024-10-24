@@ -8,8 +8,10 @@ const RenderChildren = async ({
   isError,
   pathname,
   children,
+  user,
+  token,
 }: RenderChildrenProps) => {
-  const { token, user } = await getUserFromCookie()
+  // const { token, user } = await getUserFromCookie()
   return (
     <div
       className={`

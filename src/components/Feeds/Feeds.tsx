@@ -25,6 +25,7 @@ const Feeds = ({
   channelImg,
   token,
   userInCookies,
+  refreshToken,
 }: FeedProps) => {
   const [posts, updatePosts] = useState<Array<PostsInterface>>(
     initialPosts || [],
@@ -88,7 +89,6 @@ const Feeds = ({
       _data?.pagination?.CurrentPage !== _data?.pagination?.TotalPages
     updatePosts((prev: PostsInterface[]) => [...prev, ..._data?.posts])
   }
-
   const renderPostbarOrBanner = () => {
     if (addPost) {
       return <NewPostForm setAddPost={setAddPost} />
@@ -158,6 +158,7 @@ const Feeds = ({
                     getUserSpecificDetailFunc={() => {}}
                     user={user}
                     token={token}
+                    refreshToken={refreshToken}
                     userInCookies={userInCookies}
                   />
                 )

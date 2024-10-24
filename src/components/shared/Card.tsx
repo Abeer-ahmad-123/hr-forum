@@ -55,11 +55,12 @@ type CardProps = {
   token?: string
   userFlag?: boolean
   userInCookies?: UserData
+  refreshToken?: string
 }
 
 export interface Tokens {
-  accessToken: string
-  refreshToken: string
+  accessToken?: string
+  refreshToken?: string
 }
 const Card = ({
   post,
@@ -73,6 +74,7 @@ const Card = ({
   token,
   userFlag,
   userInCookies,
+  refreshToken,
 }: CardProps) => {
   // let userFlag = user ? true : false
   const [reactionSummary, setReactionSummary] = useState<ReactionSummary>({
@@ -93,8 +95,8 @@ const Card = ({
   const [userDetails, setUserDetails] = useState<userData>()
   const [userReaction, setUserReaction] = useState('')
   const [tokens, setTokens] = useState<Tokens>({
-    accessToken: '',
-    refreshToken: '',
+    accessToken: token,
+    refreshToken: refreshToken,
   })
   const [popOver, setPopOver] = useState(false)
 
@@ -199,14 +201,14 @@ const Card = ({
   const handleBookmark = async (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
-    if (tokens.accessToken) {
+    if (token) {
       const getApi = bookmarkSuccess ? deleteBookmarkPost : bookmarkPost
       try {
         const res = await getApi(
           post?.id ? String(post?.id) : '',
           customFetch,
-          tokens.accessToken,
-          tokens.refreshToken ?? '',
+          token,
+          token,
         )
 
         if (res.success) {
@@ -253,18 +255,18 @@ const Card = ({
   useEffect(() => {
     isFirstRef.current = false
   }, [])
-  useEffect(() => {
-    getUserFromCookie().then((res) => {
-      if (res) {
-        setTokens({
-          ...tokens,
-          accessToken: res.token,
-          refreshToken: res.refreshToken,
-        })
-      }
-    })
-    const storedTokens = getTokens()
-  }, [])
+  // useEffect(() => {
+  //   getUserFromCookie().then((res) => {
+  //     if (res) {
+  //       setTokens({
+  //         ...tokens,
+  //         accessToken: res.token,
+  //         refreshToken: res.refreshToken,
+  //       })
+  //     }
+  //   })
+  //   const storedTokens = getTokens()
+  // }, [])
   useEffect(() => {
     const userData = getUserData()
     if (userData) setUserDetails(userData)
@@ -531,6 +533,7 @@ const Card = ({
                   bookmarkSuccess={bookmarkSuccess}
                   getUserSpecificDetailFunc={getUserSpecificDetailFunc}
                   token={token}
+                  refreshToken={refreshToken}
                   userFlag={userFlag}
                 />
               </div>

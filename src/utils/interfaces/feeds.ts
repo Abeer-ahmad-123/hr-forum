@@ -15,6 +15,7 @@ export interface FeedProps {
   channelImg?: string
   token?: string
   userInCookies?: UserData
+  refreshToken?: string
 }
 
 export type CommentObject = {

@@ -6,11 +6,16 @@ import GoogleAndAuth from '@/wrappers/GoogleAndAuth'
 import NProgressbar from '@/wrappers/NProgressbar'
 import RenderChildren from '@/wrappers/RenderChildren'
 import 'react-toastify/dist/ReactToastify.css'
-import { getUserFromCookie } from '@/utils/cookies'
+import ChildrenWrapper from './ChildrenWrapper'
 
-const LayoutWrapper = async ({ children, pathname }: LayoutWrapperProps) => {
+const LayoutWrapper = async ({
+  children,
+  pathname,
+  user,
+  token,
+}: LayoutWrapperProps) => {
   const isError = pathname === '/error'
-  const { user, token } = await getUserFromCookie()
+  // const { user, token } = await getUserFromCookie()
   return (
     <main className="h-max max-w-[100dvw] font-primary">
       <ThemeProvider attribute="class" defaultTheme="theme-default">
@@ -20,11 +25,23 @@ const LayoutWrapper = async ({ children, pathname }: LayoutWrapperProps) => {
             <Navbar user={user} pathname={pathname} />
           )}
         {isError && <Navbar user={user} pathname={pathname} />}
+
         <ToastContainer />
-        <RenderChildren isError={isError} pathname={pathname}>
+        <ChildrenWrapper
+          user={user}
+          token={token}
+          isError={isError}
+          pathname={pathname}
+          children={children}
+        />
+        {/* <RenderChildren
+          user={user}
+          token={token}
+          isError={isError}
+          pathname={pathname}>
           {children}
         </RenderChildren>
-        <GoogleAndAuth />
+        <GoogleAndAuth token={token} /> */}
         <NProgressbar />
       </ThemeProvider>
     </main>
